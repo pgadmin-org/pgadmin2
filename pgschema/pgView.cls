@@ -530,7 +530,7 @@ Dim szSQL As String
     If szViewDefinition = "" Then szViewDefinition = szDefinition
     
     szSQL = "-- View: " & FormattedID & vbCrLf & _
-            "CREATE VIEW " & FormattedID & " AS " & szViewDefinition & ";" & vbCrLf
+            "CREATE VIEW " & FormattedID & " AS " & szViewDefinition & vbCrLf
     If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL)
     If Comment <> "" Then szSQL = szSQL & "COMMENT ON VIEW " & FormattedID & " IS '" & Comment & "';" & vbCrLf
 

@@ -815,7 +815,7 @@ Dim bHaveObj As Boolean
   End If
   
   szSQL = szSQL & ";" & vbCrLf
-  If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
+  If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL)
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON TABLE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     
   SQL = szSQL

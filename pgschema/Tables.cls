@@ -334,7 +334,7 @@ Dim objTrigger As pgTrigger
   End If
   
   'Generate/Execute SQL to drop the Table.
-  szSQL = "DROP TABLE " & mCol(ULEncode(Key)).FormattedID & QUOTE
+  szSQL = "DROP TABLE " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,
