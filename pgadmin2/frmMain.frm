@@ -2149,10 +2149,12 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Current Query", lv.Width - 5600
   
     While Not rsStat.EOF
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, rsStat!datname & "", "statistics", "statistics")
-      lvItem.SubItems(1) = rsStat!procpid & ""
-      lvItem.SubItems(2) = rsStat!usename & ""
-      lvItem.SubItems(3) = rsStat!current_query & ""
+      If Not (svr.Databases(rsStat!datname).SystemObject And Not ctx.IncludeSys) Then
+        Set lvItem = sv.ListItems.Add(, "STA-" & GetID, rsStat!datname & "", "statistics", "statistics")
+        lvItem.SubItems(1) = rsStat!procpid & ""
+        lvItem.SubItems(2) = rsStat!usename & ""
+        lvItem.SubItems(3) = rsStat!current_query & ""
+      End If
       rsStat.MoveNext
     Wend
     If rsStat.State <> adStateClosed Then rsStat.Close
@@ -2231,12 +2233,14 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Blocks Hit", 1500
   
     While Not rsStat.EOF
-      Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!datname & "", "statistics", "statistics")
-      lvItem.SubItems(1) = rsStat!numbackends & ""
-      lvItem.SubItems(2) = rsStat!xact_commit & ""
-      lvItem.SubItems(3) = rsStat!xact_rollback & ""
-      lvItem.SubItems(4) = rsStat!blks_read & ""
-      lvItem.SubItems(5) = rsStat!blks_hit & ""
+      If Not (svr.Databases(rsStat!datname).SystemObject And Not ctx.IncludeSys) Then
+        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!datname & "", "statistics", "statistics")
+        lvItem.SubItems(1) = rsStat!numbackends & ""
+        lvItem.SubItems(2) = rsStat!xact_commit & ""
+        lvItem.SubItems(3) = rsStat!xact_rollback & ""
+        lvItem.SubItems(4) = rsStat!blks_read & ""
+        lvItem.SubItems(5) = rsStat!blks_hit & ""
+      End If
       rsStat.MoveNext
     Wend
     If rsStat.State <> adStateClosed Then rsStat.Close
@@ -2970,9 +2974,11 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
   
     While Not rsStat.EOF
-      Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
-      lvItem.SubItems(1) = rsStat!blks_read & ""
-      lvItem.SubItems(2) = rsStat!blks_hit & ""
+      If Not (svr.Databases(ctx.CurrentDB).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+        lvItem.SubItems(1) = rsStat!blks_read & ""
+        lvItem.SubItems(2) = rsStat!blks_hit & ""
+      End If
       rsStat.MoveNext
     Wend
     If rsStat.State <> adStateClosed Then rsStat.Close
@@ -3142,10 +3148,12 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Tuples Deleted", 2000
   
     While Not rsStat.EOF
-      Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
-      lvItem.SubItems(1) = rsStat!n_tup_ins & ""
-      lvItem.SubItems(2) = rsStat!n_tup_upd & ""
-      lvItem.SubItems(3) = rsStat!n_tup_del & ""
+      If Not (svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+        lvItem.SubItems(1) = rsStat!n_tup_ins & ""
+        lvItem.SubItems(2) = rsStat!n_tup_upd & ""
+        lvItem.SubItems(3) = rsStat!n_tup_del & ""
+      End If
       rsStat.MoveNext
     Wend
     If rsStat.State <> adStateClosed Then rsStat.Close
@@ -3596,15 +3604,17 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If svr.dbVersion.VersionNum >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname")
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname")
     sv.ColumnHeaders.Add , , "Index", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
   
     While Not rsStat.EOF
-      Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
-      lvItem.SubItems(1) = rsStat!idx_blks_read & ""
-      lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
+      If Not (svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
+        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
+        lvItem.SubItems(1) = rsStat!idx_blks_read & ""
+        lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
+      End If
       rsStat.MoveNext
     Wend
     If rsStat.State <> adStateClosed Then rsStat.Close
