@@ -35,8 +35,8 @@ Private szIdentifier As String
 Private bSystemObject As Boolean
 Private szPath As String
 Private szOwner As String
-Private lEncoding As Long
-Private szEncoding As String
+Private lServerEncoding As Long
+Private szServerEncoding As String
 Private lStatus As dbStatus
 Private bRevisionControl As Boolean
 Private bAllowConnections As Boolean
@@ -582,43 +582,43 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()"
 Err_Handler:  objServer.iLogError Err
 End Property
 
-'Set/Return the Database Encoding
-Friend Property Let Encoding(ByVal vData As Long)
+'Set/Return the Database ServerEncoding
+Friend Property Let ServerEncoding(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Encoding(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let ServerEncoding(" & vData & ")", etFullDebug
 
-  lEncoding = vData
+  lServerEncoding = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get Encoding() As Long
-Attribute Encoding.VB_Description = "Returns the Database Encoding."
+Public Property Get ServerEncoding() As Long
+Attribute ServerEncoding.VB_Description = "Returns the Database Encoding."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Encoding()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ServerEncoding()", etFullDebug
 
-  Encoding = lEncoding
+  ServerEncoding = lServerEncoding
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
-'Set/Return the Database Encoding Name
-Friend Property Let EncodingName(ByVal vData As String)
+'Set/Return the Database ServerEncoding Name
+Friend Property Let ServerEncodingName(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let EncodingName(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let ServerEncodingName(" & vData & ")", etFullDebug
 
-  szEncoding = vData
+  szServerEncoding = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get EncodingName() As String
-Attribute EncodingName.VB_Description = "Returns the name of the encoding scheme."
+Public Property Get ServerEncodingName() As String
+Attribute ServerEncodingName.VB_Description = "Returns the name of the encoding scheme."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get EncodingName()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ServerEncodingName()", etFullDebug
 
-  EncodingName = szEncoding
+  ServerEncodingName = szServerEncoding
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -964,7 +964,7 @@ Dim szSQL As String
           "CREATE DATABASE " & QUOTE & szName & QUOTE & " WITH"
 
   If szPath <> "" Then szSQL = szSQL & " LOCATION = '" & dbSZ(szPath) & "'"
-  szSQL = szSQL & " ENCODING = '" & szEncoding & "'"
+  szSQL = szSQL & " ENCODING = '" & szServerEncoding & "'"
   szSQL = szSQL & ";" & vbCrLf
   
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON DATABASE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf

@@ -40,9 +40,9 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, lEncoding As Long, szEncoding As String, bAllowConn As Boolean)
+Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, lServerEncoding As Long, szServerEncoding As String, bAllowConn As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lEncoding & ", " & szEncoding & ", " & bAllowConn & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lServerEncoding & ", " & szServerEncoding & ", " & bAllowConn & ")", etFullDebug
 
 Dim objNewMember As pgDatabase
 
@@ -59,8 +59,8 @@ Dim objNewMember As pgDatabase
 
   objNewMember.Path = szPath
   objNewMember.Owner = szOwner
-  objNewMember.Encoding = lEncoding
-  objNewMember.EncodingName = szEncoding
+  objNewMember.ServerEncoding = lServerEncoding
+  objNewMember.ServerEncodingName = szServerEncoding
   objNewMember.AllowConnections = bAllowConn
   objNewMember.Identifier = szName
   
@@ -73,7 +73,7 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'External Add
-Public Function Add(ByVal Name As String, Optional ByVal Path As String, Optional Encoding As String, Optional ByVal Comment As String) As pgDatabase
+Public Function Add(ByVal Name As String, Optional ByVal Path As String, Optional ServerEncoding As String, Optional ByVal Comment As String) As pgDatabase
 Attribute Add.VB_Description = "Add a new database object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Path & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
@@ -91,7 +91,7 @@ Dim szSQL As String
   szSQL = "CREATE DATABASE " & QUOTE & Name & QUOTE & " WITH"
   If Path <> "" Then szSQL = szSQL & " LOCATION = '" & dbSZ(Path) & "'"
   szSQL = szSQL & " TEMPLATE = template0"
-  If Encoding <> "" Then szSQL = szSQL & " ENCODING = '" & dbSZ(Encoding) & "'"
+  If ServerEncoding <> "" Then szSQL = szSQL & " ENCODING = '" & dbSZ(ServerEncoding) & "'"
   objServer.ExecSQL szSQL, objServer.Connection
   
   'Generate and execute the SQL to retrieve *all* properties of the new object
@@ -100,7 +100,7 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    Set objNewMember = iAdd(rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!Encoding, rs!EncodingName, ToBool(rs!datallowconn))
+    Set objNewMember = iAdd(rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!encoding, rs!ServerEncodingName, ToBool(rs!datallowconn))
     If Comment <> "" Then objNewMember.Comment = Comment
   End If
   
@@ -233,7 +233,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " ORDER BY datname", objServer.Connection)
     While Not rs.EOF
-      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!Encoding, rs!EncodingName, ToBool(rs!datallowconn)
+      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!encoding, rs!ServerEncodingName, ToBool(rs!datallowconn)
       rs.MoveNext
     Wend
   End If
