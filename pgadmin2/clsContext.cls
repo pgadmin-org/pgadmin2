@@ -22,6 +22,7 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+Dim szDescription As String
 Dim szServer As String
 Dim lPort As Long
 Dim szUsername As String
@@ -36,6 +37,24 @@ Dim szCurrentNS As String
 Dim bAutoRowCount As Boolean
 Dim objFont As StdFont
 Dim sDbVer As Single
+Dim bShowUsersForPrivileges As Boolean
+Dim bAskDeleteObjectDatabase As Boolean
+
+'Ask Delete Object Database
+Public Property Let AskDeleteObjectDatabase(ByVal bData As Boolean)
+  bAskDeleteObjectDatabase = bData
+End Property
+Public Property Get AskDeleteObjectDatabase() As Boolean
+  AskDeleteObjectDatabase = bAskDeleteObjectDatabase
+End Property
+
+'Show Users For Privileges
+Public Property Let ShowUsersForPrivileges(ByVal bData As Boolean)
+  bShowUsersForPrivileges = bData
+End Property
+Public Property Get ShowUsersForPrivileges() As Boolean
+  ShowUsersForPrivileges = bShowUsersForPrivileges
+End Property
 
 'The connected server name
 Public Property Let Server(ByVal szData As String)
@@ -67,6 +86,14 @@ Public Property Let Password(ByVal szData As String)
 End Property
 Public Property Get Password() As String
   Password = szPassword
+End Property
+
+'The description connection
+Public Property Let Description(ByVal szData As String)
+  szDescription = szData
+End Property
+Public Property Get Description() As String
+  Description = szDescription
 End Property
 
 'The current logging level

@@ -1249,56 +1249,56 @@ Dim objFindForm As New frmFind
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsFindObject_Click"
 End Sub
 
-Private Sub tv_DragDrop(Source As Control, X As Single, y As Single)
+Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize tv.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, tv.Top + y
+    Resize splVertical.Left, tv.Top + Y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_DragDrop"
 End Sub
 
-Private Sub prop_DragDrop(Source As Control, X As Single, y As Single)
+Private Sub prop_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, prop.Top + y
+    Resize splVertical.Left, prop.Top + Y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.prop_DragDrop"
 End Sub
 
-Private Sub lv_DragDrop(Source As Control, X As Single, y As Single)
+Private Sub lv_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize lv.Left + prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, lv.Top + prop.Top + y
+    Resize splVertical.Left, lv.Top + prop.Top + Y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DragDrop"
 End Sub
 
-Private Sub sv_DragDrop(Source As Control, X As Single, y As Single)
+Private Sub sv_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize sv.Left + prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, sv.Top + prop.Top + y
+    Resize splVertical.Left, sv.Top + prop.Top + Y
   End If
   
   Exit Sub
@@ -1319,14 +1319,14 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tv_KeyDown(" & KeyCode & "," & 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_KeyDown"
 End Sub
 
-Private Sub txtDefinition_DragDrop(Source As Control, X As Single, y As Single)
+Private Sub txtDefinition_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize txtDefinition.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, txtDefinition.Top + y
+    Resize splVertical.Left, txtDefinition.Top + Y
   End If
     
   Exit Sub
@@ -1343,9 +1343,9 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DblClick()", etFullDebug
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DblClick"
 End Sub
 
-Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, y As Single)
+Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
   
@@ -1433,9 +1433,9 @@ Dim objNode As Node
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewSystemObjects_Click"
 End Sub
 
-Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, y As Single)
+Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
 
@@ -1919,19 +1919,19 @@ Private Sub mnuPopupSQL_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupSQL_Click()", etFullDebug
   
-Dim y As Integer
+Dim Y As Integer
 Dim X As Integer
 
-  y = 1
+  Y = 1
   For X = 0 To Forms.Count - 1
     If Forms(X).Name = "frmSQLInput" Then
-      y = Val(Forms(X).Tag) + 1
+      Y = Val(Forms(X).Tag) + 1
     End If
   Next
   Dim objSQLInputForm As New frmSQLInput
   Load objSQLInputForm
-  objSQLInputForm.Tag = y
-  objSQLInputForm.Caption = "SQL " & y & ": " & ctx.CurrentDB & " ()"
+  objSQLInputForm.Tag = Y
+  objSQLInputForm.Caption = "SQL " & Y & ": " & ctx.CurrentDB & " ()"
   objSQLInputForm.Show
   
   Exit Sub
