@@ -219,13 +219,13 @@ Dim X As Long
     If objServer.dbVersion.VersionNum < 7.2 Then
       Set rs = objServer.ExecSQL("SELECT objoid, description FROM pg_description", cnDatabase)
       arrTmp = rs.GetRows
-      For X = 0 To UBound(arrTmp)
+      For X = 0 To UBound(arrTmp, 2)
         szCommentCache.Add arrTmp(1, X) & "", "C" & arrTmp(0, X) & "S0"
       Next X
     Else
       Set rs = objServer.ExecSQL("SELECT objoid, objsubid, description FROM pg_description", cnDatabase)
       arrTmp = rs.GetRows
-      For X = 0 To UBound(arrTmp)
+      For X = 0 To UBound(arrTmp, 2)
         szCommentCache.Add arrTmp(2, X) & "", "C" & arrTmp(0, X) & "S" & arrTmp(1, X)
       Next X
     End If
