@@ -47,7 +47,7 @@ Public Declare Function InternetCloseHandle Lib "wininet.dll" (ByVal hInet As Lo
 Public Declare Function InternetQueryOption Lib "wininet.dll" Alias "InternetQueryOptionA" (ByVal hInternet As Long, ByVal lOption As Long, ByRef sBuffer As Any, ByRef lBufferLength As Long) As Integer
 Public Declare Function HttpAddRequestHeaders Lib "wininet.dll" Alias "HttpAddRequestHeadersA" (ByVal hHttpRequest As Long, ByVal sHeaders As String, ByVal lHeadersLength As Long, ByVal lModifiers As Long) As Integer
 Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
-Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
+Public Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 
 'Constants
 Public Const SWP_NOMOVE = 2
@@ -322,11 +322,11 @@ Public Const LVSCW_AUTOSIZE_USEHEADER As Long = -2 'Note: On last column, its wi
                                                    'appear to be the case when I do it.
 
 'Windows
-Private Const VER_PLATFORM_WIN32s = 0
-Private Const VER_PLATFORM_WIN32_WINDOWS = 1
-Private Const VER_PLATFORM_WIN32_NT = 2
+Public Const VER_PLATFORM_WIN32s = 0
+Public Const VER_PLATFORM_WIN32_WINDOWS = 1
+Public Const VER_PLATFORM_WIN32_NT = 2
 
-Private Type OSVERSIONINFO
+Public Type OSVERSIONINFO
   dwOSVersionInfoSize As Long
   dwMajorVersion As Long
   dwMinorVersion As Long
