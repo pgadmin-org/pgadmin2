@@ -112,7 +112,7 @@ Dim szError As String
   If Not bDontLogErrors Then
     LogEvent "Error: " & lError & " - " & szError, etErrors
   End If
-  'Err.Raise lError, "pgSchema", szError
+  Err.Raise lError, "pgSchema", szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
   If Not ((bDontLogErrors) And (etType = etErrors)) Then
