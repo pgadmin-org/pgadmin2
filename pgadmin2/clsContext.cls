@@ -122,6 +122,25 @@ On Error Resume Next
     frmMain.tb.Buttons("viewdata").Enabled = False
     frmMain.mnuPopupViewData.Enabled = False
   End If
+  
+  'Revision Control options
+  If vData.ObjectType = "Aggregate" Or vData.ObjectType = "Function" Or _
+     vData.ObjectType = "Index" Or vData.ObjectType = "Language" Or _
+     vData.ObjectType = "Operator" Or vData.ObjectType = "Rule" Or _
+     vData.ObjectType = "Sequence" Or vData.ObjectType = "Table" Or _
+     vData.ObjectType = "Trigger" Or vData.ObjectType = "Type" Or _
+     vData.ObjectType = "View" Then
+    If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
+      frmMain.mnuPopupCommit.Enabled = True
+      frmMain.mnuPopupHistory.Enabled = True
+    Else
+      frmMain.mnuPopupCommit.Enabled = False
+      frmMain.mnuPopupHistory.Enabled = False
+    End If
+  Else
+    frmMain.mnuPopupCommit.Enabled = False
+    frmMain.mnuPopupHistory.Enabled = False
+  End If
 End Property
 Public Property Get CurrentObject() As Object
   Set CurrentObject = objCurrentObject

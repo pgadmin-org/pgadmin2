@@ -744,6 +744,17 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuPopupSep2 
          Caption         =   "-"
       End
+      Begin VB.Menu mnuPopupCommit 
+         Caption         =   "&Commit..."
+         Enabled         =   0   'False
+      End
+      Begin VB.Menu mnuPopupHistory 
+         Caption         =   "&History"
+         Enabled         =   0   'False
+      End
+      Begin VB.Menu mnuPopupSep3 
+         Caption         =   "-"
+      End
       Begin VB.Menu mnuPopupSQL 
          Caption         =   "&SQL..."
          Enabled         =   0   'False
@@ -893,6 +904,30 @@ Dim szPlugin As String
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPluginsPlg_Click"
+End Sub
+
+Private Sub mnuPopupCommit_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCommit_Click()", etFullDebug
+
+  Load frmCommit
+  frmCommit.Initialise ctx.CurrentObject
+  frmCommit.Show
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCommit_Click"
+End Sub
+
+Private Sub mnuPopupHistory_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupHistory_Click()", etFullDebug
+
+  Load frmHistory
+  frmHistory.Initialise ctx.CurrentObject
+  frmHistory.Show
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupHistory_Click"
 End Sub
 
 Private Sub mnuToolsUpgradeWizard_Click()
