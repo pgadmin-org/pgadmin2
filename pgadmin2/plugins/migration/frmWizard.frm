@@ -1627,7 +1627,7 @@ Dim szDropTableConcatenation As String
         
         szTemp1 = szTemp1 & " " & szTemp2
         If chkNotNull.Value = 1 Then
-          If catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Attributes And adColNullable = False Then szTemp1 = szTemp1 & " NOT NULL"
+          If (catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Attributes And adColNullable) = False Then szTemp1 = szTemp1 & " NOT NULL"
         End If
         szTemp1 = szTemp1 & ", "
       End If
