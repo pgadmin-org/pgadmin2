@@ -251,7 +251,7 @@ Dim objTrigger As pgTrigger
   If Not rs.EOF Then
   
     'Args
-    szArgs = "'"
+    If rs!tgargs.ActualSize > 0 Then szArgs = "'"
     For X = 0 To (rs!tgargs.ActualSize - 1)
       If rs!tgargs(X) = 0 Then
         If X = (rs!tgargs.ActualSize - 1) Then
@@ -434,7 +434,8 @@ Dim X As Integer
     While Not rs.EOF
     
       'Args
-      szArgs = "'"
+      szArgs = ""
+      If rs!tgargs.ActualSize > 0 Then szArgs = "'"
       For X = 0 To (rs!tgargs.ActualSize - 1)
         If rs!tgargs(X) = 0 Then
           If X = (rs!tgargs.ActualSize - 1) Then
