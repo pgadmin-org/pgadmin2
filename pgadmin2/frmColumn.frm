@@ -353,7 +353,7 @@ Dim bNoPrimaryKey As Boolean
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmColumn.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -363,7 +363,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmColumn.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -378,13 +378,13 @@ Dim szOldName As String
   'Check the data
   If txtProperties(0).Text = "" Then
     MsgBox "You must specify a Column name!", vbExclamation, "Error"
-    tabProperties.tab = 0
+    tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
     MsgBox "You must specify a column type!", vbExclamation, "Error"
-    tabProperties.tab = 0
+    tabProperties.Tab = 0
     cboProperties(1).SetFocus
     Exit Sub
   End If
@@ -394,7 +394,7 @@ Dim szOldName As String
       For Each objItem In frmCallingForm.lvProperties(0).ListItems
         If objItem.Text = txtProperties(0).Text Then
           MsgBox "A column with that name already exists!", vbExclamation, "Error"
-          tabProperties.tab = 0
+          tabProperties.Tab = 0
           txtProperties(0).SetFocus
           Exit Sub
         End If
@@ -458,7 +458,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, szMD As String, Optional Column As pgColumn, Optional frmCF As Form, Optional bNoPKey As Boolean)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmColumn.Initialise(" & QUOTE & szDB & QUOTE & ", " & QUOTE & szMD & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.Initialise(" & QUOTE & szDB & QUOTE & ", " & QUOTE & szMD & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ComboItem
@@ -530,7 +530,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmColumn.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -540,7 +540,7 @@ End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmColumn.txtProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
   
@@ -550,7 +550,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmColumn.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objColumn Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
@@ -568,7 +568,7 @@ End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmColumn.cboProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objColumn As pgColumn
 

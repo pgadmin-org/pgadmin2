@@ -81,13 +81,13 @@ Begin VB.Form frmForeignKey
       TabCaption(1)   =   "&Relationships"
       TabPicture(1)   =   "frmForeignKey.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lblProperties(7)"
+      Tab(1).Control(1)=   "lblProperties(8)"
+      Tab(1).Control(2)=   "cboProperties(6)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(4)=   "cboProperties(6)"
-      Tab(1).Control(5)=   "lblProperties(8)"
-      Tab(1).Control(6)=   "lblProperties(7)"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cmdRemove"
+      Tab(1).Control(6)=   "cmdAdd"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -429,7 +429,7 @@ Dim objForeignKey As pgForeignKey
 
 Private Sub cmdRemove_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmForeignKey.cmdRemove_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
   lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
@@ -440,7 +440,7 @@ End Sub
 
 Private Sub cmdAdd_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmForeignKey.cmdAdd_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdAdd_Click()", etFullDebug
 
 Dim objItem As ListItem
 
@@ -456,7 +456,7 @@ End Sub
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmForeignKey.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -466,7 +466,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmForeignKey.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -482,19 +482,19 @@ Dim szOldName As String
   'Check the data
   If txtProperties(0).Text = "" Then
     MsgBox "You must specify a Foreign Key name!", vbExclamation, "Error"
-    tabProperties.tab = 0
+    tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
     MsgBox "You must select a referenced table!", vbExclamation, "Error"
-    tabProperties.tab = 0
+    tabProperties.Tab = 0
     cboProperties(1).SetFocus
     Exit Sub
   End If
   If lvProperties(0).ListItems.Count < 1 Then
     MsgBox "You must specify at least one relationship!", vbExclamation, "Error"
-    tabProperties.tab = 1
+    tabProperties.Tab = 1
     cboProperties(5).SetFocus
     Exit Sub
   End If
@@ -504,7 +504,7 @@ Dim szOldName As String
       For Each objItem In frmCallingForm.lvProperties(2).ListItems
         If objItem.Text = txtProperties(0).Text Then
           MsgBox "A foreign key with that name already exists!", vbExclamation, "Error"
-          tabProperties.tab = 0
+          tabProperties.Tab = 0
           txtProperties(0).SetFocus
           Exit Sub
         End If
@@ -549,7 +549,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, szMD As String, Optional ForeignKey As pgForeignKey, Optional frmCF As Form)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmForeignKey.Initialise(" & QUOTE & szDB & QUOTE & ", " & QUOTE & szMD & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.Initialise(" & QUOTE & szDB & QUOTE & ", " & QUOTE & szMD & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ComboItem
@@ -648,7 +648,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmForeignKey.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objForeignKey Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objForeignKey.Deferrable)
@@ -660,7 +660,7 @@ End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmForeignKey.cboProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objColumn As pgColumn
 

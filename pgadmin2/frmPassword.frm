@@ -96,7 +96,7 @@ Option Explicit
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmPassword.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.cmdOK_Click()", etFullDebug
 
   If txtCurrent.Text <> ctx.Password Then
     MsgBox "Incorrect Password!", vbExclamation, "Error"

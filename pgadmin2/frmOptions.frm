@@ -35,12 +35,11 @@ Begin VB.Form frmOptions
       _Version        =   393216
       Style           =   1
       Tabs            =   4
-      Tab             =   3
       TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "&Logging"
       TabPicture(0)   =   "frmOptions.frx":08CA
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Label1(0)"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "txtLogFile"
@@ -57,39 +56,35 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "&Auto Highlight"
       TabPicture(1)   =   "frmOptions.frx":08E6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label2"
-      Tab(1).Control(1)=   "lvWords"
-      Tab(1).Control(2)=   "chkItalic"
-      Tab(1).Control(3)=   "chkBold"
-      Tab(1).Control(4)=   "cmdColour"
-      Tab(1).Control(5)=   "cmdAdd"
-      Tab(1).Control(6)=   "txtWord"
-      Tab(1).Control(7)=   "cmdRemove"
+      Tab(1).Control(0)=   "cmdRemove"
+      Tab(1).Control(1)=   "txtWord"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "cmdColour"
+      Tab(1).Control(4)=   "chkBold"
+      Tab(1).Control(5)=   "chkItalic"
+      Tab(1).Control(6)=   "lvWords"
+      Tab(1).Control(7)=   "Label2"
       Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0902
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdExpUninstall"
-      Tab(2).Control(1)=   "cmdExpInstall"
-      Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(3)=   "lstExporters"
+      Tab(2).Control(0)=   "lstExporters"
+      Tab(2).Control(1)=   "Frame1"
+      Tab(2).Control(2)=   "cmdExpInstall"
+      Tab(2).Control(3)=   "cmdExpUninstall"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":091E
-      Tab(3).ControlEnabled=   -1  'True
-      Tab(3).Control(0)=   "lstPlugins"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "cmdPlgInstall"
-      Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "cmdPlgUninstall"
-      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).ControlEnabled=   0   'False
+      Tab(3).Control(0)=   "cmdPlgUninstall"
+      Tab(3).Control(1)=   "cmdPlgInstall"
+      Tab(3).Control(2)=   "Frame2"
+      Tab(3).Control(3)=   "lstPlugins"
       Tab(3).ControlCount=   4
       Begin VB.CommandButton cmdPlgUninstall 
          Caption         =   "&Uninstall Plugin"
          Height          =   330
-         Left            =   1800
+         Left            =   -73200
          TabIndex        =   45
          ToolTipText     =   "Uninstall the selected Plugin."
          Top             =   5895
@@ -98,7 +93,7 @@ Begin VB.Form frmOptions
       Begin VB.CommandButton cmdPlgInstall 
          Caption         =   "&Install Plugin"
          Height          =   330
-         Left            =   90
+         Left            =   -74910
          TabIndex        =   44
          ToolTipText     =   "Install a new Plugin."
          Top             =   5895
@@ -107,7 +102,7 @@ Begin VB.Form frmOptions
       Begin VB.Frame Frame2 
          Caption         =   "Details"
          Height          =   1950
-         Left            =   90
+         Left            =   -74910
          TabIndex        =   38
          Top             =   3870
          Width           =   5235
@@ -174,7 +169,7 @@ Begin VB.Form frmOptions
       Begin VB.ListBox lstPlugins 
          Height          =   3375
          ItemData        =   "frmOptions.frx":093A
-         Left            =   90
+         Left            =   -74910
          List            =   "frmOptions.frx":093C
          TabIndex        =   37
          Top             =   450
@@ -331,7 +326,7 @@ Begin VB.Form frmOptions
       Begin VB.CheckBox chkMaskPassword 
          Caption         =   "&Mask the Password in Logs?"
          Height          =   285
-         Left            =   -74775
+         Left            =   225
          TabIndex        =   9
          ToolTipText     =   "Check to replace the occurance of the user's password in any logs with *********."
          Top             =   5355
@@ -340,7 +335,7 @@ Begin VB.Form frmOptions
       Begin VB.CheckBox chkLogWindow 
          Caption         =   "Log Window 'Always on top'?"
          Height          =   285
-         Left            =   -74775
+         Left            =   225
          TabIndex        =   8
          ToolTipText     =   "Make the Log Window always appear on top of other windows regardless of whether it has focus."
          Top             =   4725
@@ -349,7 +344,7 @@ Begin VB.Form frmOptions
       Begin VB.Frame fraLogLevel 
          Caption         =   "Log Level"
          Height          =   2175
-         Left            =   -74550
+         Left            =   450
          TabIndex        =   19
          Top             =   1980
          Width           =   4560
@@ -407,7 +402,7 @@ Begin VB.Form frmOptions
       Begin VB.CommandButton cmdBrowse 
          Caption         =   "..."
          Height          =   375
-         Left            =   -70230
+         Left            =   4770
          TabIndex        =   2
          ToolTipText     =   "Browse for a file."
          Top             =   1125
@@ -415,7 +410,7 @@ Begin VB.Form frmOptions
       End
       Begin VB.TextBox txtLogFile 
          Height          =   285
-         Left            =   -74775
+         Left            =   225
          TabIndex        =   1
          ToolTipText     =   "Enter a path & filename to write the logfile to."
          Top             =   1170
@@ -456,7 +451,7 @@ Begin VB.Form frmOptions
          Caption         =   "Logfile (%ID will be replaced with the Process ID)"
          Height          =   195
          Index           =   0
-         Left            =   -74775
+         Left            =   225
          TabIndex        =   18
          Top             =   900
          Width           =   3450
@@ -556,7 +551,7 @@ Option Explicit
 
 Private Sub cmdAdd_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdAdd_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdAdd_Click()", etFullDebug
 
 Dim itmX As ListItem
 
@@ -593,7 +588,7 @@ End Sub
 
 Private Sub cmdBrowse_Click()
 On Error Resume Next
-frmMain.svr.LogEvent "Entering frmOptions.cmdBrowse_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdBrowse_Click()", etFullDebug
 
   With cdlg
     .FileName = txtLogFile.Text
@@ -610,7 +605,7 @@ End Sub
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -620,7 +615,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdOK_Click()", etFullDebug
 
 Dim iLogLevel As Integer
 Dim objform As Form
@@ -689,7 +684,7 @@ End Sub
 
 Private Sub cmdRemove_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdRemove_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdRemove_Click()", etFullDebug
 
   If MsgBox("Are you sure you wish to remove the selected word?", vbQuestion + vbYesNo, "Remove Word") = vbNo Then Exit Sub
   lvWords.ListItems.Remove lvWords.SelectedItem.Index
@@ -700,7 +695,7 @@ End Sub
 
 Private Sub Form_Load()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.Form_Load()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.Form_Load()", etFullDebug
 
 Dim iLoop As Integer
 Dim itmX As ListItem
@@ -766,7 +761,7 @@ End Sub
 
 Private Sub cmdColour_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdColour_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdColour_Click()", etFullDebug
 
   cdlg.ShowColor
   txtWord.ForeColor = cdlg.Color
@@ -777,7 +772,7 @@ End Sub
 
 Private Sub GetExporters()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.GetExporters()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.GetExporters()", etFullDebug
 
 Dim objExporter As pgExporter
 
@@ -796,7 +791,7 @@ End Sub
 
 Private Sub cmdExpInstall_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdExpInstall_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdExpInstall_Click()", etFullDebug
 
   cdlg.FLAGS = cdlOFNHideReadOnly
   cdlg.Filter = "pgAdmin Exporters (*.dll)|*.dll|All Files (*.*)|*.*"
@@ -815,7 +810,7 @@ End Sub
 
 Private Sub cmdExpUninstall_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdExpUninstall_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdExpUninstall_Click()", etFullDebug
 
   If lstExporters.Text = "" Then
     MsgBox "You must select a Exporter to uninstall!", vbExclamation, "Error"
@@ -833,7 +828,7 @@ End Sub
 
 Private Sub lstExporters_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.lstExporters_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.lstExporters_Click()", etFullDebug
 
   txtExpDescription.Text = exp(lstExporters.Text).Description
   txtExpVersion.Text = exp(lstExporters.Text).Version
@@ -845,7 +840,7 @@ End Sub
 
 Private Sub GetPlugins()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.GetPlugins()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.GetPlugins()", etFullDebug
 
 Dim objPlugin As pgPlugin
 
@@ -867,7 +862,7 @@ End Sub
 
 Private Sub cmdPlgInstall_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdPlgInstall_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdPlgInstall_Click()", etFullDebug
 
   cdlg.FLAGS = cdlOFNHideReadOnly
   cdlg.Filter = "pgAdmin Plugins (*.dll)|*.dll|All Files (*.*)|*.*"
@@ -886,7 +881,7 @@ End Sub
 
 Private Sub cmdPlgUninstall_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.cmdPlgUninstall_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdPlgUninstall_Click()", etFullDebug
 
   If lstPlugins.Text = "" Then
     MsgBox "You must select a Plugin to uninstall!", vbExclamation, "Error"
@@ -904,7 +899,7 @@ End Sub
 
 Private Sub lstPlugins_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.lstPlugins_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.lstPlugins_Click()", etFullDebug
 
   txtPlgDescription.Text = plg(lstPlugins.Text).Description
   txtPlgVersion.Text = plg(lstPlugins.Text).Version
@@ -916,7 +911,7 @@ End Sub
 
 Private Sub tabOptions_Click(PreviousTab As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOptions.tabOptions_Click(" & PreviousTab & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.tabOptions_Click(" & PreviousTab & ")", etFullDebug
 
   Select Case tabOptions.Tab
     Case 0

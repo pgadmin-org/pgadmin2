@@ -103,13 +103,13 @@ Begin VB.Form frmFunction
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":138E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdRemove"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lblProperties(4)"
+      Tab(1).Control(1)=   "lblProperties(5)"
+      Tab(1).Control(2)=   "cboProperties(2)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "cboProperties(2)"
-      Tab(1).Control(5)=   "lblProperties(5)"
-      Tab(1).Control(6)=   "lblProperties(4)"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cmdAdd"
+      Tab(1).Control(6)=   "cmdRemove"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":13AA
@@ -392,7 +392,7 @@ Dim objFunction As pgFunction
 
 Private Sub cmdRemove_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmFunction.cmdRemove_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
   lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
@@ -403,7 +403,7 @@ End Sub
 
 Private Sub cmdAdd_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmFunction.cmdAdd_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdAdd_Click()", etFullDebug
 
   If cboProperties(2).Text = "" Then Exit Sub
   Select Case cboProperties(2).SelectedItem.Image
@@ -421,7 +421,7 @@ End Sub
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmFunction.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -431,7 +431,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmFunction.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -498,7 +498,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional oFunction As pgFunction)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmFunction.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objLanguage As pgLanguage
@@ -579,7 +579,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmFunction.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -589,7 +589,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmFunction.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objFunction Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objFunction.Cachable)

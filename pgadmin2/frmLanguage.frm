@@ -204,7 +204,7 @@ Dim objLanguage As pgLanguage
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmLanguage.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -214,7 +214,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmLanguage.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -270,7 +270,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional Language As pgLanguage)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmLanguage.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objFunction As pgFunction
@@ -321,7 +321,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmLanguage.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -331,7 +331,7 @@ End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmLanguage.txtProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
   
@@ -341,7 +341,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmLanguage.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objLanguage Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objLanguage.Trusted)

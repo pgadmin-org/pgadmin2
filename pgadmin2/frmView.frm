@@ -73,16 +73,16 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "hbxProperties(1)"
-      Tab(1).Control(1)=   "cmdLoad"
+      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(1)=   "hbxProperties(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":0182
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdAdd"
-      Tab(2).Control(1)=   "fraAdd"
-      Tab(2).Control(2)=   "cmdRemove"
-      Tab(2).Control(3)=   "lvProperties(0)"
+      Tab(2).Control(0)=   "lvProperties(0)"
+      Tab(2).Control(1)=   "cmdRemove"
+      Tab(2).Control(2)=   "fraAdd"
+      Tab(2).Control(3)=   "cmdAdd"
       Tab(2).ControlCount=   4
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -381,7 +381,7 @@ Dim objView As pgView
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -391,7 +391,7 @@ End Sub
 
 Private Sub cmdLoad_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.cmdLoad_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdLoad_Click()", etFullDebug
 
 Dim szLine As String
 Dim fNum As Integer
@@ -430,7 +430,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -511,7 +511,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional View As pgView)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ListItem
@@ -594,7 +594,7 @@ End Sub
 
 Private Sub cmdRemove_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.cmdRemove_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
   lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
@@ -606,7 +606,7 @@ End Sub
 
 Private Sub cmdAdd_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.cmdAdd_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String
 Dim objItem As ListItem
@@ -643,7 +643,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -653,7 +653,7 @@ End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.txtProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
   
@@ -663,7 +663,7 @@ End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmView.chkPrivilege_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.chkPrivilege_Click(" & Index & ")", etFullDebug
 
 Dim X As Integer
 

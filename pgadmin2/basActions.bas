@@ -9,7 +9,7 @@ Option Explicit
 
 Public Sub Vacuum(bAnalyse As Boolean)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering basActions.Vacuum(" & bAnalyse & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Vacuum(" & bAnalyse & ")", etFullDebug
   
   'If a table is selected then Vacuum it alone, otherwise vacuum the entire database. We don't do columns
   'because there is no easy way to get the table name.
@@ -36,7 +36,7 @@ End Sub
 
 Public Sub Drop()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering basActions.Drop()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Drop()", etFullDebug
  
 Dim objItem As ListItem
 Dim objNode As Node

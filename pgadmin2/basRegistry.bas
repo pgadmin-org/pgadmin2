@@ -9,7 +9,7 @@ Option Explicit
 
 Public Function RegRead(ByVal Hive As RegHives, ByVal Section As String, ByVal Key As String, Optional Default As Variant) As String
 On Error Resume Next
-frmMain.svr.LogEvent "Entering basRegistry.RegRead(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & QUOTE & Key & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basRegistry.RegRead(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim lResult As Long
 Dim lKeyValue As Long
@@ -50,7 +50,7 @@ End Function
 
 Public Sub RegWrite(ByVal Hive As RegHives, ByVal Section As String, ByVal Key As String, ByVal ValType As RegTypes, ByVal Value As Variant)
 On Error Resume Next
-frmMain.svr.LogEvent "Entering basRegistry.RegWrite(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & QUOTE & Key & QUOTE & ", " & ValType & ", " & QUOTE & Value & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basRegistry.RegWrite(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & QUOTE & Key & QUOTE & ", " & ValType & ", " & QUOTE & Value & QUOTE & ")", etFullDebug
 
 Dim lResult As Long
 Dim lKeyValue As Long
@@ -74,7 +74,7 @@ End Sub
 
 Public Function RegGetSubkey(ByVal Hive As RegHives, ByVal Section As String, Idx As Long) As String
 On Error Resume Next
-frmMain.svr.LogEvent "Entering basRegistry.RegGetSubKey(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & Idx & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basRegistry.RegGetSubKey(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & Idx & ")", etFullDebug
 
 Dim lResult As Long
 Dim lKeyValue As Long
@@ -97,7 +97,7 @@ End Function
 
 Public Function RegReadAll(ByVal Hive As RegHives, ByVal Section As String, Idx As Long) As Variant
 On Error Resume Next
-frmMain.svr.LogEvent "Entering basRegistry.RegReadAll(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & Idx & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basRegistry.RegReadAll(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & Idx & ")", etFullDebug
 
 Dim lResult As Long
 Dim lKeyValue As Long
@@ -129,7 +129,7 @@ End Function
 
 Public Sub RegDelSubkey(ByVal Hive As RegHives, ByVal Section As String)
 On Error Resume Next
-frmMain.svr.LogEvent "Entering basRegistry.RegDelSubKey(" & Hive & ", " & QUOTE & Section & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basRegistry.RegDelSubKey(" & Hive & ", " & QUOTE & Section & QUOTE & ")", etFullDebug
 
 Dim lKeyValue As Long
   RegOpenKeyEx Hive, vbNullChar, 0&, KEY_ALL_ACCESS, lKeyValue
@@ -139,7 +139,7 @@ End Sub
 
 Public Sub RegDelValue(ByVal Hive As RegHives, ByVal Section As String, ByVal Key As String)
 On Error Resume Next
-frmMain.svr.LogEvent "Entering basRegistry.RegDelValue(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & QUOTE & Key & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basRegistry.RegDelValue(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim lKeyValue As Long
   RegOpenKey Hive, Section, lKeyValue

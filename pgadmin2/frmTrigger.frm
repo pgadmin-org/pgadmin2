@@ -337,7 +337,7 @@ Dim objTrigger As pgTrigger
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmTrigger.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -347,7 +347,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmTrigger.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -420,7 +420,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional Trigger As pgTrigger)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmTrigger.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objTable As pgTable
@@ -490,7 +490,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Trigger As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmTrigger.hbxProperties_Change(" & Trigger & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.hbxProperties_Change(" & Trigger & ")", etFullDebug
 
   hbxProperties(Trigger).Tag = "Y"
   
@@ -500,7 +500,7 @@ End Sub
 
 Private Sub SetChecks(szData As String)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmTrigger.SetChecks(" & QUOTE & szData & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.SetChecks(" & QUOTE & szData & QUOTE & ")", etFullDebug
 
 Static bSetting As Boolean
 
@@ -524,7 +524,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmTrigger.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objTrigger Is Nothing) Then
     SetChecks objTrigger.TriggerEvent

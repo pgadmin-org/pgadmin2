@@ -187,7 +187,7 @@ Dim objGroup As pgGroup
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmGroup.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -197,7 +197,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmGroup.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -253,7 +253,7 @@ End Sub
 
 Public Sub Initialise(Optional Group As pgGroup)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmGroup.Initialise()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.Initialise()", etFullDebug
   
 Dim X As Integer
 Dim objItem As ListItem
@@ -315,7 +315,7 @@ End Sub
 
 Private Sub lvProperties_ItemCheck(Index As Integer, ByVal Item As MSComctlLib.ListItem)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmGroup.lvProperties_ItemCheck(" & Index & ", " & Item.Text & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.lvProperties_ItemCheck(" & Index & ", " & Item.Text & ")", etFullDebug
 
   Item.Tag = "Y"
   
@@ -325,7 +325,7 @@ End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmGroup.txtProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
   

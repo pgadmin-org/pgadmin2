@@ -768,7 +768,7 @@ Dim bMoving As Boolean
 
 Private Sub Form_Resize()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.Form_Resize()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Resize()", etFullDebug
 
   On Error Resume Next
   txtDefinition.Minimise
@@ -782,7 +782,7 @@ End Sub
 
 Private Sub imgSplitter_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.imgSplitter_MouseDown(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseDown(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   With imgSplitter
     picSplitter.Move .Left, .Top, .Width \ 2, .Height - 20
@@ -796,7 +796,7 @@ End Sub
 
 Private Sub imgSplitter_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.imgSplitter_MouseMove(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseMove(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
 Dim sglPos As Single
   
@@ -817,7 +817,7 @@ End Sub
 
 Private Sub imgSplitter_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.imgSplitter_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   SizeControls picSplitter.Left
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Splitter Position", regString, picSplitter.Left
@@ -830,7 +830,7 @@ End Sub
 
 Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
   
@@ -840,7 +840,7 @@ End Sub
 
 Private Sub mnuHelpContents_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuHelpContents_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpContents_Click()", etFullDebug
 
   HtmlHelp hWnd, App.Path & "\" & "help\pgadmin2.chm", HH_DISPLAY_TOPIC, 0
 
@@ -850,7 +850,7 @@ End Sub
 
 Private Sub mnuPluginsPlg_Click(Index As Integer)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPluginsPlg_Click(" & Index & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPluginsPlg_Click(" & Index & ")", etFullDebug
 
   If Index = 0 Then Exit Sub
   svr.LogEvent "Executing Plugin: " & plg(mnuPluginsPlg(Index).Caption).Description & " v" & plg(mnuPluginsPlg(Index).Caption).Version, etMiniDebug
@@ -862,7 +862,7 @@ End Sub
 
 Private Sub mnuViewSystemObjects_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuViewSystemObjects_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewSystemObjects_Click()", etFullDebug
 
 Dim objNode As Node
 
@@ -895,7 +895,7 @@ End Sub
 
 Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
 
@@ -905,7 +905,7 @@ End Sub
 
 Private Sub mnuFileChangePassword_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuFileChangePassword_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileChangePassword_Click()", etFullDebug
 
   Load frmPassword
   frmPassword.Show vbModal, Me
@@ -916,7 +916,7 @@ End Sub
 
 Private Sub mnuFileSaveDefinition_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuFileSaveDefinition_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileSaveDefinition_Click()", etFullDebug
 
 Dim fNum As Integer
 
@@ -950,7 +950,7 @@ End Sub
 
 Private Sub mnuHelpAbout_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuHelpAbout_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpAbout_Click()", etFullDebug
 
   Load frmAbout
   frmAbout.Show vbModal, Me
@@ -961,7 +961,7 @@ End Sub
 
 Private Sub mnuToolsOptions_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuToolsOptions_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsOptions_Click()", etFullDebug
 
   Load frmOptions
   frmOptions.Show vbModal, Me
@@ -972,7 +972,7 @@ End Sub
 
 Private Sub mnuViewShowDefinitionPane_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuViewShowDefinitionPane_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowDefinitionPane_Click()", etFullDebug
 
   txtDefinition.Text = ""
   If mnuViewShowDefinitionPane.Checked = True Then
@@ -992,7 +992,7 @@ End Sub
 
 Private Sub mnuViewShowLogWindow_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuViewShowLogWindow_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowLogWindow_Click()", etFullDebug
 
   If mnuViewShowLogWindow.Checked = True Then
     ctx.LogView = False
@@ -1012,7 +1012,7 @@ End Sub
 
 Private Sub mnuViewShowStatusBar_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuViewShowStatusBar_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowStatusBar_Click()", etFullDebug
 
   If mnuViewShowStatusBar.Checked = True Then
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Show Status Bar", regString, "N"
@@ -1031,7 +1031,7 @@ End Sub
 
 Private Sub mnuViewShowToolBar_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuViewShowToolBar_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowToolBar_Click()", etFullDebug
 
   If mnuViewShowToolBar.Checked = True Then
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Show Tool Bar", regString, "N"
@@ -1050,7 +1050,7 @@ End Sub
 
 Private Sub mnuPopupConnect_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupConnect_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupConnect_Click()", etFullDebug
 
   Load frmConnect
   frmConnect.Load_Defaults
@@ -1062,7 +1062,7 @@ End Sub
 
 Private Sub mnuPopupRefresh_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupRefresh_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupRefresh_Click()", etFullDebug
 
 Dim objNode As Node
 
@@ -1128,7 +1128,7 @@ End Sub
 
 Private Sub mnuPopupDrop_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupDrop_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupDrop_Click()", etFullDebug
 
   Drop
   
@@ -1138,7 +1138,7 @@ End Sub
 
 Private Sub mnuPopupProperties_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupProperties_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", etFullDebug
 
       Select Case ctx.CurrentObject.ObjectType
         Case "Aggregate"
@@ -1253,7 +1253,7 @@ End Sub
 
 Private Sub mnuPopupSQL_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupSQL_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupSQL_Click()", etFullDebug
   
 Dim Y As Integer
 Dim X As Integer
@@ -1276,7 +1276,7 @@ End Sub
 
 Private Sub mnuPopupViewData_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupViewData_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupViewData_Click()", etFullDebug
   
 Dim objOutputForm As New frmSQLOutput
 Dim szQuery As String
@@ -1310,7 +1310,7 @@ End Sub
 
 Private Sub tb_ButtonClick(ByVal Button As MSComctlLib.Button)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tb_ButtonClick(" & Button & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")", etFullDebug
 
   Select Case Button.Key
     Case "connect"
@@ -1344,7 +1344,7 @@ End Sub
 
 Private Sub mnuPopupVacuumVacuum_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupVacuumVacuum_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupVacuumVacuum_Click()", etFullDebug
 
   Vacuum False
   
@@ -1354,7 +1354,7 @@ End Sub
 
 Private Sub mnuPopupVacuumAnalyse_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupVacuumAnalyse_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupVacuumAnalyse_Click()", etFullDebug
 
   Vacuum True
   
@@ -1364,7 +1364,7 @@ End Sub
 
 Private Sub mnuPopupCreateAggregate_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateAggregate_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateAggregate_Click()", etFullDebug
 
 Dim objAggregateForm As New frmAggregate
 
@@ -1378,7 +1378,7 @@ End Sub
 
 Private Sub mnuPopupCreateDatabase_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateDatabase_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateDatabase_Click()", etFullDebug
 
 Dim objDatabaseForm As New frmDatabase
 
@@ -1392,7 +1392,7 @@ End Sub
 
 Private Sub mnuPopupCreateFunction_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateFunction_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateFunction_Click()", etFullDebug
 
 Dim objFunctionForm As New frmFunction
 
@@ -1406,7 +1406,7 @@ End Sub
 
 Private Sub mnuPopupCreateGroup_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateGroup_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateGroup_Click()", etFullDebug
 
 Dim objGroupForm As New frmGroup
 
@@ -1420,7 +1420,7 @@ End Sub
 
 Private Sub mnuPopupCreateIndex_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateIndex_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateIndex_Click()", etFullDebug
 
 Dim objIndexForm As New frmIndex
 
@@ -1434,7 +1434,7 @@ End Sub
 
 Private Sub mnuPopupCreateLanguage_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateLanguage_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateLanguage_Click()", etFullDebug
 
 Dim objLanguageForm As New frmLanguage
 
@@ -1448,7 +1448,7 @@ End Sub
 
 Private Sub mnuPopupCreateOperator_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateOperator_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateOperator_Click()", etFullDebug
 
 Dim objOperatorForm As New frmOperator
 
@@ -1462,7 +1462,7 @@ End Sub
 
 Private Sub mnuPopupCreateRule_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateRule_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateRule_Click()", etFullDebug
 
 Dim objRuleForm As New frmRule
 
@@ -1476,7 +1476,7 @@ End Sub
 
 Private Sub mnuPopupCreateSequence_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateSequence_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateSequence_Click()", etFullDebug
 
 Dim objSequenceForm As New frmSequence
 
@@ -1490,7 +1490,7 @@ End Sub
 
 Private Sub mnuPopupCreateTable_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateTable_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateTable_Click()", etFullDebug
 
 Dim objTableForm As New frmTable
 
@@ -1504,7 +1504,7 @@ End Sub
 
 Private Sub mnuPopupCreateTrigger_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateTrigger_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateTrigger_Click()", etFullDebug
 
 Dim objTriggerForm As New frmTrigger
 
@@ -1518,7 +1518,7 @@ End Sub
 
 Private Sub mnuPopupCreateType_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateType_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateType_Click()", etFullDebug
 
 Dim objTypeForm As New frmType
 
@@ -1532,7 +1532,7 @@ End Sub
 
 Private Sub mnuPopupCreateUser_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateUser_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateUser_Click()", etFullDebug
 
 Dim objUserForm As New frmUser
 
@@ -1546,7 +1546,7 @@ End Sub
 
 Private Sub mnuPopupCreateView_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuPopupCreateView_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateView_Click()", etFullDebug
 
 Dim objViewForm As New frmView
 
@@ -1560,7 +1560,7 @@ End Sub
 
 Private Sub tb_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMenu)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tb_ButtonMenuClick(" & ButtonMenu & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMenu & ")", etFullDebug
 
   Select Case ButtonMenu.Parent.Key
     Case "connect"
@@ -1621,7 +1621,7 @@ End Sub
 
 Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tv_DragDrop(" & QUOTE & Source.Name & QUOTE & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & QUOTE & Source.Name & QUOTE & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source = imgSplitter Then
     SizeControls X
@@ -1633,7 +1633,7 @@ End Sub
 
 Public Sub SizeControls(X As Single)
 On Error Resume Next
-svr.LogEvent "Entering frmMain.SizeControls(" & X & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.SizeControls(" & X & ")", etFullDebug
 
   'Set the width
   If X < 1500 Then X = 1500
@@ -1672,7 +1672,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 On Error Resume Next
-svr.LogEvent "Entering frmMain.Form_Unload(" & Cancel & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Unload(" & Cancel & ")", etFullDebug
 
 Dim objform As Form
   
@@ -1694,7 +1694,7 @@ End Sub
 
 Private Sub mnuFileExit_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuFileExit_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileExit_Click()", etFullDebug
 
   Unload Me
   
@@ -1704,7 +1704,7 @@ End Sub
 
 Private Sub mnuFileConnect_Click()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.mnuFileConnect_Click()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileConnect_Click()", etFullDebug
 
   Load frmConnect
   frmConnect.Load_Defaults
@@ -1725,7 +1725,7 @@ End Sub
 
 Private Sub tvServer(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvServer(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvServer(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
   If Node.Children = 0 Then
@@ -1753,7 +1753,7 @@ End Sub
 
 Private Sub tvDatabases(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvDatabases(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabases(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim dat As pgDatabase
@@ -1785,7 +1785,7 @@ End Sub
 
 Private Sub tvDatabase(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -1829,7 +1829,7 @@ End Sub
 
 Private Sub tvGroups(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvGroups(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvGroups(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -1867,7 +1867,7 @@ End Sub
 
 Private Sub tvGroup(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvGroup(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvGroup(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -1898,7 +1898,7 @@ End Sub
 
 Private Sub tvUsers(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvUsers(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvUsers(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim usr As pgUser
@@ -1930,7 +1930,7 @@ End Sub
 
 Private Sub tvUser(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvUser(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvUser(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -1972,7 +1972,7 @@ End Sub
 
 Private Sub tvAggregates(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvAggregates(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregates(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim agg As pgAggregate
@@ -2004,7 +2004,7 @@ End Sub
 
 Private Sub tvAggregate(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvAggregate(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregate(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2046,7 +2046,7 @@ End Sub
 
 Private Sub tvFunctions(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvFunctions(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvFunctions(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -2085,7 +2085,7 @@ End Sub
 
 Private Sub tvFunction(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvFunction(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvFunction(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -2144,7 +2144,7 @@ End Sub
 
 Private Sub tvLanguages(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvLanguages(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguages(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim lng As pgLanguage
@@ -2176,7 +2176,7 @@ End Sub
 
 Private Sub tvLanguage(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvLanguage(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguage(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2212,7 +2212,7 @@ End Sub
 
 Private Sub tvOperators(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvOperators(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperators(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim opr As pgOperator
@@ -2244,7 +2244,7 @@ End Sub
 
 Private Sub tvOperator(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvOperator(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperator(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2302,7 +2302,7 @@ End Sub
 
 Private Sub tvSequences(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvSequences(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequences(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim seq As pgSequence
@@ -2334,7 +2334,7 @@ End Sub
 
 Private Sub tvSequence(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2382,7 +2382,7 @@ End Sub
 
 Private Sub tvTables(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvTables(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTables(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim tbl As pgTable
@@ -2414,7 +2414,7 @@ End Sub
 
 Private Sub tvTable(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvTable(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTable(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -2466,7 +2466,7 @@ End Sub
 
 Private Sub tvChecks(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvChecks(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvChecks(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim chk As pgCheck
@@ -2496,7 +2496,7 @@ End Sub
 
 Private Sub tvCheck(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvCheck(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvCheck(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2524,7 +2524,7 @@ End Sub
 
 Private Sub tvColumns(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvColumns(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumns(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim col As pgColumn
@@ -2558,7 +2558,7 @@ End Sub
 
 Private Sub tvColumn(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvColumn(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumn(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2610,7 +2610,7 @@ End Sub
 
 Private Sub tvForeignKeys(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvForeignKeys(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKeys(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim fky As pgForeignKey
@@ -2642,7 +2642,7 @@ End Sub
 
 Private Sub tvForeignKey(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvForeignKey(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKey(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2683,7 +2683,7 @@ End Sub
 
 Private Sub tvRelationships(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvRelationships(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvRelationships(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rel As pgRelationship
@@ -2705,7 +2705,7 @@ End Sub
 
 Private Sub tvIndexes(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvIndexes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndexes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim ind As pgIndex
@@ -2737,7 +2737,7 @@ End Sub
 
 Private Sub tvIndex(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvIndex(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndex(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -2789,7 +2789,7 @@ End Sub
 
 Private Sub tvRules(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvRules(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvRules(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rul As pgRule
@@ -2821,7 +2821,7 @@ End Sub
 
 Private Sub tvRule(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvRule(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvRule(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2863,7 +2863,7 @@ End Sub
 
 Private Sub tvTriggers(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvTriggers(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTriggers(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim trg As pgTrigger
@@ -2895,7 +2895,7 @@ End Sub
 
 Private Sub tvTrigger(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvTrigger(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTrigger(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -2931,7 +2931,7 @@ End Sub
 
 Private Sub tvTypes(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvTypes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTypes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim typ As pgType
@@ -2963,7 +2963,7 @@ End Sub
 
 Private Sub tvType(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvType(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvType(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -3021,7 +3021,7 @@ End Sub
 
 Private Sub tvViews(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvViews(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvViews(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
   Dim vie As pgView
@@ -3052,7 +3052,7 @@ End Sub
 
 Private Sub tvView(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tvView(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvView(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 
@@ -3086,7 +3086,7 @@ End Sub
 
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -3272,7 +3272,7 @@ End Sub
 
 Private Sub lv_ItemClick(ByVal Item As MSComctlLib.ListItem)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.lv_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
 
 Dim szPath() As String
 
@@ -3379,7 +3379,7 @@ End Sub
 
 Private Sub txtDefinition_Change()
 On Error GoTo Err_Handler
-svr.LogEvent "Entering frmMain.txtDefinition_Change()", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_Change()", etFullDebug
   
   If txtDefinition.Text = "" Then
     mnuFileSaveDefinition.Visible = False

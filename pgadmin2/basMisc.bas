@@ -130,7 +130,7 @@ End Function
 
 Public Function SetTopMostWindow(hWnd As Long, Topmost As Boolean) As Long
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering basMisc.SetTopMostWindow(" & hWnd & ", " & Topmost & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.SetTopMostWindow(" & hWnd & ", " & Topmost & ")", etFullDebug
 
   If Topmost = True Then 'Make the window topmost
     SetTopMostWindow = SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, FLAGS)
@@ -144,7 +144,7 @@ End Function
  
 Public Sub BuildConnectionMenu()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering basMisc.BuildConnectionMenu()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildConnectionMenu()", etFullDebug
 
 Dim X As Integer
 Dim szConnection As String
@@ -161,7 +161,7 @@ End Sub
 
 Public Sub BuildPluginsMenu()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering basMisc.BuildPluginsMenu()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildPluginsMenu()", etFullDebug
 
 Dim objPlugin As pgPlugin
 Dim X As Integer
@@ -195,8 +195,8 @@ End Sub
 Public Sub LogError(lError As Long, szError As String, szRoutine As String)
 'No logging here, if anythings going wrong then we want the real error
 
-  frmMain.svr.LogEvent "Error in " & szRoutine & ": " & lError & " - " & szError, etErrors
-  MsgBox "An error has occured in " & szRoutine & ":" & vbCrLf & vbCrLf & "Number: " & lError & vbCrLf & "Description: " & szError, vbExclamation, App.Title & " Error"
+  frmMain.svr.LogEvent "Error in " & App.Title & ":" & szRoutine & ": " & lError & " - " & szError, etErrors
+  MsgBox "An error has occured in " & App.Title & ":" & szRoutine & ":" & vbCrLf & vbCrLf & "Number: " & lError & vbCrLf & "Description: " & szError, vbExclamation, App.Title & " Error"
   
 End Sub
 
@@ -261,7 +261,7 @@ End Function
 'Parse an ACL and return | delimited User/Access lists
 Public Sub ParseACL(ByVal szACL As String, ByRef szUserlist As String, ByRef szAccesslist As String)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering basMisc.ParseACL(" & QUOTE & szACL & QUOTE & ", " & QUOTE & szUserlist & QUOTE & ", " & QUOTE & szAccesslist & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.ParseACL(" & QUOTE & szACL & QUOTE & ", " & QUOTE & szUserlist & QUOTE & ", " & QUOTE & szAccesslist & QUOTE & ")", etFullDebug
 
 Dim szEntries() As String
 Dim szEntry As Variant

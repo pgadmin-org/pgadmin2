@@ -299,7 +299,7 @@ Dim objIndex As pgIndex
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmIndex.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -309,7 +309,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmIndex.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -374,7 +374,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional Index As pgIndex)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmIndex.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objTable As pgTable
@@ -441,7 +441,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmIndex.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -451,7 +451,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmIndex.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objIndex Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objIndex.Primary)
@@ -466,7 +466,7 @@ End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmIndex.cboProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objColumn As pgColumn
 
@@ -483,7 +483,7 @@ End Sub
 
 Private Sub lvProperties_ItemCheck(Index As Integer, ByVal Item As MSComctlLib.ListItem)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmIndex.lvProperties_ItemCheck(" & Index & ", " & QUOTE & Item.Text & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.lvProperties_ItemCheck(" & Index & ", " & QUOTE & Item.Text & QUOTE & ")", etFullDebug
 
   If Not (objIndex Is Nothing) Then
     If Item.Tag = "Y" Then

@@ -50,6 +50,8 @@ Private Sub pgPlugin_Execute(objSchema As Variant)
   'Reference the Server object
   Set svr = objSchema
   
+svr.LogEvent "MSysConf Wizard Executing...", etMiniDebug
+
   'Display the Wizard
   Load frmWizard
   frmWizard.Show

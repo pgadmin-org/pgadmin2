@@ -78,23 +78,23 @@ Begin VB.Form frmType
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "txtProperties(6)"
-      Tab(1).Control(1)=   "txtProperties(5)"
-      Tab(1).Control(2)=   "txtProperties(4)"
-      Tab(1).Control(3)=   "chkProperties(0)"
-      Tab(1).Control(4)=   "cboProperties(2)"
-      Tab(1).Control(5)=   "cboProperties(3)"
-      Tab(1).Control(6)=   "cboProperties(4)"
-      Tab(1).Control(7)=   "cboProperties(5)"
+      Tab(1).Control(0)=   "lblProperties(13)"
+      Tab(1).Control(1)=   "lblProperties(12)"
+      Tab(1).Control(2)=   "lblProperties(11)"
+      Tab(1).Control(3)=   "lblProperties(10)"
+      Tab(1).Control(4)=   "lblProperties(9)"
+      Tab(1).Control(5)=   "lblProperties(8)"
+      Tab(1).Control(6)=   "lblProperties(6)"
+      Tab(1).Control(7)=   "lblProperties(7)"
       Tab(1).Control(8)=   "cboProperties(6)"
-      Tab(1).Control(9)=   "lblProperties(7)"
-      Tab(1).Control(10)=   "lblProperties(6)"
-      Tab(1).Control(11)=   "lblProperties(8)"
-      Tab(1).Control(12)=   "lblProperties(9)"
-      Tab(1).Control(13)=   "lblProperties(10)"
-      Tab(1).Control(14)=   "lblProperties(11)"
-      Tab(1).Control(15)=   "lblProperties(12)"
-      Tab(1).Control(16)=   "lblProperties(13)"
+      Tab(1).Control(9)=   "cboProperties(5)"
+      Tab(1).Control(10)=   "cboProperties(4)"
+      Tab(1).Control(11)=   "cboProperties(3)"
+      Tab(1).Control(12)=   "cboProperties(2)"
+      Tab(1).Control(13)=   "chkProperties(0)"
+      Tab(1).Control(14)=   "txtProperties(4)"
+      Tab(1).Control(15)=   "txtProperties(5)"
+      Tab(1).Control(16)=   "txtProperties(6)"
       Tab(1).ControlCount=   17
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -504,7 +504,7 @@ Dim objType As pgType
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmType.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -514,7 +514,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmType.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -581,7 +581,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional oType As pgType)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmType.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objFunction As pgFunction
@@ -667,7 +667,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmType.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -677,7 +677,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmType.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objType Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objType.PassedByValue)

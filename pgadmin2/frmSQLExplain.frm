@@ -70,7 +70,7 @@ Option Explicit
 
 Private Sub Form_Load()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLExplain.Form_Load()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Load()", etFullDebug
 
   Me.Width = 5790
   Me.Height = 4200
@@ -83,7 +83,7 @@ End Sub
 
 Private Sub Form_Resize()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLExplain.Form_Resize()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Resize()", etFullDebug
 
   txtQuery.Minimise
   txtPlan.Minimise
@@ -103,7 +103,7 @@ End Sub
 
 Public Sub Explain(szSQL As String, szDatabase As String)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLExplain.Form_Resize()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Resize()", etFullDebug
 
 Dim lEnv As Long
 Dim lDBC As Long

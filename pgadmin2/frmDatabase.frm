@@ -216,7 +216,7 @@ Dim objDatabase As pgDatabase
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmDatabase.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -226,7 +226,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmDatabase.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 
@@ -269,7 +269,7 @@ End Sub
 
 Public Sub Initialise(Optional Database As pgDatabase)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmDatabase.Initialise()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFullDebug
 
 Dim X As Integer
   
@@ -313,7 +313,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmDatabase.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -323,7 +323,7 @@ End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmDatabase.txtProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
   

@@ -86,7 +86,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   59113474
+         StartOfWeek     =   22740994
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -234,7 +234,7 @@ Dim objUser As pgUser
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmUser.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -244,7 +244,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmUser.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 
@@ -295,7 +295,7 @@ End Sub
 
 Public Sub Initialise(Optional User As pgUser)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmUser.Initialise()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.Initialise()", etFullDebug
   
 Dim X As Integer
 Dim objTempUser As pgUser
@@ -349,7 +349,7 @@ End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmUser.txtProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
   
@@ -359,7 +359,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmUser.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.chkProperties_Click(" & Index & ")", etFullDebug
 
   If txtProperties(0).Text = "postgres" Then
     chkProperties(0).Value = Bool2Bin(objUser.CreateDatabases)
@@ -374,7 +374,7 @@ End Sub
 
 Private Sub mvProperties_DateClick(Index As Integer, ByVal DateClicked As Date)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmUser.mvProperties_DateClick(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.mvProperties_DateClick(" & Index & ")", etFullDebug
 
   mvProperties(Index).Tag = "Y"
   

@@ -116,7 +116,7 @@ Option Explicit
 
 Private Sub cmdConnect_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmConnect.cmdConnect_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.cmdConnect_Click()", etFullDebug
 
 Dim szOriConns(11) As String
 Dim szNewConns() As String
@@ -213,7 +213,7 @@ End Sub
 
 Public Sub Load_Defaults(Optional Connection As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmConnect.Load_Defaults(" & Connection & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.Load_Defaults(" & Connection & ")", etFullDebug
 
 Dim szConnection() As String
   'If no connection was specified, then assume connection 1.

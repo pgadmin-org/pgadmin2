@@ -60,7 +60,7 @@ End Sub
 
 Private Sub Form_Load()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmLog.Form_Load()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Load()", etFullDebug
 
   'Size & position the form
   Me.Left = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Left", "0"))
@@ -92,7 +92,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmLog.Form_Unload(" & Cancel & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Unload(" & Cancel & ")", etFullDebug
 
   'Stop writing Log Messages
   ctx.LogView = False

@@ -92,13 +92,13 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "cmdRemove"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(1)=   "fraAdd"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "fraAdd"
+      Tab(1).Control(2)=   "cmdAdd"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "cmdRemove"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin VB.TextBox txtProperties 
@@ -505,7 +505,7 @@ Dim objSequence As pgSequence
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSequence.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -515,7 +515,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSequence.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -636,7 +636,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional Sequence As pgSequence)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSequence.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ListItem
@@ -738,7 +738,7 @@ End Sub
 
 Private Sub cmdRemove_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSequence.cmdRemove_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
   lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
@@ -750,7 +750,7 @@ End Sub
 
 Private Sub cmdAdd_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSequence.cmdAdd_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String
 Dim objItem As ListItem
@@ -787,7 +787,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSequence.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -797,7 +797,7 @@ End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSequence.txtProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
   
@@ -807,7 +807,7 @@ End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSequence.chkPrivilege_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.chkPrivilege_Click(" & Index & ")", etFullDebug
 
 Dim X As Integer
 
@@ -829,7 +829,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmUser.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objSequence Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objSequence.Cycled)

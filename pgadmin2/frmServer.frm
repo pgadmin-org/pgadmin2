@@ -268,7 +268,7 @@ Dim objServer As pgServer
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmServer.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmServer.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -278,7 +278,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmServer.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmServer.cmdOK_Click()", etFullDebug
 
   Unload Me
   
@@ -288,7 +288,7 @@ End Sub
 
 Public Sub Initialise(obj As pgServer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmServer.Initialise(" & QUOTE & obj.Identifier & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmServer.Initialise(" & QUOTE & obj.Identifier & QUOTE & ")", etFullDebug
 
   Set objServer = obj
   

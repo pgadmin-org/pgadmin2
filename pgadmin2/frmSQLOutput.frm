@@ -172,7 +172,7 @@ Dim bUpdateable As Boolean
 
 Private Sub cmdAdd_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.cmdAdd_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdAdd_Click()", etFullDebug
 
   BuildEditBox
   lblInfo.Caption = "Add Record"
@@ -183,7 +183,7 @@ End Sub
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdCancel_Click()", etFullDebug
 
   HideEditBox
 
@@ -193,7 +193,7 @@ End Sub
 
 Private Sub cmdDelete_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.cmdDelete_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdDelete_Click()", etFullDebug
 
 Dim X As Integer
 Dim Y As Integer
@@ -313,7 +313,7 @@ End Sub
 
 Private Sub cmdSave_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.cmdSave_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdSave_Click()", etFullDebug
 
 Dim szQuery As String
 Dim szColumns As String
@@ -520,7 +520,7 @@ End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer
 Dim iEnd As Integer
@@ -732,7 +732,7 @@ End Sub
 
 Private Sub Form_Resize()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.Form_Resize()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Form_Resize()", etFullDebug
 
   If Me.WindowState <> 1 And Me.ScaleHeight > 0 Then
     If Me.WindowState = 0 Then
@@ -758,7 +758,7 @@ End Sub
 
 Private Sub LoadGrid()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.LoadGrid()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.LoadGrid()", etFullDebug
 
 Dim X As Long
 Dim itmX As ListItem
@@ -815,7 +815,7 @@ End Sub
 
 Private Sub lvData_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.lvData_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
 
   lvData.Sorted = True
   'Sort by the select column. If we already are, then switch the direction.
@@ -836,7 +836,7 @@ End Sub
 
 Private Sub lvData_ItemClick(ByVal Item As MSComctlLib.ListItem)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.lvData_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
 
   lblInfo.Caption = "Record " & lvData.SelectedItem.Index & " of " & lvData.ListItems.Count
   
@@ -846,7 +846,7 @@ End Sub
 
 Private Sub BuildEditBox()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.BuildEditBox()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.BuildEditBox()", etFullDebug
 
 Dim X As Integer
 
@@ -901,7 +901,7 @@ End Sub
 
 Private Sub cmdEdit_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.cmdEdit_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdEdit_Click()", etFullDebug
 
 Dim X As Long
 
@@ -922,7 +922,7 @@ End Sub
 
 Private Sub scScroll_Change()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.scScroll_Change()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.scScroll_Change()", etFullDebug
 
   picScroll.Top = -scScroll.Value
   
@@ -932,7 +932,7 @@ End Sub
 
 Private Sub txtField_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.txtField_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.txtField_Change(" & Index & ")", etFullDebug
 
   txtField(Index).Tag = "Y"
   
@@ -942,7 +942,7 @@ End Sub
 
 Private Sub txtField_GotFocus(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.txtField_GotFocus(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.txtField_GotFocus(" & Index & ")", etFullDebug
 
 Dim X As Long
 
@@ -969,7 +969,7 @@ End Sub
 
 Private Sub HideEditBox()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLOutput.HideEditBox()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.HideEditBox()", etFullDebug
 
 Dim X As Integer
 

@@ -128,7 +128,7 @@ Option Explicit
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmAbout.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmAbout.cmdOK_Click()", etFullDebug
 
   Unload Me
   
@@ -138,7 +138,7 @@ End Sub
 
 Private Sub Form_Load()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmAbout.Form_Load()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmAbout.Form_Load()", etFullDebug
 
   lblAppName.Caption = App.Title
   lblVersion.Caption = "Version " & App.Major & "." & App.Minor & " Build " & App.Revision

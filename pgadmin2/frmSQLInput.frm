@@ -114,7 +114,7 @@ Dim szDatabase As String
 
 Private Sub cmdExecute_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.cmdExecute_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExecute_Click()", etFullDebug
 
 Dim rsQuery As New Recordset
 Dim szBits() As String
@@ -166,7 +166,7 @@ End Sub
 
 Private Sub cmdExplain_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.cmdExplain_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExplain_Click()", etFullDebug
 
 Dim objQueryPlanForm As New frmSQLExplain
 
@@ -183,7 +183,7 @@ End Sub
 
 Private Sub cmdLoad_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.cmdLoad_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdLoad_Click()", etFullDebug
 
 Dim szLine As String
 Dim fNum As Integer
@@ -225,7 +225,7 @@ End Sub
 
 Private Sub cmdSave_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.cmdSave_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
 
 Dim fNum As Integer
 
@@ -261,7 +261,7 @@ End Sub
 
 Private Sub cmdSQLWizard_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.cmdSave_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
 
 Dim objSQLWizardForm As New frmSQLWizard
   Load objSQLWizardForm
@@ -276,7 +276,7 @@ End Sub
 
 Private Sub Form_Load()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.cmdSave_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
 
 Dim X As Integer
 Dim objExporter As pgExporter
@@ -309,7 +309,7 @@ End Sub
 
 Private Sub Form_Resize()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.Form_Resize()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Resize()", etFullDebug
 
   If Me.WindowState <> 1 And Me.ScaleHeight > 0 Then
     If Me.WindowState = 0 Then
@@ -337,7 +337,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.Form_Unload()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Unload()", etFullDebug
 
   If bDirty = True Then
     If MsgBox("This query has been edited - do you wish to save it?", vbQuestion + vbYesNo, "Save Query") = vbYes Then cmdSave_Click
@@ -349,7 +349,7 @@ End Sub
 
 Private Sub txtSQL_Change()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.txtSQL_Change()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.txtSQL_Change()", etFullDebug
 
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")*"
   bDirty = True
@@ -360,7 +360,7 @@ End Sub
 
 Private Function GetFilename() As String
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmSQLInput.GetFilename()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.GetFilename()", etFullDebug
 
 Dim szParts() As String
   

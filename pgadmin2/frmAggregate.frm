@@ -369,7 +369,7 @@ Dim objAggregate As pgAggregate
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmAggregate.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -379,7 +379,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmAggregate.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -447,7 +447,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional Aggregate As pgAggregate)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmAggregate.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objType As pgType
@@ -512,7 +512,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmAggregate.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -522,7 +522,7 @@ End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmAggregate.cboProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objFunction As pgFunction
 

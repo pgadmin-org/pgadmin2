@@ -22,7 +22,7 @@ Dim mCol As Collection
 
 Private Sub Class_Initialize()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsPlugins.Class_Initialize()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Class_Initialize()", etFullDebug
 
   LoadPlugins
   
@@ -33,7 +33,7 @@ End Sub
 
 Public Sub LoadPlugins()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsPlugins.LoadPlugins()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.LoadPlugins()", etFullDebug
 
 Dim szPlugin As String
 Dim objPlugin As pgPlugin
@@ -73,7 +73,7 @@ End Sub
 Public Property Get Item(IndexOrKey As Variant) As pgPlugin
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsPlugins.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -84,7 +84,7 @@ End Property
 'Return the Item count
 Public Property Get Count() As Long
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsPlugins.Property Get Count()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Property Get Count()", etFullDebug
 
   Count = mCol.Count
   
@@ -97,7 +97,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsPlugins.Property Get NewEnum()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -107,7 +107,7 @@ End Property
 
 Public Sub Install(szFilename As String)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsPlugins.Install(" & QUOTE & szFilename & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Install(" & QUOTE & szFilename & QUOTE & ")", etFullDebug
 
 Dim lHdc As Long
 
@@ -125,7 +125,7 @@ End Sub
 
 Public Sub Uninstall(szPlugin As String)
 'On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsPlugins.Uninstall(" & QUOTE & szPlugin & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Uninstall(" & QUOTE & szPlugin & QUOTE & ")", etFullDebug
 
 Dim lHdc As Long
 Dim szKey As String

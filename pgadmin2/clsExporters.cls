@@ -22,7 +22,7 @@ Dim mCol As Collection
 
 Private Sub Class_Initialize()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsExporters.Class_Initialize()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Class_Initialize()", etFullDebug
 
   LoadExporters
   
@@ -33,7 +33,7 @@ End Sub
 
 Public Sub LoadExporters()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsExporters.LoadExporters()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.LoadExporters()", etFullDebug
 
 Dim szExporter As String
 Dim objExporter As pgExporter
@@ -73,7 +73,7 @@ End Sub
 Public Property Get Item(IndexOrKey As Variant) As pgExporter
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsExporters.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -84,7 +84,7 @@ End Property
 'Return the Item count
 Public Property Get Count() As Long
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsExporters.Property Get Count()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Property Get Count()", etFullDebug
 
   Count = mCol.Count
   
@@ -97,7 +97,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsExporters.Property Get NewEnum()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -107,7 +107,7 @@ End Property
 
 Public Sub Install(szFilename As String)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsExporters.Install(" & QUOTE & szFilename & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Install(" & QUOTE & szFilename & QUOTE & ")", etFullDebug
 
 Dim lHdc As Long
 
@@ -125,7 +125,7 @@ End Sub
 
 Public Sub Uninstall(szExporter As String)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering clsExporters.Uninstall(" & QUOTE & szExporter & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Uninstall(" & QUOTE & szExporter & QUOTE & ")", etFullDebug
 
 Dim lHdc As Long
 Dim szKey As String

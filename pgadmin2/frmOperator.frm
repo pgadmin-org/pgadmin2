@@ -112,19 +112,19 @@ Begin VB.Form frmOperator
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmOperator.frx":1674
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "chkProperties(0)"
-      Tab(1).Control(1)=   "cboProperties(4)"
-      Tab(1).Control(2)=   "cboProperties(5)"
-      Tab(1).Control(3)=   "cboProperties(6)"
-      Tab(1).Control(4)=   "cboProperties(7)"
-      Tab(1).Control(5)=   "cboProperties(8)"
+      Tab(1).Control(0)=   "lblProperties(8)"
+      Tab(1).Control(1)=   "lblProperties(9)"
+      Tab(1).Control(2)=   "lblProperties(10)"
+      Tab(1).Control(3)=   "lblProperties(11)"
+      Tab(1).Control(4)=   "lblProperties(12)"
+      Tab(1).Control(5)=   "lblProperties(13)"
       Tab(1).Control(6)=   "cboProperties(9)"
-      Tab(1).Control(7)=   "lblProperties(13)"
-      Tab(1).Control(8)=   "lblProperties(12)"
-      Tab(1).Control(9)=   "lblProperties(11)"
-      Tab(1).Control(10)=   "lblProperties(10)"
-      Tab(1).Control(11)=   "lblProperties(9)"
-      Tab(1).Control(12)=   "lblProperties(8)"
+      Tab(1).Control(7)=   "cboProperties(8)"
+      Tab(1).Control(8)=   "cboProperties(7)"
+      Tab(1).Control(9)=   "cboProperties(6)"
+      Tab(1).Control(10)=   "cboProperties(5)"
+      Tab(1).Control(11)=   "cboProperties(4)"
+      Tab(1).Control(12)=   "chkProperties(0)"
       Tab(1).ControlCount=   13
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -523,7 +523,7 @@ Dim objOperator As pgOperator
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOperator.cmdCancel_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cmdCancel_Click()", etFullDebug
 
   Unload Me
   
@@ -533,7 +533,7 @@ End Sub
 
 Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOperator.cmdOK_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
@@ -612,7 +612,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional Operator As pgOperator)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOperator.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objFunction As pgFunction
@@ -705,7 +705,7 @@ End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOperator.hbxProperties_Change(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
   
@@ -715,7 +715,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering frmOperator.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objOperator Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objOperator.HashJoins)
