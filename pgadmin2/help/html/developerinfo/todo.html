@@ -9,12 +9,12 @@
 
 <body>
 
-<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" id="TablePar">
   <tr>
-    <td style="background-color: #FFFFFF" valign="middle">
+    <td valign="middle" id="TablePar">
       <h3>To Do List</h3>
     </td>
-    <td width="295" style="background-color: #FFFFFF">
+    <td width="120" id="TablePar">
       <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right"></a>
     </td>
   </tr>
@@ -25,8 +25,6 @@
   A single project should be exportable to an SQL script, or publishable to 
   other databases/servers. Should also include security to restrict access to 
   objects to authorised development team members.<br>
-&nbsp;</li>
-  <li>Re-write Migration&nbsp;Wizard as Plugins.<br>
 &nbsp;</li>
   <li>Add code to allow pseudo-editing of Views, Triggers, Functions &amp; Tables. 
   This would be implemented in pgSchema and would generally involve dropping 
@@ -49,6 +47,18 @@
   <li>Allow creation/viewing of Triggers and Rules on Views.<br>
 &nbsp;</li>
   <li>Auto generate rules on views to allow updating of views.<br>
+&nbsp;</li>
+  <li>Add support for Unicode charactersets (UTF-8/16).<br>
+&nbsp;</li>
+  <li>Allow dropping of UNIQUE & PRIMARY contraints by dropping the relevant index.<br>
+&nbsp;</li>
+  <li>Add statistics reports for 7.2. Output should be HTML(?) - Crystal Reports should *not* be used.<br>
+&nbsp;</li>
+  <li>Add support for dropping of CHECK constraints.<br>
+&nbsp;</li>
+  <li>Only connect to each database when accessed, not when Databases node is clicked.<br>
+&nbsp;</li>
+  <li>Add Context sensitivity to the Create menu/button.<br>
 &nbsp;</li>
   <li>Allow selection of the .mdw file in the Migration Wizard.<br>
 &nbsp;</li>

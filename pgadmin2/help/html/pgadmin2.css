@@ -52,3 +52,13 @@ p, li, ul, ol, center, dt, dd, dl
     FONT-STYLE: normal;
     FONT-VARIANT: normal;
 }
+
+#WhiteTablePar
+{
+    BACKGROUND-COLOR: #ffffff;
+    COLOR: black;
+    FONT-FAMILY: verdana, helvetica, sans-serif;
+    FONT-SIZE: 12px;
+    FONT-STYLE: normal;
+    FONT-VARIANT: normal;
+}
