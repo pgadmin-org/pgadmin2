@@ -343,7 +343,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Source("
 
 Dim rs As New Recordset
 
-  If objVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.2 Then
     Err.Raise vbObjectError + 5, App.Title, "Functions can only be updated in PostgreSQL 7.2 or above."
     Exit Property
   End If

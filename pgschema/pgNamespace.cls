@@ -553,10 +553,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get SQL()",
  
 Dim szSQL As String
     
-    szSQL = "-- Schema: " & szName & vbCrLf
-    szSQL = szSQL & "CREATE SCHEMA " & FormattedID & " AUTHORIZATION " & fmtID(szOwner) & ";" & vbCrLf
-    If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclSchema)
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON SCHEMA " & FormattedID & " IS '" & Comment & "';" & vbCrLf
+    If objVersion.VersionNum >= 7.3 Then
+      szSQL = "-- Schema: " & szName & vbCrLf
+      szSQL = szSQL & "CREATE SCHEMA " & FormattedID & " AUTHORIZATION " & fmtID(szOwner) & ";" & vbCrLf
+      If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclSchema)
+      If Comment <> "" Then szSQL = szSQL & "COMMENT ON SCHEMA " & FormattedID & " IS '" & Comment & "';" & vbCrLf
+    End If
       
     SQL = szSQL
 
