@@ -321,8 +321,9 @@ Dim szSQL As String
   szSQL = "COMMENT ON VIEW " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+  
   If Not SystemObject Then Commit rcUpdate, "Updated object comment."
-    
+  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
@@ -331,8 +332,11 @@ Attribute Comment.VB_Description = "Sets/Returns the View comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Comment()", etFullDebug
 
-  Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
-    
+  If (szName <> "") Then
+    Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+  Else
+    Comment = ""
+  End If
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
@@ -473,11 +477,11 @@ On Error GoTo Err_Handler
     objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL(" & bDrop & ", " & bCreate & ", " & bComment & ", " & bACL & ", " & szViewName & ", " & szViewDefinition & ", " & szViewComment & ")", etFullDebug
     Dim szSQL As String
     
-    szSQL = "-- View: " & szName & vbCrLf
+    szSQL = "-- View: " & szViewName & vbCrLf
       
     If (bDrop = True) Then szSQL = szSQL & "DROP VIEW " & QUOTE & szViewName & QUOTE & ";" & vbCrLf
-    If (bCreate = True) Then szSQL = szSQL & "CREATE VIEW " & QUOTE & szViewName & QUOTE & " AS " & szDefinition & vbCrLf
-    If (bACL = True) And (szACL <> "") Then szSQL = szSQL & ParseACL(szName, szACL)
+    If (bCreate = True) Then szSQL = szSQL & "CREATE VIEW " & QUOTE & szViewName & QUOTE & " AS " & szViewDefinition & ";" & vbCrLf
+    If (bACL = True) And (szACL <> "") Then szSQL = szSQL & ParseACL(szName, szACL) & ";" & vbCrLf
     If (bComment = True) Then szSQL = szSQL & "COMMENT ON VIEW " & QUOTE & szViewName & QUOTE & " IS '" & szViewComment & "';" & vbCrLf
       
     SQL = szSQL

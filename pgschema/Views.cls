@@ -141,15 +141,11 @@ objServer.iLogEvent "Entering " & App.Title & ":Views.Add(" & QUOTE & Name & QUO
 
 Dim rs As New Recordset
 Dim szSQL As String
-  
+Dim objView As New pgView
+
   'Generate the SQL query to create the new object and execute
-  szSQL = "CREATE VIEW " & QUOTE & Name & QUOTE & " AS " & Definition
+  szSQL = objView.SQL(False, True, True, False, Name, Definition, Comment)
   objServer.ExecSQL szSQL, cnDatabase
-  If Comment <> "" Then
-    szSQL = "COMMENT ON VIEW " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
-    objServer.ExecSQL szSQL, cnDatabase
-    objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
-  End If
 
   'Generate and execute the SQL to retrieve *all* properties of the new object
   szSQL = SQL_GET_VIEWS & " AND relname = '" & dbSZ(Name) & "'"
@@ -237,9 +233,12 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
-
+Dim objView As New pgView
+    
+  Set objView = mCol(ULEncode(Key))
+  
   'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP VIEW " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
+  szSQL = objView.SQL(True, False, False)
   objServer.ExecSQL szSQL, cnDatabase
   If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
