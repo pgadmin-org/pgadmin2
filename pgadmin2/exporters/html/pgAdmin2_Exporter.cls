@@ -28,7 +28,7 @@ Implements pgExporter
 'The pgExporter_Author function returns info about the Exporter's Author
 Private Property Get pgExporter_Author() As String
   pgExporter_Author = "Written by Dave Page" & vbCrLf & _
-                      "http://pgadmin.postgresql.org/"
+                      "http://www.pgadmin.org/"
 End Property
 
 'The pgExporter_Description function simply returns the description that is used

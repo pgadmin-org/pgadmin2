@@ -29,7 +29,7 @@ End Property
 
 Private Property Get pgExporter_Author() As String
   pgExporter_Author = "Written by Dave Page" & vbCrLf & _
-                      "http://pgadmin.postgresql.org/"
+                      "http://www.pgadmin.org/"
 End Property
 
 Private Sub pgExporter_Export(rsData As Variant)

@@ -28,7 +28,7 @@ Implements pgPlugin
 'The pgPlugin_Author function returns info about the Plugin's Author
 Private Property Get pgPlugin_Author() As String
   pgPlugin_Author = "Written by Dave Page" & vbCrLf & _
-                      "http://pgadmin.postgresql.org/"
+                      "http://www.pgadmin.org/"
 End Property
 
 'The pgPlugin_Description function simply returns the description that is used

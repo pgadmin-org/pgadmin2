@@ -20,7 +20,7 @@ Implements pgExporter
 
 Private Property Get pgExporter_Author() As String
   pgExporter_Author = "Written by Dave Page" & vbCrLf & _
-                      "http://pgadmin.postgresql.org/"
+                      "http://www.pgadmin.org/"
 End Property
 
 Private Property Get pgExporter_Description() As String
