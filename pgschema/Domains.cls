@@ -196,7 +196,7 @@ Dim lLength As Long
 Dim lScale As Long
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
+    Err.Raise vbObjectError + 2, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Function
   End If
   
@@ -259,7 +259,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
+    Err.Raise vbObjectError + 2, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Function
   End If
   
@@ -301,7 +301,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Domains.Remove(" & QUOTE & Key &
 Dim szSQL As String
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
+    Err.Raise vbObjectError + 2, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Sub
   End If
 

@@ -7,6 +7,8 @@ Fixed a bug that caused an error is the pgAdmin window was too small when the li
 Don't class 'public' as a system schema.
 Don't throw an error when changing Not Null/Primary Key on a new column in an existing table.
 Don't allow (attempted) alteration of certain column attributes in PostgreSQL 7.2.
+Fixed some errors in the function editor.
+Raise errors properly from pgSchema.
 
 1.3.60
 ------

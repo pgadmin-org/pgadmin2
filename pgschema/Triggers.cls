@@ -349,7 +349,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Triggers.Rename(" & QUOTE & OldN
 Dim objTrigger As New pgTrigger
     
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432009, App.Title, "Triggers can only be renamed in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 9, App.Title, "Triggers can only be renamed in PostgreSQL 7.3+."
     Exit Sub
   End If
   

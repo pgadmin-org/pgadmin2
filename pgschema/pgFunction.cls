@@ -344,7 +344,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Source("
 Dim rs As New Recordset
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432005, App.Title, "Functions can only be updated in PostgreSQL 7.3 or above."
+    Err.Raise vbObjectError + 5, App.Title, "Functions can only be updated in PostgreSQL 7.2 or above."
     Exit Property
   End If
   
@@ -584,7 +584,7 @@ Dim szSQL As String
 Dim rs As New Recordset
   
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432013, App.Title, "Function security is only available in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 13, App.Title, "Function security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
   
@@ -631,8 +631,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Revoke(" & QUOTE & Us
 Dim szSQL As String
 Dim rs As New Recordset
 
-  If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432013, App.Title, "Function security is only available in PostgreSQL 7.3+."
+  If objVersion.VersionNum < 7.2 Then
+    Err.Raise vbObjectError + 13, App.Title, "Function security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
   

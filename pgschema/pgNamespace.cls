@@ -422,7 +422,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let Comment
 Dim szSQL As String
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432007, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
+    Err.Raise vbObjectError + 7, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
     Exit Property
   End If
   
@@ -458,7 +458,7 @@ Dim szSQL As String
 Dim rs As New Recordset
   
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432007, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
+    Err.Raise vbObjectError + 7, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
     Exit Sub
   End If
   
@@ -507,7 +507,7 @@ Dim szSQL As String
 Dim rs As New Recordset
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432007, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
+    Err.Raise vbObjectError + 7, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
     Exit Sub
   End If
   

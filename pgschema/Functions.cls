@@ -256,7 +256,7 @@ Dim objFunction As pgFunction
 
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " AND proname = '" & Name & "' AND pronamespace = " & dNamespaceOID & "::oid ORDER BY proname"
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND proname = '" & Name & "' WHERE pronamespace = " & dNamespaceOID & "::oid ORDER BY proname"
   Else
     szSQL = SQL_GET_FUNCTIONS7_1 & " AND proname = '" & Name & "' ORDER BY proname"
   End If

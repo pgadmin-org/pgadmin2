@@ -116,7 +116,7 @@ Dim objVar As pgVar
 Dim szSQL As String
   
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432010, App.Title, "User variables can only exist in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 10, App.Title, "User variables can only exist in PostgreSQL 7.3+."
     Exit Sub
   End If
   
@@ -171,7 +171,7 @@ objServer.iLogEvent "Entering " & App.Title & ":UserVars.Remove(" & QUOTE & Key 
 Dim szSQL As String
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432010, App.Title, "User variables can only exist in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 10, App.Title, "User variables can only exist in PostgreSQL 7.3+."
     Exit Sub
   End If
   

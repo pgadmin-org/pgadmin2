@@ -146,7 +146,7 @@ Dim rs As New Recordset
 Dim szSQL As String
   
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432006, App.Title, "You cannot create schemas in PostgreSQL versions prior to 7.3."
+    Err.Raise vbObjectError + 6, App.Title, "You cannot create schemas in PostgreSQL versions prior to 7.3."
     Exit Function
   End If
   
@@ -228,7 +228,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Namespaces.Remove(" & QUOTE & Ke
 Dim szSQL As String
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432005, App.Title, "You cannot drop dummy schemas in PostgreSQL versions prior to 7.3."
+    Err.Raise vbObjectError + 5, App.Title, "You cannot drop dummy schemas in PostgreSQL versions prior to 7.3."
     Exit Sub
   End If
   

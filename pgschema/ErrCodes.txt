@@ -1,21 +1,21 @@
 pgSchema Error Codes
 ====================
 
-NOTE: Most error in pgSchema will be raised by ADO or other libraries.
-      The coding in use is a 5432 prefix, followed by 3 digits.
+NOTE: Most errors in pgSchema will be raised by ADO or other libraries.
+      The coding in use is vbObjectError + the number below.
 
-5432001 - This program can only be used with PostgreSQL 7.1 or higher.
-5432002 - Domains only exist in PostgreSQL 7.3 or above.
-5432003 - NOT NULL can only be set or dropped post column creation in PostgreSQL 7.3 or above.
-5432004 - Functions can only be updated in PostgreSQL 7.3 or above.
-5432005 - You cannot drop dummy schemas in PostgreSQL versions prior to 7.3.
-5432006 - You cannot create schemas in PostgreSQL versions prior to 7.3.
-5432007 - You cannot modify dummy schemas in PostgreSQL versions prior to 7.3.
-5432008 - Primary Keys can only be added or dropped in PostgreSQL 7.3+
-5432009 - Triggers can only be renamed in PostgreSQL 7.3+.
-5432010 - User variables can only exist in PostgreSQL 7.3+.
-5432011 - Database variables can only exist in PostgreSQL 7.3+.
-5432012 - Database security is only available in PostgreSQL 7.3+.
-5432013 - Function security is only available in PostgreSQL 7.3+.
-5432014 - Language security is only available in PostgreSQL 7.3+.
-5432015 - Column statistics are only available in PostgreSQL 7.2+.
+1 - This program can only be used with PostgreSQL 7.1 or higher.
+2 - Domains only exist in PostgreSQL 7.3 or above.
+3 - NOT NULL can only be set or dropped post column creation in PostgreSQL 7.3 or above.
+4 - Functions can only be updated in PostgreSQL 7.3 or above.
+5 - You cannot drop dummy schemas in PostgreSQL versions prior to 7.3.
+6 - You cannot create schemas in PostgreSQL versions prior to 7.3.
+7 - You cannot modify dummy schemas in PostgreSQL versions prior to 7.3.
+8 - Primary Keys can only be added or dropped in PostgreSQL 7.3+
+9 - Triggers can only be renamed in PostgreSQL 7.3+.
+10 - User variables can only exist in PostgreSQL 7.3+.
+11 - Database variables can only exist in PostgreSQL 7.3+.
+12 - Database security is only available in PostgreSQL 7.3+.
+13 - Function security is only available in PostgreSQL 7.3+.
+14 - Language security is only available in PostgreSQL 7.3+.
+15 - Column statistics are only available in PostgreSQL 7.2+.

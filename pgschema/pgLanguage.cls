@@ -326,7 +326,7 @@ Dim szSQL As String
 Dim rs As New Recordset
   
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432014, App.Title, "Language security is only available in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 14, App.Title, "Language security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
   
@@ -374,7 +374,7 @@ Dim szSQL As String
 Dim rs As New Recordset
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432014, App.Title, "Language security is only available in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 14, App.Title, "Language security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
   

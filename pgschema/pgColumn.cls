@@ -397,7 +397,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let NotNull(" 
 Dim szSQL As String
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432003, App.Title, "NOT NULL can only be set or dropped post column creation in PostgreSQL 7.3 or above."
+    Err.Raise vbObjectError + 3, App.Title, "NOT NULL can only be set or dropped post column creation in PostgreSQL 7.3 or above."
     Exit Property
   End If
   
@@ -442,7 +442,7 @@ Dim objIndex As pgIndex
 Dim objColumn As pgColumn
 
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432008, App.Title, "Primary Keys can only be added or dropped in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 8, App.Title, "Primary Keys can only be added or dropped in PostgreSQL 7.3+."
     Exit Property
   End If
   
@@ -560,7 +560,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Statistics
 Dim szSQL As String
 
   If objVersion.VersionNum < 7.2 Then
-    Err.Raise 5432015, App.Title, "Column statistics are only available in PostgreSQL 7.2+."
+    Err.Raise vbObjectError + 15, App.Title, "Column statistics are only available in PostgreSQL 7.2+."
     Exit Property
   End If
   

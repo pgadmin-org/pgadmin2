@@ -129,7 +129,7 @@ Dim objVar As pgVar
 Dim szSQL As String
   
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432011, App.Title, "Database variables can only exist in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 11, App.Title, "Database variables can only exist in PostgreSQL 7.3+."
     Exit Sub
   End If
   
@@ -184,7 +184,7 @@ objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Remove(" & QUOTE & 
 Dim szSQL As String
   
   If objVersion.VersionNum < 7.3 Then
-    Err.Raise 5432011, App.Title, "Database variables can only exist in PostgreSQL 7.3+."
+    Err.Raise vbObjectError + 11, App.Title, "Database variables can only exist in PostgreSQL 7.3+."
     Exit Sub
   End If
 
