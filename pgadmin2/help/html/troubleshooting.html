@@ -39,6 +39,12 @@ your problem is listed in the troubleshooting guide below.</p>
       </ul>
   </tr>
   <tr>
+    <td width="35%"><br>
+    pgAdmin gives an error similar to: <br><br><i>Attribute 'datlastsysoid' not found</i><br><br> when attempting to logon to the server.<br>
+&nbsp;</td>
+    <td width="65%">pgAdmin II requires PostgreSQL 7.1 or higher to operate correctly. The 'datlastsysoid' attribute is found in the pg_database system catalogue, but only on PostgreSQL 7.1+</td>
+  </tr>
+  <tr>
     <td width="35%">pgAdmin gives an error similar to: <br><br><i>No pg_hba.conf entry for host 127.0.0.1, user postgres, database template1</i><br><br> when attempting to logon to the server.</td>
     <td width="65%"><br>
     Your workstation has not been given permission to access the 
