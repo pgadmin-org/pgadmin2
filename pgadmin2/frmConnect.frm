@@ -2,17 +2,25 @@ VERSION 5.00
 Begin VB.Form frmConnect 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Connect to Server"
-   ClientHeight    =   1800
-   ClientLeft      =   48
-   ClientTop       =   336
+   ClientHeight    =   2136
+   ClientLeft      =   5016
+   ClientTop       =   2664
    ClientWidth     =   3600
    Icon            =   "frmConnect.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   1800
+   ScaleHeight     =   2136
    ScaleWidth      =   3600
-   StartUpPosition =   1  'CenterOwner
+   Begin VB.TextBox txtDescription 
+      Height          =   285
+      IMEMode         =   3  'DISABLE
+      Left            =   945
+      TabIndex        =   9
+      ToolTipText     =   "Enter description connection"
+      Top             =   1044
+      Width           =   2625
+   End
    Begin VB.TextBox txtServer 
       Height          =   285
       Left            =   945
@@ -47,7 +55,7 @@ Begin VB.Form frmConnect
       PasswordChar    =   "*"
       TabIndex        =   0
       ToolTipText     =   "Enter your password on the specified server."
-      Top             =   1035
+      Top             =   1368
       Width           =   2625
    End
    Begin VB.CommandButton cmdConnect 
@@ -57,48 +65,58 @@ Begin VB.Form frmConnect
       Left            =   2430
       TabIndex        =   1
       ToolTipText     =   "Connect to the Specified Server."
-      Top             =   1395
+      Top             =   1728
       Width           =   1140
    End
    Begin VB.Label Label1 
       AutoSize        =   -1  'True
+      Caption         =   "Description"
+      Height          =   192
+      Index           =   4
+      Left            =   48
+      TabIndex        =   10
+      Top             =   1092
+      Width           =   864
+   End
+   Begin VB.Label Label1 
+      AutoSize        =   -1  'True
       Caption         =   "Server"
-      Height          =   195
+      Height          =   192
       Index           =   0
-      Left            =   90
+      Left            =   48
       TabIndex        =   8
-      Top             =   135
-      Width           =   465
+      Top             =   132
+      Width           =   852
    End
    Begin VB.Label Label1 
       AutoSize        =   -1  'True
       Caption         =   "Port"
-      Height          =   195
+      Height          =   192
       Index           =   1
-      Left            =   90
+      Left            =   48
       TabIndex        =   7
-      Top             =   450
-      Width           =   285
+      Top             =   456
+      Width           =   864
    End
    Begin VB.Label Label1 
       AutoSize        =   -1  'True
       Caption         =   "Username"
-      Height          =   195
+      Height          =   192
       Index           =   2
-      Left            =   90
+      Left            =   48
       TabIndex        =   6
-      Top             =   765
-      Width           =   720
+      Top             =   768
+      Width           =   864
    End
    Begin VB.Label Label1 
       AutoSize        =   -1  'True
       Caption         =   "Password"
-      Height          =   195
+      Height          =   192
       Index           =   3
-      Left            =   90
+      Left            =   48
       TabIndex        =   5
-      Top             =   1080
-      Width           =   690
+      Top             =   1416
+      Width           =   840
    End
 End
 Attribute VB_Name = "frmConnect"
@@ -123,6 +141,7 @@ Dim szNewConns() As String
 Dim iMax As Integer
 Dim X As Integer
 Dim objNode As Node
+Dim vData
 
   StartMsg "Connecting to " & txtServer.Text & "..."
   
@@ -133,13 +152,16 @@ Dim objNode As Node
   ctx.dbVer = frmMain.svr.dbVersion.VersionNum
   
   'Write the Values for later
-  ctx.Username = txtUsername.Text
-  ctx.Password = txtPassword.Text
-  ctx.Server = txtServer.Text
-  ctx.Port = Val(txtPort.Text)
+  With ctx
+    .Username = txtUsername.Text
+    .Password = txtPassword.Text
+    .Server = txtServer.Text
+    .Port = Val(txtPort.Text)
+    .Description = txtDescription.Text
+  End With
   
   'Maintain the connection list. Make the current connection the first. Lose #10 if necessary
-  szOriConns(0) = ctx.Username & "|" & ctx.Server & "|" & ctx.Port
+  szOriConns(0) = ctx.Username & "|" & ctx.Server & "|" & ctx.Port & "|" & ctx.Description
   szOriConns(1) = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection 1", "")
   szOriConns(2) = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection 2", "")
   szOriConns(3) = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection 3", "")
@@ -153,8 +175,11 @@ Dim objNode As Node
  
   'Drop any entries that are the same as the current one.
   For X = 1 To 10
-    If szOriConns(X) = ctx.Username & "|" & ctx.Server & "|" & ctx.Port Then
-      szOriConns(X) = ""
+    vData = Split(szOriConns(X), "|")
+    If UBound(vData) >= 0 Then
+      If vData(0) = ctx.Username And vData(1) = ctx.Server And vData(2) = ctx.Port Then
+        szOriConns(X) = ""
+      End If
     End If
   Next X
   
@@ -169,33 +194,39 @@ Dim objNode As Node
   Next X
   BuildConnectionMenu
   
-  'enable menu options
-  frmMain.mnuFileChangePassword.Enabled = True
-  frmMain.mnuPopupRefresh.Enabled = True
-  frmMain.mnuPopupCreate.Enabled = True
-  frmMain.mnuPopupCreateDatabase.Enabled = True
-  frmMain.mnuPopupCreateGroup.Enabled = True
-  frmMain.mnuPopupCreateUser.Enabled = True
-  frmMain.mnuPopupProperties.Enabled = True
-  frmMain.mnuToolsFindObject.Enabled = True
+  With frmMain
+    'enable menu options
+    .mnuFileChangePassword.Enabled = True
+    .mnuPopupRefresh.Enabled = True
+    .mnuPopupCreate.Enabled = True
+    .mnuPopupCreateDatabase.Enabled = True
+    .mnuPopupCreateGroup.Enabled = True
+    .mnuPopupCreateUser.Enabled = True
+    .mnuPopupProperties.Enabled = True
+    .mnuToolsFindObject.Enabled = True
   
-  'Enable buttons on the toolbar
-  frmMain.tb.Buttons("refresh").Enabled = True
-  frmMain.tb.Buttons("create").Enabled = True
-  frmMain.tb.Buttons("create").ButtonMenus("database").Enabled = True
-  frmMain.tb.Buttons("create").ButtonMenus("group").Enabled = True
-  frmMain.tb.Buttons("create").ButtonMenus("user").Enabled = True
-  frmMain.tb.Buttons("properties").Enabled = True
+    'Enable buttons on the toolbar
+    With .tb
+      .Buttons("refresh").Enabled = True
+      .Buttons("create").Enabled = True
+      .Buttons("create").ButtonMenus("database").Enabled = True
+      .Buttons("create").ButtonMenus("group").Enabled = True
+      .Buttons("create").ButtonMenus("user").Enabled = True
+      .Buttons("properties").Enabled = True
+    End With
+  End With
  
   'Rebuild the Plugins Menu
   BuildPluginsMenu
   
   'Start populating the treeview.
-  frmMain.tv.Nodes.Clear
-  frmMain.lv.ListItems.Clear
-  frmMain.lv.ColumnHeaders.Clear
-  Set objNode = frmMain.tv.Nodes.Add(, , "SVR-" & GetID, frmMain.svr.Server, "server")
-  Set frmMain.svr.Tag = objNode
+  With frmMain
+    .tv.Nodes.Clear
+    .lv.ListItems.Clear
+    .lv.ColumnHeaders.Clear
+    Set objNode = .tv.Nodes.Add(, , "SVR-" & GetID, .svr.Server, "server")
+    Set .svr.Tag = objNode
+  End With
   
   'Set the CurrentObject
   Set ctx.CurrentObject = frmMain.svr
@@ -225,14 +256,16 @@ Dim szConnection() As String
   
   'If no connection was specified, then assume connection 1.
   If Connection = 0 Then
-    szConnection = Split(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection 1", "postgres|localhost|5432"), "|")
+    szConnection = Split(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection 1", "postgres|localhost|5432|local connection"), "|")
   Else
-    szConnection = Split(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & Connection, "postgres|localhost|5432"), "|")
+    szConnection = Split(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & Connection, "postgres|localhost|5432|local connection"), "|")
   End If
   txtUsername.Text = szConnection(0)
   txtServer.Text = szConnection(1)
   txtPort.Text = szConnection(2)
+  If UBound(szConnection) > 2 Then txtDescription.Text = szConnection(3)
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmConnect.Load_Defaults"
 End Sub
+
