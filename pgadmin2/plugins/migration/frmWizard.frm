@@ -113,45 +113,45 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":187D
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lstDatabase"
-      Tab(1).Control(1)=   "Label2(0)"
+      Tab(1).Control(0)=   "Label2(0)"
+      Tab(1).Control(1)=   "lstDatabase"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":1899
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lstNamespace"
-      Tab(2).Control(1)=   "Label2(1)"
+      Tab(2).Control(0)=   "Label2(1)"
+      Tab(2).Control(1)=   "lstNamespace"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18B5
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lstTables"
-      Tab(3).Control(1)=   "cmdSelect(0)"
-      Tab(3).Control(2)=   "cmdDeselect(0)"
-      Tab(3).Control(3)=   "Label1(1)"
+      Tab(3).Control(0)=   "Label1(1)"
+      Tab(3).Control(1)=   "cmdDeselect(0)"
+      Tab(3).Control(2)=   "cmdSelect(0)"
+      Tab(3).Control(3)=   "lstTables"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":18D1
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lstData"
-      Tab(4).Control(1)=   "cmdSelect(1)"
-      Tab(4).Control(2)=   "cmdDeselect(1)"
-      Tab(4).Control(3)=   "Label1(9)"
+      Tab(4).Control(0)=   "Label1(9)"
+      Tab(4).Control(1)=   "cmdDeselect(1)"
+      Tab(4).Control(2)=   "cmdSelect(1)"
+      Tab(4).Control(3)=   "lstData"
       Tab(4).ControlCount=   4
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":18ED
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lstForeignKeys"
-      Tab(5).Control(1)=   "cmdSelect(2)"
+      Tab(5).Control(0)=   "Label1(8)"
+      Tab(5).Control(1)=   "Label1(10)"
       Tab(5).Control(2)=   "cmdDeselect(2)"
-      Tab(5).Control(3)=   "Label1(10)"
-      Tab(5).Control(4)=   "Label1(8)"
+      Tab(5).Control(3)=   "cmdSelect(2)"
+      Tab(5).Control(4)=   "lstForeignKeys"
       Tab(5).ControlCount=   5
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":1909
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "txtStatus"
-      Tab(6).Control(1)=   "pbStatus"
+      Tab(6).Control(0)=   "pbStatus"
+      Tab(6).Control(1)=   "txtStatus"
       Tab(6).ControlCount=   2
       Begin VB.Frame Frame1 
          Caption         =   "Shift to lower case"
@@ -1219,6 +1219,7 @@ Dim Fields As String
 Dim Values As String
 Dim fNum As Integer
 Dim szValue As String
+Dim vValue As Variant
 
 Dim lVer As Long
 
@@ -1691,8 +1692,15 @@ Dim szDropTableConcatenation As String
           End If
           
           For Z = 0 To rsTemp.Fields.Count - 1
-            If ((Not IsNull(rsTemp.Fields(Z).Value)) And (rsTemp.Fields(Z).Type <> adLongVarBinary) And (rsTemp.Fields(Z).Type <> adVarBinary) And (rsTemp.Fields(Z).Type <> adBinary)) Then
-              szValue = rsTemp.Fields(Z).Value & ""
+          
+            ' There is a bug in the Foxpro driver (surprise, surprise :-)). Memo fields
+            ' can be accessed once, and once only. Subsequent attempts return NULL. To
+            ' get round this, we copy to a variant, check that for a NULL value (which might
+            ' be wanted), then copy it to a string and use as required.
+            ' This works - don't mess with it :-) - DJP.
+            vValue = rsTemp.Fields(Z).Value
+            If ((Not IsNull(vValue)) And (rsTemp.Fields(Z).Type <> adLongVarBinary) And (rsTemp.Fields(Z).Type <> adVarBinary) And (rsTemp.Fields(Z).Type <> adBinary)) Then
+              szValue = vValue & ""
               If chkLCaseColumns.Value = 0 Then
                 Fields = Fields & QUOTE & rsTemp.Fields(Z).Name & QUOTE & ", "
               Else
