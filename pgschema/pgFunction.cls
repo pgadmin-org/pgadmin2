@@ -262,9 +262,34 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Function Source
-Friend Property Let Source(ByVal vData As String)
+Public Property Let Source(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Source(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+Dim rs As New Recordset
+
+  If objServer.dbVersion.VersionNum < 7.2 Then Exit Property
+  
+  'Set the source
+  szSource = vData
+  objServer.Databases(Database).Execute SQL(True)
+    
+  'Select the prosrc back from the DB...
+  Set rs = objServer.ExecSQL("SELECT prosrc FROM pg_proc WHERE oid = " & lOID, cnDatabase)
+  If Not rs.EOF Then szSource = rs!prosrc & ""
+  
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Property
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Property
+Friend Property Let iSource(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let iSource(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szSource = vData
     
@@ -272,7 +297,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Source("
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Source() As String
-Attribute Source.VB_Description = "Returns the Function Source. This may be the path to an object library, or Procedural Language code."
+Attribute Source.VB_Description = "Sets/Returns the Function Source. This may be the path to an object library, or Procedural Language code. This property is Read-Only with PostgreSQL < v7.2"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Source()", etFullDebug
 
@@ -402,10 +427,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Argument
 Err_Handler:  objServer.iLogError Err
 End Property
 
-Public Property Get SQL() As String
+Public Property Get SQL(Optional OrReplace As Boolean) As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SQL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SQL(" & OrReplace & ")", etFullDebug
 Dim szSQL As String
 Dim szArgs As String
 Dim vArg As Variant
@@ -426,11 +451,16 @@ Dim X As Long
   If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
   szArgs = szArgs & ")"
   
-  szSQL = "-- Function: " & szIdentifier & vbCrLf & _
-          "CREATE FUNCTION " & QUOTE & szName & QUOTE & szArgs & _
-          " RETURNS " & QUOTE & szReturns & QUOTE & _
-          " AS '" & szSource & "'" & _
-          " LANGUAGE '" & dbSZ(szLanguage) & "'"
+  szSQL = "-- Function: " & szIdentifier & vbCrLf
+  If (objServer.dbVersion.VersionNum >= 7.2) And OrReplace Then
+    szSQL = szSQL & "CREATE OR REPLACE FUNCTION " & QUOTE & szName & QUOTE & szArgs
+  Else
+    szSQL = szSQL & "CREATE FUNCTION " & QUOTE & szName & QUOTE & szArgs
+  End If
+  
+  szSQL = szSQL & " RETURNS " & QUOTE & szReturns & QUOTE & _
+                  " AS '" & szSource & "'" & _
+                  " LANGUAGE '" & dbSZ(szLanguage) & "'"
           
   If bCachable Or bStrict Then szSQL = szSQL & " WITH ("
   If bCachable Then szSQL = szSQL & "ISCACHABLE, "
@@ -442,7 +472,7 @@ Dim X As Long
     
   SQL = szSQL
   
-  Exit Sub
+  Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
