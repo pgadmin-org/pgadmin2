@@ -468,17 +468,17 @@ Begin VB.Form frmMain
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
       Begin VB.Menu mnuFileConnect 
-         Caption         =   "&Connect"
+         Caption         =   "&Connect..."
       End
       Begin VB.Menu mnuFileChangePassword 
-         Caption         =   "Change &Password"
+         Caption         =   "Change &Password..."
          Visible         =   0   'False
       End
       Begin VB.Menu mnuFileSep1 
          Caption         =   "-"
       End
       Begin VB.Menu mnuFileSaveDefinition 
-         Caption         =   "&Save Definition"
+         Caption         =   "&Save Definition..."
          Visible         =   0   'False
       End
       Begin VB.Menu mnuFileSep2 
@@ -600,7 +600,7 @@ Begin VB.Form frmMain
    Begin VB.Menu mnuTools 
       Caption         =   "&Tools"
       Begin VB.Menu mnuToolsOptions 
-         Caption         =   "&Options"
+         Caption         =   "&Options..."
       End
    End
    Begin VB.Menu mnuView 
@@ -643,7 +643,7 @@ Begin VB.Form frmMain
       Caption         =   "&Popup"
       Visible         =   0   'False
       Begin VB.Menu mnuPopupConnect 
-         Caption         =   "&Connect to server"
+         Caption         =   "&Connect to server..."
       End
       Begin VB.Menu mnuPopupHideSystemObjects 
          Caption         =   "Hide system objects"
@@ -660,56 +660,56 @@ Begin VB.Form frmMain
          Caption         =   "&Create object"
          Visible         =   0   'False
          Begin VB.Menu mnuPopupCreateAggregate 
-            Caption         =   "&Aggregate"
+            Caption         =   "&Aggregate..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateDatabase 
-            Caption         =   "&Database"
+            Caption         =   "&Database..."
          End
          Begin VB.Menu mnuPopupCreateFunction 
-            Caption         =   "&Function"
+            Caption         =   "&Function..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateGroup 
-            Caption         =   "&Group"
+            Caption         =   "&Group..."
          End
          Begin VB.Menu mnuPopupCreateIndex 
-            Caption         =   "&Index"
+            Caption         =   "&Index..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateLanguage 
-            Caption         =   "&Language"
+            Caption         =   "&Language..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateOperator 
-            Caption         =   "&Operator"
+            Caption         =   "&Operator..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateRule 
-            Caption         =   "&Rule"
+            Caption         =   "&Rule..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateSequence 
-            Caption         =   "&Sequence"
+            Caption         =   "&Sequence..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateTable 
-            Caption         =   "&Table"
+            Caption         =   "&Table..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateTrigger 
-            Caption         =   "Tri&gger"
+            Caption         =   "Tri&gger..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateType 
-            Caption         =   "T&ype"
+            Caption         =   "T&ype..."
             Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateUser 
-            Caption         =   "&User"
+            Caption         =   "&User..."
          End
          Begin VB.Menu mnuPopupCreateView 
-            Caption         =   "&View"
+            Caption         =   "&View..."
             Visible         =   0   'False
          End
       End
@@ -718,7 +718,7 @@ Begin VB.Form frmMain
          Visible         =   0   'False
       End
       Begin VB.Menu mnuPopupProperties 
-         Caption         =   "&Properties"
+         Caption         =   "&Properties..."
          Visible         =   0   'False
       End
       Begin VB.Menu mnuPopupSep2 
@@ -726,7 +726,7 @@ Begin VB.Form frmMain
          Visible         =   0   'False
       End
       Begin VB.Menu mnuPopupSQL 
-         Caption         =   "&SQL"
+         Caption         =   "&SQL..."
          Visible         =   0   'False
       End
       Begin VB.Menu mnuPopupViewData 
@@ -852,9 +852,12 @@ Private Sub mnuPluginsPlg_Click(Index As Integer)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPluginsPlg_Click(" & Index & ")", etFullDebug
 
+Dim szPlugin As String
+
   If Index = 0 Then Exit Sub
-  svr.LogEvent "Executing Plugin: " & plg(mnuPluginsPlg(Index).Caption).Description & " v" & plg(mnuPluginsPlg(Index).Caption).Version, etMiniDebug
-  plg(mnuPluginsPlg(Index).Caption).Execute svr
+  szPlugin = Left(mnuPluginsPlg(Index).Caption, Len(mnuPluginsPlg(Index).Caption) - 3)
+  svr.LogEvent "Executing Plugin: " & plg(szPlugin).Description & " v" & plg(szPlugin).Version, etMiniDebug
+  plg(szPlugin).Execute svr, sb
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPluginsPlg_Click"

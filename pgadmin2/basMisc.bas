@@ -176,7 +176,7 @@ Dim X As Integer
   'Load new plugins
   X = 1
   For Each objPlugin In plg
-    frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description
+    frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description & "..."
     frmMain.mnuPluginsPlg(X).Visible = True
     X = X + 1
     frmMain.mnuPluginsPlg(0).Visible = False
