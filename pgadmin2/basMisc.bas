@@ -314,12 +314,12 @@ Dim szTemp As String
       szName = "PUBLIC"
     ElseIf Len(szName) > 6 Then
       If Left(UCase(szName), 6) = "GROUP " Then
-        szName = "GROUP " & QUOTE & Mid(szName, 7) & QUOTE
+        szName = "GROUP " & Mid(szName, 7)
       Else
-        szName = QUOTE & szName & QUOTE
+        szName = szName
       End If
     Else
-      szName = QUOTE & szName & QUOTE
+      szName = szName
     End If
     
     'Get the Access
