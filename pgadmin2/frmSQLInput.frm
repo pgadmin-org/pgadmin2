@@ -285,6 +285,7 @@ Dim szExporter As String
     End If
   Next X
   
+  Set txtSQL.Font = ctx.Font
   txtSQL.Wordlist = ctx.AutoHighlight
   szDatabase = ctx.CurrentDB
   bDirty = False

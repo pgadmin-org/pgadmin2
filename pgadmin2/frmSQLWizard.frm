@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmSQLWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "SQL Wizard"
@@ -1632,6 +1632,34 @@ Dim Temp As String
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdSortColUp_Click"
+End Sub
+
+Private Sub Form_Load()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.Form_Load()", etFullDebug
+
+  'Set the font
+  Set cboBoolean.Font = ctx.Font
+  Set cboCustomColumn.Font = ctx.Font
+  Set cboJColumn1.Font = ctx.Font
+  Set cboJColumn2.Font = ctx.Font
+  Set cboOperator.Font = ctx.Font
+  Set cboWhereCols.Font = ctx.Font
+  Set lstAllColumns.Font = ctx.Font
+  Set lstAllSortCols.Font = ctx.Font
+  Set lstAllTables.Font = ctx.Font
+  Set lstCriteria.Font = ctx.Font
+  Set lstIncColumns.Font = ctx.Font
+  Set lstIncSortCols.Font = ctx.Font
+  Set lstIncTables.Font = ctx.Font
+  Set lstJoins.Font = ctx.Font
+  Set txtLimit.Font = ctx.Font
+  Set txtOffset.Font = ctx.Font
+  Set txtPrimaryTable.Font = ctx.Font
+  Set txtValue.Font = ctx.Font
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.Form_Load"
 End Sub
 
 Private Sub lstAllColumns_Click()

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmHistory 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Object History"
@@ -238,9 +238,18 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmHistory.Initialise(" & objCurr.Identifier & ")", etFullDebug
 
 Dim szSQL As String
+Dim X As Integer
 
   Set objCurrent = objCurr
   Me.Caption = "Revision history: " & objCurrent.Identifier & " (" & objCurrent.ObjectType & ")"
+  
+  'Set the font
+  For X = 0 To 3
+    Set txtProperties(X).Font = ctx.Font
+  Next X
+  For X = 0 To 1
+    Set hbxProperties(X).Font = ctx.Font
+  Next X
   hbxProperties(0).Wordlist = ctx.AutoHighlight
   objCurrent.History.Refresh
   

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmType 
    BorderStyle     =   1  'Fixed Single
@@ -78,23 +78,23 @@ Begin VB.Form frmType
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(13)"
-      Tab(1).Control(1)=   "lblProperties(12)"
-      Tab(1).Control(2)=   "lblProperties(11)"
-      Tab(1).Control(3)=   "lblProperties(10)"
-      Tab(1).Control(4)=   "lblProperties(9)"
-      Tab(1).Control(5)=   "lblProperties(8)"
-      Tab(1).Control(6)=   "lblProperties(6)"
-      Tab(1).Control(7)=   "lblProperties(7)"
+      Tab(1).Control(0)=   "txtProperties(6)"
+      Tab(1).Control(1)=   "txtProperties(5)"
+      Tab(1).Control(2)=   "txtProperties(4)"
+      Tab(1).Control(3)=   "chkProperties(0)"
+      Tab(1).Control(4)=   "cboProperties(2)"
+      Tab(1).Control(5)=   "cboProperties(3)"
+      Tab(1).Control(6)=   "cboProperties(4)"
+      Tab(1).Control(7)=   "cboProperties(5)"
       Tab(1).Control(8)=   "cboProperties(6)"
-      Tab(1).Control(9)=   "cboProperties(5)"
-      Tab(1).Control(10)=   "cboProperties(4)"
-      Tab(1).Control(11)=   "cboProperties(3)"
-      Tab(1).Control(12)=   "cboProperties(2)"
-      Tab(1).Control(13)=   "chkProperties(0)"
-      Tab(1).Control(14)=   "txtProperties(4)"
-      Tab(1).Control(15)=   "txtProperties(5)"
-      Tab(1).Control(16)=   "txtProperties(6)"
+      Tab(1).Control(9)=   "lblProperties(7)"
+      Tab(1).Control(10)=   "lblProperties(6)"
+      Tab(1).Control(11)=   "lblProperties(8)"
+      Tab(1).Control(12)=   "lblProperties(9)"
+      Tab(1).Control(13)=   "lblProperties(10)"
+      Tab(1).Control(14)=   "lblProperties(11)"
+      Tab(1).Control(15)=   "lblProperties(12)"
+      Tab(1).Control(16)=   "lblProperties(13)"
       Tab(1).ControlCount=   17
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -591,6 +591,15 @@ Dim objItem As ComboItem
 Dim vArgument As Variant
   
   szDatabase = szDB
+  
+  'Set the font
+  For X = 0 To 6
+    Set txtProperties(X).Font = ctx.Font
+  Next X
+  For X = 0 To 6
+    Set cboProperties(X).Font = ctx.Font
+  Next X
+  Set hbxProperties(0).Font = ctx.Font
   
   If oType Is Nothing Then
   

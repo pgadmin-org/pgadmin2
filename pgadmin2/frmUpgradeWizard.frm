@@ -113,8 +113,8 @@ Begin VB.Form frmUpgradeWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmUpgradeWizard.frx":3AEA
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvVersions"
-      Tab(1).Control(1)=   "Label1(2)"
+      Tab(1).Control(0)=   "Label1(2)"
+      Tab(1).Control(1)=   "lvVersions"
       Tab(1).ControlCount=   2
       Begin MSComctlLib.ListView lvVersions 
          Height          =   2400
@@ -338,6 +338,11 @@ Private Sub Form_Load()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.Form_Load()", etFullDebug
 
+  'Set the font
+  Set txtServer.Font = ctx.Font
+  Set cboFrequency.Font = ctx.Font
+  Set lvVersions.Font = ctx.Font
+  
   If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Check", "Y")) = "Y" Then
     chkAuto.Value = 1
   Else

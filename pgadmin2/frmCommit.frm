@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmCommit 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Commit changes"
@@ -97,6 +97,7 @@ Public Sub Initialise(objCurr As Object)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmCommit.Initialise(" & objCurr.Identifier & ")", etFullDebug
 
+  Set hbxComments.Font = ctx.Font
   Set objCurrent = objCurr
   Me.Caption = "Commit changes: " & objCurrent.Identifier & " (" & objCurrent.ObjectType & ")"
   

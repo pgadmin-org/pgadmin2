@@ -315,7 +315,15 @@ Public Sub Initialise(obj As pgServer)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmServer.Initialise(" & QUOTE & obj.Identifier & QUOTE & ")", etFullDebug
 
+Dim X As Integer
+
   Set objServer = obj
+  
+  'Set the font
+  For X = 0 To 7
+    Set txtProperties(X).Font = ctx.Font
+  Next X
+  Set hbxProperties(0).Font = ctx.Font
   
   Me.Caption = "Server: " & objServer.Identifier
 

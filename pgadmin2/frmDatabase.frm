@@ -319,6 +319,13 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFu
 Dim X As Integer
 Dim objItem As ComboItem
   
+  'Set the font
+  For X = 0 To 3
+    Set txtProperties(X).Font = ctx.Font
+  Next X
+  Set cboProperties(0).Font = ctx.Font
+  Set hbxProperties(0).Font = ctx.Font
+  
   If Database Is Nothing Then
   
     'Create a new database

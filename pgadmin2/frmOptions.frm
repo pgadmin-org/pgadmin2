@@ -53,58 +53,175 @@ Begin VB.Form frmOptions
       Tab(0).Control(5)=   "chkMaskPassword"
       Tab(0).Control(5).Enabled=   0   'False
       Tab(0).ControlCount=   6
-      TabCaption(1)   =   "&Auto Highlight"
+      TabCaption(1)   =   "&Text"
       TabPicture(1)   =   "frmOptions.frx":0A1E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label2"
-      Tab(1).Control(1)=   "lvWords"
-      Tab(1).Control(2)=   "chkItalic"
-      Tab(1).Control(3)=   "chkBold"
-      Tab(1).Control(4)=   "cmdColour"
-      Tab(1).Control(5)=   "cmdAdd"
-      Tab(1).Control(6)=   "txtWord"
-      Tab(1).Control(7)=   "cmdRemove"
-      Tab(1).ControlCount=   8
+      Tab(1).Control(0)=   "Frame7"
+      Tab(1).Control(1)=   "Frame8"
+      Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdExpUninstall"
-      Tab(2).Control(1)=   "cmdExpInstall"
-      Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(3)=   "lstExporters"
+      Tab(2).Control(0)=   "lstExporters"
+      Tab(2).Control(1)=   "Frame1"
+      Tab(2).Control(2)=   "cmdExpInstall"
+      Tab(2).Control(3)=   "cmdExpUninstall"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lstPlugins"
-      Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(2)=   "cmdPlgInstall"
-      Tab(3).Control(3)=   "cmdPlgUninstall"
+      Tab(3).Control(0)=   "cmdPlgUninstall"
+      Tab(3).Control(1)=   "cmdPlgInstall"
+      Tab(3).Control(2)=   "Frame2"
+      Tab(3).Control(3)=   "lstPlugins"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "Frame6"
-      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "Frame5"
-      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).Control(2)=   "Frame4"
-      Tab(4).Control(2).Enabled=   0   'False
       Tab(4).Control(3)=   "Frame3"
-      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).ControlCount=   4
+      Begin VB.Frame Frame8 
+         Caption         =   "Font"
+         Height          =   1320
+         Left            =   -74775
+         TabIndex        =   59
+         Top             =   495
+         Width           =   5010
+         Begin VB.CommandButton cmdBrowseFont 
+            Caption         =   "..."
+            Height          =   330
+            Left            =   4095
+            TabIndex        =   62
+            Top             =   270
+            Width           =   420
+         End
+         Begin VB.TextBox txtFont 
+            BackColor       =   &H8000000F&
+            Height          =   285
+            Left            =   540
+            Locked          =   -1  'True
+            TabIndex        =   60
+            ToolTipText     =   "Enter the name of a database to use as the Master Connection."
+            Top             =   270
+            Width           =   3525
+         End
+         Begin VB.Label Label4 
+            Caption         =   "This is the font used for display of data in the Treeview, Listview, text boxes and the Data Grid."
+            Height          =   600
+            Index           =   4
+            Left            =   135
+            TabIndex        =   61
+            Top             =   630
+            Width           =   4695
+         End
+      End
+      Begin VB.Frame Frame7 
+         Caption         =   "Auto Highlight"
+         Height          =   4020
+         Left            =   -74775
+         TabIndex        =   50
+         Top             =   2025
+         Width           =   5010
+         Begin VB.CheckBox chkItalic 
+            Caption         =   "Italic"
+            Height          =   285
+            Left            =   1080
+            TabIndex        =   56
+            ToolTipText     =   "Should the word be made italic?"
+            Top             =   750
+            Width           =   675
+         End
+         Begin VB.CheckBox chkBold 
+            Caption         =   "Bold"
+            Height          =   285
+            Left            =   225
+            TabIndex        =   55
+            ToolTipText     =   "Should the word be made bold?"
+            Top             =   750
+            Width           =   690
+         End
+         Begin VB.CommandButton cmdColour 
+            Caption         =   "&Colour"
+            Height          =   330
+            Left            =   2880
+            Style           =   1  'Graphical
+            TabIndex        =   54
+            ToolTipText     =   "Select a colour for the word."
+            Top             =   270
+            Width           =   945
+         End
+         Begin VB.CommandButton cmdAdd 
+            Caption         =   "Add"
+            Height          =   345
+            Left            =   3915
+            TabIndex        =   53
+            ToolTipText     =   "Add the selected word."
+            Top             =   270
+            Width           =   945
+         End
+         Begin VB.TextBox txtWord 
+            Height          =   285
+            Left            =   720
+            TabIndex        =   52
+            ToolTipText     =   "Enter a word to highlight."
+            Top             =   300
+            Width           =   2055
+         End
+         Begin VB.CommandButton cmdRemove 
+            Caption         =   "Remove"
+            Height          =   345
+            Left            =   3915
+            TabIndex        =   51
+            ToolTipText     =   "Remove the selected word."
+            Top             =   705
+            Width           =   945
+         End
+         Begin MSComctlLib.ListView lvWords 
+            Height          =   2715
+            Left            =   90
+            TabIndex        =   57
+            ToolTipText     =   "Displays the Text Formatting rules."
+            Top             =   1170
+            Width           =   4785
+            _ExtentX        =   8440
+            _ExtentY        =   4789
+            View            =   3
+            LabelEdit       =   1
+            LabelWrap       =   -1  'True
+            HideSelection   =   -1  'True
+            FullRowSelect   =   -1  'True
+            GridLines       =   -1  'True
+            _Version        =   393217
+            ForeColor       =   -2147483640
+            BackColor       =   -2147483643
+            BorderStyle     =   1
+            Appearance      =   1
+            NumItems        =   0
+         End
+         Begin VB.Label Label2 
+            Caption         =   "Word"
+            Height          =   255
+            Left            =   180
+            TabIndex        =   58
+            Top             =   315
+            Width           =   465
+         End
+      End
       Begin VB.Frame Frame6 
          Caption         =   "Defer Connection"
          Height          =   1320
          Left            =   -74775
-         TabIndex        =   55
+         TabIndex        =   47
          Top             =   4815
          Width           =   5010
          Begin VB.CheckBox chkDeferConnection 
             Caption         =   "Don't connect until necessary."
             Height          =   240
             Left            =   810
-            TabIndex        =   56
+            TabIndex        =   48
             Top             =   315
             Width           =   3345
          End
@@ -113,7 +230,7 @@ Begin VB.Form frmOptions
             Height          =   600
             Index           =   3
             Left            =   135
-            TabIndex        =   57
+            TabIndex        =   49
             Top             =   630
             Width           =   4695
          End
@@ -122,14 +239,14 @@ Begin VB.Form frmOptions
          Caption         =   "Auto Row Count"
          Height          =   1320
          Left            =   -74775
-         TabIndex        =   52
+         TabIndex        =   44
          Top             =   3375
          Width           =   5010
          Begin VB.CheckBox chkAutoRowCount 
             Caption         =   "Use auto row count on tables and views."
             Height          =   240
             Left            =   810
-            TabIndex        =   53
+            TabIndex        =   45
             Top             =   315
             Width           =   3345
          End
@@ -138,7 +255,7 @@ Begin VB.Form frmOptions
             Height          =   600
             Index           =   2
             Left            =   135
-            TabIndex        =   54
+            TabIndex        =   46
             Top             =   630
             Width           =   4695
          End
@@ -147,14 +264,14 @@ Begin VB.Form frmOptions
          Caption         =   "Security"
          Height          =   1320
          Left            =   -74775
-         TabIndex        =   49
+         TabIndex        =   41
          Top             =   1935
          Width           =   5010
          Begin VB.CheckBox chkEncryptPasswords 
             Caption         =   "Use Encrypted passwords where possible."
             Height          =   240
             Left            =   810
-            TabIndex        =   50
+            TabIndex        =   42
             Top             =   315
             Width           =   3345
          End
@@ -163,7 +280,7 @@ Begin VB.Form frmOptions
             Height          =   645
             Index           =   1
             Left            =   225
-            TabIndex        =   51
+            TabIndex        =   43
             Top             =   585
             Width           =   4695
          End
@@ -172,7 +289,7 @@ Begin VB.Form frmOptions
          Caption         =   "&Uninstall Plugin"
          Height          =   330
          Left            =   -73200
-         TabIndex        =   45
+         TabIndex        =   37
          ToolTipText     =   "Uninstall the selected Plugin."
          Top             =   5895
          Width           =   1590
@@ -181,7 +298,7 @@ Begin VB.Form frmOptions
          Caption         =   "&Install Plugin"
          Height          =   330
          Left            =   -74910
-         TabIndex        =   44
+         TabIndex        =   36
          ToolTipText     =   "Install a new Plugin."
          Top             =   5895
          Width           =   1590
@@ -190,7 +307,7 @@ Begin VB.Form frmOptions
          Caption         =   "Details"
          Height          =   1950
          Left            =   -74910
-         TabIndex        =   38
+         TabIndex        =   30
          Top             =   3870
          Width           =   5235
          Begin VB.TextBox txtPlgVersion 
@@ -198,7 +315,7 @@ Begin VB.Form frmOptions
             Height          =   285
             Left            =   1035
             Locked          =   -1  'True
-            TabIndex        =   41
+            TabIndex        =   33
             Top             =   540
             Width           =   4110
          End
@@ -207,14 +324,14 @@ Begin VB.Form frmOptions
             Height          =   285
             Left            =   1035
             Locked          =   -1  'True
-            TabIndex        =   40
+            TabIndex        =   32
             Top             =   225
             Width           =   4110
          End
          Begin HighlightBox.TBX txtPlgAuthor 
             Height          =   945
             Left            =   90
-            TabIndex        =   39
+            TabIndex        =   31
             Top             =   900
             Width           =   5055
             _ExtentX        =   8916
@@ -238,7 +355,7 @@ Begin VB.Form frmOptions
             Height          =   195
             Index           =   4
             Left            =   135
-            TabIndex        =   43
+            TabIndex        =   35
             Top             =   540
             Width           =   525
          End
@@ -248,7 +365,7 @@ Begin VB.Form frmOptions
             Height          =   195
             Index           =   3
             Left            =   135
-            TabIndex        =   42
+            TabIndex        =   34
             Top             =   270
             Width           =   795
          End
@@ -258,7 +375,7 @@ Begin VB.Form frmOptions
          ItemData        =   "frmOptions.frx":0C8F
          Left            =   -74910
          List            =   "frmOptions.frx":0C91
-         TabIndex        =   37
+         TabIndex        =   29
          Top             =   450
          Width           =   5235
       End
@@ -267,7 +384,7 @@ Begin VB.Form frmOptions
          ItemData        =   "frmOptions.frx":0C93
          Left            =   -74910
          List            =   "frmOptions.frx":0C95
-         TabIndex        =   27
+         TabIndex        =   20
          Top             =   450
          Width           =   5235
       End
@@ -275,13 +392,13 @@ Begin VB.Form frmOptions
          Caption         =   "Details"
          Height          =   1950
          Left            =   -74910
-         TabIndex        =   34
+         TabIndex        =   26
          Top             =   3870
          Width           =   5235
          Begin HighlightBox.TBX txtExpAuthor 
             Height          =   945
             Left            =   90
-            TabIndex        =   30
+            TabIndex        =   23
             Top             =   900
             Width           =   5055
             _ExtentX        =   8916
@@ -304,7 +421,7 @@ Begin VB.Form frmOptions
             Height          =   285
             Left            =   1035
             Locked          =   -1  'True
-            TabIndex        =   28
+            TabIndex        =   21
             Top             =   225
             Width           =   4110
          End
@@ -313,7 +430,7 @@ Begin VB.Form frmOptions
             Height          =   285
             Left            =   1035
             Locked          =   -1  'True
-            TabIndex        =   29
+            TabIndex        =   22
             Top             =   540
             Width           =   4110
          End
@@ -323,7 +440,7 @@ Begin VB.Form frmOptions
             Height          =   195
             Index           =   2
             Left            =   135
-            TabIndex        =   36
+            TabIndex        =   28
             Top             =   270
             Width           =   795
          End
@@ -333,7 +450,7 @@ Begin VB.Form frmOptions
             Height          =   195
             Index           =   1
             Left            =   135
-            TabIndex        =   35
+            TabIndex        =   27
             Top             =   540
             Width           =   525
          End
@@ -342,7 +459,7 @@ Begin VB.Form frmOptions
          Caption         =   "&Install Exporter"
          Height          =   330
          Left            =   -74910
-         TabIndex        =   31
+         TabIndex        =   24
          ToolTipText     =   "Install a new Exporter."
          Top             =   5895
          Width           =   1590
@@ -351,64 +468,10 @@ Begin VB.Form frmOptions
          Caption         =   "&Uninstall Exporter"
          Height          =   330
          Left            =   -73200
-         TabIndex        =   32
+         TabIndex        =   25
          ToolTipText     =   "Uninstall the selected Exporter."
          Top             =   5895
          Width           =   1590
-      End
-      Begin VB.CommandButton cmdRemove 
-         Caption         =   "Remove"
-         Height          =   345
-         Left            =   -70770
-         TabIndex        =   25
-         ToolTipText     =   "Remove the selected word."
-         Top             =   975
-         Width           =   1125
-      End
-      Begin VB.TextBox txtWord 
-         Height          =   285
-         Left            =   -74325
-         TabIndex        =   24
-         ToolTipText     =   "Enter a word to highlight."
-         Top             =   570
-         Width           =   2235
-      End
-      Begin VB.CommandButton cmdAdd 
-         Caption         =   "Add"
-         Height          =   345
-         Left            =   -70770
-         TabIndex        =   23
-         ToolTipText     =   "Add the selected word."
-         Top             =   540
-         Width           =   1125
-      End
-      Begin VB.CommandButton cmdColour 
-         Caption         =   "&Colour"
-         Height          =   330
-         Left            =   -71985
-         Style           =   1  'Graphical
-         TabIndex        =   22
-         ToolTipText     =   "Select a colour for the word."
-         Top             =   540
-         Width           =   1125
-      End
-      Begin VB.CheckBox chkBold 
-         Caption         =   "Bold"
-         Height          =   285
-         Left            =   -74820
-         TabIndex        =   21
-         ToolTipText     =   "Should the word be made bold?"
-         Top             =   1020
-         Width           =   690
-      End
-      Begin VB.CheckBox chkItalic 
-         Caption         =   "Italic"
-         Height          =   285
-         Left            =   -73965
-         TabIndex        =   20
-         ToolTipText     =   "Should the word be made italic?"
-         Top             =   1020
-         Width           =   675
       End
       Begin VB.CheckBox chkMaskPassword 
          Caption         =   "&Mask the Password in Logs?"
@@ -503,39 +566,17 @@ Begin VB.Form frmOptions
          Top             =   1170
          Width           =   4515
       End
-      Begin MSComctlLib.ListView lvWords 
-         Height          =   4830
-         Left            =   -74910
-         TabIndex        =   26
-         ToolTipText     =   "Displays the Text Formatting rules."
-         Top             =   1440
-         Width           =   5280
-         _ExtentX        =   9313
-         _ExtentY        =   8520
-         View            =   3
-         LabelEdit       =   1
-         LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
-         FullRowSelect   =   -1  'True
-         GridLines       =   -1  'True
-         _Version        =   393217
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483643
-         BorderStyle     =   1
-         Appearance      =   1
-         NumItems        =   0
-      End
       Begin VB.Frame Frame3 
          Caption         =   "Master Connection Database"
          Height          =   1320
          Left            =   -74775
-         TabIndex        =   46
+         TabIndex        =   38
          Top             =   495
          Width           =   5010
          Begin VB.TextBox txtMasterDB 
             Height          =   285
             Left            =   540
-            TabIndex        =   47
+            TabIndex        =   39
             ToolTipText     =   "Enter the name of a database to use as the Master Connection."
             Top             =   270
             Width           =   3930
@@ -545,18 +586,10 @@ Begin VB.Form frmOptions
             Height          =   600
             Index           =   0
             Left            =   135
-            TabIndex        =   48
+            TabIndex        =   40
             Top             =   630
             Width           =   4695
          End
-      End
-      Begin VB.Label Label2 
-         Caption         =   "Word"
-         Height          =   255
-         Left            =   -74865
-         TabIndex        =   33
-         Top             =   585
-         Width           =   465
       End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
@@ -716,6 +749,28 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdBrowse_Click()", 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdBrowse_Click"
 End Sub
 
+Private Sub cmdBrowseFont_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdBrowseFont_Click()", etFullDebug
+
+Dim szFont() As String
+
+  'Extract the
+  cdlg.CancelError = True
+  cdlg.DialogTitle = "Data Font"
+  cdlg.FLAGS = cdlCFBoth
+  cdlg.ShowFont
+  txtFont.Tag = cdlg.FontName & "|" & cdlg.FontSize & "|" & cdlg.FontBold & "|" & cdlg.FontItalic
+  txtFont.Text = cdlg.FontName & ", " & cdlg.FontSize & "pt"
+  If cdlg.FontBold Then txtFont.Text = txtFont.Text & ", bold"
+  If cdlg.FontItalic Then txtFont.Text = txtFont.Text & ", italic"
+  
+  Exit Sub
+Err_Handler:
+  If Err.Number = 32755 Then Exit Sub
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdCancel_Click"
+End Sub
+
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdCancel_Click()", etFullDebug
@@ -734,6 +789,8 @@ Dim iLogLevel As Integer
 Dim objform As Form
 Dim szTextColours As String
 Dim itmX As ListItem
+Dim szFont() As String
+Dim objFont As New StdFont
 
   'Save settings, and make them live
   'Logfile
@@ -770,6 +827,15 @@ Dim itmX As ListItem
     frmMain.svr.ShowPassword = True
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Mask Password", regString, "N"
   End If
+  
+  'Font
+  szFont = Split(txtFont.Tag, "|")
+  objFont.Name = szFont(0)
+  objFont.Size = Val(szFont(1))
+  objFont.Bold = CBool(szFont(2))
+  objFont.Italic = CBool(szFont(3))
+  Set ctx.Font = objFont
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Font", regString, CStr(txtFont.Tag)
   
   'Autohighlight Colours
   For Each itmX In lvWords.ListItems
@@ -848,6 +914,7 @@ Dim iLoop As Integer
 Dim itmX As ListItem
 Dim szStrings() As String
 Dim szValues() As String
+Dim szFont() As String
 
   'Get the current settings.
   'We use the registry settings because (for example) frmMain.svr.Logfile will return the actual filename, not the code.
@@ -875,6 +942,17 @@ Dim szValues() As String
     chkMaskPassword.Value = 0
   End If
   
+  'Setup the Font Details
+  txtFont.Tag = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Font", "MS Sans Serif|8|False|False")
+  szFont = Split(txtFont.Tag, "|")
+  cdlg.FontName = szFont(0)
+  cdlg.FontSize = Val(szFont(1))
+  cdlg.FontBold = CBool(szFont(2))
+  cdlg.FontItalic = CBool(szFont(3))
+  txtFont.Text = cdlg.FontName & ", " & cdlg.FontSize & "pt"
+  If cdlg.FontBold Then txtFont.Text = txtFont.Text & ", bold"
+  If cdlg.FontItalic Then txtFont.Text = txtFont.Text & ", italic"
+    
   'Sort out the Word List
   txtWord.ForeColor = RGB(0, 0, 0)
   lvWords.ColumnHeaders.Add , , "Word", (lvWords.Width / 11) * 5

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSequence 
    BorderStyle     =   1  'Fixed Single
@@ -668,6 +668,18 @@ Dim szAccesslist As String
 Dim szAccess() As String
   
   szDatabase = szDB
+  
+  'Set the font
+  For X = 0 To 8
+    Set txtProperties(X).Font = ctx.Font
+  Next X
+  For X = 0 To 2
+    Set hbxProperties(X).Font = ctx.Font
+  Next X
+  Set cboEntities.Font = ctx.Font
+  Set lvProperties(0).Font = ctx.Font
+  hbxProperties(0).Wordlist = ctx.AutoHighlight
+  hbxProperties(1).Wordlist = ctx.AutoHighlight
   
   'ACLs are different in 7.2+ and have 2 extra privileges
   If frmMain.svr.dbVersion.VersionNum < 7.2 Then

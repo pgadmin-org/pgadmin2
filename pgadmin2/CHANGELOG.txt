@@ -41,6 +41,7 @@ Prevent connection to databases until they are selected. Added an option to reve
 Allow commit of entire database to revision control.
 Added support for dropping checks with PostgreSQL 7.2+.
 Excel Exporter: Format the cell for the data type & inserts the data using the cells 'FormulaR1C1' property (David Horwitz).
+Allow selection of font for display of data.
 
 1.2.0 Stable
 ------------

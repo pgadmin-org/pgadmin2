@@ -33,6 +33,7 @@ Dim szAutoHighlight As String
 Dim objCurrentObject As Object
 Dim szCurrentDB As String
 Dim bAutoRowCount As Boolean
+Dim objFont As StdFont
 
 'The connected server name
 Public Property Let Server(ByVal szData As String)
@@ -243,3 +244,13 @@ End Property
 Public Property Get AutoRowCount() As Boolean
   AutoRowCount = bAutoRowCount
 End Property
+
+'The Font
+Public Property Set Font(ByVal objData As StdFont)
+  Set objFont = objData
+End Property
+Public Property Get Font() As StdFont
+  Set Font = objFont
+End Property
+
+

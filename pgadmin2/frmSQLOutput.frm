@@ -563,7 +563,7 @@ On Error Resume Next
 End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer
@@ -579,6 +579,9 @@ Dim objView As pgView
 
   Set rsSQL = rsQuery
   szDatabase = szDB
+  
+  'Set the Grid Font
+  Set lvData.Font = ctx.Font
 
   'Figure out if the query is updateable. This is the case if:
   '1) There is one and only one table
@@ -913,6 +916,7 @@ Dim X As Integer
   lblField(0).Top = 3
   txtField(0).Top = lblField(0).Top + lblField(0).Height
   txtField(0).Width = picScroll.Width - 6
+  Set txtField(0).Font = ctx.Font
   lblField(0).Caption = lvData.ColumnHeaders(1).Text
   If lblField(0).Caption = "oid" Or _
      lblField(0).Caption = "cmax" Or _
@@ -932,6 +936,7 @@ Dim X As Integer
     lblField(X - 1).Top = txtField(X - 2).Top + txtField(X - 2).Height + 1
     txtField(X - 1).Top = lblField(X - 1).Top + lblField(X - 1).Height
     txtField(X - 1).Width = picScroll.Width - 6
+    Set txtField(X - 1).Font = ctx.Font
     txtField(X - 1).TabIndex = txtField(X - 2).TabIndex + 1
     lblField(X - 1).Caption = lvData.ColumnHeaders(X).Text
     If lblField(X - 1).Caption = "oid" Or _

@@ -11,6 +11,8 @@ Public Sub Main()
 
 Dim sStart As Single
 Dim szFrequency As String
+Dim szFont() As String
+Dim objFont As New StdFont
   
   'Show the splash screen
   Load frmSplash
@@ -126,6 +128,17 @@ Dim szFrequency As String
   'Get the AutoHighlight colours
   ctx.AutoHighlight = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "AutoHighlight", DEFAULT_AUTOHIGHLIGHT)
   frmMain.txtDefinition.Wordlist = ctx.AutoHighlight
+  
+  'Get the Font
+  szFont = Split(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Font", "MS Sans Serif|8|False|False"), "|")
+  objFont.Name = szFont(0)
+  objFont.Size = Val(szFont(1))
+  objFont.Bold = CBool(szFont(2))
+  objFont.Italic = CBool(szFont(3))
+  Set ctx.Font = objFont
+  Set frmMain.txtDefinition.Font = ctx.Font
+  Set frmMain.tv.Font = ctx.Font
+  Set frmMain.lv.Font = ctx.Font
   
   'Hide the splash screen
   Do Until Timer > sStart + 2
@@ -410,3 +423,4 @@ Dim szTemp As String
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.ParseACL"
 End Sub
+

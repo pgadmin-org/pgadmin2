@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmUser 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "User"
@@ -77,8 +77,8 @@ Begin VB.Form frmUser
          TabIndex        =   7
          ToolTipText     =   "The date that the users account expires."
          Top             =   3780
-         Width           =   2955
-         _ExtentX        =   5212
+         Width           =   3075
+         _ExtentX        =   5424
          _ExtentY        =   4180
          _Version        =   393216
          ForeColor       =   -2147483630
@@ -86,7 +86,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   48627714
+         StartOfWeek     =   62062594
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -302,6 +302,11 @@ Dim X As Integer
 Dim objTempUser As pgUser
 Dim lNextID As Long
 
+  'Set the font
+  For X = 0 To 3
+    Set txtProperties(X).Font = ctx.Font
+  Next X
+  
   If User Is Nothing Then
   
     'Create a new user

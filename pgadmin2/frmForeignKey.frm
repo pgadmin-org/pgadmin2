@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmForeignKey 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Foreign Key"
@@ -81,13 +81,13 @@ Begin VB.Form frmForeignKey
       TabCaption(1)   =   "&Relationships"
       TabPicture(1)   =   "frmForeignKey.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lblProperties(7)"
+      Tab(1).Control(1)=   "lblProperties(8)"
+      Tab(1).Control(2)=   "cboProperties(6)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(4)=   "cboProperties(6)"
-      Tab(1).Control(5)=   "lblProperties(8)"
-      Tab(1).Control(6)=   "lblProperties(7)"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cmdRemove"
+      Tab(1).Control(6)=   "cmdAdd"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -559,6 +559,15 @@ Dim objTable As pgTable
 Dim objRelationship As pgRelationship
 
   szDatabase = szDB
+  
+  'Set the font
+  For X = 0 To 1
+    Set txtProperties(X).Font = ctx.Font
+  Next X
+  For X = 0 To 6
+    Set cboProperties(X).Font = ctx.Font
+  Next X
+  Set lvProperties(0).Font = ctx.Font
   
   'The mode indicates the way the form is being used:
   'MP = Called from frmMain, viewing the properties of a Foreign Key object.

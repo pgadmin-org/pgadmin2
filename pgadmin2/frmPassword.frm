@@ -106,10 +106,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.cmdOK_Click()", etF
     MsgBox "Passwords do not match!", vbExclamation, "Error"
     Exit Sub
   End If
-  If Len(txtNew.Text) < 6 Then
-    MsgBox "Password must be at least 6 characters long!", vbExclamation, "Error"
-    Exit Sub
-  End If
   If InStr(1, txtNew.Text, " ") Or InStr(1, txtNew.Text, "'") Or InStr(1, txtNew.Text, QUOTE) Then
     MsgBox "Illegal characters in password!", vbExclamation, "Error"
     Exit Sub
@@ -121,6 +117,17 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.cmdOK_Click()", etF
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmPassword.Form_Load"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmPassword.cmdOK_Click"
 End Sub
 
+Private Sub Form_Load()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.Form_Load()", etFullDebug
+
+  Set txtCurrent.Font = ctx.Font
+  Set txtNew.Font = ctx.Font
+  Set txtConfirm.Font = ctx.Font
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmPassword.Form_Load"
+End Sub

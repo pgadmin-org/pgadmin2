@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLExplain 
    Caption         =   "Query Plan"
    ClientHeight    =   3795
@@ -74,6 +74,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Load()", etF
 
   Me.Width = 5790
   Me.Height = 4200
+  
+  Set txtQuery.Font = ctx.Font
+  Set txtPlan.Font = ctx.Font
   txtQuery.Wordlist = ctx.AutoHighlight
   txtPlan.Wordlist = ctx.AutoHighlight
   

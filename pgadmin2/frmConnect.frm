@@ -217,6 +217,12 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.Load_Defaults(" & Connection & ")", etFullDebug
 
 Dim szConnection() As String
+
+  Set txtUsername.Font = ctx.Font
+  Set txtPassword.Font = ctx.Font
+  Set txtServer.Font = ctx.Font
+  Set txtPort.Font = ctx.Font
+  
   'If no connection was specified, then assume connection 1.
   If Connection = 0 Then
     szConnection = Split(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection 1", "postgres|localhost|5432"), "|")
