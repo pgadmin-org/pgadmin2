@@ -887,11 +887,9 @@ Begin VB.Form frmMain
          Enabled         =   0   'False
          Begin VB.Menu mnuPopupVacuumVacuum 
             Caption         =   "&Vacuum"
-            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupVacuumAnalyse 
             Caption         =   "Vacuum &Analyse"
-            Enabled         =   0   'False
          End
       End
       Begin VB.Menu mnuPopupSep4 
@@ -1067,6 +1065,34 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name &
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.prop_DragDrop"
+End Sub
+
+Private Sub lv_DragDrop(Source As Control, X As Single, Y As Single)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+
+  If Source.Name = "splVertical" Then
+    Resize lv.Left + prop.Left + X, splHorizontal.Top
+  ElseIf Source.Name = "splHorizontal" Then
+    Resize splVertical.Left, lv.Top + prop.Top + Y
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DragDrop"
+End Sub
+
+Private Sub sv_DragDrop(Source As Control, X As Single, Y As Single)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+
+  If Source.Name = "splVertical" Then
+    Resize sv.Left + prop.Left + X, splHorizontal.Top
+  ElseIf Source.Name = "splHorizontal" Then
+    Resize splVertical.Left, sv.Top + prop.Top + Y
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.sv_DragDrop"
 End Sub
 
 Private Sub txtDefinition_DragDrop(Source As Control, X As Single, Y As Single)
