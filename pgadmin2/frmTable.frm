@@ -1352,7 +1352,7 @@ Dim szAccess() As String
       cboProperties(0).ComboItems.Clear
       cboProperties(0).ComboItems.Add , objTable.Owner, objTable.Owner, "user", "user"
     End If
-    cboProperties(0).ComboItems(objTable.Owner).Selected = True
+    cboProperties(0).ComboItems("U~" & objTable.Owner).Selected = True
     txtProperties(2).Text = objTable.Rows
     chkProperties(0).Value = Bool2Bin(objTable.HasOIDs)
     hbxProperties(0).Text = objTable.Comment

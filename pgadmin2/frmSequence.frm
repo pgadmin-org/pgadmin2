@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "cmdAdd"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -743,7 +743,7 @@ Dim szAccess() As String
       cboProperties(0).ComboItems.Clear
       cboProperties(0).ComboItems.Add , objSequence.Owner, objSequence.Owner, "user", "user"
     End If
-    cboProperties(0).ComboItems(objSequence.Owner).Selected = True
+    cboProperties(0).ComboItems("U~" & objSequence.Owner).Selected = True
     chkProperties(0).Value = Bool2Bin(objSequence.Cycled)
     hbxProperties(0).Text = objSequence.Comment
     
