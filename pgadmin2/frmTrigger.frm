@@ -331,6 +331,8 @@ Option Explicit
 Dim bNew As Boolean
 Dim szDatabase As String
 Dim objTrigger As pgTrigger
+Dim szTableOldName As String
+
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
@@ -347,8 +349,10 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
+
 Dim objItem As ListItem
 Dim szEvent As String
+
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -386,31 +390,48 @@ Dim szEvent As String
     StartMsg "Creating Trigger..."
    
     frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Add txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text
-    
-    'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-        If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = cboProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "TRG-" & GetID, txtProperties(0).Text & " ON " & cboProperties(0).Text, "trigger"
-          objNode.Text = "Triggers (" & objNode.Children & ")"
-        End If
-      End If
-    Next objNode
-    
+    szTableOldName = cboProperties(0).Text
   Else
     StartMsg "Updating Trigger..."
     If hbxProperties(0).Tag = "Y" Then objTrigger.Comment = hbxProperties(0).Text
     If (cboProperties(0).Tag = "Y") Or (cboProperties(1).Tag = "Y") Or (cboProperties(3).Tag = "Y") Or (chkProperties(0).Tag = "Y") Or (chkProperties(1).Tag = "Y") Or (chkProperties(2).Tag = "Y") Then
       objTrigger.Alter txtProperties(0).Text, cboProperties(1).Text, szEvent, cboProperties(0).Text, cboProperties(2).Text, cboProperties(3).Text, hbxProperties(0).Text
-      
-      frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
-      
     End If
   End If
   
-  'Simulate a node click to refresh the ListTrigger
-  frmMain.tv_NodeClick frmMain.tv.SelectedItem
+  ' Refresh properties and simulate a node click
+  If (cboProperties(0).Text = szTableOldName) Then
+    ' Add new node
+    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
+    frmMain.tv_NodeClick frmMain.tv.SelectedItem
+  Else
+    ' This happens only when a triiger is moved from one table to another
+    frmMain.svr.Databases(szDatabase).Tables(szTableOldName).Triggers.Refresh
+    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
     
+    ' Del old node
+    For Each objNode In frmMain.tv.Nodes
+      If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
+        If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = szTableOldName) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
+           objNode.Selected = True
+           frmMain.tv_NodeClick objNode
+           Exit For
+        End If
+      End If
+    Next objNode
+    
+    ' Add new node
+    For Each objNode In frmMain.tv.Nodes
+      If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
+        If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = cboProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
+          objNode.Selected = True
+          frmMain.tv_NodeClick objNode
+          Exit For
+        End If
+      End If
+    Next objNode
+  End If
+  
   EndMsg
   Unload Me
   Exit Sub
@@ -480,6 +501,9 @@ Dim objItem As ComboItem
   chkProperties(0).Tag = "N"
   chkProperties(1).Tag = "N"
   chkProperties(2).Tag = "N"
+  
+  ' This value is only used for pseudo-modification
+  szTableOldName = cboProperties(0).Text
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Initialise"
 End Sub
