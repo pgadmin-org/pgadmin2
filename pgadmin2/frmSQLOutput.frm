@@ -841,10 +841,12 @@ GotInfo:
   'Setup the form
   Me.Caption = "SQL Output " & szID & ": " & rsQuery.Source
   If bUpdateable Then
+    frmMain.svr.LogEvent "Recordset appears to be updateable.", etMiniDebug
     cmdEdit.Enabled = True
     cmdAdd.Enabled = True
     cmdDelete.Enabled = True
   Else
+    frmMain.svr.LogEvent "Recordset appears to NOT be updateable.", etMiniDebug
     cmdEdit.Enabled = False
     cmdAdd.Enabled = False
     cmdDelete.Enabled = False
@@ -852,22 +854,24 @@ GotInfo:
   LoadGrid
   
   'Attempt to figure out a Unique Column for safer updating
-  szTemp = szTable
-  If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
-  If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
-  For iTemp = 1 To lvData.ColumnHeaders.Count
-    If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
-       (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
-       (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
-       (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
-      iUnique = iTemp
-      Exit For
+  If bUpdateable Then
+    szTemp = szTable
+    If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
+    If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
+    For iTemp = 1 To lvData.ColumnHeaders.Count
+      If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
+         (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
+         (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
+         (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
+        iUnique = iTemp
+        Exit For
+      End If
+    Next iTemp
+    If iUnique = 0 Then
+      frmMain.svr.LogEvent "Couldn't find a suitable unique column for use as a key.", etMiniDebug
+    Else
+      frmMain.svr.LogEvent "Found column: " & lvData.ColumnHeaders(iUnique).Text & " for use as a key.", etMiniDebug
     End If
-  Next iTemp
-  If iUnique = 0 Then
-    frmMain.svr.LogEvent "Couldn't find a suitable unique column for use as a key.", etMiniDebug
-  Else
-    frmMain.svr.LogEvent "Found column: " & lvData.ColumnHeaders(iUnique).Text & " for use as a key.", etMiniDebug
   End If
   
   Exit Sub

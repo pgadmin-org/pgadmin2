@@ -7,6 +7,14 @@ this plugin is based on the original pgAdmin Migration Wizard which was released
 GNU General Public Licence (see the included LICENCE.txt file) and for this reason is not 
 distributed with pgAdmin II.
 
+Pre-requisites
+--------------
+
+1) pgAdmin
+2) PostgreSQL
+3) MDAC 2.6 or higher (http://www.microsoft.com/data)
+4) Jet 4.0 SP3 or higher (http://www.microsoft.com/data)
+
 Installation
 ------------
 
