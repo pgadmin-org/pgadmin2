@@ -3,6 +3,7 @@
 
 Don't reformat SQL queries as that can corrupt PL scripts.
 Clear Relationships/Referenced Columns when selecting a new Referenced Table when defining a Foreign Key.
+Correctly escape single quotes in function code.
 
 1.1.72
 ------
