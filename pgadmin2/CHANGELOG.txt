@@ -12,6 +12,7 @@ Simplified Listview handling code.
 Reworded text on encrypted passwords in frmOptions.
 Added Query Log Recorder.
 Fixed a bug that cleared default values instead of updating them.
+Check the PostgreSQL version when connecting and handle correctly.
 
 1.2.0 Stable
 ------------

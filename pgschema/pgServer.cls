@@ -123,7 +123,7 @@ Dim szError As String
   If Not bDontLogErrors Then
     LogEvent "Error: " & lError & " - " & szError, etErrors
   End If
-  Err.Raise lError, "pgSchema", szError
+  Err.Raise lError, App.Title, szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
   If Not ((bDontLogErrors) And (etType = etErrors)) Then
@@ -264,20 +264,38 @@ Dim szVersion() As String
   cnPostgreSQL.Open szConnect
   
   'Get the Server Version
-  'While we're at it, get the last system OID as well!
-  Set rs = objServer.ExecSQL("SELECT version(), datlastsysoid FROM pg_database WHERE datname = 'template1'", cnPostgreSQL)
-  If Not rs.EOF Then
-    objVersion.Description = rs!Version & ""
-    lLastSystemOID = rs!datlastsysoid & ""
-  End If
+  Set rs = objServer.ExecSQL("SELECT version()", cnPostgreSQL)
+  If Not rs.EOF Then objVersion.Description = rs!Version & ""
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
+  
+  'Split the version down.
   X = InStr(1, objVersion.Description, " ")
   szVersion = Split(Mid(objVersion.Description, X + 1, InStr(X + 1, objVersion.Description, " ") - X), ".")
   If UBound(szVersion) >= 0 Then objVersion.Major = Val(szVersion(0))
   If UBound(szVersion) >= 1 Then objVersion.Minor = Val(szVersion(1))
   If UBound(szVersion) >= 2 Then objVersion.Revision = Val(szVersion(2))
   objVersion.VersionNum = Val(objVersion.Major & "." & objVersion.Minor)
+  
+  'Check the version
+  If objVersion.VersionNum < 7.1 Then
+    objServer.iLogEvent "Closing cnPostgreSQL.", etMiniDebug
+    If cnPostgreSQL.State <> adStateClosed Then cnPostgreSQL.Close
+    Set cnPostgreSQL = Nothing
+    objVersion.Description = ""
+    objVersion.Major = 0
+    objVersion.Minor = 0
+    objVersion.Revision = 0
+    objVersion.VersionNum = 0
+    Err.Raise 999, App.Title, "This program can only be used with PostgreSQL 7.1 or higher."
+    Exit Function
+  End If
+  
+  'Get the last system OID!
+  Set rs = objServer.ExecSQL("SELECT datlastsysoid FROM pg_database WHERE datname = 'template1'", cnPostgreSQL)
+  If Not rs.EOF Then lLastSystemOID = rs!datlastsysoid & ""
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
   
   'Get the Driver Version
   szVersion = Split(cnPostgreSQL.Properties("Driver Version"), ".")
