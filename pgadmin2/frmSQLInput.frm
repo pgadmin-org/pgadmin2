@@ -1,16 +1,16 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLInput 
    Caption         =   "SQL"
-   ClientHeight    =   3195
-   ClientLeft      =   5070
-   ClientTop       =   2955
-   ClientWidth     =   7245
+   ClientHeight    =   3204
+   ClientLeft      =   5076
+   ClientTop       =   2952
+   ClientWidth     =   7236
    Icon            =   "frmSQLInput.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3195
-   ScaleWidth      =   7245
+   ScaleHeight     =   3204
+   ScaleWidth      =   7236
    Begin VB.ComboBox cboExporters 
       Height          =   315
       Left            =   4500
@@ -36,11 +36,11 @@ Begin VB.Form frmSQLInput
       ToolTipText     =   "Enter an SQL query or statement to execute."
       Top             =   0
       Width           =   7215
-      _ExtentX        =   12726
-      _ExtentY        =   4948
+      _ExtentX        =   12721
+      _ExtentY        =   4953
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Size            =   7.8
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -163,7 +163,7 @@ Dim szSQL As String
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdExecute_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdExecute_Click", False
 End Sub
 
 Private Sub cmdExplain_Click()

@@ -157,7 +157,7 @@ End Function
 
 'clone table
 Public Function CloneTable(szNewName As String, szDatabase As String, szNamespace As String, Optional bCopyData As Boolean = False) 'As pgTable
-'  CloneTable = basClone.CloneTable(szNewName,szDatabase,szNamespace,bCopyData,=,False)
+'  CloneTable = basClone.CloneTable(szNewName,szDatabase,szNamespace,bCopyData)
 End Function
 
 Public Sub CloneAcl(objDb As Variant)
@@ -193,8 +193,8 @@ Public Sub BuildPluginsMenu()
 
 End Sub
 
-Public Sub LogError(lError As Long, szError As String, szRoutine As String)
-  Call basMisc.LogError(lError,szError,szRoutine)
+Public Sub LogError(lError As Long, szError As String, szRoutine As String, Optional bSendMail As Boolean = True)
+  Call basMisc.LogError(lError,szError,szRoutine,bSendMail)
 End Sub
 
 Public Sub StartMsg(ByVal szMsg As String)

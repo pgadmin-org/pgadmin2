@@ -229,6 +229,8 @@ dim szTemp,vData,ii,szRoutine,szVar
 			elseif vData(ii)="ByRef" then
 			elseif vData(ii)="As" then
 				ii=ii+1
+			elseif vData(ii)="=" then
+				ii=ii+1
 			else
 				szVar= szVar & vData(ii) & ","
 			end if

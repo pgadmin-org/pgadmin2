@@ -1,18 +1,18 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmType 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Type"
-   ClientHeight    =   6870
-   ClientLeft      =   6270
-   ClientTop       =   555
+   ClientHeight    =   6876
+   ClientLeft      =   6276
+   ClientTop       =   552
    ClientWidth     =   5520
    Icon            =   "frmType.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6870
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -43,56 +43,57 @@ Begin VB.Form frmType
       _Version        =   393216
       Style           =   1
       Tabs            =   2
-      Tab             =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties 1"
       TabPicture(0)   =   "frmType.frx":06C2
-      Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "txtProperties(3)"
-      Tab(0).Control(1)=   "txtProperties(0)"
-      Tab(0).Control(2)=   "txtProperties(1)"
-      Tab(0).Control(3)=   "txtProperties(2)"
-      Tab(0).Control(4)=   "cboProperties(0)"
-      Tab(0).Control(5)=   "hbxProperties(0)"
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "lblProperties(3)"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "lblProperties(0)"
+      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).Control(2)=   "lblProperties(1)"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "lblProperties(2)"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).Control(4)=   "lblProperties(4)"
+      Tab(0).Control(4).Enabled=   0   'False
+      Tab(0).Control(5)=   "lblProperties(5)"
+      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "cboProperties(1)"
-      Tab(0).Control(7)=   "lblProperties(5)"
-      Tab(0).Control(8)=   "lblProperties(4)"
-      Tab(0).Control(9)=   "lblProperties(2)"
-      Tab(0).Control(10)=   "lblProperties(1)"
-      Tab(0).Control(11)=   "lblProperties(0)"
-      Tab(0).Control(12)=   "lblProperties(3)"
+      Tab(0).Control(6).Enabled=   0   'False
+      Tab(0).Control(7)=   "hbxProperties(0)"
+      Tab(0).Control(7).Enabled=   0   'False
+      Tab(0).Control(8)=   "cboProperties(0)"
+      Tab(0).Control(8).Enabled=   0   'False
+      Tab(0).Control(9)=   "txtProperties(2)"
+      Tab(0).Control(9).Enabled=   0   'False
+      Tab(0).Control(10)=   "txtProperties(1)"
+      Tab(0).Control(10).Enabled=   0   'False
+      Tab(0).Control(11)=   "txtProperties(0)"
+      Tab(0).Control(11).Enabled=   0   'False
+      Tab(0).Control(12)=   "txtProperties(3)"
+      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).ControlCount=   13
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":06DE
-      Tab(1).ControlEnabled=   -1  'True
-      Tab(1).Control(0)=   "lblProperties(11)"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lblProperties(10)"
-      Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "lblProperties(9)"
-      Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lblProperties(6)"
-      Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "lblProperties(7)"
-      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "txtProperties(5)"
+      Tab(1).Control(1)=   "txtProperties(4)"
+      Tab(1).Control(2)=   "chkProperties(0)"
+      Tab(1).Control(3)=   "cboProperties(2)"
+      Tab(1).Control(4)=   "cboProperties(3)"
       Tab(1).Control(5)=   "cboProperties(4)"
-      Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "cboProperties(3)"
-      Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "cboProperties(2)"
-      Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "chkProperties(0)"
-      Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "txtProperties(4)"
-      Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "txtProperties(5)"
-      Tab(1).Control(10).Enabled=   0   'False
+      Tab(1).Control(6)=   "lblProperties(7)"
+      Tab(1).Control(7)=   "lblProperties(6)"
+      Tab(1).Control(8)=   "lblProperties(9)"
+      Tab(1).Control(9)=   "lblProperties(10)"
+      Tab(1).Control(10)=   "lblProperties(11)"
       Tab(1).ControlCount=   11
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   5
-         Left            =   1935
+         Left            =   -73065
          Locked          =   -1  'True
          TabIndex        =   12
          ToolTipText     =   "The delimiter character for the array elements."
@@ -103,7 +104,7 @@ Begin VB.Form frmType
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   4
-         Left            =   1935
+         Left            =   -73065
          Locked          =   -1  'True
          TabIndex        =   10
          ToolTipText     =   "The default value for the data type. Usually this is omitted, so that the default is NULL."
@@ -115,7 +116,7 @@ Begin VB.Form frmType
          Caption         =   "Passed by value?"
          Height          =   195
          Index           =   0
-         Left            =   90
+         Left            =   -74910
          TabIndex        =   13
          ToolTipText     =   $"frmType.frx":06FA
          Top             =   1935
@@ -125,7 +126,7 @@ Begin VB.Form frmType
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   3
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   6
          ToolTipText     =   "A literal value, which specifies the internal length of the new type (0 = Variable)."
@@ -136,7 +137,7 @@ Begin VB.Form frmType
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   0
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   1
          ToolTipText     =   "The name of the type."
@@ -147,7 +148,7 @@ Begin VB.Form frmType
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   1
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   2
          ToolTipText     =   "The types OID (Object ID) in the PostgreSQL Database."
@@ -158,7 +159,7 @@ Begin VB.Form frmType
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   2
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   3
          ToolTipText     =   "The types owner."
@@ -166,15 +167,15 @@ Begin VB.Form frmType
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   -73065
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "The name of a function, created by CREATE FUNCTION, which converts data from its external form to the type's internal form."
-         Top             =   1845
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1848
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -184,16 +185,16 @@ Begin VB.Form frmType
       Begin HighlightBox.HBX hbxProperties 
          Height          =   2985
          Index           =   0
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   7
          ToolTipText     =   "Comments about the operator."
          Top             =   3105
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   5265
+         _ExtentX        =   9165
+         _ExtentY        =   5271
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -203,15 +204,15 @@ Begin VB.Form frmType
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   -73065
+         Left            =   1932
          TabIndex        =   5
          ToolTipText     =   "The name of a function, created by CREATE FUNCTION, which converts data from its internal form to a form suitable for display."
-         Top             =   2250
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2256
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -219,15 +220,15 @@ Begin VB.Form frmType
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   2
-         Left            =   1935
+         Left            =   -73068
          TabIndex        =   11
          ToolTipText     =   "The type being created is an array; this specifies the type of the array elements."
          Top             =   1080
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -235,15 +236,15 @@ Begin VB.Form frmType
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   3
-         Left            =   1935
+         Left            =   -73068
          TabIndex        =   14
          ToolTipText     =   "Storage alignment requirement of the data type."
-         Top             =   2250
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2256
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -251,15 +252,15 @@ Begin VB.Form frmType
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   4
-         Left            =   1935
+         Left            =   -73068
          TabIndex        =   15
          ToolTipText     =   "Storage technique for the data type. If specified, must be 'plain', 'external', 'extended', or 'main'; the default is 'plain'."
-         Top             =   2655
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2652
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -271,7 +272,7 @@ Begin VB.Form frmType
          Caption         =   "Alignment"
          Height          =   195
          Index           =   7
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   26
          Top             =   2340
          Width           =   690
@@ -281,7 +282,7 @@ Begin VB.Form frmType
          Caption         =   "Storage"
          Height          =   195
          Index           =   6
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   25
          Top             =   2745
          Width           =   555
@@ -291,7 +292,7 @@ Begin VB.Form frmType
          Caption         =   "Default"
          Height          =   195
          Index           =   9
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   24
          Top             =   675
          Width           =   510
@@ -301,7 +302,7 @@ Begin VB.Form frmType
          Caption         =   "Element type"
          Height          =   195
          Index           =   10
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   23
          Top             =   1125
          Width           =   915
@@ -311,7 +312,7 @@ Begin VB.Form frmType
          Caption         =   "Delimiter"
          Height          =   195
          Index           =   11
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   22
          Top             =   1530
          Width           =   600
@@ -321,7 +322,7 @@ Begin VB.Form frmType
          Caption         =   "Internal length"
          Height          =   195
          Index           =   5
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   21
          Top             =   2745
          Width           =   1005
@@ -331,7 +332,7 @@ Begin VB.Form frmType
          Caption         =   "Output Function"
          Height          =   195
          Index           =   4
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   20
          Top             =   2340
          Width           =   1140
@@ -341,7 +342,7 @@ Begin VB.Form frmType
          Caption         =   "Owner"
          Height          =   195
          Index           =   2
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   19
          Top             =   1530
          Width           =   465
@@ -351,7 +352,7 @@ Begin VB.Form frmType
          Caption         =   "OID"
          Height          =   195
          Index           =   1
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   18
          Top             =   1125
          Width           =   285
@@ -361,7 +362,7 @@ Begin VB.Form frmType
          Caption         =   "Name"
          Height          =   195
          Index           =   0
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   17
          Top             =   720
          Width           =   420
@@ -371,7 +372,7 @@ Begin VB.Form frmType
          Caption         =   "Input function"
          Height          =   195
          Index           =   3
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   16
          Top             =   1935
          Width           =   975
@@ -380,8 +381,8 @@ Begin VB.Form frmType
    Begin MSComctlLib.ImageList il 
       Left            =   45
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16

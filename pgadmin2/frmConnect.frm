@@ -3,8 +3,8 @@ Begin VB.Form frmConnect
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Connect to Server"
    ClientHeight    =   1800
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   3600
    Icon            =   "frmConnect.frx":0000
    LinkTopic       =   "Form1"
@@ -212,7 +212,7 @@ Dim objNode As Node
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmConnect.cmdConnect_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmConnect.cmdConnect_Click", False
 End Sub
 
 Public Sub Load_Defaults(Optional Connection As Integer)

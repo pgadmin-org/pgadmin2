@@ -305,7 +305,7 @@ Dim szErr As String
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildPluginsMenu"
 End Sub
 
-Public Sub LogError(lError As Long, szError As String, szRoutine As String)
+Public Sub LogError(lError As Long, szError As String, szRoutine As String, Optional bSendMail As Boolean = True)
 'No logging here, if anythings going wrong then we want the real error
 Dim objErrorForm As New frmError
 Dim bShowFormErr As Boolean
@@ -326,7 +326,7 @@ Dim szErr As String
 
   If bShowFormErr Then
     Load objErrorForm
-    objErrorForm.Initialise lError, szErr, szRoutine
+    objErrorForm.Initialise lError, szErr, szRoutine, bSendMail
     objErrorForm.Show vbModal
   End If
   

@@ -227,13 +227,16 @@ Option Explicit
 
 Dim objError As clsError
 
-Public Sub Initialise(lError As Long, szError As String, szRoutine As String)
+Public Sub Initialise(lError As Long, szError As String, szRoutine As String, bSendMail As Boolean)
   Set objError = New clsError
   With objError
     .Description = szError
     .Number = lError
     .Routine = szRoutine
   End With
+
+  'button send mail
+  cmdSendMail.Enabled = bSendMail
 
   Me.Caption = App.Title & " Error"
   
@@ -286,10 +289,17 @@ End Sub
 Private Sub cmdSendMail_Click()
 Dim szMail As String
 Dim szTemp As String
-Dim szSep As String
 
-  szSep = String(60, "=")
+  If frmMain.svr.LogLevel = llNone Then
+    MsgBox "Activate log error, Log settings are under Tools -> Options", vbSystemModal + vbInformation, "Activate Log"
+    Exit Sub
+  End If
 
+  If Len(Trim(frmMain.svr.Logfile)) = 0 Then
+    MsgBox "Set log file name, Log settings are under Tools -> Options", vbSystemModal + vbInformation, "Activate Log"
+    Exit Sub
+  End If
+  
   szTemp = objError.GetInfo(TIE_SYSTEM) & vbCrLf
   szTemp = szTemp & objError.GetInfo(TIE_APPLICATION) & vbCrLf
   szTemp = szTemp & objError.GetInfo(TIE_DATABASE) & vbCrLf
@@ -297,7 +307,10 @@ Dim szSep As String
   szTemp = szTemp & objError.GetInfo(TIE_ERROR) & vbCrLf & String(60, "*") & vbCrLf
   szTemp = szTemp & vbCrLf & "Insert your comment:" & vbCrLf
 
-  szMail = "mailto:" & SUPPORT_EMAIL & "?subject=Error Message&body=" & szTemp
+  szMail = "mailto:" & SUPPORT_EMAIL
+  szMail = szMail & "?subject=Error Message: " & objError.Description
+  szMail = szMail & "&body=" & szTemp
+  
   szMail = Replace(szMail, " ", "%20")
   szMail = Replace(szMail, vbTab, "%0" & Hex(9))
   szMail = Replace(szMail, QUOTE, "%" & Hex(34))
@@ -308,6 +321,8 @@ Dim szSep As String
   
   'open shell
   ShellExecute hwnd, "open", szMail, vbNullString, vbNullString, SW_SHOW
+  
+  MsgBox "Add log file '" & frmMain.svr.Logfile & "' to mail!", vbSystemModal + vbInformation, "Send Error Mail"
 End Sub
 
 Private Sub cmdContinue_Click()
