@@ -3615,7 +3615,7 @@ Dim rel As pgRelationship
   lv.ColumnHeaders.Add , , "Local Column", 2000
   lv.ColumnHeaders.Add , , "Referenced Column", FixWidth(lv.Width - 2600)
   Node.Text = "Relationships (" & svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships.Count & ")"
-  For Each rel In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships
+  For Each rel In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships
     Set lvItem = lv.ListItems.Add(, "REL-" & GetID, rel.LocalColumn, "relationship", "relationship")
     lvItem.SubItems(1) = rel.ReferencedColumn
   Next rel
@@ -4089,7 +4089,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
