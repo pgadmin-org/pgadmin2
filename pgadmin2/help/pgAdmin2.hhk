@@ -22,6 +22,10 @@
 		<param name="Local" value="html\troubleshooting.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="HOWTO">
+		<param name="Local" value="html\howtos\index.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Info">
 		<param name="Local" value="html\developerinfo\index.html">
 		</OBJECT>
@@ -32,6 +36,10 @@
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="pgAdmin">
 		<param name="Local" value="html\index.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="SSH">
+		<param name="Local" value="html\howtos\ssh.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Standards">

@@ -55,6 +55,17 @@
 				<param name="ImageNumber" value="39">
 				</OBJECT>
 		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="How do I...">
+			<param name="Local" value="html\howtos\index.html">
+			<param name="ImageNumber" value="2">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Use pgAdmin II via a secure (encrypted) connection?">
+				<param name="Local" value="html\howtos\ssh.html">
+				</OBJECT>
+		</UL>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="PostgreSQL Documentation">
