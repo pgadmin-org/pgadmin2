@@ -114,57 +114,57 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":2C47
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblInfo(1)"
+      Tab(1).Control(0)=   "lvObjects"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lvObjects"
+      Tab(1).Control(1)=   "lblInfo(1)"
       Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":2C63
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
+      Tab(2).Control(0)=   "lvEntities"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lvEntities"
+      Tab(2).Control(1)=   "lblInfo(2)"
       Tab(2).Control(1).Enabled=   0   'False
       Tab(2).ControlCount=   2
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":2C7F
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblInfo(3)"
+      Tab(3).Control(0)=   "picContainer(0)"
       Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "picContainer(0)"
+      Tab(3).Control(1)=   "lblInfo(3)"
       Tab(3).Control(1).Enabled=   0   'False
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":2C9B
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblInfo(6)"
+      Tab(4).Control(0)=   "picContainer(1)"
       Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "picContainer(1)"
+      Tab(4).Control(1)=   "lblInfo(6)"
       Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":2CB7
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lblInfo(7)"
+      Tab(5).Control(0)=   "chkPermission(4)"
       Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "chkPermission(0)"
+      Tab(5).Control(1)=   "chkPermission(3)"
       Tab(5).Control(1).Enabled=   0   'False
-      Tab(5).Control(2)=   "chkPermission(1)"
+      Tab(5).Control(2)=   "chkPermission(2)"
       Tab(5).Control(2).Enabled=   0   'False
-      Tab(5).Control(3)=   "chkPermission(2)"
+      Tab(5).Control(3)=   "chkPermission(1)"
       Tab(5).Control(3).Enabled=   0   'False
-      Tab(5).Control(4)=   "chkPermission(3)"
+      Tab(5).Control(4)=   "chkPermission(0)"
       Tab(5).Control(4).Enabled=   0   'False
-      Tab(5).Control(5)=   "chkPermission(4)"
+      Tab(5).Control(5)=   "lblInfo(7)"
       Tab(5).Control(5).Enabled=   0   'False
       Tab(5).ControlCount=   6
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":2CD3
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "lblInfo(5)"
+      Tab(6).Control(0)=   "lblInfo(4)"
       Tab(6).Control(0).Enabled=   0   'False
-      Tab(6).Control(1)=   "lblInfo(4)"
+      Tab(6).Control(1)=   "lblInfo(5)"
       Tab(6).Control(1).Enabled=   0   'False
       Tab(6).ControlCount=   2
       Begin VB.PictureBox picContainer 
@@ -563,8 +563,18 @@ Dim objItem As ListItem
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdNext_Click"
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.Form_Unload()", etFullDebug
+
+  bRunning = False
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.Form_Unload"
+End Sub
+
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdOK_Click()", etFullDebug
 
 Dim objOItem As ListItem
