@@ -68,24 +68,34 @@ Begin VB.Form frmOptions
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lstExporters"
-      Tab(2).Control(1)=   "Frame1"
-      Tab(2).Control(2)=   "cmdExpInstall"
-      Tab(2).Control(3)=   "cmdExpUninstall"
+      Tab(2).Control(0)=   "cmdExpUninstall"
+      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).Control(1)=   "cmdExpInstall"
+      Tab(2).Control(1).Enabled=   0   'False
+      Tab(2).Control(2)=   "Frame1"
+      Tab(2).Control(2).Enabled=   0   'False
+      Tab(2).Control(3)=   "lstExporters"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdPlgUninstall"
-      Tab(3).Control(1)=   "cmdPlgInstall"
-      Tab(3).Control(2)=   "Frame2"
-      Tab(3).Control(3)=   "lstPlugins"
+      Tab(3).Control(0)=   "lstPlugins"
+      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "cmdPlgInstall"
+      Tab(3).Control(2).Enabled=   0   'False
+      Tab(3).Control(3)=   "cmdPlgUninstall"
+      Tab(3).Control(3).Enabled=   0   'False
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "Frame3"
+      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "Frame4"
+      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
       Begin VB.Frame Frame4 
          Caption         =   "Security"
@@ -99,16 +109,16 @@ Begin VB.Form frmOptions
             Height          =   240
             Left            =   810
             TabIndex        =   50
-            Top             =   450
+            Top             =   495
             Width           =   3345
          End
          Begin VB.Label Label4 
             Caption         =   $"frmOptions.frx":0A8E
-            Height          =   825
+            Height          =   690
             Index           =   1
             Left            =   135
             TabIndex        =   51
-            Top             =   945
+            Top             =   1035
             Width           =   4695
          End
       End
@@ -199,18 +209,18 @@ Begin VB.Form frmOptions
       End
       Begin VB.ListBox lstPlugins 
          Height          =   3375
-         ItemData        =   "frmOptions.frx":0B55
+         ItemData        =   "frmOptions.frx":0B22
          Left            =   -74910
-         List            =   "frmOptions.frx":0B57
+         List            =   "frmOptions.frx":0B24
          TabIndex        =   37
          Top             =   450
          Width           =   5235
       End
       Begin VB.ListBox lstExporters 
          Height          =   3375
-         ItemData        =   "frmOptions.frx":0B59
+         ItemData        =   "frmOptions.frx":0B26
          Left            =   -74910
-         List            =   "frmOptions.frx":0B5B
+         List            =   "frmOptions.frx":0B28
          TabIndex        =   27
          Top             =   450
          Width           =   5235
@@ -485,7 +495,7 @@ Begin VB.Form frmOptions
             Width           =   3930
          End
          Begin VB.Label Label4 
-            Caption         =   $"frmOptions.frx":0B5D
+            Caption         =   $"frmOptions.frx":0B2A
             Height          =   690
             Index           =   0
             Left            =   135
