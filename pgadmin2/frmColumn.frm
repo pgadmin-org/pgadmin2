@@ -293,7 +293,7 @@ Begin VB.Form frmColumn
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   3
+         NumListImages   =   4
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmColumn.frx":06DE
             Key             =   "table"
@@ -305,6 +305,10 @@ Begin VB.Form frmColumn
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmColumn.frx":0DD2
             Key             =   "sequence"
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmColumn.frx":136C
+            Key             =   "domain"
          EndProperty
       EndProperty
    End
@@ -449,6 +453,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.Initialise(" & QUOTE 
 
 Dim X As Integer
 Dim objItem As ComboItem
+Dim objDomain As pgDomain
 Dim objType As pgType
 
   szDatabase = szDB
@@ -489,6 +494,9 @@ Dim objType As pgType
       'Populate the Types combo
       If frmMain.svr.dbVersion.VersionNum >= 7.2 Then cboProperties(1).ComboItems.Add , , "serial8", "sequence", "sequence"
       cboProperties(1).ComboItems.Add , , "serial", "sequence", "sequence"
+      For Each objDomain In frmMain.svr.Databases(szDatabase).Domains
+        cboProperties(1).ComboItems.Add , , objDomain.Name, "domain", "domain"
+      Next objDomain
       For Each objType In frmMain.svr.Databases(szDatabase).Types
         If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Name, "type", "type"
       Next objType

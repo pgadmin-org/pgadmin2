@@ -53,6 +53,7 @@ Added support for Domains in PostgreSQL 7.3+
 Enhanced the query parser to detect queries with functions and subselects in the column list, and aliased columns as non-updateable.
 Quote sequence names properly when using setval.
 Treat all objects named pgadmin_* as system objects.
+Fixed a bug in the Operator Cache which also cached the left & right types.
 
 1.2.0 Stable
 ------------

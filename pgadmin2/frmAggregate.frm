@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmAggregate 
@@ -334,7 +334,7 @@ Begin VB.Form frmAggregate
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   3
+         NumListImages   =   4
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmAggregate.frx":0650
             Key             =   "function"
@@ -346,6 +346,10 @@ Begin VB.Form frmAggregate
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmAggregate.frx":1184
             Key             =   "any"
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmAggregate.frx":12DE
+            Key             =   "domain"
          EndProperty
       EndProperty
    End
@@ -456,6 +460,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.Initialise(" & QUO
 
 Dim X As Integer
 Dim objType As pgType
+Dim objDomain As pgDomain
 Dim objFunction As pgFunction
 Dim objItem As ComboItem
   
@@ -488,6 +493,10 @@ Dim objItem As ComboItem
   
     'Load the combos
     cboProperties(0).ComboItems.Add , , "ANY", "any"
+    For Each objDomain In frmMain.svr.Databases(szDatabase).Domains
+      cboProperties(0).ComboItems.Add , , objDomain.Identifier, "domain"
+      cboProperties(1).ComboItems.Add , , objDomain.Identifier, "domain"
+    Next objDomain
     For Each objType In frmMain.svr.Databases(szDatabase).Types
       If Left(objType.Identifier, 1) <> "_" Then cboProperties(0).ComboItems.Add , , objType.Identifier, "type"
       If Left(objType.Identifier, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Identifier, "type"

@@ -86,7 +86,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   62062594
+         StartOfWeek     =   61669378
          CurrentDate     =   37089
          MinDate         =   36892
       End

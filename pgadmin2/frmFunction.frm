@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmFunction 
@@ -26,7 +26,7 @@ Begin VB.Form frmFunction
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   4
+         NumListImages   =   5
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmFunction.frx":058A
             Key             =   "language"
@@ -42,6 +42,10 @@ Begin VB.Form frmFunction
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmFunction.frx":1218
             Key             =   "table"
+         EndProperty
+         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmFunction.frx":1372
+            Key             =   "domain"
          EndProperty
       EndProperty
    End
@@ -75,7 +79,7 @@ Begin VB.Form frmFunction
       Style           =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmFunction.frx":1372
+      TabPicture(0)   =   "frmFunction.frx":1A44
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(2)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -101,7 +105,7 @@ Begin VB.Form frmFunction
       Tab(0).Control(10).Enabled=   0   'False
       Tab(0).ControlCount=   11
       TabCaption(1)   =   "&Input/Output"
-      TabPicture(1)   =   "frmFunction.frx":138E
+      TabPicture(1)   =   "frmFunction.frx":1A60
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "cmdRemove"
       Tab(1).Control(1)=   "cmdAdd"
@@ -112,7 +116,7 @@ Begin VB.Form frmFunction
       Tab(1).Control(6)=   "lblProperties(4)"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
-      TabPicture(2)   =   "frmFunction.frx":13AA
+      TabPicture(2)   =   "frmFunction.frx":1A7C
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "hbxProperties(1)"
       Tab(2).ControlCount=   1
@@ -141,7 +145,7 @@ Begin VB.Form frmFunction
          Index           =   0
          Left            =   -73065
          TabIndex        =   14
-         ToolTipText     =   $"frmFunction.frx":13C6
+         ToolTipText     =   $"frmFunction.frx":1A98
          Top             =   1530
          Width           =   3390
          _ExtentX        =   5980
@@ -171,7 +175,7 @@ Begin VB.Form frmFunction
          Index           =   1
          Left            =   135
          TabIndex        =   6
-         ToolTipText     =   $"frmFunction.frx":148F
+         ToolTipText     =   $"frmFunction.frx":1B61
          Top             =   2655
          Width           =   1995
       End
@@ -182,7 +186,7 @@ Begin VB.Form frmFunction
          Index           =   0
          Left            =   135
          TabIndex        =   5
-         ToolTipText     =   $"frmFunction.frx":1633
+         ToolTipText     =   $"frmFunction.frx":1D05
          Top             =   2295
          Width           =   1995
       End
@@ -261,7 +265,7 @@ Begin VB.Form frmFunction
          Index           =   1
          Left            =   -74865
          TabIndex        =   15
-         ToolTipText     =   $"frmFunction.frx":176E
+         ToolTipText     =   $"frmFunction.frx":1E40
          Top             =   450
          Width           =   5190
          _ExtentX        =   9155
@@ -284,7 +288,7 @@ Begin VB.Form frmFunction
          Index           =   1
          Left            =   -73065
          TabIndex        =   10
-         ToolTipText     =   $"frmFunction.frx":1827
+         ToolTipText     =   $"frmFunction.frx":1EF9
          Top             =   630
          Width           =   3390
          _ExtentX        =   5980
@@ -301,7 +305,7 @@ Begin VB.Form frmFunction
          Left            =   -73065
          TabIndex        =   11
          ToolTipText     =   "Select an agument data type to add to the argument list."
-         Top             =   1080
+         Top             =   1035
          Width           =   3390
          _ExtentX        =   5980
          _ExtentY        =   582
@@ -510,6 +514,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.Initialise(" & QUOT
 
 Dim X As Integer
 Dim objLanguage As pgLanguage
+Dim objDomain As pgDomain
 Dim objType As pgType
 Dim objTable As pgTable
 Dim objItem As ComboItem
@@ -542,6 +547,10 @@ Dim vArgument As Variant
     Next objLanguage
     cboProperties(1).ComboItems.Add , , "opaque", "opaque"
     cboProperties(2).ComboItems.Add , , "opaque", "opaque"
+    For Each objDomain In frmMain.svr.Databases(szDatabase).Domains
+      cboProperties(1).ComboItems.Add , , objDomain.Identifier, "domain"
+      cboProperties(2).ComboItems.Add , , objDomain.Identifier, "domain"
+    Next objDomain
     For Each objType In frmMain.svr.Databases(szDatabase).Types
       If Left(objType.Identifier, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Identifier, "type"
       If Left(objType.Identifier, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objType.Identifier, "type"

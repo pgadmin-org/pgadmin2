@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmOperator 
@@ -44,7 +44,7 @@ Begin VB.Form frmOperator
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   3
+         NumListImages   =   4
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmOperator.frx":06C2
             Key             =   "function"
@@ -56,6 +56,10 @@ Begin VB.Form frmOperator
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmOperator.frx":11F6
             Key             =   "type"
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmOperator.frx":1790
+            Key             =   "domain"
          EndProperty
       EndProperty
    End
@@ -72,7 +76,7 @@ Begin VB.Form frmOperator
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties 1"
-      TabPicture(0)   =   "frmOperator.frx":1790
+      TabPicture(0)   =   "frmOperator.frx":1E62
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(7)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -110,21 +114,34 @@ Begin VB.Form frmOperator
       Tab(0).Control(16).Enabled=   0   'False
       Tab(0).ControlCount=   17
       TabCaption(1)   =   "P&roperties 2"
-      TabPicture(1)   =   "frmOperator.frx":17AC
+      TabPicture(1)   =   "frmOperator.frx":1E7E
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lblProperties(8)"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "lblProperties(9)"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "lblProperties(10)"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "lblProperties(11)"
+      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "lblProperties(12)"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "lblProperties(13)"
+      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "cboProperties(9)"
+      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "cboProperties(8)"
+      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "cboProperties(7)"
+      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "cboProperties(6)"
+      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "cboProperties(5)"
+      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).Control(11)=   "cboProperties(4)"
+      Tab(1).Control(11).Enabled=   0   'False
       Tab(1).Control(12)=   "chkProperties(0)"
+      Tab(1).Control(12).Enabled=   0   'False
       Tab(1).ControlCount=   13
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -617,6 +634,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.Initialise(" & QUOT
 
 Dim X As Integer
 Dim objFunction As pgFunction
+Dim objDomain As pgDomain
 Dim objType As pgType
 Dim objTempOperator As pgOperator
 Dim objItem As ComboItem
@@ -648,6 +666,10 @@ Dim vArgument As Variant
       Set objItem = cboProperties(7).ComboItems.Add(, , objFunction.Identifier, "function")
       objItem.Tag = objFunction.Name
     Next objFunction
+    For Each objDomain In frmMain.svr.Databases(szDatabase).Domains
+      cboProperties(1).ComboItems.Add , , objType.Name, "domain"
+      cboProperties(2).ComboItems.Add , , objType.Name, "domain"
+    Next objDomain
     For Each objType In frmMain.svr.Databases(szDatabase).Types
       If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Name, "type"
       If Left(objType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objType.Name, "type"
