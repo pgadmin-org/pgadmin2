@@ -2,6 +2,7 @@
 -----
 
 Only set font for output-displaying controls.
+Add Hot Key in SQLOutput 
 
 1.6.0
 -----
