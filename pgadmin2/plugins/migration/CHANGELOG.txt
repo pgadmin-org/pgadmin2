@@ -1,5 +1,5 @@
-1.3.xx
-------
+1.4.0
+-----
 
 Quote sequence names in the Migration Wizard.
 Refix the Foxpro memo problem from 1.3.60.
