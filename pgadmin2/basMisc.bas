@@ -40,6 +40,9 @@ Dim objFont As New StdFont
   Set frmMain.svr = New pgServer
   Set frmMain.svr.pgApp = New clsPgApp
  
+  'Startup language
+  InitLang RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Current Lang", "")
+ 
   'Setup the logging and log the startup. Set DontLogErrors to prevent pgSchema errors
   'being logged internally in pgSchema, as they will go through the error traps here.
   frmMain.svr.DontLogErrors = True
@@ -163,6 +166,7 @@ Dim objFont As New StdFont
   Unload frmSplash
   
   'Show the main form.
+  PatchForm frmMain
   frmMain.Show
   
   'Show the Upgrade Wizard if required.
@@ -318,7 +322,7 @@ Dim X As Integer
     
       'Bomb out if there's more than 20 Plugins
       If X > 20 Then
-        MsgBox App.Title & " currently only supports a maximum of 20 plugins loaded at the same time. Please email the Support mailing list listed in the Helpfile and let the developers know that you've exceeded this limit.", vbExclamation, "Error"
+        MsgBox App.Title & §§TrasLang§§(" currently only supports a maximum of 20 plugins loaded at the same time. Please email the Support mailing list listed in the Helpfile and let the developers know that you've exceeded this limit."), vbExclamation, §§TrasLang§§("Error")
         Exit Sub
       End If
     End If
@@ -359,7 +363,7 @@ Dim szErr As String
   If Screen.MousePointer = vbHourglass Then
     EndMsg " with errors"
   Else
-    frmMain.sb.Panels("info").Text = "An error has occured."
+    frmMain.sb.Panels("info").Text = §§TrasLang§§("An error has occured.")
   End If
 End Sub
 
@@ -379,12 +383,11 @@ Public Sub EndMsg(Optional ByVal szErr As String)
 
 Dim szMsg As String
    
-  szMsg = "Done" & szErr & " - " & Fix((Timer - sTimer) * 100) / 100 & " Secs."
-  If InStr(1, frmMain.sb.Panels("info").Text, "Done") = 0 Then
-Dim bFound As Boolean
+  szMsg = §§TrasLang§§("Done") & szErr & " - " & Fix((Timer - sTimer) * 100) / 100 & §§TrasLang§§(" Secs.")
+  If InStr(1, frmMain.sb.Panels("info").Text, §§TrasLang§§("Done")) = 0 Then
     frmMain.svr.LogEvent szMsg, etMiniDebug
-    frmMain.sb.Panels("timer").Text = Fix((Timer - sTimer) * 100) / 100 & " Secs."
-    frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & " Done" & szErr & "." 'szMsg '" Done."
+    frmMain.sb.Panels("timer").Text = Fix((Timer - sTimer) * 100) / 100 & §§TrasLang§§(" Secs.")
+    frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & §§TrasLang§§(" Done") & szErr & "." 'szMsg '" Done."
     frmMain.sb.Refresh
   End If
   Screen.MousePointer = vbDefault
@@ -410,11 +413,11 @@ Dim iVal As Integer
 Dim bFound As Boolean
 
   'Replace double quotes
-  szData = Replace(szData, QUOTE, QUOTE & QUOTE)
+  szData = Replace(szData, Quote, Quote & Quote)
 
   'verify KeyWord Reserved
-  For x = 1 To frmMain.svr.KeyWordReserved.Count
-    If LCase(frmMain.svr.KeyWordReserved(x)) = LCase(szData) Then
+  For X = 1 To frmMain.svr.KeyWordReserved.Count
+    If LCase(frmMain.svr.KeyWordReserved(X)) = LCase(szData) Then
       szData = QUOTE & szData & QUOTE
       bFound = True
       Exit For
@@ -423,14 +426,14 @@ Dim bFound As Boolean
 
   If Not bFound Then
     If IsNumeric(szData) Then
-      szData = QUOTE & szData & QUOTE
+      szData = Quote & szData & Quote
     Else
       For X = 1 To Len(szData)
         iVal = Asc(Mid(szData, X, 1))
         If Not ((iVal >= 48) And (iVal <= 57)) And _
            Not ((iVal >= 97) And (iVal <= 122)) And _
            Not (iVal = 95) Then
-          szData = QUOTE & szData & QUOTE
+          szData = Quote & szData & Quote
           Exit For
         End If
       Next X
@@ -466,7 +469,7 @@ End Function
 'Parse an ACL and return | delimited User/Access lists
 Public Sub ParseACL(ByVal szACL As String, ByRef szUserlist As String, ByRef szAccesslist As String)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.ParseACL(" & QUOTE & szACL & QUOTE & ", " & QUOTE & szUserlist & QUOTE & ", " & QUOTE & szAccesslist & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.ParseACL(" & Quote & szACL & Quote & ", " & Quote & szUserlist & Quote & ", " & Quote & szAccesslist & Quote & ")", etFullDebug
 
 Dim szEntries() As String
 Dim szEntry As Variant
@@ -479,7 +482,7 @@ Dim szTemp As String
   szAccesslist = ""
   If szACL = "" Then Exit Sub
   szACL = Mid(szACL, 2, Len(szACL) - 2)
-  szACL = Replace(szACL, QUOTE, "")
+  szACL = Replace(szACL, Quote, "")
   szEntries = Split(szACL, ",")
   For Each szEntry In szEntries
   
@@ -814,5 +817,64 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.YesNoToBool(" & szData 
   Exit Function
   
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.YesNoToBool"
+End Function
+
+Public Function BrowseFolder(hwnd As Long, DialogTitle As String) As String
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BrowseFolder(" & hwnd & ",'" & DialogTitle & "')", etFullDebug
+
+Dim X As Long
+Dim BI As BROWSEINFO
+Dim dwIList As Long
+Dim szPath As String
+Dim wPos As Integer
+    
+  With BI
+    .hOwner = hwnd
+    .lpszTitle = DialogTitle
+    .ulFlags = BIF_RETURNONLYFSDIRS
+  End With
+  dwIList = SHBrowseForFolder(BI)
+  szPath = Space$(512)
+  X = SHGetPathFromIDList(ByVal dwIList, ByVal szPath)
+  If X Then
+    wPos = InStr(szPath, Chr(0))
+    BrowseFolder = Left$(szPath, wPos - 1)
+  Else
+    BrowseFolder = ""
+  End If
+
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BrowseFolder"
+End Function
+
+Public Function ReadTextFile(ByVal PathFile As String) As String
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.ReadFile(" & Quote & PathFile & Quote & ")", etFullDebug
+
+Dim iFile As Integer
+
+  iFile = FreeFile
+  Open PathFile For Input As #iFile
+  ReadTextFile = Input(LOF(iFile), #iFile)
+  Close #iFile
+  
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.ReadFile"
+End Function
+
+Public Function WriteTextFile(ByVal PathFile As String, ByVal szData As String) As String
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.WriteFile(" & Quote & PathFile & Quote & ")", etFullDebug
+
+Dim iFile As Integer
+
+  iFile = FreeFile
+  Open PathFile For Output As #iFile
+  Print #iFile, szData
+  Close #iFile
+  
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.WriteFile"
 End Function
 
