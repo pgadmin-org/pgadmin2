@@ -1,6 +1,6 @@
 Attribute VB_Name = "basGlobal"
 ' pgSchema - PostgreSQL Schema Objects
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit
@@ -49,6 +49,7 @@ Public Const SQL_GET_AGGREGATES7_1 = "SELECT oid, aggname, pg_get_userbyid(aggow
 Public Const SQL_GET_AGGREGATES7_3 = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc WHERE pg_proc.oid = pg_aggregate.aggfnoid"
 Public Const SQL_GET_FOREIGN_KEYS = "SELECT oid, tgrelid, tgconstrname, tgnargs, tgargs, tgdeferrable, tginitdeferred FROM pg_trigger WHERE tgisconstraint = TRUE AND tgtype = 21"
 Public Const SQL_GET_NAMESPACES = "SELECT oid, nspname, pg_get_userbyid(nspowner) AS namespaceowner, nspacl FROM pg_namespace"
+Public Const SQL_GET_CASTS = "SELECT oid, * FROM pg_cast"
 
 'Type Declarations
 Public Type OSVERSIONINFO

@@ -12,7 +12,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 ' pgSchema - PostgreSQL Schema Objects
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit
@@ -20,6 +20,7 @@ Option Explicit
 'Collections
 Private colLanguages As Languages
 Private colNamespaces As Namespaces
+Private colCasts As Casts
 Private colDatabaseVars As DatabaseVars
 
 'Properties
@@ -342,6 +343,25 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Namespac
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
+'Return the Casts Collection
+Public Property Get Casts() As Casts
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Casts()", etFullDebug
+
+  If colCasts Is Nothing Then
+    If dbConnect = False Then Exit Property
+    Set colCasts = New Casts
+    
+    'Pass the connection to the class
+    Set colCasts.Connection = cnDatabase
+    colCasts.Initialize
+  End If
+  Set Casts = colCasts
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+
 'Return the DatabaseVars Collection
 Public Property Get DatabaseVars() As DatabaseVars
 On Error GoTo Err_Handler
@@ -609,6 +629,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Class_Terminate()", e
 
   Set colLanguages = Nothing
   Set colNamespaces = Nothing
+  Set colCasts = Nothing
   Set colDatabaseVars = Nothing
   Set szTypeCache = Nothing
   Set szLanguageCache = Nothing
@@ -915,6 +936,14 @@ Dim vTemp As Variant
   'Types & Views
   
   ReDim arrObjects(0)
+  
+  'Casts
+  For Each vObject In Casts
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
   
   'Languages
   For Each vObject In Languages

@@ -6,7 +6,7 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "Languages"
+Attribute VB_Name = "Casts"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -26,7 +26,7 @@ Private vTag As Variant
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Let Tag(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
     
@@ -35,7 +35,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Set Tag(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
     
@@ -44,7 +44,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Tag()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
     Set Tag = vTag
@@ -60,16 +60,16 @@ End Property
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
-Dim objLanguage As pgLanguage
+Dim objCast As pgCast
 
-  For Each objLanguage In mCol
-    If objLanguage.Identifier = Identifier Then
+  For Each objCast In mCol
+    If objCast.Identifier = Identifier Then
       Exists = True
       Exit For
     End If
-  Next objLanguage
+  Next objCast
   
   Exit Function
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -79,7 +79,7 @@ End Function
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Database()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get Database()", etFullDebug
 
 Static szDB As String
 
@@ -93,7 +93,7 @@ End Property
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -102,53 +102,54 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
-Private Sub iAdd(dOID As Double, szName As String, bTrusted As Boolean, dHandler As Double, Optional szACL As String, Optional dValidator As Double)
+Private Sub iAdd(ByVal dOID As Double, ByVal dSource As Double, ByVal dTarget As Double, ByVal dFunc As Double, ByVal szContext)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & dHandler & ", " & QUOTE & szACL & QUOTE & ", " & dValidator & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.iAdd(" & dOID & ", " & dSource & ", " & dTarget & ", " & dFunc & ", " & QUOTE & szContext & QUOTE & ")", etFullDebug
 
-Dim objNewMember As pgLanguage
+Dim objNewMember As pgCast
 Dim rs As New Recordset
 Dim szSQL As String
 
   'Create a new object
-  Set objNewMember = New pgLanguage
-  If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
+  Set objNewMember = New pgCast
+  If dOID <= objServer.LastSystemOID Then
     If Not objServer.IncludeSys Then Exit Sub
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
   objNewMember.OID = dOID
-  objNewMember.Name = szName
-  objNewMember.Trusted = bTrusted
   
-  'Get the Handler
-  If objVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dHandler & "::oid"
-  Else
-    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE oid = " & dHandler & "::oid"
-  End If
+  'Get the source type
+  szSQL = SQL_GET_TYPES7_3 & " AND oid = " & dSource & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-  If Not rs.EOF Then
-    objNewMember.Handler = fmtID(rs!proname & "")
-  End If
-  If rs.State <> adStateClosed Then rs.Close
-
-  'Get the Validator
-  If objVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dValidator & "::oid"
-    Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-    If Not rs.EOF Then
-      objNewMember.Validator = fmtID(rs!proname & "")
-    End If
-    If rs.State <> adStateClosed Then rs.Close
-  End If
+  If Not rs.EOF Then objNewMember.Source = fmtID(rs!typname & "")
   
-  objNewMember.ACL = szACL
-  objNewMember.Identifier = szName
+  'Get the target type
+  szSQL = SQL_GET_TYPES7_3 & " AND oid = " & dTarget & "::oid"
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then objNewMember.Target = fmtID(rs!typname & "")
+  
+  'Get the function
+  szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dFunc & "::oid"
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then objNewMember.Funct = fmtID(rs!proname & "")
+  
+  Select Case UCase(szContext)
+    Case "I"
+      objNewMember.Context = "IMPLICIT"
+    Case "E"
+      objNewMember.Context = "EXPLICIT"
+    Case "A"
+      objNewMember.Context = "ASSIGNMENT"
+  End Select
+  
+  
+  objNewMember.Name = Trim(objNewMember.Source) & "::" & Trim(objNewMember.Target)
+  objNewMember.Identifier = objNewMember.Name
   Set objNewMember.Connection = cnDatabase
   
-  'Add the Language
+  'Add the Cast
   mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set objNewMember = Nothing
   
@@ -162,48 +163,42 @@ Err_Handler:
 End Sub
 
 'External Add
-Public Function Add(ByVal Name As String, ByVal Trusted As Boolean, ByVal Handler As String, Optional ByVal Validator As String) As pgLanguage
-Attribute Add.VB_Description = "Add a new Language."
+Public Function Add(ByVal szSource As String, ByVal szTarget As String, ByVal szFunct As String, ByVal szContext As String) As pgCast
+Attribute Add.VB_Description = "Add a new Cast."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Add(" & QUOTE & Name & QUOTE & ", " & Trusted & ", " & QUOTE & Handler & QUOTE & ", " & QUOTE & Validator & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Add(" & QUOTE & szSource & QUOTE & ", " & QUOTE & szTarget & QUOTE & ", " & QUOTE & szFunct & QUOTE & ", " & QUOTE & szContext & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
-Dim objNewMember As pgLanguage
+Dim objNewMember As pgCast
 Dim szSQL As String
-Dim objLanguage As pgLanguage
+Dim objCast As pgCast
   
   'Create a new object
-  Set objNewMember = New pgLanguage
+  Set objNewMember = New pgCast
 
   'Generate the SQL query to create the new object and execute
-  If Trusted = True Then
-    szSQL = "CREATE TRUSTED PROCEDURAL LANGUAGE '" & Name & "' HANDLER " & Handler
+  szSQL = "CREATE CAST"
+  szSQL = szSQL & " ( " & szSource & " AS " & szTarget & " )" & vbCrLf
+  
+  If Len(szFunct) > 0 Then
+    szSQL = szSQL & " WITH FUNCTION " & szFunct & "(" & szSource & ")"
   Else
-    szSQL = "CREATE PROCEDURAL LANGUAGE '" & Name & "' HANDLER " & Handler
+    szSQL = szSQL & " WITHOUT FUNCTION" & vbCrLf
   End If
-  If (objVersion.VersionNum >= 7.3) And (Validator <> "") Then szSQL = szSQL & " VALIDATOR " & Validator
+  
+  Select Case szContext
+    Case "ASSIGNMENT"
+      szSQL = szSQL & " AS ASSIGNMENT " & vbCrLf
+    Case "EXPLICIT"
+    Case "IMPLICIT"
+      szSQL = szSQL & " AS IMPLICIT " & vbCrLf
+  End Select
+          
   objServer.ExecSQL szSQL, cnDatabase
   
-  'Generate and execute the SQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_LANGUAGES & " WHERE lanname = '" & dbSZ(Name) & "'"
-  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-  
-  'Create a new member of the collection
-  If Not rs.EOF Then
-    If objVersion.VersionNum >= 7.3 Then
-      iAdd rs.Fields("oid"), rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lanacl & "", rs!lanvalidator & ""
-    Else
-      iAdd rs.Fields("oid"), rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & ""
-    End If
-  End If
-  
   'Return the object created
-  Set objLanguage = objNewMember
-  
-  'Invalidate the Language Cache...
-  objServer.Databases(Database).KillLanguageCache
-  
-  Set Add = objLanguage
+  Set objCast = objNewMember
+  Set Add = objCast
   
   'Cleanup
   Set objNewMember = Nothing
@@ -219,11 +214,11 @@ Err_Handler:
 End Function
 
 'Return the specified Item
-Public Property Get Item(Key As String) As pgLanguage
-Attribute Item.VB_Description = "Returns a Language object."
+Public Property Get Item(Key As String) As pgCast
+Attribute Item.VB_Description = "Returns a Cast object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
   
@@ -233,18 +228,18 @@ End Property
 
 'Return the Item count
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
-Attribute Count.VB_Description = "Returns a count of the Languages in the current database."
+Attribute Count.VB_Description = "Returns a count of the Casts in the current database."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
-Dim objLanguage As pgLanguage
+Dim objCast As pgCast
 Dim lCount As Long
 
   If IgnoreSys Then
-    For Each objLanguage In mCol
-      If Not objLanguage.SystemObject Then lCount = lCount + 1
-    Next objLanguage
+    For Each objCast In mCol
+      If Not objCast.SystemObject Then lCount = lCount + 1
+    Next objCast
     Count = lCount
   Else
     Count = mCol.Count
@@ -256,23 +251,21 @@ End Property
 
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
-Attribute Remove.VB_Description = "Remove the specified Language."
+Attribute Remove.VB_Description = "Remove the specified Cast."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
-  'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP PROCEDURAL LANGUAGE " & mCol(ULEncode(Key)).FormattedID
+  'Generate/Execute SQL to drop the Cast.
+  szSQL = "DROP CAST "
+  szSQL = szSQL & " ( " & Me(Key).Source & " AS " & Me(Key).Target & " )"
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
 
-  'Invalidate the Language Cache...
-  objServer.Databases(Database).KillLanguageCache
-  
   Exit Sub
 Err_Handler:
   'Error 5 is thrown if the item is not in the collection...
@@ -285,7 +278,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -295,13 +288,13 @@ End Property
 
 'Refresh the collection
 Public Sub Refresh()
-Attribute Refresh.VB_Description = "Refresh the collection of Languages."
+Attribute Refresh.VB_Description = "Refresh the collection of Casts."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Refresh()", etFullDebug
 
   'Kill the caches first
   objServer.Databases(Database).KillCommentCache
-  objServer.Databases(Database).KillLanguageCache
+'pippo  objServer.Databases(Database).KillCastCache
   objServer.Databases(Database).KillOperatorCache
   objServer.Databases(Database).KillTypeCache
   
@@ -315,7 +308,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -324,13 +317,9 @@ Dim rs As New Recordset
 
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES & " ORDER BY lanname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_CASTS, cnDatabase)
     While Not rs.EOF
-      If objVersion.VersionNum >= 7.3 Then
-        iAdd rs.Fields("oid"), rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lanacl & "", rs!lanvalidator & ""
-      Else
-        iAdd rs.Fields("oid"), rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & ""
-      End If
+      iAdd rs.Fields("oid"), rs!castsource, rs!casttarget, rs!castfunc, rs!castcontext & ""
       rs.MoveNext
     Wend
   End If
@@ -347,7 +336,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -358,15 +347,15 @@ End Sub
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
-Dim objLanguage As pgLanguage
+Dim objCast As pgCast
   
-  szSQL = "-- Languages" & vbCrLf & vbCrLf
+  szSQL = "-- Casts" & vbCrLf & vbCrLf
 
-  For Each objLanguage In mCol
-    If IncludeSystem Or (Not objLanguage.SystemObject) Then szSQL = szSQL & objLanguage.SQL & vbCrLf
-  Next objLanguage
+  For Each objCast In mCol
+    If IncludeSystem Or (Not objCast.SystemObject) Then szSQL = szSQL & objCast.SQL & vbCrLf
+  Next objCast
   
   SQL = szSQL
   
