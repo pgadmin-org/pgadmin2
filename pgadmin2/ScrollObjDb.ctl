@@ -1,11 +1,11 @@
 VERSION 5.00
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.UserControl ScrollObjDb 
-   ClientHeight    =   375
+   ClientHeight    =   372
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   240
-   ScaleHeight     =   375
+   ScaleHeight     =   372
    ScaleWidth      =   240
    Begin MSComCtl2.UpDown UpDownObjDb 
       Height          =   375
@@ -14,7 +14,7 @@ Begin VB.UserControl ScrollObjDb
       Top             =   0
       Width           =   240
       _ExtentX        =   423
-      _ExtentY        =   661
+      _ExtentY        =   656
       _Version        =   393216
       Enabled         =   -1  'True
    End
@@ -52,7 +52,7 @@ If Not frmMain.svr Is Nothing Then frmMain.svr.LogEvent "Entering " & App.Title 
   
   'save table name if object depend of table
   Select Case ctx.CurrentObject.ObjectType
-    Case "Column", "ForeignKey", "Rule", "Trigger", "Index"
+    Case "Column", "Foreign Key", "Rule", "Trigger", "Index"
       szTable = ctx.CurrentObject.Table
   End Select
 
