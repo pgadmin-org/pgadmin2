@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
 Begin VB.Form frmExport 
@@ -45,11 +45,11 @@ Begin VB.Form frmExport
       TabCaption(1)   =   "&Substitution Map"
       TabPicture(1)   =   "frmExport.frx":0326
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvSubMap"
-      Tab(1).Control(1)=   "txtSearch"
+      Tab(1).Control(0)=   "cmdDelete"
+      Tab(1).Control(1)=   "cmdAdd"
       Tab(1).Control(2)=   "txtReplace"
-      Tab(1).Control(3)=   "cmdAdd"
-      Tab(1).Control(4)=   "cmdDelete"
+      Tab(1).Control(3)=   "txtSearch"
+      Tab(1).Control(4)=   "lvSubMap"
       Tab(1).ControlCount=   5
       Begin VB.CommandButton cmdDelete 
          Caption         =   "&Delete Substitution"
@@ -299,8 +299,8 @@ End Sub
 Private Sub cmdBrowse_Click()
   With CommonDialog1
     .FileName = txtFileName.Text
-    .DialogTitle = "Save HTML File"
-    .Filter = "All Files (*.*)|*.*"
+    .DialogTitle = "Save ASCII Text File"
+    .Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
     .ShowSave
   End With
   txtFileName.Text = CommonDialog1.FileName
@@ -414,7 +414,7 @@ Dim itmX As ListItem
   lvSubMap.ListItems.Clear
   lvSubMap.ColumnHeaders.Add , , "Search for:", lvSubMap.Width / 2
   lvSubMap.ColumnHeaders.Add , , "Replace with:", lvSubMap.Width / 2
-  If Val(RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter II\Substitution Map", "Entries", "0")) > 0 Then
+  If Val(RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Entries", "0")) > 0 Then
     For X = 1 To Val(RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Entries", "0"))
       Set itmX = lvSubMap.ListItems.Add(, RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Search - " & X, ""), RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Search - " & X, ""))
       itmX.SubItems(1) = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Replace - " & X, "")
