@@ -3,19 +3,20 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmOptions 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Options"
    ClientHeight    =   6888
-   ClientLeft      =   2568
-   ClientTop       =   1500
-   ClientWidth     =   5520
+   ClientLeft      =   3240
+   ClientTop       =   1860
+   ClientWidth     =   5532
    Icon            =   "frmOptions.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    ScaleHeight     =   6888
-   ScaleWidth      =   5520
+   ScaleWidth      =   5532
    Begin MSComDlg.CommonDialog cdlg 
       Left            =   0
       Top             =   6390
@@ -61,33 +62,77 @@ Begin VB.Form frmOptions
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdExpUninstall"
-      Tab(2).Control(1)=   "cmdExpInstall"
-      Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(3)=   "lstExporters"
+      Tab(2).Control(0)=   "lstExporters"
+      Tab(2).Control(1)=   "Frame1"
+      Tab(2).Control(2)=   "cmdExpInstall"
+      Tab(2).Control(3)=   "cmdExpUninstall"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lstPlugins"
-      Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(2)=   "cmdPlgInstall"
-      Tab(3).Control(3)=   "cmdPlgUninstall"
+      Tab(3).Control(0)=   "cmdPlgUninstall"
+      Tab(3).Control(1)=   "cmdPlgInstall"
+      Tab(3).Control(2)=   "Frame2"
+      Tab(3).Control(3)=   "lstPlugins"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame3"
-      Tab(4).Control(1)=   "Frame4"
-      Tab(4).Control(2)=   "Frame5"
-      Tab(4).Control(3)=   "Frame6"
+      Tab(4).Control(0)=   "Frame6"
+      Tab(4).Control(1)=   "Frame5"
+      Tab(4).Control(2)=   "Frame4"
+      Tab(4).Control(3)=   "Frame3"
       Tab(4).ControlCount=   4
       TabCaption(5)   =   "Misc"
       TabPicture(5)   =   "frmOptions.frx":0A8E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "chkShowUsersForPrivileges"
-      Tab(5).Control(1)=   "chkAskDeleteObjectDatabase"
-      Tab(5).ControlCount=   2
+      Tab(5).Control(0)=   "txtMaxSqlQuery"
+      Tab(5).Control(1)=   "txtMaxRecordViewData"
+      Tab(5).Control(2)=   "UpDownMaxRecViewData"
+      Tab(5).Control(3)=   "chkShowUsersForPrivileges"
+      Tab(5).Control(4)=   "chkAskDeleteObjectDatabase"
+      Tab(5).Control(5)=   "UpDownMaxSqlQuery"
+      Tab(5).Control(6)=   "Label3"
+      Tab(5).Control(7)=   "Label5"
+      Tab(5).ControlCount=   8
+      Begin VB.TextBox txtMaxSqlQuery 
+         Alignment       =   1  'Right Justify
+         Height          =   285
+         Left            =   -74880
+         TabIndex        =   69
+         Text            =   "0"
+         Top             =   1380
+         Width           =   492
+      End
+      Begin VB.TextBox txtMaxRecordViewData 
+         Alignment       =   1  'Right Justify
+         Height          =   285
+         Left            =   -74880
+         TabIndex        =   67
+         Text            =   "0"
+         Top             =   1020
+         Width           =   492
+      End
+      Begin MSComCtl2.UpDown UpDownMaxRecViewData 
+         Height          =   312
+         Left            =   -74400
+         TabIndex        =   66
+         Top             =   1020
+         Width           =   240
+         _ExtentX        =   423
+         _ExtentY        =   550
+         _Version        =   393216
+         BuddyControl    =   "txtMaxRecordViewData"
+         BuddyDispid     =   196610
+         OrigLeft        =   720
+         OrigTop         =   1020
+         OrigRight       =   960
+         OrigBottom      =   1332
+         Max             =   100000
+         SyncBuddy       =   -1  'True
+         BuddyProperty   =   65547
+         Enabled         =   -1  'True
+      End
       Begin VB.CheckBox chkShowUsersForPrivileges 
          Caption         =   "Show users for privileges"
          Height          =   240
@@ -621,6 +666,42 @@ Begin VB.Form frmOptions
             Width           =   4695
          End
       End
+      Begin MSComCtl2.UpDown UpDownMaxSqlQuery 
+         Height          =   288
+         Left            =   -74400
+         TabIndex        =   70
+         Top             =   1380
+         Width           =   240
+         _ExtentX        =   423
+         _ExtentY        =   508
+         _Version        =   393216
+         BuddyControl    =   "txtMaxSqlQuery"
+         BuddyDispid     =   196609
+         OrigLeft        =   720
+         OrigTop         =   1020
+         OrigRight       =   960
+         OrigBottom      =   1332
+         Max             =   10000
+         SyncBuddy       =   -1  'True
+         BuddyProperty   =   65547
+         Enabled         =   -1  'True
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Max number of sql command to memorize (Query). "
+         Height          =   240
+         Left            =   -74100
+         TabIndex        =   71
+         Top             =   1440
+         Width           =   3972
+      End
+      Begin VB.Label Label5 
+         Caption         =   "Max number of record for view data. "
+         Height          =   240
+         Left            =   -74100
+         TabIndex        =   68
+         Top             =   1080
+         Width           =   4032
+      End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
          Caption         =   "Logfile (%ID will be replaced with the Process ID)"
@@ -950,6 +1031,14 @@ Dim objFont As New StdFont
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Ask Delete Object Database", regString, "N"
   End If
   
+  'max number of sql command in query
+  ctx.MaxNumberSqlQuery = Val(txtMaxSqlQuery.Text)
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Max Number Sql Query", regString, Val(txtMaxSqlQuery.Text)
+  
+  'max number of Record in View Data
+  ctx.MaxRecordViewData = Val(txtMaxRecordViewData.Text)
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", regString, Val(txtMaxRecordViewData.Text)
+  
   Unload Me
   
   Exit Sub
@@ -1048,6 +1137,12 @@ Dim szFont() As String
   Else
     chkDeferConnection.Value = 0
   End If
+  
+  'max number of sql command in query
+  UpDownMaxSqlQuery.Value = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Max Number Sql Query", "50"))
+  
+  'max number of Record in View Data
+  UpDownMaxRecViewData.Value = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", "1000"))
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.Form_Load"
