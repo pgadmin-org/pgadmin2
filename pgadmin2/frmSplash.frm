@@ -57,7 +57,7 @@ Begin VB.Form frmSplash
          Left            =   2970
          TabIndex        =   1
          Top             =   4005
-         Width           =   4110
+         Width           =   4380
       End
    End
 End
