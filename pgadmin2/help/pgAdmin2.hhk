@@ -14,6 +14,10 @@
 		<param name="Local" value="html\developerinfo\coding.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Control">
+		<param name="Local" value="html\howtos\revisioncontrol.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="CVS">
 		<param name="Local" value="html\developerinfo\cvs.html">
 		</OBJECT>
@@ -30,12 +34,24 @@
 		<param name="Local" value="html\developerinfo\index.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Internet">
+		<param name="Local" value="html\links.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Licence">
 		<param name="Local" value="html\licenceinfo\licence.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Links">
+		<param name="Local" value="html\links.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="pgAdmin">
 		<param name="Local" value="html\index.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Revision">
+		<param name="Local" value="html\howtos\revisioncontrol.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="SSH">
