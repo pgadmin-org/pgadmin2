@@ -219,7 +219,9 @@ Dim bFlag As Boolean
             Case adDBTimeStamp
             szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
           Case Else
-            szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Replace(dbSZ(lvData.SelectedItem.Text), vbCrLf, "\n") & "' AND "
+            If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
+              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
+            End If
         End Select
       End If
     Else
@@ -232,23 +234,34 @@ Dim bFlag As Boolean
           Case adDBTimeStamp
             szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
           Case Else
-            szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Replace(dbSZ(lvData.SelectedItem.SubItems(X)), vbCrLf, "\n") & "' AND "
+            If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
+              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
+            End If
         End Select
       End If
     End If
   Next
   
-  'Find out how many records would be affected. Abort if zero, delete if 1 or
-  'give the option to delete if > 1
+  'Find out how many records would be affected. Abort if zero, update if 1 or
+  'give the option to update all if > 1
   StartMsg "Counting matching records..."
   If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
-  szQuery = "SELECT count(*) AS count FROM " & szTable & " WHERE " & szCriteria
-  If szWhere <> "" Then szQuery = szQuery & " AND " & szWhere
+  szQuery = "SELECT count(*) AS count FROM " & szTable
+  If (szCriteria <> "") Or (szWhere <> "") Then
+    szQuery = szQuery & " WHERE " & szCriteria
+    If (szCriteria <> "") And (szWhere <> "") Then szQuery = szQuery & " AND "
+    If szWhere <> "" Then szQuery = szQuery & szWhere
+  End If
   Set rsCount = frmMain.svr.Databases(szDatabase).Execute(szQuery)
   
   'Prepare the delete query for later
-  szQuery = "DELETE FROM " & szTable & " WHERE " & szCriteria
-  If szWhere <> "" Then szQuery = szQuery & " AND " & szWhere
+  szQuery = "DELETE FROM " & szTable
+  If (szCriteria <> "") Or (szWhere <> "") Then
+    szQuery = szQuery & " WHERE " & szCriteria
+    If (szCriteria <> "") And (szWhere <> "") Then szQuery = szQuery & " AND "
+    If szWhere <> "" Then szQuery = szQuery & szWhere
+  End If
+  
   EndMsg
   If Not rsCount.EOF Then
     Select Case rsCount!Count
