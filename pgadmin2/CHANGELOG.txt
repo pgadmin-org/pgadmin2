@@ -7,6 +7,7 @@ Fixed a bug in Domain counting code.
 Fixed a bug in the Foreign Key analysis code that occured with multiple foreign keys to the same table.
 Added combo box of available variables to frmDatabase/frmUser [Frank Lupo].
 Added 'Show current settings' option for frmDatabase [Frank Lupo].
+Quote database/user variable values correctly.
 
 1.4.12
 ------

@@ -134,7 +134,7 @@ Dim szSQL As String
   End If
   
   'Generate the SQL query to create the new object and execute
-  szSQL = "ALTER DATABASE " & fmtID(Database) & " SET " & fmtID(Name) & " = " & dbSZ(Value)
+  szSQL = "ALTER DATABASE " & fmtID(Database) & " SET " & fmtID(Name) & " = " & fmtID(Value)
   objServer.ExecSQL szSQL, cnDatabase
 
   'If the var already exists, then update it

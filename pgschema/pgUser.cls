@@ -376,7 +376,7 @@ Dim objVar As pgVar
   'User Vars
   If objVersion.VersionNum >= 7.3 Then
     For Each objVar In UserVars
-      szSQL = szSQL & "ALTER USER " & FormattedID & " SET " & objVar.FormattedID & " = " & objVar.Value & ";" & vbCrLf
+      szSQL = szSQL & "ALTER USER " & FormattedID & " SET " & objVar.FormattedID & " = " & fmtID(objVar.Value) & ";" & vbCrLf
     Next objVar
   End If
 

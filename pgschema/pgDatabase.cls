@@ -872,7 +872,7 @@ Dim objVar As pgVar
   'Database Vars/ACL
   If objVersion.VersionNum >= 7.3 Then
     For Each objVar In DatabaseVars
-      szSQL = szSQL & "ALTER DATABASE " & FormattedID & " SET " & objVar.FormattedID & " = " & objVar.Value & ";" & vbCrLf
+      szSQL = szSQL & "ALTER DATABASE " & FormattedID & " SET " & objVar.FormattedID & " = " & fmtID(objVar.Value) & ";" & vbCrLf
     Next objVar
     
     If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclDatabase)
