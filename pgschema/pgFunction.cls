@@ -461,7 +461,9 @@ Dim X As Long
   End If
   
   If bQuote Then
-    szSource = dbSZ(szSource)
+    szSource = Replace(szSource, "\", "\\")
+    szSource = Replace(szSource, "'", "\'")
+    szSource = Replace(szSource, QUOTE, "\" & QUOTE)
   End If
   
   szSQL = szSQL & " RETURNS " & QUOTE & szReturns & QUOTE & _
