@@ -144,14 +144,22 @@ Dim szFrequency As String
     End Select
     If DateAdd(szFrequency, 1, CDate(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Last Check", "2000-01-01"))) <= Date Then
       Load frmUpgradeWizard
-      frmUpgradeWizard.Show vbModal, frmMain
+      If InStr(0, Command, "-wine") <> 0 Then
+        frmUpgradeWizard.Show
+      Else
+        frmUpgradeWizard.Show vbModal, frmMain
+      End If
     End If
   End If
   
   'Show the Tips if required.
   If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Show Tips", "Y")) = "Y" Then
     Load frmTip
-    frmTip.Show vbModal, frmMain
+    If InStr(0, Command, "-wine") <> 0 Then
+      frmTip.Show
+    Else
+      frmTip.Show vbModal, frmMain
+    End If
   End If
    
 End Sub

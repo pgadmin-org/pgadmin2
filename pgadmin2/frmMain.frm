@@ -1,12 +1,12 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
    ClientHeight    =   6675
    ClientLeft      =   165
-   ClientTop       =   735
+   ClientTop       =   855
    ClientWidth     =   9675
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
@@ -335,7 +335,7 @@ Begin VB.Form frmMain
          NumPanels       =   4
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   8918
+            Object.Width           =   8892
             MinWidth        =   2
             Text            =   "Ready"
             TextSave        =   "Ready"
@@ -953,7 +953,11 @@ On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupRecordLog_Click()", etFullDebug
 
   Load frmRecordLog
-  frmRecordLog.Show vbModal, Me
+  If InStr(1, Command, "-wine") <> 0 Then
+    frmRecordLog.Show
+  Else
+    frmRecordLog.Show vbModal, Me
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupRecordLog_Click"
@@ -1172,7 +1176,11 @@ On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileChangePassword_Click()", etFullDebug
 
   Load frmPassword
-  frmPassword.Show vbModal, Me
+  If InStr(1, Command, "-wine") <> 0 Then
+    frmPassword.Show
+  Else
+    frmPassword.Show vbModal, Me
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileChangePassword_Click"
@@ -1262,7 +1270,11 @@ On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpAbout_Click()", etFullDebug
 
   Load frmAbout
-  frmAbout.Show vbModal, Me
+  If InStr(1, Command, "-wine") <> 0 Then
+    frmAbout.Show
+  Else
+    frmAbout.Show vbModal, Me
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuHelpAbout_Click"
@@ -1273,7 +1285,11 @@ On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsOptions_Click()", etFullDebug
 
   Load frmOptions
-  frmOptions.Show vbModal, Me
+  If InStr(1, Command, "-wine") <> 0 Then
+    frmOptions.Show
+  Else
+    frmOptions.Show vbModal, Me
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsOptions_Click"
@@ -1363,7 +1379,11 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupConnect_Click()", etFul
 
   Load frmConnect
   frmConnect.Load_Defaults
-  frmConnect.Show vbModal, Me
+  If InStr(1, Command, "-wine") <> 0 Then
+    frmConnect.Show
+  Else
+    frmConnect.Show vbModal, Me
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupConnect_Click"
@@ -1881,7 +1901,11 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
     Case "connect"
       Load frmConnect
       frmConnect.Load_Defaults Val(Mid(ButtonMenu.Key, 1, InStr(1, ButtonMenu.Key, "|") - 1))
-      frmConnect.Show vbModal, Me
+      If InStr(1, Command, "-wine") <> 0 Then
+        frmConnect.Show
+      Else
+        frmConnect.Show vbModal, Me
+      End If
     
     Case "create"
     
@@ -1988,7 +2012,11 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileConnect_Click()", etFull
 
   Load frmConnect
   frmConnect.Load_Defaults
-  frmConnect.Show vbModal, Me
+  If InStr(1, Command, "-wine") <> 0 Then
+    frmConnect.Show
+  Else
+    frmConnect.Show vbModal, Me
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileConnect_Click"

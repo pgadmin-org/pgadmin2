@@ -36,6 +36,7 @@ Invalidate Caches before refreshing hierarchy in pgSchema.
 Standardised db name access method throughout pgSchema's classes, and added caching.
 Added support for renaming Sequences & Indexes.
 Committing a table now also commits sub objects.
+Added a '-wine' command line option to disable modal dialogues (they don't seem to work under Wine).
 
 1.2.0 Stable
 ------------
