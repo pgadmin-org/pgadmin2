@@ -239,7 +239,15 @@ Attribute Password.VB_Description = "Set's the User's password. This Property al
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Password(" & QUOTE & "********" & QUOTE & ")", etFullDebug
 
-  objServer.ExecSQL "ALTER USER " & QUOTE & szName & QUOTE & " WITH PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
+  If objServer.dbVersion.VersionNum >= 7.2 Then
+    If objServer.EncryptPasswords Then
+      objServer.ExecSQL "ALTER USER " & QUOTE & szName & QUOTE & " WITH ENCRYPTED PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
+    Else
+      objServer.ExecSQL "ALTER USER " & QUOTE & szName & QUOTE & " WITH UNENCRYPTED PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
+    End If
+  Else
+    objServer.ExecSQL "ALTER USER " & QUOTE & szName & QUOTE & " WITH PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
+  End If
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

@@ -95,6 +95,7 @@ Private bIncludeSys As Boolean
 Private bDontLogErrors As Boolean
 Private bShowPassword As Boolean
 Private szMasterDB As String
+Private bEncryptPasswords As Boolean
 Private objDriverVersion As Version
 
 'Error Log
@@ -111,7 +112,7 @@ Dim szError As String
   If Not bDontLogErrors Then
     LogEvent "Error: " & lError & " - " & szError, etErrors
   End If
-  Err.Raise lError, "pgSchema", szError
+  'Err.Raise lError, "pgSchema", szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
   If Not ((bDontLogErrors) And (etType = etErrors)) Then
@@ -482,6 +483,27 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DontLogErrors()", etFullDebug
 
   DontLogErrors = bDontLogErrors
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return EncryptPasswords
+Public Property Let EncryptPasswords(ByVal vData As Boolean)
+Attribute EncryptPasswords.VB_Description = "Should passwords be encrypted in PostgreSQL 7.2+?"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let EncryptPasswords(" & vData & ")", etFullDebug
+
+  bEncryptPasswords = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get EncryptPasswords() As Boolean
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get EncryptPasswords()", etFullDebug
+
+  EncryptPasswords = bEncryptPasswords
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

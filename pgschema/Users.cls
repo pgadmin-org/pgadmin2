@@ -83,7 +83,20 @@ Dim szSQL As String
     szSQL = szSQL & " WITH "
   End If
   If Not IsMissing(ID) Then szSQL = szSQL & " SYSID " & ID
-  If Not IsMissing(Password) Then szSQL = szSQL & " PASSWORD '" & dbSZ(Password) & "'"
+  
+  'Password - PostgreSQL 7.2+ can encrypt passwords.
+  If Not IsMissing(Password) Then
+    If objServer.dbVersion.VersionNum >= 7.2 Then
+      If objServer.EncryptPasswords Then
+        szSQL = szSQL & " ENCRYPTED PASSWORD '" & dbSZ(Password) & "'"
+      Else
+        szSQL = szSQL & " UNENCRYPTED PASSWORD '" & dbSZ(Password) & "'"
+      End If
+    Else
+      szSQL = szSQL & " PASSWORD '" & dbSZ(Password) & "'"
+    End If
+  End If
+
   If CreateDatabases = True Then
     szSQL = szSQL & " CREATEDB"
   Else

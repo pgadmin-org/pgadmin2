@@ -68,33 +68,51 @@ Begin VB.Form frmOptions
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0902
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lstExporters"
-      Tab(2).Control(1)=   "Frame1"
-      Tab(2).Control(2)=   "cmdExpInstall"
-      Tab(2).Control(3)=   "cmdExpUninstall"
+      Tab(2).Control(0)=   "cmdExpUninstall"
+      Tab(2).Control(1)=   "cmdExpInstall"
+      Tab(2).Control(2)=   "Frame1"
+      Tab(2).Control(3)=   "lstExporters"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":091E
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdPlgUninstall"
-      Tab(3).Control(1)=   "cmdPlgInstall"
-      Tab(3).Control(2)=   "Frame2"
-      Tab(3).Control(3)=   "lstPlugins"
+      Tab(3).Control(0)=   "lstPlugins"
+      Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(2)=   "cmdPlgInstall"
+      Tab(3).Control(3)=   "cmdPlgUninstall"
       Tab(3).ControlCount=   4
-      TabCaption(4)   =   "&Master DB"
+      TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":093A
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "txtMasterDB"
-      Tab(4).Control(1)=   "Label4"
-      Tab(4).Control(2)=   "Label3"
-      Tab(4).ControlCount=   3
-      Begin VB.TextBox txtMasterDB 
-         Height          =   285
-         Left            =   -74325
-         TabIndex        =   46
-         ToolTipText     =   "Enter the name of a database to use as the Master Connection."
-         Top             =   1980
-         Width           =   3930
+      Tab(4).Control(0)=   "Frame4"
+      Tab(4).Control(0).Enabled=   0   'False
+      Tab(4).Control(1)=   "Frame3"
+      Tab(4).Control(1).Enabled=   0   'False
+      Tab(4).ControlCount=   2
+      Begin VB.Frame Frame4 
+         Caption         =   "Security"
+         Height          =   2040
+         Left            =   -74775
+         TabIndex        =   49
+         Top             =   3600
+         Width           =   5010
+         Begin VB.CheckBox chkEncryptPasswords 
+            Caption         =   "Use Encrypted passwords where possible."
+            Height          =   240
+            Left            =   810
+            TabIndex        =   50
+            Top             =   450
+            Width           =   3345
+         End
+         Begin VB.Label Label4 
+            Caption         =   $"frmOptions.frx":0956
+            Height          =   825
+            Index           =   1
+            Left            =   135
+            TabIndex        =   51
+            Top             =   945
+            Width           =   4695
+         End
       End
       Begin VB.CommandButton cmdPlgUninstall 
          Caption         =   "&Uninstall Plugin"
@@ -183,18 +201,18 @@ Begin VB.Form frmOptions
       End
       Begin VB.ListBox lstPlugins 
          Height          =   3375
-         ItemData        =   "frmOptions.frx":0956
+         ItemData        =   "frmOptions.frx":0A1D
          Left            =   -74910
-         List            =   "frmOptions.frx":0958
+         List            =   "frmOptions.frx":0A1F
          TabIndex        =   37
          Top             =   450
          Width           =   5235
       End
       Begin VB.ListBox lstExporters 
          Height          =   3375
-         ItemData        =   "frmOptions.frx":095A
+         ItemData        =   "frmOptions.frx":0A21
          Left            =   -74910
-         List            =   "frmOptions.frx":095C
+         List            =   "frmOptions.frx":0A23
          TabIndex        =   27
          Top             =   450
          Width           =   5235
@@ -453,22 +471,30 @@ Begin VB.Form frmOptions
          Appearance      =   1
          NumItems        =   0
       End
-      Begin VB.Label Label4 
-         Caption         =   $"frmOptions.frx":095E
-         Height          =   915
-         Left            =   -74595
-         TabIndex        =   48
-         Top             =   2970
-         Width           =   4695
-      End
-      Begin VB.Label Label3 
-         AutoSize        =   -1  'True
+      Begin VB.Frame Frame3 
          Caption         =   "Master Connection Database"
-         Height          =   195
-         Left            =   -74325
-         TabIndex        =   47
-         Top             =   1755
-         Width           =   2070
+         Height          =   2040
+         Left            =   -74775
+         TabIndex        =   46
+         Top             =   945
+         Width           =   5010
+         Begin VB.TextBox txtMasterDB 
+            Height          =   285
+            Left            =   540
+            TabIndex        =   47
+            ToolTipText     =   "Enter the name of a database to use as the Master Connection."
+            Top             =   495
+            Width           =   3930
+         End
+         Begin VB.Label Label4 
+            Caption         =   $"frmOptions.frx":0A25
+            Height          =   690
+            Index           =   0
+            Left            =   135
+            TabIndex        =   48
+            Top             =   1125
+            Width           =   4695
+         End
       End
       Begin VB.Label Label2 
          Caption         =   "Word"
@@ -715,6 +741,15 @@ Dim itmX As ListItem
   End If
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", regString, txtMasterDB.Text
   
+  'Encrypted passwords
+  If chkEncryptPasswords.Value = 1 Then
+    frmMain.svr.EncryptPasswords = True
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Encrypt Passwords", regString, "Y"
+  Else
+    frmMain.svr.EncryptPasswords = False
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Encrypt Passwords", regString, "N"
+  End If
+  
   Unload Me
   
   Exit Sub
@@ -796,6 +831,13 @@ Dim szValues() As String
 
   'Master DB
   txtMasterDB.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", "template1")
+  
+  'Encryted Passwords
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Encrypt Passwords", "Y")) = "Y" Then
+    chkEncryptPasswords.Value = 1
+  Else
+    chkEncryptPasswords.Value = 0
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.Form_Load"
