@@ -632,9 +632,9 @@ Dim vArgument As Variant
     objItem.Selected = True
     Set objItem = cboProperties(2).ComboItems.Add(, , objType.Element, "type")
     objItem.Selected = True
-    Set objItem = cboProperties(5).ComboItems.Add(, , objType.Alignment, "type")
+    Set objItem = cboProperties(3).ComboItems.Add(, , objType.Alignment, "type")
     objItem.Selected = True
-    Set objItem = cboProperties(6).ComboItems.Add(, , objType.Storage, "storage")
+    Set objItem = cboProperties(4).ComboItems.Add(, , objType.Storage, "storage")
     objItem.Selected = True
     chkProperties(0).Value = Bool2Bin(objType.PassedByValue)
     hbxProperties(0).Text = objType.Comment
