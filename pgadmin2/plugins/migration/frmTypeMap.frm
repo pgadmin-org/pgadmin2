@@ -3,8 +3,8 @@ Begin VB.Form frmTypeMap
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Type Map"
    ClientHeight    =   4440
-   ClientLeft      =   1200
-   ClientTop       =   1155
+   ClientLeft      =   1230
+   ClientTop       =   1425
    ClientWidth     =   7845
    Icon            =   "frmTypeMap.frx":0000
    LinkTopic       =   "Form1"
@@ -13,12 +13,22 @@ Begin VB.Form frmTypeMap
    ScaleWidth      =   7845
    Begin VB.ComboBox cboType 
       Height          =   315
+      Index           =   33
+      Left            =   3960
+      Style           =   2  'Dropdown List
+      TabIndex        =   45
+      ToolTipText     =   "Select the PostgreSQL Datatype to map to."
+      Top             =   3330
+      Width           =   1200
+   End
+   Begin VB.ComboBox cboType 
+      Height          =   315
       Index           =   24
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   57
+      TabIndex        =   59
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   90
+      Top             =   450
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -26,9 +36,9 @@ Begin VB.Form frmTypeMap
       Index           =   25
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   56
+      TabIndex        =   60
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   450
+      Top             =   810
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -36,9 +46,9 @@ Begin VB.Form frmTypeMap
       Index           =   26
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   55
+      TabIndex        =   61
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   810
+      Top             =   1170
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -46,9 +56,9 @@ Begin VB.Form frmTypeMap
       Index           =   27
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   54
+      TabIndex        =   62
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   1170
+      Top             =   1530
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -56,9 +66,9 @@ Begin VB.Form frmTypeMap
       Index           =   28
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   53
+      TabIndex        =   63
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   1530
+      Top             =   1890
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -66,9 +76,9 @@ Begin VB.Form frmTypeMap
       Index           =   29
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   52
+      TabIndex        =   64
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   1890
+      Top             =   2250
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -76,9 +86,9 @@ Begin VB.Form frmTypeMap
       Index           =   30
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   51
+      TabIndex        =   65
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   2250
+      Top             =   2610
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -86,9 +96,9 @@ Begin VB.Form frmTypeMap
       Index           =   31
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   50
+      TabIndex        =   66
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   2610
+      Top             =   2970
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -96,9 +106,9 @@ Begin VB.Form frmTypeMap
       Index           =   32
       Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   49
+      TabIndex        =   67
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   2970
+      Top             =   3330
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -116,7 +126,7 @@ Begin VB.Form frmTypeMap
       Index           =   13
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   35
+      TabIndex        =   37
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   450
       Width           =   1200
@@ -126,7 +136,7 @@ Begin VB.Form frmTypeMap
       Index           =   14
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   34
+      TabIndex        =   38
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   810
       Width           =   1200
@@ -136,7 +146,7 @@ Begin VB.Form frmTypeMap
       Index           =   15
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   33
+      TabIndex        =   39
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   1170
       Width           =   1200
@@ -146,7 +156,7 @@ Begin VB.Form frmTypeMap
       Index           =   16
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   32
+      TabIndex        =   40
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   1530
       Width           =   1200
@@ -156,7 +166,7 @@ Begin VB.Form frmTypeMap
       Index           =   17
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   31
+      TabIndex        =   41
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   1890
       Width           =   1200
@@ -166,7 +176,7 @@ Begin VB.Form frmTypeMap
       Index           =   18
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   30
+      TabIndex        =   42
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   2250
       Width           =   1200
@@ -176,7 +186,7 @@ Begin VB.Form frmTypeMap
       Index           =   19
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   29
+      TabIndex        =   43
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   2610
       Width           =   1200
@@ -186,7 +196,7 @@ Begin VB.Form frmTypeMap
       Index           =   20
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   28
+      TabIndex        =   44
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   2970
       Width           =   1200
@@ -196,9 +206,9 @@ Begin VB.Form frmTypeMap
       Index           =   21
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   27
+      TabIndex        =   46
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   3330
+      Top             =   3690
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
@@ -206,26 +216,26 @@ Begin VB.Form frmTypeMap
       Index           =   22
       Left            =   3960
       Style           =   2  'Dropdown List
-      TabIndex        =   26
+      TabIndex        =   47
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   3690
+      Top             =   4050
       Width           =   1200
    End
    Begin VB.ComboBox cboType 
       Height          =   315
       Index           =   23
-      Left            =   3960
+      Left            =   6570
       Style           =   2  'Dropdown List
-      TabIndex        =   25
+      TabIndex        =   48
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
-      Top             =   4050
+      Top             =   90
       Width           =   1200
    End
    Begin VB.CommandButton cmdSave 
       Caption         =   "&Save && Exit"
       Height          =   330
       Left            =   6210
-      TabIndex        =   24
+      TabIndex        =   68
       ToolTipText     =   "Save changes and Exit."
       Top             =   4050
       Width           =   1545
@@ -245,7 +255,7 @@ Begin VB.Form frmTypeMap
       Index           =   10
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   21
+      TabIndex        =   22
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   3690
       Width           =   1200
@@ -255,7 +265,7 @@ Begin VB.Form frmTypeMap
       Index           =   9
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   19
+      TabIndex        =   21
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   3330
       Width           =   1200
@@ -265,7 +275,7 @@ Begin VB.Form frmTypeMap
       Index           =   8
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   17
+      TabIndex        =   20
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   2970
       Width           =   1200
@@ -275,7 +285,7 @@ Begin VB.Form frmTypeMap
       Index           =   7
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   15
+      TabIndex        =   19
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   2610
       Width           =   1200
@@ -285,7 +295,7 @@ Begin VB.Form frmTypeMap
       Index           =   6
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   13
+      TabIndex        =   18
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   2250
       Width           =   1200
@@ -295,7 +305,7 @@ Begin VB.Form frmTypeMap
       Index           =   5
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   11
+      TabIndex        =   17
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   1890
       Width           =   1200
@@ -305,7 +315,7 @@ Begin VB.Form frmTypeMap
       Index           =   4
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   9
+      TabIndex        =   16
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   1530
       Width           =   1200
@@ -315,7 +325,7 @@ Begin VB.Form frmTypeMap
       Index           =   3
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   7
+      TabIndex        =   15
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   1170
       Width           =   1200
@@ -325,7 +335,7 @@ Begin VB.Form frmTypeMap
       Index           =   2
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   5
+      TabIndex        =   14
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   810
       Width           =   1200
@@ -335,7 +345,7 @@ Begin VB.Form frmTypeMap
       Index           =   1
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   3
+      TabIndex        =   13
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   450
       Width           =   1200
@@ -345,10 +355,20 @@ Begin VB.Form frmTypeMap
       Index           =   0
       Left            =   1395
       Style           =   2  'Dropdown List
-      TabIndex        =   1
+      TabIndex        =   12
       ToolTipText     =   "Select the PostgreSQL Datatype to map to."
       Top             =   90
       Width           =   1200
+   End
+   Begin VB.Label Label1 
+      AutoSize        =   -1  'True
+      Caption         =   "Numeric"
+      Height          =   195
+      Index           =   33
+      Left            =   2670
+      TabIndex        =   58
+      Top             =   3375
+      Width           =   585
    End
    Begin VB.Label Label1 
       AutoSize        =   -1  'True
@@ -356,8 +376,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   24
       Left            =   5265
-      TabIndex        =   66
-      Top             =   135
+      TabIndex        =   49
+      Top             =   495
       Width           =   480
    End
    Begin VB.Label Label1 
@@ -366,8 +386,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   25
       Left            =   5265
-      TabIndex        =   65
-      Top             =   495
+      TabIndex        =   50
+      Top             =   855
       Width           =   1080
    End
    Begin VB.Label Label1 
@@ -376,8 +396,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   26
       Left            =   5265
-      TabIndex        =   64
-      Top             =   855
+      TabIndex        =   51
+      Top             =   1215
       Width           =   1230
    End
    Begin VB.Label Label1 
@@ -386,8 +406,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   27
       Left            =   5265
-      TabIndex        =   63
-      Top             =   1215
+      TabIndex        =   52
+      Top             =   1575
       Width           =   1155
    End
    Begin VB.Label Label1 
@@ -396,8 +416,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   28
       Left            =   5265
-      TabIndex        =   62
-      Top             =   1575
+      TabIndex        =   53
+      Top             =   1935
       Width           =   885
    End
    Begin VB.Label Label1 
@@ -406,8 +426,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   29
       Left            =   5265
-      TabIndex        =   61
-      Top             =   1935
+      TabIndex        =   54
+      Top             =   2295
       Width           =   675
    End
    Begin VB.Label Label1 
@@ -416,8 +436,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   30
       Left            =   5265
-      TabIndex        =   60
-      Top             =   2295
+      TabIndex        =   55
+      Top             =   2655
       Width           =   570
    End
    Begin VB.Label Label1 
@@ -426,8 +446,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   31
       Left            =   5265
-      TabIndex        =   59
-      Top             =   2655
+      TabIndex        =   56
+      Top             =   3015
       Width           =   735
    End
    Begin VB.Label Label1 
@@ -436,8 +456,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   32
       Left            =   5265
-      TabIndex        =   58
-      Top             =   3015
+      TabIndex        =   57
+      Top             =   3375
       Width           =   495
    End
    Begin VB.Label Label1 
@@ -446,7 +466,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   12
       Left            =   2700
-      TabIndex        =   48
+      TabIndex        =   24
       Top             =   135
       Width           =   510
    End
@@ -456,7 +476,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   13
       Left            =   2700
-      TabIndex        =   47
+      TabIndex        =   25
       Top             =   495
       Width           =   435
    End
@@ -466,7 +486,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   14
       Left            =   2700
-      TabIndex        =   46
+      TabIndex        =   26
       Top             =   855
       Width           =   330
    End
@@ -476,7 +496,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   15
       Left            =   2700
-      TabIndex        =   45
+      TabIndex        =   27
       Top             =   1215
       Width           =   585
    End
@@ -486,7 +506,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   16
       Left            =   2700
-      TabIndex        =   44
+      TabIndex        =   28
       Top             =   1575
       Width           =   405
    End
@@ -496,7 +516,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   17
       Left            =   2700
-      TabIndex        =   43
+      TabIndex        =   29
       Top             =   1935
       Width           =   495
    End
@@ -506,7 +526,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   18
       Left            =   2700
-      TabIndex        =   42
+      TabIndex        =   30
       Top             =   2295
       Width           =   1035
    End
@@ -516,7 +536,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   19
       Left            =   2700
-      TabIndex        =   41
+      TabIndex        =   31
       Top             =   2655
       Width           =   930
    End
@@ -526,7 +546,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   20
       Left            =   2700
-      TabIndex        =   40
+      TabIndex        =   32
       Top             =   3015
       Width           =   1095
    End
@@ -536,8 +556,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   21
       Left            =   2700
-      TabIndex        =   39
-      Top             =   3375
+      TabIndex        =   33
+      Top             =   3735
       Width           =   825
    End
    Begin VB.Label Label1 
@@ -546,8 +566,8 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   22
       Left            =   2700
-      TabIndex        =   38
-      Top             =   3735
+      TabIndex        =   34
+      Top             =   4095
       Width           =   435
    End
    Begin VB.Label Label1 
@@ -555,9 +575,9 @@ Begin VB.Form frmTypeMap
       Caption         =   "SmallInt"
       Height          =   195
       Index           =   23
-      Left            =   2700
-      TabIndex        =   37
-      Top             =   4095
+      Left            =   5310
+      TabIndex        =   35
+      Top             =   135
       Width           =   555
    End
    Begin VB.Label Label1 
@@ -566,7 +586,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   11
       Left            =   90
-      TabIndex        =   22
+      TabIndex        =   11
       Top             =   4095
       Width           =   570
    End
@@ -576,7 +596,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   10
       Left            =   90
-      TabIndex        =   20
+      TabIndex        =   10
       Top             =   3735
       Width           =   990
    End
@@ -586,7 +606,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   9
       Left            =   90
-      TabIndex        =   18
+      TabIndex        =   9
       Top             =   3375
       Width           =   570
    End
@@ -596,7 +616,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   8
       Left            =   90
-      TabIndex        =   16
+      TabIndex        =   8
       Top             =   3015
       Width           =   570
    End
@@ -606,7 +626,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   7
       Left            =   90
-      TabIndex        =   14
+      TabIndex        =   7
       Top             =   2655
       Width           =   345
    End
@@ -616,7 +636,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   6
       Left            =   90
-      TabIndex        =   12
+      TabIndex        =   6
       Top             =   2295
       Width           =   630
    End
@@ -626,7 +646,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   5
       Left            =   90
-      TabIndex        =   10
+      TabIndex        =   5
       Top             =   1935
       Width           =   330
    End
@@ -636,7 +656,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   4
       Left            =   90
-      TabIndex        =   8
+      TabIndex        =   4
       Top             =   1575
       Width           =   555
    End
@@ -646,7 +666,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   3
       Left            =   90
-      TabIndex        =   6
+      TabIndex        =   3
       Top             =   1215
       Width           =   435
    End
@@ -656,7 +676,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   2
       Left            =   90
-      TabIndex        =   4
+      TabIndex        =   2
       Top             =   855
       Width           =   585
    End
@@ -666,7 +686,7 @@ Begin VB.Form frmTypeMap
       Height          =   195
       Index           =   1
       Left            =   90
-      TabIndex        =   2
+      TabIndex        =   1
       Top             =   495
       Width           =   435
    End
@@ -711,7 +731,7 @@ On Error GoTo Err_Handler
 Dim X As Integer
 
   StartMsg "Saving Type Map..."
-  For X = 0 To 32
+  For X = 0 To 33   ' AM 20020110 Added adNumeric
     RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", Label1(X).Caption, regString, cboType(X).Text
   Next
   
@@ -731,15 +751,18 @@ Dim Temp As String
 Dim Current As String
 
   StartMsg "Loading Type Definitions..."
-  For X = 0 To 32
+
+  For X = 0 To 33  ' AM 20020110 Added adNumeric
     cboType(X).Clear
   Next
   For Each objType In svr.Databases(frmWizard.lstDatabase.SelectedItem.Text).Types
-    For X = 0 To 32
+
+    For X = 0 To 33   ' AM 20020110  Added adNumeric
       If Left(objType.Identifier, 1) <> "_" Then cboType(X).AddItem objType.Identifier
     Next
   Next objType
-  For X = 0 To 32
+
+  For X = 0 To 33   ' AM 20020110 Added adNumeric
     Select Case Label1(X).Caption
       Case "BigInt"
         Temp = "int8"
@@ -764,6 +787,8 @@ Dim Current As String
       Case "DBTimestamp"
         Temp = "timestamp"
       Case "Decimal"
+        Temp = "numeric"
+      Case "Numeric"       ' AM 20020110  Added adNumeric
         Temp = "numeric"
       Case "Double"
         Temp = "float8"

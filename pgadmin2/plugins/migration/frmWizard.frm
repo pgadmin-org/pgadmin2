@@ -113,61 +113,139 @@ Begin VB.Form frmWizard
       Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "chkPrimaryKey"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).ControlCount=   11
+      Tab(0).Control(11)=   "optType(2)"
+      Tab(0).Control(11).Enabled=   0   'False
+      Tab(0).Control(12)=   "fraSQLServer"
+      Tab(0).Control(12).Enabled=   0   'False
+      Tab(0).ControlCount=   13
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":187D
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lstDatabase"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "Label2"
-      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(0)=   "Label2"
+      Tab(1).Control(1)=   "lstDatabase"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":1899
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdDeselect(0)"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "cmdSelect(0)"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "lstTables"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "Label1(1)"
-      Tab(2).Control(3).Enabled=   0   'False
+      Tab(2).Control(0)=   "Label1(1)"
+      Tab(2).Control(1)=   "lstTables"
+      Tab(2).Control(2)=   "cmdSelect(0)"
+      Tab(2).Control(3)=   "cmdDeselect(0)"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18B5
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdDeselect(1)"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "cmdSelect(1)"
-      Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "lstData"
-      Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "Label1(9)"
-      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).Control(0)=   "Label1(9)"
+      Tab(3).Control(1)=   "lstData"
+      Tab(3).Control(2)=   "cmdSelect(1)"
+      Tab(3).Control(3)=   "cmdDeselect(1)"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":18D1
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "cmdDeselect(2)"
-      Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "cmdSelect(2)"
-      Tab(4).Control(1).Enabled=   0   'False
+      Tab(4).Control(0)=   "Label1(10)"
+      Tab(4).Control(1)=   "Label1(8)"
       Tab(4).Control(2)=   "lstForeignKeys"
-      Tab(4).Control(2).Enabled=   0   'False
-      Tab(4).Control(3)=   "Label1(8)"
-      Tab(4).Control(3).Enabled=   0   'False
-      Tab(4).Control(4)=   "Label1(10)"
-      Tab(4).Control(4).Enabled=   0   'False
+      Tab(4).Control(3)=   "cmdSelect(2)"
+      Tab(4).Control(4)=   "cmdDeselect(2)"
       Tab(4).ControlCount=   5
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":18ED
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "txtStatus"
-      Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "pbStatus"
-      Tab(5).Control(1).Enabled=   0   'False
+      Tab(5).Control(0)=   "pbStatus"
+      Tab(5).Control(1)=   "txtStatus"
       Tab(5).ControlCount=   2
+      Begin VB.Frame fraSQLServer 
+         Caption         =   "SQL server"
+         Height          =   1455
+         Left            =   720
+         TabIndex        =   49
+         Top             =   600
+         Visible         =   0   'False
+         Width           =   4965
+         Begin VB.TextBox txtSQLB 
+            Height          =   285
+            Left            =   3390
+            TabIndex        =   55
+            Top             =   315
+            Width           =   1245
+         End
+         Begin VB.TextBox txtSQLS 
+            Height          =   285
+            Left            =   1200
+            TabIndex        =   54
+            Top             =   315
+            Width           =   1245
+         End
+         Begin VB.TextBox txtPWD 
+            Height          =   285
+            IMEMode         =   3  'DISABLE
+            Index           =   2
+            Left            =   1200
+            PasswordChar    =   "*"
+            TabIndex        =   57
+            ToolTipText     =   "Enter a password for this database if required."
+            Top             =   1035
+            Width           =   3435
+         End
+         Begin VB.TextBox txtUID 
+            Height          =   285
+            Index           =   2
+            Left            =   1200
+            TabIndex        =   56
+            ToolTipText     =   "Enter a username for this database if required."
+            Top             =   675
+            Width           =   3435
+         End
+         Begin VB.Label Label1 
+            AutoSize        =   -1  'True
+            Caption         =   "Database"
+            Height          =   195
+            Index           =   14
+            Left            =   2565
+            TabIndex        =   53
+            Top             =   360
+            Width           =   690
+         End
+         Begin VB.Label Label1 
+            AutoSize        =   -1  'True
+            Caption         =   "Server Name"
+            Height          =   195
+            Index           =   13
+            Left            =   120
+            TabIndex        =   52
+            Top             =   360
+            Width           =   930
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Password"
+            Height          =   195
+            Index           =   12
+            Left            =   120
+            TabIndex        =   51
+            Top             =   1080
+            Width           =   1125
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Username"
+            Height          =   195
+            Index           =   11
+            Left            =   120
+            TabIndex        =   50
+            Top             =   720
+            Width           =   1005
+         End
+      End
+      Begin VB.OptionButton optType 
+         Caption         =   "&SQL Server"
+         Height          =   240
+         Index           =   2
+         Left            =   4080
+         TabIndex        =   48
+         ToolTipText     =   "Migrate an SQL Server Database."
+         Top             =   285
+         Width           =   1500
+      End
       Begin VB.CommandButton cmdDeselect 
          Caption         =   "&Deselect All"
          Height          =   330
@@ -382,7 +460,7 @@ Begin VB.Form frmWizard
       Begin VB.Frame fraAccess 
          Caption         =   "Access Database"
          Height          =   1455
-         Left            =   585
+         Left            =   720
          TabIndex        =   34
          Top             =   600
          Width           =   4965
@@ -454,7 +532,7 @@ Begin VB.Form frmWizard
       Begin VB.Frame fraODBC 
          Caption         =   "ODBC Database"
          Height          =   1455
-         Left            =   600
+         Left            =   720
          TabIndex        =   39
          Top             =   600
          Visible         =   0   'False
@@ -651,21 +729,25 @@ End Sub
 Private Function dbConnect() As Integer
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.dbConnect()", etFullDebug
-
+' AM 20020110
+' Added support for MSSQL databases - more tabs
 Dim tblTemp As Table
   If cnLocal.State <> adStateClosed Then cnLocal.Close
+  
+  'Access
   If optType(0).Value = True Then
     If txtFile.Text = "" Then
       MsgBox "You must select a database to migrate!", vbExclamation, "Error"
       dbConnect = 1
       Exit Function
     End If
-        
     StartMsg "Opening and Examining Source Database..."
     svr.LogEvent "Opening File: " & txtFile.Text, etMiniDebug
     cnLocal.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & txtFile.Text & ";Persist Security Info=False", txtUID(0).Text, txtPWD(0).Text
     szQuoteChar = "`"
-  Else
+    
+  'ODBC
+  ElseIf optType(1).Value = True Then
     If cboDatasource.Text = "" Then
       MsgBox "You must select a database to migrate!", vbExclamation, "Error"
       dbConnect = 1
@@ -675,7 +757,20 @@ Dim tblTemp As Table
     svr.LogEvent "Opening DSN: " & cboDatasource.Text, etMiniDebug
     cnLocal.Open "DSN=" & cboDatasource.Text & ";UID=" & txtUID(1).Text & ";PWD=" & txtPWD(1).Text, txtUID(1).Text, txtPWD(1).Text
     szQuoteChar = GetQuoteChar("DSN=" & cboDatasource.Text & ";UID=" & txtUID(1).Text & ";PWD=" & txtPWD(1).Text)
+  
+  'SQL Server
+  ElseIf optType(2).Value = True Then
+    If txtSQLS.Text = "" Or txtSQLB.Text = "" Then
+      MsgBox "You must select a SQL Server and database to migrate!", vbExclamation, "Error"
+      dbConnect = 1
+      Exit Function
+    End If
+    StartMsg "Opening and Examining Source Database..."
+    svr.LogEvent "Opening connection: " & txtSQLS.Text & " Database: " & txtSQLB.Text, etMiniDebug
+    cnLocal.Open "PROVIDER=SQLOLEDB;server=" & txtSQLS.Text & ";database=" & txtSQLB.Text, txtUID(2).Text, txtPWD(2).Text
+    szQuoteChar = QUOTE
   End If
+  
   svr.LogEvent "Opened connection: " & cnLocal.ConnectionString, etMiniDebug
   svr.LogEvent "Provider: " & cnLocal.Provider & " v" & cnLocal.Version, etMiniDebug
   svr.LogEvent "Quote Character: '" & szQuoteChar & "'", etMiniDebug
@@ -810,19 +905,22 @@ End Sub
 Private Sub optType_Click(Index As Integer)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.optType_Click()", etFullDebug
-
+  ' AM 20020110
+  ' Added support for MSSQL databases
   If Index = 0 Then
     fraAccess.Visible = True
     fraODBC.Visible = False
+    fraSQLServer.Visible = False
     chkIndexes.Value = 1
     chkIndexes.Enabled = True
     
     chkPrimaryKey.Value = 1
     chkPrimaryKey.Enabled = True
       
-  Else
+  ElseIf Index = 1 Then
     fraAccess.Visible = False
     fraODBC.Visible = True
+    fraSQLServer.Visible = False
     chkIndexes.Value = 0
     chkIndexes.Enabled = False
     
@@ -854,6 +952,16 @@ svr.LogEvent "Entering " & App.Title & ":frmWizard.optType_Click()", etFullDebug
     End If
 
     cboDatasource.ListIndex = 0
+  Else
+    fraSQLServer.Visible = True
+    fraODBC.Visible = False
+    fraAccess.Visible = False
+    chkIndexes.Value = 1
+    chkIndexes.Enabled = True
+    
+    chkPrimaryKey.Value = 1
+    chkPrimaryKey.Enabled = True
+  
   End If
   
   Exit Sub
@@ -868,6 +976,7 @@ svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdNext_Click()", etFullDebug
   
   '1/16/2001 Rod Childers
   'Use case now, more tabs now
+  
   Select Case tabWizard.Tab
     Case 0  'Database select tab
       If dbConnect <> 0 Then Exit Sub
@@ -1030,7 +1139,6 @@ Dim auto_increment_table As String
 Dim auto_increment_query As String
 Dim auto_increment_rs As New Recordset
 
-
   StartMsg "Migrating database..."
   pbStatus.Max = lstData.ListCount
   pbStatus.Value = 0
@@ -1066,6 +1174,8 @@ Dim auto_increment_rs As New Recordset
     
     '   06/29/01 Matthew MacSuga (AutoIncrement Fix)
     '   Check for existance of an auto increment field
+    '   20020110 Artur Maslag    (AutoIncrement Fix)
+    '   Added funtion for correctly checking this property
     auto_increment_on = 0
     auto_increment_count = 0
     auto_increment_field_name = ""
@@ -1075,12 +1185,13 @@ Dim auto_increment_rs As New Recordset
       auto_increment_table = LCase(lstData.List(X))
     End If
     auto_increment_query = ""
-    
+    'Stop
     '   Only do this if it's an access database
     If InStr(1, cnLocal.ConnectionString, "MSDASQL") = 0 Then
       For Y = 0 To catLocal.Tables(lstData.List(X)).Columns.Count - 1
         If catLocal.Tables(lstData.List(X)).Columns(Y).Type = adInteger Then
-          If catLocal.Tables(lstData.List(X)).Columns(Y).Properties("AutoIncrement") = True Then
+          'If catLocal.Tables(lstData.List(X)).Columns(Y).Properties("AutoIncrement") = True Then
+          If bIsAutoIncrement(catLocal.Tables(lstData.List(X)).Columns(Y).Properties("AutoIncrement")) = True Then ' AM 20020110
             auto_increment_on = 1
             
             If chkLCaseColumns.Value = 0 Then
@@ -1152,84 +1263,94 @@ Dim auto_increment_rs As New Recordset
           szTemp1 = szTemp1 & QUOTE & LCase(catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Name) & QUOTE
         End If
         Select Case catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Type
+        ' AM 20020110
+        ' Regkey was wrong - "Software\pgAdmin\Type Map"
+        ' Correct value is "Software\pgAdmin II\Migration Wizard\Type Map"
           Case adBigInt
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "BigInt", "int8")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "BigInt", "int8")
           Case adBinary
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Binary", "text")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Binary", "text")
+            loFlag = True
           Case adBoolean
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Boolean", "bool")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Boolean", "bool")
           Case adBSTR
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "BSTR", "bytea")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "BSTR", "bytea")
           Case adChapter
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Chapter", "int4")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Chapter", "int4")
           Case adChar
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Char", "char")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Char", "char")
           Case adCurrency
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Currency", "money")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Currency", "money")
           Case adDate
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Date", "date")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Date", "date")
           Case adDBDate
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "DBDate", "date")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "DBDate", "date")
           Case adDBTime
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "DBTime", "time")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "DBTime", "time")
           Case adDBTimeStamp
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "DBTimestamp", "timestamp")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "DBTimestamp", "timestamp")
           Case adDecimal
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Decimal", "numeric")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Decimal", "numeric")
           Case adDouble
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Double", "float8")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Double", "float8")
           Case adEmpty
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Empty", "text")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Empty", "text")
           Case adError
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Error", "int4")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Error", "int4")
           Case adFileTime
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "FileTime", "datetime")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "FileTime", "datetime")
           Case adGUID
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "GUID", "text")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "GUID", "text")
           Case adInteger
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Integer", "int4")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Integer", "int4")
           Case adLongVarBinary
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "LongVarBinary", "lo")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "LongVarBinary", "lo")
             loFlag = True
           Case adLongVarChar
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "LongVarChar", "text")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "LongVarChar", "text")
           Case adLongVarWChar
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "LongVarWChar", "text")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "LongVarWChar", "text")
           Case adPropVariant
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "PropVariant", "text")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "PropVariant", "text")
           Case adSingle
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "Single", "float4")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Single", "float4")
           Case adSmallInt
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "SmallInt", "int2")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "SmallInt", "int2")
           Case adTinyInt
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "TinyInt", "int2")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "TinyInt", "int2")
           Case adUnsignedBigInt
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "UnsignedBigInt", "int8")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "UnsignedBigInt", "int8")
           Case adUnsignedInt
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "UnsignedInt", "int4")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "UnsignedInt", "int4")
           Case adUnsignedSmallInt
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "UnsignedSmallInt", "int2")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "UnsignedSmallInt", "int2")
           Case adUnsignedTinyInt
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "UnsignedTinyInt", "int2")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "UnsignedTinyInt", "int2")
           Case adUserDefined
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "UserDefined", "text")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "UserDefined", "text")
           Case adVarBinary
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "VarBinary", "lo")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "VarBinary", "lo")
             loFlag = True
           Case adVarChar
             '1/16/2001 Rod Childers
             'Changed VarChar to default to VarChar
             'Text in Access is = VarChar in PostgreSQL
             'Memo in Access is = text in PostgreSQL
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "VarChar", "varchar")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "VarChar", "varchar")
           Case adVarWChar
             '1/16/2001 Rod Childers
             'Changed VarWChar to default to VarChar
             'Text in Access is = VarChar in PostgreSQL
             'Memo in Access is = text in PostgreSQL
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "VarWChar", "varchar")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "VarWChar", "varchar")
           Case adWChar
-            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\Type Map", "WChar", "text")
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "WChar", "text")
+          Case adNumeric
+            ' AM 20020110
+            ' I add this type to mappings
+          
+            szTemp2 = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\Migration Wizard\Type Map", "Numeric", "numeric")
+            'MsgBox szTemp2
           Case Else
           szTemp2 = "text"
         End Select
@@ -1248,8 +1369,11 @@ Dim auto_increment_rs As New Recordset
             End If
           End If
         End If
+        ' AM 20020110
+        ' driver don't returns correct values - setting to default 18,4
         If szTemp2 = "numeric" Then
-          szTemp2 = szTemp2 & "(" & catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).NumericScale & "," & catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Precision & ")"
+          'szTemp2 = szTemp2 & "(" & catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).NumericScale & "," & catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Precision & ")"
+          szTemp2 = szTemp2 & "(" & "18" & "," & "4" & ")"
         End If
       
         ' Matthew MacSuga Auto Increment Fix
@@ -1324,9 +1448,9 @@ Dim auto_increment_rs As New Recordset
       
         'Warn that BLOBS are being ignored.
         If loFlag = True Then
-          txtStatus.Text = txtStatus.Text & "  BLOB data was found and NOT copied." & vbCrLf
+          txtStatus.Text = txtStatus.Text & "  Binary data was found and NOT copied." & vbCrLf
           txtStatus.SelStart = Len(txtStatus.Text)
-          svr.LogEvent "BLOB data was found and NOT copied.", etMiniDebug
+          svr.LogEvent "Binary data was found and NOT copied.", etMiniDebug
           Me.Refresh
         End If
         Tuples = 0
@@ -1344,7 +1468,7 @@ Dim auto_increment_rs As New Recordset
           End If
         
           For Z = 0 To rsTemp.Fields.Count - 1
-            If ((rsTemp.Fields(Z).Value & "" <> "") And (rsTemp.Fields(Z).Type <> adLongVarBinary) And (rsTemp.Fields(Z).Type <> adVarBinary)) Then
+            If ((rsTemp.Fields(Z).Value & "" <> "") And (rsTemp.Fields(Z).Type <> adLongVarBinary) And (rsTemp.Fields(Z).Type <> adVarBinary) And (rsTemp.Fields(Z).Type <> adBinary)) Then
                             
               If chkLCaseColumns.Value = 0 Then
                 Fields = Fields & QUOTE & rsTemp.Fields(Z).Name & QUOTE & ", "
@@ -1357,7 +1481,7 @@ Dim auto_increment_rs As New Recordset
                  ' Useful tricks to avoid bugs in non-English systems :
                  ' replace comma with dots in numerical values
                  ' and get rid of money acronyms (like FF for example)
-                  Case adCurrency, adDouble, adSingle, adDecimal
+                  Case adCurrency, adDouble, adSingle, adDecimal, adNumeric
                       Values = Values & "'" & Str(Val(Replace(rsTemp.Fields(Z).Value, ",", "."))) & "', "
                  
                  ' Another useful trick to avoid bugs in non-English systems :
@@ -1742,6 +1866,8 @@ End Sub
 Private Function GetQuoteChar(szConnect As String) As String
 'This may well go wrong :-(
 On Error GoTo Cleanup
+svr.LogEvent "Entering " & App.Title & ":frmWizard.GetQuoteChar(" & QUOTE & szConnect & QUOTE & ")", etFullDebug
+
 Dim iStatus As Integer
 Dim iSize As Integer
 Dim lEnv As Long
@@ -1773,3 +1899,17 @@ Cleanup:
   SQLFreeConnect lDBC
   If lEnv <> 0 Then SQLFreeEnv lEnv
 End Function
+
+Public Function bIsAutoIncrement(oTmp As Object) As Boolean
+On Local Error GoTo Finally
+svr.LogEvent "Entering " & App.Title & ":frmWizard.bIsAutoIncrement()", etFullDebug
+
+  ' if driver returns correctly this property
+  bIsAutoIncrement = oTmp
+  Exit Function
+  
+Finally:
+  ' if not we think that this field is standart
+  bIsAutoIncrement = False
+End Function
+
