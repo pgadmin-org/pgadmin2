@@ -39,6 +39,24 @@ Dim objFont As StdFont
 Dim sDbVer As Single
 Dim bShowUsersForPrivileges As Boolean
 Dim bAskDeleteObjectDatabase As Boolean
+Dim iMaxNumberSqlQuery As Integer
+Dim iMaxRecordViewData As Integer
+
+'max number of record to view in view data
+Public Property Let MaxRecordViewData(ByVal iData As Integer)
+  iMaxRecordViewData = iData
+End Property
+Public Property Get MaxRecordViewData() As Integer
+  MaxRecordViewData = iMaxRecordViewData
+End Property
+
+'max number of sql query to memorize
+Public Property Let MaxNumberSqlQuery(ByVal iData As Integer)
+  iMaxNumberSqlQuery = iData
+End Property
+Public Property Get MaxNumberSqlQuery() As Integer
+  MaxNumberSqlQuery = iMaxNumberSqlQuery
+End Property
 
 'Ask Delete Object Database
 Public Property Let AskDeleteObjectDatabase(ByVal bData As Boolean)
