@@ -124,6 +124,9 @@ Dim X As Long
   objNewMember.Owner = szOwner
   objNewMember.Returns = objServer.Databases(szDB).LookupType(lReturns)
   
+  'Cleanup the source code
+  szSource = Replace(szSource, "\", "\\")
+  szSource = Replace(szSource, "'", "''")
   objNewMember.iSource = szSource
   
   objNewMember.Language = objServer.Databases(szDB).LookupLanguage(lLanguage)
@@ -162,7 +165,6 @@ Dim szSQL As String
 Dim fFunc As pgFunction
 Dim bFlag As Boolean
 Dim objFunction As pgFunction
-Dim szSource As String
  
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE FUNCTION " & QUOTE & Name & QUOTE
@@ -200,7 +202,6 @@ Dim szSource As String
       End If
     Next fFunc
     If bFlag = False Then
-      szSource = rs!prosrc & ""
       If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
         Set objFunction = iAdd(rs!ts, rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, rs!proisstrict, rs!proargtypes & "")
       Else
