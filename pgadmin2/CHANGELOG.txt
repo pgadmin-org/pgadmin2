@@ -1,3 +1,9 @@
+1.4.2
+-----
+
+Fix annoying initialisation bug in frmView that prevented viewing View details.
+Fix highlighted texbox backgroud colour in data editor.
+
 1.4.1
 -----
 
