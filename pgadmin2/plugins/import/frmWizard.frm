@@ -107,57 +107,57 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":2421
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblInfo(1)"
-      Tab(1).Control(1)=   "lvTables"
+      Tab(1).Control(0)=   "lvTables"
+      Tab(1).Control(1)=   "lblInfo(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":243D
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
-      Tab(2).Control(1)=   "lvColumns"
-      Tab(2).Control(2)=   "cmdColumnUp"
-      Tab(2).Control(3)=   "cmdColumnDown"
-      Tab(2).Control(4)=   "cmdColumnAll"
-      Tab(2).Control(5)=   "cmdColumnNone"
+      Tab(2).Control(0)=   "cmdColumnNone"
+      Tab(2).Control(1)=   "cmdColumnAll"
+      Tab(2).Control(2)=   "cmdColumnDown"
+      Tab(2).Control(3)=   "cmdColumnUp"
+      Tab(2).Control(4)=   "lvColumns"
+      Tab(2).Control(5)=   "lblInfo(2)"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":2459
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblInfo(3)"
-      Tab(3).Control(1)=   "Label1"
+      Tab(3).Control(0)=   "cmdBrowse"
+      Tab(3).Control(1)=   "txtFile"
       Tab(3).Control(2)=   "txtSample"
-      Tab(3).Control(3)=   "txtFile"
-      Tab(3).Control(4)=   "cmdBrowse"
+      Tab(3).Control(3)=   "Label1"
+      Tab(3).Control(4)=   "lblInfo(3)"
       Tab(3).ControlCount=   5
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":2475
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblInfo(6)"
-      Tab(4).Control(1)=   "Label2"
-      Tab(4).Control(2)=   "Label3"
-      Tab(4).Control(3)=   "Label4"
-      Tab(4).Control(4)=   "Label5"
-      Tab(4).Control(5)=   "txtDelimiter"
-      Tab(4).Control(6)=   "txtQuote"
-      Tab(4).Control(7)=   "txtAsciiDelimiter"
-      Tab(4).Control(8)=   "txtAsciiQuote"
-      Tab(4).Control(9)=   "chkTrailing"
+      Tab(4).Control(0)=   "chkTrailing"
+      Tab(4).Control(1)=   "txtAsciiQuote"
+      Tab(4).Control(2)=   "txtAsciiDelimiter"
+      Tab(4).Control(3)=   "txtQuote"
+      Tab(4).Control(4)=   "txtDelimiter"
+      Tab(4).Control(5)=   "Label5"
+      Tab(4).Control(6)=   "Label4"
+      Tab(4).Control(7)=   "Label3"
+      Tab(4).Control(8)=   "Label2"
+      Tab(4).Control(9)=   "lblInfo(6)"
       Tab(4).ControlCount=   10
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":2491
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lblInfo(7)"
-      Tab(5).Control(1)=   "lvSubstitutions"
-      Tab(5).Control(2)=   "txtSubFind"
-      Tab(5).Control(3)=   "txtSubReplace"
-      Tab(5).Control(4)=   "cmdSubAdd"
-      Tab(5).Control(5)=   "cmdSubRemove"
+      Tab(5).Control(0)=   "cmdSubRemove"
+      Tab(5).Control(1)=   "cmdSubAdd"
+      Tab(5).Control(2)=   "txtSubReplace"
+      Tab(5).Control(3)=   "txtSubFind"
+      Tab(5).Control(4)=   "lvSubstitutions"
+      Tab(5).Control(5)=   "lblInfo(7)"
       Tab(5).ControlCount=   6
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":24AD
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "lblInfo(4)"
-      Tab(6).Control(1)=   "picStatus"
+      Tab(6).Control(0)=   "picStatus"
+      Tab(6).Control(1)=   "lblInfo(4)"
       Tab(6).ControlCount=   2
       Begin VB.PictureBox picStatus 
          Height          =   2445
@@ -835,7 +835,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdOK_Click()", etFullDebug
 
 Dim fNum As Integer

@@ -48,3 +48,29 @@ On Error Resume Next
   dbSZ = szData
 
 End Function
+
+'Format an identifier as required
+'This code is based on fmtID from the pg_dump code
+Public Function fmtID(ByVal szData As String) As String
+On Error Resume Next
+
+Dim X As Integer
+Dim iVal As Integer
+
+  'Replace double quotes
+  szData = Replace(szData, QUOTE, QUOTE & QUOTE)
+    
+  For X = 1 To Len(szData)
+    iVal = Asc(Mid(szData, X, 1))
+    If Not ((iVal >= 48) And (iVal <= 57)) And _
+       Not ((iVal >= 97) And (iVal <= 122)) And _
+       Not (iVal = 95) Then
+      szData = QUOTE & szData & QUOTE
+      Exit For
+    End If
+  Next X
+  
+  fmtID = szData
+
+End Function
+
