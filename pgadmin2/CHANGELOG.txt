@@ -1,4 +1,4 @@
-1.3.??
+1.3.60
 ------
 
 New resize code in frmMain - allows adjustment of the Listview/Definition pane split.
