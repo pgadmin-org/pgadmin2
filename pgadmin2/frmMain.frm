@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
@@ -2342,7 +2342,7 @@ Dim vData As Variant
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Language", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Language
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Source
+  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Source, vbCrLf, " ")
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cachable?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Cachable Then
     lvItem.SubItems(1) = "Yes"
