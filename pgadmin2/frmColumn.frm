@@ -62,27 +62,42 @@ Begin VB.Form frmColumn
       Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "lblProperties(7)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "cboProperties(1)"
+      Tab(0).Control(7)=   "lblProperties(1)"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cboProperties(0)"
+      Tab(0).Control(8)=   "cboProperties(1)"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "hbxProperties(0)"
+      Tab(0).Control(9)=   "cboProperties(0)"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "txtProperties(0)"
+      Tab(0).Control(10)=   "hbxProperties(0)"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "txtProperties(1)"
+      Tab(0).Control(11)=   "txtProperties(0)"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "txtProperties(2)"
+      Tab(0).Control(12)=   "txtProperties(1)"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "txtProperties(3)"
+      Tab(0).Control(13)=   "txtProperties(2)"
       Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "chkProperties(0)"
+      Tab(0).Control(14)=   "txtProperties(3)"
       Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).Control(15)=   "txtProperties(4)"
+      Tab(0).Control(15)=   "chkProperties(0)"
       Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).Control(16)=   "chkProperties(1)"
+      Tab(0).Control(16)=   "txtProperties(4)"
       Tab(0).Control(16).Enabled=   0   'False
-      Tab(0).ControlCount=   17
+      Tab(0).Control(17)=   "chkProperties(1)"
+      Tab(0).Control(17).Enabled=   0   'False
+      Tab(0).Control(18)=   "txtProperties(5)"
+      Tab(0).Control(18).Enabled=   0   'False
+      Tab(0).ControlCount=   19
+      Begin VB.TextBox txtProperties 
+         BackColor       =   &H8000000F&
+         Height          =   285
+         Index           =   5
+         Left            =   1935
+         Locked          =   -1  'True
+         TabIndex        =   20
+         ToolTipText     =   $"frmColumn.frx":06DE
+         Top             =   3510
+         Width           =   3390
+      End
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
          Caption         =   "Primary key?"
@@ -91,7 +106,7 @@ Begin VB.Form frmColumn
          Left            =   135
          TabIndex        =   9
          ToolTipText     =   "Is this column a primary key?"
-         Top             =   3915
+         Top             =   4275
          Width           =   1995
       End
       Begin VB.TextBox txtProperties 
@@ -111,7 +126,7 @@ Begin VB.Form frmColumn
          Left            =   135
          TabIndex        =   8
          ToolTipText     =   "Should null values be restricted in this column?"
-         Top             =   3555
+         Top             =   3915
          Width           =   1995
       End
       Begin VB.TextBox txtProperties 
@@ -157,15 +172,15 @@ Begin VB.Form frmColumn
          Width           =   3390
       End
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   1950
+         Height          =   1545
          Index           =   0
          Left            =   135
          TabIndex        =   10
          ToolTipText     =   "Comments about the column."
-         Top             =   4230
+         Top             =   4635
          Width           =   5190
          _ExtentX        =   9155
-         _ExtentY        =   3440
+         _ExtentY        =   2725
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -210,6 +225,16 @@ Begin VB.Form frmColumn
          BackColor       =   -2147483633
          Locked          =   -1  'True
          ImageList       =   "il"
+      End
+      Begin VB.Label lblProperties 
+         AutoSize        =   -1  'True
+         Caption         =   "Statistics"
+         Height          =   195
+         Index           =   1
+         Left            =   135
+         TabIndex        =   21
+         Top             =   3555
+         Width           =   630
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
@@ -295,19 +320,19 @@ Begin VB.Form frmColumn
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   4
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":06DE
+            Picture         =   "frmColumn.frx":0773
             Key             =   "table"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":0838
+            Picture         =   "frmColumn.frx":08CD
             Key             =   "type"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":0DD2
+            Picture         =   "frmColumn.frx":0E67
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":136C
+            Picture         =   "frmColumn.frx":1401
             Key             =   "domain"
          EndProperty
       EndProperty
@@ -412,6 +437,7 @@ Dim szOldName As String
       
       'DJP 2002-01-10 Change column name last of all otherwise things get complex.
       If txtProperties(4).Tag = "Y" Then objColumn.Default = txtProperties(4).Text
+      If txtProperties(5).Tag = "Y" Then objColumn.Statistics = Val(txtProperties(5).Text)
       If hbxProperties(0).Tag = "Y" Then objColumn.Comment = hbxProperties(0).Text
       If chkProperties(0).Tag = "Y" Then objColumn.NotNull = Bin2Bool(chkProperties(0).Value)
       If chkProperties(1).Tag = "Y" Then objColumn.PrimaryKey = Bin2Bool(chkProperties(1).Value)
@@ -522,6 +548,7 @@ Dim objNamespace As pgNamespace
       Set objColumn = Column
     
       Me.Caption = "Column: " & objColumn.Identifier
+      
       txtProperties(0).Text = objColumn.Name
       txtProperties(1).Text = objColumn.Position
       If objColumn.Length = 0 Then
@@ -547,11 +574,18 @@ Dim objNamespace As pgNamespace
         hbxProperties(0).Locked = False
         hbxProperties(0).BackColor = &H80000005
       End If
+      If frmMain.svr.dbVersion.VersionNum >= 7.2 Then
+        txtProperties(5).BackColor = &H80000005
+        txtProperties(5).Locked = False
+        txtProperties(5).Text = objColumn.Statistics
+      End If
+      
   End Select
 
   'Reset the Tags
   txtProperties(0).Tag = "N"
   txtProperties(4).Tag = "N"
+  txtProperties(5).Tag = "N"
   hbxProperties(0).Tag = "N"
   chkProperties(0).Tag = "N"
   chkProperties(1).Tag = "N"

@@ -170,9 +170,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String) As pgColumn
+Private Function iAdd(lOID As Long, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String, ByVal lStatistics As Long) As pgColumn
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Columns.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ", " & lStatistics & ")", etFullDebug
 
 Dim objNewMember As pgColumn
 Dim szHex As String
@@ -216,6 +216,7 @@ Dim bDefaults As Boolean
   objNewMember.iNotNull = bNotNull
   objNewMember.iPrimaryKey = bPrimaryKey
   objNewMember.iDefault = szDefault
+  objNewMember.iStatistics = lStatistics
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
   
@@ -268,6 +269,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Add(" & QUOTE & Name & Q
 Dim rs As New Recordset
 Dim szSQL As String
 Dim objColumn As pgColumn
+Dim lStatistics As String
   
   'Generate the szSQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
@@ -306,7 +308,12 @@ Dim objColumn As pgColumn
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objColumn = iAdd(rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "")
+    If objServer.dbVersion.VersionNum >= 7.2 Then
+      lStatistics = rs!attstattarget
+    Else
+      lStatistics = 0
+    End If
+    Set objColumn = iAdd(rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics)
   End If
     
   Set Add = objColumn
@@ -421,6 +428,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Initialize()", etFullDebug
 
 Dim rs As New Recordset
+Dim lStatistics As Long
 
   'Create a new collection
   Set mCol = New Collection
@@ -433,7 +441,12 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_2 & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
     End If
     While Not rs.EOF
-      iAdd rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & ""
+      If objServer.dbVersion.VersionNum >= 7.2 Then
+        lStatistics = rs!attstattarget
+      Else
+        lStatistics = 0
+      End If
+      iAdd rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics
       rs.MoveNext
     Wend
   End If

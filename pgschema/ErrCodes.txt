@@ -18,3 +18,4 @@ NOTE: Most error in pgSchema will be raised by ADO or other libraries.
 5432012 - Database security is only available in PostgreSQL 7.3+.
 5432013 - Function security is only available in PostgreSQL 7.3+.
 5432014 - Language security is only available in PostgreSQL 7.3+.
+5432015 - Column statistics are only available in PostgreSQL 7.2+.

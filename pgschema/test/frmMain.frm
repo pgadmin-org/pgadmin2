@@ -211,7 +211,6 @@ Attribute VB_Exposed = False
 ' pgSchema - PostgreSQL Schema Objects
 ' Copyright (C) 2001, Dave Page
 
-
 Option Explicit
 
 Dim WithEvents svr As pgServer
@@ -911,6 +910,8 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
+  Set lvItem = lvInfo.ListItems.Add(, , "Statistics")
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Statistics
   Set lvItem = lvInfo.ListItems.Add(, , "System Column?")
   If svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -919,7 +920,7 @@ Dim lvItem As ListItem
   End If
   Set lvItem = lvInfo.ListItems.Add(, , "Comment")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Comment
-  txtSQL.Text = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Tables(Node.Text).SQL
+  txtSQL.Text = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).SQL
 End Sub
 
 Private Sub tvForeignKeys(ByVal Node As MSComctlLib.Node)

@@ -2179,7 +2179,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvDatabases(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabases(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2889,11 +2889,28 @@ Dim vData As Variant
   lvItem.SubItems(1) = ctx.CurrentObject.Language
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Source, vbCrLf, " ")
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cachable?", "property", "property")
-  If ctx.CurrentObject.Cachable Then
-    lvItem.SubItems(1) = "Yes"
+  If svr.dbVersion.VersionNum < 7.3 Then
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cachable?", "property", "property")
+    If ctx.CurrentObject.Cachable Then
+      lvItem.SubItems(1) = "Yes"
+    Else
+      lvItem.SubItems(1) = "No"
+    End If
   Else
-    lvItem.SubItems(1) = "No"
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Implicit Cast?", "property", "property")
+    If ctx.CurrentObject.Implicit Then
+      lvItem.SubItems(1) = "Yes"
+    Else
+      lvItem.SubItems(1) = "No"
+    End If
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Returns a Set?", "property", "property")
+    If ctx.CurrentObject.RetSet Then
+      lvItem.SubItems(1) = "Yes"
+    Else
+      lvItem.SubItems(1) = "No"
+    End If
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Volatility", "property", "property")
+    lvItem.SubItems(1) = ctx.CurrentObject.Volatility
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Strict?", "property", "property")
   If ctx.CurrentObject.Strict Then
@@ -3457,6 +3474,8 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Statistics", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Statistics
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Column?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"

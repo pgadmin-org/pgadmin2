@@ -37,6 +37,9 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 Private szACL As String
+Private szVolatility As String
+Private bImplicit As Boolean
+Private bRetSet As Boolean
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
@@ -410,7 +413,7 @@ End Property
 'Set/Return Cachable?
 Friend Property Let Cachable(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Cachable(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Cachable(" & vData & ")", etFullDebug
 
   bCachable = vData
     
@@ -420,7 +423,7 @@ End Property
 Public Property Get Cachable() As Boolean
 Attribute Cachable.VB_Description = "Returns a value indicating whether the Function result may be cached."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Cachable()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Cachable()", etFullDebug
 
   Cachable = bCachable
     
@@ -431,7 +434,7 @@ End Property
 'Set/Return Strict?
 Friend Property Let Strict(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Strict(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Strict(" & vData & ")", etFullDebug
 
   bStrict = vData
     
@@ -441,9 +444,72 @@ End Property
 Public Property Get Strict() As Boolean
 Attribute Strict.VB_Description = "Returns a value indicating whether the Function is Strict."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Strict()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Strict()", etFullDebug
 
   Strict = bStrict
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return Implicit?
+Friend Property Let Implicit(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Implicit(" & vData & ")", etFullDebug
+
+  bImplicit = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Implicit() As Boolean
+Attribute Implicit.VB_Description = "Returns a value indicating whether the function may be invoked as an implicit type coercion."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Implicit()", etFullDebug
+
+  Implicit = bImplicit
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return RetSet?
+Friend Property Let RetSet(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let RetSet(" & vData & ")", etFullDebug
+
+  bRetSet = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get RetSet() As Boolean
+Attribute RetSet.VB_Description = "Returns a value indicating whether the function returns a set."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get RetSet()", etFullDebug
+
+  RetSet = bRetSet
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Volatility
+Friend Property Let Volatility(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Volatility(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szVolatility = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Volatility() As String
+Attribute Volatility.VB_Description = "Returns a value indicating the volatility of the result."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Volatility()", etFullDebug
+
+  Volatility = szVolatility
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -620,14 +686,19 @@ Dim X As Long
     szSQL = szSQL & "CREATE FUNCTION " & FormattedID
   End If
   
-  szSQL = szSQL & " RETURNS " & szReturns & _
-                  " AS '" & szSource & "' " & _
-                  " LANGUAGE '" & dbSZ(szLanguage) & "'"
-          
-  If bCachable Or bStrict Then szSQL = szSQL & " WITH ("
-  If bCachable Then szSQL = szSQL & "ISCACHABLE, "
+  szSQL = szSQL & " RETURNS " & szReturns
+  
+  szSQL = szSQL & " AS '" & szSource & "' "
+  szSQL = szSQL & " LANGUAGE '" & dbSZ(szLanguage) & "'"
+  If bCachable Or bStrict Or bImplicit Or (szVolatility <> "") Then szSQL = szSQL & " WITH ("
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    If bImplicit Then szSQL = szSQL & "IMPLICITCOERCION, "
+    If szVolatility <> "" Then szSQL = szSQL & "IS" & UCase(szVolatility) & ", "
+  Else
+    If bCachable Then szSQL = szSQL & "ISCACHABLE, "
+  End If
   If bStrict Then szSQL = szSQL & "ISSTRICT, "
-  If bCachable Or bStrict Then szSQL = Mid(szSQL, 1, Len(szSQL) - 2) & ")"
+  If bCachable Or bStrict Or bImplicit Or (szVolatility <> "") Then szSQL = Mid(szSQL, 1, Len(szSQL) - 2) & ")"
   szSQL = szSQL & ";" & vbCrLf
   
   If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclFunction)

@@ -64,6 +64,7 @@ Allow renaming of Triggers in PostgreSQL 7.3+
 Added support for configuration of user & database config variables with PostgreSQL 7.3+
 Added support for Array datatypes.
 Added support for ACLs on Databases, Languages & functions with PostgreSQL 7.3+.
+Allow display & updating of column statistics values with PostgreSQL 7.2+
 
 1.2.0 Stable
 ------------

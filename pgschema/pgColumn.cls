@@ -35,6 +35,7 @@ Private cnDatabase As Connection
 Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
+Private lStatistics As Long
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
@@ -536,6 +537,49 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Default()", etFullDebug
 
   Default = szDefault
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return Statistics
+Friend Property Let iStatistics(ByVal vData As Long)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let iStatistics(" & vData & ")", etFullDebug
+
+  lStatistics = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Let Statistics(ByVal vData As Long)
+Attribute Statistics.VB_Description = "Sets/Returns the columns statistics value."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Statistics(" & vData & ")", etFullDebug
+
+Dim szSQL As String
+
+  If objServer.dbVersion.VersionNum < 7.2 Then
+    Err.Raise 5432015, App.Title, "Column statistics are only available in PostgreSQL 7.2+."
+    Exit Property
+  End If
+  
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET STATISTICS " & vData
+  Else
+    szSQL = "ALTER TABLE " & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET STATISTICS " & vData
+  End If
+  objServer.ExecSQL szSQL, cnDatabase
+  lStatistics = vData
+
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Statistics() As Long
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Statistics()", etFullDebug
+
+  Statistics = lStatistics
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

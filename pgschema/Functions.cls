@@ -146,9 +146,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szOwner As String, lReturns As Long, szSource As String, lLanguage As Long, bCachable As Boolean, bStrict As Boolean, szArgumentList As String, Optional szACL As String) As pgFunction
+Private Function iAdd(lOID As Long, szName As String, szOwner As String, lReturns As Long, szSource As String, lLanguage As Long, bCachable As Boolean, bStrict As Boolean, szArgumentList As String, Optional szACL As String, Optional szVolatility As String, Optional bImplicit As Boolean, Optional bRetSet As Boolean) As pgFunction
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lReturns & ", " & QUOTE & szSource & QUOTE & ", " & lLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lReturns & ", " & QUOTE & szSource & QUOTE & ", " & lLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szVolatility & QUOTE & ", " & bImplicit & ", " & bRetSet & ")", etFullDebug
 
 Dim objNewMember As pgFunction
 Dim rs As New Recordset
@@ -181,6 +181,18 @@ Dim X As Long
   objNewMember.Cachable = bCachable
   objNewMember.Strict = bStrict
   objNewMember.ACL = szACL
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    objNewMember.Implicit = bImplicit
+    objNewMember.RetSet = bRetSet
+    Select Case UCase(szVolatility)
+      Case "I"
+        objNewMember.Volatility = "Immutable"
+      Case "S"
+        objNewMember.Volatility = "Stable"
+      Case "V"
+        objNewMember.Volatility = "Volatile"
+    End Select
+  End If
   
   szTemp = Split(szArgumentList, " ")
   For X = 0 To UBound(szTemp)
@@ -204,10 +216,10 @@ Err_Handler:
 End Function
 
 'External Add
-Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String) As pgFunction
+Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String, Optional Implicit As Boolean, Optional Volatility As String) As pgFunction
 Attribute Add.VB_Description = "Add a new function."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ", " & Implicit & ", " & QUOTE & Volatility & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -224,14 +236,21 @@ Dim objFunction As pgFunction
   End If
   szSQL = szSQL & " (" & Arguments & ")"
   szSQL = szSQL & " RETURNS " & Returns
+  
   szSQL = szSQL & " AS '" & Source & "'"
   szSQL = szSQL & " LANGUAGE '" & Language & "'"
-  If Cachable Or Strict Then szSQL = szSQL & " WITH ("
-  If Cachable Then szSQL = szSQL & "ISCACHABLE, "
+  If Cachable Or Strict Or Implicit Or (Volatility <> "") Then szSQL = szSQL & " WITH ("
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    If Implicit Then szSQL = szSQL & "IMPLICITCOERCION, "
+    If Volatility <> "" Then szSQL = szSQL & "IS" & UCase(Volatility) & ", "
+  Else
+    If Cachable Then szSQL = szSQL & "ISCACHABLE, "
+  End If
   '7.1+ options
   If objVersion.VersionNum >= 7.1 Then
     If Strict Then szSQL = szSQL & "ISSTRICT, "
   End If
+  
   If Right(szSQL, 2) = ", " Then szSQL = Left(szSQL, Len(szSQL) - 2) & ")"
   objServer.ExecSQL szSQL, cnDatabase
 
@@ -272,7 +291,7 @@ Dim objFunction As pgFunction
         szArgs = rs!proargtypes & ""
       End If
       If objVersion.VersionNum >= 7.3 Then
-        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "")
+        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proimplicit), ToBool(rs!proretset))
       ElseIf objVersion.VersionNum >= 7.1 Then
         Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs)
       Else
@@ -413,7 +432,7 @@ Dim szArgs As String
         szArgs = rs!proargtypes & ""
       End If
       If objVersion.VersionNum >= 7.3 Then
-        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & ""
+        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proimplicit), ToBool(rs!proretset)
       ElseIf objVersion.VersionNum >= 7.1 Then
         iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs
       Else
