@@ -325,10 +325,16 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get SQL()",
 Dim szSQL As String
   
   szSQL = "-- Aggregate: " & szIdentifier & vbCrLf & _
-          "CREATE AGGREGATE " & QUOTE & szName & QUOTE & "(" & _
-          "BASETYPE = " & QUOTE & szInputType & QUOTE & ", " & _
-          "SFUNC = " & QUOTE & szStateFunction & QUOTE & ", " & _
-          "STYPE = " & QUOTE & szStateType & QUOTE
+          "CREATE AGGREGATE " & QUOTE & szName & QUOTE & "("
+          
+  If szInputType = "opaque" Then
+    szSQL = szSQL & "BASETYPE = " & QUOTE & "ANY" & QUOTE & ", "
+  Else
+    szSQL = szSQL & "BASETYPE = " & QUOTE & szInputType & QUOTE & ", "
+  End If
+  
+  szSQL = szSQL & "SFUNC = " & QUOTE & szStateFunction & QUOTE & ", " & _
+                  "STYPE = " & QUOTE & szStateType & QUOTE
           
   If szFinalFunction <> "" Then szSQL = szSQL & ", FINALFUNC = " & QUOTE & szFinalFunction & QUOTE
   If szInitialCondition <> "" Then szSQL = szSQL & ", INITCOND = '" & szInitialCondition & "'"

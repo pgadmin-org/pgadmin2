@@ -384,7 +384,7 @@ Dim X As Long
   If bCachable Then szSQL = szSQL & "ISCACHABLE, "
   If bStrict Then szSQL = szSQL & "ISSTRICT, "
   If bCachable Or bStrict Then szSQL = Mid(szSQL, 1, Len(szSQL) - 2) & ")"
-  szSQL = szSQL & vbCrLf
+  szSQL = szSQL & ";" & vbCrLf
   
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON FUNCTION " & QUOTE & szName & QUOTE & szArgs & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     

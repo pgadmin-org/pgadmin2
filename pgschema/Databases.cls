@@ -21,9 +21,9 @@ Option Explicit
 Private mCol As Collection
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, lEncoding As Long)
+Private Sub iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, lEncoding As Long, szEncoding As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lEncoding & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lEncoding & ", " & szEncoding & ")", etFullDebug
 
 Dim objNewMember As pgDatabase
 
@@ -41,6 +41,7 @@ Dim objNewMember As pgDatabase
   objNewMember.Path = szPath
   objNewMember.Owner = szOwner
   objNewMember.Encoding = lEncoding
+  objNewMember.EncodingName = szEncoding
   objNewMember.Identifier = szName
   
   'Add the Database
@@ -91,6 +92,7 @@ Dim szSQL As String
     End If
    
     objNewMember.Encoding = rs!Encoding
+    objNewMember.EncodingName = rs!EncodingName
     objNewMember.Identifier = Name
     
     'Set the Comment using the new object. This will ensure that the comment
@@ -229,7 +231,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " WHERE datname != 'template0' ORDER BY datname", objServer.Connection)
     While Not rs.EOF
-      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!Encoding
+      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!Encoding, rs!EncodingName
       rs.MoveNext
     Wend
   End If

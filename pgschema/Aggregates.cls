@@ -167,7 +167,11 @@ objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Remove(" & QUOTE & Ke
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Aggregate.
-  szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " " & QUOTE & mCol(ULEncode(Key)).InputType & QUOTE
+  If mCol(ULEncode(Key)).InputType = "opaque" Then
+    szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " *"
+  Else
+    szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " " & QUOTE & mCol(ULEncode(Key)).InputType & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   
   'If we get this far, then we can't have errored,

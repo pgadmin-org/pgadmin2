@@ -547,7 +547,6 @@ Dim vColumn As Variant
       
       'Get the length of fixed, definable columns
       If objColumn.DataType = "char" Or _
-         objColumn.DataType = "bpchar" Or _
          objColumn.DataType = "varchar" Then
         szSQL = szSQL & "(" & objColumn.Length & ")"
       End If

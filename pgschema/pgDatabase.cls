@@ -35,6 +35,7 @@ Private bSystemObject As Boolean
 Private szPath As String
 Private szOwner As String
 Private lEncoding As Long
+Private szEncoding As String
 Private cnDatabase As New Connection
 
 Private szTypeCache As Collection
@@ -548,6 +549,27 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Encoding
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Set/Return the Database Encoding Name
+Friend Property Let EncodingName(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let EncodingName(" & vData & ")", etFullDebug
+
+  szEncoding = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get EncodingName() As String
+Attribute EncodingName.VB_Description = "Returns the name of the encoding scheme."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get EncodingName()", etFullDebug
+
+  EncodingName = szEncoding
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
 Attribute Comment.VB_Description = "Sets/Returns the Database comment."
@@ -694,11 +716,10 @@ objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.SQL()", 
 Dim szSQL As String
   
   szSQL = "-- Database: " & szName & vbCrLf & _
-          "CREATE DATABASE " & QUOTE & szName & QUOTE
-  
-  If (szPath <> "") Or (lEncoding) <> 0 Then szSQL = szSQL & " WITH"
+          "CREATE DATABASE " & QUOTE & szName & QUOTE & " WITH"
+
   If szPath <> "" Then szSQL = szSQL & " LOCATION = '" & dbSZ(szPath) & "'"
-  If lEncoding <> 0 Then szSQL = szSQL & " ENCODING = '" & lEncoding & "'"
+  szSQL = szSQL & " ENCODING = '" & szEncoding & "'"
   szSQL = szSQL & ";" & vbCrLf
   
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON DATABASE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf

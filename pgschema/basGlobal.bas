@@ -17,7 +17,7 @@ Public Const VER_PLATFORM_WIN32_NT = 2
 
 'SQL constants
 Public Const SQL_GET_COMMENT = "SELECT description FROM pg_description WHERE objoid = "
-Public Const SQL_GET_DATABASES = "SELECT oid, *, pg_get_userbyid(datdba) AS datowner FROM pg_database"
+Public Const SQL_GET_DATABASES = "SELECT oid, *, pg_encoding_to_char(encoding) AS encodingname, pg_get_userbyid(datdba) AS datowner FROM pg_database"
 Public Const SQL_GET_LANGUAGES = "SELECT oid, * FROM pg_language"
 Public Const SQL_GET_USERS = "SELECT * FROM pg_user"
 Public Const SQL_GET_GROUPS = "SELECT oid, * FROM pg_group"
