@@ -380,7 +380,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get SQL()",
 Dim szSQL As String
   
   szSQL = "-- Aggregate: " & szIdentifier & vbCrLf & _
-          "CREATE AGGREGATE " & QUOTE & szName & QUOTE & "("
+          "CREATE AGGREGATE " & QUOTE & szName & QUOTE & " ("
           
   If szInputType = "opaque" Then
     szSQL = szSQL & "BASETYPE = " & QUOTE & "ANY" & QUOTE & ", "
