@@ -470,7 +470,7 @@ On Error GoTo Err_Handler
     'Set default values
     If (bDrop = True) And (bCreate = True) And (objServer.dbVersion.VersionNum < 7.2) Then bDrop = False
     If (szViewName = "") Then szViewName = szName
-    If (szViewDefinition = "") Then szViewDefinition = dbSZ(szDefinition)
+    If (szViewDefinition = "") Then szViewDefinition = szDefinition
     If (szViewComment = "") Then szViewComment = dbSZ(Comment)
 
     'Log
