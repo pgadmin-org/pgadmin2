@@ -709,9 +709,9 @@ Dim szSQL As String
 Err_Handler:  objServer.iLogError Err
 End Property
 
-Public Property Get Schema() As String
+Public Property Get Schema(Optional ResetSequences As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.Schema()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.Schema(" & ResetSequences & ")", etFullDebug
 Dim szSQL As String
 Dim vObject As Variant
 Dim vChildObject As Variant
@@ -720,8 +720,11 @@ Dim X As Long
 Dim Y As Long
 Dim vTemp As Variant
 
-  szSQL = "-- Schema Dump (pgSchema v" & App.Major & "." & App.Minor & "." & App.Revision & ")" & vbCrLf & _
-          "-- Database: " & szName & vbCrLf & vbCrLf
+  szSQL = "-- pgSchema:  " & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf & _
+          "-- Timestamp: " & Now & vbCrLf & _
+          "-- Server:    " & objServer.Server & vbCrLf & _
+          "-- Port:      " & objServer.Port & vbCrLf & _
+          "-- Database:  " & szName & vbCrLf & vbCrLf
   
   'We will output the Schema object by object in OID order. This should work
   'most of the time unless (for example) a table is altered to use a later
@@ -838,7 +841,11 @@ Dim vTemp As Variant
 
   'Now loop through the array and output the SQL
   For X = 0 To UBound(arrObjects)
-    szSQL = szSQL & arrObjects(X).SQL & vbCrLf
+    If arrObjects(X).ObjectType = "Sequence" Then
+      szSQL = szSQL & arrObjects(X).SQL(ResetSequences) & vbCrLf
+    Else
+      szSQL = szSQL & arrObjects(X).SQL & vbCrLf
+    End If
   Next X
     
   Schema = szSQL

@@ -54,7 +54,7 @@ Dim rs As New Recordset
   objNewMember.Owner = szOwner
   objNewMember.ACL = szACL
   
-  szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & QUOTE & dbSZ(szName) & QUOTE
+  szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & QUOTE & szName & QUOTE
   On Error Resume Next
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   On Error GoTo Err_Handler

@@ -153,6 +153,7 @@ Dim szTemp As String
       If szAccess = "arwR" Then
         szAccess = "ALL"
       Else
+        szTemp = ""
         If InStr(1, szAccess, "r") <> 0 Then szTemp = szTemp & "SELECT, "
         If InStr(1, szAccess, "w") <> 0 Then szTemp = szTemp & "UPDATE, DELETE, "
         If InStr(1, szAccess, "a") <> 0 Then szTemp = szTemp & "INSERT, "
