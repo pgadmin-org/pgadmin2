@@ -1,19 +1,19 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmNamespace 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Schema"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   5520
    Icon            =   "frmNamespace.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    StartUpPosition =   3  'Windows Default
    Begin MSComDlg.CommonDialog cdlg 
@@ -76,23 +76,19 @@ Begin VB.Form frmNamespace
       TabPicture(1)   =   "frmNamespace.frx":0BDE
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "lvProperties(0)"
-      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   16
-         Top             =   1170
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1176
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -129,11 +125,11 @@ Begin VB.Form frmNamespace
          ToolTipText     =   "Comments about the Namespace."
          Top             =   1635
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   7488
+         _ExtentX        =   9165
+         _ExtentY        =   7493
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -172,14 +168,14 @@ Begin VB.Form frmNamespace
             Width           =   1590
          End
          Begin MSComctlLib.ImageCombo cboEntities 
-            Height          =   330
+            Height          =   300
             Left            =   1260
             TabIndex        =   12
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
-            Top             =   315
-            Width           =   3705
-            _ExtentX        =   6535
-            _ExtentY        =   582
+            Top             =   312
+            Width           =   3708
+            _ExtentX        =   6541
+            _ExtentY        =   529
             _Version        =   393216
             ForeColor       =   -2147483640
             BackColor       =   -2147483633
@@ -225,8 +221,8 @@ Begin VB.Form frmNamespace
          ToolTipText     =   "The access control list for the schema."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   5980
+         _ExtentX        =   9165
+         _ExtentY        =   5990
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -284,8 +280,8 @@ Begin VB.Form frmNamespace
    Begin MSComctlLib.ImageList il 
       Left            =   540
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -424,7 +420,6 @@ Dim X As Integer
 Dim objItem As ListItem
 Dim objCboItem As ComboItem
 Dim objUser As pgUser
-Dim objGroup As pgGroup
 Dim szUserlist As String
 Dim szAccesslist As String
 Dim szAccess() As String
@@ -502,14 +497,7 @@ Dim szAccess() As String
   
   'Load the Entities combo
   If ctx.dbVer >= 7.3 Then
-    cboEntities.ComboItems.Add , , "PUBLIC", "public"
-    For Each objUser In frmMain.svr.Users
-      cboEntities.ComboItems.Add , , objUser.Name, "user"
-    Next objUser
-    For Each objGroup In frmMain.svr.Groups
-      cboEntities.ComboItems.Add , , objGroup.Name, "group"
-    Next objGroup
-    cboEntities.ComboItems(1).Selected = True
+    LoadUGACL cboEntities
   End If
   
   'Reset the Tags

@@ -1,18 +1,18 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTable 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Table"
-   ClientHeight    =   6885
-   ClientLeft      =   4995
-   ClientTop       =   2490
+   ClientHeight    =   6876
+   ClientLeft      =   4992
+   ClientTop       =   2496
    ClientWidth     =   5520
    Icon            =   "frmTable.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -133,15 +133,15 @@ Begin VB.Form frmTable
          Width           =   1995
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   43
          ToolTipText     =   "The tables owner."
          Top             =   1440
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -149,14 +149,14 @@ Begin VB.Form frmTable
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboInheritedTables 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   22
-         Top             =   5850
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   5856
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -255,7 +255,7 @@ Begin VB.Form frmTable
          TabIndex        =   8
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
+         _ExtentX        =   9165
          _ExtentY        =   9313
          View            =   3
          LabelEdit       =   1
@@ -438,14 +438,14 @@ Begin VB.Form frmTable
             Width           =   1590
          End
          Begin MSComctlLib.ImageCombo cboEntities 
-            Height          =   330
+            Height          =   300
             Left            =   1260
             TabIndex        =   26
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
-            Top             =   315
-            Width           =   3705
-            _ExtentX        =   6535
-            _ExtentY        =   582
+            Top             =   312
+            Width           =   3708
+            _ExtentX        =   6541
+            _ExtentY        =   529
             _Version        =   393216
             ForeColor       =   -2147483640
             BackColor       =   -2147483643
@@ -480,8 +480,8 @@ Begin VB.Form frmTable
          ToolTipText     =   "The access control list for the view."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   5980
+         _ExtentX        =   9165
+         _ExtentY        =   5990
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -513,11 +513,11 @@ Begin VB.Form frmTable
          ToolTipText     =   "Comments about the table."
          Top             =   2700
          Width           =   5190
-         _ExtentX        =   9155
+         _ExtentX        =   9165
          _ExtentY        =   6138
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -533,8 +533,8 @@ Begin VB.Form frmTable
          TabIndex        =   16
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   9234
+         _ExtentX        =   9165
+         _ExtentY        =   9229
          View            =   3
          LabelEdit       =   1
          Sorted          =   -1  'True
@@ -596,8 +596,8 @@ Begin VB.Form frmTable
          TabIndex        =   19
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   8440
+         _ExtentX        =   9165
+         _ExtentY        =   8446
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -624,11 +624,11 @@ Begin VB.Form frmTable
          ToolTipText     =   "The check definition."
          Top             =   5355
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   1535
+         _ExtentX        =   9165
+         _ExtentY        =   1545
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -644,8 +644,8 @@ Begin VB.Form frmTable
          TabIndex        =   11
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   6853
+         _ExtentX        =   9165
+         _ExtentY        =   6858
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -732,8 +732,8 @@ Begin VB.Form frmTable
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -1330,7 +1330,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.Initialise(" & QUOTE &
 Dim X As Integer
 Dim objItem As ListItem
 Dim objUser As pgUser
-Dim objGroup As pgGroup
 Dim objColumn As pgColumn
 Dim objCheck As pgCheck
 Dim objForeignKey As pgForeignKey
@@ -1508,14 +1507,7 @@ Dim szAccess() As String
   End If
   
   'Load the Entities combo
-  cboEntities.ComboItems.Add , , "PUBLIC", "public"
-  For Each objUser In frmMain.svr.Users
-    cboEntities.ComboItems.Add , , objUser.Name, "user"
-  Next objUser
-  For Each objGroup In frmMain.svr.Groups
-    cboEntities.ComboItems.Add , , objGroup.Name, "group"
-  Next objGroup
-  cboEntities.ComboItems(1).Selected = True
+  LoadUGACL cboEntities
   
   'Reset the Tags
   txtProperties(0).Tag = "N"

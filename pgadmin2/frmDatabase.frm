@@ -1,24 +1,24 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmDatabase 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Database"
-   ClientHeight    =   6885
-   ClientLeft      =   2085
+   ClientHeight    =   6888
+   ClientLeft      =   2088
    ClientTop       =   1800
    ClientWidth     =   5520
    Icon            =   "frmDatabase.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6888
    ScaleWidth      =   5520
    Begin MSComctlLib.ImageList il 
       Left            =   90
       Top             =   6240
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -161,13 +161,13 @@ Begin VB.Form frmDatabase
       Tab(2).Control(3)=   "cmdRemove"
       Tab(2).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboVarValue 
-         Height          =   330
-         Left            =   -73425
+         Height          =   300
+         Left            =   -73428
          TabIndex        =   30
          Top             =   5940
-         Width           =   3735
-         _ExtentX        =   6588
-         _ExtentY        =   582
+         Width           =   3732
+         _ExtentX        =   6583
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -185,13 +185,13 @@ Begin VB.Form frmDatabase
          Width           =   1830
       End
       Begin MSComctlLib.ImageCombo cboVarName 
-         Height          =   330
-         Left            =   -73425
+         Height          =   300
+         Left            =   -73428
          TabIndex        =   28
          Top             =   5520
-         Width           =   3735
-         _ExtentX        =   6588
-         _ExtentY        =   582
+         Width           =   3732
+         _ExtentX        =   6583
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -248,14 +248,14 @@ Begin VB.Form frmDatabase
             Width           =   1590
          End
          Begin MSComctlLib.ImageCombo cboEntities 
-            Height          =   330
+            Height          =   300
             Left            =   1260
             TabIndex        =   23
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
-            Top             =   315
-            Width           =   3705
-            _ExtentX        =   6535
-            _ExtentY        =   582
+            Top             =   312
+            Width           =   3708
+            _ExtentX        =   6541
+            _ExtentY        =   529
             _Version        =   393216
             ForeColor       =   -2147483640
             BackColor       =   -2147483633
@@ -304,15 +304,15 @@ Begin VB.Form frmDatabase
          Width           =   1230
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "Select or enter the encoding scheme to use."
-         Top             =   1890
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1896
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -371,12 +371,12 @@ Begin VB.Form frmDatabase
          ToolTipText     =   "Comments about the database."
          Top             =   3060
          Width           =   5190
-         _ExtentX        =   9155
+         _ExtentX        =   9165
          _ExtentY        =   5186
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -394,8 +394,8 @@ Begin VB.Form frmDatabase
          ToolTipText     =   "Lists the configuration variables set for this database."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   7805
+         _ExtentX        =   9165
+         _ExtentY        =   7811
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -427,8 +427,8 @@ Begin VB.Form frmDatabase
          ToolTipText     =   "The access control list for the schema."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   5980
+         _ExtentX        =   9165
+         _ExtentY        =   5990
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -453,15 +453,15 @@ Begin VB.Form frmDatabase
          EndProperty
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   31
          ToolTipText     =   "Select or enter the encoding scheme to use."
          Top             =   2640
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -755,8 +755,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFu
 Dim X As Integer
 Dim objItem As ComboItem
 Dim objLItem As ListItem
-Dim objUser As pgUser
-Dim objGroup As pgGroup
 Dim szUserlist As String
 Dim szAccesslist As String
 Dim szAccess() As String
@@ -891,14 +889,7 @@ Dim objDb As pgDatabase
 
   'Load the Entities combo
   If ctx.dbVer >= 7.3 Then
-    cboEntities.ComboItems.Add , , "PUBLIC", "public"
-    For Each objUser In frmMain.svr.Users
-      cboEntities.ComboItems.Add , , objUser.Name, "user"
-    Next objUser
-    For Each objGroup In frmMain.svr.Groups
-      cboEntities.ComboItems.Add , , objGroup.Name, "group"
-    Next objGroup
-    cboEntities.ComboItems(1).Selected = True
+    LoadUGACL cboEntities
   End If
   
   'Reset the Tags
