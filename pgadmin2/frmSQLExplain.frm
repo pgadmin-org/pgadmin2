@@ -132,7 +132,7 @@ Dim rsPlan As New Recordset
   StartMsg "Requesting Query Execution Plan..."
   
   'Query plans are returned as resultsets in 7.3+
-  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+  If ctx.dbVer >= 7.3 Then
     Set rsPlan = frmMain.svr.Databases(szDatabase).Execute("EXPLAIN " & szSQL)
     If Not rsPlan.EOF Then
       txtPlan.Text = rsPlan.Fields(0).Value & ""

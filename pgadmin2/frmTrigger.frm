@@ -468,7 +468,7 @@ Dim objItem As ComboItem
     Set objItem = cboProperties(2).ComboItems.Add(, , "ROW", "trigger")
     objItem.Selected = True
     
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       'First load pg_catalog items, unqualified
       For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
         If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , Mid(objFunction.FormattedID, 12), "function"
@@ -506,7 +506,7 @@ Dim objItem As ComboItem
     bNew = False
 
     'We can rename triggers in 7.3
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       txtProperties(0).BackColor = &H80000005
       txtProperties(0).Locked = False
     End If

@@ -398,7 +398,7 @@ Dim vArgument As Variant
     Me.Caption = "Create Domain"
     
     'Load the combos
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       'Add pg_catalog items first, unqualified
       For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
         cboProperties(0).ComboItems.Add , , fmtTypeName(objType), "type", "type"

@@ -102,10 +102,10 @@ Begin VB.Form frmLanguage
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmLanguage.frx":15FE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -469,7 +469,7 @@ Dim szAccess() As String
   Set lvProperties(0).Font = ctx.Font
   
   'Unlock the edittable fields
-  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+  If ctx.dbVer >= 7.3 Then
     cmdAdd.Enabled = True
     cmdRemove.Enabled = True
     lvProperties(0).BackColor = &H80000005
@@ -484,7 +484,7 @@ Dim szAccess() As String
     Me.Caption = "Create Language"
     
     'Load the combo
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       'Add pg_catalog items first, unqualified
       For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
         If (objFunction.Returns = "opaque") And (objFunction.Arguments.Count = 0) Then
@@ -563,7 +563,7 @@ Dim szAccess() As String
   End If
   
   'Load the Entities combo
-  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+  If ctx.dbVer >= 7.3 Then
     cboEntities.ComboItems.Add , , "PUBLIC", "public"
     For Each objUser In frmMain.svr.Users
       cboEntities.ComboItems.Add , , objUser.Name, "user"

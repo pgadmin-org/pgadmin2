@@ -402,7 +402,7 @@ Dim szTemp As String
     szTemp = ""
     
     'ACLs are different in 7.2+
-    If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+    If ctx.dbVer < 7.2 Then
       
       Select Case szAccess
         Case "arwR"
@@ -460,7 +460,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.fmtTypeName(" & objType
 
 Dim szTemp As String
 
-  If frmMain.svr.dbVersion.VersionNum >= 7.3 And objType.Namespace <> "pg_catalog" Then
+  If ctx.dbVer >= 7.3 And objType.Namespace <> "pg_catalog" Then
     If objType.Element <> "" And objType.InternalLength = -1 Then 'Array Type
       szTemp = objType.Element & "[]"
     Else

@@ -447,7 +447,7 @@ Dim vArgument As Variant
     cboProperties(1).ComboItems.Add , , "rtree", "index"
     cboProperties(1).ComboItems.Add , , "hash", "index"
     'Gist indexes are in 7.2
-    If frmMain.svr.dbVersion.VersionNum > 7.1 Then
+    If ctx.dbVer > 7.1 Then
       cboProperties(1).ComboItems.Add , , "gist", "index"
     End If
 
@@ -455,7 +455,7 @@ Dim vArgument As Variant
     cboProperties(0).BackColor = &H80000005
     cboProperties(1).BackColor = &H80000005
     lvProperties(0).BackColor = &H80000005
-    If frmMain.svr.dbVersion.VersionNum >= 7.2 Then
+    If ctx.dbVer >= 7.2 Then
       hbxProperties(0).BackColor = &H80000005
       hbxProperties(0).Locked = False
     End If

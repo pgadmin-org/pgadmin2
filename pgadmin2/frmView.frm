@@ -73,16 +73,16 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "hbxProperties(1)"
-      Tab(1).Control(1)=   "cmdLoad"
+      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(1)=   "hbxProperties(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(0)"
-      Tab(2).Control(1)=   "cmdRemove"
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(3)=   "fraAdd"
+      Tab(2).Control(0)=   "fraAdd"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "cmdRemove"
+      Tab(2).Control(3)=   "lvProperties(0)"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -605,7 +605,7 @@ Dim szAccess() As String
   Next objUser
   
   'ACLs are different in 7.2+ and have 2 extra privileges
-  If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+  If ctx.dbVer < 7.2 Then
     chkPrivilege(6).Enabled = False
     chkPrivilege(7).Enabled = False
   End If
@@ -730,7 +730,7 @@ Dim objItem As ListItem
     szAccess = "All, "
   Else
     'ACLs are different in 7.2+
-    If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+    If ctx.dbVer < 7.2 Then
       If chkPrivilege(1).Value = 1 Then szAccess = szAccess & "Select, "
       If chkPrivilege(2).Value = 1 Then szAccess = szAccess & "Update/Delete, "
       If chkPrivilege(4).Value = 1 Then szAccess = szAccess & "Insert, "
@@ -784,7 +784,7 @@ Dim X As Integer
 
   If Index = 0 Then
     'ACLs are different in 7.2+
-    If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+    If ctx.dbVer < 7.2 Then
       If chkPrivilege(0).Value = 1 Then
         For X = 1 To 5
           chkPrivilege(X).Enabled = False
@@ -808,7 +808,7 @@ Dim X As Integer
   End If
   
   'Link Update/Delete for older versions
-  If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+  If ctx.dbVer < 7.2 Then
     If Index = 2 Then chkPrivilege(3).Value = chkPrivilege(2).Value
     If Index = 3 Then chkPrivilege(2).Value = chkPrivilege(3).Value
   End If

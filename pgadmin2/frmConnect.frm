@@ -130,6 +130,7 @@ Dim objNode As Node
   frmMain.svr.MasterDB = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", "template1")
   frmMain.svr.Connect txtServer.Text, Val(txtPort.Text), txtUsername.Text, txtPassword.Text
   frmMain.Caption = txtServer.Text & ":" & Val(txtPort.Text) & "- " & App.Title
+  ctx.dbVer = frmMain.svr.dbVersion.VersionNum
   
   'Write the Values for later
   ctx.Username = txtUsername.Text

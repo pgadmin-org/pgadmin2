@@ -74,19 +74,19 @@ Begin VB.Form frmUser
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmUser.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label2"
+      Tab(1).Control(0)=   "cmdRemoveVar"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "Label1"
+      Tab(1).Control(1)=   "cmdAddVar"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(2)=   "txtVarName"
       Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "txtVarValue"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "txtVarName"
+      Tab(1).Control(4)=   "lvProperties(0)"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "cmdAddVar"
+      Tab(1).Control(5)=   "Label1"
       Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "cmdRemoveVar"
+      Tab(1).Control(6)=   "Label2"
       Tab(1).Control(6).Enabled=   0   'False
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdRemoveVar 
@@ -145,7 +145,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   19791874
+         StartOfWeek     =   61407234
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -461,7 +461,7 @@ Dim lNextID As Long
   
     'Unlock the Vars. We only edit these for existing objects as there is no
     'safe way to create the object & update the vars in one 'transaction'
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       lvProperties(0).BackColor = &H80000005
       txtVarName.Enabled = True
       txtVarName.BackColor = &H80000005
@@ -508,7 +508,7 @@ Dim objItem As ListItem
 Dim objVar As pgVar
 
   lvProperties(0).ListItems.Clear
-  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+  If ctx.dbVer >= 7.3 Then
     For Each objVar In objUser.UserVars
       Set objItem = lvProperties(0).ListItems.Add(, , objVar.Name)
       objItem.SubItems(1) = objVar.Value

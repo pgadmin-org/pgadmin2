@@ -116,19 +116,19 @@ Begin VB.Form frmOperator
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmOperator.frx":1E7E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "chkProperties(0)"
-      Tab(1).Control(1)=   "cboProperties(4)"
-      Tab(1).Control(2)=   "cboProperties(5)"
-      Tab(1).Control(3)=   "cboProperties(6)"
-      Tab(1).Control(4)=   "cboProperties(7)"
-      Tab(1).Control(5)=   "cboProperties(8)"
+      Tab(1).Control(0)=   "lblProperties(8)"
+      Tab(1).Control(1)=   "lblProperties(9)"
+      Tab(1).Control(2)=   "lblProperties(10)"
+      Tab(1).Control(3)=   "lblProperties(11)"
+      Tab(1).Control(4)=   "lblProperties(12)"
+      Tab(1).Control(5)=   "lblProperties(13)"
       Tab(1).Control(6)=   "cboProperties(9)"
-      Tab(1).Control(7)=   "lblProperties(13)"
-      Tab(1).Control(8)=   "lblProperties(12)"
-      Tab(1).Control(9)=   "lblProperties(11)"
-      Tab(1).Control(10)=   "lblProperties(10)"
-      Tab(1).Control(11)=   "lblProperties(9)"
-      Tab(1).Control(12)=   "lblProperties(8)"
+      Tab(1).Control(7)=   "cboProperties(8)"
+      Tab(1).Control(8)=   "cboProperties(7)"
+      Tab(1).Control(9)=   "cboProperties(6)"
+      Tab(1).Control(10)=   "cboProperties(5)"
+      Tab(1).Control(11)=   "cboProperties(4)"
+      Tab(1).Control(12)=   "chkProperties(0)"
       Tab(1).ControlCount=   13
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -636,7 +636,7 @@ Dim vArgument As Variant
     Me.Caption = "Create Operator"
     
     'Load the combos
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       'First load pg_catalog items, unqualified
       For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Domains
         cboProperties(0).ComboItems.Add , , fmtID(objDomain.Name), "domain"
@@ -783,7 +783,7 @@ Dim objFunction As pgFunction
     cboProperties(2).ComboItems.Clear
     cboProperties(6).ComboItems.Clear
     cboProperties(7).ComboItems.Clear
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       'First do pg_catalog items, unqualified
       For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
         If (cboProperties(0).Text <> "") And (cboProperties(1).Text <> "") Then 'Both

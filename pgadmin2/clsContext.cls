@@ -35,6 +35,7 @@ Dim szCurrentDB As String
 Dim szCurrentNS As String
 Dim bAutoRowCount As Boolean
 Dim objFont As StdFont
+Dim sDbVer As Single
 
 'The connected server name
 Public Property Let Server(ByVal szData As String)
@@ -174,7 +175,7 @@ Public Property Let CurrentNS(ByVal szData As String)
   
   If (szData <> "") And (szData <> "pg_catalog") And (szData <> "pg_toast") And (Left(szData, 8) <> "pg_temp_") Then
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = True
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("operator").Enabled = True
@@ -185,7 +186,7 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = True
     frmMain.mnuPopupCreateAggregate.Enabled = True
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then frmMain.mnuPopupCreateDomain.Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateDomain.Enabled = True
     frmMain.mnuPopupCreateFunction.Enabled = True
     frmMain.mnuPopupCreateIndex.Enabled = True
     frmMain.mnuPopupCreateOperator.Enabled = True
@@ -240,4 +241,11 @@ Public Property Get Font() As StdFont
   Set Font = objFont
 End Property
 
+'Database Version
+Public Property Let dbVer(ByVal sData As Single)
+  sDbVer = sData
+End Property
+Public Property Get dbVer() As Single
+  dbVer = sDbVer
+End Property
 

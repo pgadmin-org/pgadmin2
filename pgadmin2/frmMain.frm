@@ -2148,7 +2148,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT datname, procpid, usename, current_query FROM pg_stat_activity")
     sv.ColumnHeaders.Add , , "Database", 2000
     sv.ColumnHeaders.Add , , "PID", 1500
@@ -2230,7 +2230,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT datname, numbackends, xact_commit, xact_rollback, blks_read, blks_hit FROM pg_stat_database ORDER BY datname")
     sv.ColumnHeaders.Add , , "Database", 2000
     sv.ColumnHeaders.Add , , "Backends", 1500
@@ -2359,7 +2359,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT numbackends, xact_commit, xact_rollback, blks_read, blks_hit FROM pg_stat_database WHERE datname = '" & Node.Text & "'")
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
@@ -2637,7 +2637,7 @@ Dim lvItem As ListItem
 
   If Node.Children = 0 Then
     Set ctx.CurrentObject.Aggregates.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG+" & GetID, "Aggregates", "aggregate")
-    If svr.dbVersion.VersionNum >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, "Domains", "domain")
+    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, "Domains", "domain")
     Set ctx.CurrentObject.Functions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC+" & GetID, "Functions", "function")
     Set ctx.CurrentObject.Operators.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR+" & GetID, "Operators", "operator")
     Set ctx.CurrentObject.Sequences.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ+" & GetID, "Sequences", "sequence")
@@ -2892,7 +2892,7 @@ Dim vData As Variant
   lvItem.SubItems(1) = ctx.CurrentObject.Language
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Source, vbCrLf, " ")
-  If svr.dbVersion.VersionNum < 7.3 Then
+  If ctx.dbVer < 7.3 Then
     Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cachable?", "property", "property")
     If ctx.CurrentObject.Cachable Then
       lvItem.SubItems(1) = "Yes"
@@ -3062,7 +3062,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname")
     sv.ColumnHeaders.Add , , "Sequence", 2000
     sv.ColumnHeaders.Add , , "Blocks Read", 2000
@@ -3149,7 +3149,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relid = " & ctx.CurrentObject.OID & "::oid")
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
@@ -3214,7 +3214,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname")
     sv.ColumnHeaders.Add , , "Table", 2000
     sv.ColumnHeaders.Add , , "Tuples Inserted", 2000
@@ -3317,7 +3317,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relid = " & ctx.CurrentObject.OID & "::oid")
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
@@ -3501,7 +3501,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'")
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
@@ -3662,7 +3662,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname")
     sv.ColumnHeaders.Add , , "Index", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
@@ -3755,7 +3755,7 @@ Dim rsStat As New Recordset
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
-  If svr.dbVersion.VersionNum >= 7.2 Then
+  If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND statio.indexrelid = " & ctx.CurrentObject.OID & "::oid")
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
@@ -4106,7 +4106,7 @@ Dim vData As Variant
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   'Stats are only on 7.2+
-  If svr.dbVersion.VersionNum < 7.2 Then
+  If ctx.dbVer < 7.2 Then
     sv.ColumnHeaders.Add , , "Statistics", sv.Width
     sv.ListItems.Add , , "Statistics are only available with PostgreSQL 7.2 or higher", "database", "database"
   End If
@@ -4118,260 +4118,260 @@ Dim vData As Variant
       ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr
       tvServer Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svServer Node
+      If ctx.dbVer >= 7.2 Then svServer Node
 
     Case "DAT+" 'Databases
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       tvDatabases Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svDatabases Node
+      If ctx.dbVer >= 7.2 Then svDatabases Node
         
     Case "DAT-" 'Database
       ctx.CurrentDB = Node.Text
       ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Databases(Node.Text)
       tvDatabase Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svDatabase Node
+      If ctx.dbVer >= 7.2 Then svDatabase Node
       
     Case "GRP+" 'Groups
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       tvGroups Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "GRP-" 'Group
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Groups(Node.Text)
       tvGroup Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "USR+" 'Users
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       tvUsers Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "USR-" 'User
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Users(Node.Text)
       tvUser Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "LNG+" 'Languages
       ctx.CurrentDB = Node.Parent.Text
       ctx.CurrentNS = ""
       tvLanguages Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
 
     Case "LNG-" 'Language
       ctx.CurrentDB = Node.Parent.Parent.Text
       ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text)
       tvLanguage Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "NSP+" 'Namespaces
       ctx.CurrentDB = Node.Parent.Text
       ctx.CurrentNS = ""
       tvNamespaces Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
 
     Case "NSP-" 'Namespaces
       ctx.CurrentDB = Node.Parent.Parent.Text
       ctx.CurrentNS = Node.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Namespaces(Node.Text)
       tvNamespace Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "AGG+" 'Aggregates
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvAggregates Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "AGG-" 'Aggregate
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Aggregates(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvAggregate Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "DOM+" 'Domains
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvDomains Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "DOM-" 'Domain
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Domains(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvDomain Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "FNC+" 'Functions
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvFunctions Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "FNC-" 'Function
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Functions(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvFunction Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "OPR+" 'Operators
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvOperators Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "OPR-" 'Operator
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Operators(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvOperator Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "SEQ+" 'Sequences
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvSequences Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svSequences Node
+      If ctx.dbVer >= 7.2 Then svSequences Node
 
     Case "SEQ-" 'Sequence
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Sequences(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvSequence Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svSequence Node
+      If ctx.dbVer >= 7.2 Then svSequence Node
       
     Case "TBL+" 'Tables
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvTables Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svTables Node
+      If ctx.dbVer >= 7.2 Then svTables Node
       
     Case "TBL-" 'Table
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Tables(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvTable Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svTable Node
+      If ctx.dbVer >= 7.2 Then svTable Node
       
     Case "CHK+" 'Checks
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvChecks Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "CHK-" 'Check
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvCheck Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
     
     Case "COL+" 'Columns
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvColumns Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "COL-" 'Column
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvColumn Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svColumn Node
+      If ctx.dbVer >= 7.2 Then svColumn Node
       
     Case "FKY+" 'Foreign Keys
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvForeignKeys Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "FKY-" 'Foreign Key
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvForeignKey Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "REL+" 'Relationships
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Parent.Text
       tvRelationships Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "IND+" 'Indexes
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvIndexes Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svIndexes Node
+      If ctx.dbVer >= 7.2 Then svIndexes Node
       
     Case "IND-" 'Index
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvIndex Node
-      If svr.dbVersion.VersionNum >= 7.2 Then svIndex Node
+      If ctx.dbVer >= 7.2 Then svIndex Node
 
     Case "RUL+" 'Rules
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvRules Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
   
     Case "RUL-" 'Rule
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvRule Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "TRG+" 'Triggers
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvTriggers Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "TRG-" 'Trigger
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvTrigger Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "TYP+" 'Types
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvTypes Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
 
     Case "TYP-" 'Type
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Types(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvType Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "VIE+" 'Views
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvViews Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "VIE-" 'View
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Views(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvView Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      If ctx.dbVer >= 7.2 Then ClearStats
       
   End Select
   EndMsg

@@ -511,10 +511,10 @@ Dim objNamespace As pgNamespace
       
       'Populate the Types combo
       'Pseudo types
-      If frmMain.svr.dbVersion.VersionNum >= 7.2 Then cboProperties(1).ComboItems.Add , , "serial8", "sequence", "sequence"
+      If ctx.dbVer >= 7.2 Then cboProperties(1).ComboItems.Add , , "serial8", "sequence", "sequence"
       cboProperties(1).ComboItems.Add , , "serial", "sequence", "sequence"
       
-      If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      If ctx.dbVer >= 7.3 Then
         'Add pg_catalog items first, unqualified
         For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Domains
           cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain", "domain"
@@ -558,7 +558,7 @@ Dim objNamespace As pgNamespace
       End If
       If objColumn.DataType = "numeric" Then txtProperties(3).Text = objColumn.NumericScale
       txtProperties(4).Text = objColumn.Default
-      If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      If ctx.dbVer >= 7.3 Then
         Set objItem = cboProperties(0).ComboItems.Add(, , objColumn.Namespace & "." & objColumn.Table, "table")
         objItem.Selected = True
       Else
@@ -574,7 +574,7 @@ Dim objNamespace As pgNamespace
         hbxProperties(0).Locked = False
         hbxProperties(0).BackColor = &H80000005
       End If
-      If frmMain.svr.dbVersion.VersionNum >= 7.2 Then
+      If ctx.dbVer >= 7.2 Then
         txtProperties(5).BackColor = &H80000005
         txtProperties(5).Locked = False
         txtProperties(5).Text = objColumn.Statistics
@@ -618,7 +618,7 @@ Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.chkProperties_Click(" & Index & ")", etFullDebug
 
-  If frmMain.svr.dbVersion.VersionNum < 7.3 Then
+  If ctx.dbVer < 7.3 Then
     chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
     chkProperties(1).Value = Bool2Bin(objColumn.PrimaryKey)
   Else

@@ -491,7 +491,7 @@ Dim objItem As ComboItem
   
     'Load the combos
     cboProperties(0).ComboItems.Add , , "ANY", "any"
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       'Load pg_catalog entries first, unqualified
       For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Domains
         cboProperties(0).ComboItems.Add , , fmtID(objDomain.Name), "domain"
@@ -582,7 +582,7 @@ Dim objNamespace As pgNamespace
     cboProperties(4).ComboItems.Clear
     cboProperties(4).Text = ""
     
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
     
       'Add pg_catalog items first, unqualified
       For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions

@@ -260,7 +260,7 @@ Dim bFlag As Boolean
   'give the option to update all if > 1
   StartMsg "Counting matching records..."
   If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
-  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+  If ctx.dbVer >= 7.3 Then
     szQuery = "SELECT count(*) AS count FROM " & szSchema & "." & szTable
   Else
     szQuery = "SELECT count(*) AS count FROM " & szTable
@@ -293,7 +293,7 @@ Dim bFlag As Boolean
   Set rsCount = frmMain.svr.Databases(szDatabase).Execute(szQuery)
   
   'Prepare the delete query for later
-  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+  If ctx.dbVer >= 7.3 Then
     szQuery = "DELETE FROM " & szSchema & "." & szTable & szFullCriteria
   Else
     szQuery = "DELETE FROM " & szTable & szFullCriteria
@@ -415,7 +415,7 @@ Dim rsCount As New Recordset
     End If
     If Len(szColumns) > 2 Then szColumns = "(" & Mid(szColumns, 1, Len(szColumns) - 2) & ")"
     If Len(szValues) > 2 Then szValues = "(" & Mid(szValues, 1, Len(szValues) - 2) & ")"
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       szQuery = "INSERT INTO " & szSchema & "." & szTable & " " & szColumns & " VALUES " & szValues
     Else
       szQuery = "INSERT INTO " & szTable & " " & szColumns & " VALUES " & szValues
@@ -536,7 +536,7 @@ Dim rsCount As New Recordset
     StartMsg "Counting matching records..."
     If Len(szValues) > 2 Then szValues = Mid(szValues, 1, Len(szValues) - 2)
     If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       szQuery = "SELECT count(*) AS count FROM " & szSchema & "." & szTable
     Else
       szQuery = "SELECT count(*) AS count FROM " & szTable
@@ -569,7 +569,7 @@ Dim rsCount As New Recordset
     Set rsCount = frmMain.svr.Databases(szDatabase).Execute(szQuery)
 
     'Prepare the update query for later
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       szQuery = "UPDATE " & szSchema & "." & szTable & " SET " & szValues & szFullCriteria
     Else
       szQuery = "UPDATE " & szTable & " SET " & szValues & szFullCriteria
@@ -867,7 +867,7 @@ Dim szSchemas() As String
   Else
     szTempTable = szTable
   End If
-  If frmMain.svr.dbVersion.VersionNum < 7.3 Then
+  If ctx.dbVer < 7.3 Then
     If frmMain.svr.Databases(szDatabase).Namespaces("public").Views.Exists(szTempTable) Or _
        frmMain.svr.Databases(szDatabase).Namespaces("public").Sequences.Exists(szTempTable) Then
       szTable = ""
@@ -996,7 +996,7 @@ GotInfo:
 
   'Attempt to figure out a Unique Column for safer updating
   If bUpdateable Then
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       szTemp = szSchema
       If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
       If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)

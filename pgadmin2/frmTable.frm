@@ -73,43 +73,43 @@ Begin VB.Form frmTable
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdColRemove"
+      Tab(1).Control(0)=   "lvProperties(0)"
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(2)=   "cmdColRemove"
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblProperties(5)"
-      Tab(2).Control(1)=   "lvProperties(1)"
-      Tab(2).Control(2)=   "hbxCheck(0)"
-      Tab(2).Control(3)=   "cmdChkRemove"
-      Tab(2).Control(4)=   "cmdChkAdd"
-      Tab(2).Control(5)=   "txtCheck(0)"
+      Tab(2).Control(0)=   "txtCheck(0)"
+      Tab(2).Control(1)=   "cmdChkAdd"
+      Tab(2).Control(2)=   "cmdChkRemove"
+      Tab(2).Control(3)=   "hbxCheck(0)"
+      Tab(2).Control(4)=   "lvProperties(1)"
+      Tab(2).Control(5)=   "lblProperties(5)"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":0716
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdFkyRemove"
+      Tab(3).Control(0)=   "lvProperties(2)"
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "lvProperties(2)"
+      Tab(3).Control(2)=   "cmdFkyRemove"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":0732
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblProperties(6)"
-      Tab(4).Control(1)=   "lvProperties(3)"
+      Tab(4).Control(0)=   "cboInheritedTables(0)"
+      Tab(4).Control(1)=   "cmdInhRemove"
       Tab(4).Control(2)=   "cmdInhAdd"
-      Tab(4).Control(3)=   "cmdInhRemove"
-      Tab(4).Control(4)=   "cboInheritedTables(0)"
+      Tab(4).Control(3)=   "lvProperties(3)"
+      Tab(4).Control(4)=   "lblProperties(6)"
       Tab(4).ControlCount=   5
       TabCaption(5)   =   "&Security"
       TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "cmdRemove"
-      Tab(5).Control(1)=   "fraAdd"
-      Tab(5).Control(2)=   "cmdAdd"
-      Tab(5).Control(3)=   "lvProperties(4)"
+      Tab(5).Control(0)=   "lvProperties(4)"
+      Tab(5).Control(1)=   "cmdAdd"
+      Tab(5).Control(2)=   "fraAdd"
+      Tab(5).Control(3)=   "cmdRemove"
       Tab(5).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -1237,7 +1237,7 @@ Dim szAccess() As String
   hbxCheck(0).Wordlist = ctx.AutoHighlight
   
   'ACLs are different in 7.2+ and have 2 extra privileges
-  If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+  If ctx.dbVer < 7.2 Then
     chkPrivilege(6).Enabled = False
     chkPrivilege(7).Enabled = False
   End If
@@ -1263,7 +1263,7 @@ Dim szAccess() As String
     cboProperties(0).BackColor = &H80000005
     
     'Populate the Combos
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    If ctx.dbVer >= 7.3 Then
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
         If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
           For Each objTable In objNamespace.Tables
@@ -1301,7 +1301,7 @@ Dim szAccess() As String
     End If
     
     'Allow DROP CHECK for 7.2+
-    If frmMain.svr.dbVersion.VersionNum >= 7.2 Then cmdChkRemove.Enabled = True
+    If ctx.dbVer >= 7.2 Then cmdChkRemove.Enabled = True
     
     Me.Caption = "Table: " & objTable.Identifier
     txtProperties(0).Text = objTable.Name
@@ -1441,7 +1441,7 @@ Dim objItem As ListItem
     szAccess = "All, "
   Else
     'ACLs are different in 7.2+
-    If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+    If ctx.dbVer < 7.2 Then
       If chkPrivilege(1).Value = 1 Then szAccess = szAccess & "Select, "
       If chkPrivilege(2).Value = 1 Then szAccess = szAccess & "Update/Delete, "
       If chkPrivilege(4).Value = 1 Then szAccess = szAccess & "Insert, "
@@ -1491,7 +1491,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.lvProperties_ItemClick
   End If
   
   'Don't allow removal of existing checks
-  If Index = 1 And frmMain.svr.dbVersion.VersionNum < 7.2 Then
+  If Index = 1 And ctx.dbVer < 7.2 Then
     If Item.Tag = "ORIG" Then
       cmdChkRemove.Enabled = False
     Else
@@ -1521,7 +1521,7 @@ Dim X As Integer
 
   If Index = 0 Then
     'ACLs are different in 7.2+
-    If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+    If ctx.dbVer < 7.2 Then
       If chkPrivilege(0).Value = 1 Then
         For X = 1 To 5
           chkPrivilege(X).Enabled = False
@@ -1545,7 +1545,7 @@ Dim X As Integer
   End If
   
   'Link Update/Delete for older versions
-  If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+  If ctx.dbVer < 7.2 Then
     If Index = 2 Then chkPrivilege(3).Value = chkPrivilege(2).Value
     If Index = 3 Then chkPrivilege(2).Value = chkPrivilege(3).Value
   End If
@@ -1568,7 +1568,7 @@ Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.chkProperties_Click(" & Index & ")", etFullDebug
 
-  If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+  If ctx.dbVer < 7.2 Then
     chkProperties(0).Value = 1
   ElseIf Not (objTable Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objTable.HasOIDs)
