@@ -12,6 +12,10 @@ add new visual query builder
 Display Operator details correctly [Hiroshi Saito]
 Fixed reserved word quoting.
 add operator class (create,drop,clone,find)
+add Load/Save/F5 execute/F4 clear Query in visual query builder
+add support multi language (extract string from source, merge file language)
+add editor language
+Fix reservation word with QUOTE. [Hiroshi Saito]
 
 1.6.0
 -----
