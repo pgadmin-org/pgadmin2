@@ -18,6 +18,7 @@ Clear Upgrade Wizard listview before populating.
 REVOKE privileges from groups correctly.
 Allow creation of tables with no columns, just inherits.
 Don't include inherited columns & checks in table definitions.
+Fixed a bug in the Import Wizard data parser.
 
 1.2.0 Stable
 ------------
