@@ -142,23 +142,23 @@ Begin VB.Form frmDatabase
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmDatabase.frx":4578
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cboVarValue"
-      Tab(1).Control(1)=   "cmdCurrVal"
-      Tab(1).Control(2)=   "cboVarName"
-      Tab(1).Control(3)=   "txtVarValue"
+      Tab(1).Control(0)=   "Label1"
+      Tab(1).Control(1)=   "Label2"
+      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(3)=   "cmdRemoveVar"
       Tab(1).Control(4)=   "cmdAddVar"
-      Tab(1).Control(5)=   "cmdRemoveVar"
-      Tab(1).Control(6)=   "lvProperties(0)"
-      Tab(1).Control(7)=   "Label2"
-      Tab(1).Control(8)=   "Label1"
+      Tab(1).Control(5)=   "txtVarValue"
+      Tab(1).Control(6)=   "cboVarName"
+      Tab(1).Control(7)=   "cmdCurrVal"
+      Tab(1).Control(8)=   "cboVarValue"
       Tab(1).ControlCount=   9
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmDatabase.frx":4594
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(1)"
-      Tab(2).Control(1)=   "fraAdd"
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(3)=   "cmdRemove"
+      Tab(2).Control(0)=   "cmdRemove"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "fraAdd"
+      Tab(2).Control(3)=   "lvProperties(1)"
       Tab(2).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboVarValue 
          Height          =   330
@@ -965,19 +965,25 @@ Dim szImg As String
 
   lvProperties(0).ListItems.Clear
   If ctx.dbVer >= 7.3 Then
-    For Each objVar In objDatabase.DatabaseVars
-      Set objItem = lvProperties(0).ListItems.Add(, , objVar.Name)
-      objItem.SubItems(1) = objVar.Value
-      
-      'get image
-      szImg = "property"    'image default
-      objVardb = GetVarDb(objVar.Name)
-      If objVardb.Type = TVDB_BOOLEAN Or objVardb.Type = TVDB_CAST Then
-        szImg = GetImageFromVal(objVar.Value, objVardb.Type)
-      End If
-      objItem.Icon = szImg
-      objItem.SmallIcon = szImg
-    Next objVar
+    If Not (objDatabase.DatabaseVars Is Nothing) Then
+      For Each objVar In objDatabase.DatabaseVars
+        Set objItem = lvProperties(0).ListItems.Add(, , objVar.Name)
+        objItem.SubItems(1) = objVar.Value
+        
+        'get image
+        szImg = "property"    'image default
+        objVardb = GetVarDb(objVar.Name)
+        If objVardb.Type = TVDB_BOOLEAN Or objVardb.Type = TVDB_CAST Then
+          szImg = GetImageFromVal(objVar.Value, objVardb.Type)
+        End If
+        objItem.Icon = szImg
+        objItem.SmallIcon = szImg
+      Next objVar
+    Else
+      cmdRemoveVar.Enabled = False
+      cmdAddVar.Enabled = False
+      cmdCurrVal.Enabled = False
+    End If
   End If
 
   Exit Sub
