@@ -15,13 +15,13 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Vacuum(" & bAnalyse 
   'because there is no easy way to get the table name.
   Select Case ctx.CurrentObject.ObjectType
     Case "Table"
-      If MsgBox("WARNING: Table vacuuming should only be performed when there is no one using the table." & vbCrLf & vbCrLf & "Do you wish to continue?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
+      If frmMain.svr.dbVersion.VersionNum < 7.2 Then If MsgBox("WARNING: Table vacuuming should only be performed when there is no one using the table." & vbCrLf & vbCrLf & "Do you wish to continue?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
       StartMsg "Vacuuming " & ctx.CurrentObject.Identifier & " in database: " & ctx.CurrentDB & "..."
       frmMain.svr.Databases(ctx.CurrentDB).Vacuum bAnalyse, ctx.CurrentObject.Identifier
       EndMsg
       MsgBox "The table '" & ctx.CurrentObject.Identifier & "' in database '" & ctx.CurrentDB & "' has been vacuumed.", vbInformation
     Case Else
-      If MsgBox("WARNING: Database vacuuming should only be performed when there is no one using the database." & vbCrLf & vbCrLf & "Do you wish to continue?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
+      If frmMain.svr.dbVersion.VersionNum < 7.2 Then If MsgBox("WARNING: Database vacuuming should only be performed when there is no one using the database." & vbCrLf & vbCrLf & "Do you wish to continue?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
       StartMsg "Vacuuming " & ctx.CurrentDB & "..."
       frmMain.svr.Databases(ctx.CurrentDB).Vacuum bAnalyse
       EndMsg
