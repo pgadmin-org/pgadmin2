@@ -113,8 +113,8 @@ Begin VB.Form frmUpgradeWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmUpgradeWizard.frx":3AEA
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1(2)"
-      Tab(1).Control(1)=   "lvVersions"
+      Tab(1).Control(0)=   "lvVersions"
+      Tab(1).Control(1)=   "Label1(2)"
       Tab(1).ControlCount=   2
       Begin MSComctlLib.ListView lvVersions 
          Height          =   2400
@@ -226,7 +226,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmUpgradeWizard.frm - Check for Upgrades.

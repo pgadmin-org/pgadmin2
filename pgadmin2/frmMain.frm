@@ -141,7 +141,7 @@ Begin VB.Form frmMain
             ImageKey        =   "create"
             Style           =   5
             BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
-               NumButtonMenus  =   16
+               NumButtonMenus  =   17
                BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "aggregate"
@@ -149,75 +149,80 @@ Begin VB.Form frmMain
                EndProperty
                BeginProperty ButtonMenu2 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
+                  Key             =   "cast"
+                  Text            =   "&Cast"
+               EndProperty
+               BeginProperty ButtonMenu3 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
                   Key             =   "database"
                   Text            =   "&Database"
                EndProperty
-               BeginProperty ButtonMenu3 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu4 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "domain"
                   Text            =   "Do&main"
                EndProperty
-               BeginProperty ButtonMenu4 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu5 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "function"
                   Text            =   "&Function"
                EndProperty
-               BeginProperty ButtonMenu5 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu6 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "group"
                   Text            =   "&Group"
                EndProperty
-               BeginProperty ButtonMenu6 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu7 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "index"
                   Text            =   "&Index"
                EndProperty
-               BeginProperty ButtonMenu7 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu8 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "language"
                   Text            =   "&Language"
                EndProperty
-               BeginProperty ButtonMenu8 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu9 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "operator"
                   Text            =   "&Operator"
                EndProperty
-               BeginProperty ButtonMenu9 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu10 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "rule"
                   Text            =   "&Rule"
                EndProperty
-               BeginProperty ButtonMenu10 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "namespace"
                   Text            =   "Sc&hema"
                EndProperty
-               BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "sequence"
                   Text            =   "&Sequence"
                EndProperty
-               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "table"
                   Text            =   "&Table"
                EndProperty
-               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "trigger"
                   Text            =   "T&rigger"
                EndProperty
-               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "type"
                   Text            =   "T&ype"
                EndProperty
-               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu16 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "user"
                   Text            =   "&User"
                EndProperty
-               BeginProperty ButtonMenu16 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu17 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "view"
                   Text            =   "&View"
@@ -364,7 +369,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   27
+         NumListImages   =   28
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":774E
             Key             =   "aggregate"
@@ -473,6 +478,10 @@ Begin VB.Form frmMain
             Picture         =   "frmMain.frx":1092A
             Key             =   "namespace"
          EndProperty
+         BeginProperty ListImage28 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":114FC
+            Key             =   "cast"
+         EndProperty
       EndProperty
    End
    Begin MSComctlLib.TreeView tv 
@@ -504,13 +513,13 @@ Begin VB.Form frmMain
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmMain.frx":114FC
+      TabPicture(0)   =   "frmMain.frx":120CE
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lv"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).ControlCount=   1
       TabCaption(1)   =   "&Statistics"
-      TabPicture(1)   =   "frmMain.frx":11518
+      TabPicture(1)   =   "frmMain.frx":120EA
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "sv"
       Tab(1).ControlCount=   1
@@ -713,6 +722,9 @@ Begin VB.Form frmMain
    End
    Begin VB.Menu mnuTools 
       Caption         =   "&Tools"
+      Begin VB.Menu mnuToolsFindObject 
+         Caption         =   "&Find Object"
+      End
       Begin VB.Menu mnuToolsUpgradeWizard 
          Caption         =   "&Upgrade Wizard..."
       End
@@ -780,6 +792,10 @@ Begin VB.Form frmMain
          Enabled         =   0   'False
          Begin VB.Menu mnuPopupCreateAggregate 
             Caption         =   "&Aggregate..."
+            Enabled         =   0   'False
+         End
+         Begin VB.Menu mnuPopupCreateCast 
+            Caption         =   "&Cast..."
             Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateDatabase 
@@ -890,7 +906,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmMain.frm - The primary form.
@@ -1031,6 +1047,19 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupStopRecording_Click()",
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupStopRecording_Click"
+End Sub
+
+Private Sub mnuToolsFindObject_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsFindObjDb_Click()", etFullDebug
+Dim objFindForm As New frmFind
+
+  Load objFindForm
+  objFindForm.Initialise
+  objFindForm.Show
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsFindObject_Click"
 End Sub
 
 Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
@@ -1520,6 +1549,12 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
           objAggregateForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objAggregateForm.Show
           
+        Case "Cast"
+          Dim objCastForm As New frmCast
+          Load objCastForm
+          objCastForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objCastForm.Show
+          
         Case "Column"
           Dim objColumnForm As New frmColumn
           Load objColumnForm
@@ -1762,6 +1797,20 @@ Dim objAggregateForm As New frmAggregate
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateAggregate_Click"
 End Sub
 
+Private Sub mnuPopupCreateCast_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateCast_Click()", etFullDebug
+
+Dim objCastForm As New frmCast
+
+  Load objCastForm
+  objCastForm.Initialise ctx.CurrentDB
+  objCastForm.Show
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateCast_Click"
+End Sub
+
 Private Sub mnuPopupCreateDatabase_Click()
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateDatabase_Click()", etFullDebug
@@ -1978,6 +2027,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
       Select Case ButtonMenu.Key
         Case "aggregate"
           mnuPopupCreateAggregate_Click
+        Case "cast"
+          mnuPopupCreateCast_Click
         Case "database"
           mnuPopupCreateDatabase_Click
         Case "domain"
@@ -2268,7 +2319,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvDatabase(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2292,6 +2343,7 @@ Dim szTemp As String
   
   If svr.Databases(Node.Text).Status = statOpen Then
     If Node.Children = 0 Then
+      If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Casts.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CST+" & GetID, "Casts (" & ctx.CurrentObject.Casts.Count(Not ctx.IncludeSys) & ")", "cast")
       Set ctx.CurrentObject.Languages.Tag = tv.Nodes.Add(Node.Key, tvwChild, "LNG+" & GetID, "Languages (" & ctx.CurrentObject.Languages.Count(Not ctx.IncludeSys) & ")", "language")
       Set ctx.CurrentObject.Namespaces.Tag = tv.Nodes.Add(Node.Key, tvwChild, "NSP+" & GetID, "Schemas (" & ctx.CurrentObject.Namespaces.Count(Not ctx.IncludeSys) & ")", "namespace")
     End If
@@ -2532,6 +2584,76 @@ Dim objVar As pgVar
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvUser"
+End Sub
+
+Private Sub tvCasts(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvCasts(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim cst As pgCast
+
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Casts.Count(Not ctx.IncludeSys) Then
+    While Not (Node.Child Is Nothing)
+      tv.Nodes.Remove Node.Child.Index
+    Wend
+    For Each cst In svr.Databases(Node.Parent.Text).Casts
+      If Not (cst.SystemObject And Not ctx.IncludeSys) Then Set cst.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CST-" & GetID, cst.Identifier, "cast")
+    Next cst
+    Node.Text = "Casts (" & Node.Children & ")"
+  End If
+  lv.ColumnHeaders.Add , , "Cast", lv.Width
+  For Each cst In svr.Databases(Node.Parent.Text).Casts
+    If Not (cst.SystemObject And Not ctx.IncludeSys) Then
+      Set lvItem = lv.ListItems.Add(, "CST-" & GetID, cst.Identifier, "cast", "cast")
+    End If
+  Next cst
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvCasts"
+End Sub
+
+Private Sub tvCast(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvCast(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+
+  lv.ColumnHeaders.Add , , "Property", 2000
+  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Type source", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Source
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Type target", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Target
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Funct
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Context", "property", "property")
+  
+  Select Case ctx.CurrentObject.Context
+    Case "e"
+    Case "i"
+      lvItem.SubItems(1) = "Implict"
+    Case "a"
+      lvItem.SubItems(1) = "Assigment"
+  End Select
+  
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Cast?", "property", "property")
+  If ctx.CurrentObject.SystemObject Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+  
+  'Set the Definition Pane
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvCast"
 End Sub
 
 Private Sub tvLanguages(ByVal Node As MSComctlLib.Node)
@@ -4086,7 +4208,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -4154,6 +4276,19 @@ Dim vData As Variant
       ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Users(Node.Text)
       tvUser Node
+      If ctx.dbVer >= 7.2 Then ClearStats
+      
+    Case "CST+" 'Casts
+      ctx.CurrentDB = Node.Parent.Text
+      ctx.CurrentNS = ""
+      tvCasts Node
+      If ctx.dbVer >= 7.2 Then ClearStats
+    
+    Case "CST-" 'Cast
+      ctx.CurrentDB = Node.Parent.Parent.Text
+      ctx.CurrentNS = ""
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Casts(Node.Text)
+      tvCast Node
       If ctx.dbVer >= 7.2 Then ClearStats
       
     Case "LNG+" 'Languages
@@ -4409,6 +4544,12 @@ Dim szPath() As String
     Case "USR-" 'User
       Set ctx.CurrentObject = svr.Users(Item.Text)
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
+      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+      
+    Case "CST-" 'Cast
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Casts(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
       ctx.CurrentNS = ""
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       

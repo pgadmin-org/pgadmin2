@@ -81,13 +81,13 @@ Begin VB.Form frmForeignKey
       TabCaption(1)   =   "&Relationships"
       TabPicture(1)   =   "frmForeignKey.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lblProperties(7)"
+      Tab(1).Control(1)=   "lblProperties(8)"
+      Tab(1).Control(2)=   "cboProperties(6)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(4)=   "cboProperties(6)"
-      Tab(1).Control(5)=   "lblProperties(8)"
-      Tab(1).Control(6)=   "lblProperties(7)"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cmdRemove"
+      Tab(1).Control(6)=   "cmdAdd"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -415,7 +415,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmForeignKey.frm - Edit/Create a ForeignKey

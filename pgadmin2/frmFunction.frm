@@ -133,13 +133,13 @@ Begin VB.Form frmFunction
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":2CC0
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(4)"
-      Tab(1).Control(1)=   "lblProperties(5)"
-      Tab(1).Control(2)=   "cboProperties(2)"
+      Tab(1).Control(0)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdAdd"
-      Tab(1).Control(6)=   "cmdRemove"
+      Tab(1).Control(4)=   "cboProperties(2)"
+      Tab(1).Control(5)=   "lblProperties(5)"
+      Tab(1).Control(6)=   "lblProperties(4)"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":2CDC
@@ -149,10 +149,10 @@ Begin VB.Form frmFunction
       TabCaption(3)   =   "&Security"
       TabPicture(3)   =   "frmFunction.frx":2CF8
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lvProperties(1)"
-      Tab(3).Control(1)=   "fraAdd"
-      Tab(3).Control(2)=   "cmdAddPrivilege"
-      Tab(3).Control(3)=   "cmdRemovePrivilege"
+      Tab(3).Control(0)=   "cmdRemovePrivilege"
+      Tab(3).Control(1)=   "cmdAddPrivilege"
+      Tab(3).Control(2)=   "fraAdd"
+      Tab(3).Control(3)=   "lvProperties(1)"
       Tab(3).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -565,7 +565,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmFunction.frm - Edit/Create a Function

@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmNamespace 
    BorderStyle     =   1  'Fixed Single
@@ -75,13 +75,13 @@ Begin VB.Form frmNamespace
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmNamespace.frx":0BDE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "fraAdd"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboProperties 
@@ -314,7 +314,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmNamespace.frm - Edit/Create a Namespace

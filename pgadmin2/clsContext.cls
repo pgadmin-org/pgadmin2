@@ -12,7 +12,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' clsContext.cls - Contains (Context Sensitive) Globals
@@ -137,22 +137,26 @@ Public Property Let CurrentDB(ByVal szData As String)
   szCurrentDB = szData
   If szData <> "" Then
     frmMain.sb.Panels("currentdb").Text = "Database: " & szData
+    If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("cast").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = True
     frmMain.tb.Buttons("sql").Enabled = True
     frmMain.tb.Buttons("vacuum").Enabled = True
     frmMain.mnuFileSaveDBSchema.Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateCast.Enabled = True
     frmMain.mnuPopupCreateLanguage.Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateNamespace.Enabled = True
     frmMain.mnuPopupSQL.Enabled = True
     frmMain.mnuPopupVacuum.Enabled = True
   Else
     frmMain.sb.Panels("currentdb").Text = "Database: None"
+    frmMain.tb.Buttons("create").ButtonMenus("cast").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = False
     frmMain.tb.Buttons("sql").Enabled = False
     frmMain.tb.Buttons("vacuum").Enabled = False
     frmMain.mnuFileSaveDBSchema.Enabled = False
+    frmMain.mnuPopupCreateCast.Enabled = False
     frmMain.mnuPopupCreateLanguage.Enabled = False
     frmMain.mnuPopupCreateNamespace.Enabled = False
     frmMain.mnuPopupSQL.Enabled = False

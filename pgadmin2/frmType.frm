@@ -78,17 +78,17 @@ Begin VB.Form frmType
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(11)"
-      Tab(1).Control(1)=   "lblProperties(10)"
-      Tab(1).Control(2)=   "lblProperties(9)"
-      Tab(1).Control(3)=   "lblProperties(6)"
-      Tab(1).Control(4)=   "lblProperties(7)"
+      Tab(1).Control(0)=   "txtProperties(5)"
+      Tab(1).Control(1)=   "txtProperties(4)"
+      Tab(1).Control(2)=   "chkProperties(0)"
+      Tab(1).Control(3)=   "cboProperties(2)"
+      Tab(1).Control(4)=   "cboProperties(3)"
       Tab(1).Control(5)=   "cboProperties(4)"
-      Tab(1).Control(6)=   "cboProperties(3)"
-      Tab(1).Control(7)=   "cboProperties(2)"
-      Tab(1).Control(8)=   "chkProperties(0)"
-      Tab(1).Control(9)=   "txtProperties(4)"
-      Tab(1).Control(10)=   "txtProperties(5)"
+      Tab(1).Control(6)=   "lblProperties(7)"
+      Tab(1).Control(7)=   "lblProperties(6)"
+      Tab(1).Control(8)=   "lblProperties(9)"
+      Tab(1).Control(9)=   "lblProperties(10)"
+      Tab(1).Control(10)=   "lblProperties(11)"
       Tab(1).ControlCount=   11
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -412,7 +412,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmType.frm - Edit/Create a Type

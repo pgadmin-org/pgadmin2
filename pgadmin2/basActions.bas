@@ -1,6 +1,6 @@
 Attribute VB_Name = "basActions"
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' basActions.bas - Things that we do to objects (for want of a better description!)
@@ -94,6 +94,12 @@ Dim szPath() As String
       szType = "AGG-"
       frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Aggregates.Remove ctx.CurrentObject.Identifier
       objNode.Parent.Text = "Aggregates (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
+      
+    Case "Cast"
+      szType = "CST-"
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Casts.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Casts (" & objNode.Parent.Children - 1 & ")"
       frmMain.tv.Nodes.Remove objNode.Index
 
     Case "Domain"

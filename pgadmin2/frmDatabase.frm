@@ -106,22 +106,22 @@ Begin VB.Form frmDatabase
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmDatabase.frx":1A98
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdCurrVal"
-      Tab(1).Control(1)=   "cboVarName"
-      Tab(1).Control(2)=   "txtVarValue"
-      Tab(1).Control(3)=   "cmdAddVar"
-      Tab(1).Control(4)=   "cmdRemoveVar"
-      Tab(1).Control(5)=   "lvProperties(0)"
-      Tab(1).Control(6)=   "Label2"
-      Tab(1).Control(7)=   "Label1"
+      Tab(1).Control(0)=   "Label1"
+      Tab(1).Control(1)=   "Label2"
+      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(3)=   "cmdRemoveVar"
+      Tab(1).Control(4)=   "cmdAddVar"
+      Tab(1).Control(5)=   "txtVarValue"
+      Tab(1).Control(6)=   "cboVarName"
+      Tab(1).Control(7)=   "cmdCurrVal"
       Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmDatabase.frx":1AB4
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(1)"
-      Tab(2).Control(1)=   "fraAdd"
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(3)=   "cmdRemove"
+      Tab(2).Control(0)=   "cmdRemove"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "fraAdd"
+      Tab(2).Control(3)=   "lvProperties(1)"
       Tab(2).ControlCount=   4
       Begin VB.CommandButton cmdCurrVal 
          Caption         =   "&Show Current Settings"
@@ -473,7 +473,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmDatabase.frm - Edit/Create a Database

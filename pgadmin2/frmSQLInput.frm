@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLInput 
    Caption         =   "SQL"
@@ -101,7 +101,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmSQLInput.frm - Input Arbitrary SQL
@@ -120,12 +120,12 @@ Dim szBits() As String
 Dim vBit As Variant
 Dim szSQL As String
 
-  If Len(txtSQL.Text) < 5 Then Exit Sub
+  If Len(txtSql.Text) < 5 Then Exit Sub
   
-  If txtSQL.SelLength > 5 Then
-    szSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
+  If txtSql.SelLength > 5 Then
+    szSQL = Mid(txtSql.Text, txtSql.SelStart + 1, txtSql.SelLength)
   Else
-    szSQL = txtSQL.Text
+    szSQL = txtSql.Text
   End If
   
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
@@ -163,10 +163,10 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExplain_Click()"
 Dim objQueryPlanForm As New frmSQLExplain
 
   'Check for blank query
-  If txtSQL.Text = "" Then Exit Sub
+  If txtSql.Text = "" Then Exit Sub
 
   Load objQueryPlanForm
-  objQueryPlanForm.Explain txtSQL.Text, szDatabase
+  objQueryPlanForm.Explain txtSql.Text, szDatabase
   objQueryPlanForm.Show
 
   Exit Sub
@@ -195,7 +195,7 @@ Dim fNum As Integer
   End With
   
   If cdlg.FileName = "" Then Exit Sub
-  txtSQL.Text = ""
+  txtSql.Text = ""
   fNum = FreeFile
   frmMain.svr.LogEvent "Loading " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Input As #fNum
@@ -206,7 +206,7 @@ Dim fNum As Integer
   If Len(szFile) > 2 Then szFile = Left(szFile, Len(szFile) - 2)
   
   Close #fNum
-  txtSQL.Text = szFile
+  txtSql.Text = szFile
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
 
@@ -257,7 +257,7 @@ Dim fNum As Integer
   fNum = FreeFile
   frmMain.svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Output As #fNum
-  Print #fNum, txtSQL.Text
+  Print #fNum, txtSql.Text
   Close #fNum
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
@@ -309,8 +309,8 @@ Dim szExporter As String
     End If
   Next X
   
-  Set txtSQL.Font = ctx.Font
-  txtSQL.Wordlist = ctx.AutoHighlight
+  Set txtSql.Font = ctx.Font
+  txtSql.Wordlist = ctx.AutoHighlight
   szDatabase = ctx.CurrentDB
   bDirty = False
   Me.Height = 3600
@@ -330,8 +330,8 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Resize()", etF
       If Me.Height < 3600 Then Me.Height = 3600
     End If
     
-    txtSQL.Width = Me.ScaleWidth
-    txtSQL.Height = Me.ScaleHeight - cmdExecute.Height - 50
+    txtSql.Width = Me.ScaleWidth
+    txtSql.Height = Me.ScaleHeight - cmdExecute.Height - 50
     cmdExecute.Top = Me.ScaleHeight - cmdExecute.Height
     cmdExplain.Top = cmdExecute.Top
     cmdLoad.Top = cmdExecute.Top
