@@ -123,7 +123,12 @@ Dim X As Long
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
   objNewMember.Returns = objServer.Databases(szDB).LookupType(lReturns)
-  objNewMember.iSource = Replace(szSource, "'", "''")
+  
+  'Cleanup the source code
+  szSource = Replace(szSource, "\", "\\")
+  szSource = Replace(szSource, "'", "''")
+  objNewMember.Source = szSource
+  
   objNewMember.Language = objServer.Databases(szDB).LookupLanguage(lLanguage)
   objNewMember.Cachable = bCachable
   objNewMember.Strict = bStrict
