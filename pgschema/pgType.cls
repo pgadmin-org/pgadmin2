@@ -528,7 +528,7 @@ Dim szSQL As String
     szSQL = szSQL & ", EXTERNALLENGTH = " & lExternalLength
   End If
   
-  If szDefault <> "" Then szSQL = szSQL & ", DEFAULT = " & QUOTE & dbSZ(szDefault) & QUOTE
+  If szDefault <> "" Then szSQL = szSQL & ", DEFAULT = " & szDefault
   If szElement <> "" Then szSQL = szSQL & ", ELEMENT = " & QUOTE & szElement & QUOTE
   If szDelimiter <> "" Then szSQL = szSQL & ", DELIMITER = " & QUOTE & szDelimiter & QUOTE
   If szSendFunction <> "" Then szSQL = szSQL & ", SEND = " & QUOTE & szSendFunction & QUOTE

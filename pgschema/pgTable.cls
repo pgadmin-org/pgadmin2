@@ -642,7 +642,7 @@ Dim bHaveObj As Boolean
         szSQL = szSQL & "(" & objColumn.Length & ")"
       End If
       
-      'Get the length of the numberic column
+      'Get the length of the numeric column
       If objColumn.DataType = "numeric" Then
         szSQL = szSQL & "(" & objColumn.Length & ", " & objColumn.NumericScale & ")"
       End If

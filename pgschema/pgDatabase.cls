@@ -26,6 +26,7 @@ Private colTypes As Types
 Private colFunctions As Functions
 Private colOperators As Operators
 Private colTables As Tables
+Private colDomains As Domains
 Private colGraveyard As Graveyard
 
 'Properties
@@ -406,6 +407,25 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Sequence
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Return the Types Collection
+Public Property Get Domains() As Domains
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Domains()", etFullDebug
+
+  If colDomains Is Nothing Then
+    If dbConnect = False Then Exit Property
+    Set colDomains = New Domains
+        
+    'Pass the connection to the class
+    Set colDomains.Connection = cnDatabase
+    colDomains.Initialize
+  End If
+  Set Domains = colDomains
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Return the History collection.
 Public Property Get Graveyard() As Graveyard
 Attribute Graveyard.VB_Description = "Returns the graveyard collection of dropped objects."
@@ -668,6 +688,11 @@ Dim vChildObject As Variant
       For Each vObject In Aggregates
         If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
       Next vObject
+      
+      'Domains
+      For Each vObject In Domains
+        If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
+      Next vObject
     
       'Functions
       For Each vObject In Functions
@@ -825,6 +850,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Class_Terminate()", e
   Set colFunctions = Nothing
   Set colOperators = Nothing
   Set colTables = Nothing
+  Set colDomains = Nothing
   Set szTypeCache = Nothing
   Set szLanguageCache = Nothing
   Set szOperatorCache = Nothing
@@ -926,6 +952,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Sub dbDisconnect()", 
   Set colFunctions = Nothing
   Set colOperators = Nothing
   Set colTables = Nothing
+  Set colDomains = Nothing
   Set szTypeCache = Nothing
   Set szLanguageCache = Nothing
   Set szOperatorCache = Nothing
@@ -989,6 +1016,14 @@ Dim vTemp As Variant
   
   'Aggregates
   For Each vObject In Aggregates
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+  
+  'Domains
+  For Each vObject In Domains
     If Not vObject.SystemObject Then
       Set arrObjects(UBound(arrObjects)) = vObject
       ReDim Preserve arrObjects(UBound(arrObjects) + 1)
@@ -1110,6 +1145,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
 
 Dim objAggregate As pgAggregate
+Dim objDomain As pgDomain
 Dim objFunction As pgFunction
 Dim objLanguage As pgLanguage
 Dim objOperator As pgOperator
@@ -1121,6 +1157,9 @@ Dim objView As pgView
   For Each objAggregate In Aggregates
     If Not objAggregate.SystemObject Then objAggregate.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objAggregate
+  For Each objDomain In Domains
+    If Not objDomain.SystemObject Then objDomain.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objDomain
   For Each objFunction In Functions
     If Not objFunction.SystemObject Then objFunction.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objFunction

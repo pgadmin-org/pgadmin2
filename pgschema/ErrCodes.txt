@@ -1,0 +1,9 @@
+pgSchema Error Codes
+====================
+
+NOTE: Most error in pgSchema will be raised by ADO or other libraries.
+      The coding in use is a 5432 prefix, followed by 3 digits.
+
+5432001 - This program can only be used with PostgreSQL 7.1 or higher.
+5432002 - Domains only exist in PostgreSQL 7.3 or above.
+

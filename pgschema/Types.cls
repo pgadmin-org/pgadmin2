@@ -183,7 +183,7 @@ Dim objType As pgType
   szSQL = szSQL & ", OUTPUT = " & QUOTE & OutputFunction & QUOTE
   szSQL = szSQL & ", INTERNALLENGTH = " & InternalLength
   If ExternalLength > 0 Then szSQL = szSQL & ", EXTERNALLENGTH = " & ExternalLength
-  If Default <> "" Then szSQL = szSQL & ", DEFAULT = " & QUOTE & Default & QUOTE
+  If Default <> "" Then szSQL = szSQL & ", DEFAULT = " & Default
   If Element <> "" Then szSQL = szSQL & ", ELEMENT = " & QUOTE & Element & QUOTE
   If Delimiter <> "" Then szSQL = szSQL & ", DELIMITER = " & QUOTE & Delimiter & QUOTE
   If SendFunction <> "" Then szSQL = szSQL & ", SEND = " & QUOTE & SendFunction & QUOTE
@@ -198,8 +198,11 @@ Dim objType As pgType
   objServer.ExecSQL szSQL, cnDatabase
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_TYPES & " AND typname = '" & dbSZ(Name) & "'"
-  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If objVersion.VersionNum >= 7.3 Then
+    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " AND typname = '" & dbSZ(Name) & "'", cnDatabase)
+  Else
+    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typname = '" & dbSZ(Name) & "'", cnDatabase)
+  End If
     
   If Comment <> "" Then
     szSQL = "COMMENT ON TYPE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
@@ -339,9 +342,13 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_TYPES & " ORDER BY typname", cnDatabase)
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " ORDER BY typname", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " ORDER BY typname", cnDatabase)
+    End If
     While Not rs.EOF
-      If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
+      If objVersion.VersionNum >= 7.1 Then
         iAdd rs!ts, rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & ""
       Else
         iAdd rs!ts, rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", ""

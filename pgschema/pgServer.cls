@@ -301,7 +301,7 @@ Dim szVersion() As String
     objVersion.Minor = 0
     objVersion.Revision = 0
     objVersion.VersionNum = 0
-    Err.Raise 999, App.Title, "This program can only be used with PostgreSQL 7.1 or higher."
+    Err.Raise 5432001, App.Title, "This program can only be used with PostgreSQL 7.1 or higher."
     Exit Function
   End If
   
