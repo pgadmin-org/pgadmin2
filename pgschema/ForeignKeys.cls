@@ -118,8 +118,8 @@ Dim X As Long
     objNewMember.ReferencedTable = szArgArray(2)
     For X = 4 To UBound(szArgArray) Step 2
       If szArgArray(X) <> "" Then
-        szLocalColumns = szLocalColumns & szArgArray(X) & "|"
-        szReferencedColumns = szReferencedColumns & szArgArray(X + 1) & "|"
+        szLocalColumns = szLocalColumns & QUOTE & szArgArray(X) & QUOTE & "|"
+        szReferencedColumns = szReferencedColumns & QUOTE & szArgArray(X + 1) & QUOTE & "|"
       End If
     Next X
   End If

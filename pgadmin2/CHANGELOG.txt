@@ -9,6 +9,8 @@ Fixed a bug that prevented dropping of Users & Groups.
 Fixed a bug that prevented dropping of Users or Groups with single quotes in their name.
 Added support for PostgreSQL 7.2 style ACLs (seperated Update/Delete, added References & Trigger).
 Updated PostgreSQL documents to the 7.2b3 version.
+Load SQL scripts sensibly to prevent crashes with large scripts.
+Quote column names correctly in Foreign Key definitions.
 
 
 1.1.66
