@@ -14,6 +14,7 @@ Set default schema to public in edit grid [Frank Lupo].
 Don't allow reseting of statistics with PostgreSQL < 7.3 [Frank Lupo].
 Don't warn the user about vacuuming in use tables for PostgreSQL >= 7.2.
 Create objects correctly when their parent node isn't yet created.
+Import fixed length columns correctly.
 
 
 1.5.60

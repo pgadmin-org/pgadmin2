@@ -72,10 +72,10 @@ Begin VB.Form frmTable
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(2)=   "cmdColRemove"
-      Tab(1).Control(3)=   "cmdImport"
+      Tab(1).Control(0)=   "cmdImport"
+      Tab(1).Control(1)=   "cmdColRemove"
+      Tab(1).Control(2)=   "cmdColAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA

@@ -201,7 +201,9 @@ Dim objColumn As pgColumn
   End If
   objItem.SubItems(1) = objItem.Index
   objItem.SubItems(2) = objColumn.DataType
-  objItem.SubItems(3) = objColumn.Length
+  If objColumn.DataType = "numeric" Or objColumn.DataType = "char" Or objColumn.DataType = "varchar" Then
+    objItem.SubItems(3) = objColumn.Length
+  End If
   objItem.SubItems(4) = objColumn.Default
   If objColumn.NotNull Then
     objItem.SubItems(5) = "Yes"
