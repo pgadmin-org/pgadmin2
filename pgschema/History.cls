@@ -82,6 +82,8 @@ End Sub
 
 'Return the specified Item
 Public Property Get Item(Index As Long) As rcItem
+Attribute Item.VB_Description = "Returns a history item."
+Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":History.Property Get Item(" & Index & ")", etFullDebug
 
@@ -93,6 +95,8 @@ End Property
 
 'Return the Item count
 Public Property Get Count() As Long
+Attribute Count.VB_Description = "Returns the number of history items in the collection."
+Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":History.Property Get Count()", etFullDebug
 
@@ -104,6 +108,8 @@ End Property
 
 'Allow enumeration using For...Each
 Public Property Get NewEnum() As IUnknown
+Attribute NewEnum.VB_UserMemId = -4
+Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":History.Property Get NewEnum()", etFullDebug
 
@@ -115,6 +121,7 @@ End Property
 
 'Refresh the collection
 Public Sub Refresh()
+Attribute Refresh.VB_Description = "Refresh the collection."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":History.Refresh()", etFullDebug
 

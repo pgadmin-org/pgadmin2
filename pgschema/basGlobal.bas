@@ -40,7 +40,7 @@ Public Const SQL_GET_FOREIGN_KEYS = "SELECT oid, tgrelid, tgconstrname, tgnargs,
 
 'SQL related to Revision Control.
 'Note that the object OID is also logged to help create objects in dependency order when building scripts.
-Public Const SQL_CREATE_REVLOG = "CREATE TABLE pgadmin_rclog(rc_timestamp timestamp DEFAULT now(), rc_user name DEFAULT current_user, rc_action varchar(1), rc_type varchar(32), rc_identifier varchar(256), rc_oid oid, rc_version int4, rc_definition text, rc_comment text); GRANT SELECT, INSERT ON pgadmin_rclog TO PUBLIC; COMMENT ON TABLE pgadmin_rclog IS 'pgAdmin II Revision Log';"
+Public Const SQL_CREATE_REVLOG = "CREATE TABLE pgadmin_rclog(rc_timestamp timestamp DEFAULT now(), rc_user name DEFAULT current_user, rc_action varchar(1), rc_type varchar(32), rc_identifier varchar(256), rc_oid oid, rc_version int4, rc_definition text, rc_comment text); GRANT SELECT, INSERT ON pgadmin_rclog TO PUBLIC; COMMENT ON TABLE pgadmin_rclog IS 'pgAdmin II Revision Log'; CREATE INDEX pgadmin_rclog_idx ON pgadmin_rclog (rc_action, rc_type, rc_identifier, rc_oid, rc_version);"
 Public Const SQL_DROP_REVLOG = "DROP TABLE pgadmin_rclog;"
 
 'Type Declarations
