@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLInput 
    Caption         =   "SQL"
@@ -137,7 +137,7 @@ Dim szQuery As String
   Wend
   
   StartMsg "Executing SQL Query..."
-  If UCase(Mid(szQuery, 1, 6)) = "SELECT" Then
+  If UCase(Mid(LTrim(szQuery), 1, 6)) = "SELECT" Then
     Select Case cboExporters.Text
       Case "Screen"
         Dim objOutputForm As New frmSQLOutput
