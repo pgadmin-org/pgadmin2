@@ -21,7 +21,7 @@ Option Explicit
 Dim mCol As Collection
 
 Private Sub Class_Initialize()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Class_Initialize()", etFullDebug
 
   LoadPlugins
@@ -32,7 +32,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub LoadPlugins()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.LoadPlugins()", etFullDebug
 
 Dim szPlugin As String

@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HIGHLI~1.OCX"
 Begin VB.Form frmColumn 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Column"
@@ -369,10 +369,12 @@ Dim objNode As Node
 Dim objItem As ListItem
 Dim szOldName As String
 
-  If Not frmCallingForm.Visible Then
-    MsgBox "The form that called this form has been destroyed!", vbExclamation, "Error"
-    Unload Me
-    Exit Sub
+  If Not frmCallingForm Is Nothing Then
+    If Not frmCallingForm.Visible Then
+      MsgBox "The form that called this form has been destroyed!", vbExclamation, "Error"
+      Unload Me
+      Exit Sub
+    End If
   End If
   
   'Check the data

@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HIGHLI~1.OCX"
 Begin VB.Form frmMain 
    Caption         =   "Progeny"
    ClientHeight    =   6675
@@ -1761,7 +1761,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabases(" & QUOTE & Node.Fu
 Dim lvItem As ListItem
 Dim dat As pgDatabase
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -1980,7 +1980,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregates(" & QUOTE & Node.F
 Dim lvItem As ListItem
 Dim agg As pgAggregate
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Aggregates.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Aggregates.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2056,7 +2056,7 @@ Dim szTemp As String
 Dim vData As Variant
 Dim fnc As pgFunction
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Functions.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Functions.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2152,7 +2152,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguages(" & QUOTE & Node.Fu
 Dim lvItem As ListItem
 Dim lng As pgLanguage
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Languages.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Languages.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2220,7 +2220,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperators(" & QUOTE & Node.Fu
 Dim lvItem As ListItem
 Dim opr As pgOperator
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Operators.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Operators.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2310,7 +2310,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequences(" & QUOTE & Node.Fu
 Dim lvItem As ListItem
 Dim seq As pgSequence
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Sequences.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Sequences.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2390,7 +2390,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvTables(" & QUOTE & Node.FullP
 Dim lvItem As ListItem
 Dim tbl As pgTable
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Tables.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Tables.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2474,7 +2474,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvChecks(" & QUOTE & Node.FullP
 Dim lvItem As ListItem
 Dim chk As pgCheck
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2532,7 +2532,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumns(" & QUOTE & Node.Full
 Dim lvItem As ListItem
 Dim col As pgColumn
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2618,7 +2618,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKeys(" & QUOTE & Node.
 Dim lvItem As ListItem
 Dim fky As pgForeignKey
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2713,7 +2713,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndexes(" & QUOTE & Node.Full
 Dim lvItem As ListItem
 Dim ind As pgIndex
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2797,7 +2797,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvRules(" & QUOTE & Node.FullPa
 Dim lvItem As ListItem
 Dim rul As pgRule
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2871,7 +2871,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvTriggers(" & QUOTE & Node.Ful
 Dim lvItem As ListItem
 Dim trg As pgTrigger
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -2939,7 +2939,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvTypes(" & QUOTE & Node.FullPa
 Dim lvItem As ListItem
 Dim typ As pgType
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Types.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Types.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
@@ -3028,7 +3028,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvViews(" & QUOTE & Node.FullPa
 
 Dim lvItem As ListItem
   Dim vie As pgView
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Views.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Views.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
