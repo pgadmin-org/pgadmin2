@@ -217,11 +217,16 @@ Dim szSQL As String
   objServer.ExecSQL szSQL, cnDatabase
     
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_CHECKS & " AND rcrelid = " & dTableOID & "::oid AND rcname = '" & dbSZ(Name) & "'"
-  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-    
-  If Not rs.EOF Then
-    Set Add = iAdd(rs!rcname & "", rs!rcsrc & "")
+  If objVersion.VersionNum < 7.3 Then
+    Set rs = objServer.ExecSQL(SQL_GET_CHECKS7_2 & " AND rcrelid = " & dTableOID & "::oid AND rcname = '" & dbSZ(Name) & "'", cnDatabase)
+    If Not rs.EOF Then
+      Set Add = iAdd(rs!rcname & "", rs!rcsrc & "")
+    End If
+  Else
+    Set rs = objServer.ExecSQL(SQL_GET_CHECKS7_3 & " AND conrelid = " & dTableOID & "::oid AND conname = '" & dbSZ(Name) & "'", cnDatabase)
+    If Not rs.EOF Then
+      Set Add = iAdd(rs!conname & "", rs!consrc & "")
+    End If
   End If
 
   'Cleanup
@@ -335,11 +340,19 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_CHECKS & " AND rcrelid = " & dTableOID & "::oid ORDER BY rcname", cnDatabase)
-    While Not rs.EOF
-      iAdd rs!rcname & "", rs!rcsrc & ""
-      rs.MoveNext
-    Wend
+    If objVersion.VersionNum < 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_CHECKS7_2 & " AND rcrelid = " & dTableOID & "::oid ORDER BY rcname", cnDatabase)
+      While Not rs.EOF
+        iAdd rs!rcname & "", rs!rcsrc & ""
+        rs.MoveNext
+      Wend
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_CHECKS7_3 & " AND conrelid = " & dTableOID & "::oid ORDER BY conname", cnDatabase)
+      While Not rs.EOF
+        iAdd rs!conname & "", rs!consrc & ""
+        rs.MoveNext
+      Wend
+    End If
   End If
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing

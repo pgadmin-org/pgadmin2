@@ -55,7 +55,6 @@ Added AllowConnections property to database objects, display it in pgAdmin, and 
 Invalidate Caches before refreshing hierarchy in pgSchema.
 Standardised db name access method throughout pgSchema's classes, and added caching.
 Added support for renaming Sequences & Indexes.
-Committing a table now also commits sub objects.
 Added a '-wine' command line option to disable modal dialogues (they don't seem to work under Wine).
 Prevent connection to databases until they are selected. Added an option to revert to old behaviour.
 Added support for dropping checks with PostgreSQL 7.2+.
