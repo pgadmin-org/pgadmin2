@@ -8,13 +8,19 @@ Option Explicit
 
 Sub Main
 dim fso,f,fc,szWorkDir,f1,f2,vData,ii,szTemp,szDataForm,szDataModule,szModuleName,bInRoutine,szTypeRoutine,szRoutine,szHeaderClass
-dim szTypeReturn,vOutFunctionValid,szDataAdd
+dim szTypeReturn,vOutFunctionValid,szDataAdd,szConst
 Const ForReading=1
 Const KeyForm="Begin VB.Form"
 Const KeyModule="Attribute VB_Name = "
-Const KeyPublicSub="Public Sub"
-Const KeyPublicFunction="Public Function"
+Const KeyPublicSub="Public Sub "
+Const KeyPublicFunction="Public Function "
 Const Tab="  "
+Const KeyGlobalConst="Global Const "
+Const KeyPublicConst="Public Const "
+Const KeyPublicEnum="Public Enum "
+Const KeyEndEnum="End Enum"
+
+Const Quote=""""
 
 szHeaderClass="VERSION 1.0 CLASS" & vbcrlf & _
 				"BEGIN" & vbcrlf & _
@@ -62,7 +68,7 @@ szDataAdd=szDataAdd & "'get forms by name" & vbcrlf & _
 			"    End If" & vbcrlf & _
 			"  Next" & vbcrlf & _
 			"  Set GetFormByName = objFrm" & vbcrlf & _
-			"End Function" & vbcrlf
+			"End Function" & vbcrlf & vbcrlf
 
 
 vOutFunctionValid=array("Byte","Boolean","Integer","Long","Single","Double","Currency", "Decimal","Date","Object","String","Variant")
@@ -148,8 +154,6 @@ vOutFunctionValid=array("Byte","Boolean","Integer","Long","Single","Double","Cur
 							else
 								'function 
 								szTemp=trim(mid(szRoutine,len(KeyPublicFunction)+1))
-	'								szTypeReturn=trim(mid(szTemp,instrrev(szTemp,"As")+2))  'get type return
-	'								szTypeReturn=replace(szTypeReturn,vbcrlf,"")
 								szTemp=mid(szTemp,1,instrrev(szTemp,")"))				'truncate type return
 								szTemp=ParseArg(szTemp)
 								szTemp= Tab & mid(szTemp,1,instr(szTemp,"(")-1) & " = " &  szModuleName & "." & szTemp & vbcrlf
@@ -164,11 +168,42 @@ vOutFunctionValid=array("Byte","Boolean","Integer","Long","Single","Double","Cur
 							bInRoutine=False
 							szRoutine=""
 						end if
+					elseif left(vData(ii),len(KeyGlobalConst))=KeyGlobalConst or left(vData(ii),len(KeyPublicConst))=KeyPublicConst then
+						'global/public const
+						szTemp=mid(vData(ii),len(KeyGlobalConst)+1)
+						szTemp=mid(sztemp,1,instr(szTemp," ")-1)
+						szConst=szConst & szTemp & vbcrlf
+					elseif left(vData(ii),len(KeyPublicEnum))=KeyPublicEnum then
+						'enumeration convert in constatnt			
+						ii=ii+1
+						while vData(ii) <> KeyEndEnum
+							szTemp=trim(vdata(ii))
+							szTemp=trim(mid(sztemp,1,instr(szTemp," ")))
+							if len(szTemp) > 0 then szConst=szConst & szTemp & vbcrlf
+							ii=ii+1
+						wend
 					end if
 				next
 
 		end select
    	Next
+
+	'create function for const/enumerate
+szDataAdd=szDataAdd & "'return value of the const/enumerate by name" & vbcrlf & _
+		"Public Function ConstByName(szName As String)" & vbcrlf & _
+		"" & vbcrlf & _
+		"  Select Case LCase(szName)" & vbcrlf 
+
+	vData=split(szConst,vbcrlf)
+	for ii=0 to ubound(vData)-1
+		szDataAdd=szDataAdd & "    case LCase(" & Quote & vData(ii) & Quote & ")" & vbcrlf
+		szDataAdd=szDataAdd & "      ConstByName=" & vData(ii) & vbcrlf
+		szDataAdd=szDataAdd & "" & vbcrlf
+	next
+
+	szDataAdd=szDataAdd & "  End Select" & vbcrlf & _
+		"End Function" & vbcrlf & vbcrlf
+
 
 	'echo data
 	wscript.echo szHeaderClass
@@ -204,7 +239,6 @@ dim szTemp,vData,ii,szRoutine,szVar
 	end if
 	ParseArg=szTemp
 End Function
-
 
 
 '''''''''''''''''''''''''''''''''''
