@@ -1,12 +1,13 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmSQLOutput 
    Caption         =   "SQL Output"
    ClientHeight    =   3192
-   ClientLeft      =   60
-   ClientTop       =   348
+   ClientLeft      =   2808
+   ClientTop       =   1500
    ClientWidth     =   8160
    Icon            =   "frmSQLOutput.frx":0000
+   KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    ScaleHeight     =   3192
    ScaleWidth      =   8160
@@ -1354,5 +1355,34 @@ Dim X As Integer
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.HideEditBox"
+End Sub
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.From_KeyDown(" & KeyCode & "," & Shift & ")", etFullDebug
+  
+  If Not picEdit.Visible Then
+    'view all data
+    If KeyCode = vbKeyInsert And Shift = 0 Then
+      cmdAdd_Click
+    ElseIf KeyCode = vbKeyF2 And Shift = 0 Then
+      cmdEdit_Click
+    ElseIf KeyCode = vbKeyF5 And Shift = 0 Then
+      cmdRefresh_Click
+    ElseIf KeyCode = vbKeyDelete And Shift = 0 Then
+      cmdDelete_Click
+    End If
+    lvData.SelectedItem.Selected = True
+  Else
+    'edit/add record
+    If KeyCode = vbKeyEscape And Shift = 0 Then
+      cmdCancel_Click
+    ElseIf KeyCode = vbKeyF4 And Shift = 0 Then
+      cmdSave_Click
+    End If
+  End If
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.Form_KeyDown"
 End Sub
 
