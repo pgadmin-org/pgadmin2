@@ -3,32 +3,70 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmFind 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Find Object"
-   ClientHeight    =   7530
-   ClientLeft      =   4320
-   ClientTop       =   2040
+   ClientHeight    =   7524
+   ClientLeft      =   2232
+   ClientTop       =   1572
    ClientWidth     =   9840
    Icon            =   "frmFind.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7530
+   ScaleHeight     =   7524
    ScaleWidth      =   9840
+   Begin VB.CheckBox chkOnlyOid 
+      Caption         =   "Find only for &Oid"
+      Height          =   255
+      Left            =   4920
+      TabIndex        =   26
+      ToolTipText     =   "Check to find only Oid."
+      Top             =   3600
+      Width           =   2415
+   End
+   Begin VB.Frame fraByOid 
+      Caption         =   "Find only for Oid"
+      Enabled         =   0   'False
+      Height          =   612
+      Left            =   4920
+      TabIndex        =   23
+      Top             =   3960
+      Width           =   2412
+      Begin VB.TextBox txtOid 
+         Enabled         =   0   'False
+         Height          =   285
+         Left            =   1080
+         TabIndex        =   24
+         ToolTipText     =   "Enter an object Oid."
+         Top             =   240
+         Width           =   1212
+      End
+      Begin VB.Label lblFind 
+         AutoSize        =   -1  'True
+         Caption         =   "Oid"
+         Enabled         =   0   'False
+         Height          =   192
+         Index           =   8
+         Left            =   120
+         TabIndex        =   25
+         Top             =   240
+         Width           =   252
+      End
+   End
    Begin VB.Frame fraCol 
       Caption         =   "Display columns"
-      Height          =   1215
+      Height          =   1212
       Left            =   120
       TabIndex        =   22
       Top             =   3360
       Width           =   4695
       Begin MSComctlLib.ListView lvColResult 
-         Height          =   855
+         Height          =   852
          Left            =   120
          TabIndex        =   6
          ToolTipText     =   "What columns should be included in the results?"
          Top             =   240
-         Width           =   4455
-         _ExtentX        =   7858
-         _ExtentY        =   1508
+         Width           =   4452
+         _ExtentX        =   7853
+         _ExtentY        =   1503
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -82,14 +120,14 @@ Begin VB.Form frmFind
          Width           =   3375
       End
       Begin MSComctlLib.ImageCombo cboDatabase 
-         Height          =   330
+         Height          =   300
          Left            =   1200
          TabIndex        =   0
          ToolTipText     =   "Select a database to search."
-         Top             =   270
-         Width           =   3375
-         _ExtentX        =   5953
-         _ExtentY        =   582
+         Top             =   276
+         Width           =   3372
+         _ExtentX        =   5948
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
@@ -97,14 +135,14 @@ Begin VB.Form frmFind
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboSearchFor 
-         Height          =   330
+         Height          =   300
          Left            =   1200
          TabIndex        =   5
          ToolTipText     =   "What search type should be used?"
          Top             =   2640
-         Width           =   3375
-         _ExtentX        =   5953
-         _ExtentY        =   582
+         Width           =   3372
+         _ExtentX        =   5948
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
@@ -119,7 +157,7 @@ Begin VB.Form frmFind
          Top             =   600
          Width           =   3420
          _ExtentX        =   6033
-         _ExtentY        =   1508
+         _ExtentY        =   1503
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -153,11 +191,11 @@ Begin VB.Form frmFind
       Begin VB.Label lblFind 
          AutoSize        =   -1  'True
          Caption         =   "Comment"
-         Height          =   195
+         Height          =   192
          Index           =   6
          Left            =   120
          TabIndex        =   20
-         Top             =   1980
+         Top             =   2040
          Width           =   660
       End
       Begin VB.Label lblFind 
@@ -221,20 +259,20 @@ Begin VB.Form frmFind
    Begin VB.Frame fraAdvFind 
       Caption         =   "Advanced options"
       Enabled         =   0   'False
-      Height          =   3510
+      Height          =   2892
       Left            =   4920
       TabIndex        =   11
       Top             =   600
       Width           =   4815
       Begin MSComctlLib.ListView lvObjType 
-         Height          =   1530
-         Left            =   1155
+         Height          =   1176
+         Left            =   1200
          TabIndex        =   8
          ToolTipText     =   "Select the object types to search for."
          Top             =   240
-         Width           =   3510
-         _ExtentX        =   6191
-         _ExtentY        =   2699
+         Width           =   3516
+         _ExtentX        =   6202
+         _ExtentY        =   2074
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -257,14 +295,14 @@ Begin VB.Form frmFind
          EndProperty
       End
       Begin MSComctlLib.ListView lvOwner 
-         Height          =   1530
-         Left            =   1170
+         Height          =   1176
+         Left            =   1200
          TabIndex        =   9
          ToolTipText     =   "Select the object owners whose objects will be searched."
-         Top             =   1845
-         Width           =   3510
-         _ExtentX        =   6191
-         _ExtentY        =   2699
+         Top             =   1560
+         Width           =   3516
+         _ExtentX        =   6202
+         _ExtentY        =   2074
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -301,19 +339,19 @@ Begin VB.Form frmFind
          AutoSize        =   -1  'True
          Caption         =   "By Owner"
          Enabled         =   0   'False
-         Height          =   195
+         Height          =   192
          Index           =   5
          Left            =   120
          TabIndex        =   13
-         Top             =   1890
-         Width           =   690
+         Top             =   1680
+         Width           =   696
       End
    End
    Begin MSComctlLib.ImageList il 
       Left            =   9000
       Top             =   120
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -444,14 +482,14 @@ Begin VB.Form frmFind
       EndProperty
    End
    Begin MSComctlLib.ListView lvResult 
-      Height          =   2775
+      Height          =   2772
       Left            =   120
       TabIndex        =   12
       ToolTipText     =   "Displays the results of the search."
       Top             =   4680
       Width           =   9660
       _ExtentX        =   17039
-      _ExtentY        =   4895
+      _ExtentY        =   4890
       View            =   3
       LabelEdit       =   1
       LabelWrap       =   -1  'True
@@ -536,6 +574,7 @@ Dim lvItem As ListItem
   lvItem.Checked = True
   Set lvItem = lvColResult.ListItems.Add(, "SCH", "Schema", "column", "column")
   lvItem.Checked = True
+  lvColResult.ListItems.Add , "OID", "Oid Object", "column", "column"
   lvColResult.ListItems.Add , "COM", "Comment", "column", "column"
   lvColResult.ListItems.Add , "SQL", "SQL", "column", "column"
   
@@ -581,6 +620,47 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.chkAdvOpt_Click()", etF
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.chkAdvOpt_Click"
 End Sub
 
+Private Sub chkOnlyOid_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.chkOnlyOid_Click()", etFullDebug
+  
+  If chkOnlyOid.Value = 0 Then
+    lblFind(8).Enabled = False
+    fraByOid.Enabled = False
+    chkAdvOpt.Enabled = True
+    lblFind(3).Enabled = True
+    lblFind(6).Enabled = True
+    lblFind(7).Enabled = True
+    lblFind(0).Enabled = True
+    lblFind(2).Enabled = True
+    txtName.Enabled = True
+    txtComment.Enabled = True
+    txtSql.Enabled = True
+    cboSearchFor.Enabled = True
+    lvNameSpace.Enabled = True
+    txtOid.Enabled = False
+  ElseIf chkOnlyOid.Value = 1 Then
+    lblFind(8).Enabled = True
+    fraByOid.Enabled = True
+    chkAdvOpt.Value = 0
+    chkAdvOpt.Enabled = False
+    lblFind(3).Enabled = False
+    lblFind(6).Enabled = False
+    lblFind(7).Enabled = False
+    lblFind(0).Enabled = False
+    lblFind(2).Enabled = False
+    txtName.Enabled = False
+    txtComment.Enabled = False
+    txtSql.Enabled = False
+    cboSearchFor.Enabled = False
+    lvNameSpace.Enabled = False
+    txtOid.Enabled = True
+  End If
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.chkOnlyOid_Click"
+End Sub
+
 Private Sub cmdFind_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.cmdFind_Click()", etFullDebug
@@ -601,12 +681,10 @@ Dim bFound As Boolean
 Dim bFoundName As Boolean
 Dim bFoundComment As Boolean
 Dim bFoundSql As Boolean
-Dim szImg As String
-Dim szKey As String
 Dim szNamespace As String
-Dim iCol As Integer
 Dim szOwner() As String
 Dim bSreachOwner As Boolean
+Dim lOid As Long
   
   StartMsg "Find in progress..."
   
@@ -625,6 +703,57 @@ Dim bSreachOwner As Boolean
   lvResult.ColumnHeaders.Add , , "Schema"
   If lvColResult.ListItems("COM").Checked Then lvResult.ColumnHeaders.Add , , "Comment"
   If lvColResult.ListItems("SQL").Checked Then lvResult.ColumnHeaders.Add , , "SQL"
+  If lvColResult.ListItems("OID").Checked Then lvResult.ColumnHeaders.Add , , "Oid Object"
+  
+  'find only oid
+  If chkOnlyOid.Value = 1 Then
+    If Not IsNumeric(txtOid.Text) Then
+      MsgBox "Oid is not numeric!", vbExclamation + vbSystemModal, "Error"
+      txtOid.SetFocus
+      EndMsg
+      Exit Sub
+    End If
+      
+    lOid = CLng(txtOid.Text)
+    bFound = False
+      
+    For Each lvItem In lvNameSpace.ListItems
+      'Load object for find
+      Set colObj = New Collection
+      szNamespace = lvItem.Text
+      
+      colObj.Add objDatabase.Namespaces(szNamespace).Aggregates
+      If ctx.dbVer >= 7.3 Then
+        colObj.Add objDatabase.Casts
+        colObj.Add objDatabase.Namespaces(szNamespace).Domains
+        colObj.Add objDatabase.Namespaces(szNamespace).Conversions
+      End If
+      colObj.Add objDatabase.Namespaces(szNamespace).Functions
+      colObj.Add objDatabase.Languages
+      colObj.Add objDatabase.Namespaces
+      colObj.Add objDatabase.Namespaces(szNamespace).Operators
+      colObj.Add objDatabase.Namespaces(szNamespace).Sequences
+      colObj.Add objDatabase.Namespaces(szNamespace).Tables
+      colObj.Add objDatabase.Namespaces(szNamespace).Types
+      colObj.Add objDatabase.Namespaces(szNamespace).Views
+        
+      For Each objCol In colObj
+        For Each objTmp In objCol
+          If objTmp.Oid = lOid Then
+            bFound = True
+            Exit For
+          End If
+        Next
+        If bFound Then Exit For
+      Next
+      If bFound Then Exit For
+    Next
+      
+    'object is found
+    If bFound Then AddResult objTmp, szNamespace
+    EndMsg
+    Exit Sub
+  End If
   
   'owner search
   If chkAdvOpt.Value = 1 Then
@@ -700,7 +829,7 @@ Dim bSreachOwner As Boolean
           'find by comment
           If iLenComment > 0 Then
             bFoundComment = False
-            If objTmp.ObjectType <> "Language" And objTmp.ObjectType <> "Cast" Then
+            If ObjcetHaveComment(objTmp.ObjectType) Then
               Select Case szSearchFor
                 Case "WWR"
                   bFoundComment = objTmp.Comment = szComment
@@ -746,60 +875,7 @@ Dim bSreachOwner As Boolean
           End If
           
           'object is found
-          If bFound Then
-            Select Case objTmp.ObjectType
-              Case "Aggregate"
-                szImg = "aggregate"
-                szKey = "AGG"
-              Case "Cast"
-                szImg = "cast"
-                szKey = "CST"
-              Case "Domain"
-                szImg = "domain"
-                szKey = "DOM"
-              Case "Conversion"
-                szImg = "conversion"
-                szKey = "CNV"
-              Case "Function"
-                szImg = "function"
-                szKey = "FNC"
-              Case "Language"
-                szImg = "language"
-                szKey = "LNG"
-              Case "Operator"
-                szImg = "operator"
-                szKey = "OPR"
-              Case "Sequence"
-                szImg = "sequence"
-                szKey = "SEQ"
-              Case "Table"
-                szImg = "table"
-                szKey = "TBL"
-              Case "Type"
-                szImg = "type"
-                szKey = "TYP"
-              Case "View"
-                szImg = "view"
-                szKey = "VIE"
-            End Select
-            Set lvItem = lvResult.ListItems.Add(, szKey & "_" & GetID, objTmp.Identifier)
-            If Len(szImg) > 0 Then
-              lvItem.Icon = szImg
-              lvItem.SmallIcon = szImg
-            End If
-            If objTmp.ObjectType <> "Cast" And objTmp.ObjectType <> "Language" Then lvItem.SubItems(1) = szNamespace
-            iCol = 1
-            
-            If lvColResult.ListItems("COM").Checked Then
-              iCol = iCol + 1
-               If objTmp.ObjectType <> "Cast" And objTmp.ObjectType <> "Language" Then lvItem.SubItems(iCol) = objTmp.Comment
-            End If
-  
-            If lvColResult.ListItems("SQL").Checked Then
-              iCol = iCol + 1
-              lvItem.SubItems(iCol) = objTmp.SQL
-            End If
-          End If
+          If bFound Then AddResult objTmp, szNamespace
         Next
       Next
     End If
@@ -827,6 +903,12 @@ Dim szName As String
   szName = lvResult.SelectedItem.Text
   
   Select Case Left(lvResult.SelectedItem.Key, 3)
+    Case "NSP"
+      Dim objNamespaceForm As New frmNamespace
+      Load objNamespaceForm
+      objNamespaceForm.Initialise objDatabase.Name, objNamespace
+      objNamespaceForm.Show
+    
     Case "AGG"
       Dim objAggregateForm As New frmAggregate
       Load objAggregateForm
@@ -892,7 +974,7 @@ Dim szName As String
       Load objViewForm
       objViewForm.Initialise objDatabase.Name, objNamespace.Name, objNamespace.Views(szName)
       objViewForm.Show
-  
+      
   End Select
     
   Exit Sub
@@ -911,3 +993,85 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.lvColResult_ItemCheck("
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.lvColResult_ItemCheck"
 End Sub
+
+'return if object have comment
+Private Function ObjcetHaveComment(ByVal ObjectType As String) As Boolean
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.ObjcetHaveComment(" & ObjectType & ")", etFullDebug
+
+  Select Case ObjectType
+    Case "Cast", "Language", "Conversion"
+      ObjcetHaveComment = False
+    Case Else
+      ObjcetHaveComment = True
+  End Select
+  
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.ObjcetHaveComment"
+End Function
+
+'add element in result
+Private Sub AddResult(ByVal ObjResult As Object, szNamespace As String)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.AddResult(" & ObjResult.ObjectType & ",'" & szNamespace & "')", etFullDebug
+
+Dim iCol As Integer
+Dim szImg As String
+Dim szKey As String
+Dim lvItem As ListItem
+  
+  szImg = NameImageByObjectType(ObjResult.ObjectType)
+
+  Select Case ObjResult.ObjectType
+    Case "Aggregate"
+      szKey = "AGG"
+    Case "Cast"
+      szKey = "CST"
+    Case "Domain"
+      szKey = "DOM"
+    Case "Conversion"
+      szKey = "CNV"
+    Case "Function"
+      szKey = "FNC"
+    Case "Language"
+      szKey = "LNG"
+    Case "Operator"
+      szKey = "OPR"
+    Case "Sequence"
+      szKey = "SEQ"
+    Case "Table"
+      szKey = "TBL"
+    Case "Type"
+      szKey = "TYP"
+    Case "View"
+      szKey = "VIE"
+    Case "Schema"
+      szKey = "NSP"
+  End Select
+  Set lvItem = lvResult.ListItems.Add(, szKey & "_" & GetID, ObjResult.Identifier)
+  If Len(szImg) > 0 Then
+    lvItem.Icon = szImg
+    lvItem.SmallIcon = szImg
+  End If
+  If ObjResult.ObjectType <> "Cast" And ObjResult.ObjectType <> "Language" Then lvItem.SubItems(1) = szNamespace
+  iCol = 1
+  
+  If lvColResult.ListItems("COM").Checked Then
+    iCol = iCol + 1
+     If ObjcetHaveComment(ObjResult.ObjectType) Then lvItem.SubItems(iCol) = ObjResult.Comment
+  End If
+
+  If lvColResult.ListItems("SQL").Checked Then
+    iCol = iCol + 1
+    lvItem.SubItems(iCol) = ObjResult.SQL
+  End If
+
+  If lvColResult.ListItems("OID").Checked Then
+    iCol = iCol + 1
+    lvItem.SubItems(iCol) = ObjResult.Oid
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.AddResult"
+End Sub
+
