@@ -19,6 +19,7 @@ Additional User/Database variable handling code including combo boxes for known 
 Added an option to reset statistics [Frank Lupo].
 User definable row limit when viewing large tables/rows [Frank Lupo].
 Added command history to the SQL dialogue [Frank Lupo].
+Allow F5 to execute SQL queries.
 
 1.4.12
 ------
