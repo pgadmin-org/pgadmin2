@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmColumn 
@@ -379,8 +379,12 @@ Dim szOldName As String
         End If
       Next objItem
       
-      If cboProperties(1).Text = "serial" Then
+      If ((cboProperties(1).Text = "serial") Or (cboProperties(1).Text = "serial8")) Then
         Set objItem = frmCallingForm.lvProperties(0).ListItems.Add(, , txtProperties(0).Text, "sequence", "sequence")
+        'Warn about revision control issues
+        If frmMain.svr.Databases(szDatabase).RevisionControl Then
+          MsgBox "You have created a serial column - this will cause PostgreSQL to automatically create an Index on the table, and a Sequence which cannot be automatically be added to Revision Control and will need to be manually committed. You may need to refresh the Indexes or Sequences collections in the treeview in order to see these objects.", vbInformation, "Warning"
+        End If
       Else
         Set objItem = frmCallingForm.lvProperties(0).ListItems.Add(, , txtProperties(0).Text, "column", "column")
       End If
@@ -470,6 +474,7 @@ Dim objType As pgType
       txtProperties(1).Text = frmCallingForm.lvProperties(0).ListItems.Count + 1
       
       'Populate the Types combo
+      If frmMain.svr.dbVersion.VersionNum >= 7.2 Then cboProperties(1).ComboItems.Add , , "serial8", "sequence", "sequence"
       cboProperties(1).ComboItems.Add , , "serial", "sequence", "sequence"
       For Each objType In frmMain.svr.Databases(szDatabase).Types
         If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Name, "type", "type"
