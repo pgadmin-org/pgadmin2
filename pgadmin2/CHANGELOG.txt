@@ -30,9 +30,10 @@ Added support for rules on views [Frank Lupo].
 Added support for dependency checking [Frank Lupo].
 Fixed date handling in the Excel exporter.
 Added support for Set Returning Functions [Frank Lupo].
-Allow addition and removal of Foreign Keys post table creation [Frank Lupo]
-Allow modification of column storage type [Frank Lupo]
-Allow specification of array dimensions on new columns [Frank Lupo]
+Allow addition and removal of Foreign Keys post table creation [Frank Lupo].
+Allow modification of column storage type [Frank Lupo].
+Allow specification of array dimensions on new columns [Frank Lupo].
+Updated PostgreSQL docs to 7.3.2.
 
 1.4.12
 ------
