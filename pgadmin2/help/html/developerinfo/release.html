@@ -1,0 +1,57 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" href="../pgadmin2.css" type="text/css">
+<title>Release Procedure</title>
+</head>
+
+<body>
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" id="TablePar">
+  <tr>
+    <td valign="middle" id="TablePar">
+      <h3>Release Procedure</h3>
+    </td>
+    <td width="120" id="TablePar">
+      <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right" width="119" height="119"></a>
+    </td>
+  </tr>
+</table>
+
+<p>
+
+This document outlines the procedure for producing a pgAdmin II release whether a development or stable version.<ol>
+  <li>Run BuildAll.bat to ensure all binaries are built correctly and all interfaces are compatible.<br>
+&nbsp;</li>
+  <li>Recompile the HTML Help using the Microsoft HTML Help Workshop.<br>
+&nbsp;</li>
+  <li>Make sure that CHANGELOG.txt is up to date.<br>
+&nbsp;</li>
+  <li>Run the Wise for Windows Installer and load <i>installer\pgadmin2.wsi.<br>
+&nbsp;</i></li>
+  <li>Update the version number and release comments under <i>General Information</i> and <i>Product Details</i> under the <i>Installation Expert.<br>
+&nbsp;</i></li>
+  <li>Click into the <i>Setup Editor</i> and onto the <i>Components</i> tab. Right-click the <i>Components</i> node, and select <i>Rescan Advertising</i>. This will ensure that the Installer registers all COM objects correctly.<br>
+&nbsp;</li>
+  <li>From the <i>File</i> menu, select <i>Compile</i> to build the MSI file.<br>
+&nbsp;</li>
+  <li>Test the resulting MSI on as many platforms as possible.</li>
+  </ol>
+<p>
+
+The following steps should be followed for official releases:<ol>
+    <li>Zip the MSI file using maximum compression. The zip filename should be pgadmin2-n_n_n.zip where n_n_n is the full version number (major.minor.build).<br>
+&nbsp;</li>
+    <li>Scan the zip file for viruses using an up-to-date scanner.<br>
+&nbsp;</li>
+    <li>Upload the file to the download directory on the webserver, and add the details of the download to the downloads table in the database.<br>
+&nbsp;</li>
+    <li>Update /versions.dat on the webserver.</li>
+    </ol>
+
+</body>
+
+</html>

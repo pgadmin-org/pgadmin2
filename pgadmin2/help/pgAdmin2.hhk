@@ -10,12 +10,24 @@
 		<param name="Local" value="html\howtos\migration.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Bugs">
+		<param name="Local" value="html\developerinfo\bugs.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Build">
+		<param name="Local" value="html\developerinfo\release.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Charter">
 		<param name="Local" value="html\licenceinfo\team.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Coding">
 		<param name="Local" value="html\developerinfo\coding.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Compile">
+		<param name="Local" value="html\developerinfo\release.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Control">
@@ -58,6 +70,14 @@
 		<param name="Local" value="html\index.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Procedure">
+		<param name="Local" value="html\developerinfo\release.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Release">
+		<param name="Local" value="html\developerinfo\release.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Revision">
 		<param name="Local" value="html\howtos\revisioncontrol.html">
 		</OBJECT>
@@ -76,6 +96,10 @@
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Team">
 		<param name="Local" value="html\licenceinfo\team.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="To Do">
+		<param name="Local" value="html\developerinfo\todo.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Troubleshooting">

@@ -14,6 +14,11 @@
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Features">
+			<param name="Local" value="html\features.html">
+			<param name="ImageNumber" value="17">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Mailing Lists">
 			<param name="Local" value="html\mailing.html">
 			<param name="ImageNumber" value="23">
@@ -36,6 +41,21 @@
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Coding Standards">
 				<param name="Local" value="html\developerinfo\coding.html">
+				<param name="ImageNumber" value="41">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Known Bugs">
+				<param name="Local" value="html\developerinfo\bugs.html">
+				<param name="ImageNumber" value="41">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Release Procedure">
+				<param name="Local" value="html\developerinfo\release.html">
+				<param name="ImageNumber" value="41">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="To Do List">
+				<param name="Local" value="html\developerinfo\todo.html">
 				<param name="ImageNumber" value="41">
 				</OBJECT>
 		</UL>

@@ -1,0 +1,129 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" href="../pgadmin2.css" type="text/css">
+<title>How do I... Convert MS Access, MySQL or other databases?</title>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" id="TablePar">
+  <tr>
+    <td valign="middle" id="TablePar">
+      <h3>How do I... Convert MS Access, MySQL or other databases?</h3>
+    </td>
+    <td width="120" id="TablePar">
+      <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right" width="119" height="119"></a>
+    </td>
+  </tr>
+</table>
+
+<p>
+<b>The Database Migration Wizard</b><br><br>
+The pgAdmin Database Migration Wizard is a pgAdmin II type 1 plugin that is distributed seperately from 
+pgAdmin. Primarily, this is because it is based heavily on code from the original pgAdmin project and 
+is released under the GNU General Public Licence.<br><br>
+The wizard will migrate tables, data &amp; indexes from an ODBC datasource, and can also directly connect 
+to Microsoft Access databases using the Microsoft Jet Engine (you may need to download this from 
+<a href="http://www.microsoft.com/data">http://www.microsoft.com/data</a>). When used in this mode, foreign 
+keys may also be migrated.<br><br>
+The Database Migration Wizard has been successfully tested by the author with Microsoft Access & MySQL. There
+have been reports of successful use with Oracle, Informix and Microsoft SQL server. We'd appreciate it if you
+could report you successes or failures, even with Access or MySQL - just add an Interactive Documentation Note
+to the copy of this page on the pgAdmin Website - <a href=http://www.pgadmin.org">http://www.pgadmin.org</a> - 
+you'll find it under the How do I... section.
+</p>
+
+<p>
+<b>Installation</b><br>
+<ol>
+  <li>Download the plugin from <a href="http://www.pgadmin.org/">http://www.pgadmin.org/</a>.</li><br>&nbsp;
+  <li>Extract the .dll file from the zip archive using Winzip, and save it in your pgAdmin plugins folder
+      (normally this is C:\Program Files\pgAdmin2\Plugins).</li><br>&nbsp;
+  <li>Click Start -> Run</li><br>&nbsp;
+  <li>In the Open: textbox, enter the following command:<br><br>
+      <i>regsvr32 "C:\Program Files\pgAdmin2\Plugins\pgMigration.dll"</i><br><br>
+      You may need to alter the path to the dll file on your system.</li><br>&nbsp;
+  <li>Click OK, and you should see a message box indicating success. The Migration Wizard 
+      should now appear on the Plugins menu in pgAdmin when you next start it, and connect to 
+      a server.</li>
+</ol>
+</p>
+
+<p>
+<b>The Migration Process</b><br><br>
+The Migration Wizard tries to make the process as simple as possible - here are the basic steps involved:<br>
+<ol>
+  <li>Start pgAdmin, and connect to your target server.</li><br>&nbsp;
+  <li>From the Plugins menu, select the 'Database Migration Wizard'.</li><br>&nbsp;
+  <li>The first step in the wizard requires you to specify your source database, and set a few options. Select whether you are migrating an ODBC, Access or SQL Server database using the radio buttons at the top, and 
+      the relevant connection options will be displayed. Enter the required details to connect to the source database.</li><br>&nbsp;
+  <li>Select any additional options. These pretty much explain themselves:<br>&nbsp;
+      <ul>
+        <li>Create columns as 'NOT NULL' where applicable</li>
+        <li>Create Indexes on Migrated Tables</li>
+        <li>Create Primary Keys on Migrated Tables</li>
+        <li>Convert Table Names to Lower Case</li>
+        <li>Convert Column Names to Lower Case</li>
+        <li>Convert Index/Key Names to Lower Case</li>
+      </ul></li><br>      
+  <li>Click 'Next'!</li><br>&nbsp;
+  <li>Select the database on the target PostgreSQL server that you wish to migrate to.</li><br>&nbsp;
+  <li>Click 'Next'!</li><br>&nbsp;
+  <li>Select the tables in the source database that you wish to migrate.</li><br>&nbsp;
+  <li>Click 'Next'!</li><br>&nbsp;
+  <li>In this step, you can select the tables that you wish to migrate data from. Note that binary or 
+      BLOB data will be skipped.</li><br>&nbsp;
+  <li>Click 'Next' (again)!</li><br>&nbsp;
+  <li>If you are migrating an Access or SQL Server database using the OLEDB interface (rather than an ODBC datasource) this step will
+      allow you to select the Foreign Keys to migrate. The migration process will attempt to figure out
+      the proper dependency order from the selected keys and will migrate the tables in the required order.
+      Note that it is possible for data to exist in an Access database that doesn't meet the requirements
+      of the Foreign Key - such data will cause the migration to fail.</li><br>&nbsp;
+  <li>Click 'Next' (last time)!</li><br>&nbsp;
+  <li>You will now be presented with the migration log window. This will display any messages during the
+      migration process. Just click the 'Migrate db' button to start the process and kick back with a coffee!
+      </li>      
+</ol>
+</p>         
+
+<p>
+<b>Type Mapping</b><br><br>
+The datatypes of columns in the souce database are identified to the Migration Wizard as Microsoft ADO
+datatypes. These types can be mapped as required to a PostgreSQL type at any time before the migration
+process is started by clicking the 'Type Map' button. Any changes you make to the Type Map will be
+remembered as the default settings for your next migration.<br><br>
+For most people, the default settings should work fine.
+</p>
+
+<p>
+<b>Troubleshooting</b><br><br>
+If an error occurs during migration, the entire run will be rolled back to ensure that the target database
+is not left in an unknown state.<br><br>
+The majority of errors are caused by invalid type mappings, such as mapping
+adVarChar to int4.<br><br>
+Other errors may be harder to track down and may be caused by a data type or format that the wizard can't 
+correctly handle, or a quirk of the source database or it's ODBC driver. In these cases, it's often beneficial
+to switch the 'Log Level' to 'Debug' on the 'Options' dialogue box in pgAdmin. You will need to re-connect to
+the target database after making this change. This will ensure that an ODBC driver log is created (usually 
+C:\psqlodbc_nnnn.log), and that the pgAdmin log (usually C:\pgAdmin II_nnnn.log) contains all the SQL queries
+that are being executed on the PostgreSQL server. The pgAdmin log in particular can show why the migration
+has failed.
+<br><br>If you cannot solve your problem, yourself then post the <b>relevant</b> sections of your logfiles
+to the <a href="mailto:pgadmin-support@postgresql.org">pgadmin-support@postgresql.org</a> mailling list along
+with a description of what went wrong.
+</p>
+
+<p>
+<b>Warning:</b> Make sure you thoroughly check and sample test data in any migrated database as the migration 
+process is not infallible - in particular, binary data is often skipped altogether though you are warned when 
+this happens. Make sure you take a backup in case something goes wrong! No author of pgAdmin, whether part of 
+the <a href="../licenceinfo/team.html">Development Team</a> or not can be held responsible for any loss or 
+corruption of data.
+</p>
+
+</body>
+
+</html>
