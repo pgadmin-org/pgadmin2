@@ -385,11 +385,7 @@ Dim vArgument As Variant
   szDatabase = szDB
   szNamespace = szNS
   
-  'Set the font
-  For X = 0 To 5
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  Set cboProperties(0).Font = ctx.Font
+  PatchForm Me
   
   If Domain Is Nothing Then
   

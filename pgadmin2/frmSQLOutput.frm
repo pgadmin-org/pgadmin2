@@ -207,7 +207,7 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdDelete_Click()", etFullDebug
 
 Dim X As Integer
-Dim Y As Integer
+Dim y As Integer
 Dim Z As Integer
 Dim szCriteria As String
 Dim szFullCriteria As String
@@ -328,12 +328,12 @@ Dim bFlag As Boolean
         'Delete matching rows.
         For X = lvData.ListItems.Count To 1 Step -1
           bFlag = False
-          For Y = 1 To lvData.ColumnHeaders.Count - 1
-            If szValues(Y) <> lvData.ListItems(X).SubItems(Y) Then
+          For y = 1 To lvData.ColumnHeaders.Count - 1
+            If szValues(y) <> lvData.ListItems(X).SubItems(y) Then
               bFlag = True
               Exit For
             End If
-          Next Y
+          Next y
           If Not (bFlag Or szValues(0) <> lvData.ListItems(X).Text) Then
             lvData.ListItems.Remove lvData.ListItems(X).Index
           End If
@@ -382,7 +382,7 @@ Dim szCriteria As String
 Dim szFullCriteria As String
 Dim szCells() As String
 Dim X As Integer
-Dim Y As Integer
+Dim y As Integer
 Dim Z As Integer
 Dim bFlag As Boolean
 Dim itmX As ListItem
@@ -623,12 +623,12 @@ Dim rsCount As New Recordset
           'Update matching rows.
           For X = lvData.ListItems.Count To 1 Step -1
             bFlag = False
-            For Y = 1 To lvData.ColumnHeaders.Count - 1
-              If szCells(Y) <> lvData.ListItems(X).SubItems(Y) Then
+            For y = 1 To lvData.ColumnHeaders.Count - 1
+              If szCells(y) <> lvData.ListItems(X).SubItems(y) Then
                 bFlag = True
                 Exit For
               End If
-            Next Y
+            Next y
             If Not (bFlag Or szCells(0) <> lvData.ListItems(X).Text) Then
               For Z = 0 To lblField.Count - 1
                 If Z = 0 Then
@@ -692,8 +692,7 @@ Dim szSchemas() As String
   Set rsSQL = rsQuery
   szDatabase = szDB
   
-  'Set the Grid Font
-  Set lvData.Font = ctx.Font
+  PatchForm Me
 
   'Figure out if the query is updateable. This is the case if:
   '1) There is one and only one table

@@ -75,8 +75,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Load()", etF
   Me.Width = 5790
   Me.Height = 4200
   
-  Set txtQuery.Font = ctx.Font
-  Set txtPlan.Font = ctx.Font
+  PatchForm Me
   txtQuery.Wordlist = ctx.AutoHighlight
   txtPlan.Wordlist = ctx.AutoHighlight
   

@@ -124,9 +124,7 @@ Private Sub Form_Load()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.Form_Load()", etFullDebug
 
-  Set txtCurrent.Font = ctx.Font
-  Set txtNew.Font = ctx.Font
-  Set txtConfirm.Font = ctx.Font
+  PatchForm Me
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmPassword.Form_Load"

@@ -74,14 +74,14 @@ Begin VB.Form frmUser
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmUser.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cboVarValue"
-      Tab(1).Control(1)=   "cmdRemoveVar"
-      Tab(1).Control(2)=   "cmdAddVar"
-      Tab(1).Control(3)=   "txtVarValue"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cboVarName"
-      Tab(1).Control(6)=   "Label1"
-      Tab(1).Control(7)=   "Label2"
+      Tab(1).Control(0)=   "Label2"
+      Tab(1).Control(1)=   "Label1"
+      Tab(1).Control(2)=   "cboVarName"
+      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(4)=   "txtVarValue"
+      Tab(1).Control(5)=   "cmdAddVar"
+      Tab(1).Control(6)=   "cmdRemoveVar"
+      Tab(1).Control(7)=   "cboVarValue"
       Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Present in groups"
       TabPicture(2)   =   "frmUser.frx":0182
@@ -139,8 +139,8 @@ Begin VB.Form frmUser
          TabIndex        =   7
          ToolTipText     =   "The date that the users account expires."
          Top             =   3780
-         Width           =   2715
-         _ExtentX        =   4789
+         Width           =   3075
+         _ExtentX        =   5424
          _ExtentY        =   4180
          _Version        =   393216
          ForeColor       =   -2147483630
@@ -148,7 +148,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   22675458
+         StartOfWeek     =   58851330
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -506,7 +506,7 @@ Dim objNode As Node
 Dim objNewUser As pgUser
 Dim objItem As ListItem
 Dim szDropVars() As String
-Dim x As Integer
+Dim X As Integer
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -542,9 +542,9 @@ Dim x As Integer
     'Drop any vars
     If Len(szVarDropList) > 3 Then
       szDropVars = Split(szVarDropList, "!|!")
-      For x = 0 To UBound(szDropVars)
-        If szDropVars(x) <> "" Then objUser.UserVars.Remove szDropVars(x)
-      Next x
+      For X = 0 To UBound(szDropVars)
+        If szDropVars(X) <> "" Then objUser.UserVars.Remove szDropVars(X)
+      Next X
     End If
     
     If txtProperties(2).Tag = "Y" Then objUser.Password = txtProperties(2).Text
@@ -576,7 +576,7 @@ Public Sub Initialise(Optional User As pgUser)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.Initialise()", etFullDebug
   
-Dim x As Integer
+Dim X As Integer
 Dim objTempUser As pgUser
 Dim objTempGroup As pgGroup
 Dim objTempMember As Variant
@@ -584,17 +584,10 @@ Dim lNextID As Long
 Dim objItem As ListItem
 Dim rsVar As Recordset
 
-  'Set the font
-  For x = 0 To 3
-    Set txtProperties(x).Font = ctx.Font
-  Next x
-  Set txtVarValue.Font = ctx.Font
-  Set lvProperties(0).Font = ctx.Font
-  Set lvProperties(1).Font = ctx.Font
-  lvProperties(0).ListItems.Clear
-  Set cboVarName.Font = ctx.Font
-  Set cboVarValue.Font = ctx.Font
+  PatchForm Me
   
+  lvProperties(0).ListItems.Clear
+
   If User Is Nothing Then
   
     'Create a new user
@@ -665,9 +658,9 @@ Dim rsVar As Recordset
   End If
   
   'Reset the Tags
-  For x = 0 To 3
-    txtProperties(x).Tag = "N"
-  Next x
+  For X = 0 To 3
+    txtProperties(X).Tag = "N"
+  Next X
   chkProperties(0).Tag = "N"
   chkProperties(1).Tag = "N"
   mvProperties(0).Tag = "N"
@@ -888,9 +881,9 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 
-Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, y As Single)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & X & "," & y & ")", etFullDebug
 
   If Button = vbRightButton Then
     mnuModifyPasteVar.Enabled = False

@@ -244,11 +244,7 @@ Dim objType As pgType
   
   szDatabase = szDB
   
-  'Set the font
-  Set txtProperties(0).Font = ctx.Font
-  For X = 0 To 3
-    Set cboProperties(X).Font = ctx.Font
-  Next X
+  PatchForm Me
   
   If Cast Is Nothing Then
   

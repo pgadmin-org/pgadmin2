@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -669,14 +669,7 @@ Dim szAccess() As String
   szDatabase = szDB
   szNamespace = szNS
   
-  'Set the font
-  For X = 0 To 7
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  Set cboProperties(0).Font = ctx.Font
-  Set hbxProperties(0).Font = ctx.Font
-  Set cboEntities.Font = ctx.Font
-  Set lvProperties(0).Font = ctx.Font
+  PatchForm Me
   
   'ACLs are different in 7.2+ and have 2 extra privileges
   If ctx.dbVer < 7.2 Then

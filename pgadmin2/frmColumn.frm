@@ -477,14 +477,7 @@ Dim objNamespace As pgNamespace
   szDatabase = szDB
   szNamespace = szNS
   
-  'Set the font
-  For X = 0 To 4
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  For X = 0 To 1
-    Set cboProperties(X).Font = ctx.Font
-  Next X
-  Set hbxProperties(0).Font = ctx.Font
+  PatchForm Me
   
   'The mode indicates the way the form is being used:
   'MP = Called from frmMain, viewing the properties of a column object.

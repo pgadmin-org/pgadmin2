@@ -485,6 +485,8 @@ Dim objDatabase As pgDatabase
 Dim objUser As pgUser
 Dim lvItem As ListItem
 
+  PatchForm Me
+  
   'load database
   cboDatabase.ComboItems.Clear
   For Each objDatabase In frmMain.svr.Databases

@@ -99,13 +99,13 @@ Begin VB.Form frmLanguage
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmLanguage.frx":15FE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "fraAdd"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
@@ -440,13 +440,7 @@ Dim szAccess() As String
   
   szDatabase = szDB
   
-  'Set the font
-  For X = 0 To 1
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  Set cboProperties(0).Font = ctx.Font
-  Set cboEntities.Font = ctx.Font
-  Set lvProperties(0).Font = ctx.Font
+  PatchForm Me
   
   'Unlock the edittable fields
   If ctx.dbVer >= 7.3 Then

@@ -142,23 +142,23 @@ Begin VB.Form frmDatabase
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmDatabase.frx":4578
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cboVarValue"
-      Tab(1).Control(1)=   "cmdCurrVal"
-      Tab(1).Control(2)=   "cboVarName"
-      Tab(1).Control(3)=   "txtVarValue"
+      Tab(1).Control(0)=   "Label1"
+      Tab(1).Control(1)=   "Label2"
+      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(3)=   "cmdRemoveVar"
       Tab(1).Control(4)=   "cmdAddVar"
-      Tab(1).Control(5)=   "cmdRemoveVar"
-      Tab(1).Control(6)=   "lvProperties(0)"
-      Tab(1).Control(7)=   "Label2"
-      Tab(1).Control(8)=   "Label1"
+      Tab(1).Control(5)=   "txtVarValue"
+      Tab(1).Control(6)=   "cboVarName"
+      Tab(1).Control(7)=   "cmdCurrVal"
+      Tab(1).Control(8)=   "cboVarValue"
       Tab(1).ControlCount=   9
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmDatabase.frx":4594
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(1)"
-      Tab(2).Control(1)=   "fraAdd"
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(3)=   "cmdRemove"
+      Tab(2).Control(0)=   "cmdRemove"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "fraAdd"
+      Tab(2).Control(3)=   "lvProperties(1)"
       Tab(2).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboVarValue 
          Height          =   330
@@ -761,19 +761,7 @@ Dim szAccess() As String
 Dim rsVar As Recordset
 Dim objDb As pgDatabase
   
-  'Set the font
-  For X = 0 To 3
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  Set cboProperties(0).Font = ctx.Font
-  Set cboProperties(1).Font = ctx.Font
-  Set hbxProperties(0).Font = ctx.Font
-  Set txtVarValue.Font = ctx.Font
-  Set lvProperties(0).Font = ctx.Font
-  Set cboEntities.Font = ctx.Font
-  Set lvProperties(1).Font = ctx.Font
-  Set cboVarName.Font = ctx.Font
-  Set cboVarValue.Font = ctx.Font
+  PatchForm Me
   
   'Unlock the edittable fields
   If ctx.dbVer >= 7.3 Then

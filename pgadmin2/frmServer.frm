@@ -319,11 +319,7 @@ Dim X As Integer
 
   Set objServer = obj
   
-  'Set the font
-  For X = 0 To 7
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  Set hbxProperties(0).Font = ctx.Font
+  PatchForm Me
   
   Me.Caption = "Server: " & objServer.Identifier
 

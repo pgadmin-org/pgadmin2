@@ -442,14 +442,7 @@ Dim objItem As ComboItem
   szDatabase = szDB
   szNamespace = szNS
     
-  'Set the font
-  For X = 0 To 1
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  For X = 0 To 3
-    Set cboProperties(X).Font = ctx.Font
-  Next X
-  Set hbxProperties(0).Font = ctx.Font
+  PatchForm Me
   
   If Trigger Is Nothing Then
   

@@ -260,11 +260,7 @@ Dim objTempMember As Variant
 Dim objTempUser As pgUser
 Dim lNextID As Long
 
-  'Set the font
-  For X = 0 To 1
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  Set lvProperties(0).Font = ctx.Font
+  PatchForm Me
   
   'Load the users...
   For Each objTempUser In frmMain.svr.Users

@@ -221,10 +221,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.Load_Defaults(" & Co
 
 Dim szConnection() As String
 
-  Set txtUsername.Font = ctx.Font
-  Set txtPassword.Font = ctx.Font
-  Set txtServer.Font = ctx.Font
-  Set txtPort.Font = ctx.Font
+  PatchForm Me
   
   'If no connection was specified, then assume connection 1.
   If Connection = 0 Then

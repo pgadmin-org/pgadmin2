@@ -167,6 +167,8 @@ Private Sub Form_Load()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.Form_Load()", etFullDebug
 
+  PatchForm Me
+  
   'See if we should be shown at startup
   If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Show Tips", "Y")) = "Y" Then
     chkLoadTipsAtStartup.Value = 1

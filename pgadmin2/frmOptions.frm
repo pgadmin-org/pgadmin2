@@ -56,32 +56,32 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "&Text"
       TabPicture(1)   =   "frmOptions.frx":0A1E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame8"
-      Tab(1).Control(1)=   "Frame7"
+      Tab(1).Control(0)=   "Frame7"
+      Tab(1).Control(1)=   "Frame8"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdExpUninstall"
-      Tab(2).Control(1)=   "cmdExpInstall"
-      Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(3)=   "lstExporters"
+      Tab(2).Control(0)=   "lstExporters"
+      Tab(2).Control(1)=   "Frame1"
+      Tab(2).Control(2)=   "cmdExpInstall"
+      Tab(2).Control(3)=   "cmdExpUninstall"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lstPlugins"
-      Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(2)=   "cmdPlgInstall"
-      Tab(3).Control(3)=   "cmdPlgUninstall"
+      Tab(3).Control(0)=   "cmdPlgUninstall"
+      Tab(3).Control(1)=   "cmdPlgInstall"
+      Tab(3).Control(2)=   "Frame2"
+      Tab(3).Control(3)=   "lstPlugins"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame3"
-      Tab(4).Control(1)=   "Frame4"
-      Tab(4).Control(2)=   "Frame5"
-      Tab(4).Control(3)=   "Frame6"
+      Tab(4).Control(0)=   "Frame6"
+      Tab(4).Control(1)=   "Frame5"
+      Tab(4).Control(2)=   "Frame4"
+      Tab(4).Control(3)=   "Frame3"
       Tab(4).ControlCount=   4
       Begin VB.Frame Frame8 
          Caption         =   "Font"
@@ -786,7 +786,7 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdOK_Click()", etFullDebug
 
 Dim iLogLevel As Integer
-Dim objform As Form
+Dim objForm As Form
 Dim szTextColours As String
 Dim itmX As ListItem
 Dim szFont() As String
@@ -807,15 +807,15 @@ Dim objFont As New StdFont
   
   'Log Window Always On Top
   'Find the log window if it's open
-  For Each objform In Forms
-    If objform.Name = "frmLog" Then Exit For
-  Next objform
+  For Each objForm In Forms
+    If objForm.Name = "frmLog" Then Exit For
+  Next objForm
   
   If chkLogWindow.Value = 1 Then
-    If Not (objform Is Nothing) Then SetTopMostWindow objform.hWnd, True
+    If Not (objForm Is Nothing) Then SetTopMostWindow objForm.hWnd, True
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Always On Top", regString, "Y"
   Else
-    If Not (objform Is Nothing) Then SetTopMostWindow objform.hWnd, False
+    If Not (objForm Is Nothing) Then SetTopMostWindow objForm.hWnd, False
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Always On Top", regString, "N"
   End If
   
@@ -835,6 +835,7 @@ Dim objFont As New StdFont
   objFont.Bold = CBool(szFont(2))
   objFont.Italic = CBool(szFont(3))
   Set ctx.Font = objFont
+  PatchForm frmMain
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Font", regString, CStr(txtFont.Tag)
   
   'Autohighlight Colours
@@ -916,6 +917,8 @@ Dim szStrings() As String
 Dim szValues() As String
 Dim szFont() As String
 
+  PatchForm Me
+  
   'Get the current settings.
   'We use the registry settings because (for example) frmMain.svr.Logfile will return the actual filename, not the code.
   txtLogFile.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Log File", "C:\" & App.Title & "_%ID.Log")

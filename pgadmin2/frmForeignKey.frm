@@ -563,14 +563,7 @@ Dim objRelationship As pgRelationship
   szDatabase = szDB
   szNamespace = szNS
   
-  'Set the font
-  For X = 0 To 1
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  For X = 0 To 6
-    Set cboProperties(X).Font = ctx.Font
-  Next X
-  Set lvProperties(0).Font = ctx.Font
+  PatchForm Me
   
   'The mode indicates the way the form is being used:
   'MP = Called from frmMain, viewing the properties of a Foreign Key object.

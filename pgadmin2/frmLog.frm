@@ -62,6 +62,8 @@ Private Sub Form_Load()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Load()", etFullDebug
   
+  PatchForm Me
+  
   'Size & position the form
   Me.Left = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Left", "0"))
   Me.Top = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Top", "0"))

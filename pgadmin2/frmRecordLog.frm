@@ -146,6 +146,8 @@ Private Sub Form_Load()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRecordLog.Form_Load()", etFullDebug
 
+  PatchForm Me
+  
   txtFileName.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "User Log Filename", frmMain.svr.UserLogfile)
   chkUser.Value = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Log User Queries", "0"))
   chkData.Value = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Log Data Queries", "0"))

@@ -365,16 +365,8 @@ Dim vArgument As Variant
   szDatabase = szDB
   szNamespace = szNS
   
-  'Set the font
-  For X = 0 To 1
-    Set txtProperties(X).Font = ctx.Font
-  Next X
-  For X = 0 To 1
-    Set cboProperties(X).Font = ctx.Font
-  Next X
-  For X = 0 To 2
-    Set hbxProperties(X).Font = ctx.Font
-  Next X
+  PatchForm Me
+  
   hbxProperties(0).Wordlist = ctx.AutoHighlight
   hbxProperties(1).Wordlist = ctx.AutoHighlight
   
