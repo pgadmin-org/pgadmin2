@@ -1,12 +1,12 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
    ClientHeight    =   6675
    ClientLeft      =   165
-   ClientTop       =   855
+   ClientTop       =   735
    ClientWidth     =   9675
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
@@ -335,7 +335,7 @@ Begin VB.Form frmMain
          NumPanels       =   4
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   8892
+            Object.Width           =   8918
             MinWidth        =   2
             Text            =   "Ready"
             TextSave        =   "Ready"
@@ -917,7 +917,7 @@ Dim siWidth As Single
   tv.Height = siHeight - tv.Top
   
   lv.Top = siTop
-  If txtDefinition.Visible Then
+  If txtDefinition.Visible And ((HPos - lv.Top) > 0) Then
     lv.Height = HPos - lv.Top
   Else
     lv.Height = tv.Height
