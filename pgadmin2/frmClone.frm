@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmClone 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Copy Object"
@@ -23,7 +23,7 @@ Begin VB.Form frmClone
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   24
+         NumListImages   =   25
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmClone.frx":0000
             Key             =   "aggregate"
@@ -119,6 +119,10 @@ Begin VB.Form frmClone
          BeginProperty ListImage24 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmClone.frx":9406
             Key             =   "conversion"
+         EndProperty
+         BeginProperty ListImage25 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmClone.frx":9CE0
+            Key             =   "operatorclass"
          EndProperty
       EndProperty
    End
@@ -235,6 +239,7 @@ Dim objTmp
 Dim objNode As Node
 Dim szArguments As String
 Dim vData
+Dim szTemp As String
 
   If Len(Trim(txtNewName.Text)) = 0 Then
     MsgBox "The name you have entered is not valid!", vbExclamation, "Error"
@@ -243,8 +248,17 @@ Dim vData
     
   'verify if name Exists
   Select Case ObjDbClone.ObjectType
-    Case "Domain", "Table", "View", "Function", "Aggregate", "Operator", "Type", "Conversion"
-      Set objTmp = CallByName(frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS), ObjDbClone.ObjectType & "s", VbGet)
+    Case "Domain", "Table", "View", "Function", "Aggregate", "Operator", "Type", "Conversion", "OperatorClass"
+      
+      Select Case ObjDbClone.ObjectType
+        Case "OperatorClass"
+          szTemp = "OperatorsClass"
+          
+        Case Else
+          szTemp = ObjDbClone.ObjectType & "s"
+      End Select
+      
+      Set objTmp = CallByName(frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS), szTemp, VbGet)
     
     Case "Group", "User"
       Set objTmp = CallByName(frmMain.svr, ObjDbClone.ObjectType & "s", VbGet)
@@ -302,6 +316,14 @@ Dim vData
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPR-" & GetID, txtNewName.Text & " (" & ObjDbClone.LeftOperandType & ", " & ObjDbClone.RightOperandType & ")", "operator")
       objNode.Text = "Operators (" & objNode.Children & ")"
 
+    Case "OperatorClass"
+      Set objTmp = CloneOperatorClass(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
+    
+      'Add a new node and update the text on the parent
+      Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).OperatorsClass.Tag
+      Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPC-" & GetID, txtNewName.Text & " (" & ObjDbClone.AccessMethod & ")", "operatorclass")
+      objNode.Text = "Operators Class (" & objNode.Children & ")"
+    
     Case "Aggregate"
       Set objTmp = CloneAggregate(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
       

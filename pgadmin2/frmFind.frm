@@ -3,15 +3,15 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmFind 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Find Object"
-   ClientHeight    =   7515
-   ClientLeft      =   2235
-   ClientTop       =   1575
+   ClientHeight    =   7524
+   ClientLeft      =   2232
+   ClientTop       =   1572
    ClientWidth     =   9840
    Icon            =   "frmFind.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7515
+   ScaleHeight     =   7524
    ScaleWidth      =   9840
    Begin VB.CheckBox chkOnlyOid 
       Caption         =   "Find only for &Oid"
@@ -65,8 +65,8 @@ Begin VB.Form frmFind
          ToolTipText     =   "What columns should be included in the results?"
          Top             =   240
          Width           =   4452
-         _ExtentX        =   7858
-         _ExtentY        =   1508
+         _ExtentX        =   7853
+         _ExtentY        =   1503
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -120,14 +120,14 @@ Begin VB.Form frmFind
          Width           =   3375
       End
       Begin MSComctlLib.ImageCombo cboDatabase 
-         Height          =   330
+         Height          =   300
          Left            =   1200
          TabIndex        =   0
          ToolTipText     =   "Select a database to search."
-         Top             =   270
-         Width           =   3375
-         _ExtentX        =   5953
-         _ExtentY        =   582
+         Top             =   276
+         Width           =   3372
+         _ExtentX        =   5948
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
@@ -135,14 +135,14 @@ Begin VB.Form frmFind
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboSearchFor 
-         Height          =   330
+         Height          =   300
          Left            =   1200
          TabIndex        =   5
          ToolTipText     =   "What search type should be used?"
          Top             =   2640
-         Width           =   3375
-         _ExtentX        =   5953
-         _ExtentY        =   582
+         Width           =   3372
+         _ExtentX        =   5948
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
@@ -157,7 +157,7 @@ Begin VB.Form frmFind
          Top             =   600
          Width           =   3420
          _ExtentX        =   6033
-         _ExtentY        =   1508
+         _ExtentY        =   1503
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -271,8 +271,8 @@ Begin VB.Form frmFind
          ToolTipText     =   "Select the object types to search for."
          Top             =   240
          Width           =   3516
-         _ExtentX        =   6191
-         _ExtentY        =   2064
+         _ExtentX        =   6181
+         _ExtentY        =   2074
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -301,8 +301,8 @@ Begin VB.Form frmFind
          ToolTipText     =   "Select the object owners whose objects will be searched."
          Top             =   1560
          Width           =   3516
-         _ExtentX        =   6191
-         _ExtentY        =   2064
+         _ExtentX        =   6181
+         _ExtentY        =   2074
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -350,15 +350,15 @@ Begin VB.Form frmFind
    Begin MSComctlLib.ImageList il 
       Left            =   9000
       Top             =   120
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   30
+         NumListImages   =   31
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmFind.frx":1CFA
             Key             =   "aggregate"
@@ -479,6 +479,10 @@ Begin VB.Form frmFind
             Picture         =   "frmFind.frx":C7D4
             Key             =   "conversion"
          EndProperty
+         BeginProperty ListImage31 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmFind.frx":D0AE
+            Key             =   "operatorclass"
+         EndProperty
       EndProperty
    End
    Begin MSComctlLib.ListView lvResult 
@@ -489,7 +493,7 @@ Begin VB.Form frmFind
       Top             =   4680
       Width           =   9660
       _ExtentX        =   17039
-      _ExtentY        =   4895
+      _ExtentY        =   4890
       View            =   3
       LabelEdit       =   1
       LabelWrap       =   -1  'True
@@ -558,6 +562,9 @@ Dim lvItem As ListItem
   lvObjType.ListItems.Add , "FNC", "Function", "function", "function"
   lvObjType.ListItems.Add , "LNG", "Language", "language", "language"
   lvObjType.ListItems.Add , "OPR", "Operator", "operator", "operator"
+  If ctx.dbVer >= 7.3 Then
+    lvObjType.ListItems.Add , "OPC", "Operator Class", "operatorclass", "operatorclass"
+  End If
   lvObjType.ListItems.Add , "SEQ", "Sequence", "sequence", "sequence"
   lvObjType.ListItems.Add , "TBL", "Table", "table", "table"
   lvObjType.ListItems.Add , "TYP", "Type", "type", "type"
@@ -635,7 +642,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.chkOnlyOid_Click()", et
     lblFind(2).Enabled = True
     txtName.Enabled = True
     txtComment.Enabled = True
-    txtSql.Enabled = True
+    txtSQL.Enabled = True
     cboSearchFor.Enabled = True
     lvNameSpace.Enabled = True
     txtOid.Enabled = False
@@ -651,7 +658,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.chkOnlyOid_Click()", et
     lblFind(2).Enabled = False
     txtName.Enabled = False
     txtComment.Enabled = False
-    txtSql.Enabled = False
+    txtSQL.Enabled = False
     cboSearchFor.Enabled = False
     lvNameSpace.Enabled = False
     txtOid.Enabled = True
@@ -667,7 +674,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.cmdFind_Click()", etFul
 
 Dim szName As String
 Dim szComment As String
-Dim szSQL As String
+Dim szSql As String
 Dim iLenName As Integer
 Dim iLenComment As Integer
 Dim iLenSql As Integer
@@ -691,7 +698,7 @@ Dim lOid As Long
   'find object
   szName = txtName.Text:  iLenName = Len(szName)
   szComment = txtComment.Text:   iLenComment = Len(szComment)
-  szSQL = txtSql.Text:  iLenSql = Len(szSQL)
+  szSql = txtSQL.Text:  iLenSql = Len(szSql)
   
   Set objDatabase = frmMain.svr.Databases(cboDatabase.SelectedItem.Text)
   szSearchFor = cboSearchFor.SelectedItem.Key
@@ -708,7 +715,7 @@ Dim lOid As Long
   'find only oid
   If chkOnlyOid.Value = 1 Then
     If Not IsNumeric(txtOid.Text) Then
-      MsgBox "Oid is not numeric!", vbExclamation + vbSystemModal, "Error"
+      MsgBox "Oid is not numeric!", vbCritical + vbSystemModal, "Error"
       txtOid.SetFocus
       EndMsg
       Exit Sub
@@ -727,6 +734,7 @@ Dim lOid As Long
         colObj.Add objDatabase.Casts
         colObj.Add objDatabase.Namespaces(szNamespace).Domains
         colObj.Add objDatabase.Namespaces(szNamespace).Conversions
+        colObj.Add objDatabase.Namespaces(szNamespace).OperatorsClass
       End If
       colObj.Add objDatabase.Namespaces(szNamespace).Functions
       colObj.Add objDatabase.Languages
@@ -768,6 +776,20 @@ Dim lOid As Long
     If UBound(szOwner) = 0 Then bSreachOwner = False
   End If
   
+  'verify if select
+  bFound = False
+  For Each lvItem In lvNameSpace.ListItems
+    If lvItem.Checked Then
+      bFound = True
+      Exit For
+    End If
+  Next
+  If Not bFound Then
+    MsgBox "Schema not selected!", vbSystemModal + vbCritical, "Error"
+    EndMsg
+    Exit Sub
+  End If
+  
   For Each lvItem In lvNameSpace.ListItems
     If lvItem.Checked = True Then
       'Load object for find
@@ -779,13 +801,14 @@ Dim lOid As Long
           If lvObjType.ListItems("CST").Checked Then colObj.Add objDatabase.Casts
           If lvObjType.ListItems("DOM").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Domains
           If lvObjType.ListItems("CNV").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Conversions
+          If lvObjType.ListItems("OPC").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).OperatorsClass
         End If
         If lvObjType.ListItems("FNC").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Functions
         If lvObjType.ListItems("LNG").Checked Then colObj.Add objDatabase.Languages
         If lvObjType.ListItems("OPR").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Operators
         If lvObjType.ListItems("SEQ").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Sequences
         If lvObjType.ListItems("TBL").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Tables
-        If lvObjType.ListItems("AGG").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Types
+        If lvObjType.ListItems("TYP").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Types
         If lvObjType.ListItems("VIE").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Views
       Else
         colObj.Add objDatabase.Namespaces(szNamespace).Aggregates
@@ -793,6 +816,7 @@ Dim lOid As Long
           colObj.Add objDatabase.Casts
           colObj.Add objDatabase.Namespaces(szNamespace).Domains
           colObj.Add objDatabase.Namespaces(szNamespace).Conversions
+          colObj.Add objDatabase.Namespaces(szNamespace).OperatorsClass
         End If
         colObj.Add objDatabase.Namespaces(szNamespace).Functions
         colObj.Add objDatabase.Languages
@@ -825,10 +849,9 @@ Dim lOid As Long
             End Select
           End If
           
-          
           'find by comment
           If iLenComment > 0 Then
-            bFoundComment = False
+            bFoundComment = True
             If ObjcetHaveComment(objTmp.ObjectType) Then
               Select Case szSearchFor
                 Case "WWR"
@@ -848,13 +871,13 @@ Dim lOid As Long
             bFoundSql = False
             Select Case szSearchFor
               Case "WWR"
-                bFoundSql = objTmp.SQL = szSQL
+                bFoundSql = objTmp.SQL = szSql
               Case "BGN"
-                bFoundSql = Left(objTmp.SQL, iLenSql) = szSQL
+                bFoundSql = Left(objTmp.SQL, iLenSql) = szSql
               Case "END"
-                bFoundSql = Right(objTmp.SQL, iLenSql) = szSQL
+                bFoundSql = Right(objTmp.SQL, iLenSql) = szSql
               Case "SBR"
-                bFoundSql = InStr(objTmp.SQL, szSQL) > 0
+                bFoundSql = InStr(objTmp.SQL, szSql) > 0
             End Select
           End If
        
@@ -951,6 +974,12 @@ Dim szName As String
       objOperatorForm.Initialise objDatabase.Name, objNamespace.Name, objNamespace.Operators(szName)
       objOperatorForm.Show
     
+    Case "OPC"
+      Dim objOperatorClassForm As New frmOperatorClass
+      Load objOperatorClassForm
+      objOperatorClassForm.Initialise objDatabase.Name, objNamespace.Name, objNamespace.OperatorsClass(szName)
+      objOperatorClassForm.Show
+    
     Case "SEQ"
       Dim objSequenceForm As New frmSequence
       Load objSequenceForm
@@ -1000,7 +1029,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.ObjcetHaveComment(" & ObjectType & ")", etFullDebug
 
   Select Case ObjectType
-    Case "Cast", "Language", "Conversion"
+    Case "Cast", "Language", "Conversion", "OperatorClass"
       ObjcetHaveComment = False
     Case Else
       ObjcetHaveComment = True
@@ -1037,6 +1066,8 @@ Dim lvItem As ListItem
       szKey = "LNG"
     Case "Operator"
       szKey = "OPR"
+    Case "OperatorClass"
+      szKey = "OPC"
     Case "Sequence"
       szKey = "SEQ"
     Case "Table"

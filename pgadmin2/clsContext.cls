@@ -173,7 +173,7 @@ On Error Resume Next
   End If
   
   Select Case vData.ObjectType
-    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type", "Conversion"
+    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type", "Conversion", "OperatorClass"
       frmMain.mnuEditCopy.Enabled = True
       frmMain.mnuPopupCopy.Enabled = True
     Case Else
@@ -246,6 +246,7 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("operator").Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("operatorclass").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("rule").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("sequence").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("table").Enabled = True
@@ -258,6 +259,7 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.mnuPopupCreateFunction.Enabled = True
     frmMain.mnuPopupCreateIndex.Enabled = True
     frmMain.mnuPopupCreateOperator.Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateOperatorClass.Enabled = True
     frmMain.mnuPopupCreateRule.Enabled = True
     frmMain.mnuPopupCreateSequence.Enabled = True
     frmMain.mnuPopupCreateTable.Enabled = True
@@ -271,6 +273,7 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("operator").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("operatorclass").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("rule").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("sequence").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("table").Enabled = False
@@ -283,6 +286,7 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.mnuPopupCreateFunction.Enabled = False
     frmMain.mnuPopupCreateIndex.Enabled = False
     frmMain.mnuPopupCreateOperator.Enabled = False
+    frmMain.mnuPopupCreateOperatorClass.Enabled = False
     frmMain.mnuPopupCreateRule.Enabled = False
     frmMain.mnuPopupCreateSequence.Enabled = False
     frmMain.mnuPopupCreateTable.Enabled = False

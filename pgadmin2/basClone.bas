@@ -28,7 +28,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.CopyObjDb", etFullDebu
 
   'vetify type object
   Select Case ctx.CurrentObject.ObjectType
-    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type", "Conversion"
+    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type", "Conversion", "OperatorClass"
       Set ObjDbClone = ctx.CurrentObject
       frmMain.mnuEditPaste.Enabled = True
       frmMain.mnuPopupPaste.Enabled = True
@@ -52,7 +52,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.PasteObjDb", etFullDeb
   End If
   
   Select Case ObjDbClone.ObjectType
-    Case "Domain", "Table", "View", "Function", "Aggregate", "Operator", "Type"
+    Case "Domain", "Table", "View", "Function", "Aggregate", "Operator", "Type", "OperatorClass"
       If ctx.CurrentNS = "" Then
         MsgBox "You must select a schema to paste the object into!", vbExclamation, "Error"
         Exit Sub
@@ -113,6 +113,20 @@ Dim objNewOperator As pgOperator
   Set objNewOperator = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Operators.Add(szNewName, ObjDbClone.OperatorFunction, ObjDbClone.LeftOperandType, ObjDbClone.RightOperandType, ObjDbClone.Commutator, ObjDbClone.Negator, ObjDbClone.RestrictFunction, ObjDbClone.JoinFunction, ObjDbClone.HashJoins, ObjDbClone.LeftTypeSortOperator, ObjDbClone.RightTypeSortOperator, ObjDbClone.Comment)
   Set CloneOperator = objNewOperator
  
+  Exit Function
+  
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basClone.CloneOperator"
+End Function
+
+'clone operator class
+Public Function CloneOperatorClass(szNewName As String, szDatabase As String, szNamespace As String) As pgOperatorClass
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.CloneOperatorClass(" & QUOTE & szNewName & QUOTE & "," & QUOTE & szDatabase & QUOTE & "," & QUOTE & szNamespace & QUOTE & ")", etFullDebug
+
+Dim objNewOperatorClass As pgOperatorClass
+
+  Set objNewOperatorClass = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).OperatorsClass.Add(szNewName, ObjDbClone.AccessMethod, ObjDbClone.InputType, False, ObjDbClone.OpClassOps, ObjDbClone.OpClassFncs)
+  Set CloneOperatorClass = objNewOperatorClass
   Exit Function
   
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basClone.CloneOperator"

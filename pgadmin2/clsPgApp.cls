@@ -39,6 +39,7 @@ Public frmLog As pgAdmin2.frmLog                                                
 Public frmMain As pgAdmin2.frmMain                                              'frmMain.frm
 Public frmNamespace As pgAdmin2.frmNamespace                                    'frmNamespace.frm
 Public frmOperator As pgAdmin2.frmOperator                                      'frmOperator.frm
+Public frmOperatorClass As pgAdmin2.frmOperatorClass                            'frmOperatorClass.frm
 Public frmOptions As pgAdmin2.frmOptions                                        'frmOptions.frm
 Public frmPassword As pgAdmin2.frmPassword                                      'frmPassword.frm
 Public frmRecordLog As pgAdmin2.frmRecordLog                                    'frmRecordLog.frm
@@ -119,6 +120,11 @@ End Function
 'clone operator
 Public Function CloneOperator(szNewName As String, szDatabase As String, szNamespace As String) 'As pgOperator
 '  CloneOperator = basClone.CloneOperator(szNewName,szDatabase,szNamespace)
+End Function
+
+'clone operator class
+Public Function CloneOperatorClass(szNewName As String, szDatabase As String, szNamespace As String) 'As pgOperatorClass
+'  CloneOperatorClass = basClone.CloneOperatorClass(szNewName,szDatabase,szNamespace)
 End Function
 
 'clone aggregate
@@ -249,6 +255,16 @@ End Function
 Public Sub LoadUGACL(cboUGACL As ImageCombo)
   Call basMisc.LoadUGACL(cboUGACL)
 End Sub
+
+'Convert Boolean value in yes/no string
+Public Function BoolToYesNo(ByVal bData As Boolean) As String
+  BoolToYesNo = basMisc.BoolToYesNo(bData)
+End Function
+
+'Convert yes/no string in Boolean value
+Public Function YesNoToBool(ByVal szData As String) As String
+  YesNoToBool = basMisc.YesNoToBool(szData)
+End Function
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''
 'Module: basPatch

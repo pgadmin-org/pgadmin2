@@ -273,20 +273,20 @@ Public Sub BuildConnectionMenu()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildConnectionMenu()", etFullDebug
 
-Dim x As Integer
+Dim X As Integer
 Dim szConnection As String
 Dim vData
 
   frmMain.tb.Buttons(1).ButtonMenus.Clear
-  For x = 1 To 10
-    szConnection = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & x, "")
+  For X = 1 To 10
+    szConnection = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & X, "")
     If szConnection <> "" Then
       vData = Split(szConnection, "|")
       szConnection = vData(0) & "@" & vData(1) & ":" & vData(2)
       If UBound(vData) > 2 Then szConnection = szConnection & " - " & vData(3)
-      frmMain.tb.Buttons("connect").ButtonMenus.Add x, x & "|" & szConnection, szConnection
+      frmMain.tb.Buttons("connect").ButtonMenus.Add X, X & "|" & szConnection, szConnection
     End If
-  Next x
+  Next X
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildConnectionMenu"
@@ -297,34 +297,34 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildPluginsMenu()", etFullDebug
 
 Dim objPlugin As pgPlugin
-Dim x As Integer
+Dim X As Integer
 
   'Clear the menu
   frmMain.mnuPlugins.Visible = False
   frmMain.mnuPluginsPlg(0).Visible = True
-  For x = 1 To 20
-    frmMain.mnuPluginsPlg(x).Caption = "Plugin" & x
-    frmMain.mnuPluginsPlg(x).Visible = False
-  Next x
+  For X = 1 To 20
+    frmMain.mnuPluginsPlg(X).Caption = "Plugin" & X
+    frmMain.mnuPluginsPlg(X).Visible = False
+  Next X
   
   'Load new plugins
-  x = 1
+  X = 1
   For Each objPlugin In plg
     If Not ((frmMain.svr.ConnectionString = "") And (objPlugin.PluginType = 1)) Then
-      frmMain.mnuPluginsPlg(x).Caption = objPlugin.Description & "..."
-      frmMain.mnuPluginsPlg(x).Visible = True
-      x = x + 1
+      frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description & "..."
+      frmMain.mnuPluginsPlg(X).Visible = True
+      X = X + 1
       frmMain.mnuPluginsPlg(0).Visible = False
     
       'Bomb out if there's more than 20 Plugins
-      If x > 20 Then
+      If X > 20 Then
         MsgBox App.Title & " currently only supports a maximum of 20 plugins loaded at the same time. Please email the Support mailing list listed in the Helpfile and let the developers know that you've exceeded this limit.", vbExclamation, "Error"
         Exit Sub
       End If
     End If
   Next objPlugin
   frmMain.mnuPluginsPlg(0).Visible = False
-  If x > 1 Then frmMain.mnuPlugins.Visible = True
+  If X > 1 Then frmMain.mnuPlugins.Visible = True
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildPluginsMenu"
@@ -405,7 +405,7 @@ End Function
 Public Function fmtID(ByVal szData As String) As String
 On Error Resume Next
 
-Dim x As Integer
+Dim X As Integer
 Dim iVal As Integer
 Dim bFound As Boolean
 
@@ -413,8 +413,8 @@ Dim bFound As Boolean
   szData = Replace(szData, QUOTE, QUOTE & QUOTE)
 
   'verify KeyWord Reserved
-  For x = 1 To frmMain.svr.KeyWordReserved.Count
-    If LCase(frmMain.svr.KeyWordReserved(x)) = LCase(szData) Then
+  For X = 1 To frmMain.svr.KeyWordReserved.Count
+    If LCase(frmMain.svr.KeyWordReserved(X)) = LCase(szData) Then
       bFound = True
       Exit For
     End If
@@ -424,15 +424,15 @@ Dim bFound As Boolean
     If IsNumeric(szData) Then
       szData = QUOTE & szData & QUOTE
     Else
-      For x = 1 To Len(szData)
-        iVal = Asc(Mid(szData, x, 1))
+      For X = 1 To Len(szData)
+        iVal = Asc(Mid(szData, X, 1))
         If Not ((iVal >= 48) And (iVal <= 57)) And _
            Not ((iVal >= 97) And (iVal <= 122)) And _
            Not (iVal = 95) Then
           szData = QUOTE & szData & QUOTE
           Exit For
         End If
-      Next x
+      Next X
     End If
   End If
 
@@ -716,6 +716,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.NameImageByObjectType("
     Case "Operator"
       NameImageByObjectType = "operator"
           
+    Case "OperatorClass"
+      NameImageByObjectType = "operatorclass"
+          
     Case "Rule"
       NameImageByObjectType = "rule"
           
@@ -790,4 +793,25 @@ Dim objGroup As pgGroup
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.LoadUGACL"
 End Sub
 
+'Convert Boolean value in yes/no string
+Public Function BoolToYesNo(ByVal bData As Boolean) As String
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BoolToYesNo(" & bData & ")", etFullDebug
+  
+  BoolToYesNo = IIf(bData, "Yes", "No")
+  Exit Function
+  
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BoolToYesNo"
+End Function
+
+'Convert yes/no string in Boolean value
+Public Function YesNoToBool(ByVal szData As String) As String
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.YesNoToBool(" & szData & ")", etFullDebug
+  
+  YesNoToBool = (Trim(szData) = "Yes")
+  Exit Function
+  
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.YesNoToBool"
+End Function
 

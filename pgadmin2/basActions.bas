@@ -188,6 +188,12 @@ Dim szPath() As String
       objNode.Parent.Text = "Operators (" & objNode.Parent.Children - 1 & ")"
       frmMain.tv.Nodes.Remove objNode.Index
     
+    Case "OperatorClass"
+      szType = "OPC-"
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).OperatorsClass.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Operators Class (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
+    
     Case "Rule"
       szType = "RUL-"
       'verify if rule is for table or view

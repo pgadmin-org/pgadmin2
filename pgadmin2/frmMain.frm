@@ -148,7 +148,7 @@ Begin VB.Form frmMain
             ImageKey        =   "create"
             Style           =   5
             BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
-               NumButtonMenus  =   18
+               NumButtonMenus  =   19
                BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "aggregate"
@@ -201,40 +201,45 @@ Begin VB.Form frmMain
                EndProperty
                BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
+                  Key             =   "operatorclass"
+                  Text            =   "Operator &Class"
+               EndProperty
+               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
                   Key             =   "rule"
                   Text            =   "&Rule"
                EndProperty
-               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "namespace"
                   Text            =   "Sc&hema"
                EndProperty
-               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "sequence"
                   Text            =   "&Sequence"
                EndProperty
-               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "table"
                   Text            =   "&Table"
                EndProperty
-               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu16 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "trigger"
                   Text            =   "T&rigger"
                EndProperty
-               BeginProperty ButtonMenu16 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu17 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "type"
                   Text            =   "T&ype"
                EndProperty
-               BeginProperty ButtonMenu17 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu18 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "user"
                   Text            =   "&User"
                EndProperty
-               BeginProperty ButtonMenu18 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu19 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "view"
                   Text            =   "&View"
@@ -398,7 +403,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   29
+         NumListImages   =   30
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":9AB2
             Key             =   "aggregate"
@@ -515,6 +520,10 @@ Begin VB.Form frmMain
             Picture         =   "frmMain.frx":14432
             Key             =   "conversion"
          EndProperty
+         BeginProperty ListImage30 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":14D0C
+            Key             =   "operatorclass"
+         EndProperty
       EndProperty
    End
    Begin MSComctlLib.TreeView tv 
@@ -547,23 +556,23 @@ Begin VB.Form frmMain
       TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmMain.frx":14D0C
+      TabPicture(0)   =   "frmMain.frx":152A6
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lv"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).ControlCount=   1
       TabCaption(1)   =   "&Statistics"
-      TabPicture(1)   =   "frmMain.frx":14D28
+      TabPicture(1)   =   "frmMain.frx":152C2
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "sv"
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "&Dependencies"
-      TabPicture(2)   =   "frmMain.frx":14D44
+      TabPicture(2)   =   "frmMain.frx":152DE
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "tvDep"
       Tab(2).ControlCount=   1
       TabCaption(3)   =   "&Locks"
-      TabPicture(3)   =   "frmMain.frx":14D60
+      TabPicture(3)   =   "frmMain.frx":152FA
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "lvLock"
       Tab(3).ControlCount=   1
@@ -943,6 +952,9 @@ Begin VB.Form frmMain
             Caption         =   "&Operator..."
             Enabled         =   0   'False
          End
+         Begin VB.Menu mnuPopupCreateOperatorClass 
+            Caption         =   "Operator &Class..."
+         End
          Begin VB.Menu mnuPopupCreateRule 
             Caption         =   "&Rule..."
             Enabled         =   0   'False
@@ -1249,56 +1261,56 @@ Dim objFindForm As New frmFind
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsFindObject_Click"
 End Sub
 
-Private Sub tv_DragDrop(Source As Control, x As Single, y As Single)
+Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize tv.Left + x, splHorizontal.Top
+    Resize tv.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, tv.Top + y
+    Resize splVertical.Left, tv.Top + Y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_DragDrop"
 End Sub
 
-Private Sub prop_DragDrop(Source As Control, x As Single, y As Single)
+Private Sub prop_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize prop.Left + x, splHorizontal.Top
+    Resize prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, prop.Top + y
+    Resize splVertical.Left, prop.Top + Y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.prop_DragDrop"
 End Sub
 
-Private Sub lv_DragDrop(Source As Control, x As Single, y As Single)
+Private Sub lv_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize lv.Left + prop.Left + x, splHorizontal.Top
+    Resize lv.Left + prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, lv.Top + prop.Top + y
+    Resize splVertical.Left, lv.Top + prop.Top + Y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DragDrop"
 End Sub
 
-Private Sub sv_DragDrop(Source As Control, x As Single, y As Single)
+Private Sub sv_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize sv.Left + prop.Left + x, splHorizontal.Top
+    Resize sv.Left + prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, sv.Top + prop.Top + y
+    Resize splVertical.Left, sv.Top + prop.Top + Y
   End If
   
   Exit Sub
@@ -1319,14 +1331,14 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tv_KeyDown(" & KeyCode & "," & 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_KeyDown"
 End Sub
 
-Private Sub txtDefinition_DragDrop(Source As Control, x As Single, y As Single)
+Private Sub txtDefinition_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize txtDefinition.Left + x, splHorizontal.Top
+    Resize txtDefinition.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, txtDefinition.Top + y
+    Resize splVertical.Left, txtDefinition.Top + Y
   End If
     
   Exit Sub
@@ -1343,9 +1355,9 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DblClick()", etFullDebug
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DblClick"
 End Sub
 
-Private Sub lv_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & x & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
   
@@ -1433,9 +1445,9 @@ Dim objNode As Node
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewSystemObjects_Click"
 End Sub
 
-Private Sub tv_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & x & ", " & y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
 
@@ -1698,6 +1710,8 @@ Dim objNode As Node
       svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Functions.Refresh
     Case "OPR+"
       svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Operators.Refresh
+    Case "OPC+"
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).OperatorsClass.Refresh
     Case "SEQ+"
       svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Sequences.Refresh
     Case "TBL+"
@@ -1859,6 +1873,12 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
           objOperatorForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objOperatorForm.Show
           
+        Case "OperatorClass"
+          Dim objOperatorClassForm As New frmOperatorClass
+          Load objOperatorClassForm
+          objOperatorClassForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
+          objOperatorClassForm.Show
+          
         Case "Rule"
           Dim objRuleForm As New frmRule
           Load objRuleForm
@@ -1919,19 +1939,19 @@ Private Sub mnuPopupSQL_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupSQL_Click()", etFullDebug
   
-Dim y As Integer
-Dim x As Integer
+Dim Y As Integer
+Dim X As Integer
 
-  y = 1
-  For x = 0 To Forms.Count - 1
-    If Forms(x).Name = "frmSQLInput" Then
-      y = Val(Forms(x).Tag) + 1
+  Y = 1
+  For X = 0 To Forms.Count - 1
+    If Forms(X).Name = "frmSQLInput" Then
+      Y = Val(Forms(X).Tag) + 1
     End If
   Next
   Dim objSQLInputForm As New frmSQLInput
   Load objSQLInputForm
-  objSQLInputForm.Tag = y
-  objSQLInputForm.Caption = "SQL " & y & ": " & ctx.CurrentDB & " ()"
+  objSQLInputForm.Tag = Y
+  objSQLInputForm.Caption = "SQL " & Y & ": " & ctx.CurrentDB & " ()"
   objSQLInputForm.Show
   
   Exit Sub
@@ -1944,14 +1964,14 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupViewData_Click()", etFu
   
 Dim objOutputForm As New frmSQLOutput
 Dim rsQuery As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   'count row
   StartMsg "Counting Records..."
   Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT count(*) AS count FROM " & ctx.CurrentObject.FormattedID)
   EndMsg
   
-  szSql = "SELECT * FROM " & ctx.CurrentObject.FormattedID
+  szSQL = "SELECT * FROM " & ctx.CurrentObject.FormattedID
   
   'verify limit output
   If Not rsQuery.EOF Then
@@ -1960,13 +1980,13 @@ Dim szSql As String
         Case vbCancel
           Exit Sub
         Case vbYes
-          szSql = szSql & " LIMIT " & ctx.MaxRecordViewData
+          szSQL = szSQL & " LIMIT " & ctx.MaxRecordViewData
       End Select
     End If
   End If
 
   StartMsg "Executing SQL Query..."
-  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute(szSql)
+  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute(szSQL)
   Load objOutputForm
   objOutputForm.Display rsQuery, ctx.CurrentDB, "(" & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.FormattedID & ")"
   objOutputForm.Show
@@ -2183,6 +2203,20 @@ Dim objOperatorForm As New frmOperator
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateOperator_Click"
 End Sub
 
+Private Sub mnuPopupCreateOperatorClass_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateOperatorClass_Click()", etFullDebug
+
+Dim objOperatorClassForm As New frmOperatorClass
+
+  Load objOperatorClassForm
+  objOperatorClassForm.Initialise ctx.CurrentDB, ctx.CurrentNS
+  objOperatorClassForm.Show
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateOperatorClass_Click"
+End Sub
+
 Private Sub mnuPopupCreateRule_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateRule_Click()", etFullDebug
@@ -2319,6 +2353,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
           mnuPopupCreateLanguage_Click
         Case "operator"
           mnuPopupCreateOperator_Click
+        Case "operatorclass"
+          mnuPopupCreateOperatorClass_Click
         Case "rule"
           mnuPopupCreateRule_Click
         Case "namespace"
@@ -2649,11 +2685,7 @@ Dim szTemp As String
     lvItem.SubItems(1) = szTemp
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Allow Connections?", "property", "property")
-  If ctx.CurrentObject.AllowConnections Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.AllowConnections)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Connection Status?", "property", "property")
   If ctx.CurrentObject.Status = statInaccessible Then
     lvItem.SubItems(1) = "Inaccessible"
@@ -2663,11 +2695,7 @@ Dim szTemp As String
     lvItem.SubItems(1) = "Not connected"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Database?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -2831,23 +2859,11 @@ Dim objVar As pgVar
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Account Expires", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.AccountExpires
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Create Databases?", "property", "property")
-  If ctx.CurrentObject.CreateDatabases Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.CreateDatabases)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Superuser?", "property", "property")
-  If ctx.CurrentObject.Superuser Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Superuser)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Update Catalogues", "property", "property")
-  If ctx.CurrentObject.UpdateCatalogues Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.UpdateCatalogues)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Variables", "property", "property")
   For Each objVar In ctx.CurrentObject.UserVars
     szTemp = szTemp & "{" & objVar.Name & " = " & objVar.Value & "}, "
@@ -2911,11 +2927,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Context", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Context
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Cast?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   
   'Set the Definition Pane
   If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
@@ -2968,17 +2980,9 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Handler", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Handler
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Trusted?", "property", "property")
-  If ctx.CurrentObject.Trusted Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Trusted)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Language?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   
   'Set the Definition Pane
   If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
@@ -3028,6 +3032,7 @@ Dim lvItem As ListItem
     If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, "Domains (" & ctx.CurrentObject.Domains.Count(Not ctx.IncludeSys) & ")", "domain")
     Set ctx.CurrentObject.Functions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC+" & GetID, "Functions (" & ctx.CurrentObject.Functions.Count(Not ctx.IncludeSys) & ")", "function")
     Set ctx.CurrentObject.Operators.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR+" & GetID, "Operators (" & ctx.CurrentObject.Operators.Count(Not ctx.IncludeSys) & ")", "operator")
+    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.OperatorsClass.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPC+" & GetID, "Operators Class (" & ctx.CurrentObject.OperatorsClass.Count(Not ctx.IncludeSys) & ")", "operatorclass")
     Set ctx.CurrentObject.Sequences.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ+" & GetID, "Sequences (" & ctx.CurrentObject.Sequences.Count(Not ctx.IncludeSys) & ")", "sequence")
     Set ctx.CurrentObject.Tables.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TBL+" & GetID, "Tables (" & ctx.CurrentObject.Tables.Count(Not ctx.IncludeSys) & ")", "table")
     Set ctx.CurrentObject.Types.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TYP+" & GetID, "Types (" & ctx.CurrentObject.Types.Count(Not ctx.IncludeSys) & ")", "type")
@@ -3045,11 +3050,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Schema?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -3116,11 +3117,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Initial Condition", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InitialCondition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Aggregate?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -3190,17 +3187,9 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Default
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Not Null?", "property", "property")
-  If ctx.CurrentObject.NotNull Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.NotNull)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Domain?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
 
@@ -3282,39 +3271,19 @@ Dim vData As Variant
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Source, vbCrLf, " ")
   If ctx.dbVer < 7.3 Then
     Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cachable?", "property", "property")
-    If ctx.CurrentObject.Cachable Then
-      lvItem.SubItems(1) = "Yes"
-    Else
-      lvItem.SubItems(1) = "No"
-    End If
+    lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Cachable)
   Else
     Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Returns a Set?", "property", "property")
-    If ctx.CurrentObject.RetSet Then
-      lvItem.SubItems(1) = "Yes"
-    Else
-      lvItem.SubItems(1) = "No"
-    End If
+    lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.RetSet)
     Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Volatility", "property", "property")
     lvItem.SubItems(1) = ctx.CurrentObject.Volatility
-      Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Security Definer?", "property", "property")
-    If ctx.CurrentObject.SecDef Then
-      lvItem.SubItems(1) = "Yes"
-    Else
-      lvItem.SubItems(1) = "No"
-    End If
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Security Definer?", "property", "property")
+    lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SecDef)
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Strict?", "property", "property")
-  If ctx.CurrentObject.Strict Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Strict)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Function?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -3386,21 +3355,10 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Negator
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Kind", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Kind
-  '
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Hash Joins?", "property", "property")
-  If ctx.CurrentObject.HashJoins Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
-  '
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.HashJoins)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Merge Joins?", "property", "property")
-  If ctx.CurrentObject.MergeJoins Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
-  '
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.MergeJoins)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Left Sort Operator", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.LeftTypeSortOperator
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Right Sort Operator", "property", "property")
@@ -3409,13 +3367,8 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.LessThanOperator
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Greater Than Operator", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.GreaterThanOperator
-  '
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Operator?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -3424,6 +3377,81 @@ Dim lvItem As ListItem
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvOperator"
+End Sub
+
+Private Sub tvOpsClass(ByVal Node As MSComctlLib.Node)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvOpsClass(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim opClass As pgOperatorClass
+
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).OperatorsClass.Count(Not ctx.IncludeSys) Then
+    While Not (Node.Child Is Nothing)
+      tv.Nodes.Remove Node.Child.Index
+    Wend
+    For Each opClass In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).OperatorsClass
+      If Not (opClass.SystemObject And Not ctx.IncludeSys) Then Set opClass.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPC-" & GetID, opClass.Identifier, "operatorclass")
+    Next opClass
+    Node.Text = "Operators Class (" & Node.Children & ")"
+  End If
+  lv.ColumnHeaders.Add , , "Operator Class"
+  For Each opClass In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).OperatorsClass
+    If Not (opClass.SystemObject And Not ctx.IncludeSys) Then
+      lv.ListItems.Add , "OPC-" & GetID, opClass.Identifier, "operatorclass", "operatorclass"
+    End If
+  Next opClass
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvOpsClass"
+End Sub
+
+Private Sub tvOpClass(ByVal Node As MSComctlLib.Node)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvOpClass(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim objOpClassFnc As OpClassFnc
+Dim objOpClassOp As OpClassOp
+Dim szTemp As String
+
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Default)
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "For Type", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.InputType
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Access Method", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.AccessMethod
+  
+  'operator
+  For Each objOpClassOp In ctx.CurrentObject.OpClassOps
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OPERATOR ", "property", "property")
+    szTemp = objOpClassOp.StrategyNumber & " " & objOpClassOp.Operator
+    If objOpClassOp.Rechecked Then szTemp = szTemp & " RECHECKED "
+    lvItem.SubItems(1) = szTemp
+  Next
+  
+  'function
+  For Each objOpClassFnc In ctx.CurrentObject.OpClassFncs
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "FUNCTION ", "property", "property")
+    szTemp = objOpClassFnc.ProcedureIndex & " " & objOpClassFnc.Procedure
+    lvItem.SubItems(1) = szTemp
+  Next
+  
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Operator Class?", "property", "property")
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
+  
+  'Set the Definition Pane
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvOpClass"
 End Sub
 
 Private Sub tvSequences(ByVal Node As MSComctlLib.Node)
@@ -3461,17 +3489,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & QUOTE & Node.Fu
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+      szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
     Else
-      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
+      szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
     sv.ColumnHeaders.Add , , "Sequence", 2000
     sv.ColumnHeaders.Add , , "Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
@@ -3527,17 +3555,9 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cache", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Cache
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cycled?", "property", "property")
-  If ctx.CurrentObject.Cycled Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Cycled)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Sequence?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -3619,17 +3639,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & QUOTE & Node.FullP
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+      szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
     Else
-      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
+      szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
     sv.ColumnHeaders.Add , , "Table", 2000
     sv.ColumnHeaders.Add , , "Tuples Inserted", 2000
     sv.ColumnHeaders.Add , , "Tuples Updated", 2000
@@ -3701,17 +3721,9 @@ Dim vData As Variant
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
   lvItem.SubItems(1) = szTemp
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OIDs?", "property", "property")
-  If ctx.CurrentObject.HasOIDs Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.HasOIDs)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Table?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -3880,25 +3892,13 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Default
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Restrict Nulls?", "property", "property")
-  If ctx.CurrentObject.NotNull Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.NotNull)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Primary Key?", "property", "property")
-  If ctx.CurrentObject.PrimaryKey Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.PrimaryKey)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Statistics", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Statistics
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Column?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -3912,18 +3912,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
-      szSql = szSql & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and schemaname='" & ctx.CurrentNS & "'"
+      szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
+      szSQL = szSQL & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and schemaname='" & ctx.CurrentNS & "'"
     Else
-      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
+      szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
     sv.ColumnHeaders.Add , , "Statistic"
     sv.ColumnHeaders.Add , , "Value"
   
@@ -4001,11 +4001,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
-  If ctx.CurrentObject.Default Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Default)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ForEncoding
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Destination", "property", "property")
@@ -4013,11 +4009,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Proc
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Conversion?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
 
   'Set the Definition Pane
   If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
@@ -4075,19 +4067,11 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "On Update", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.OnUpdate
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Deferrable", "property", "property")
-  If ctx.CurrentObject.Deferrable Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Deferrable)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Initially", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Initially
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Foreign Key?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvForeignKey"
@@ -4147,18 +4131,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & QUOTE & Node.Full
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
-      szSql = szSql & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
+      szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
+      szSQL = szSQL & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
     Else
-      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
+      szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
     sv.ColumnHeaders.Add , , "Index", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
@@ -4204,17 +4188,9 @@ Dim vData As Variant
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Index Type", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.IndexType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Unique?", "property", "property")
-  If ctx.CurrentObject.Unique Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Unique)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Primary?", "property", "property")
-  If ctx.CurrentObject.Primary Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Primary)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Column Count", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.IndexedColumns.Count
   For Each vData In ctx.CurrentObject.IndexedColumns
@@ -4226,11 +4202,7 @@ Dim vData As Variant
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Constraint", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Constraint
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Index?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
@@ -4337,21 +4309,13 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Condition", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Condition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Do Instead?", "property", "property")
-  If ctx.CurrentObject.DoInstead Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.DoInstead)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Action", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Action
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Definition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Rule?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
@@ -4412,11 +4376,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.TriggerFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Trigger?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
@@ -4488,21 +4448,13 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Delimiter", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Delimiter
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Passed by Value?", "property", "property")
-  If ctx.CurrentObject.PassedByValue Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.PassedByValue)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Alignment", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Alignment
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Storage", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Storage
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Type?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
 
@@ -4570,11 +4522,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Definition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System View?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
+  lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
@@ -4825,6 +4773,23 @@ Dim vData As Variant
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Operators(Node.Text)
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvOperator Node
+      If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
+      lvLocks Node
+      
+    Case "OPC+" 'Operators class
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
+      tvOpsClass Node
+      If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
+      lvLocks Node
+    
+    Case "OPC-" 'Operator class
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).OperatorsClass(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
+      tvOpClass Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
       lvLocks Node
@@ -5101,6 +5066,12 @@ Dim szPath() As String
       
     Case "OPR-" 'Operator
       Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Operators(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
+      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+ 
+    Case "OPC-" 'Operator class
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).OperatorsClass(Item.Text)
       ctx.CurrentDB = ctx.CurrentObject.Database
       ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
@@ -5457,7 +5428,7 @@ Private Sub ShowLocks(ObjectType As String)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.ShowLocks(" & QUOTE & ObjectType & QUOTE & ")", etFullDebug
 
-Dim szSql As String
+Dim szSQL As String
 Dim szSqlLocks As String
 Dim rsLocks As New Recordset
 Dim rs As Recordset
@@ -5490,8 +5461,8 @@ Dim iColumn As Integer
   
   While Not rsLocks.EOF
     szUser = ""
-    szSql = "select usename from pg_stat_activity where procpid=" & rsLocks!pid
-    Set rs = svr.Databases(svr.MasterDB).Execute(szSql)
+    szSQL = "select usename from pg_stat_activity where procpid=" & rsLocks!pid
+    Set rs = svr.Databases(svr.MasterDB).Execute(szSQL)
     If Not rs.EOF Then szUser = rs!usename & ""
     
     'filter user
@@ -5501,8 +5472,8 @@ Dim iColumn As Integer
     
     szDatabase = ""
     If VarType(rsLocks!Database) <> vbNull Then
-      szSql = "SELECT datname FROM pg_database where oid=" & rsLocks!Database
-      Set rs = svr.Databases(svr.MasterDB).Execute(szSql)
+      szSQL = "SELECT datname FROM pg_database where oid=" & rsLocks!Database
+      Set rs = svr.Databases(svr.MasterDB).Execute(szSQL)
       szDatabase = rs!datname & ""
     End If
     
@@ -5510,9 +5481,9 @@ Dim iColumn As Integer
     szRelation = ""
     szImg = "property"
     If VarType(rsLocks!relation) <> vbNull Then
-      szSql = "SELECT (SELECT n.nspname FROM pg_namespace n WHERE n.oid=c.relnamespace) as namespace, c.relname, c.relkind"
-      szSql = szSql & " from pg_class c where oid=" & rsLocks!relation
-      Set rs = svr.Databases(szDatabase).Execute(szSql)
+      szSQL = "SELECT (SELECT n.nspname FROM pg_namespace n WHERE n.oid=c.relnamespace) as namespace, c.relname, c.relkind"
+      szSQL = szSQL & " from pg_class c where oid=" & rsLocks!relation
+      Set rs = svr.Databases(szDatabase).Execute(szSQL)
       If Not rs.EOF Then
         szNamespace = rs!Namespace & ""
         szRelation = rs!relname & ""

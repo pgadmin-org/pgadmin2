@@ -1,23 +1,23 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmImportColumn 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Import column"
-   ClientHeight    =   6885
-   ClientLeft      =   8505
-   ClientTop       =   1755
+   ClientHeight    =   6888
+   ClientLeft      =   8508
+   ClientTop       =   1752
    ClientWidth     =   5520
    Icon            =   "frmImportColumn.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6888
    ScaleWidth      =   5520
    Begin MSComctlLib.ImageList il 
       Left            =   120
       Top             =   6360
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -75,7 +75,7 @@ Begin VB.Form frmImportColumn
          TabIndex        =   2
          Top             =   420
          Width           =   5175
-         _ExtentX        =   9128
+         _ExtentX        =   9123
          _ExtentY        =   7832
          _Version        =   393217
          Indentation     =   441
@@ -205,16 +205,8 @@ Dim objColumn As pgColumn
     objItem.SubItems(3) = objColumn.Length
   End If
   objItem.SubItems(4) = objColumn.Default
-  If objColumn.NotNull Then
-    objItem.SubItems(5) = "Yes"
-  Else
-    objItem.SubItems(5) = "No"
-  End If
-  If objColumn.PrimaryKey Then
-    objItem.SubItems(6) = "Yes"
-  Else
-    objItem.SubItems(6) = "No"
-  End If
+  objItem.SubItems(5) = BoolToYesNo(objColumn.NotNull)
+  objItem.SubItems(6) = BoolToYesNo(objColumn.PrimaryKey)
   objItem.SubItems(7) = objColumn.Comment
       
   frmCallingForm.lvProperties(0).Tag = "Y"

@@ -1,20 +1,19 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmOperator 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Operator"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   3024
+   ClientTop       =   1332
    ClientWidth     =   5520
    Icon            =   "frmOperator.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
-   StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
       Default         =   -1  'True
@@ -36,8 +35,8 @@ Begin VB.Form frmOperator
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -65,9 +64,9 @@ Begin VB.Form frmOperator
    End
    Begin TabDlg.SSTab tabProperties 
       Height          =   6360
-      Left            =   120
+      Left            =   0
       TabIndex        =   0
-      Top             =   120
+      Top             =   60
       Width           =   5460
       _ExtentX        =   9631
       _ExtentY        =   11218
@@ -140,7 +139,7 @@ Begin VB.Form frmOperator
          Caption         =   "Merges?"
          Height          =   195
          Index           =   1
-         Left            =   -74880
+         Left            =   -74865
          TabIndex        =   37
          ToolTipText     =   "Indicates this operator can support a hash join."
          Top             =   2640
@@ -209,11 +208,11 @@ Begin VB.Form frmOperator
          ToolTipText     =   "Comments about the operator."
          Top             =   3915
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   3757
+         _ExtentX        =   9165
+         _ExtentY        =   3747
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -223,15 +222,15 @@ Begin VB.Form frmOperator
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "The type of the left-hand argument of the operator, if any. This option would be omitted for a left-unary operator. "
-         Top             =   1845
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Top             =   1848
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -239,15 +238,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   5
          ToolTipText     =   "The type of the right-hand argument of the operator, if any. This option would be omitted for a right-unary operator."
-         Top             =   2250
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Top             =   2256
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -255,15 +254,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   4
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   12
          ToolTipText     =   "The commutator of this operator."
-         Top             =   630
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Top             =   636
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -271,15 +270,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   5
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   13
          ToolTipText     =   "The negator of this operator."
-         Top             =   1035
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Top             =   1032
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -287,15 +286,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   6
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   14
          ToolTipText     =   "The restriction selectivity estimator function for this operator."
          Top             =   1440
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -303,15 +302,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   7
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   15
          ToolTipText     =   "The join selectivity estimator function for this operator."
-         Top             =   1845
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Top             =   1848
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -319,15 +318,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   8
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   17
          ToolTipText     =   "If this operator can support a merge join, the operator that sorts the left-hand data type of this operator. "
          Top             =   3000
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -335,15 +334,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   9
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   18
          ToolTipText     =   "If this operator can support a merge join, the operator that sorts the right-hand data type of this operator."
          Top             =   3360
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -351,15 +350,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   3
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   8
          ToolTipText     =   "The resultant type of the operator."
-         Top             =   3465
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Top             =   3468
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -367,15 +366,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   2
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   6
          ToolTipText     =   "The function used to implement this operator."
-         Top             =   2655
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Top             =   2652
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -383,15 +382,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   10
-         Left            =   -73080
+         Left            =   -73068
          TabIndex        =   35
          ToolTipText     =   "If this operator can support a merge join, the operator that sorts the right-hand data type of this operator."
          Top             =   3840
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -399,15 +398,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   315
+         Height          =   300
          Index           =   11
-         Left            =   -73080
+         Left            =   -73068
          TabIndex        =   36
          ToolTipText     =   "If this operator can support a merge join, the operator that sorts the right-hand data type of this operator."
          Top             =   4200
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   556
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -419,7 +418,7 @@ Begin VB.Form frmOperator
          Caption         =   "Greater Than operator"
          Height          =   180
          Index           =   15
-         Left            =   -74880
+         Left            =   -74865
          TabIndex        =   34
          Top             =   4320
          Width           =   1695
@@ -429,7 +428,7 @@ Begin VB.Form frmOperator
          Caption         =   "Less Than operator"
          Height          =   180
          Index           =   14
-         Left            =   -74880
+         Left            =   -74865
          TabIndex        =   33
          Top             =   3960
          Width           =   1485
@@ -449,7 +448,7 @@ Begin VB.Form frmOperator
          Caption         =   "Right sort operator"
          Height          =   195
          Index           =   13
-         Left            =   -74880
+         Left            =   -74865
          TabIndex        =   31
          Top             =   3480
          Width           =   1545
@@ -459,7 +458,7 @@ Begin VB.Form frmOperator
          Caption         =   "Left sort operator"
          Height          =   195
          Index           =   12
-         Left            =   -74880
+         Left            =   -74865
          TabIndex        =   30
          Top             =   3120
          Width           =   1440
@@ -768,7 +767,7 @@ Dim vArgument As Variant
     For X = 0 To 2
       cboProperties(X).BackColor = &H80000005
     Next X
-    For X = 4 To 11 
+    For X = 4 To 11
       cboProperties(X).BackColor = &H80000005
     Next X
     

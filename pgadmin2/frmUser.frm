@@ -1,18 +1,18 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmUser 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "User"
-   ClientHeight    =   6885
-   ClientLeft      =   7770
-   ClientTop       =   1875
+   ClientHeight    =   6888
+   ClientLeft      =   7776
+   ClientTop       =   1872
    ClientWidth     =   5520
    Icon            =   "frmUser.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6888
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -89,13 +89,13 @@ Begin VB.Form frmUser
       Tab(2).Control(0)=   "lvProperties(1)"
       Tab(2).ControlCount=   1
       Begin MSComctlLib.ImageCombo cboVarValue 
-         Height          =   330
-         Left            =   -73425
+         Height          =   300
+         Left            =   -73428
          TabIndex        =   24
          Top             =   5940
-         Width           =   3735
-         _ExtentX        =   6588
-         _ExtentY        =   582
+         Width           =   3732
+         _ExtentX        =   6583
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -133,22 +133,22 @@ Begin VB.Form frmUser
          Width           =   3750
       End
       Begin MSComCtl2.MonthView mvProperties 
-         Height          =   2370
+         Height          =   2256
          Index           =   0
-         Left            =   2205
+         Left            =   2208
          TabIndex        =   7
          ToolTipText     =   "The date that the users account expires."
          Top             =   3780
-         Width           =   3075
-         _ExtentX        =   5424
-         _ExtentY        =   4180
+         Width           =   2844
+         _ExtentX        =   5017
+         _ExtentY        =   3979
          _Version        =   393216
          ForeColor       =   -2147483630
          BackColor       =   -2147483633
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   60096514
+         StartOfWeek     =   54853634
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -234,8 +234,8 @@ Begin VB.Form frmUser
          ToolTipText     =   "Lists the configuration variables set for this user."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   7805
+         _ExtentX        =   9165
+         _ExtentY        =   7811
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -267,8 +267,8 @@ Begin VB.Form frmUser
          ToolTipText     =   "Lists the configuration variables set for this user."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   10134
+         _ExtentX        =   9165
+         _ExtentY        =   10139
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -290,8 +290,8 @@ Begin VB.Form frmUser
       Begin MSComctlLib.ImageList il 
          Left            =   360
          Top             =   5760
-         _ExtentX        =   1005
-         _ExtentY        =   1005
+         _ExtentX        =   995
+         _ExtentY        =   995
          BackColor       =   -2147483643
          ImageWidth      =   16
          ImageHeight     =   16
@@ -338,13 +338,13 @@ Begin VB.Form frmUser
          EndProperty
       End
       Begin MSComctlLib.ImageCombo cboVarName 
-         Height          =   330
-         Left            =   -73425
+         Height          =   300
+         Left            =   -73428
          TabIndex        =   23
          Top             =   5520
-         Width           =   3735
-         _ExtentX        =   6588
-         _ExtentY        =   582
+         Width           =   3732
+         _ExtentX        =   6583
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -506,7 +506,7 @@ Dim objNode As Node
 Dim objNewUser As pgUser
 Dim objItem As ListItem
 Dim szDropVars() As String
-Dim X As Integer
+Dim x As Integer
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -544,9 +544,9 @@ Dim X As Integer
     'Drop any vars
     If Len(szVarDropList) > 3 Then
       szDropVars = Split(szVarDropList, "!|!")
-      For X = 0 To UBound(szDropVars)
-        If szDropVars(X) <> "" Then objUser.UserVars.Remove szDropVars(X)
-      Next X
+      For x = 0 To UBound(szDropVars)
+        If szDropVars(x) <> "" Then objUser.UserVars.Remove szDropVars(x)
+      Next x
     End If
     
     If txtProperties(2).Tag = "Y" Then objUser.Password = txtProperties(2).Text
@@ -578,7 +578,7 @@ Public Sub Initialise(Optional User As pgUser)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.Initialise()", etFullDebug
   
-Dim X As Integer
+Dim x As Integer
 Dim objTempUser As pgUser
 Dim objTempGroup As pgGroup
 Dim objTempMember As Variant
@@ -660,9 +660,9 @@ Dim rsVar As Recordset
   End If
   
   'Reset the Tags
-  For X = 0 To 3
-    txtProperties(X).Tag = "N"
-  Next X
+  For x = 0 To 3
+    txtProperties(x).Tag = "N"
+  Next x
   chkProperties(0).Tag = "N"
   chkProperties(1).Tag = "N"
   mvProperties(0).Tag = "N"
@@ -883,9 +883,9 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 
-Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, y As Single)
+Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & X & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
 
   If Button = vbRightButton Then
     mnuModifyPasteVar.Enabled = False
