@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINNT\System32\stdole2.tlb#OLE Automation
-Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\Program Files\Common Files\system\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
+Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\Program Files\Common Files\System\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
 Reference=*\G{6B263850-900B-11D0-9484-00A0C91110ED}#1.0#0#..\..\..\..\..\WINNT\System32\MSSTDFMT.DLL#Microsoft Data Formatting Object Library 6.0 (SP4)
 Reference=*\G{204AB53D-F920-46E7-BE1E-3EBAF0F580C1}#2.0#0#..\binaries\pgAbsExp.dll#pgAdmin II Abstract Exporter
 Reference=*\G{BAB71E46-8599-499F-A9C4-19B1A0FB3AAA}#1.0#0#..\binaries\pgAbsPlg.dll#pgAdmin II Abstract Plugin

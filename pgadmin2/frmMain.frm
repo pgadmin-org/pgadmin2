@@ -6,7 +6,7 @@ Begin VB.Form frmMain
    Caption         =   "pgAdmin II"
    ClientHeight    =   6675
    ClientLeft      =   165
-   ClientTop       =   735
+   ClientTop       =   855
    ClientWidth     =   9675
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
@@ -324,7 +324,7 @@ Begin VB.Form frmMain
          NumPanels       =   4
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   8918
+            Object.Width           =   8892
             MinWidth        =   2
             Text            =   "Ready"
             TextSave        =   "Ready"
@@ -1865,15 +1865,29 @@ On Error Resume Next
 svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Unload(" & Cancel & ")", etFullDebug
 
 Dim objform As Form
+Dim lTop As Long
+Dim lLeft As Long
   
   'Close child forms.
   For Each objform In Forms
     Unload objform
   Next objform
   
+  'Convert to Pixels
+  lTop = Me.ScaleY(Me.Top, 1, 3)
+  lLeft = Me.ScaleX(Me.Left, 1, 3)
+  
+  'Check the position
+  If ((lTop < 0) Or (lTop > Screen.Height - 10)) Then lTop = 0
+  If ((lLeft < 0) Or (lLeft > Screen.Width - 10)) Then lLeft = 0
+  
+  'Convert back to Twips
+  lTop = Me.ScaleY(lTop, 3, 1)
+  lLeft = Me.ScaleX(lLeft, 3, 1)
+  
   'Save the Window size/position
-  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Top", regString, Me.Top
-  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Left", regString, Me.Left
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Top", regString, lTop
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Left", regString, lLeft
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Width", regString, Me.Width
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Height", regString, Me.Height
   

@@ -1,6 +1,6 @@
 BODY
 {
-    BACKGROUND-COLOR: white;
+    BACKGROUND-COLOR: #FFFFFF;
     BORDER-BOTTOM: medium none;
     BORDER-LEFT: medium none;
     BORDER-RIGHT: medium none;
@@ -35,7 +35,7 @@ td
 
 p, li, ul, ol, center, dt, dd, dl
 {
-    BACKGROUND-COLOR: white;
+    BACKGROUND-COLOR: #FFFFFF;
     COLOR: black;
     FONT-FAMILY: verdana, helvetica, sans-serif;
     FONT-SIZE: 12px;
