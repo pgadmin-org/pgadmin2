@@ -308,7 +308,7 @@ Dim szTemp As String
   szTemp = szTemp & vbCrLf & "Insert your comment:" & vbCrLf
 
   szMail = "mailto:" & SUPPORT_EMAIL
-  szMail = szMail & "?subject=Error Message: " & objError.Description
+  szMail = szMail & "?subject=pgA2 - Error Message: " & objError.Description
   szMail = szMail & "&body=" & szTemp
   
   szMail = Replace(szMail, " ", "%20")
