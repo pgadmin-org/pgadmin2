@@ -1,4 +1,4 @@
-1.5.??
+1.5.60
 ------
 
 Refresh comment cache after editting views.
