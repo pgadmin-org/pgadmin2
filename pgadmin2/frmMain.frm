@@ -2167,8 +2167,8 @@ Dim lvItem As ListItem
     Set ctx.CurrentObject.Groups.Tag = tv.Nodes.Add(Node.Key, tvwChild, "GRP+" & GetID, "Groups (" & ctx.CurrentObject.Groups.Count & ")", "group")
     Set ctx.CurrentObject.Users.Tag = tv.Nodes.Add(Node.Key, tvwChild, "USR+" & GetID, "Users (" & ctx.CurrentObject.Users.Count & ")", "user")
   End If
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Hostname", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Server & ""
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Port", "property", "property")
@@ -2203,10 +2203,10 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT datname, procpid, usename, current_query FROM pg_stat_activity")
-    sv.ColumnHeaders.Add , , "Database", 2000
-    sv.ColumnHeaders.Add , , "PID", 1500
-    sv.ColumnHeaders.Add , , "Username", 2000
-    sv.ColumnHeaders.Add , , "Current Query", FixWidth(lv.Width - 5600)
+    sv.ColumnHeaders.Add , , "Database"
+    sv.ColumnHeaders.Add , , "PID"
+    sv.ColumnHeaders.Add , , "Username"
+    sv.ColumnHeaders.Add , , "Current Query"
   
     While Not rsStat.EOF
       If Not (svr.Databases(rsStat!datname).SystemObject And Not ctx.IncludeSys) Then
@@ -2220,7 +2220,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -2261,8 +2261,8 @@ Dim dat As pgDatabase
     Next dat
     Node.Text = "Databases (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Database", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Database"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each dat In svr.Databases
     If Not (dat.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "DAT-" & GetID, dat.Identifier, "database", "database")
@@ -2308,7 +2308,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -2351,8 +2351,8 @@ Dim szTemp As String
   Else
     Node.Image = "baddatabase"
   End If
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -2415,8 +2415,8 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT numbackends, xact_commit, xact_rollback, blks_read, blks_hit FROM pg_stat_database WHERE datname = '" & Node.Text & "'")
-    sv.ColumnHeaders.Add , , "Statistic", 2500
-    sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
+    sv.ColumnHeaders.Add , , "Statistic"
+    sv.ColumnHeaders.Add , , "Value"
   
     If Not rsStat.EOF Then
       Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Backends", "statistics", "statistics")
@@ -2435,7 +2435,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -2464,9 +2464,9 @@ Dim grp As pgGroup
     Next grp
     Node.Text = "Groups (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Group", 2000
-  lv.ColumnHeaders.Add , , "Group ID", 1000
-  lv.ColumnHeaders.Add , , "Members", FixWidth(lv.Width - 3100)
+  lv.ColumnHeaders.Add , , "Group"
+  lv.ColumnHeaders.Add , , "Group ID"
+  lv.ColumnHeaders.Add , , "Members"
   For Each grp In svr.Groups
     Set lvItem = lv.ListItems.Add(, "GRP-" & GetID, grp.Identifier, "group", "group")
     lvItem.SubItems(1) = grp.ID
@@ -2489,8 +2489,8 @@ Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Group ID", "property", "property")
@@ -2526,9 +2526,9 @@ Dim usr As pgUser
     Next usr
     Node.Text = "Users (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Username", 2000
-  lv.ColumnHeaders.Add , , "User ID", 1500
-  lv.ColumnHeaders.Add , , "Account Expires", FixWidth(lv.Width - 3600)
+  lv.ColumnHeaders.Add , , "Username"
+  lv.ColumnHeaders.Add , , "User ID"
+  lv.ColumnHeaders.Add , , "Account Expires"
   For Each usr In svr.Users
     Set lvItem = lv.ListItems.Add(, "USR-" & GetID, usr.Identifier, "user", "user")
     lvItem.SubItems(1) = usr.ID
@@ -2547,8 +2547,8 @@ Dim lvItem As ListItem
 Dim szTemp As String
 Dim objVar As pgVar
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "User ID", "property", "property")
@@ -2620,8 +2620,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvCast(" & QUOTE & Node.FullPat
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
@@ -2690,8 +2690,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguage(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -2736,8 +2736,8 @@ Dim nsp As pgNamespace
     Next nsp
     Node.Text = "Schemas (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Schema", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Schema"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each nsp In svr.Databases(Node.Parent.Text).Namespaces
     If Not (nsp.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "NSP-" & GetID, nsp.Identifier, "namespace", "namespace")
@@ -2766,8 +2766,8 @@ Dim lvItem As ListItem
     Set ctx.CurrentObject.Views.Tag = tv.Nodes.Add(Node.Key, tvwChild, "VIE+" & GetID, "Views (" & ctx.CurrentObject.Views.Count(Not ctx.IncludeSys) & ")", "view")
   End If
     
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -2808,8 +2808,8 @@ Dim agg As pgAggregate
     Next agg
     Node.Text = "Aggregates (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Aggregate", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Aggregate"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each agg In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Aggregates
     If Not (agg.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "AGG-" & GetID, agg.Identifier, "aggregate", "aggregate")
@@ -2827,8 +2827,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregate(" & QUOTE & Node.Fu
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Input Type", "property", "property")
@@ -2880,8 +2880,8 @@ Dim dom As pgDomain
     Next dom
     Node.Text = "Domains (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Domain", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Domain"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each dom In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Domains
     If Not (dom.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "DOM-" & GetID, dom.Identifier, "domain", "domain")
@@ -2899,8 +2899,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomain(" & QUOTE & Node.FullP
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -2961,8 +2961,8 @@ Dim fnc As pgFunction
     Next fnc
     Node.Text = "Functions (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Function", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Function"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each fnc In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Functions
     If Not (fnc.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "FNC-" & GetID, fnc.Identifier, "function", "function")
@@ -2987,8 +2987,8 @@ Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Argument Count", "property", "property")
@@ -3073,8 +3073,8 @@ Dim opr As pgOperator
     Next opr
     Node.Text = "Operators (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Operator", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Operator"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each opr In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Operators
     If Not (opr.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "OPR-" & GetID, opr.Identifier, "operator", "operator")
@@ -3092,8 +3092,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperator(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Left Type", "property", "property")
@@ -3160,8 +3160,8 @@ Dim seq As pgSequence
     Next seq
     Node.Text = "Sequences (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Sequence", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Sequence"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each seq In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Sequences
     If Not (seq.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "SEQ-" & GetID, seq.Identifier, "sequence", "sequence")
@@ -3201,7 +3201,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -3218,8 +3218,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequence(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -3271,8 +3271,8 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relid = " & ctx.CurrentObject.OID & "::oid")
-    sv.ColumnHeaders.Add , , "Statistic", 2500
-    sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
+    sv.ColumnHeaders.Add , , "Statistic"
+    sv.ColumnHeaders.Add , , "Value"
   
     If Not rsStat.EOF Then
       Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Blocks Read", "statistics", "statistics")
@@ -3285,7 +3285,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -3312,8 +3312,8 @@ Dim tbl As pgTable
     Next tbl
     Node.Text = "Tables (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Table", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Table"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each tbl In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Tables
     If Not (tbl.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TBL-" & GetID, tbl.Identifier, "table", "table")
@@ -3355,7 +3355,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -3374,8 +3374,8 @@ Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   If Node.Children = 0 Then
     Set ctx.CurrentObject.Checks.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CHK+" & GetID, "Checks (" & ctx.CurrentObject.Checks.Count & ")", "check")
     Set ctx.CurrentObject.Columns.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL+" & GetID, "Columns (" & ctx.CurrentObject.Columns.Count(Not ctx.IncludeSys) & ")", "column")
@@ -3439,8 +3439,8 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relid = " & ctx.CurrentObject.OID & "::oid")
-    sv.ColumnHeaders.Add , , "Statistic", 2500
-    sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
+    sv.ColumnHeaders.Add , , "Statistic"
+    sv.ColumnHeaders.Add , , "Value"
   
     If Not rsStat.EOF Then
       Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Sequential Scans", "statistics", "statistics")
@@ -3475,7 +3475,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -3517,8 +3517,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvCheck(" & QUOTE & Node.FullPa
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
@@ -3544,9 +3544,9 @@ Dim col As pgColumn
     Next col
     Node.Text = "Columns (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Column", 2000
-  lv.ColumnHeaders.Add , , "Type", 1000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 3100)
+  lv.ColumnHeaders.Add , , "Column"
+  lv.ColumnHeaders.Add , , "Type"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
     If Not (col.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "COL-" & GetID, col.Identifier, "column", "column")
@@ -3565,8 +3565,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumn(" & QUOTE & Node.FullP
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Position", "property", "property")
@@ -3623,8 +3623,8 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'")
-    sv.ColumnHeaders.Add , , "Statistic", 2500
-    sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
+    sv.ColumnHeaders.Add , , "Statistic"
+    sv.ColumnHeaders.Add , , "Value"
   
     If Not rsStat.EOF Then
       Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Null Fraction", "statistics", "statistics")
@@ -3647,7 +3647,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -3674,8 +3674,8 @@ Dim fky As pgForeignKey
     Next fky
     Node.Text = "Foreign Keys (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Foreign Key", 2000
-  lv.ColumnHeaders.Add , , "References", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Foreign Key"
+  lv.ColumnHeaders.Add , , "References"
   For Each fky In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys
     If Not (fky.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "FKY-" & GetID, fky.Identifier, "foreignkey", "foreignkey")
@@ -3694,8 +3694,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKey(" & QUOTE & Node.F
 Dim lvItem As ListItem
 
   If Node.Children = 0 Then tv.Nodes.Add Node.Key, tvwChild, "REL+" & GetID, "Relationships (" & ctx.CurrentObject.Relationships.Count & ")", "relationship"
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -3732,8 +3732,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvRelationships(" & QUOTE & Nod
 Dim lvItem As ListItem
 Dim rel As pgRelationship
 
-  lv.ColumnHeaders.Add , , "Local Column", 2000
-  lv.ColumnHeaders.Add , , "Referenced Column", FixWidth(lv.Width - 2600)
+  lv.ColumnHeaders.Add , , "Local Column"
+  lv.ColumnHeaders.Add , , "Referenced Column"
   Node.Text = "Relationships (" & svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships.Count & ")"
   For Each rel In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships
     Set lvItem = lv.ListItems.Add(, "REL-" & GetID, rel.LocalColumn, "relationship", "relationship")
@@ -3760,8 +3760,8 @@ Dim ind As pgIndex
     Next ind
     Node.Text = "Indexes (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Index", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Index"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each ind In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes
     If Not (ind.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "IND-" & GetID, ind.Identifier, "index", "index")
@@ -3801,7 +3801,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -3820,8 +3820,8 @@ Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -3877,8 +3877,8 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND statio.indexrelid = " & ctx.CurrentObject.OID & "::oid")
-    sv.ColumnHeaders.Add , , "Statistic", 2500
-    sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
+    sv.ColumnHeaders.Add , , "Statistic"
+    sv.ColumnHeaders.Add , , "Value"
   
     If Not rsStat.EOF Then
       Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Scans", "statistics", "statistics")
@@ -3897,7 +3897,7 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics", FixWidth(lv.Width - 100)
+    sv.ColumnHeaders.Add , , "Statistics"
     Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
   End If
   
@@ -3924,8 +3924,8 @@ Dim rul As pgRule
     Next rul
     Node.Text = "Rules (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Rule", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Rule"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each rul In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules
     If Not (rul.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "RUL-" & GetID, rul.Identifier, "rule", "rule")
@@ -3943,8 +3943,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvRule(" & QUOTE & Node.FullPat
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -3995,8 +3995,8 @@ Dim trg As pgTrigger
     Next trg
     Node.Text = "Triggers (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Trigger", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Trigger"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each trg In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers
     If Not (trg.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TRG-" & GetID, trg.Identifier, "trigger", "trigger")
@@ -4014,8 +4014,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvTrigger(" & QUOTE & Node.Full
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -4060,8 +4060,8 @@ Dim typ As pgType
     Next typ
     Node.Text = "Types (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Type", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Type"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each typ In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Types
     If Not (typ.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TYP-" & GetID, typ.Identifier, "type", "type")
@@ -4079,8 +4079,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvType(" & QUOTE & Node.FullPat
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -4141,8 +4141,8 @@ Dim vie As pgView
     Next vie
     Node.Text = "Views (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "View", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "View"
+  lv.ColumnHeaders.Add , , "Comment"
   For Each vie In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Views
     If Not (vie.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "VIE-" & GetID, vie.Identifier, "view", "view")
@@ -4160,8 +4160,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvView(" & QUOTE & Node.FullPat
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
@@ -4507,6 +4507,9 @@ Dim vData As Variant
       If ctx.dbVer >= 7.2 Then ClearStats
       
   End Select
+    
+  AutoSizeColumnLv lv
+  AutoSizeColumnLv sv
   EndMsg
   
   Exit Sub

@@ -1103,6 +1103,9 @@ Dim X As Long
       
   RefreshData
   
+  'Size the listview. Note we don't do this on a refresh, only on initial load
+  AutoSizeColumnLv lvData
+  
   Exit Sub
 Err_Handler:
   EndMsg

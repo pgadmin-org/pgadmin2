@@ -46,6 +46,7 @@ Public Declare Function InternetReadFile Lib "wininet.dll" (ByVal hFile As Long,
 Public Declare Function InternetCloseHandle Lib "wininet.dll" (ByVal hInet As Long) As Integer
 Public Declare Function InternetQueryOption Lib "wininet.dll" Alias "InternetQueryOptionA" (ByVal hInternet As Long, ByVal lOption As Long, ByRef sBuffer As Any, ByRef lBufferLength As Long) As Integer
 Public Declare Function HttpAddRequestHeaders Lib "wininet.dll" Alias "HttpAddRequestHeadersA" (ByVal hHttpRequest As Long, ByVal sHeaders As String, ByVal lHeadersLength As Long, ByVal lModifiers As Long) As Integer
+Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 
 'Constants
 Public Const SWP_NOMOVE = 2
@@ -309,3 +310,11 @@ Public Type tWinInetDLLVersion
     lMajorVersion As Long
     lMinorVersion As Long
 End Type
+
+'Listviews
+Public Const LVM_FIRST As Long = &H1000
+Public Const LVM_SETCOLUMNWIDTH As Long = (LVM_FIRST + 30)
+Public Const LVSCW_AUTOSIZE As Long = -1
+Public Const LVSCW_AUTOSIZE_USEHEADER As Long = -2 'Note: On last column, its width fills remaining width
+                                                   'of list-view according to Micro$oft. This does not
+                                                   'appear to be the case when I do it.

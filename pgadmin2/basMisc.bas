@@ -484,21 +484,6 @@ Dim szTemp As String
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.fmtTypeName"
 End Function
 
-'Make sure a column width is valid
-Public Function FixWidth(lWidth As Long) As Long
-On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.FixWidth(" & lWidth & ")", etFullDebug
-
-  If lWidth < 0 Then
-    FixWidth = 500
-  Else
-    FixWidth = lWidth
-  End If
-  
-  Exit Function
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.FixWidth"
-End Function
-
 Function MakeISODate(vDate As Variant) As String
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.MakeISODate(" & vDate & ")", etFullDebug
@@ -530,3 +515,30 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.MakeISOTimestamp(" & vT
   Exit Function
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.MakeISOTimestamp"
 End Function
+
+Public Sub AutoSizeColumnLv(lv As ListView)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.AutoSizeColumnLv(" & lv.Name & ")", etFullDebug
+Dim ii As Integer
+Dim szKey As String
+Dim objItem As ListItem
+
+    With lv
+        szKey = CStr(Now)
+
+        'frank_lupo add new element title in listview
+        Set objItem = .ListItems.Add(1, szKey, .ColumnHeaders(1).Text & "  ")
+        SendMessage .hWnd, LVM_SETCOLUMNWIDTH, 0, LVSCW_AUTOSIZE
+
+        For ii = 1 To .ColumnHeaders.Count - 1
+            objItem.SubItems(ii) = .ColumnHeaders(ii + 1).Text & "  "
+            SendMessage .hWnd, LVM_SETCOLUMNWIDTH, ii, LVSCW_AUTOSIZE
+        Next
+
+        'frank_lupo drop element title in listview
+        .ListItems.Remove szKey
+    End With
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.AutoSizeColumnLv"
+End Sub
