@@ -158,7 +158,7 @@ Friend Sub iLogError(ByVal lError As Long, ByVal szError As String)
   If Not bDontLogErrors Then
     LogEvent "Error: " & lError & " - " & szError, etErrors
   End If
-'  Err.Raise lError, App.Title, szError
+  Err.Raise lError, App.Title, szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
 
