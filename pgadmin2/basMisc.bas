@@ -558,6 +558,7 @@ Dim szKey As String
 Dim objItem As ListItem
 
   With lv
+    If .ListItems.Count <= 0 Then Exit Sub
     szKey = CStr(Now)
 
     'frank_lupo add new element title in listview

@@ -81,6 +81,7 @@ Dim szType As String
 Dim szIdentifier As String
 Dim szPath() As String
 
+  If ctx.CurrentObject Is Nothing Then Exit Sub
   If ctx.CurrentObject.ObjectType <> "User" And ctx.CurrentObject.ObjectType <> "Group" Then
     If ctx.CurrentObject.SystemObject Then
       MsgBox "You cannot drop system objects!", vbExclamation, "Error"

@@ -24,6 +24,8 @@ Public Sub CopyObjDb()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.CopyObjDb", etFullDebug
 
+  If ctx.CurrentObject Is Nothing Then Exit Sub
+
   'vetify type object
   Select Case ctx.CurrentObject.ObjectType
     Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type", "Conversion"
@@ -146,7 +148,7 @@ Dim vData
   Next
   If Len(szArguments) > 2 Then szArguments = Left(szArguments, Len(szArguments) - 2)
   
-  Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(szNewName, szArguments, ObjDbClone.Returns, ObjDbClone.Source, ObjDbClone.Language, ObjDbClone.Cachable, ObjDbClone.Strict, ObjDbClone.Comment, ObjDbClone.Volatility, ObjDbClone.SecDef.ObjDbClone.RetSet)
+  Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(szNewName, szArguments, ObjDbClone.Returns, ObjDbClone.Source, ObjDbClone.Language, ObjDbClone.Cachable, ObjDbClone.Strict, ObjDbClone.Comment, ObjDbClone.Volatility, ObjDbClone.SecDef, ObjDbClone.RetSet)
   
   'clone acl
   CloneAcl objNewFunction

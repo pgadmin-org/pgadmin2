@@ -1,22 +1,22 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmClone 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Copy Object"
-   ClientHeight    =   2115
-   ClientLeft      =   7905
+   ClientHeight    =   2112
+   ClientLeft      =   7908
    ClientTop       =   1980
-   ClientWidth     =   2865
+   ClientWidth     =   2868
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2115
-   ScaleWidth      =   2865
+   ScaleHeight     =   2112
+   ScaleWidth      =   2868
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   1440
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -299,7 +299,7 @@ Dim vData
     
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Operators.Tag
-      Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPR-" & GetID, txtNewName.Text & " (" & ObjDbClone.LeftOperandType & ", " & ObjDbClone.RightOperandType & ")", "Operator")
+      Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPR-" & GetID, txtNewName.Text & " (" & ObjDbClone.LeftOperandType & ", " & ObjDbClone.RightOperandType & ")", "operator")
       objNode.Text = "Operators (" & objNode.Children & ")"
 
     Case "Aggregate"

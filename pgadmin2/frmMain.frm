@@ -1,18 +1,18 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
    ClientHeight    =   6660
-   ClientLeft      =   2055
-   ClientTop       =   1950
-   ClientWidth     =   9675
+   ClientLeft      =   2052
+   ClientTop       =   1956
+   ClientWidth     =   9684
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   6660
-   ScaleWidth      =   9675
+   ScaleWidth      =   9684
    Begin MSComDlg.CommonDialog cdlg 
       Left            =   8550
       Top             =   90
@@ -28,11 +28,11 @@ Begin VB.Form frmMain
       Top             =   4275
       Width           =   5820
       _ExtentX        =   10266
-      _ExtentY        =   2884
+      _ExtentY        =   2879
       BackColor       =   -2147483633
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Size            =   7.8
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -45,8 +45,8 @@ Begin VB.Form frmMain
    Begin MSComctlLib.ImageList ilTB 
       Left            =   9090
       Top             =   45
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   32
       ImageHeight     =   32
@@ -110,8 +110,8 @@ Begin VB.Form frmMain
       Left            =   0
       TabIndex        =   0
       Top             =   0
-      Width           =   9672
-      _ExtentX        =   17066
+      Width           =   9684
+      _ExtentX        =   17082
       _ExtentY        =   847
       ButtonWidth     =   826
       ButtonHeight    =   804
@@ -331,19 +331,19 @@ Begin VB.Form frmMain
    End
    Begin MSComctlLib.StatusBar sb 
       Align           =   2  'Align Bottom
-      Height          =   285
+      Height          =   288
       Left            =   0
       TabIndex        =   2
-      Top             =   6375
-      Width           =   9675
-      _ExtentX        =   17066
-      _ExtentY        =   503
+      Top             =   6372
+      Width           =   9684
+      _ExtentX        =   17082
+      _ExtentY        =   508
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
          NumPanels       =   5
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   5611
+            Object.Width           =   5675
             MinWidth        =   2
             Text            =   "Ready"
             TextSave        =   "Ready"
@@ -352,7 +352,7 @@ Begin VB.Form frmMain
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
             AutoSize        =   2
-            Object.Width           =   1111
+            Object.Width           =   1101
             MinWidth        =   2
             Text            =   "0 Secs."
             TextSave        =   "0 Secs."
@@ -361,7 +361,7 @@ Begin VB.Form frmMain
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
             AutoSize        =   2
-            Object.Width           =   3043
+            Object.Width           =   3048
             MinWidth        =   2
             Text            =   "Object: Not Connected"
             TextSave        =   "Object: Not Connected"
@@ -370,7 +370,7 @@ Begin VB.Form frmMain
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
             AutoSize        =   2
-            Object.Width           =   3440
+            Object.Width           =   3450
             MinWidth        =   2
             Text            =   "Database: Not Connected"
             TextSave        =   "Database: Not Connected"
@@ -379,7 +379,7 @@ Begin VB.Form frmMain
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
             AutoSize        =   2
-            Object.Width           =   3254
+            Object.Width           =   3260
             MinWidth        =   2
             Text            =   "Schema: Not Connected"
             TextSave        =   "Schema: Not Connected"
@@ -390,8 +390,8 @@ Begin VB.Form frmMain
    Begin MSComctlLib.ImageList il 
       Left            =   4320
       Top             =   1080
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -523,8 +523,8 @@ Begin VB.Form frmMain
       TabIndex        =   1
       Top             =   720
       Width           =   3390
-      _ExtentX        =   5980
-      _ExtentY        =   9234
+      _ExtentX        =   5990
+      _ExtentY        =   9229
       _Version        =   393217
       Indentation     =   441
       LabelEdit       =   1
@@ -538,8 +538,8 @@ Begin VB.Form frmMain
       TabIndex        =   4
       Top             =   720
       Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   5741
+      _ExtentX        =   10393
+      _ExtentY        =   5736
       _Version        =   393216
       TabOrientation  =   1
       Style           =   1
@@ -574,7 +574,7 @@ Begin VB.Form frmMain
          Top             =   45
          Width           =   5940
          _ExtentX        =   10478
-         _ExtentY        =   4683
+         _ExtentY        =   4678
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -597,7 +597,7 @@ Begin VB.Form frmMain
          Top             =   45
          Width           =   5940
          _ExtentX        =   10478
-         _ExtentY        =   4683
+         _ExtentY        =   4678
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -620,7 +620,7 @@ Begin VB.Form frmMain
          Top             =   45
          Width           =   5940
          _ExtentX        =   10478
-         _ExtentY        =   4683
+         _ExtentY        =   4678
          _Version        =   393217
          Indentation     =   441
          LabelEdit       =   1
@@ -636,7 +636,7 @@ Begin VB.Form frmMain
          Top             =   45
          Width           =   5940
          _ExtentX        =   10478
-         _ExtentY        =   4683
+         _ExtentY        =   4678
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -979,6 +979,7 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuPopupDrop 
          Caption         =   "&Drop object"
          Enabled         =   0   'False
+         Shortcut        =   {DEL}
       End
       Begin VB.Menu mnuPopupProperties 
          Caption         =   "&Properties..."
@@ -1143,6 +1144,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.lv_KeyDown(" & KeyCode & "," & 
   
   If KeyCode = vbKeyReturn And Shift = vbAltMask Then
     mnuPopupProperties_Click
+  ElseIf KeyCode = vbKeyDelete And Shift = 0 Then
+    mnuPopupDrop_Click
   End If
 
   Exit Sub
@@ -1308,6 +1311,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tv_KeyDown(" & KeyCode & "," & 
   
   If KeyCode = vbKeyReturn And Shift = vbAltMask Then
     mnuPopupProperties_Click
+  ElseIf KeyCode = vbKeyDelete And Shift = 0 Then
+    mnuPopupDrop_Click
   End If
 
   Exit Sub
@@ -4406,6 +4411,11 @@ Dim lvItem As ListItem
   'Set the Definition Pane
   If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
     
+  'add function to call trigger
+  If Node.Children = 0 Then
+    tv.Nodes.Add Node.Key, tvwChild, "FNT-" & GetID, ctx.CurrentObject.TriggerFunction, "function"
+  End If
+  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTrigger"
 End Sub
@@ -4781,6 +4791,15 @@ Dim vData As Variant
       tvDepend Node
       lvLocks Node
       
+    Case "FNT-" 'Function trigger
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Functions(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Parent.Text
+      tvFunction Node
+      If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
+      lvLocks Node
+    
     Case "OPR+" 'Operators
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text

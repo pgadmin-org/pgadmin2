@@ -157,6 +157,7 @@ Dim szLOT As String
 Dim szROT As String
 Dim szTemp As String
 
+
   'Create a new object
   Set objNewMember = New pgOperator
   If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
@@ -228,6 +229,8 @@ Dim szSQL As String
 Dim szLOT As String
 Dim szROT As String
 Dim objOperator As pgOperator
+Dim lOidOpLeft As Long
+Dim lOidOpRigth As Long
   
   'Generate the szSQL query to create the new object and execute
   If objVersion.VersionNum >= 7.3 Then
@@ -262,12 +265,24 @@ Dim objOperator As pgOperator
     objServer.Databases(Database).KillCommentCache
   End If
   
+  'get oid type
+  With objServer.Databases(Database)
+    If .Namespaces(szNamespace).Types.Exists(LeftOperandType) Then
+      lOidOpLeft = .Namespaces(szNamespace).Types(LeftOperandType).Oid
+    ElseIf .Namespaces("pg_catalog").Types.Exists(LeftOperandType) Then
+      lOidOpLeft = .Namespaces("pg_catalog").Types(LeftOperandType).Oid
+    End If
+      
+    If .Namespaces(szNamespace).Types.Exists(RightOperandType) Then
+      lOidOpRigth = .Namespaces(szNamespace).Types(RightOperandType).Oid
+    ElseIf .Namespaces("pg_catalog").Types.Exists(RightOperandType) Then
+      lOidOpRigth = .Namespaces("pg_catalog").Types(RightOperandType).Oid
+    End If
+  End With
+  
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  If objVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "' AND oprnamespace = " & dNamespaceOID & "::oid"
-  Else
-    szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "'"
-  End If
+  szSQL = SQL_GET_OPERATORS & " WHERE oprname = '" & dbSZ(Name) & "' AND oprleft = " & lOidOpLeft & "::oid AND oprright = " & lOidOpRigth & "::oid"
+  If objVersion.VersionNum >= 7.3 Then szSQL = szSQL & " AND oprnamespace = " & dNamespaceOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then

@@ -3,7 +3,12 @@
 
 Behave nicely if the logfile cannot be opened.
 Correctly delete records in some circumstances when they haven't been editted first and the primary key is not the first column.
-Fix a bug in the Access Exporter that caused a crash when there was only 1 record to export.
+Fix a bug in the Access Exporter that caused a crash when there was only 1 record to export [Frank Lupo].
+Fix select on operator when loading after adding a new one [Frank Lupo].
+Add drop object using cancel key [Frank Lupo].
+Add function node on trigger [Frank Lupo].
+Fix AutoSizeColumnLv if element of listview is zero [Frank Lupo].
+Fix clone CloneFunction [Frank Lupo].
 
 
 1.5.60
