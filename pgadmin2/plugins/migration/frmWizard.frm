@@ -125,11 +125,17 @@ Begin VB.Form frmWizard
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18B5
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lstTables"
-      Tab(3).Control(1)=   "cmdSelect(0)"
-      Tab(3).Control(2)=   "cmdDeselect(0)"
-      Tab(3).Control(3)=   "Label1(1)"
-      Tab(3).ControlCount=   4
+      Tab(3).Control(0)=   "Label1(1)"
+      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).Control(1)=   "cmdDeselect(0)"
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "cmdSelect(0)"
+      Tab(3).Control(2).Enabled=   0   'False
+      Tab(3).Control(3)=   "lstTables"
+      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).Control(4)=   "chkPerTableTrans"
+      Tab(3).Control(4).Enabled=   0   'False
+      Tab(3).ControlCount=   5
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":18D1
       Tab(4).ControlEnabled=   0   'False
@@ -153,6 +159,16 @@ Begin VB.Form frmWizard
       Tab(6).Control(0)=   "txtStatus"
       Tab(6).Control(1)=   "pbStatus"
       Tab(6).ControlCount=   2
+      Begin VB.CheckBox chkPerTableTrans 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Per Table Commits"
+         Height          =   600
+         Left            =   -74880
+         TabIndex        =   63
+         ToolTipText     =   "Causes transaction to be created/committed for table."
+         Top             =   3000
+         Width           =   1200
+      End
       Begin VB.Frame Frame1 
          Caption         =   "Shift to lower case"
          Height          =   1500
@@ -189,7 +205,7 @@ Begin VB.Form frmWizard
          End
       End
       Begin VB.ListBox lstTables 
-         Height          =   3435
+         Height          =   3210
          Left            =   -73470
          Style           =   1  'Checkbox
          TabIndex        =   57
@@ -216,7 +232,7 @@ Begin VB.Form frmWizard
          Width           =   1230
       End
       Begin VB.ListBox lstData 
-         Height          =   3435
+         Height          =   3210
          Left            =   -73470
          Style           =   1  'Checkbox
          TabIndex        =   53
@@ -243,7 +259,7 @@ Begin VB.Form frmWizard
          Width           =   1230
       End
       Begin VB.ListBox lstForeignKeys 
-         Height          =   3435
+         Height          =   3210
          Left            =   -73455
          Style           =   1  'Checkbox
          TabIndex        =   48
@@ -640,7 +656,7 @@ Begin VB.Form frmWizard
          Begin VB.CheckBox chkDropExistingTables 
             Caption         =   "Drop existing destination Tables "
             Height          =   240
-            Left            =   135
+            Left            =   120
             TabIndex        =   11
             ToolTipText     =   "Drop tables that already exist in the target database before migration"
             Top             =   1170
@@ -1253,11 +1269,26 @@ Dim szDropTableConcatenation As String
   If chkLCaseColumns.Value = 1 Then svr.LogEvent "Column names being converted to lowercase.", etMiniDebug
   If chkLCaseIndexes.Value = 1 Then svr.LogEvent "Index names being converted to lowercase.", etMiniDebug
   If chkDropExistingTables.Value = 1 Then svr.LogEvent "Pre-existing destination tables will be dropped.", etMiniDebug
+  If chkPerTableTrans.Value = 1 Then svr.LogEvent "Using Per-Table Commits", etMiniDebug
 
   'Begin a transaction.
-  svr.Databases(szDatabase).Execute "BEGIN"
+  '1/18/2003 John Wells
+  If chkPerTableTrans.Value = 0 Then
+    svr.Databases(szDatabase).Execute "BEGIN"
+  End If
           
   For X = 0 To lstData.ListCount - 1
+  
+    '1/18/2003 John Wells
+    'if we want one transaction per table ported...
+    If chkPerTableTrans.Value = 1 Then
+        svr.LogEvent "Beginning transaction...", etMiniDebug
+        txtStatus.Text = txtStatus.Text & "Beginning transaction..." & vbCrLf
+        txtStatus.SelStart = Len(txtStatus.Text)
+        Me.Refresh
+        svr.Databases(szDatabase).Execute "BEGIN"
+    End If
+            
     svr.LogEvent "Creating table: " & lstData.List(X), etMiniDebug
     txtStatus.Text = txtStatus.Text & "Creating table: " & lstData.List(X) & vbCrLf
     txtStatus.SelStart = Len(txtStatus.Text)
@@ -1842,8 +1873,21 @@ Dim szDropTableConcatenation As String
       txtStatus.Text = txtStatus.Text & "  " & "Table skipped - no columns found!" & vbCrLf
       svr.LogEvent "Table skipped - no columns found!", etMiniDebug
     End If
-  Next
     
+    '1/18/2003 John Wells
+    If chkPerTableTrans.Value = 1 Then
+      svr.LogEvent "Committing transaction...", etMiniDebug
+      txtStatus.Text = txtStatus.Text & "Committing transaction..." & vbCrLf
+      txtStatus.SelStart = Len(txtStatus.Text)
+      Me.Refresh
+      svr.Databases(szDatabase).Execute "COMMIT"
+    End If
+  Next
+  
+  '1/18/2003 John Wells Separate transactions for tables above, but one big 'un for foreign keys...
+  If chkPerTableTrans.Value = 1 Then
+    svr.Databases(szDatabase).Execute "BEGIN"
+  End If
   
   '1/16/2001 Rod Childers
   'Migrate Eligible selected Foreign Keys
@@ -1963,8 +2007,13 @@ Dim szDropTableConcatenation As String
         Next X
     End If
   Next j
-    
-  svr.Databases(szDatabase).Execute "COMMIT"
+   
+  '1/18/2003 John Wells
+  'If we have foreign keys or if we're not doing per-table transactions, we need to commit here...
+  If j > 0 Or chkPerTableTrans.Value = 0 Then
+    svr.Databases(szDatabase).Execute "COMMIT"
+  End If
+  
   txtStatus.Text = txtStatus.Text & vbCrLf & "Migration finished at: " & Now & ", taking " & Fix((Timer - Start) * 100) / 100 & " seconds."
   txtStatus.SelStart = Len(txtStatus.Text)
   svr.LogEvent "Migration Completed!", etMiniDebug
