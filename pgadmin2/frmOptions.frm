@@ -56,8 +56,8 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "&Text"
       TabPicture(1)   =   "frmOptions.frx":0A1E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame7"
-      Tab(1).Control(1)=   "Frame8"
+      Tab(1).Control(0)=   "Frame8"
+      Tab(1).Control(1)=   "Frame7"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
@@ -86,15 +86,96 @@ Begin VB.Form frmOptions
       TabCaption(5)   =   "Misc"
       TabPicture(5)   =   "frmOptions.frx":0A8E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "txtMaxSqlQuery"
-      Tab(5).Control(1)=   "txtMaxRecordViewData"
-      Tab(5).Control(2)=   "UpDownMaxRecViewData"
-      Tab(5).Control(3)=   "chkShowUsersForPrivileges"
-      Tab(5).Control(4)=   "chkAskDeleteObjectDatabase"
-      Tab(5).Control(5)=   "UpDownMaxSqlQuery"
-      Tab(5).Control(6)=   "Label3"
-      Tab(5).Control(7)=   "Label5"
-      Tab(5).ControlCount=   8
+      Tab(5).Control(0)=   "Label5"
+      Tab(5).Control(1)=   "Label3"
+      Tab(5).Control(2)=   "UpDownMaxSqlQuery"
+      Tab(5).Control(3)=   "chkAskDeleteObjectDatabase"
+      Tab(5).Control(4)=   "chkShowUsersForPrivileges"
+      Tab(5).Control(5)=   "UpDownMaxRecViewData"
+      Tab(5).Control(6)=   "txtMaxRecordViewData"
+      Tab(5).Control(7)=   "txtMaxSqlQuery"
+      Tab(5).Control(8)=   "Frame9"
+      Tab(5).Control(9)=   "Frame10"
+      Tab(5).ControlCount=   10
+      Begin VB.Frame Frame10 
+         Caption         =   "Language Traslation"
+         Height          =   612
+         Left            =   -74880
+         TabIndex        =   79
+         Top             =   1800
+         Width           =   5172
+         Begin VB.ComboBox cboLang 
+            Height          =   288
+            Left            =   60
+            Style           =   2  'Dropdown List
+            TabIndex        =   80
+            Top             =   240
+            Width           =   2952
+         End
+      End
+      Begin VB.Frame Frame9 
+         Caption         =   "Generate Documentation Database"
+         Height          =   1692
+         Left            =   -74880
+         TabIndex        =   72
+         Top             =   2460
+         Visible         =   0   'False
+         Width           =   5172
+         Begin VB.TextBox txtDocWorkPath 
+            Height          =   285
+            Left            =   120
+            TabIndex        =   77
+            ToolTipText     =   "Enter a path on work directory"
+            Top             =   1236
+            Width           =   4515
+         End
+         Begin VB.CommandButton cmdDocWorkBrw 
+            Caption         =   "..."
+            Height          =   375
+            Left            =   4668
+            TabIndex        =   76
+            ToolTipText     =   "Browse for a file."
+            Top             =   1200
+            Width           =   375
+         End
+         Begin VB.TextBox txtDocHHWPath 
+            Height          =   285
+            Left            =   120
+            TabIndex        =   74
+            ToolTipText     =   "Enter a path on program hhc.exe"
+            Top             =   576
+            Width           =   4515
+         End
+         Begin VB.CommandButton cmdDocHHWBrw 
+            Caption         =   "..."
+            Height          =   375
+            Left            =   4668
+            TabIndex        =   73
+            ToolTipText     =   "Browse for a file."
+            Top             =   528
+            Width           =   375
+         End
+         Begin VB.Label Label1 
+            AutoSize        =   -1  'True
+            Caption         =   "Work directory"
+            Height          =   192
+            Index           =   6
+            Left            =   120
+            TabIndex        =   78
+            Top             =   960
+            Width           =   1044
+         End
+         Begin VB.Label Label1 
+            AutoSize        =   -1  'True
+            Caption         =   "HTML Help Workshop directory"
+            Height          =   192
+            Index           =   5
+            Left            =   120
+            TabIndex        =   75
+            Top             =   300
+            Width           =   2268
+         End
+      End
       Begin VB.TextBox txtMaxSqlQuery 
          Alignment       =   1  'Right Justify
          Height          =   285
@@ -123,7 +204,7 @@ Begin VB.Form frmOptions
          _ExtentY        =   550
          _Version        =   393216
          BuddyControl    =   "txtMaxRecordViewData"
-         BuddyDispid     =   196610
+         BuddyDispid     =   196618
          OrigLeft        =   720
          OrigTop         =   1020
          OrigRight       =   960
@@ -676,7 +757,7 @@ Begin VB.Form frmOptions
          _ExtentY        =   508
          _Version        =   393216
          BuddyControl    =   "txtMaxSqlQuery"
-         BuddyDispid     =   196609
+         BuddyDispid     =   196617
          OrigLeft        =   720
          OrigTop         =   1020
          OrigRight       =   960
@@ -805,6 +886,7 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+
 Private Sub cmdAdd_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdAdd_Click()", etFullDebug
@@ -812,13 +894,13 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdAdd_Click()", etF
 Dim itmX As ListItem
 
   If txtWord.Text = "" Then
-    MsgBox "You must enter a word to add!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must enter a word to add!"), vbExclamation, §§TrasLang§§("Error")
     txtWord.SetFocus
     Exit Sub
   End If
   For Each itmX In lvWords.ListItems
     If itmX.Text = txtWord.Text Then
-      MsgBox "That word is already in the list!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("That word is already in the list!"), vbExclamation, §§TrasLang§§("Error")
       txtWord.SetFocus
       Exit Sub
     End If
@@ -848,7 +930,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdBrowse_Click()", 
 
   With cdlg
     .FileName = txtLogFile.Text
-    .DialogTitle = "Log File"
+    .DialogTitle = §§TrasLang§§("Log File")
     .Filter = "All Files (*.*)|*.*"
     .CancelError = False
     .FLAGS = &H4
@@ -868,7 +950,7 @@ Dim szFont() As String
 
   'Extract the
   cdlg.CancelError = True
-  cdlg.DialogTitle = "Data Font"
+  cdlg.DialogTitle = §§TrasLang§§("Data Font")
   cdlg.FLAGS = cdlCFBoth
   cdlg.ShowFont
   txtFont.Tag = cdlg.FontName & "|" & cdlg.FontSize & "|" & cdlg.FontBold & "|" & cdlg.FontItalic
@@ -897,11 +979,37 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdDefault_Click()", etFullDebug
 
   'load default
-  If MsgBox("Are you sure you wish to restore default word?", vbQuestion + vbYesNo, "Restore default Word") = vbNo Then Exit Sub
+  If MsgBox(§§TrasLang§§("Are you sure you wish to restore default word?"), vbQuestion + vbYesNo, §§TrasLang§§("Restore default Word")) = vbNo Then Exit Sub
   LoadWord szDefaultAutoHighlight
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdDefault_Click"
+End Sub
+
+Private Sub cmdDocHHWBrw_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdDocHHWBrw_Click()", etFullDebug
+
+Dim szTemp As String
+
+  szTemp = BrowseFolder(0, §§TrasLang§§("Select folder on HTML Help Workshop"))
+  If Len(szTemp) > 0 Then txtDocHHWPath.Text = szTemp
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDoc.cmdSelDir_Click"
+End Sub
+
+Private Sub cmdDocWorkBrw_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdDocWorkBrw_Click()", etFullDebug
+
+Dim szTemp As String
+
+  szTemp = BrowseFolder(0, §§TrasLang§§("Select folder to work"))
+  If Len(szTemp) > 0 Then txtDocWorkPath.Text = szTemp
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDoc.cmdSelDir_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -1039,6 +1147,20 @@ Dim objFont As New StdFont
   ctx.MaxRecordViewData = Val(txtMaxRecordViewData.Text)
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", regString, Val(txtMaxRecordViewData.Text)
   
+  '///////////////////////////////////
+  'Generate Documentation
+  'HTML Help Workshop directory
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\GenDbDoc", "HTML Help Workshop directory", regString, CStr(txtDocHHWPath.Text)
+  'Work directory
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\GenDbDoc", "Work directory", regString, CStr(txtDocWorkPath.Text)
+  
+  'save lang
+  If cboLang.Text <> RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Current Lang", "") Then
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Current Lang", regString, cboLang.Text
+    InitLang cboLang.Text
+    MsgBox §§TrasLang§§("For applay change of lang restart pgAdmin2!"), vbInformation
+  End If
+
   Unload Me
   
   Exit Sub
@@ -1049,7 +1171,7 @@ Private Sub cmdRemove_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdRemove_Click()", etFullDebug
 
-  If MsgBox("Are you sure you wish to remove the selected word?", vbQuestion + vbYesNo, "Remove Word") = vbNo Then Exit Sub
+  If MsgBox(§§TrasLang§§("Are you sure you wish to remove the selected word?"), vbQuestion + vbYesNo, §§TrasLang§§("Remove Word")) = vbNo Then Exit Sub
   lvWords.ListItems.Remove lvWords.SelectedItem.Index
       
   Exit Sub
@@ -1061,6 +1183,8 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.Form_Load()", etFullDebug
 
 Dim szFont() As String
+Dim szTemp As String
+Dim szCurrentLang As String
 
   PatchForm Me
   
@@ -1144,6 +1268,26 @@ Dim szFont() As String
   'max number of Record in View Data
   UpDownMaxRecViewData.Value = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", "1000"))
   
+  '///////////////////////////////////
+  'Generate Documentation
+  'HTML Help Workshop directory
+  txtDocHHWPath.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\GenDbDoc", "HTML Help Workshop directory")
+  'Work directory
+  txtDocWorkPath.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\GenDbDoc", "Work directory")
+  
+  'load combo lang
+  szCurrentLang = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Current Lang", "English")
+  cboLang.Clear
+  cboLang.AddItem "English"
+  szTemp = Dir(App.Path & "\*.lng")
+  While szTemp <> ""
+    szTemp = Left(szTemp, Len(szTemp) - 4)
+    cboLang.AddItem szTemp
+    If szTemp = szCurrentLang Then cboLang.ListIndex = cboLang.NewIndex
+    szTemp = Dir
+  Wend
+  If cboLang.ListCount > 0 And cboLang.ListIndex = -1 Then cboLang.ListIndex = 0
+  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.Form_Load"
 End Sub
@@ -1186,7 +1330,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdExpInstall_Click(
   cdlg.Filter = "pgAdmin Exporters (*.dll)|*.dll|All Files (*.*)|*.*"
   cdlg.ShowOpen
   If cdlg.FileName = "" Then
-    MsgBox "No Exporter selected - operation aborted!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("No Exporter selected - operation aborted!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   Else
     exp.Install cdlg.FileName
@@ -1202,11 +1346,11 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdExpUninstall_Click()", etFullDebug
 
   If lstExporters.Text = "" Then
-    MsgBox "You must select a Exporter to uninstall!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a Exporter to uninstall!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   
-  If MsgBox("Are you sure you wish to uninstall: " & lstExporters.Text & "?", vbYesNo + vbQuestion, "Confirm") = vbYes Then
+  If MsgBox(§§TrasLang§§("Are you sure you wish to uninstall: ") & lstExporters.Text & "?", vbYesNo + vbQuestion, §§TrasLang§§("Confirm")) = vbYes Then
     exp.Uninstall lstExporters.Text
     GetExporters
   End If
@@ -1257,7 +1401,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdPlgInstall_Click(
   cdlg.Filter = "pgAdmin Plugins (*.dll)|*.dll|All Files (*.*)|*.*"
   cdlg.ShowOpen
   If cdlg.FileName = "" Then
-    MsgBox "No Plugin selected - operation aborted!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("No Plugin selected - operation aborted!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   Else
     plg.Install cdlg.FileName
@@ -1273,11 +1417,11 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdPlgUninstall_Click()", etFullDebug
 
   If lstPlugins.Text = "" Then
-    MsgBox "You must select a Plugin to uninstall!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a Plugin to uninstall!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   
-  If MsgBox("Are you sure you wish to uninstall: " & lstPlugins.Text & "?", vbYesNo + vbQuestion, "Confirm") = vbYes Then
+  If MsgBox(§§TrasLang§§("Are you sure you wish to uninstall: ") & lstPlugins.Text & "?", vbYesNo + vbQuestion, §§TrasLang§§("Confirm")) = vbYes Then
     plg.Uninstall lstPlugins.Text
     GetPlugins
   End If
