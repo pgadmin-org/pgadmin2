@@ -671,7 +671,7 @@ On Error Resume Next
 End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer
@@ -908,7 +908,11 @@ Dim szSchemas() As String
     'However, if szSchema isn't empty then it's easy
     If szSchema <> "" Then
       ReDim szSchemas(0)
-      szSchemas(0) = szSchema
+      If Left(szSchema, 1) = QUOTE And Right(szSchema, 1) = QUOTE Then
+        szSchemas(0) = Mid(szSchema, 2, Len(szSchema) - 2)
+      Else
+        szSchemas(0) = szSchema
+      End If
     Else
       Set rsSchema = frmMain.svr.Databases(szDatabase).Execute("SELECT current_schemas(true) AS path", , , qrySystem)
       szTemp = rsSchema!Path & ""

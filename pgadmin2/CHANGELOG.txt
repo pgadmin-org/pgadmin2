@@ -9,6 +9,7 @@ Fixed a bug in the View update code.
 Fixed a bug in Explain Plan with PostgreSQL 7.3.
 Fixed a bug in the SQL query parser that failed to handle table/view names containing spaces correctly.
 Added support for multiple foreign keys on one table with the same name.
+Allow View Data of tables/views in schemas with quoted names.
 
 1.4.2
 -----
