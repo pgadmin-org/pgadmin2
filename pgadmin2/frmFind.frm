@@ -4,8 +4,8 @@ Begin VB.Form frmFind
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Find Object"
    ClientHeight    =   7530
-   ClientLeft      =   4200
-   ClientTop       =   1575
+   ClientLeft      =   4320
+   ClientTop       =   2040
    ClientWidth     =   9840
    Icon            =   "frmFind.frx":0000
    LinkTopic       =   "Form1"
@@ -322,119 +322,119 @@ Begin VB.Form frmFind
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   29
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":06C2
+            Picture         =   "frmFind.frx":1CFA
             Key             =   "aggregate"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":0D94
+            Picture         =   "frmFind.frx":23CC
             Key             =   "check"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":1466
+            Picture         =   "frmFind.frx":2A9E
             Key             =   "column"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":1B38
+            Picture         =   "frmFind.frx":3170
             Key             =   "function"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":220A
+            Picture         =   "frmFind.frx":3842
             Key             =   "group"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":28DC
+            Picture         =   "frmFind.frx":3F14
             Key             =   "index"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":2E76
+            Picture         =   "frmFind.frx":44AE
             Key             =   "indexcolumn"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":3548
+            Picture         =   "frmFind.frx":4B80
             Key             =   "foreignkey"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":3C1A
+            Picture         =   "frmFind.frx":5252
             Key             =   "language"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":42EC
+            Picture         =   "frmFind.frx":5924
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":49BE
+            Picture         =   "frmFind.frx":5FF6
             Key             =   "property"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":4F58
+            Picture         =   "frmFind.frx":6590
             Key             =   "relationship"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":50B2
+            Picture         =   "frmFind.frx":66EA
             Key             =   "rule"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":5784
+            Picture         =   "frmFind.frx":6DBC
             Key             =   "server"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":58DE
+            Picture         =   "frmFind.frx":6F16
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":5FB0
+            Picture         =   "frmFind.frx":75E8
             Key             =   "table"
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":6682
+            Picture         =   "frmFind.frx":7CBA
             Key             =   "trigger"
          EndProperty
          BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":6D54
+            Picture         =   "frmFind.frx":838C
             Key             =   "type"
          EndProperty
          BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":7426
+            Picture         =   "frmFind.frx":8A5E
             Key             =   "user"
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":7580
+            Picture         =   "frmFind.frx":8BB8
             Key             =   "view"
          EndProperty
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":7C52
+            Picture         =   "frmFind.frx":928A
             Key             =   "hiproperty"
          EndProperty
          BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":81EC
+            Picture         =   "frmFind.frx":9824
             Key             =   "database"
          EndProperty
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":8346
+            Picture         =   "frmFind.frx":997E
             Key             =   "closeddatabase"
          EndProperty
          BeginProperty ListImage24 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":84A0
+            Picture         =   "frmFind.frx":9AD8
             Key             =   "baddatabase"
          EndProperty
          BeginProperty ListImage25 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":85FA
+            Picture         =   "frmFind.frx":9C32
             Key             =   "statistics"
          EndProperty
          BeginProperty ListImage26 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":91CC
+            Picture         =   "frmFind.frx":A804
             Key             =   "domain"
          EndProperty
          BeginProperty ListImage27 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":989E
+            Picture         =   "frmFind.frx":AED6
             Key             =   "namespace"
          EndProperty
          BeginProperty ListImage28 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":A470
+            Picture         =   "frmFind.frx":BAA8
             Key             =   "all"
          EndProperty
          BeginProperty ListImage29 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmFind.frx":A5CA
+            Picture         =   "frmFind.frx":BC02
             Key             =   "cast"
          EndProperty
       EndProperty
@@ -681,6 +681,7 @@ Dim bSreachOwner As Boolean
             End Select
           End If
           
+          
           'find by comment
           If iLenComment > 0 Then
             bFoundComment = False
@@ -719,10 +720,12 @@ Dim bSreachOwner As Boolean
           If fraFind.Visible Then
             'search by owner
             If bFound And bSreachOwner Then
-              If UBound(Filter(szOwner, objTmp.Owner)) > -1 Then
-                bFound = True
-              Else
-                bFound = False
+              If objTmp.ObjectType <> "Cast" And objTmp.ObjectType <> "Language" Then
+                If UBound(Filter(szOwner, objTmp.Owner)) > -1 Then
+                  bFound = True
+                Else
+                  bFound = False
+                End If
               End If
             End If
           End If
@@ -783,6 +786,7 @@ Dim bSreachOwner As Boolean
       Next
     End If
   Next
+  AutoSizeColumnLv lvResult
   
   EndMsg
   Exit Sub
@@ -798,7 +802,10 @@ Dim objNamespace As pgNamespace
 Dim szName As String
   
   Set objDatabase = frmMain.svr.Databases(cboDatabase.Text)
-  Set objNamespace = objDatabase.Namespaces(lvResult.SelectedItem.SubItems(1))
+  'if object don't have a schema
+  If Len(lvResult.SelectedItem.SubItems(1)) > 0 Then
+    Set objNamespace = objDatabase.Namespaces(lvResult.SelectedItem.SubItems(1))
+  End If
   szName = lvResult.SelectedItem.Text
   
   Select Case Left(lvResult.SelectedItem.Key, 3)
