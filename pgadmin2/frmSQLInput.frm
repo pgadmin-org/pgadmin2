@@ -193,8 +193,10 @@ Dim fNum As Integer
   Open cdlg.FileName For Input As #fNum
   While Not EOF(fNum)
     Line Input #fNum, szLine
-     szFile = szFile & vbCrLf & szLine
+     szFile = szFile & szLine & vbCrLf
   Wend
+  If Len(szFile) > 2 Then szFile = Left(szFile, Len(szFile) - 2)
+  
   Close #fNum
   txtSQL.Text = szFile
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"

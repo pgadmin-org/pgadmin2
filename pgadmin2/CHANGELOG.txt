@@ -29,6 +29,7 @@ Added Rows property to View objects.
 Set default database encoding to "SQL_ASCII".
 Quote function definition when needed.
 Allow pseudo modification of triggers with PostgreSQL 7.2+
+Fixed a bug that prepended a carriage return when loading SQL queries from file.
 
 1.2.0 Stable
 ------------
