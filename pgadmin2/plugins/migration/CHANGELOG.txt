@@ -1,3 +1,9 @@
+1.3.??
+------
+
+Copy column values into a temp variable before use to avoid problems with the Foxpro driver.
+
+
 1.2.0 Stable
 ------------
 

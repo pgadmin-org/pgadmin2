@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Database Migration Wizard"
@@ -1103,7 +1103,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Migrate_Data()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.Migrate_Data()", etFullDebug
 
 Dim W As Integer
@@ -1129,6 +1129,7 @@ Dim Tuples As Long
 Dim Fields As String
 Dim Values As String
 Dim fNum As Integer
+Dim szValue As String
 
 '   06/29/01 Matthew MacSuga (AutoIncrement Fix)
 '   Check for existance of an auto increment field
@@ -1189,7 +1190,6 @@ Dim auto_increment_rs As New Recordset
     If InStr(1, cnLocal.ConnectionString, "MSDASQL") = 0 Then
       For Y = 0 To catLocal.Tables(lstData.List(X)).Columns.Count - 1
         If catLocal.Tables(lstData.List(X)).Columns(Y).Type = adInteger Then
-          'If catLocal.Tables(lstData.List(X)).Columns(Y).Properties("AutoIncrement") = True Then
           If bIsAutoIncrement(catLocal.Tables(lstData.List(X)).Columns(Y).Properties("AutoIncrement")) = True Then ' AM 20020110
             auto_increment_on = 1
             
@@ -1471,10 +1471,11 @@ Dim auto_increment_rs As New Recordset
           Else
             szQryStr = "INSERT INTO " & QUOTE & LCase(lstData.List(X)) & QUOTE
           End If
-        
+          
           For Z = 0 To rsTemp.Fields.Count - 1
-            If ((rsTemp.Fields(Z).Value & "" <> "") And (rsTemp.Fields(Z).Type <> adLongVarBinary) And (rsTemp.Fields(Z).Type <> adVarBinary) And (rsTemp.Fields(Z).Type <> adBinary)) Then
-                            
+            szValue = rsTemp.Fields(Z).Value & ""
+            If ((szValue <> "") And (rsTemp.Fields(Z).Type <> adLongVarBinary) And (rsTemp.Fields(Z).Type <> adVarBinary) And (rsTemp.Fields(Z).Type <> adBinary)) Then
+
               If chkLCaseColumns.Value = 0 Then
                 Fields = Fields & QUOTE & rsTemp.Fields(Z).Name & QUOTE & ", "
               Else
@@ -1487,28 +1488,26 @@ Dim auto_increment_rs As New Recordset
                  ' replace comma with dots in numerical values
                  ' and get rid of money acronyms (like FF for example)
                   Case adCurrency, adDouble, adSingle, adDecimal, adNumeric
-                      Values = Values & "'" & Str(Val(Replace(rsTemp.Fields(Z).Value, ",", "."))) & "', "
+                      Values = Values & "'" & Str(Val(Replace(szValue, ",", "."))) & "', "
                  
                  ' Another useful trick to avoid bugs in non-English systems :
                  ' Convert 'True' or 'Vrai' or 'T' into -1
                  ' and 'False' or 'Faux' or 'F' into 0
                  ' In PostgreSQL driver uncheck Bool as Char
                   Case adBoolean
-                      Dim tempValue As String
-                      tempValue = rsTemp.Fields(Z).Value
-                      If (tempValue = "F") Then tempValue = "False"
-                      If (tempValue = "T") Then tempValue = "True"
-                      Values = Values & "'" & CBool(tempValue) * "-1" & "', "
+                      If (szValue = "F") Then szValue = "False"
+                      If (szValue = "T") Then szValue = "True"
+                      Values = Values & "'" & CBool(szValue) * "-1" & "', "
                   
                   'We used to have a bit of a hack here, but if the recordset thinks it has a valid date
                   'then it must do. Format to ISO (8601? - I can never remember!) will automatically add
                   '1899-12-30 if only a time is actually in the string
                   Case adDate, adDBDate, adDBTimeStamp
-                    Values = Values & "'" & Format(rsTemp.Fields(Z).Value, "yyyy-MM-dd hh:mm:ss") & "', "
+                    Values = Values & "'" & Format(szValue, "yyyy-MM-dd hh:mm:ss") & "', "
 
                     ' Text values and others
                   Case Else
-                    Values = Values & "'" & Replace(Replace((rsTemp.Fields(Z).Value & ""), "\", "\\"), "'", "''") & "', "
+                    Values = Values & "'" & Replace(Replace((szValue), "\", "\\"), "'", "''") & "', "
                End Select
              End If
           Next

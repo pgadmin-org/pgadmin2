@@ -26,7 +26,7 @@ Global bRunning As Boolean
 Global svr As pgServer
 
 'Reference to the pgAdmin Status Bar
-Global sb As StatusBar
+Global sb As Variant
 
 'Msg Timer start value.
 Global sTimer As Single
