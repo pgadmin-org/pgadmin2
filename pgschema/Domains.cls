@@ -149,7 +149,7 @@ Dim szHex As String
 Dim lLength As Long
 Dim lScale As Long
 
-  If objServer.Version.VersionNum < 7.3 Then
+  If objServer.dbVersion.VersionNum < 7.3 Then
     Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Function
   End If
@@ -179,10 +179,12 @@ Dim lScale As Long
       szHex = Hex((Int(rs!typtypmod) - 4) And &HFFFF)
       lLength = CLng("&H" & Mid(szHex, 1, Len(szHex) - 4))
       lScale = CLng("&H" & Mid(szHex, Len(szHex) - 3, Len(szHex)))
+    ElseIf szDataType = "char" Or szDataType = "varchar" Then
+      lLength = rs!typtypmod - 4
+    ElseIf rs!typlen = -1 And rs!typtypmod = -1 Then
+      lLength = 0
     Else
-      If szDataType = "char" Or szDataType = "varchar" Then
-        lLength = rs!typtypmod - 4
-      End If
+      lLength = rs!typlen
     End If
     Set objDomain = iAdd(rs!ts, rs!OID, rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull))
   End If
@@ -211,7 +213,7 @@ Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  If objServer.Version.VersionNum < 7.3 Then
+  If objServer.dbVersion.VersionNum < 7.3 Then
     Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Function
   End If
@@ -253,7 +255,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Domains.Remove(" & QUOTE & Key &
 
 Dim szSQL As String
 
-  If objServer.Version.VersionNum < 7.3 Then
+  If objServer.dbVersion.VersionNum < 7.3 Then
     Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Sub
   End If
@@ -331,16 +333,20 @@ Dim lScale As Long
       Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " ORDER BY typname", cnDatabase)
       While Not rs.EOF
       
+        lLength = 0
+        lScale = 0
         szDataType = objServer.Databases(Database).LookupType(rs!typbasetype)
         If szDataType = "bpchar" Then szDataType = "char"
         If szDataType = "numeric" Then
           szHex = Hex((Int(rs!typtypmod) - 4) And &HFFFF)
           lLength = CLng("&H" & Mid(szHex, 1, Len(szHex) - 4))
           lScale = CLng("&H" & Mid(szHex, Len(szHex) - 3, Len(szHex)))
+        ElseIf szDataType = "char" Or szDataType = "varchar" Then
+          lLength = rs!typtypmod - 4
+        ElseIf rs!typlen = -1 And rs!typtypmod = -1 Then
+          lLength = 0
         Else
-          If szDataType = "char" Or szDataType = "varchar" Then
-            lLength = rs!typtypmod - 4
-          End If
+          lLength = rs!typlen
         End If
   
         iAdd rs!ts, rs!OID, rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull)
