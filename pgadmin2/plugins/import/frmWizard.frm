@@ -835,7 +835,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdOK_Click()", etFullDebug
 
 Dim fNum As Integer
@@ -879,7 +879,7 @@ Dim bInQuote As Boolean
     
     'Dim the Data Array & build the column array
     For Each objItem In lvColumns.ListItems
-      lColumns = lColumns + 1
+      If objItem.Checked Then lColumns = lColumns + 1
     Next objItem
     ReDim szData(lColumns)
     ReDim szCols(lColumns)
