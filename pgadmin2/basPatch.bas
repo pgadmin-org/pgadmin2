@@ -28,6 +28,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormFont(" & objF
 
 Dim objCtrl As Control
 
+  If ctx.Font Is Nothing Then Exit Sub
   Set objForm.Font = ctx.Font
   On Error Resume Next
   For Each objCtrl In objForm.Controls

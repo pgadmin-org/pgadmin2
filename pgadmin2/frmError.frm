@@ -20,7 +20,7 @@ Begin VB.Form frmError
       TabIndex        =   15
       Top             =   2280
       Value           =   1  'Checked
-      Width           =   2415
+      Width           =   6372
    End
    Begin VB.CheckBox chkIgnoreError 
       Caption         =   "&Ignore this error (in this routine) until application is restarted"
@@ -28,7 +28,7 @@ Begin VB.Form frmError
       Left            =   120
       TabIndex        =   14
       Top             =   2520
-      Width           =   4455
+      Width           =   6432
    End
    Begin HighlightBox.TBX txtMore 
       Height          =   2535
@@ -315,7 +315,7 @@ Dim szTemp As String
   
   szMail = Replace(szMail, " ", "%20")
   szMail = Replace(szMail, vbTab, "%0" & Hex(9))
-  szMail = Replace(szMail, QUOTE, "%" & Hex(34))
+  szMail = Replace(szMail, Quote, "%" & Hex(34))
   szMail = Replace(szMail, Chr(10), "%0" & Hex(10))
   szMail = Replace(szMail, Chr(13), "%0" & Hex(13))
   szMail = Replace(szMail, Chr(32), "%0" & Hex(32))
