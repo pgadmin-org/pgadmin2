@@ -19,6 +19,7 @@ Handle dates/time formats supported by Windows, not just those supported by Post
 Allow use of F5 to execute SQL queries (Andy Kelk).
 If SQL is highlighted in the SQL textbox, execute only that, not the whole query (Andy Kelk).
 Fixed a bug where an SQL file got overwritten if the user clicked 'Cancel'.
+Added DROP COLUMN support (Wahoo!).
 
 1.3.60
 ------

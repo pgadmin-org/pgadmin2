@@ -19,3 +19,4 @@ NOTE: Most errors in pgSchema will be raised by ADO or other libraries.
 13 - Function security is only available in PostgreSQL 7.3+.
 14 - Language security is only available in PostgreSQL 7.3+.
 15 - Column statistics are only available in PostgreSQL 7.2+.
+16 - Columns can only be dropped in PostgreSQL 7.3+.

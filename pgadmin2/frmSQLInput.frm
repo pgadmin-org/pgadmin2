@@ -118,19 +118,20 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExecute_Click()"
 Dim rsQuery As New Recordset
 Dim szBits() As String
 Dim vBit As Variant
+Dim szSQL As String
 
   If Len(txtSQL.Text) < 5 Then Exit Sub
   
   If txtSQL.SelLength > 5 Then
-    sSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
+    szSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
   Else
-    sSQL = txtSQL.Text
+    szSQL = txtSQL.Text
   End If
   
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
   
   StartMsg "Executing SQL Query..."
-  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(txtSQL.Text, , , qryUser)
+  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szSQL, , , qryUser)
   If rsQuery.Fields.Count > 0 Then
     Select Case cboExporters.Text
       Case "Screen"

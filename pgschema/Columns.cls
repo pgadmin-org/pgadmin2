@@ -302,8 +302,10 @@ Dim lStatistics As String
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objVersion.VersionNum < 7.2 Then
     szSQL = SQL_GET_COLUMNS7_1 & " AND attrelid = " & dTableOID & "::oid AND attname = '" & dbSZ(Name) & "'"
-  Else
+  ElseIf objVersion.VersionNum = 7.2 Then
     szSQL = SQL_GET_COLUMNS7_2 & " AND attrelid = " & dTableOID & "::oid AND attname = '" & dbSZ(Name) & "'"
+  Else
+    szSQL = SQL_GET_COLUMNS7_3 & " AND attrelid = " & dTableOID & "::oid AND attname = '" & dbSZ(Name) & "'"
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
@@ -352,6 +354,34 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldNa
   
   Exit Sub
 Err_Handler: objServer.iLogError Err
+End Sub
+
+'Remove the specified Item
+Public Sub Remove(ByVal Key As String)
+Attribute Remove.VB_Description = "Remove the specified column."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
+
+Dim szSQL As String
+
+  If objVersion.VersionNum < 7.3 Then
+    Err.Raise vbObjectError + 16, App.Title, "Columns can only be dropped in PostgreSQL 7.3+."
+    Exit Sub
+  End If
+  
+  'Generate/Execute SQL to drop the column.
+  szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " DROP COLUMN " & mCol(ULEncode(Key)).FormattedID
+  objServer.ExecSQL szSQL, cnDatabase
+
+  'If we get this far, then we can't have errored,
+  'so remove the object from the collection.
+  mCol.Remove ULEncode(Key)
+  
+  Exit Sub
+Err_Handler:
+  'Error 5 is thrown if the item is not in the collection...
+  If Err.Number = 5 Then Exit Sub
+  objServer.iLogError Err
 End Sub
 
 'Return the specified Item
@@ -437,8 +467,10 @@ Dim lStatistics As Long
   If objServer.Connection.State = adStateOpen Then
     If objVersion.VersionNum < 7.2 Then
       Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_1 & " AND attrelid = " & dTableOID & "::oid ORDER BY attnum", cnDatabase)
-    Else
+    ElseIf objVersion.VersionNum = 7.2 Then
       Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_2 & " AND attrelid = " & dTableOID & "::oid ORDER BY attnum", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_3 & " AND attrelid = " & dTableOID & "::oid ORDER BY attnum", cnDatabase)
     End If
     While Not rs.EOF
       If objVersion.VersionNum >= 7.2 Then

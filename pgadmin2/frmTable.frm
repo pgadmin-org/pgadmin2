@@ -73,9 +73,9 @@ Begin VB.Form frmTable
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "cmdColRemove"
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(2)=   "cmdColRemove"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
@@ -784,6 +784,7 @@ Dim bNew As Boolean
 Dim szDatabase As String
 Dim szNamespace As String
 Dim szDropCheckList As String
+Dim szDropColumnList As String
 Dim szUsers() As String
 Public objTable As pgTable
 
@@ -895,12 +896,23 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdColRemove_Click()",
     Exit Sub
   End If
   
-  lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
-  lvProperties(0).Tag = "Y"
-  If lvProperties(0).SelectedItem Is Nothing Then
-    cmdColRemove.Enabled = False
+  If objTable Is Nothing Then
+    lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
+    lvProperties(0).Tag = "Y"
+    If lvProperties(0).SelectedItem Is Nothing Then
+      cmdColRemove.Enabled = False
+    Else
+      lvProperties_ItemClick 0, lvProperties(0).SelectedItem
+    End If
   Else
-    lvProperties_ItemClick 0, lvProperties(0).SelectedItem
+    szDropColumnList = szDropColumnList & lvProperties(0).SelectedItem.Text & "!|!"
+    lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
+    lvProperties(0).Tag = "Y"
+    If lvProperties(1).SelectedItem Is Nothing Then
+      cmdColRemove.Enabled = False
+    Else
+      lvProperties_ItemClick 0, lvProperties(0).SelectedItem
+    End If
   End If
   
   Exit Sub
@@ -996,7 +1008,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -1013,9 +1025,11 @@ Dim szColumns As String
 Dim szPrimaryKeys As String
 Dim szChecks As String
 Dim szDropChecks() As String
+Dim szDropColumns() As String
 Dim szForeignKeys As String
 Dim szInherits As String
 Dim X As Integer
+Dim bFlag As Boolean
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -1116,6 +1130,26 @@ Dim X As Integer
       Next objItem
     End If
     
+    'Drop any old columns
+    If Len(szDropColumnList) > 3 Then
+      szDropColumns = Split(szDropColumnList, "!|!")
+      For X = 0 To UBound(szDropColumns)
+        If szDropColumns(X) <> "" Then
+          If IsObject(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns(szDropColumns(X)).Tag) Then
+            Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns(szDropColumns(X)).Tag
+            bFlag = True
+          Else
+            bFlag = False
+          End If
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Remove szDropColumns(X)
+          If bFlag Then
+            objNode.Parent.Text = "Columns (" & objNode.Children - 1 & ")"
+            frmMain.tv.Nodes.Remove objNode.Index
+          End If
+        End If
+      Next X
+    End If
+    
     'Add any new checks
     If lvProperties(1).Tag = "Y" Then
       For Each objItem In lvProperties(1).ListItems
@@ -1133,10 +1167,17 @@ Dim X As Integer
       szDropChecks = Split(szDropCheckList, "!|!")
       For X = 0 To UBound(szDropChecks)
         If szDropChecks(X) <> "" Then
-          Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks(szDropChecks(X))
-          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Remove szDropChecks(X)
-          frmMain.tv.Nodes.Remove objNode.Index
-          objNode.Text = "Checks (" & objNode.Children & ")"
+          If IsObject(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks(szDropColumns(X)).Tag) Then
+            Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks(szDropColumns(X)).Tag
+            bFlag = True
+          Else
+            bFlag = False
+          End If
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Remove szDropColumns(X)
+          If bFlag Then
+            objNode.Parent.Text = "Checks (" & objNode.Children - 1 & ")"
+            frmMain.tv.Nodes.Remove objNode.Index
+          End If
         End If
       Next X
     End If
@@ -1482,9 +1523,9 @@ Private Sub lvProperties_ItemClick(Index As Integer, ByVal Item As MSComctlLib.L
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.lvProperties_ItemClick(" & Index & ", " & Item.Text & ")", etFullDebug
 
-  'Don't allow removal of existing columns
+  'Don't allow removal of existing columns on pre 7.3 dbs
   If Index = 0 Then
-    If Item.Tag = "ORIG" Then
+    If ((Item.Tag = "ORIG") And (ctx.dbVer < 7.3)) Then
       cmdColRemove.Enabled = False
     Else
       cmdColRemove.Enabled = True

@@ -156,6 +156,12 @@ Dim szPath() As String
       objNode.Parent.Text = "Checks (" & objNode.Parent.Children - 1 & ")"
       frmMain.tv.Nodes.Remove objNode.Index
       
+    Case "Column"
+      szType = "COL-"
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables(ctx.CurrentObject.Table).Columns.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Columns (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
+      
     Case "Trigger"
       szType = "TRG-"
       frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables(ctx.CurrentObject.Table).Triggers.Remove ctx.CurrentObject.Identifier

@@ -109,8 +109,8 @@ On Error Resume Next
   
   frmMain.sb.Panels("currentobject").Text = "Object: " & vData.Identifier & " (" & vData.ObjectType & ")"
   
-  'You can't drop a Server object.
-  If vData.ObjectType = "Server" Then
+  'You can't drop a Server object or a column pre 7.3.
+  If vData.ObjectType = "Server" Or ((ctx.dbVer < 7.3) And (vData.ObjectType = "Column")) Then
     frmMain.tb.Buttons("drop").Enabled = False
     frmMain.mnuPopupDrop.Enabled = False
   Else
