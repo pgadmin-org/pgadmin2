@@ -638,7 +638,7 @@ On Error Resume Next
 End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer
@@ -811,14 +811,12 @@ Dim szTemp As String
   
   'Check to see if our table is actually a view. If it is then we can't
   'update :-(
-  For Each objView In frmMain.svr.Databases(szDatabase).Views
-    If objView.Identifier = szTable Then
-      szTable = ""
-      szWhere = ""
-      bUpdateable = False
-      GoTo GotInfo
-    End If
-  Next objView
+  If frmMain.svr.Databases(szDatabase).Views.Exists(Mid(szTable, 2, Len(szTable) - 2)) Then
+    szTable = ""
+    szWhere = ""
+    bUpdateable = False
+    GoTo GotInfo
+  End If
   
   'Yippee!
   bUpdateable = True
@@ -895,13 +893,15 @@ GotInfo:
     If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
     If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
     For iTemp = 1 To lvData.ColumnHeaders.Count
-      If frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns.Exists(lvData.ColumnHeaders(iTemp).Text) Then
-        If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
-           (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
-           (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
-           (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
-          iUnique = iTemp
-          Exit For
+      If frmMain.svr.Databases(szDatabase).Tables.Exists(szTemp) Then
+        If frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns.Exists(lvData.ColumnHeaders(iTemp).Text) Then
+          If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
+             (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
+             (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
+             (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
+            iUnique = iTemp
+            Exit For
+          End If
         End If
       End If
     Next iTemp
