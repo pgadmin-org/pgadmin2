@@ -143,7 +143,7 @@ End Function
 Public Property Get Item(Key As String) As pgAggregate
 Attribute Item.VB_Description = "Returns a Aggregate object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))

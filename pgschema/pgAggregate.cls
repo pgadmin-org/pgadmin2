@@ -32,6 +32,31 @@ Private szInitialCondition As String
 Private cnDatabase As Connection
 Private dTimeStamp As Date
 
+'History
+Private colHistory As History
+
+'Return the History collection.
+Public Property Get History() As History
+'On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get History()", etFullDebug
+
+  If objServer.Databases(Database).RevisionControl Then
+    If colHistory Is Nothing Then
+      Set colHistory = New History
+     
+      'Pass the options to the class
+      Set colHistory.Connection = cnDatabase
+      colHistory.ObjIdentifier = szIdentifier
+      colHistory.objType = ObjectType
+      colHistory.Initialize
+    End If
+    Set History = colHistory
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the TimeStamp
 Friend Property Let TimeStamp(ByVal vData As Date)
 On Error GoTo Err_Handler
