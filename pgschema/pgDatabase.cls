@@ -708,3 +708,142 @@ Dim szSQL As String
   Exit Sub
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Public Property Get Schema() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.Schema()", etFullDebug
+Dim szSQL As String
+Dim vObject As Variant
+Dim vChildObject As Variant
+Dim arrObjects() As Variant
+Dim X As Long
+Dim Y As Long
+Dim vTemp As Variant
+
+  szSQL = "-- Schema Dump (pgSchema v" & App.Major & "." & App.Minor & "." & App.Revision & ")" & vbCrLf & _
+          "-- Database: " & szName & vbCrLf & vbCrLf
+  
+  'We will output the Schema object by object in OID order. This should work
+  'most of the time unless (for example) a table is altered to use a later
+  'created function as a default. Hopefully future releases of PostgreSQL
+  'will include a pg_dependency table that we can use instead.
+  
+  'First, copy all objects into a single array: Aggregates, Functions,
+  'Indexes, Languages, Operators, Rules, Sequences, Tables, Triggers,
+  'Types & Views
+  
+  ReDim arrObjects(0)
+  
+  'Aggregates
+  For Each vObject In Aggregates
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+
+  'Functions
+  For Each vObject In Functions
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+
+  'Languages
+  For Each vObject In Languages
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+
+  'Operators
+  For Each vObject In Operators
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+
+  'Sequences
+  For Each vObject In Sequences
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+
+  'Tables
+  For Each vObject In Tables
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    
+      'Indexes
+      For Each vChildObject In vObject.Indexes
+        If Not vChildObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vChildObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vChildObject
+      
+      'Rules
+      For Each vChildObject In vObject.Rules
+        If Not vChildObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vChildObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vChildObject
+      
+      'Triggers
+      For Each vChildObject In vObject.Triggers
+        If Not vChildObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vChildObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vChildObject
+    End If
+  Next vObject
+
+  'Types
+  For Each vObject In Types
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+
+  'Views
+  For Each vObject In Views
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+  
+  'Lose the last empty element
+  If UBound(arrObjects) > 0 Then ReDim Preserve arrObjects(UBound(arrObjects) - 1)
+  
+  'Now bubble sort the array by OID.
+  For X = UBound(arrObjects) To LBound(arrObjects) Step -1
+    For Y = LBound(arrObjects) + 1 To X
+      If arrObjects(Y - 1).OID > arrObjects(Y).OID Then
+        Set vTemp = arrObjects(Y - 1)
+        Set arrObjects(Y - 1) = arrObjects(Y)
+        Set arrObjects(Y) = vTemp
+      End If
+    Next Y
+  Next X
+
+  'Now loop through the array and output the SQL
+  For X = 0 To UBound(arrObjects)
+    szSQL = szSQL & arrObjects(X).SQL & vbCrLf
+  Next X
+    
+  Schema = szSQL
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
