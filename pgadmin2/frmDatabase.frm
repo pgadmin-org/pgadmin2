@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmDatabase 
    BorderStyle     =   1  'Fixed Single
@@ -352,6 +352,10 @@ Dim objItem As ComboItem
     hbxProperties(0).BackColor = &H80000005
     hbxProperties(0).Locked = False
     
+    cboProperties(0).Text = "SQL_ASCII"
+    Set objItem = cboProperties(0).ComboItems.Add(, , "SQL_ASCII", "encoding", "encoding")
+    objItem.Selected = True
+ 
   Else
   
     'Display/Edit the specified Database.
