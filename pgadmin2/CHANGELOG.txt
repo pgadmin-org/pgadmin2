@@ -3,7 +3,7 @@
 
 Fixed a bug that attempted to access inaccessible databases when clicked on in the treeview.
 Use doubles instead of longs to cope with very large OIDs.
-Fixed a bug that caused an error is the pgAdmin window was too small when the listview was populated.
+Fixed a bug that caused an error if the pgAdmin window was too small when the listview was populated.
 Don't class 'public' as a system schema.
 Don't throw an error when changing Not Null/Primary Key on a new column in an existing table.
 Don't allow (attempted) alteration of certain column attributes in PostgreSQL 7.2.
@@ -13,6 +13,7 @@ Only quote identifiers in datagrid update queries when required.
 Allow use of numeric identifiers.
 Fixed a bug that prevented renaming columns.
 Fixed an error that occured when clicking on the Relationships node under a Foreign Key.
+Fixed a bug that prevented updating of Sequence values.
 
 1.3.60
 ------

@@ -595,7 +595,7 @@ Dim vEntity As Variant
       frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
     End If
     
-    If txtProperties(3).Tag = "Y" Then objSequence.LastValue = txtProperties(3).Text
+    If txtProperties(2).Tag = "Y" Then objSequence.LastValue = txtProperties(2).Text
     If hbxProperties(0).Tag = "Y" Then objSequence.Comment = hbxProperties(0).Text
   End If
   
@@ -725,8 +725,8 @@ Dim szAccess() As String
     
     If Not objSequence.SystemObject Then
       cboProperties(0).BackColor = &H80000005
-      txtProperties(3).BackColor = &H80000005
-      txtProperties(3).Locked = False
+      txtProperties(2).BackColor = &H80000005
+      txtProperties(2).Locked = False
     Else 'Lock the permissions Add/Remove buttons if it's a system object
       cmdAdd.Enabled = False
       cmdRemove.Enabled = False
