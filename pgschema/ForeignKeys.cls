@@ -170,7 +170,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
-Private Function iAdd(dOID As Double, szName As String, lNArgs As Long, szArgs As String, bDeferrable As Boolean, bInitially As String) As pgForeignKey
+Private Function iAdd(dOID As Double, szName As String, lNArgs As Long, szArgs As String, bDeferrable As Boolean, bInitially As Boolean) As pgForeignKey
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & lNArgs & ", " & QUOTE & szArgs & QUOTE & ", " & bDeferrable & ", " & bInitially & ")", etFullDebug
 
