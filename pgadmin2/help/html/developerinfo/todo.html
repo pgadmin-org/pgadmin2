@@ -22,22 +22,28 @@
 </table>
 
 <ul>
-  <li>Add Version Control.<br>
+  <li>Add Version Control. Needs to store data in each 'activated' database for 
+  all object types.<br>
 &nbsp;</li>
-  <li>Add 'Projects' support.<br>
+  <li>Add 'Projects' support. Should allow objects to be grouped into projects. 
+  A single project should be exportable to an SQL script, or publishable to 
+  other databases/servers. Should also include security to restrict access to 
+  objects to authorised development team members.<br>
 &nbsp;</li>
-  <li>Add Plugins support:<br>
-&nbsp;<ul>
-  <li>MSysConf Editor<br>
+  <li>Re-write Migration&nbsp; &amp; Import Wizards as Plugins.<br>
 &nbsp;</li>
-  <li>Migration Wizard<br>
+  <li>Add code to allow pseudo-editing of Views, Triggers, Functions &amp; Tables. 
+  This would be implemented in pgSchema and would generally involve dropping 
+  object and re-creating them with the new changes applied.<br>
 &nbsp;</li>
-  <li>Import Wizard<br>
+  <li>Build a Log Analyser Plugin to analyse PostgreSQL logs. eg. Watching a 
+  user's session, diagnosing errors, possibly generating roll-back data, 
+  watching for transaction processing &quot;hot-spots&quot; during a day or week, etc.<br>
 &nbsp;</li>
-</ul>
-
-  </li>
-  <li>Add code to allow pseudo-editing of Views, Triggers, Functions &amp; Tables.</li>
+  <li>Build an entity relationship diagramming plugin. This should reverse 
+  engineer the database to build a user updateable ER diagram of a database.<br>
+&nbsp;</li>
+  <li>Add a Plugin to drive erServer.</li>
 </ul>
 
 </body>
