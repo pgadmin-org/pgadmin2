@@ -3386,16 +3386,30 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Negator
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Kind", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Kind
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Left Sort Operator", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.LeftTypeSortOperator
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Right Sort Operator", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.RightTypeSortOperator
+  '
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Hash Joins?", "property", "property")
   If ctx.CurrentObject.HashJoins Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
+  '
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Merge Joins?", "property", "property")
+  If ctx.CurrentObject.MergeJoins Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+  '
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Left Sort Operator", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.LeftTypeSortOperator
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Right Sort Operator", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.RightTypeSortOperator
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Less Than Operator", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.LessThanOperator
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Greater Than Operator", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.GreaterThanOperator
+  '
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Operator?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"

@@ -65,9 +65,9 @@ Begin VB.Form frmOperator
    End
    Begin TabDlg.SSTab tabProperties 
       Height          =   6360
-      Left            =   45
+      Left            =   120
       TabIndex        =   0
-      Top             =   45
+      Top             =   120
       Width           =   5460
       _ExtentX        =   9631
       _ExtentY        =   11218
@@ -116,20 +116,36 @@ Begin VB.Form frmOperator
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmOperator.frx":1E7E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "chkProperties(0)"
-      Tab(1).Control(1)=   "cboProperties(4)"
-      Tab(1).Control(2)=   "cboProperties(5)"
-      Tab(1).Control(3)=   "cboProperties(6)"
-      Tab(1).Control(4)=   "cboProperties(7)"
-      Tab(1).Control(5)=   "cboProperties(8)"
-      Tab(1).Control(6)=   "cboProperties(9)"
-      Tab(1).Control(7)=   "lblProperties(13)"
-      Tab(1).Control(8)=   "lblProperties(12)"
-      Tab(1).Control(9)=   "lblProperties(11)"
-      Tab(1).Control(10)=   "lblProperties(10)"
-      Tab(1).Control(11)=   "lblProperties(9)"
-      Tab(1).Control(12)=   "lblProperties(8)"
-      Tab(1).ControlCount=   13
+      Tab(1).Control(0)=   "chkProperties(1)"
+      Tab(1).Control(1)=   "chkProperties(0)"
+      Tab(1).Control(2)=   "cboProperties(4)"
+      Tab(1).Control(3)=   "cboProperties(5)"
+      Tab(1).Control(4)=   "cboProperties(6)"
+      Tab(1).Control(5)=   "cboProperties(7)"
+      Tab(1).Control(6)=   "cboProperties(8)"
+      Tab(1).Control(7)=   "cboProperties(9)"
+      Tab(1).Control(8)=   "cboProperties(10)"
+      Tab(1).Control(9)=   "cboProperties(11)"
+      Tab(1).Control(10)=   "lblProperties(15)"
+      Tab(1).Control(11)=   "lblProperties(14)"
+      Tab(1).Control(12)=   "lblProperties(13)"
+      Tab(1).Control(13)=   "lblProperties(12)"
+      Tab(1).Control(14)=   "lblProperties(11)"
+      Tab(1).Control(15)=   "lblProperties(10)"
+      Tab(1).Control(16)=   "lblProperties(9)"
+      Tab(1).Control(17)=   "lblProperties(8)"
+      Tab(1).ControlCount=   18
+      Begin VB.CheckBox chkProperties 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Merges?"
+         Height          =   195
+         Index           =   1
+         Left            =   -74880
+         TabIndex        =   37
+         ToolTipText     =   "Indicates this operator can support a hash join."
+         Top             =   2640
+         Width           =   1995
+      End
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
          Caption         =   "Hashes?"
@@ -207,7 +223,7 @@ Begin VB.Form frmOperator
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   0
          Left            =   1935
          TabIndex        =   4
@@ -215,7 +231,7 @@ Begin VB.Form frmOperator
          Top             =   1845
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -223,7 +239,7 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   1
          Left            =   1935
          TabIndex        =   5
@@ -231,7 +247,7 @@ Begin VB.Form frmOperator
          Top             =   2250
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -239,7 +255,7 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   4
          Left            =   -73065
          TabIndex        =   12
@@ -247,7 +263,7 @@ Begin VB.Form frmOperator
          Top             =   630
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -255,7 +271,7 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   5
          Left            =   -73065
          TabIndex        =   13
@@ -263,7 +279,7 @@ Begin VB.Form frmOperator
          Top             =   1035
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -271,7 +287,7 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   6
          Left            =   -73065
          TabIndex        =   14
@@ -279,7 +295,7 @@ Begin VB.Form frmOperator
          Top             =   1440
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -287,7 +303,7 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   7
          Left            =   -73065
          TabIndex        =   15
@@ -295,7 +311,7 @@ Begin VB.Form frmOperator
          Top             =   1845
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -303,15 +319,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   8
          Left            =   -73065
          TabIndex        =   17
          ToolTipText     =   "If this operator can support a merge join, the operator that sorts the left-hand data type of this operator. "
-         Top             =   2655
+         Top             =   3000
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -319,15 +335,15 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   9
          Left            =   -73065
          TabIndex        =   18
          ToolTipText     =   "If this operator can support a merge join, the operator that sorts the right-hand data type of this operator."
-         Top             =   3060
+         Top             =   3360
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -335,7 +351,7 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   3
          Left            =   1935
          TabIndex        =   8
@@ -343,7 +359,7 @@ Begin VB.Form frmOperator
          Top             =   3465
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -351,7 +367,7 @@ Begin VB.Form frmOperator
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   315
          Index           =   2
          Left            =   1935
          TabIndex        =   6
@@ -359,12 +375,64 @@ Begin VB.Form frmOperator
          Top             =   2655
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   582
+         _ExtentY        =   556
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
          Locked          =   -1  'True
          ImageList       =   "il"
+      End
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   315
+         Index           =   10
+         Left            =   -73080
+         TabIndex        =   35
+         ToolTipText     =   "If this operator can support a merge join, the operator that sorts the right-hand data type of this operator."
+         Top             =   3840
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   556
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   315
+         Index           =   11
+         Left            =   -73080
+         TabIndex        =   36
+         ToolTipText     =   "If this operator can support a merge join, the operator that sorts the right-hand data type of this operator."
+         Top             =   4200
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   556
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
+      Begin VB.Label lblProperties 
+         AutoSize        =   -1  'True
+         Caption         =   "Greater Than operator"
+         Height          =   180
+         Index           =   15
+         Left            =   -74880
+         TabIndex        =   34
+         Top             =   4320
+         Width           =   1695
+      End
+      Begin VB.Label lblProperties 
+         AutoSize        =   -1  'True
+         Caption         =   "Less Than operator"
+         Height          =   180
+         Index           =   14
+         Left            =   -74880
+         TabIndex        =   33
+         Top             =   3960
+         Width           =   1485
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
@@ -381,20 +449,20 @@ Begin VB.Form frmOperator
          Caption         =   "Right sort operator"
          Height          =   195
          Index           =   13
-         Left            =   -74865
+         Left            =   -74880
          TabIndex        =   31
-         Top             =   3150
-         Width           =   1305
+         Top             =   3480
+         Width           =   1545
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Left sort operator"
          Height          =   195
          Index           =   12
-         Left            =   -74865
+         Left            =   -74880
          TabIndex        =   30
-         Top             =   2745
-         Width           =   1200
+         Top             =   3120
+         Width           =   1440
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
@@ -550,6 +618,9 @@ Dim szRestrict As String
 Dim szJoin As String
 Dim szLeftSort As String
 Dim szRightSort As String
+'
+Dim szLessThan As String
+Dim szGreaterThan As String
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -580,6 +651,8 @@ Dim szRightSort As String
     If Not (cboProperties(7).SelectedItem Is Nothing) Then szJoin = cboProperties(7).SelectedItem.Text
     If Not (cboProperties(8).SelectedItem Is Nothing) Then szLeftSort = cboProperties(8).SelectedItem.Text
     If Not (cboProperties(9).SelectedItem Is Nothing) Then szRightSort = cboProperties(9).SelectedItem.Text
+    If Not (cboProperties(10).SelectedItem Is Nothing) Then szLessThan = cboProperties(10).SelectedItem.Text
+    If Not (cboProperties(11).SelectedItem Is Nothing) Then szGreaterThan = cboProperties(11).SelectedItem.Text
     Set objNewOperator = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Operators.Add(txtProperties(0).Text, szFunction, cboProperties(0).Text, cboProperties(1).Text, szCommutator, szNegator, szRestrict, szJoin, Bin2Bool(chkProperties(0).Value), szLeftSort, szRightSort, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
@@ -646,6 +719,8 @@ Dim vArgument As Variant
         cboProperties(5).ComboItems.Add , , objTempOperator.Name, "operator"
         cboProperties(8).ComboItems.Add , , objTempOperator.Name, "operator"
         cboProperties(9).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(10).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(11).ComboItems.Add , , objTempOperator.Name, "operator"
       Next objTempOperator
       'Now load the rest
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
@@ -663,6 +738,8 @@ Dim vArgument As Variant
             cboProperties(5).ComboItems.Add , , objTempOperator.FormattedID, "operator"
             cboProperties(8).ComboItems.Add , , objTempOperator.FormattedID, "operator"
             cboProperties(9).ComboItems.Add , , objTempOperator.FormattedID, "operator"
+            cboProperties(10).ComboItems.Add , , objTempOperator.FormattedID, "operator"
+            cboProperties(11).ComboItems.Add , , objTempOperator.FormattedID, "operator"
           Next objTempOperator
         End If
       Next objNamespace
@@ -680,6 +757,8 @@ Dim vArgument As Variant
         cboProperties(5).ComboItems.Add , , objTempOperator.Name, "operator"
         cboProperties(8).ComboItems.Add , , objTempOperator.Name, "operator"
         cboProperties(9).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(10).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(11).ComboItems.Add , , objTempOperator.Name, "operator"
       Next objTempOperator
     End If
     
@@ -689,7 +768,7 @@ Dim vArgument As Variant
     For X = 0 To 2
       cboProperties(X).BackColor = &H80000005
     Next X
-    For X = 4 To 9
+    For X = 4 To 11 
       cboProperties(X).BackColor = &H80000005
     Next X
     
@@ -724,8 +803,13 @@ Dim vArgument As Variant
     objItem.Selected = True
     Set objItem = cboProperties(9).ComboItems.Add(, , objOperator.RightTypeSortOperator, "function")
     objItem.Selected = True
+    Set objItem = cboProperties(10).ComboItems.Add(, , objOperator.LessThanOperator, "function")
+    objItem.Selected = True
+    Set objItem = cboProperties(11).ComboItems.Add(, , objOperator.GreaterThanOperator, "function")
+    objItem.Selected = True
 
     chkProperties(0).Value = Bool2Bin(objOperator.HashJoins)
+    chkProperties(1).Value = Bool2Bin(objOperator.MergeJoins)
     hbxProperties(0).Text = objOperator.Comment
   End If
   
@@ -752,6 +836,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.chkProperties_Click
 
   If Not (objOperator Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objOperator.HashJoins)
+    chkProperties(1).Value = Bool2Bin(objOperator.MergeJoins)
   End If
   
   Exit Sub

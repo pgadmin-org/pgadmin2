@@ -3,14 +3,14 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmVisualQueryBuilder 
    Caption         =   "Visual Query Builder"
-   ClientHeight    =   6492
-   ClientLeft      =   2004
-   ClientTop       =   2088
-   ClientWidth     =   9132
+   ClientHeight    =   6495
+   ClientLeft      =   2010
+   ClientTop       =   2085
+   ClientWidth     =   9120
    Icon            =   "frmVisualQueryBuilder.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   6492
-   ScaleWidth      =   9132
+   ScaleHeight     =   6495
+   ScaleWidth      =   9120
    Visible         =   0   'False
    Begin HighlightBox.HBX txtSQL 
       Height          =   1272
@@ -18,11 +18,11 @@ Begin VB.Form frmVisualQueryBuilder
       TabIndex        =   7
       Top             =   60
       Width           =   4872
-      _ExtentX        =   8594
-      _ExtentY        =   2244
+      _ExtentX        =   8599
+      _ExtentY        =   2249
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
-         Size            =   7.8
+         Size            =   8.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -79,8 +79,8 @@ Begin VB.Form frmVisualQueryBuilder
    Begin MSComctlLib.ImageList il 
       Left            =   1920
       Top             =   0
-      _ExtentX        =   995
-      _ExtentY        =   995
+      _ExtentX        =   1005
+      _ExtentY        =   1005
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -97,7 +97,7 @@ Begin VB.Form frmVisualQueryBuilder
             Key             =   "namespace"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmVisualQueryBuilder.frx":1E66
+            Picture         =   "frmVisualQueryBuilder.frx":12F2
             Key             =   "view"
          EndProperty
       EndProperty
@@ -108,8 +108,8 @@ Begin VB.Form frmVisualQueryBuilder
       TabIndex        =   0
       Top             =   1380
       Width           =   9012
-      _extentx        =   17590
-      _extenty        =   8911
+      _ExtentX        =   17595
+      _ExtentY        =   8916
    End
    Begin MSComctlLib.TreeView tv 
       Height          =   1260
@@ -118,7 +118,7 @@ Begin VB.Form frmVisualQueryBuilder
       ToolTipText     =   "Add table to selection"
       Top             =   60
       Width           =   2772
-      _ExtentX        =   4890
+      _ExtentX        =   4895
       _ExtentY        =   2223
       _Version        =   393217
       Indentation     =   441

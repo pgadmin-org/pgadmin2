@@ -41,6 +41,10 @@ Private szNamespace As String
 Private vTag As Variant
 Private colDependent As Collection
 Private colReferenced As Collection
+'
+Private bMergeJoins As Boolean
+Private szLessThanOperator As String
+Private szGreaterThanOperator As String
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
@@ -326,6 +330,26 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get HashJoin
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
+'Set/Return MergeJoins?
+Friend Property Let MergeJoins(ByVal vData As Boolean)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let MergeJoins(" & vData & ")", etFullDebug
+
+  bMergeJoins = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+Public Property Get MergeJoins() As Boolean
+Attribute MergeJoins.VB_Description = "Returns a value indicating whether the Operator supports Merge Joins."
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get MergeJoins()", etFullDebug
+
+  MergeJoins = bMergeJoins
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
 'Set/Return the LeftOperandType
 Friend Property Let LeftOperandType(ByVal vData As String)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
@@ -463,11 +487,52 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let RightTyp
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get RightTypeSortOperator() As String
-Attribute RightTypeSortOperator.VB_Description = "Returns the Operator's right type-sort Operator."
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get RightTypeSortOperator()", etFullDebug
 
   RightTypeSortOperator = szRightTypeSortOperator
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+
+'Set/Return the LessThanOperator
+Friend Property Let LessThanOperator(ByVal vData As String)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let LessThanOperator(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szLessThanOperator = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+Public Property Get LessThanOperator() As String
+Attribute LessThanOperator.VB_Description = "Returns the Operator's less-then Operator."
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get LessThanOperator()", etFullDebug
+
+  LessThanOperator = szLessThanOperator
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+
+'Set/Return the GreaterThanOperator
+Friend Property Let GreaterThanOperator(ByVal vData As String)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let GreaterThanOperator(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szGreaterThanOperator = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+Public Property Get GreaterThanOperator() As String
+Attribute GreaterThanOperator.VB_Description = "Returns the Operator's greater-then Operator."
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get GreaterThanOperator()", etFullDebug
+
+  GreaterThanOperator = szGreaterThanOperator
     
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -592,8 +657,11 @@ Dim szLOT As String
   If szRestrictFunction <> "" Then szSQL = szSQL & ", RESTRICT = " & szRestrictFunction
   If szJoinFunction <> "" Then szSQL = szSQL & ", JOIN = " & szJoinFunction
   If bHashJoins Then szSQL = szSQL & ", HASHES"
+  If bMergeJoins Then szSQL = szSQL & ", MERGES"
   If szLeftTypeSortOperator <> "" Then szSQL = szSQL & ", SORT1 = " & szLeftTypeSortOperator
   If szRightTypeSortOperator <> "" Then szSQL = szSQL & ", SORT2 = " & szRightTypeSortOperator
+  If szLessThanOperator <> "" Then szSQL = szSQL & ", LTCMP = " & szLessThanOperator
+  If szGreaterThanOperator <> "" Then szSQL = szSQL & ", GTCMP = " & szGreaterThanOperator
   
   szSQL = szSQL & ");" & vbCrLf
 

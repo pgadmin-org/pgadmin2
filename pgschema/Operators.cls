@@ -146,9 +146,9 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
-Private Function iAdd(dOID As Double, szName As String, szOwner As String, szKind As String, bHashJoins As Boolean, dLeftOperandType As Double, dRightOperandType As Double, dResultType As Double, dCommutator As Double, dNegator As Double, dLeftTypeSortOperator As Double, dRightTypeSortOperator As Double, szOperatorFunction As String, szRestrictFunction As String, szJoinFunction As String) As pgOperator
+Private Function iAdd(dOID As Double, szName As String, szOwner As String, szKind As String, bHashJoins As Boolean, dLeftOperandType As Double, dRightOperandType As Double, dResultType As Double, dCommutator As Double, dNegator As Double, dLeftTypeSortOperator As Double, dRightTypeSortOperator As Double, szOperatorFunction As String, szRestrictFunction As String, szJoinFunction As String, bMergeJoins As Boolean, dLessThanOperator As Double, dGreaterThanOperator As Double) As pgOperator
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Operators.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szKind & QUOTE & ", " & bHashJoins & ", " & dLeftOperandType & ", " & dRightOperandType & ", " & dResultType & ", " & dCommutator & ", " & dNegator & ", " & dLeftTypeSortOperator & ", " & dRightTypeSortOperator & ", " & QUOTE & szOperatorFunction & QUOTE & ", " & QUOTE & szRestrictFunction & QUOTE & ", " & QUOTE & szJoinFunction & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szKind & QUOTE & ", " & bHashJoins & ", " & dLeftOperandType & ", " & dRightOperandType & ", " & dResultType & ", " & dCommutator & ", " & dNegator & ", " & dLeftTypeSortOperator & ", " & dRightTypeSortOperator & ", " & QUOTE & szOperatorFunction & QUOTE & ", " & QUOTE & szRestrictFunction & QUOTE & ", " & QUOTE & szJoinFunction & QUOTE & ", " & QUOTE & bMergeJoins & QUOTE & ", " & QUOTE & dLessThanOperator & QUOTE & ", " & QUOTE & dGreaterThanOperator & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgOperator
 Dim rs As New Recordset
@@ -182,6 +182,7 @@ Dim szTemp As String
   End Select
 
   objNewMember.HashJoins = bHashJoins
+  
   szLOT = objServer.Databases(Database).LookupType(dLeftOperandType)
   If szLOT = "opaque" Then szLOT = "NONE"
   objNewMember.LeftOperandType = szLOT
@@ -193,12 +194,22 @@ Dim szTemp As String
   objNewMember.ResultType = szTemp
   objNewMember.Commutator = objServer.Databases(Database).LookupOperator(dCommutator)
   objNewMember.Negator = objServer.Databases(Database).LookupOperator(dNegator)
+  
   szTemp = objServer.Databases(Database).LookupOperator(dLeftTypeSortOperator)
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.LeftTypeSortOperator = szTemp
   szTemp = objServer.Databases(Database).LookupOperator(dRightTypeSortOperator)
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.RightTypeSortOperator = szTemp
+  
+  objNewMember.MergeJoins = bMergeJoins
+  szTemp = objServer.Databases(Database).LookupOperator(dLessThanOperator)
+  If szTemp = "opaque" Then szTemp = "NONE"
+  objNewMember.LessThanOperator = szTemp
+  szTemp = objServer.Databases(Database).LookupOperator(dGreaterThanOperator)
+  If szTemp = "opaque" Then szTemp = "NONE"
+  objNewMember.GreaterThanOperator = szTemp
+ 
   objNewMember.OperatorFunction = szOperatorFunction
   If szRestrictFunction = "-" Then szRestrictFunction = ""
   If szJoinFunction = "-" Then szJoinFunction = ""
@@ -219,10 +230,10 @@ Err_Handler:
 End Function
 
 'External Add
-Public Function Add(ByVal Name As String, ByVal OperatorFunction As String, Optional ByVal LeftOperandType As String, Optional ByVal RightOperandType As String, Optional ByVal Commutator As String, Optional ByVal Negator As String, Optional ByVal RestrictFunction As String, Optional ByVal JoinFunction As String, Optional ByVal Hashes As Boolean, Optional ByVal LeftTypeSortOperator As String, Optional ByVal RightTypeSortOperator As String, Optional ByVal Comment As String) As pgOperator
+Public Function Add(ByVal Name As String, ByVal OperatorFunction As String, Optional ByVal LeftOperandType As String, Optional ByVal RightOperandType As String, Optional ByVal Commutator As String, Optional ByVal Negator As String, Optional ByVal RestrictFunction As String, Optional ByVal JoinFunction As String, Optional ByVal Hashes As Boolean, Optional ByVal LeftTypeSortOperator As String, Optional ByVal RightTypeSortOperator As String, Optional ByVal Comment As String, Optional ByVal Merges As Boolean, Optional ByVal LessThanOperator As String, Optional ByVal GraterThanOperator As String) As pgOperator
 Attribute Add.VB_Description = "Add a new Operator."
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Operators.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & OperatorFunction & QUOTE & ", " & QUOTE & LeftOperandType & QUOTE & ", " & QUOTE & RightOperandType & QUOTE & ", " & QUOTE & Commutator & QUOTE & ", " & QUOTE & Negator & QUOTE & ", " & QUOTE & RestrictFunction & QUOTE & ", " & QUOTE & JoinFunction & QUOTE & ", " & Hashes & ", " & QUOTE & LeftTypeSortOperator & QUOTE & ", " & QUOTE & RightTypeSortOperator & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & OperatorFunction & QUOTE & ", " & QUOTE & LeftOperandType & QUOTE & ", " & QUOTE & RightOperandType & QUOTE & ", " & QUOTE & Commutator & QUOTE & ", " & QUOTE & Negator & QUOTE & ", " & QUOTE & RestrictFunction & QUOTE & ", " & QUOTE & JoinFunction & QUOTE & ", " & Hashes & ", " & QUOTE & Merges & QUOTE & ", " & QUOTE & LeftTypeSortOperator & QUOTE & ", " & QUOTE & RightTypeSortOperator & QUOTE & ", " & QUOTE & LessThanOperator & QUOTE & ", " & QUOTE & GraterThanOperator & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -246,8 +257,11 @@ Dim lOidOpRigth As Long
   If RestrictFunction <> "" Then szSQL = szSQL & ", RESTRICT = " & RestrictFunction
   If JoinFunction <> "" Then szSQL = szSQL & ", JOIN = " & JoinFunction
   If Hashes Then szSQL = szSQL & ", HASHES"
+  If Merges Then szSQL = szSQL & ", MERGES"
   If LeftTypeSortOperator <> "" Then szSQL = szSQL & ", SORT1 = " & LeftTypeSortOperator
   If RightTypeSortOperator <> "" Then szSQL = szSQL & ", SORT2 = " & RightTypeSortOperator
+  If LessThanOperator <> "" Then szSQL = szSQL & ", LTCMP = " & LessThanOperator
+  If GraterThanOperator <> "" Then szSQL = szSQL & ", GTCMP = " & GraterThanOperator
   szSQL = szSQL & ")"
   objServer.ExecSQL szSQL, cnDatabase
   
@@ -286,7 +300,9 @@ Dim lOidOpRigth As Long
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objOperator = iAdd(rs.Fields("oid"), rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & "")
+    Dim tmpMergeJoin As Boolean
+    If rs!oprlsortop = 0 And rs!oprrsortop = 0 And rs!oprltcmpop = 0 And rs!oprgtcmpop = 0 Then: tmpMergeJoin = False: Else: tmpMergeJoin = True
+    Set objOperator = iAdd(rs.Fields("oid"), rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & "", tmpMergeJoin, rs!oprltcmpop & "", rs!oprgtcmpop & "")
   End If
     
   'Invalidate the Operator Cache...
@@ -404,7 +420,6 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Initialize()", etFullDebug
 
 Dim rs As New Recordset
-
   'Create a new collection
   Set mCol = New Collection
   
@@ -416,7 +431,9 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " ORDER BY oprname", cnDatabase)
     End If
     While Not rs.EOF
-      iAdd rs.Fields("oid"), rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & ""
+      Dim tmpMergeJoin As Boolean
+      If rs!oprlsortop = 0 And rs!oprrsortop = 0 And rs!oprltcmpop = 0 And rs!oprgtcmpop = 0 Then: tmpMergeJoin = False: Else: tmpMergeJoin = True
+      iAdd rs.Fields("oid"), rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & "", tmpMergeJoin, rs!oprltcmpop & "", rs!oprgtcmpop & ""
       rs.MoveNext
     Wend
   End If
