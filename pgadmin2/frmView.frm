@@ -73,16 +73,16 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdLoad"
-      Tab(1).Control(1)=   "hbxProperties(1)"
+      Tab(1).Control(0)=   "hbxProperties(1)"
+      Tab(1).Control(1)=   "cmdLoad"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fraAdd"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "cmdRemove"
-      Tab(2).Control(3)=   "lvProperties(0)"
+      Tab(2).Control(0)=   "lvProperties(0)"
+      Tab(2).Control(1)=   "cmdRemove"
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(3)=   "fraAdd"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -498,9 +498,11 @@ Dim szOldName As String
     Set objNewView = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Add(txtProperties(0).Text, hbxProperties(1).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Tag
     Set objNewView.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "VIE-" & GetID, txtProperties(0).Text, "view")
     objNode.Text = "Views (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     If hbxProperties(1).Tag = "Y" Then

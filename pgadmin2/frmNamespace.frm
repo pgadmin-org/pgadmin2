@@ -75,13 +75,13 @@ Begin VB.Form frmNamespace
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmNamespace.frx":0BDE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "fraAdd"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboProperties 
@@ -361,9 +361,11 @@ Dim szComment As String
     Set objNewNamespace = frmMain.svr.Databases(szDatabase).Namespaces.Add(txtProperties(0).Text, cboProperties(0).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces.Tag
     Set objNewNamespace.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "NSP-" & GetID, txtProperties(0).Text, "namespace")
     objNode.Text = "Schemas (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     StartMsg "Updating Schema..."

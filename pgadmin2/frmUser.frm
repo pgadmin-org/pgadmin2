@@ -74,14 +74,14 @@ Begin VB.Form frmUser
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmUser.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label2"
-      Tab(1).Control(1)=   "Label1"
-      Tab(1).Control(2)=   "cboVarName"
-      Tab(1).Control(3)=   "lvProperties(0)"
-      Tab(1).Control(4)=   "txtVarValue"
-      Tab(1).Control(5)=   "cmdAddVar"
-      Tab(1).Control(6)=   "cmdRemoveVar"
-      Tab(1).Control(7)=   "cboVarValue"
+      Tab(1).Control(0)=   "cboVarValue"
+      Tab(1).Control(1)=   "cmdRemoveVar"
+      Tab(1).Control(2)=   "cmdAddVar"
+      Tab(1).Control(3)=   "txtVarValue"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cboVarName"
+      Tab(1).Control(6)=   "Label1"
+      Tab(1).Control(7)=   "Label2"
       Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Present in groups"
       TabPicture(2)   =   "frmUser.frx":0182
@@ -148,7 +148,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   62259202
+         StartOfWeek     =   60096514
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -525,9 +525,11 @@ Dim X As Integer
     Set objNewUser = frmMain.svr.Users.Add(txtProperties(0).Text, Val(txtProperties(1).Text), txtProperties(2).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), mvProperties(0).Value)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Users.Tag
     Set objNewUser.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "USR-" & GetID, txtProperties(0).Text, "user")
     objNode.Text = "Users (" & frmMain.svr.Users.Count & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
       
   Else
     StartMsg "Updating User..."

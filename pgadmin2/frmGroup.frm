@@ -217,9 +217,11 @@ Dim szRemoveList As String
     Set objNewGroup = frmMain.svr.Groups.Add(txtProperties(0).Text, Val(txtProperties(1).Text))
 
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Groups.Tag
     Set objNewGroup.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "GRP-" & GetID, txtProperties(0).Text, "group")
     objNode.Text = "Groups (" & frmMain.svr.Groups.Count & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     StartMsg "Updating Group..."

@@ -335,6 +335,7 @@ Dim objNewRule As pgRule
     
     'Add a new node and update the text on the parent
     'verify if rule is for table or view
+    On Error Resume Next
     If frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Exists(cboProperties(0).SelectedItem.Tag.Identifier) Then
       Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Tag
     ElseIf frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Exists(cboProperties(0).SelectedItem.Tag.Identifier) Then
@@ -342,6 +343,7 @@ Dim objNewRule As pgRule
     End If
     Set objNewRule.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "RUL-" & GetID, txtProperties(0).Text, "rule")
     objNode.Text = "Rules (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 
   Else
     StartMsg "Updating Rule..."

@@ -13,6 +13,7 @@ Move highlight words to Keywords.txt and use for quoting as well [Frank Lupo].
 Set default schema to public in edit grid [Frank Lupo].
 Don't allow reseting of statistics with PostgreSQL < 7.3 [Frank Lupo].
 Don't warn the user about vacuuming in use tables for PostgreSQL >= 7.2.
+Create objects correctly when their parent node isn't yet created.
 
 
 1.5.60

@@ -348,9 +348,11 @@ Dim szReceiveFunction As String
     Set objNewDomain = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Domains.Add(txtProperties(0).Text, cboProperties(0).Text, Val(txtProperties(3).Text), Val(txtProperties(4).Text), txtProperties(5).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Domains.Tag
     Set objNewDomain.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "DOM-" & GetID, txtProperties(0).Text, "domain")
     objNode.Text = "Domains (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     StartMsg "Updating Domain..."

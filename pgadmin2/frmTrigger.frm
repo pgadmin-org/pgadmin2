@@ -397,9 +397,11 @@ Dim szOldName As String
     Set objNewTrigger = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Triggers.Add(txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Triggers.Tag
     Set objNewTrigger.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TRG-" & GetID, objNewTrigger.Identifier, "trigger")
     objNode.Text = "Triggers (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
 

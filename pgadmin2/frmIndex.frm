@@ -371,9 +371,11 @@ Dim szColumns As String
     Set objNewIndex = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Indexes.Add(txtProperties(0).Text, Bin2Bool(chkProperties(1).Value), szColumns, cboProperties(1).Text, hbxProperties(1).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Indexes.Tag
     Set objNewIndex.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "IND-" & GetID, txtProperties(0).Text, "index")
     objNode.Text = "Indexes (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     StartMsg "Updating Index..."

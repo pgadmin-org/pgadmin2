@@ -1,18 +1,18 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTable 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Table"
-   ClientHeight    =   6876
-   ClientLeft      =   4992
-   ClientTop       =   2496
+   ClientHeight    =   6885
+   ClientLeft      =   4995
+   ClientTop       =   2490
    ClientWidth     =   5520
    Icon            =   "frmTable.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6876
+   ScaleHeight     =   6885
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -72,44 +72,44 @@ Begin VB.Form frmTable
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdImport"
-      Tab(1).Control(1)=   "cmdColRemove"
-      Tab(1).Control(2)=   "cmdColAdd"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdColAdd"
+      Tab(1).Control(2)=   "cmdColRemove"
+      Tab(1).Control(3)=   "cmdImport"
       Tab(1).ControlCount=   4
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblProperties(5)"
-      Tab(2).Control(1)=   "lvProperties(1)"
-      Tab(2).Control(2)=   "hbxCheck(0)"
-      Tab(2).Control(3)=   "cmdChkRemove"
-      Tab(2).Control(4)=   "cmdChkAdd"
-      Tab(2).Control(5)=   "txtCheck(0)"
+      Tab(2).Control(0)=   "txtCheck(0)"
+      Tab(2).Control(1)=   "cmdChkAdd"
+      Tab(2).Control(2)=   "cmdChkRemove"
+      Tab(2).Control(3)=   "hbxCheck(0)"
+      Tab(2).Control(4)=   "lvProperties(1)"
+      Tab(2).Control(5)=   "lblProperties(5)"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":0716
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lvProperties(2)"
+      Tab(3).Control(0)=   "cmdFkyRemove"
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "cmdFkyRemove"
+      Tab(3).Control(2)=   "lvProperties(2)"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":0732
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblProperties(6)"
-      Tab(4).Control(1)=   "lvProperties(3)"
+      Tab(4).Control(0)=   "cboInheritedTables(0)"
+      Tab(4).Control(1)=   "cmdInhRemove"
       Tab(4).Control(2)=   "cmdInhAdd"
-      Tab(4).Control(3)=   "cmdInhRemove"
-      Tab(4).Control(4)=   "cboInheritedTables(0)"
+      Tab(4).Control(3)=   "lvProperties(3)"
+      Tab(4).Control(4)=   "lblProperties(6)"
       Tab(4).ControlCount=   5
       TabCaption(5)   =   "&Security"
       TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "cmdRemove"
-      Tab(5).Control(1)=   "fraAdd"
-      Tab(5).Control(2)=   "cmdAdd"
-      Tab(5).Control(3)=   "lvProperties(4)"
+      Tab(5).Control(0)=   "lvProperties(4)"
+      Tab(5).Control(1)=   "cmdAdd"
+      Tab(5).Control(2)=   "fraAdd"
+      Tab(5).Control(3)=   "cmdRemove"
       Tab(5).ControlCount=   4
       Begin VB.CommandButton cmdImport 
          Caption         =   "&Import"
@@ -133,15 +133,15 @@ Begin VB.Form frmTable
          Width           =   1995
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   0
-         Left            =   1932
+         Left            =   1935
          TabIndex        =   43
          ToolTipText     =   "The tables owner."
          Top             =   1440
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -149,14 +149,14 @@ Begin VB.Form frmTable
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboInheritedTables 
-         Height          =   300
+         Height          =   330
          Index           =   0
-         Left            =   -73068
+         Left            =   -73065
          TabIndex        =   22
-         Top             =   5856
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Top             =   5850
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -255,7 +255,7 @@ Begin VB.Form frmTable
          TabIndex        =   8
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9165
+         _ExtentX        =   9155
          _ExtentY        =   9313
          View            =   3
          LabelEdit       =   1
@@ -438,14 +438,14 @@ Begin VB.Form frmTable
             Width           =   1590
          End
          Begin MSComctlLib.ImageCombo cboEntities 
-            Height          =   300
+            Height          =   330
             Left            =   1260
             TabIndex        =   26
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
-            Top             =   312
-            Width           =   3708
-            _ExtentX        =   6541
-            _ExtentY        =   529
+            Top             =   315
+            Width           =   3705
+            _ExtentX        =   6535
+            _ExtentY        =   582
             _Version        =   393216
             ForeColor       =   -2147483640
             BackColor       =   -2147483643
@@ -480,8 +480,8 @@ Begin VB.Form frmTable
          ToolTipText     =   "The access control list for the view."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9165
-         _ExtentY        =   5990
+         _ExtentX        =   9155
+         _ExtentY        =   5980
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -513,11 +513,11 @@ Begin VB.Form frmTable
          ToolTipText     =   "Comments about the table."
          Top             =   2700
          Width           =   5190
-         _ExtentX        =   9165
+         _ExtentX        =   9155
          _ExtentY        =   6138
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   7.8
+            Size            =   8.25
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -533,8 +533,8 @@ Begin VB.Form frmTable
          TabIndex        =   16
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9165
-         _ExtentY        =   9229
+         _ExtentX        =   9155
+         _ExtentY        =   9234
          View            =   3
          LabelEdit       =   1
          Sorted          =   -1  'True
@@ -596,8 +596,8 @@ Begin VB.Form frmTable
          TabIndex        =   19
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9165
-         _ExtentY        =   8446
+         _ExtentX        =   9155
+         _ExtentY        =   8440
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -624,11 +624,11 @@ Begin VB.Form frmTable
          ToolTipText     =   "The check definition."
          Top             =   5355
          Width           =   5190
-         _ExtentX        =   9165
-         _ExtentY        =   1545
+         _ExtentX        =   9155
+         _ExtentY        =   1535
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   7.8
+            Size            =   8.25
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -644,8 +644,8 @@ Begin VB.Form frmTable
          TabIndex        =   11
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9165
-         _ExtentY        =   6858
+         _ExtentX        =   9155
+         _ExtentY        =   6853
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -732,8 +732,8 @@ Begin VB.Form frmTable
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6300
-      _ExtentX        =   995
-      _ExtentY        =   995
+      _ExtentX        =   1005
+      _ExtentY        =   1005
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -1124,9 +1124,11 @@ Dim bFlag As Boolean
     Next objItem
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Tag
     Set objNewTable.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TBL-" & GetID, txtProperties(0).Text, "table")
     objNode.Text = "Tables (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
  
   Else
     StartMsg "Updating Table..."

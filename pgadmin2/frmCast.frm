@@ -377,9 +377,11 @@ Dim szContext As String
     Set objNewCast = frmMain.svr.Databases(szDatabase).Casts.Add(cboProperties(0).Text, cboProperties(1).Text, cboProperties(2).Text, szContext)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Casts.Tag
     frmMain.tv.Nodes.Add objNode.Key, tvwChild, "CST-" & GetID, objNewCast.Identifier, "cast"
     objNode.Text = "Casts (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     StartMsg "Updating Cast..."

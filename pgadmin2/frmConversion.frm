@@ -386,9 +386,11 @@ Dim ii As Integer
     Set objNewConversion = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Conversions.Add(txtProperties(0).Text, Bin2Bool(chkProperties(0).Value), cboProperties(0).SelectedItem.Text, cboProperties(1).SelectedItem.Text, cboProperties(2).SelectedItem.Text)
    
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Conversions.Tag
     Set objNewConversion.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "CNV-" & GetID, txtProperties(0).Text, "conversion")
     objNode.Text = "Conversions (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
   Else
     StartMsg "Updating Conversion..."
   End If

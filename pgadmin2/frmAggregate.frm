@@ -424,6 +424,7 @@ Dim vEntity As Variant
     Set objNewAggregate = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Aggregates.Add(txtProperties(0).Text, cboProperties(0).Text, cboProperties(2).Text, cboProperties(1).Text, cboProperties(4).Text, txtProperties(3).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Aggregates.Tag
     If cboProperties(0).Text = "ANY" Then
       frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " opaque", "aggregate"
@@ -431,6 +432,7 @@ Dim vEntity As Variant
       frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " " & cboProperties(0).Text, "aggregate"
     End If
     objNode.Text = "Aggregates (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     StartMsg "Updating Aggregate..."

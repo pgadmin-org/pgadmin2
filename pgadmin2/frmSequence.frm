@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "cmdAdd"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -579,9 +579,11 @@ Dim vEntity As Variant
     Set objNewSequence = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Add(txtProperties(0).Text, txtProperties(6).Text, txtProperties(3).Text, txtProperties(4).Text, txtProperties(5).Text, txtProperties(7).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Tag
     Set objNewSequence.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "SEQ-" & GetID, txtProperties(0).Text, "sequence")
     objNode.Text = "Sequences (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     StartMsg "Updating Sequence..."

@@ -99,13 +99,13 @@ Begin VB.Form frmLanguage
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmLanguage.frx":15FE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(0)=   "lvProperties(0)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(1)=   "cmdRemove"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
@@ -370,9 +370,11 @@ Dim vEntity As Variant
     Set objNewLanguage = frmMain.svr.Databases(szDatabase).Languages.Add(txtProperties(0).Text, Bin2Bool(chkProperties(0).Value), cboProperties(0).Text, cboProperties(1).Text)
     
     'Add a new node and update the text on the parent
+    On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Languages.Tag
     Set objNewLanguage.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "LNG-" & GetID, txtProperties(0).Text, "language")
     objNode.Text = "Languages (" & objNode.Children & ")"
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     StartMsg "Updating Language..."
