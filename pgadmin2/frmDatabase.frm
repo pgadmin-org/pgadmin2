@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmDatabase 
    BorderStyle     =   1  'Fixed Single
@@ -313,7 +313,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(Optional Database As pgDatabase)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFullDebug
 
 Dim X As Integer
@@ -326,21 +326,23 @@ Dim objItem As ComboItem
     Me.Caption = "Create Database"
     
     'Load the Encoding Schemes
-    cboProperties(0).ComboItems.Add , , "SQL_ASCII", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "EUC_JP", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "EUC_CN", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "EUC_KR", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "EUC_TW", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "UNICODE", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "MULE_INTERNAL", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "LATIN1", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "LATIN2", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "LATIN3", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "LATIN4", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "LATIN5", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "KOI8", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "WIN", "ServerEncoding", "ServerEncoding"
-    cboProperties(0).ComboItems.Add , , "ALT", "ServerEncoding", "ServerEncoding"
+    cboProperties(0).Text = "SQL_ASCII"
+    Set objItem = cboProperties(0).ComboItems.Add(, , "SQL_ASCII", "encoding", "encoding")
+    objItem.Selected = True
+    cboProperties(0).ComboItems.Add , , "EUC_JP", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "EUC_CN", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "EUC_KR", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "EUC_TW", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "UNICODE", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "MULE_INTERNAL", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN1", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN2", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN3", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN4", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN5", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "KOI8", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "WIN", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "ALT", "encoding", "encoding"
    
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -351,11 +353,7 @@ Dim objItem As ComboItem
     txtProperties(3).Locked = False
     hbxProperties(0).BackColor = &H80000005
     hbxProperties(0).Locked = False
-    
-    cboProperties(0).Text = "SQL_ASCII"
-    Set objItem = cboProperties(0).ComboItems.Add(, , "SQL_ASCII", "ServerEncoding", "ServerEncoding")
-    objItem.Selected = True
- 
+
   Else
   
     'Display/Edit the specified Database.
@@ -369,7 +367,7 @@ Dim objItem As ComboItem
     txtProperties(0).Text = objDatabase.Name
     txtProperties(1).Text = objDatabase.OID
     txtProperties(2).Text = objDatabase.Owner
-    Set objItem = cboProperties(0).ComboItems.Add(, , objDatabase.ServerEncodingName, "ServerEncoding", "ServerEncoding")
+    Set objItem = cboProperties(0).ComboItems.Add(, , objDatabase.ServerEncodingName, "encoding", "encoding")
     objItem.Selected = True
     txtProperties(3).Text = objDatabase.Path
     bSetting = True
