@@ -615,6 +615,7 @@ Begin VB.Form frmMain
       Caption         =   "&File"
       Begin VB.Menu mnuFileConnect 
          Caption         =   "&Connect..."
+         Shortcut        =   ^N
       End
       Begin VB.Menu mnuFileChangePassword 
          Caption         =   "Change &Password..."
@@ -626,6 +627,7 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuFileSaveDefinition 
          Caption         =   "&Save Definition..."
          Enabled         =   0   'False
+         Shortcut        =   ^S
       End
       Begin VB.Menu mnuFileSaveDBSchema 
          Caption         =   "S&ave DB Schema..."
@@ -636,6 +638,20 @@ Begin VB.Form frmMain
       End
       Begin VB.Menu mnuFileExit 
          Caption         =   "E&xit"
+         Shortcut        =   ^X
+      End
+   End
+   Begin VB.Menu mnuEdit 
+      Caption         =   "&Edit"
+      Begin VB.Menu mnuEditCopy 
+         Caption         =   "&Copy"
+         Enabled         =   0   'False
+         Shortcut        =   ^C
+      End
+      Begin VB.Menu mnuEditPaste 
+         Caption         =   "&Paste"
+         Enabled         =   0   'False
+         Shortcut        =   +{INSERT}
       End
    End
    Begin VB.Menu mnuPlugins 
@@ -750,6 +766,7 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuToolsFindObject 
          Caption         =   "&Find Object"
          Enabled         =   0   'False
+         Shortcut        =   ^F
       End
       Begin VB.Menu mnuToolsUpgradeWizard 
          Caption         =   "&Upgrade Wizard..."
@@ -759,6 +776,7 @@ Begin VB.Form frmMain
       End
       Begin VB.Menu mnuToolsOptions 
          Caption         =   "&Options..."
+         Shortcut        =   ^O
       End
    End
    Begin VB.Menu mnuView 
@@ -811,6 +829,17 @@ Begin VB.Form frmMain
          Enabled         =   0   'False
       End
       Begin VB.Menu mnuPopupSep1 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuPopupCopy 
+         Caption         =   "&Copy"
+         Enabled         =   0   'False
+      End
+      Begin VB.Menu mnuPopupPaste 
+         Caption         =   "&Paste"
+         Enabled         =   0   'False
+      End
+      Begin VB.Menu mnuPopupSep2 
          Caption         =   "-"
       End
       Begin VB.Menu mnuPopupCreate 
@@ -893,7 +922,7 @@ Begin VB.Form frmMain
          Caption         =   "&Properties..."
          Enabled         =   0   'False
       End
-      Begin VB.Menu mnuPopupSep2 
+      Begin VB.Menu mnuPopupSep3 
          Caption         =   "-"
       End
       Begin VB.Menu mnuPopupSQL 
@@ -904,7 +933,7 @@ Begin VB.Form frmMain
          Caption         =   "&View Data"
          Enabled         =   0   'False
       End
-      Begin VB.Menu mnuPopupSep3 
+      Begin VB.Menu mnuPopupSep4 
          Caption         =   "-"
       End
       Begin VB.Menu mnuPopupResetStatistics 
@@ -924,7 +953,7 @@ Begin VB.Form frmMain
             Caption         =   "Vacuum &Analyse"
          End
       End
-      Begin VB.Menu mnuPopupSep4 
+      Begin VB.Menu mnuPopupSep5 
          Caption         =   "-"
       End
       Begin VB.Menu mnuPopupRecordLog 
@@ -1039,6 +1068,46 @@ Dim siWidth As Single
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Resize"
+End Sub
+
+Private Sub mnuEditCopy_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuEditCopy_Click()", etFullDebug
+
+  CopyObjDb
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuEditCopy_Click"
+End Sub
+
+Private Sub mnuEditPaste_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuEditPaste_Click()", etFullDebug
+
+  PasteObjDb
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuEditPaste_Click"
+End Sub
+
+Private Sub mnuPopupCopy_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCopy_Click()", etFullDebug
+
+  CopyObjDb
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCopy_Click"
+End Sub
+
+Private Sub mnuPopupPaste_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupPaste_Click()", etFullDebug
+
+  PasteObjDb
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupPaste_Click"
 End Sub
 
 Private Sub mnuPopupCreateDomain_Click()

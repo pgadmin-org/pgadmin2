@@ -127,6 +127,15 @@ On Error Resume Next
     frmMain.mnuPopupViewData.Enabled = False
   End If
   
+  Select Case vData.ObjectType
+    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type"
+      frmMain.mnuEditCopy.Enabled = True
+      frmMain.mnuPopupCopy.Enabled = True
+    Case Else
+      frmMain.mnuEditCopy.Enabled = False
+      frmMain.mnuPopupCopy.Enabled = False
+  End Select
+  
 End Property
 Public Property Get CurrentObject() As Object
   Set CurrentObject = objCurrentObject

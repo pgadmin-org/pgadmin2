@@ -20,6 +20,7 @@ Attribute VB_Exposed = False
 Public frmAbout As pgAdmin2.frmAbout                        'frmAbout.frm
 Public frmAggregate As pgAdmin2.frmAggregate                'frmAggregate.frm
 Public frmCast As pgAdmin2.frmCast                          'frmCast.frm
+Public frmClone As pgAdmin2.frmClone                        'frmClone.frm
 Public frmColumn As pgAdmin2.frmColumn                      'frmColumn.frm
 Public frmConnect As pgAdmin2.frmConnect                    'frmConnect.frm
 Public frmDatabase As pgAdmin2.frmDatabase                  'frmDatabase.frm
@@ -76,6 +77,87 @@ End Sub
 ''''''''''''''''''''''''''''''''''''''''''''''''''
 'Module: basAPI
 'File: basAPI.bas
+''''''''''''''''''''''''''''''''''''''''''''''''''
+'Module: basClone
+'File: basClone.bas
+'Inizialize clone object
+Public Sub InitClone()
+  Call basClone.InitClone()
+
+End Sub
+
+'clear object database
+Public Sub ClearObjDb()
+  Call basClone.ClearObjDb()
+
+End Sub
+
+'copy object database
+Public Sub CopyObjDb()
+  Call basClone.CopyObjDb()
+
+End Sub
+
+'paste object database
+Public Sub PasteObjDb()
+  Call basClone.PasteObjDb()
+
+End Sub
+
+'clone type
+Public Function CloneType(szNewName As String, szDatabase As String, szNamespace As String) 'As pgType
+'  CloneType = basClone.CloneType(szNewName,szDatabase,szNamespace)
+End Function
+
+'clone cast
+Public Function CloneCast(szDatabase As String) 'As pgCast
+'  CloneCast = basClone.CloneCast(szDatabase)
+End Function
+
+'clone operator
+Public Function CloneOperator(szNewName As String, szDatabase As String, szNamespace As String) 'As pgOperator
+'  CloneOperator = basClone.CloneOperator(szNewName,szDatabase,szNamespace)
+End Function
+
+'clone aggregate
+Public Function CloneAggregate(szNewName As String, szDatabase As String, szNamespace As String) 'As pgAggregate
+'  CloneAggregate = basClone.CloneAggregate(szNewName,szDatabase,szNamespace)
+End Function
+
+'clone function
+Public Function CloneFunction(szNewName As String, szDatabase As String, szNamespace As String) 'As pgFunction
+'  CloneFunction = basClone.CloneFunction(szNewName,szDatabase,szNamespace)
+End Function
+
+'clone domain
+Public Function CloneDomain(szNewName As String, szDatabase As String, szNamespace As String) 'As pgDomain
+'  CloneDomain = basClone.CloneDomain(szNewName,szDatabase,szNamespace)
+End Function
+
+'clone user
+Public Function CloneUser(szNewName As String) 'As pgUser
+'  CloneUser = basClone.CloneUser(szNewName)
+End Function
+
+'clone group
+Public Function CloneGroup(szNewName As String) 'As pgGroup
+'  CloneGroup = basClone.CloneGroup(szNewName)
+End Function
+
+'clone view
+Public Function CloneView(szNewName As String, szDatabase As String, szNamespace As String) 'As pgView
+'  CloneView = basClone.CloneView(szNewName,szDatabase,szNamespace)
+End Function
+
+'clone table
+Public Function CloneTable(szNewName As String, szDatabase As String, szNamespace As String, Optional bCopyData As Boolean = False) 'As pgTable
+'  CloneTable = basClone.CloneTable(szNewName,szDatabase,szNamespace,bCopyData,=,False)
+End Function
+
+Public Sub CloneAcl(objDb As Variant)
+  Call basClone.CloneAcl(objDb)
+End Sub
+
 ''''''''''''''''''''''''''''''''''''''''''''''''''
 'Module: basGlobal
 'File: basGlobal.bas

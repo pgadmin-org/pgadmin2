@@ -24,6 +24,7 @@ Limit statistics to the correct schema [Frank Lupo].
 Allow numeric usernames in groups.
 Added a dialogue to allow column definition to be copied from another table in Create Table dialogue [Frank Lupo].
 Allow scroll through objects in property dialogues [Frank Lupo].
+Added Copy/Paste options for most object types [Frank Lupo].
 
 1.4.12
 ------

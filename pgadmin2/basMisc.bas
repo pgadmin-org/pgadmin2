@@ -195,8 +195,9 @@ Dim objFont As New StdFont
     End If
   End If
   
-  'Initialise the variable collection
+  'Initialise stuff
   InitVarDb
+  InitClone
    
 End Sub
 
