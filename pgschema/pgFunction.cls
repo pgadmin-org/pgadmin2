@@ -272,7 +272,7 @@ Dim rs As New Recordset
   
   'Set the source
   szSource = vData
-  objServer.Databases(Database).Execute SQL(True)
+  objServer.Databases(Database).Execute SQL(True, True)
     
   'Select the prosrc back from the DB...
   Set rs = objServer.ExecSQL("SELECT prosrc FROM pg_proc WHERE oid = " & lOID, cnDatabase)
@@ -428,7 +428,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Argument
 Err_Handler:  objServer.iLogError Err
 End Property
 
-Public Property Get SQL(Optional OrReplace As Boolean) As String
+Public Property Get SQL(Optional OrReplace As Boolean = False, Optional bQuote As Boolean = False) As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SQL(" & OrReplace & ")", etFullDebug
@@ -436,6 +436,7 @@ Dim szSQL As String
 Dim szArgs As String
 Dim vArg As Variant
 Dim X As Long
+
   'Get the arguments if we don't have them
   If colArguments Is Nothing Then
     Set colArguments = New Arguments
@@ -459,8 +460,12 @@ Dim X As Long
     szSQL = szSQL & "CREATE FUNCTION " & QUOTE & szName & QUOTE & szArgs
   End If
   
+  If bQuote Then
+    szSource = dbSZ(szSource)
+  End If
+  
   szSQL = szSQL & " RETURNS " & QUOTE & szReturns & QUOTE & _
-                  " AS '" & szSource & "'" & _
+                  " AS '" & szSource & "' " & _
                   " LANGUAGE '" & dbSZ(szLanguage) & "'"
           
   If bCachable Or bStrict Then szSQL = szSQL & " WITH ("
