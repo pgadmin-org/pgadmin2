@@ -1,12 +1,15 @@
 [OPTIONS]
 Auto Index=Yes
-Compatibility=1.1
+Compatibility=1.1 or later
 Compiled file=pgadmin2.chm
 Contents file=pgAdmin2.hhc
 Default topic=html\index.html
-Display compile progress=No
+Display compile progress=Yes
 Full-text search=Yes
 Index file=pgAdmin2.hhk
 Language=0x809 English (United Kingdom)
 Title=pgAdmin II
+
+
+[INFOTYPES]
 
