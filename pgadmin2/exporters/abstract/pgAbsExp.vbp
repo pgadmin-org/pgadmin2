@@ -1,6 +1,6 @@
 Type=OleDll
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\WINNT\System32\stdole2.tlb#OLE Automation
-Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\..\..\Program Files\Common Files\system\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
+Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\..\..\Program Files\Common Files\System\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
 Class=pgExporter; pgExporter.cls
 Startup="(None)"
 HelpFile=""
@@ -16,7 +16,7 @@ CompatibleEXE32="..\..\..\binaries\pgAbsExp.dll"
 VersionCompatible32="1"
 MajorVer=1
 MinorVer=0
-RevisionVer=42
+RevisionVer=43
 AutoIncrementVer=1
 ServerSupportFiles=0
 DllBaseAddress=&H7a890000
