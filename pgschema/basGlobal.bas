@@ -97,7 +97,7 @@ End Function
 
 'Parse an ACL and return GRANT/REVOKE Statements
 Public Function ParseACL(ByVal szObject As String, ByVal szACL As String) As String
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering ParseACL(" & QUOTE & szObject & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim szEntries() As String

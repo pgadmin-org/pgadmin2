@@ -219,7 +219,7 @@ End Function
 
 'Return the Aggregates Collection
 Public Property Get Aggregates() As Aggregates
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering pgDatabase.Property Get Aggregates()", etFullDebug
 
   If colAggregates Is Nothing Then
@@ -639,7 +639,7 @@ End Sub
 'Connect to the Database
 Friend Sub dbConnect()
 Attribute dbConnect.VB_Description = "Open a connection to the database."
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering pgDatabase.dbConnect()", etFullDebug
 
 Dim szConnect As String
@@ -669,6 +669,18 @@ objServer.iLogEvent "Entering pgDatabase.Sub dbDisconnect()", etFullDebug
   Else
     objServer.iLogEvent "Closing cnDatabase: " & Replace(cnDatabase.ConnectionString, ";PWD=" & objServer.iPassword, ";PWD=********"), etMiniDebug
   End If
+  Set colAggregates = Nothing
+  Set colLanguages = Nothing
+  Set colSequences = Nothing
+  Set colViews = Nothing
+  Set colTypes = Nothing
+  Set colFunctions = Nothing
+  Set colOperators = Nothing
+  Set colTables = Nothing
+  Set szTypeCache = Nothing
+  Set szLanguageCache = Nothing
+  Set szOperatorCache = Nothing
+  Set szCommentCache = Nothing
   If cnDatabase.State <> adStateClosed Then cnDatabase.Close
   Set cnDatabase = Nothing
   

@@ -59,7 +59,7 @@ End Property
 
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, lNArgs As Long, szArgs As String, bDeferrable As Boolean, bInitially As String) As pgForeignKey
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering ForeignKeys.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lNArgs & ", " & QUOTE & szArgs & QUOTE & ", " & bDeferrable & ", " & bInitially & ")", etFullDebug
 
 Dim objNewMember As pgForeignKey
@@ -179,7 +179,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering ForeignKeys.Initialize()", etFullDebug
 
 Dim rs As New Recordset

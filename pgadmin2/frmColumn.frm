@@ -362,7 +362,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmC
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering frmColumn.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -378,13 +378,13 @@ Dim szOldName As String
   'Check the data
   If txtProperties(0).Text = "" Then
     MsgBox "You must specify a Column name!", vbExclamation, "Error"
-    tabProperties.Tab = 0
+    tabProperties.tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
     MsgBox "You must specify a column type!", vbExclamation, "Error"
-    tabProperties.Tab = 0
+    tabProperties.tab = 0
     cboProperties(1).SetFocus
     Exit Sub
   End If
@@ -394,7 +394,7 @@ Dim szOldName As String
       For Each objItem In frmCallingForm.lvProperties(0).ListItems
         If objItem.Text = txtProperties(0).Text Then
           MsgBox "A column with that name already exists!", vbExclamation, "Error"
-          tabProperties.Tab = 0
+          tabProperties.tab = 0
           txtProperties(0).SetFocus
           Exit Sub
         End If

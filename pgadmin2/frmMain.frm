@@ -1154,7 +1154,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmM
 End Sub
 
 Private Sub mnuPopupViewData_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering frmMain.mnuPopupViewData_Click()", etFullDebug
   
 Dim objOutputForm As New frmSQLOutput
@@ -1188,7 +1188,7 @@ Err_Handler:
 End Sub
 
 Private Sub tb_ButtonClick(ByVal Button As MSComctlLib.Button)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering frmMain.tb_ButtonClick(" & Button & ")", etFullDebug
 
   Select Case Button.Key

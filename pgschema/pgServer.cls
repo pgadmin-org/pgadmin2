@@ -77,7 +77,7 @@ Private bShowPassword As Boolean
 'Error Log
 'If an application is logging it's errors through the mechanism here, then any errors
 'generated internally will be logged internally AND logged by the host application.
-'To fix this, internally we use iiLogEvent, and the hosting application can set DontLogErrors
+'To fix this, internally we use iLogEvent, and the hosting application can set DontLogErrors
 'as required.
 Friend Sub iLogError(ByVal objError As ErrObject)
 Dim lError As Long

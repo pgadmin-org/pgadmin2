@@ -145,7 +145,7 @@ End Function
 
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering Columns.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objColumn As New pgColumn

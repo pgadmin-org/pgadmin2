@@ -122,7 +122,7 @@ End Function
 Public Property Get Item(IndexOrKey As Variant) As pgDatabase
 Attribute Item.VB_Description = "Returns  a database object."
 Attribute Item.VB_UserMemId = 0
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering Databases.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
@@ -163,15 +163,16 @@ objServer.iLogEvent "Entering Databases.Remove(" & QUOTE & IndexOrKey & QUOTE & 
 Dim szSQL As String
 Dim objDatabase As pgDatabase
 
+  Set objDatabase = mCol(IndexOrKey)
+  
   'Generate/Execute SQL to drop the database.
   'The leading space fools PostgreSQL into letting us work in a transaction
-  szSQL = " DROP DATABASE " & QUOTE & dbSZ(mCol(IndexOrKey).Name) & QUOTE
+  szSQL = " DROP DATABASE " & QUOTE & objDatabase.Name & QUOTE
   
   'If we are still connected to the Database this will definately fail
-  'so destroy the Database first.
-  'Set objDatabase = mCol(IndexOrKey)
-  'objDatabase.dbDisconnect
-  Item(IndexOrKey).dbDisconnect
+  'so destroy the Database Connection first.
+  objDatabase.dbDisconnect
+  Set objDatabase = Nothing
   
   'Drop the database
   objServer.ExecSQL szSQL, objServer.Connection
@@ -179,7 +180,6 @@ Dim objDatabase As pgDatabase
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove IndexOrKey
-  Set objDatabase = Nothing
   
   Exit Sub
 Err_Handler:

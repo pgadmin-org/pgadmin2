@@ -49,7 +49,7 @@ End Property
 'Return the ForeignKeys Collection
 Public Property Get ForeignKeys() As ForeignKeys
 Attribute ForeignKeys.VB_Description = "Returns a collection of Foreign Keys on the current Table."
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering pgDatabase.Property Get ForeignKeys()", etFullDebug
 
   If colForeignKeys Is Nothing Then
@@ -526,7 +526,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL() As String
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering pgView.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim objColumn As pgColumn

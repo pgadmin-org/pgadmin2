@@ -21,7 +21,7 @@ Begin VB.Form frmLog
       MultiLine       =   -1  'True
       ScrollBars      =   3  'Both
       TabIndex        =   0
-      ToolTipText     =   "Displays the Progeny's rolling log."
+      ToolTipText     =   "Displays pgAdmin's rolling log."
       Top             =   0
       Width           =   9105
    End
