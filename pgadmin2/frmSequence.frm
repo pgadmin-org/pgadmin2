@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "cmdAdd"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -349,11 +349,9 @@ Begin VB.Form frmSequence
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
-         BackColor       =   &H8000000F&
          Height          =   285
          Index           =   0
          Left            =   1935
-         Locked          =   -1  'True
          TabIndex        =   1
          ToolTipText     =   "The name of the sequence."
          Top             =   675
@@ -543,6 +541,7 @@ Private Sub cmdOK_Click()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdOK_Click()", etFullDebug
 
+Dim szOldName As String
 Dim objNode As Node
 Dim objItem As ListItem
 Dim lACL As Long
@@ -584,6 +583,22 @@ Dim vEntity As Variant
     
   Else
     StartMsg "Updating Sequence..."
+    
+    'Update the sequencename if required
+    If txtProperties(0).Tag = "Y" Then
+      szOldName = objSequence.Name
+      frmMain.svr.Databases(szDatabase).Sequences.Rename szOldName, txtProperties(0).Text
+        
+      'Update the node text
+      For Each objNode In frmMain.tv.Nodes
+        If (InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0) Then
+          If (Left(objNode.Key, 4) = "SEQ-") And (objNode.Parent.Parent.Text = szDatabase) And (objNode.Text = szOldName) Then
+            objNode.Text = txtProperties(0).Text
+          End If
+        End If
+      Next objNode
+    End If
+    
     If txtProperties(3).Tag = "Y" Then objSequence.LastValue = txtProperties(3).Text
     If hbxProperties(0).Tag = "Y" Then objSequence.Comment = hbxProperties(0).Text
   End If
@@ -665,8 +680,6 @@ Dim szAccess() As String
     Me.Caption = "Create Sequence"
     
     'Unlock the edittable fields
-    txtProperties(0).BackColor = &H80000005
-    txtProperties(0).Locked = False
     For X = 4 To 8
       txtProperties(X).BackColor = &H80000005
       txtProperties(X).Locked = False

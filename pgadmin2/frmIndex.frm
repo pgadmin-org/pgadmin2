@@ -162,11 +162,9 @@ Begin VB.Form frmIndex
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
-         BackColor       =   &H8000000F&
          Height          =   285
          Index           =   0
          Left            =   1935
-         Locked          =   -1  'True
          TabIndex        =   1
          ToolTipText     =   "The name of the index."
          Top             =   675
@@ -333,9 +331,10 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cmdOK_Click()", etFullDebug
 
+Dim szOldName As String
 Dim objNode As Node
 Dim objItem As ListItem
 Dim szColumns As String
@@ -381,6 +380,22 @@ Dim szColumns As String
     
   Else
     StartMsg "Updating Index..."
+    
+    'Update the sequencename if required
+    If txtProperties(0).Tag = "Y" Then
+      szOldName = objIndex.Name
+      frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Indexes.Rename szOldName, txtProperties(0).Text
+        
+      'Update the node text
+      For Each objNode In frmMain.tv.Nodes
+        If (InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0) And (InStr(1, objNode.FullPath, "\" & cboProperties(0).Text & "\") <> 0) Then
+          If (Left(objNode.Key, 4) = "IND-") And (objNode.Parent.Parent.Parent.Parent.Text = szDatabase) And (objNode.Parent.Parent.Text = cboProperties(0).Text) And (objNode.Text = szOldName) Then
+            objNode.Text = txtProperties(0).Text
+          End If
+        End If
+      Next objNode
+    End If
+    
     If hbxProperties(1).Tag = "Y" Then objIndex.Comment = hbxProperties(1).Text
   End If
   
@@ -430,8 +445,6 @@ Dim vArgument As Variant
     End If
 
     'Unlock the edittable fields
-    txtProperties(0).BackColor = &H80000005
-    txtProperties(0).Locked = False
     cboProperties(0).BackColor = &H80000005
     cboProperties(1).BackColor = &H80000005
     lvProperties(0).BackColor = &H80000005
@@ -467,6 +480,7 @@ Dim vArgument As Variant
   End If
   
   'Reset the Tags
+  txtProperties(0).Tag = "N"
   hbxProperties(1).Tag = "N"
   
   Exit Sub
@@ -478,6 +492,16 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.hbxProperties_Change"
+End Sub
+
+Private Sub txtProperties_Change(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.txtProperties_Change(" & Index & ")", etFullDebug
+
+  txtProperties(Index).Tag = "Y"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.hbxProperties_Change"
