@@ -1,20 +1,20 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmSQLOutput 
    Caption         =   "SQL Output"
-   ClientHeight    =   3195
+   ClientHeight    =   3192
    ClientLeft      =   60
-   ClientTop       =   345
+   ClientTop       =   348
    ClientWidth     =   8160
    Icon            =   "frmSQLOutput.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3195
+   ScaleHeight     =   3192
    ScaleWidth      =   8160
    Begin VB.PictureBox picTools 
       Height          =   465
       Left            =   0
-      ScaleHeight     =   405
-      ScaleWidth      =   4905
+      ScaleHeight     =   420
+      ScaleWidth      =   4920
       TabIndex        =   5
       Top             =   1215
       Width           =   4965
@@ -89,9 +89,9 @@ Begin VB.Form frmSQLOutput
    Begin VB.PictureBox picEdit 
       Height          =   1005
       Left            =   0
-      ScaleHeight     =   63
+      ScaleHeight     =   80
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   297
+      ScaleWidth      =   372
       TabIndex        =   0
       Top             =   0
       Visible         =   0   'False
@@ -101,9 +101,9 @@ Begin VB.Form frmSQLOutput
          BorderStyle     =   0  'None
          Height          =   885
          Left            =   0
-         ScaleHeight     =   59
+         ScaleHeight     =   74
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   242
+         ScaleWidth      =   303
          TabIndex        =   2
          Top             =   0
          Width           =   3630
@@ -145,8 +145,8 @@ Begin VB.Form frmSQLOutput
       TabIndex        =   12
       Top             =   0
       Width           =   5010
-      _ExtentX        =   8837
-      _ExtentY        =   2090
+      _ExtentX        =   8827
+      _ExtentY        =   2096
       View            =   3
       LabelEdit       =   1
       LabelWrap       =   -1  'True
@@ -1035,6 +1035,7 @@ GotInfo:
       szTemp = szSchema
       If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
       If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
+      If Len(szTemp) = 0 Then szTemp = "public"
     Else
       szTemp = "public"
     End If
