@@ -1,0 +1,93 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" href="../pgadmin2.css" type="text/css">
+<title>How do I... Use pgAdmin II via a secure (encrypted) connection?</title>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" id="TablePar">
+  <tr>
+    <td valign="middle" id="TablePar">
+      <h3>How do I... Use pgAdmin II via a secure (encrypted) connection?</h3>
+    </td>
+    <td width="120" id="TablePar">
+      <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right" width="119" height="119"></a>
+    </td>
+  </tr>
+</table>
+
+<p><b>Contributed by Fred Yankowski</b></p>
+
+<p><b>Editors Note: </b>This connection method uses a Linux box with OpenSSH to provide a 
+secure tunnel from the pgAdmin machine to the PostgreSQL server. The Linux box can (in 
+theory) be replaced with Cygwin + OpenSSH, or a native Windows SSH implementation running 
+on the pgAdmin machine, though I haven't tested this!</p>
+
+<p><b>Executive summary</b></p>
+<ul>
+  <li> Set up a local machine (call it &quot;mylocalhost&quot;) to 
+       forward, via SSH, local port 35432 to remote port 5432 on the
+       PostgreSQL server (call it &quot;dbhost&quot;).</li><br><br>
+  <li> Connect via pgAdmin to port 35432 on mylocalhost.</li>
+</ul>
+
+<p><b>Details (specific to OpenSSH on mylocalhost)</b></p>
+<ul>
+  <li>Add the following to $HOME/.ssh/config in mylocalhost:</li><br><br>
+    <center>
+      <table width=300>
+        <tr><th>Host</th><td>dbhost</td></tr>
+        <tr><th>Hostname</th><td>dbhost.com</td></tr>
+        <tr><th>User</th><td>mynameondbhost</td></tr>
+        <tr><th>LocalForward 35432</th><td>dbhost.com:5432</td></tr>
+        <tr><th>GatewayPorts</th><td>yes</td></tr>
+      </table>
+    </center>
+    <br>
+The 35432 port number is arbitrary. GatewayPorts must be allowed if
+you're running pgAdmin on a different machine than mylocalhost. In
+my case, mylocalhost is a Linux box on my LAN.</li><br><br>
+
+  <li>Open an ssh connection from mylocalhost to dbhost, and leave it open:<br><br>
+$ ssh dbhost<br>
+<br>
+These first two steps can be combined by using command-line
+parameters to ssh to specify the port-forwarding, but I prefer to
+use the config file method.</li><br>
+
+  <li>Add the following to the pg_hba.conf file on dbhost:<br>
+<br>
+host all nnn.nnn.nnn.nnn 255.255.255.255 password<br>
+<br>
+where 'nnn.nnn.nnn.nnn' is the IP address of dbhost. I found that
+it didn't suffice to just have the standard similar entries for
+'local ...' and 'host all 127.0.0.1 ...'.</li><br><br>
+
+  <li>Run pgAdmin and connect to mylocalhost:<br>
+    <center>
+      <table width=200>
+        <tr><th>Server</th><td>mylocalhost</td></tr>
+        <tr><th>Port</th><td>35432</td></tr>
+        <tr><th>Username</th><td>[as normal]</td></tr>
+        <tr><th>Password</th><td>[as normal]</td></tr>
+      </table>
+    </center>
+  </li><br>
+
+  <li>When done with pgAdmin you may wish to tear down the ssh connection.</li>
+</ul>
+
+Note that the same forwarded port can be used with all the other PostgreSQL utilities:<br>
+<br>
+$ psql -h mylocalhost -p 35432 -l -U postgres<br>
+$ pg_dump -h mylocalhost -p 35432 -u some_db_name<br>
+etc<br>
+
+
+</body>
+
+</html>
