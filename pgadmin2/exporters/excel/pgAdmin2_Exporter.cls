@@ -43,9 +43,9 @@ Dim Y As Integer
   
   'Create Header
   For X = 0 To rsData.Fields.Count - 1
-    ExcelApp.Cells(1, X + 1).NumberFormat = "@"
-    ExcelApp.Cells(1, X + 1).Font.Bold = True
-    ExcelApp.Cells(1, X + 1).Value = rsData.Fields(X).Name
+    ExcelApp.cells(1, X + 1).NumberFormat = "@"
+    ExcelApp.cells(1, X + 1).Font.Bold = True
+    ExcelApp.cells(1, X + 1).Value = rsData.Fields(X).Name
   Next
 
   'Enter Data
@@ -53,12 +53,23 @@ Dim Y As Integer
   Y = 2
   While Not rsData.EOF
     For X = 0 To rsData.Fields.Count - 1
-      ExcelApp.Cells(Y, X + 1).NumberFormat = "@"
-      If rsData.Fields(X).Type = adDBTime Then
-        ExcelApp.Cells(Y, X + 1).Value = Format(rsData.Fields(X).Value & "", "ttttt")
-      Else
-        ExcelApp.Cells(Y, X + 1).Value = rsData.Fields(X).Value & ""
-      End If
+      Select Case rsData.Fields(X).Type
+         Case adDBTimeStamp
+            ExcelApp.cells(Y, X + 1).NumberFormat = "yyyy/mm/dd hh:mm:ss"
+            ExcelApp.cells(Y, X + 1).FormulaR1C1 = rsData.Fields(X).Value & ""
+         Case adDBDate, adDate
+            ExcelApp.cells(Y, X + 1).NumberFormat = "yyyy/mm/dd"
+            ExcelApp.cells(Y, X + 1).FormulaR1C1 = rsData.Fields(X).Value & ""
+         Case adInteger '
+            ExcelApp.cells(Y, X + 1).NumberFormat = "0.00"
+            ExcelApp.cells(Y, X + 1).FormulaR1C1 = rsData.Fields(X).Value & ""
+         Case adDBTime
+            ExcelApp.cells(Y, X + 1).NumberFormat = "hh:mm:ss"
+            ExcelApp.cells(Y, X + 1).Value = Format(rsData.Fields(X).Value & "", "ttttt")
+         Case Else
+            ExcelApp.cells(Y, X + 1).NumberFormat = "@"
+            ExcelApp.cells(Y, X + 1).Value = rsData.Fields(X).Value & ""
+        End Select
     Next
     rsData.MoveNext
     Y = Y + 1
