@@ -698,7 +698,14 @@ Dim vColumn As Variant
       End If
       szSQL = szSQL & "FOREIGN KEY (" & Replace(Left(objForeignKey.LocalColumns, Len(objForeignKey.LocalColumns) - 1), "|", ", ") & ") " & _
               "REFERENCES " & QUOTE & objForeignKey.ReferencedTable & QUOTE & _
-              " (" & Replace(Left(objForeignKey.ReferencedColumns, Len(objForeignKey.ReferencedColumns) - 1), "|", ", ") & "), " & vbCrLf
+              " (" & Replace(Left(objForeignKey.ReferencedColumns, Len(objForeignKey.ReferencedColumns) - 1), "|", ", ") & ")" & _
+              " ON DELETE " & UCase(objForeignKey.OnDelete) & " ON UPDATE " & UCase(objForeignKey.OnUpdate)
+      If objForeignKey.Deferrable Then
+        szSQL = szSQL & " DEFERRABLE"
+      Else
+        szSQL = szSQL & " NOT DEFERRABLE"
+      End If
+      szSQL = szSQL & " INITIALLY " & UCase(objForeignKey.Initially) & ", " & vbCrLf
     Next objForeignKey
   End If
   

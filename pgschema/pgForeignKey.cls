@@ -277,7 +277,7 @@ Dim szSQL As String
 Dim rs As New Recordset
 
   If bCached = False Then
-    szSQL = "SELECT proname FROM pg_proc p, pg_trigger t, pg_class c WHERE p.oid = t.tgfoid AND t.tgconstrrelid = " & lTableOID & " AND t.tgtype = 9 AND t.tgrelid = c.oid AND c.relname = '" & szReferencedTable & "'"
+    szSQL = "SELECT proname FROM pg_proc p, pg_trigger t, pg_class c WHERE p.oid = t.tgfoid AND (t.tgconstrrelid = " & lTableOID & " OR t.tgconstrrelid = 0) AND t.tgtype = 9 AND t.tgrelid = c.oid AND c.relname = '" & szReferencedTable & "'"
     Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     If Not rs.EOF Then
       Select Case rs!proname
@@ -318,7 +318,7 @@ Dim szSQL As String
 Dim rs As New Recordset
 
   If bCached = False Then
-    szSQL = "SELECT proname FROM pg_proc p, pg_trigger t, pg_class c WHERE p.oid = t.tgfoid AND t.tgconstrrelid = " & lTableOID & " AND t.tgtype = 17 AND t.tgrelid = c.oid AND c.relname = '" & szReferencedTable & "'"
+    szSQL = "SELECT proname FROM pg_proc p, pg_trigger t, pg_class c WHERE p.oid = t.tgfoid AND (t.tgconstrrelid = " & lTableOID & " OR t.tgconstrrelid = 0) AND t.tgtype = 17 AND t.tgrelid = c.oid AND c.relname = '" & szReferencedTable & "'"
     Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     If Not rs.EOF Then
       Select Case rs!proname
