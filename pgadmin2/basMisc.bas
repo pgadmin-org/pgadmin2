@@ -93,14 +93,15 @@ Dim szFrequency As String
     frmMain.txtDefinition.Visible = False
     frmMain.mnuViewShowDefinitionPane.Checked = False
   End If
-  frmMain.SizeControls Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Splitter Position", "3500"))
   
   'Position & Size the form
   frmMain.Left = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Left", "0"))
   frmMain.Top = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Top", "0"))
   frmMain.Width = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Width", "9500"))
   frmMain.Height = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Height", "7000"))
+  frmMain.Resize Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Vertical Splitter", "3500")), Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Horizontal Splitter", "5000"))
   frmMain.Caption = App.Title & " v" & App.Major & "." & App.Minor & " Build " & App.Revision
+
 
   'Build the connection menu
   BuildConnectionMenu

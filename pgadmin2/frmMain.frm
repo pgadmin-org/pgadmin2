@@ -21,14 +21,14 @@ Begin VB.Form frmMain
       _Version        =   393216
    End
    Begin HighlightBox.HBX txtDefinition 
-      Height          =   2130
+      Height          =   1635
       Left            =   3825
-      TabIndex        =   5
+      TabIndex        =   4
       ToolTipText     =   "Displays the SQL Definition of the currently selected object."
-      Top             =   4185
+      Top             =   4680
       Width           =   5820
       _ExtentX        =   10266
-      _ExtentY        =   3757
+      _ExtentY        =   2884
       BackColor       =   -2147483633
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -99,20 +99,6 @@ Begin VB.Form frmMain
             Key             =   "graveyard"
          EndProperty
       EndProperty
-   End
-   Begin VB.PictureBox picSplitter 
-      BackColor       =   &H00808080&
-      BorderStyle     =   0  'None
-      FillColor       =   &H00808080&
-      Height          =   5475
-      Left            =   3645
-      ScaleHeight     =   2384.051
-      ScaleMode       =   0  'User
-      ScaleWidth      =   780
-      TabIndex        =   4
-      Top             =   630
-      Visible         =   0   'False
-      Width           =   72
    End
    Begin MSComctlLib.Toolbar tb 
       Align           =   1  'Align Top
@@ -503,11 +489,21 @@ Begin VB.Form frmMain
       ImageList       =   "il"
       Appearance      =   1
    End
-   Begin VB.Image imgSplitter 
+   Begin VB.Image splHorizontal 
+      DragMode        =   1  'Automatic
+      Height          =   50
+      Left            =   3735
+      MousePointer    =   7  'Size N S
+      Top             =   4320
+      Width           =   5760
+   End
+   Begin VB.Image splVertical 
+      DragMode        =   1  'Automatic
       Height          =   5550
       Left            =   3510
+      MousePointer    =   9  'Size W E
       Top             =   630
-      Width           =   60
+      Width           =   50
    End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
@@ -835,76 +831,135 @@ Option Explicit
 Public WithEvents svr As pgServer
 Attribute svr.VB_VarHelpID = -1
 
-'Indicates whether we are moving
-Dim bMoving As Boolean
-
-
 Private Sub Form_Resize()
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Resize()", etFullDebug
 
   On Error Resume Next
   txtDefinition.Minimise
-  If Me.Width < 8000 Then Me.Width = 8000
-  If Me.Height < 6000 Then Me.Height = 6000
-  SizeControls RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Splitter Position", "3500")
+  Resize splVertical.Left, splHorizontal.Top
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Form_Resize"
 End Sub
 
-Private Sub imgSplitter_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Public Sub Resize(VPos As Single, HPos As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseDown(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.Resize(" & HPos & ", " & VPos & ")", etFullDebug
 
-  With imgSplitter
-    picSplitter.Move .Left, .Top, .Width \ 2, .Height - 20
-  End With
-  picSplitter.Visible = True
-  bMoving = True
+Dim siTop As Single
+Dim siLeft As Single
+Dim siHeight As Single
+Dim siWidth As Single
+
+  'Check the form size
+  If Me.Height < 3500 Then Me.Height = 3500
+  If Me.Width < 4000 Then Me.Width = 4000
   
+  'Size to the form
+  If tb.Visible Then
+    siTop = tb.Height
+  Else
+    siTop = 0
+  End If
+  siLeft = 0
+  If sb.Visible Then
+    siHeight = Me.ScaleHeight - sb.Height
+  Else
+    siHeight = Me.ScaleHeight
+  End If
+  siWidth = Me.ScaleWidth
+  
+  'Set the Min/Max positions
+  If VPos < siLeft + 1000 Then VPos = siLeft + 1000
+  If VPos > siWidth - 1000 Then VPos = siWidth - 1000
+  If HPos < siTop + 1000 Then HPos = siTop + 1000
+  If HPos > siHeight - 1000 Then HPos = siHeight - 1000
+  
+  'Set Verticals
+  tv.Top = siTop
+  tv.Height = siHeight - tv.Top
+  
+  lv.Top = siTop
+  If txtDefinition.Visible Then
+    lv.Height = HPos - lv.Top
+  Else
+    lv.Height = tv.Height
+  End If
+  
+  txtDefinition.Top = HPos + 50
+  txtDefinition.Height = siHeight - txtDefinition.Top
+  
+  splVertical.Top = -(siHeight * 2)
+  splVertical.Height = siHeight * 5
+  splVertical.Left = VPos
+  
+  'Set Horizontals
+  tv.Left = siLeft
+  tv.Width = VPos - tv.Left
+  
+  lv.Left = VPos + 50
+  lv.Width = siWidth - lv.Left
+  
+  txtDefinition.Left = lv.Left
+  txtDefinition.Width = lv.Width
+  
+  splHorizontal.Left = -(siWidth * 2)
+  splHorizontal.Width = siWidth * 5
+  splHorizontal.Top = HPos
+    
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.imgSplitter_MouseDown"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Resize"
 End Sub
 
-Private Sub imgSplitter_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseMove(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
-Dim sglPos As Single
-  
-  If bMoving Then
-    sglPos = X + imgSplitter.Left
-    If sglPos < 500 Then
-      picSplitter.Left = 500
-    ElseIf sglPos > Me.Width - 500 Then
-      picSplitter.Left = Me.Width - 500
-    Else
-      picSplitter.Left = sglPos
-    End If
+  If Source.Name = "splVertical" Then
+    Resize tv.Left + X, splHorizontal.Top
+  ElseIf Source.Name = "splHorizontal" Then
+    Resize splVertical.Left, tv.Top + Y
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.imgSplitter_MouseMove"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_DragDrop"
 End Sub
 
-Private Sub imgSplitter_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lv_DragDrop(Source As Control, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
-  SizeControls picSplitter.Left
-  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Splitter Position", regString, picSplitter.Left
-  picSplitter.Visible = False
-  bMoving = False
+  If Source.Name = "splVertical" Then
+    Resize lv.Left + X, splHorizontal.Top
+  ElseIf Source.Name = "splHorizontal" Then
+    Resize splVertical.Left, lv.Top + Y
+  End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.imgSplitter_MouseUp"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DragDrop"
+End Sub
+
+Private Sub txtDefinition_DragDrop(Source As Control, X As Single, Y As Single)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+
+  If Source.Name = "splVertical" Then
+    Resize txtDefinition.Left + X, splHorizontal.Top
+  ElseIf Source.Name = "splHorizontal" Then
+    Resize splVertical.Left, txtDefinition.Top + Y
+  End If
+    
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.txtDefinition_DragDrop"
 End Sub
 
 Private Sub lv_DblClick()
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DblClick()", etFullDebug
+
   mnuPopupProperties_Click
+  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DblClick"
 End Sub
@@ -1176,7 +1231,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowDefinitionPane_Click
     mnuViewShowDefinitionPane.Checked = True
     txtDefinition.Visible = True
   End If
-  SizeControls imgSplitter.Left
+  Resize splVertical.Left, splHorizontal.Top
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewShowDefinitionPane_Click"
@@ -1215,7 +1270,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowStatusBar_Click()", 
     mnuViewShowStatusBar.Checked = True
     sb.Visible = True
   End If
-  SizeControls imgSplitter.Left
+  Resize splVertical.Left, splHorizontal.Top
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewShowStatusBar_Click"
@@ -1234,7 +1289,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowToolBar_Click()", et
     mnuViewShowToolBar.Checked = True
     tb.Visible = True
   End If
-  SizeControls imgSplitter.Left
+  Resize splVertical.Left, splHorizontal.Top
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewShowToolBar_Click"
@@ -1817,57 +1872,6 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tb_ButtonMenuClick"
 End Sub
 
-Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
-On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & QUOTE & Source.Name & QUOTE & ", " & X & ", " & Y & ")", etFullDebug
-
-  If Source = imgSplitter Then
-    SizeControls X
-  End If
-  
-  Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_DragDrop"
-End Sub
-
-Public Sub SizeControls(X As Single)
-On Error Resume Next
-svr.LogEvent "Entering " & App.Title & ":frmMain.SizeControls(" & X & ")", etFullDebug
-
-  'Set the width
-  If X < 1500 Then X = 1500
-  If X > (Me.Width - 1500) Then X = Me.Width - 1500
-  tv.Width = X
-  imgSplitter.Left = X
-  lv.Left = X + 40
-  lv.Width = Me.Width - (tv.Width + 140)
-  txtDefinition.Left = lv.Left
-  txtDefinition.Width = lv.Width
-
-  'Set the top
-  If tb.Visible Then
-    tv.Top = tb.Height
-  Else
-    tv.Top = 0
-  End If
-  lv.Top = tv.Top
-  
-  'Set the height
-  If sb.Visible Then
-    tv.Height = Me.ScaleHeight - (tv.Top - sb.Height) - 575
-  Else
-    tv.Height = Me.ScaleHeight - tv.Top
-  End If
-  
-  If txtDefinition.Visible Then
-    lv.Height = tv.Height - txtDefinition.Height
-  Else
-    lv.Height = tv.Height
-  End If
-  txtDefinition.Top = lv.Height + lv.Top
-  imgSplitter.Top = tv.Top
-  imgSplitter.Height = tv.Height
-End Sub
-
 Private Sub Form_Unload(Cancel As Integer)
 On Error Resume Next
 svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Unload(" & Cancel & ")", etFullDebug
@@ -1898,6 +1902,8 @@ Dim lLeft As Long
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Left", regString, lLeft
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Width", regString, Me.Width
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Height", regString, Me.Height
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Horizontal Splitter", regString, splHorizontal.Top
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Vertical Splitter", regString, splVertical.Left
   
   'Clear the Server, then Context objects last as the forms may be using them for logging
   Set svr = Nothing

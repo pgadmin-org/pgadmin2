@@ -1,3 +1,8 @@
+1.3.??
+------
+
+New resize code in frmMain - allows adjustment of the Listview/Definition pane split.
+
 1.2.0 Stable
 ------------
 
