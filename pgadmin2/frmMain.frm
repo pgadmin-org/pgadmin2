@@ -1654,7 +1654,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
-Allow use of objects with only case differences in name.On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & QUOTE & Source.Name & QUOTE & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source = imgSplitter Then

@@ -29,8 +29,8 @@ Begin VB.Form frmAbout
    Begin VB.Label lblCopyright 
       AutoSize        =   -1  'True
       BackColor       =   &H00000000&
-      BackStyle       =   0  'Transparent
-      Caption         =   "Copyright 2001, Dave Page"
+      BorderStyle     =   1  'Fixed Single
+      Caption         =   "Copyright 2001, The pgAdmin Development Team"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -40,40 +40,31 @@ Begin VB.Form frmAbout
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00FFC0FF&
-      Height          =   195
+      ForeColor       =   &H0080FFFF&
+      Height          =   255
       Left            =   45
       TabIndex        =   4
-      Top             =   765
-      Width           =   2355
+      Top             =   1215
+      Width           =   4275
    End
    Begin VB.Label lblLicence 
       Alignment       =   2  'Center
       AutoSize        =   -1  'True
       BackColor       =   &H00000000&
-      BackStyle       =   0  'Transparent
-      Caption         =   "pgAdmin is released under the pgAdmin Public Licence."
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   13.5
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00FFFFC0&
-      Height          =   810
-      Left            =   360
+      BorderStyle     =   1  'Fixed Single
+      Caption         =   $"frmAbout.frx":2D51
+      ForeColor       =   &H0080FFFF&
+      Height          =   720
+      Left            =   45
       TabIndex        =   3
-      Top             =   1305
-      Width           =   4515
+      Top             =   1575
+      Width           =   5205
       WordWrap        =   -1  'True
    End
    Begin VB.Label lblVersion 
       AutoSize        =   -1  'True
       BackColor       =   &H00000000&
-      BackStyle       =   0  'Transparent
+      BorderStyle     =   1  'Fixed Single
       Caption         =   "Version"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -84,17 +75,17 @@ Begin VB.Form frmAbout
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00FFC0FF&
-      Height          =   195
+      ForeColor       =   &H0080FFFF&
+      Height          =   255
       Left            =   45
       TabIndex        =   2
-      Top             =   540
-      Width           =   645
+      Top             =   810
+      Width           =   705
    End
    Begin VB.Label lblAppName 
       AutoSize        =   -1  'True
       BackColor       =   &H00000000&
-      BackStyle       =   0  'Transparent
+      BorderStyle     =   1  'Fixed Single
       Caption         =   "AppName"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -106,11 +97,11 @@ Begin VB.Form frmAbout
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFC0C0&
-      Height          =   555
+      Height          =   615
       Left            =   1350
       TabIndex        =   0
-      Top             =   45
-      Width           =   2550
+      Top             =   90
+      Width           =   2610
    End
 End
 Attribute VB_Name = "frmAbout"
@@ -146,3 +137,4 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmAbout.Form_Load()", etFullDe
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAbout.Form_Load"
 End Sub
+
