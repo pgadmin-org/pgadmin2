@@ -8,6 +8,7 @@ Allow migration of serial columns from SQL Server < 7.0 [Brage Førland]
 Fix bug in NOT NULL column discovery [Brage Førland]
 Copy migrate serial columns datatype according to the type map [Brage Førland]
 Create sequence with a _seq suffix as per PostgreSQL
+Don't error with Access' 1:1 Foreign Keys.
 
 1.4.12
 ------
