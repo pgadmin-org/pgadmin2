@@ -4,8 +4,8 @@ Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLInput 
    Caption         =   "SQL"
    ClientHeight    =   3195
-   ClientLeft      =   60
-   ClientTop       =   345
+   ClientLeft      =   5070
+   ClientTop       =   2955
    ClientWidth     =   7245
    Icon            =   "frmSQLInput.frx":0000
    LinkTopic       =   "Form1"
@@ -94,6 +94,14 @@ Begin VB.Form frmSQLInput
       DialogTitle     =   "Select SQL File"
       Filter          =   "All Files (*.*)|*.*"
    End
+   Begin VB.Menu mnuLoadCmd 
+      Caption         =   "&Previous"
+      Index           =   0
+   End
+   Begin VB.Menu mnuLoadCmd 
+      Caption         =   "&Next"
+      Index           =   1
+   End
 End
 Attribute VB_Name = "frmSQLInput"
 Attribute VB_GlobalNameSpace = False
@@ -110,6 +118,7 @@ Option Explicit
 
 Dim bDirty As Boolean
 Dim szDatabase As String
+Const MAXCMDSQL As Integer = 50
 
 Private Sub cmdExecute_Click()
 On Error GoTo Err_Handler
@@ -120,12 +129,12 @@ Dim szBits() As String
 Dim vBit As Variant
 Dim szSQL As String
 
-  If Len(txtSql.Text) < 5 Then Exit Sub
+  If Len(txtSQL.Text) < 5 Then Exit Sub
   
-  If txtSql.SelLength > 5 Then
-    szSQL = Mid(txtSql.Text, txtSql.SelStart + 1, txtSql.SelLength)
+  If txtSQL.SelLength > 5 Then
+    szSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
   Else
-    szSQL = txtSql.Text
+    szSQL = txtSQL.Text
   End If
   
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
@@ -149,6 +158,7 @@ Dim szSQL As String
     EndMsg
     MsgBox "Query Executed OK!", vbInformation
   End If
+  StoreCmdSql szSQL
 
   Exit Sub
 Err_Handler:
@@ -163,10 +173,10 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExplain_Click()"
 Dim objQueryPlanForm As New frmSQLExplain
 
   'Check for blank query
-  If txtSql.Text = "" Then Exit Sub
+  If txtSQL.Text = "" Then Exit Sub
 
   Load objQueryPlanForm
-  objQueryPlanForm.Explain txtSql.Text, szDatabase
+  objQueryPlanForm.Explain txtSQL.Text, szDatabase
   objQueryPlanForm.Show
 
   Exit Sub
@@ -195,7 +205,7 @@ Dim fNum As Integer
   End With
   
   If cdlg.FileName = "" Then Exit Sub
-  txtSql.Text = ""
+  txtSQL.Text = ""
   fNum = FreeFile
   frmMain.svr.LogEvent "Loading " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Input As #fNum
@@ -206,7 +216,7 @@ Dim fNum As Integer
   If Len(szFile) > 2 Then szFile = Left(szFile, Len(szFile) - 2)
   
   Close #fNum
-  txtSql.Text = szFile
+  txtSQL.Text = szFile
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
 
@@ -257,7 +267,7 @@ Dim fNum As Integer
   fNum = FreeFile
   frmMain.svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Output As #fNum
-  Print #fNum, txtSql.Text
+  Print #fNum, txtSQL.Text
   Close #fNum
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
@@ -277,7 +287,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", e
 
 Dim objSQLWizardForm As New frmSQLWizard
   Load objSQLWizardForm
-  objSQLWizardForm.Tag = Me.hWnd
+  objSQLWizardForm.Tag = Me.hwnd
   objSQLWizardForm.Caption = "SQL Wizard " & Me.Tag & ": " & szDatabase
   objSQLWizardForm.Initialise szDatabase
   objSQLWizardForm.Show
@@ -309,9 +319,8 @@ Dim szExporter As String
     End If
   Next X
   
-  PatchForm Me
-  
-  txtSql.Wordlist = ctx.AutoHighlight
+  Set txtSQL.Font = ctx.Font
+  txtSQL.Wordlist = ctx.AutoHighlight
   szDatabase = ctx.CurrentDB
   bDirty = False
   Me.Height = 3600
@@ -331,8 +340,8 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Resize()", etF
       If Me.Height < 3600 Then Me.Height = 3600
     End If
     
-    txtSql.Width = Me.ScaleWidth
-    txtSql.Height = Me.ScaleHeight - cmdExecute.Height - 50
+    txtSQL.Width = Me.ScaleWidth
+    txtSQL.Height = Me.ScaleHeight - cmdExecute.Height - 50
     cmdExecute.Top = Me.ScaleHeight - cmdExecute.Height
     cmdExplain.Top = cmdExecute.Top
     cmdLoad.Top = cmdExecute.Top
@@ -391,3 +400,97 @@ Dim szParts() As String
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.GetFilename"
 End Function
 
+'Load next/previous command sql
+Private Sub mnuLoadCmd_Click(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.mnuLoadCmd_Click(" & Index & ")", etFullDebug
+
+Dim szCmdSql() As String
+Dim ii As Integer
+Dim iCmdSql As Integer
+Dim szTemp As String
+
+  ReDim szCmdSql(MAXCMDSQL) As String
+  iCmdSql = -1
+  
+  'load data
+  For ii = 0 To MAXCMDSQL
+    szTemp = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Command SQL", "CmdSQL" & ii, "")
+    If Len(Trim(szTemp)) > 0 Then
+      iCmdSql = iCmdSql + 1
+      szCmdSql(iCmdSql) = szTemp
+    End If
+  Next
+  If iCmdSql < 0 Then Exit Sub
+  ReDim Preserve szCmdSql(iCmdSql) As String
+  
+  If Len(txtSQL.Text) = 0 Then
+    If Index = 1 Then
+      'next
+      szTemp = szCmdSql(0)
+    Else
+      szTemp = szCmdSql(UBound(szCmdSql))
+    End If
+  Else
+    szTemp = ""
+    For ii = 0 To UBound(szCmdSql)
+      If szCmdSql(ii) = txtSQL.Text Then
+        If Index = 1 Then
+          'next
+          If ii < UBound(szCmdSql) Then
+            szTemp = szCmdSql(ii + 1)
+          Else
+            szTemp = szCmdSql(0)
+          End If
+        Else
+          If ii > 0 Then
+            szTemp = szCmdSql(ii - 1)
+          Else
+            szTemp = szCmdSql(UBound(szCmdSql))
+          End If
+        End If
+        Exit For
+      End If
+    Next
+    If Len(szTemp) = 0 Then
+      If Index = 1 Then
+        'next
+        szTemp = szCmdSql(0)
+      Else
+        szTemp = szCmdSql(UBound(szCmdSql))
+      End If
+    End If
+  End If
+  txtSQL.Text = szTemp
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.mnuLoadCmd_Click"
+End Sub
+
+'Store command sql
+Private Sub StoreCmdSql(szCommandSql As String)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.StoreCmdSql(" & QUOTE & szCommandSql & QUOTE & ")", etFullDebug
+
+Dim ii As Integer
+Dim szTemp As String
+Dim iPosFree As Integer
+  
+  iPosFree = -1
+  For ii = 0 To MAXCMDSQL
+    szTemp = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Command SQL", "CmdSQL" & ii, "")
+    If Len(Trim(szTemp)) = 0 And iPosFree = -1 Then
+      iPosFree = ii
+    ElseIf szTemp = szCommandSql Then
+      Exit Sub
+    End If
+  Next
+  'cycle story
+  If iPosFree = -1 Then iPosFree = 0
+  
+  'store command sql
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\Command Sql", "CmdSql" & iPosFree, regString, szCommandSql
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.StoreCmdSql"
+End Sub

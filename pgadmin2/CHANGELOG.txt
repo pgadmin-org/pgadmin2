@@ -18,6 +18,7 @@ Added a pg_hba.conf editor plugin [Frank Lupo, Mark Yeatman].
 Additional User/Database variable handling code including combo boxes for known options [Frank Lupo].
 Added an option to reset statistics [Frank Lupo].
 User definable row limit when viewing large tables/rows [Frank Lupo].
+Added command history to the SQL dialogue [Frank Lupo].
 
 1.4.12
 ------

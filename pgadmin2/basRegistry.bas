@@ -21,7 +21,7 @@ Dim TStr1 As String
 Dim TStr2 As String
 Dim i As Integer
   lResult = RegOpenKey(Hive, Section, lKeyValue)
-  szValue = Space(2048)
+  szValue = Space(8192)
   lValueLength = Len(szValue)
   lResult = RegQueryValueEx(lKeyValue, Key, 0&, lDataTypeValue, szValue, lValueLength)
   If (lResult = 0) And (Err.Number = 0) Then
