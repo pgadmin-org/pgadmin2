@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="CVS">
+		<param name="Name" value="CVS Access">
+		<param name="Local" value="dev-cvs.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Info">
+		<param name="Name" value="Developer Info">
+		<param name="Local" value="dev-info.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Standards">
+		<param name="Name" value="Coding Standards">
+		<param name="Local" value="dev-coding.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Coding">
+		<param name="Name" value="Coding Standards">
+		<param name="Local" value="dev-coding.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Licence">
+		<param name="Name" value="The pgAdmin Public Licence">
+		<param name="Local" value="licence.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Team">
+		<param name="Name" value="The pgAdmin Development Team Charter">
+		<param name="Local" value="team.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Charter">
+		<param name="Name" value="The pgAdmin Development Team Charter">
+		<param name="Local" value="team.html">
+		</OBJECT>
+</UL>
+</BODY></HTML>

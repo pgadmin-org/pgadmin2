@@ -1,0 +1,264 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Columns"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+' pgSchema - PostgreSQL Schema Objects
+' Copyright (C) 2001, The pgAdmin Development Team
+' This software is released under the pgAdmin Public Licence
+
+Option Explicit
+
+'Private Variables
+Private mCol As Collection
+Private cnDatabase As Connection
+
+Dim lTableOID As Long
+Dim szTable As String
+
+'Set the Connection to use
+Friend Property Set Connection(vData As Connection)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Property Set Connection(Connection: " & vData & ")", etFullDebug
+
+  Set cnDatabase = vData
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set the TableOID for internal use.
+Friend Property Let TableOID(ByVal vData As Long)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Property let TableOID(" & vData & ")", etFullDebug
+
+  lTableOID = vData
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set the Table for internal use.
+Friend Property Let Table(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szTable = vData
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Internal Add
+Private Function iAdd(lOID As Long, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String) As pgColumn
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ")", etFullDebug
+
+Dim objNewMember As pgColumn
+Dim szHex As String
+
+  'Create a new object
+  Set objNewMember = New pgColumn
+  If lPosition < 1 Then
+    If Not objServer.IncludeSys Then Exit Function
+    objNewMember.SystemObject = True
+  Else
+    objNewMember.SystemObject = False
+  End If
+  objNewMember.OID = lOID
+  objNewMember.iName = szName
+  objNewMember.Table = szTable
+  objNewMember.Position = lPosition
+  objNewMember.DataType = szDataType
+  If szDataType = "numeric" Then
+    szHex = Hex((Int(lLength) - 4) And &HFFFF)
+    objNewMember.Length = CLng("&H" & Mid(szHex, 1, Len(szHex) - 4))
+    objNewMember.NumericScale = CLng("&H" & Mid(szHex, Len(szHex) - 3, Len(szHex)))
+  Else
+    objNewMember.Length = lLength
+    objNewMember.NumericScale = 0
+  End If
+  objNewMember.NotNull = bNotNull
+  objNewMember.PrimaryKey = bPrimaryKey
+  objNewMember.iDefault = szDefault
+  objNewMember.Identifier = szName
+  Set objNewMember.Connection = cnDatabase
+  mCol.Add objNewMember, objNewMember.Identifier
+  Set iAdd = objNewMember
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err
+End Function
+
+'External Add
+Public Function Add(ByVal Name As String, ByVal DataType As String, Optional ByVal Default As String, Optional ByVal Comment As String) As pgColumn
+Attribute Add.VB_Description = "Add a new column."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & DataType & QUOTE & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+
+Dim rs As New Recordset
+Dim szSQL As String
+  
+  'Generate the szSQL query to create the new object and execute
+  szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE
+  szSQL = szSQL & " ADD COLUMN " & QUOTE & dbSZ(Name) & QUOTE & " " & dbSZ(DataType)
+  objServer.ExecSQL szSQL, cnDatabase
+
+  If Default <> "" Then
+    szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & Name & QUOTE & " SET DEFAULT " & Default
+    objServer.ExecSQL szSQL, cnDatabase
+  End If
+  
+  If Comment <> "" Then
+    szSQL = "COMMENT ON COLUMN " & QUOTE & szTable & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    objServer.ExecSQL szSQL, cnDatabase
+    objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+  End If
+  
+  'Generate and execute the szSQL to retrieve *all* properties of the new object
+  szSQL = SQL_GET_COLUMNS & " AND attrelid = " & lTableOID & " AND attname = '" & dbSZ(Name) & "'"
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+    
+  If Not rs.EOF Then
+    Set Add = iAdd(rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "")
+  End If
+  
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Function
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+  
+End Function
+
+'Rename
+Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
+'On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
+
+  Dim objColumn As New pgColumn
+  
+  Set objColumn = mCol(OldName)
+  objColumn.Name = NewName
+  objColumn.Identifier = NewName
+  mCol.Add objColumn, NewName, OldName
+  mCol.Remove OldName
+  
+  Exit Sub
+Err_Handler:
+  objServer.iLogError Err
+  
+End Sub
+
+'Return the specified Item
+Public Property Get Item(IndexOrKey As Variant) As pgColumn
+Attribute Item.VB_Description = "Returns a Column object."
+Attribute Item.VB_UserMemId = 0
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+
+  Set Item = mCol(IndexOrKey)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Item count
+Public Property Get Count(Optional IgnoreSys As Boolean) As Long
+Attribute Count.VB_Description = "Returns a count of the Columns in the current Table."
+Attribute Count.VB_MemberFlags = "200"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Property Get Count(" & IgnoreSys & ")", etFullDebug
+
+Dim objColumn As pgColumn
+Dim lCount As Long
+
+  If IgnoreSys Then
+    For Each objColumn In mCol
+      If Not objColumn.SystemObject Then lCount = lCount + 1
+    Next objColumn
+    Count = lCount
+  Else
+    Count = mCol.Count
+  End If
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Allow enumeration using For...Each
+Public Property Get NewEnum() As IUnknown
+Attribute NewEnum.VB_UserMemId = -4
+Attribute NewEnum.VB_MemberFlags = "40"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Property Get NewEnum()", etFullDebug
+
+  Set NewEnum = mCol.[_NewEnum]
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Refresh the collection
+Public Sub Refresh()
+Attribute Refresh.VB_Description = "Refreshes the collection of Columns."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Refresh()", etFullDebug
+
+  'Initialize will basically do a refresh so let's use that!
+  Initialize
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
+'Initialise the collection if possible
+Friend Sub Initialize()
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Initialize()", etFullDebug
+
+Dim rs As New Recordset
+
+  'Create a new collection
+  Set mCol = New Collection
+  
+  'Get the data and loop through it
+  If objServer.Connection.State = adStateOpen Then
+    Set rs = objServer.ExecSQL(SQL_GET_COLUMNS & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
+    While Not rs.EOF
+      iAdd rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & ""
+      rs.MoveNext
+    Wend
+  End If
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
+'Cleanup
+Private Sub Class_Terminate()
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Columns.Class_Terminate()", etFullDebug
+
+  Set mCol = Nothing
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

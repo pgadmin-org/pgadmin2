@@ -1,0 +1,285 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Sequences"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+' pgSchema - PostgreSQL Schema Objects
+' Copyright (C) 2001, The pgAdmin Development Team
+' This software is released under the pgAdmin Public Licence
+
+Option Explicit
+
+'Private Variables
+Private mCol As Collection
+Private cnDatabase As Connection
+
+'Set the Connection to use
+Friend Property Set Connection(vData As Connection)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Property Set Connection(Connection: " & vData & ")", etFullDebug
+
+  Set cnDatabase = vData
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Internal Add
+Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+
+Dim objNewMember As pgSequence
+Dim szSQL As String
+Dim rs As New Recordset
+
+  'Create a new object
+  Set objNewMember = New pgSequence
+  If lOID <= objServer.LastSystemOID Then
+    If Not objServer.IncludeSys Then Exit Sub
+    objNewMember.SystemObject = True
+  Else
+    objNewMember.SystemObject = False
+  End If
+  objNewMember.OID = lOID
+  objNewMember.Name = szName
+  objNewMember.Owner = szOwner
+  objNewMember.ACL = szACL
+  
+  szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & QUOTE & dbSZ(szName) & QUOTE
+  On Error Resume Next
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  On Error GoTo Err_Handler
+  If rs.State = adStateOpen Then
+    If Not rs.EOF Then
+      objNewMember.Maximum = rs!max_value
+      objNewMember.Minimum = rs!min_value
+      objNewMember.Increment = rs!increment_by
+      objNewMember.Cache = rs!cache_value
+      If rs!is_cycled = "t" Or rs!is_cycled = 1 Then
+        objNewMember.Cycled = True
+      Else
+        objNewMember.Cycled = False
+      End If
+    End If
+  End If
+  If rs.State <> adStateClosed Then rs.Close
+  objNewMember.Identifier = szName
+  Set objNewMember.Connection = cnDatabase
+  
+  'Add the Sequence
+  mCol.Add objNewMember, objNewMember.Identifier
+  Set objNewMember = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
+'External Add
+Public Function Add(ByVal Name As String, Optional ByVal Increment As Long, Optional ByVal Minimum As Long, Optional ByVal Maximum As Long, Optional ByVal Start As Long, Optional ByVal Cache As Long, Optional ByVal Cycled As Boolean, Optional ByVal Comment As String) As pgSequence
+Attribute Add.VB_Description = "Add a new Sequence."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Add(" & QUOTE & Name & QUOTE & ", " & Increment & ", " & Minimum & ", " & Maximum & ", " & Start & ", " & Cache & ", " & Cycled & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+
+Dim rs As New Recordset
+Dim objNewMember As pgSequence
+Dim szSQL As String
+  
+  'Setup Default values
+  If Increment = 0 Then Increment = 1
+  If Increment > 0 Then
+    If Minimum = 0 Then Minimum = 1
+    If Maximum = 0 Then Maximum = 2147483647
+    If Start = 0 Then Start = Minimum
+  Else
+    If Minimum = 0 Then Minimum = -2147483647
+    If Maximum = 0 Then Maximum = -1
+    If Start = 0 Then Start = Maximum
+  End If
+  If Cache = 0 Then Cache = 1
+  
+  'Create a new object
+  Set objNewMember = New pgSequence
+
+  'Generate the SQL query to create the new object and execute
+  szSQL = "CREATE SEQUENCE " & QUOTE & Name & QUOTE & " INCREMENT " & Increment & " MINVALUE " & Minimum & " MAXVALUE " & Maximum & " START " & Start & " CACHE " & Cache
+  If Cycled = True Then szSQL = szSQL & " CYCLE"
+  objServer.ExecSQL szSQL, cnDatabase
+  If Comment <> "" Then
+    szSQL = "COMMENT ON SEQUENCE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    objServer.ExecSQL szSQL, cnDatabase
+    objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+  End If
+  
+  'Generate and execute the SQL to retrieve *all* properties of the new object
+  szSQL = SQL_GET_SEQUENCES & " AND relname = '" & dbSZ(Name) & "'"
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then
+    iAdd rs!OID, rs!relname & "", rs!seqowner & "", rs!relacl & ""
+  End If
+  
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  Set Add = mCol(Name)
+  
+  Exit Function
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+  
+End Function
+
+'Return the specified Item
+Public Property Get Item(IndexOrKey As Variant) As pgSequence
+Attribute Item.VB_Description = "Returns a Sequence object."
+Attribute Item.VB_UserMemId = 0
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+
+  Set Item = mCol(IndexOrKey)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Item count
+Public Property Get Count(Optional IgnoreSys As Boolean) As Long
+Attribute Count.VB_Description = "Returns a count of the Sequences in the current database."
+Attribute Count.VB_MemberFlags = "200"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Property Get Count(" & IgnoreSys & ")", etFullDebug
+
+Dim objSequence As pgSequence
+Dim lCount As Long
+
+  If IgnoreSys Then
+    For Each objSequence In mCol
+      If Not objSequence.SystemObject Then lCount = lCount + 1
+    Next objSequence
+    Count = lCount
+  Else
+    Count = mCol.Count
+  End If
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Remove the specified Item
+Public Sub Remove(ByVal IndexOrKey As Variant)
+Attribute Remove.VB_Description = "Remove the specified Sequence."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+
+Dim szSQL As String
+
+  'Generate/Execute SQL to drop the Sequence.
+  szSQL = "DROP SEQUENCE " & QUOTE & dbSZ(mCol(IndexOrKey).Name) & QUOTE
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  'If we get this far, then we can't have errored,
+  'so remove the object from the collection.
+  mCol.Remove IndexOrKey
+  
+  Exit Sub
+Err_Handler:
+  'Error 5 is thrown if the item is not in the collection...
+  If Err.Number = 5 Then Exit Sub
+  objServer.iLogError Err
+End Sub
+
+'Allow enumeration using For...Each
+Public Property Get NewEnum() As IUnknown
+Attribute NewEnum.VB_UserMemId = -4
+Attribute NewEnum.VB_MemberFlags = "40"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Property Get NewEnum()", etFullDebug
+
+  Set NewEnum = mCol.[_NewEnum]
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Refresh the collection
+Public Sub Refresh()
+Attribute Refresh.VB_Description = "Refresh the collection of Sequences."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Refresh()", etFullDebug
+
+  'Initialize will basically do a refresh so let's use that!
+  Initialize
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
+'Initialise the collection if possible
+Friend Sub Initialize()
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Initialize()", etFullDebug
+
+Dim rs As New Recordset
+
+  'Create a new collection
+  Set mCol = New Collection
+  
+  'Get the data and loop through it
+  If objServer.Connection.State = adStateOpen Then
+    Set rs = objServer.ExecSQL(SQL_GET_SEQUENCES & " ORDER BY relname", cnDatabase)
+    While Not rs.EOF
+      iAdd rs!OID, rs!relname & "", rs!seqowner & "", rs!relacl & ""
+      rs.MoveNext
+    Wend
+  End If
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
+'Cleanup
+Private Sub Class_Terminate()
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Class_Terminate()", etFullDebug
+
+  Set mCol = Nothing
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
+Public Property Get SQL(Optional IncludeSystem As Boolean, Optional Reset As Boolean) As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Sequences.Property Get SQL(" & IncludeSystem & ", " & Reset & ")", etFullDebug
+Dim szSQL As String
+Dim objSequence As pgSequence
+  
+  szSQL = "-- Sequences" & vbCrLf & vbCrLf
+
+  For Each objSequence In mCol
+    If IncludeSystem Or (Not objSequence.SystemObject) Then szSQL = szSQL & objSequence.SQL(Reset) & vbCrLf
+  Next objSequence
+  
+  SQL = szSQL
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property

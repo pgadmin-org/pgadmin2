@@ -1,0 +1,19 @@
+[Version]
+Version=2.0.0.30
+
+[HighlightBox.ocx <0009>]
+Dest=$(WinSysPath)
+Date=10/06/2001
+Time=22:36
+Version=2.0.0.30
+CABFilename=HighlightBox.CAB
+CABINFFile=HighlightBox.INF
+Uses1=msvbvm60.dll
+Uses2=OLEAUT32.DLL
+Uses3=OLEPRO32.DLL
+Uses4=ASYCFILT.DLL
+Uses5=STDOLE2.TLB
+Uses6=COMCAT.DLL
+Uses7=RICHTX32.OCX
+Uses8=Mscomctl.ocx
+Uses9=Comdlg32.ocx

@@ -1,0 +1,259 @@
+VERSION 5.00
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Begin VB.PropertyPage Properties 
+   Caption         =   "Search Text"
+   ClientHeight    =   2685
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   4965
+   PaletteMode     =   0  'Halftone
+   ScaleHeight     =   2685
+   ScaleWidth      =   4965
+   Begin MSComctlLib.ListView lvWords 
+      Height          =   1485
+      Left            =   60
+      TabIndex        =   7
+      Top             =   1140
+      Width           =   4815
+      _ExtentX        =   8493
+      _ExtentY        =   2619
+      View            =   3
+      LabelEdit       =   1
+      LabelWrap       =   -1  'True
+      HideSelection   =   -1  'True
+      FullRowSelect   =   -1  'True
+      GridLines       =   -1  'True
+      _Version        =   393217
+      ForeColor       =   -2147483640
+      BackColor       =   -2147483643
+      BorderStyle     =   1
+      Appearance      =   1
+      NumItems        =   0
+   End
+   Begin VB.CheckBox chkItalic 
+      Caption         =   "Italic"
+      Height          =   285
+      Left            =   2460
+      TabIndex        =   6
+      Top             =   840
+      Width           =   675
+   End
+   Begin VB.CheckBox chkBold 
+      Caption         =   "Bold"
+      Height          =   285
+      Left            =   1620
+      TabIndex        =   5
+      Top             =   840
+      Width           =   1635
+   End
+   Begin VB.CommandButton cmdAddNew 
+      Caption         =   "Add"
+      Height          =   345
+      Left            =   2580
+      TabIndex        =   3
+      Top             =   180
+      Width           =   1125
+   End
+   Begin VB.CommandButton cmdChangeCol 
+      Caption         =   "Change Colour"
+      Height          =   285
+      Left            =   3300
+      Style           =   1  'Graphical
+      TabIndex        =   2
+      Top             =   840
+      Width           =   1575
+   End
+   Begin VB.TextBox txtWord 
+      Height          =   285
+      Left            =   60
+      TabIndex        =   1
+      Top             =   510
+      Width           =   4815
+   End
+   Begin VB.CommandButton cmdRemove 
+      Caption         =   "Remove"
+      Height          =   345
+      Left            =   3720
+      TabIndex        =   0
+      Top             =   180
+      Width           =   1125
+   End
+   Begin MSComDlg.CommonDialog Cdlg 
+      Left            =   4410
+      Top             =   180
+      _ExtentX        =   847
+      _ExtentY        =   847
+      _Version        =   393216
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Word"
+      Height          =   255
+      Left            =   60
+      TabIndex        =   4
+      Top             =   240
+      Width           =   2715
+   End
+End
+Attribute VB_Name = "Properties"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+' HBX - Auto Highlighting Expanding text box
+' Copyright (C) 2001, The pgAdmin Development Team
+' This software is released under the pgAdmin Public Licence
+
+Option Explicit
+
+Private Type WordStore
+  szColour As String
+  iItalic As Integer
+  iBold As Integer
+  szText As String
+End Type
+
+Dim szListStore() As Variant
+Dim Words() As WordStore
+Private Sub txtWordlist_Change()
+    Changed = True
+End Sub
+Private Sub cmdAddNew_Click()
+If txtWord = "" Then
+  MsgBox "You must enter something in the word box", vbCritical + vbOKOnly, "Error, No text"
+  Exit Sub
+End If
+
+
+Dim iC
+For iC = 0 To UBound(Words)
+  If LCase(txtWord.Text) = LCase(Words(iC).szText) Then
+    MsgBox "That word is already in the list. Please Re-enter or Remove the existing one.", vbOKOnly, "Word Exists"
+    Exit Sub
+  End If
+Next iC
+
+
+  With Words(UBound(Words))
+    .szText = txtWord.Text
+    .iBold = chkBold.Value
+    .iItalic = chkItalic.Value
+    .szColour = txtWord.ForeColor
+  End With
+ReDim Preserve Words(UBound(Words) + 1)
+RefreshList
+Changed = True
+End Sub
+Private Sub cmdChangeCol_Click()
+Cdlg.ShowColor
+txtWord.ForeColor = Cdlg.Color
+End Sub
+Private Sub DisplayText(szWordString As String)
+End Sub
+
+Private Sub cmdRemove_Click()
+Dim iX As Integer
+For iX = 0 To UBound(Words)
+  If Words(iX).szText = lvWords.SelectedItem.Text Then
+    Words(iX).szText = ""
+  End If
+Next iX
+
+RefreshList
+Changed = True
+End Sub
+
+Private Sub PropertyPage_ApplyChanges()
+
+Dim x As Integer
+Dim ctllist As String
+Dim objControl As Variant
+ctllist = ""
+  
+ReDim Preserve Words(UBound(Words) - 1)
+  For x = 0 To UBound(Words)
+    ctllist = ctllist & Words(x).szText & "|" & Words(x).iBold & "|" & Words(x).iItalic & "|" & Words(x).szColour & ";"
+  Next x
+  
+  For Each objControl In SelectedControls
+    objControl.Wordlist = ctllist
+  Next
+
+End Sub
+
+Private Sub PropertyPage_Initialize()
+txtWord.ForeColor = RGB(0, 0, 0)
+
+   lvWords.ColumnHeaders.Add , , "Wordlist", (lvWords.Width / 11) * 4
+   lvWords.ColumnHeaders.Add , , "Colour", (lvWords.Width / 11) * 3
+   lvWords.ColumnHeaders.Add , , "B", (lvWords.Width / 11)
+   lvWords.ColumnHeaders.Add , , "I", (lvWords.Width / 11)
+   lvWords.View = lvwReport
+End Sub
+
+Private Sub PropertyPage_SelectionChanged()
+Dim ctllist As Variant
+Dim splitCtllist() As String
+Dim splitTmp() As String
+Dim iX As Integer
+Dim ixC As Integer
+
+ctllist = SelectedControls(0).Wordlist
+ixC = 0
+ReDim Words(ixC)
+
+If ctllist = "" Then Exit Sub
+splitCtllist = Split(ctllist, ";")
+
+For iX = 0 To UBound(splitCtllist)
+  splitTmp = Split(splitCtllist(iX), "|")
+  If UBound(splitTmp) = 3 Then
+    Words(ixC).szText = "" & splitTmp(0)
+    Words(ixC).iBold = 0 + Val(splitTmp(1))
+    Words(ixC).iItalic = 0 + Val(splitTmp(2))
+    Words(ixC).szColour = "" & splitTmp(3)
+    ixC = ixC + 1
+    ReDim Preserve Words(ixC)
+  End If
+Next iX
+
+RefreshList
+  
+
+End Sub
+Private Sub PropertyPage_Terminate()
+If Changed = True Then PropertyPage_ApplyChanges
+End Sub
+
+Private Sub RefreshList()
+
+
+Dim iX As Integer
+lvWords.ListItems.Clear
+Dim itmX As ListItem
+
+ClearStringSpace
+
+For iX = 0 To (UBound(Words) - 1)
+  Set itmX = lvWords.ListItems.Add(, , Words(iX).szText)
+  itmX.SubItems(1) = "" & Words(iX).szColour
+  itmX.SubItems(2) = "" & Words(iX).iBold
+  itmX.SubItems(3) = "" & Words(iX).iItalic
+Next iX
+End Sub
+
+Private Sub ClearStringSpace()
+Dim szTempstring() As WordStore
+Dim iX As Integer
+
+szTempstring = Words
+ReDim Words(0)
+
+For iX = 0 To UBound(szTempstring)
+  If "" & szTempstring(iX).szText <> "" Then
+    Words(UBound(Words)) = szTempstring(iX)
+    ReDim Preserve Words(UBound(Words) + 1)
+  End If
+Next iX
+
+End Sub

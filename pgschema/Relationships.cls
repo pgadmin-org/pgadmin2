@@ -1,0 +1,143 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Relationships"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+' pgSchema - PostgreSQL Schema Objects
+' Copyright (C) 2001, The pgAdmin Development Team
+' This software is released under the pgAdmin Public Licence
+
+Option Explicit
+
+'Private Variables
+Private mCol As Collection
+Private cnDatabase As Connection
+Dim szLocCols As String
+Dim szRefCols As String
+
+'Set the Connection to use
+Friend Property Set Connection(vData As Connection)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Relationships.Property Set Connection(Connection: " & vData & ")", etFullDebug
+
+  Set cnDatabase = vData
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Internal Add
+Private Function iAdd(szLocalColumn As String, szReferencedColumn As String) As pgRelationship
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Relationships.iAdd(" & QUOTE & szLocalColumn & QUOTE & ", " & QUOTE & szReferencedColumn & QUOTE & ")", etFullDebug
+
+Dim objNewMember As pgRelationship
+
+  'Create a new object
+  Set objNewMember = New pgRelationship
+  objNewMember.LocalColumn = szLocalColumn
+  objNewMember.ReferencedColumn = szReferencedColumn
+  objNewMember.Identifier = szLocalColumn & " = " & szReferencedColumn
+  Set objNewMember.Connection = cnDatabase
+  mCol.Add objNewMember, objNewMember.Identifier
+  Set iAdd = objNewMember
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err
+End Function
+
+'Return the specified Item
+Public Property Get Item(IndexOrKey As Variant) As pgOperator
+Attribute Item.VB_Description = "Returns a Relationship object."
+Attribute Item.VB_UserMemId = 0
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Relationships.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+
+  Set Item = mCol(IndexOrKey)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Item count
+Public Property Get Count() As Long
+Attribute Count.VB_Description = "Returns a count of the Relationships on the current Foreign Key."
+Attribute Count.VB_MemberFlags = "200"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Relationships.Property Get Count()", etFullDebug
+
+  Count = mCol.Count
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Allow enumeration using For...Each
+Public Property Get NewEnum() As IUnknown
+Attribute NewEnum.VB_UserMemId = -4
+Attribute NewEnum.VB_MemberFlags = "40"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Relationships.Property Get NewEnum()", etFullDebug
+
+  Set NewEnum = mCol.[_NewEnum]
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Refresh the collection
+Public Sub Refresh()
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Relationships.Refresh()", etFullDebug
+
+  'Initialize will basically do a refresh so let's use that!
+  Initialize szLocCols, szRefCols
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
+'Initialise the collection if possible
+Friend Sub Initialize(szLocalColumns As String, szReferencedColumns As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Relationships.Initialize(" & QUOTE & szLocalColumns & QUOTE & ", " & QUOTE & szReferencedColumns & QUOTE & ")", etFullDebug
+
+Dim szLocal() As String
+Dim szReferenced() As String
+Dim X As Long
+
+  szLocCols = szLocalColumns
+  szRefCols = szReferencedColumns
+    
+  'Create a new collection
+  Set mCol = New Collection
+  
+  'Get the data and loop through it
+  szLocal = Split(szLocalColumns, "|")
+  szReferenced = Split(szReferencedColumns, "|")
+  For X = 0 To UBound(szLocal) - 1
+    iAdd szLocal(X), szReferenced(X)
+  Next X
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
+'Cleanup
+Private Sub Class_Terminate()
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering Relationships.Class_Terminate()", etFullDebug
+
+  Set mCol = Nothing
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

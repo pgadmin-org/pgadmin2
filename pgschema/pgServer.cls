@@ -1,0 +1,608 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "pgServer"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+' pgSchema - PostgreSQL Schema Objects
+' Copyright (C) 2001, The pgAdmin Development Team
+' This software is released under the pgAdmin Public Licence
+
+Option Explicit
+
+'Events
+Public Event EventLog(EventLevel As LogLevel, EventMessage As String)
+Attribute EventLog.VB_Description = "Executes whenever a Log event occurs."
+Public Event SQLExecute(SQL As String, Connection As Connection)
+Attribute SQLExecute.VB_Description = "Execute an SQL query."
+
+'Types
+Public Type Version
+  Description As String
+  Major As Integer
+  Minor As Integer
+  Revision As Integer
+End Type
+
+'Enums
+Public Enum LogLevel
+  llNone = 0
+  llErrors = 1
+  llsql = 2
+  llMiniDebug = 3
+  llFullDebug = 4
+End Enum
+
+Public Enum ErrorType
+  etErrors = 1
+  etSQL = 2
+  etMiniDebug = 3
+  etFullDebug = 4
+End Enum
+
+Public Enum aclPrivileges
+  aclAll = &H1
+  aclSelect = &H2
+  aclInsert = &H4
+  aclUpdate = &H8
+  aclDelete = &H10
+  aclRule = &H20
+End Enum
+
+'Collections
+Private colDatabases As Databases
+Private colUsers As Users
+Private colGroups As Groups
+
+'Properties
+Private cnPostgreSQL As New Connection
+Private llLogging As LogLevel
+Private szLogfile As String
+Private szServer As String
+Private lPort As Long
+Private szUsername As String
+Private szPassword As String
+Private lLastSystemOID As Long
+Private bIncludeSys As Boolean
+Private bDontLogErrors As Boolean
+Private bShowPassword As Boolean
+
+'Error Log
+'If an application is logging it's errors through the mechanism here, then any errors
+'generated internally will be logged internally AND logged by the host application.
+'To fix this, internally we use iiLogEvent, and the hosting application can set DontLogErrors
+'as required.
+Friend Sub iLogError(ByVal objError As ErrObject)
+Dim lError As Long
+Dim szError As String
+
+  lError = objError.Number
+  szError = objError.Description
+  If Not bDontLogErrors Then
+    LogEvent "Error: " & lError & " - " & szError, etErrors
+  End If
+  Err.Raise lError, "pgSchema", szError
+End Sub
+Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
+  If Not ((bDontLogErrors) And (etType = etErrors)) Then
+    LogEvent szMessage, etType
+  End If
+End Sub
+Public Sub LogEvent(ByVal szMessage As String, ByVal etType As ErrorType)
+Attribute LogEvent.VB_Description = "Log an event to the libraries logging system."
+Dim fNum As Integer
+
+  RaiseEvent EventLog(etType, szMessage)
+  If llLogging >= etType Then
+    fNum = FreeFile
+    Open szLogfile For Append As #fNum
+    
+    'If an error has occured, make it a bit more obvious and log extra info as well
+    If etType = etErrors Then
+      Print #fNum, ""
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - *******************************************************************"
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - Error"
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - *******************************************************************"
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - " & szMessage
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - Windows Version: " & WinName & " v" & WinVer & " build " & WinBuild & " " & WinInfo
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - pgSchema Version: " & App.Major & "." & App.Minor & "." & App.Revision
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - MDAC Version: " & cnPostgreSQL.Version
+      If cnPostgreSQL.State = adStateOpen Then
+        Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - DBMS Version: " & cnPostgreSQL.Properties("DBMS VERSION")
+        If bShowPassword Then
+          Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - Connection String (Master Connection)" & ": " & cnPostgreSQL.ConnectionString
+        Else
+          Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - Connection String (Master Connection)" & ": " & Replace(cnPostgreSQL.ConnectionString, ";PWD=" & szPassword, ";PWD=********")
+        End If
+      Else
+        Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - cnPostgreSQL.State = adStateClosed"
+      End If
+      Print #fNum, ""
+    Else
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - " & szMessage
+    End If
+    Close #fNum
+  End If
+End Sub
+
+Friend Function ExecSQL(SQL As String, Connection As Connection, Optional RecordsAffected As Long, Optional Options As Long = -1) As Recordset
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.ExecSQL(" & QUOTE & SQL & QUOTE & ", " & QUOTE & "Connection: " & Connection.ConnectionString & QUOTE & ")", etFullDebug
+  
+  RaiseEvent SQLExecute(SQL, Connection)
+  objServer.iLogEvent "SQL (" & GetDatabase(Connection.ConnectionString) & "): " & SQL, etSQL
+  Set ExecSQL = Connection.Execute(SQL)
+  
+  Exit Function
+Err_Handler:
+  objServer.iLogError Err
+End Function
+
+'Connect to the database
+Public Function Connect(Optional ByVal Server As String, Optional ByVal Port As Long, Optional ByVal Username As String, Optional ByVal Password As String) As Long
+Attribute Connect.VB_Description = "Open a connection to the specified database."
+Attribute Connect.VB_UserMemId = 0
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Connect(" & QUOTE & Server & QUOTE & ", " & lPort & ", " & QUOTE & Username & QUOTE & ", " & QUOTE & "********" & QUOTE & ")", etFullDebug
+
+Dim szConnect As String
+Dim rs As New Recordset
+Dim X As Integer
+Dim szVersion() As String
+
+  'Close the connection if already open
+  If cnPostgreSQL.State <> adStateClosed Then
+    objServer.iLogEvent "Closing cnPostgreSQL", etSQL
+    cnPostgreSQL.Close
+  End If
+  
+  'Override the current values with those passed to us
+  If Server <> "" Then szServer = Server
+  If Port <> 0 Then lPort = Port
+  If Username <> "" Then szUsername = Username
+  If Password <> "" Then szPassword = Password
+  
+  'Default required values
+  If lPort = 0 Then lPort = 5432
+  If szServer = "" Then szServer = "127.0.0.1"
+  
+  'Clear collections
+  Set colDatabases = Nothing
+  Set colUsers = Nothing
+  Set colGroups = Nothing
+  
+  'Open the connection
+  szConnect = "DRIVER=PostgreSQL;SERVER=" & szServer & ";PORT=" & lPort & ";UID=" & szUsername & ";PWD=" & szPassword & ";DATABASE=template1"
+  If bShowPassword Then
+    objServer.iLogEvent "Opening cnPostgreSQL: " & szConnect, etMiniDebug
+  Else
+    objServer.iLogEvent "Opening cnPostgreSQL: " & Replace(szConnect, ";PWD=" & szPassword, ";PWD=********"), etMiniDebug
+  End If
+  cnPostgreSQL.Open szConnect
+  
+  'Get the Server Version
+  'While we're at it, get the last system OID as well!
+  Set rs = objServer.ExecSQL("SELECT version(), datlastsysoid FROM pg_database WHERE datname = 'template1'", cnPostgreSQL)
+  If Not rs.EOF Then
+    objVersion.Description = rs!Version & ""
+    lLastSystemOID = rs!datlastsysoid & ""
+  End If
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  X = InStr(1, objVersion.Description, " ")
+  szVersion = Split(Mid(objVersion.Description, X + 1, InStr(X + 1, objVersion.Description, " ") - X), ".")
+  If UBound(szVersion) >= 0 Then objVersion.Major = Val(szVersion(0))
+  If UBound(szVersion) >= 1 Then objVersion.Minor = Val(szVersion(1))
+  If UBound(szVersion) >= 2 Then objVersion.Revision = Val(szVersion(2))
+  
+  Exit Function
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+  
+End Function
+
+'Return the Databases Collection
+Public Property Get Databases() As Databases
+Attribute Databases.VB_Description = "Returns a collection of Database objects on the current Server."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Databases()", etFullDebug
+
+  If colDatabases Is Nothing Then
+    Set colDatabases = New Databases
+    colDatabases.Initialize
+  End If
+  Set Databases = colDatabases
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Users Collection
+Public Property Get Users() As Users
+Attribute Users.VB_Description = "Returns a collection of User objects on the current Server."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Users()", etFullDebug
+
+  If colUsers Is Nothing Then
+    Set colUsers = New Users
+    colUsers.Initialize
+  End If
+  Set Users = colUsers
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Groups Collection
+Public Property Get Groups() As Groups
+Attribute Groups.VB_Description = "Returns a collection of User Group objects on the current Server."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Groups()", etFullDebug
+
+  If colGroups Is Nothing Then
+    Set colGroups = New Groups
+    colGroups.Initialize
+  End If
+  Set Groups = colGroups
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Setup default settings
+Private Sub Class_Initialize()
+'Can't do error handling properly yet
+  Set objServer = Me
+  szServer = "127.0.0.1"
+  lPort = 5432
+  llLogging = llNone
+  szLogfile = "pgSchema_" & App.ThreadID & ".log"
+End Sub
+
+'Cleanup
+Private Sub Class_Terminate()
+On Error GoTo Err_Handler
+  objServer.iLogEvent "Entering pgServer.Class_Terminate()", etFullDebug
+  
+  Set colDatabases = Nothing
+  Set colUsers = Nothing
+  Set colGroups = Nothing
+  If cnPostgreSQL.State <> adStateClosed Then
+    objServer.iLogEvent "Closing cnPostgreSQL", etMiniDebug
+    cnPostgreSQL.Close
+  End If
+  Set cnPostgreSQL = Nothing
+    
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
+'Return the Object Type
+Public Property Get ObjectType() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get ObjectType()", etFullDebug
+
+  ObjectType = "Server"
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Identifier
+Public Property Get Identifier() As String
+Attribute Identifier.VB_MemberFlags = "200"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Identifier()", etFullDebug
+
+  Identifier = szUsername & "@" & szServer & ":" & lPort
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the ADO Connection String
+Friend Property Get iConnectionString() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get iConnectionString()", etFullDebug
+
+  If cnPostgreSQL.State <> adStateOpen Then
+    iConnectionString = ""
+  Else
+    iConnectionString = cnPostgreSQL.ConnectionString
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get ConnectionString() As String
+Attribute ConnectionString.VB_Description = "Returns the ADO connection string currently in use."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get ConnectionString()", etFullDebug
+
+  If cnPostgreSQL.State <> adStateOpen Then
+    ConnectionString = ""
+  Else
+    If bShowPassword Then
+      ConnectionString = cnPostgreSQL.ConnectionString
+    Else
+      ConnectionString = Replace(cnPostgreSQL.ConnectionString, ";PWD=" & szPassword, ";PWD=********")
+    End If
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the ODBC Driver Name
+Public Property Get DriverName() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get DriverName()", etFullDebug
+
+  If cnPostgreSQL.State <> adStateOpen Then
+    DriverName = ""
+  Else
+    DriverName = cnPostgreSQL.Properties("DBMS Name")
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Last System OID
+Public Property Get LastSystemOID() As Long
+Attribute LastSystemOID.VB_Description = "Returns the last OID used by the Database System."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get LastSystemOID()", etFullDebug
+
+  LastSystemOID = lLastSystemOID
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the PostgreSQL Version
+Public Property Get dbVersion() As Version
+Attribute dbVersion.VB_Description = "Returns a Version structure indicating the Version of the PostgreSQL Server."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get dbVersion()", etFullDebug
+
+  dbVersion = objVersion
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return Our Version
+Public Property Get Version() As Version
+Attribute Version.VB_Description = "Returns a Version structure indicating the Version of the object library."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Version()", etFullDebug
+
+  Version.Description = App.Comments & " v" & App.Major & "." & App.Minor & "." & App.Revision
+  Version.Major = App.Major
+  Version.Minor = App.Minor
+  Version.Revision = App.Revision
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return IncludeSys
+Public Property Let IncludeSys(ByVal vData As Boolean)
+Attribute IncludeSys.VB_Description = "Sets/Returns a flag indicating whether or not to include System Objects in the Object Hierarchy."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let IncludeSys(" & vData & ")", etFullDebug
+
+  bIncludeSys = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get IncludeSys() As Boolean
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get IncludeSys()", etFullDebug
+
+  IncludeSys = bIncludeSys
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return DontLogErrors
+Public Property Let DontLogErrors(ByVal vData As Boolean)
+Attribute DontLogErrors.VB_Description = "If an application is logging it's errors using LogEvent, then any errors generated internally will be logged internally AND logged by the host application. This property (when True) prevents errors being logged internally."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let DontLogErrors(" & vData & ")", etFullDebug
+
+  bDontLogErrors = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get DontLogErrors() As Boolean
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get DontLogErrors()", etFullDebug
+
+  DontLogErrors = bDontLogErrors
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return ShowPassword
+Public Property Let ShowPassword(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let ShowPassword(" & vData & ")", etFullDebug
+
+  bShowPassword = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get ShowPassword() As Boolean
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get ShowPassword()", etFullDebug
+
+  ShowPassword = bShowPassword
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Port
+Public Property Let Port(ByVal vData As Long)
+Attribute Port.VB_Description = "Returns the port number that the PostgreSQL server is listening on."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let Port(" & vData & ")", etFullDebug
+
+  lPort = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Port() As Long
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Port()", etFullDebug
+
+  Port = lPort
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Name
+Public Property Let Server(ByVal vData As String)
+Attribute Server.VB_Description = "Sets/Returns the PostgreSQL Server Hostname or IP address."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let Server(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  Server = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Server() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Server()", etFullDebug
+
+  Server = szServer
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Password
+Public Property Let Password(ByVal vData As String)
+Attribute Password.VB_Description = "Sets/Returns the Password used for the connection."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let Password(" & QUOTE & "********" & QUOTE & ")", etFullDebug
+
+  Password = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Password() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Password()", etFullDebug
+
+  If bShowPassword Then
+    Password = szPassword
+  Else
+    Password = "********"
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Friend Property Get iPassword() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get iPassword()", etFullDebug
+
+  iPassword = szPassword
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Username
+Public Property Let Username(ByVal vData As String)
+Attribute Username.VB_Description = "Sets/Returns the Username used for the connection."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let Username(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szUsername = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Username() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Username()", etFullDebug
+
+  Username = szUsername
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Logfile
+Public Property Let Logfile(ByVal vData As String)
+Attribute Logfile.VB_Description = "Sets/Returns the name of the logfile to use. Include %ID in the filename which will be replaced with a process ID (hInstance) if required."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let Logfile(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szLogfile = Replace(vData, "%ID", App.ThreadID)
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Logfile() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Logfile()", etFullDebug
+
+  Logfile = szLogfile
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Logging Property
+Public Property Let LogLevel(ByVal vData As LogLevel)
+Attribute LogLevel.VB_Description = "Sets/Returns the level of detail to include in the logfile."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Let LogLevel(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  llLogging = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get LogLevel() As LogLevel
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get LogLevel()", etFullDebug
+
+  LogLevel = llLogging
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+Friend Property Get Connection() As Connection
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering pgServer.Property Get Connection()", etFullDebug
+
+  Set Connection = cnPostgreSQL
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
