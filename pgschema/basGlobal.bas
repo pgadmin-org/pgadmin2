@@ -51,6 +51,7 @@ Public Const SQL_GET_AGGREGATES7_3 = "SELECT oid, proname AS aggname, pg_get_use
 Public Const SQL_GET_FOREIGN_KEYS = "SELECT oid, tgrelid, tgconstrname, tgnargs, tgargs, tgdeferrable, tginitdeferred FROM pg_trigger WHERE tgisconstraint = TRUE AND tgtype = 21"
 Public Const SQL_GET_NAMESPACES = "SELECT oid, nspname, pg_get_userbyid(nspowner) AS namespaceowner, nspacl FROM pg_namespace"
 Public Const SQL_GET_CASTS = "SELECT c.oid, t1.typname AS castsource, t2.typname AS casttarget, p.proname AS castfunc, castcontext FROM pg_cast c, pg_type t1, pg_type t2, pg_proc p WHERE c.castsource = t1.oid AND c.casttarget = t2.oid AND c.castfunc = p.oid"
+Public Const SQL_GET_CONVERSIONS = "SELECT c.oid, c.conname, c.condefault, pg_get_userbyid(c.conowner) AS conowner, pg_encoding_to_char(c.conforencoding) as forencoding, pg_encoding_to_char(c.contoencoding) as toencoding, (select quote_ident(n.nspname) FROM pg_namespace n WHERE n.oid=p.pronamespace) || '.' || quote_ident(p.proname) AS procconv FROM pg_conversion c, pg_proc p WHERE p.oid = c.conproc"
 
 'Type Declarations
 Public Type OSVERSIONINFO

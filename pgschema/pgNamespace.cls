@@ -26,6 +26,7 @@ Private colFunctions As Functions
 Private colOperators As Operators
 Private colTables As Tables
 Private colDomains As Domains
+Private colConversions As Conversions
 
 'Properties
 Private dOID As Double
@@ -271,6 +272,27 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Domains(
     colDomains.Initialize
   End If
   Set Domains = colDomains
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+
+'Return the Conversion Collection
+Public Property Get Conversions() As Conversions
+Attribute Conversions.VB_Description = "Returns a collection of pgConversion objects"
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Conversions()", etFullDebug
+
+  If colConversions Is Nothing Then
+    Set colConversions = New Conversions
+        
+    'Pass the connection to the class
+    Set colConversions.Connection = cnDatabase
+    colConversions.Namespace = szName
+    colConversions.NamespaceOID = dOID
+    colConversions.Initialize
+  End If
+  Set Conversions = colConversions
     
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -579,6 +601,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Class_Terminate()", e
   Set colOperators = Nothing
   Set colTables = Nothing
   Set colDomains = Nothing
+  Set colConversions = Nothing
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err.Number, Err.Description

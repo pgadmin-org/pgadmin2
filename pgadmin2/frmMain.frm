@@ -149,7 +149,7 @@ Begin VB.Form frmMain
             ImageKey        =   "create"
             Style           =   5
             BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
-               NumButtonMenus  =   17
+               NumButtonMenus  =   18
                BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "aggregate"
@@ -162,75 +162,80 @@ Begin VB.Form frmMain
                EndProperty
                BeginProperty ButtonMenu3 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
+                  Key             =   "conversion"
+                  Text            =   "&Conversion"
+               EndProperty
+               BeginProperty ButtonMenu4 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
                   Key             =   "database"
                   Text            =   "&Database"
                EndProperty
-               BeginProperty ButtonMenu4 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu5 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "domain"
                   Text            =   "Do&main"
                EndProperty
-               BeginProperty ButtonMenu5 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu6 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "function"
                   Text            =   "&Function"
                EndProperty
-               BeginProperty ButtonMenu6 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu7 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "group"
                   Text            =   "&Group"
                EndProperty
-               BeginProperty ButtonMenu7 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu8 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "index"
                   Text            =   "&Index"
                EndProperty
-               BeginProperty ButtonMenu8 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu9 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "language"
                   Text            =   "&Language"
                EndProperty
-               BeginProperty ButtonMenu9 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu10 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "operator"
                   Text            =   "&Operator"
                EndProperty
-               BeginProperty ButtonMenu10 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "rule"
                   Text            =   "&Rule"
                EndProperty
-               BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "namespace"
                   Text            =   "Sc&hema"
                EndProperty
-               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "sequence"
                   Text            =   "&Sequence"
                EndProperty
-               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "table"
                   Text            =   "&Table"
                EndProperty
-               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "trigger"
                   Text            =   "T&rigger"
                EndProperty
-               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu16 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "type"
                   Text            =   "T&ype"
                EndProperty
-               BeginProperty ButtonMenu16 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu17 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "user"
                   Text            =   "&User"
                EndProperty
-               BeginProperty ButtonMenu17 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu18 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "view"
                   Text            =   "&View"
@@ -394,118 +399,122 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   28
+         NumListImages   =   29
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":88BA
+            Picture         =   "frmMain.frx":9AB2
             Key             =   "aggregate"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8F8C
+            Picture         =   "frmMain.frx":A184
             Key             =   "check"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":965E
+            Picture         =   "frmMain.frx":A856
             Key             =   "column"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9D30
+            Picture         =   "frmMain.frx":AF28
             Key             =   "function"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A402
+            Picture         =   "frmMain.frx":B5FA
             Key             =   "group"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":AAD4
+            Picture         =   "frmMain.frx":BCCC
             Key             =   "index"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B06E
+            Picture         =   "frmMain.frx":C266
             Key             =   "indexcolumn"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B740
+            Picture         =   "frmMain.frx":C938
             Key             =   "foreignkey"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":BE12
+            Picture         =   "frmMain.frx":D00A
             Key             =   "language"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C4E4
+            Picture         =   "frmMain.frx":D6DC
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":CBB6
+            Picture         =   "frmMain.frx":DDAE
             Key             =   "property"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D150
+            Picture         =   "frmMain.frx":E348
             Key             =   "relationship"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D2AA
+            Picture         =   "frmMain.frx":E4A2
             Key             =   "rule"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D97C
+            Picture         =   "frmMain.frx":EB74
             Key             =   "server"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":DAD6
+            Picture         =   "frmMain.frx":ECCE
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":E1A8
+            Picture         =   "frmMain.frx":F3A0
             Key             =   "table"
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":E87A
+            Picture         =   "frmMain.frx":FA72
             Key             =   "trigger"
          EndProperty
          BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":EF4C
+            Picture         =   "frmMain.frx":10144
             Key             =   "type"
          EndProperty
          BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F61E
+            Picture         =   "frmMain.frx":10816
             Key             =   "user"
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F778
+            Picture         =   "frmMain.frx":10970
             Key             =   "view"
          EndProperty
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":FE4A
+            Picture         =   "frmMain.frx":11042
             Key             =   "hiproperty"
          EndProperty
          BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":103E4
+            Picture         =   "frmMain.frx":115DC
             Key             =   "database"
          EndProperty
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":1053E
+            Picture         =   "frmMain.frx":11736
             Key             =   "closeddatabase"
          EndProperty
          BeginProperty ListImage24 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":10698
+            Picture         =   "frmMain.frx":11890
             Key             =   "baddatabase"
          EndProperty
          BeginProperty ListImage25 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":107F2
+            Picture         =   "frmMain.frx":119EA
             Key             =   "statistics"
          EndProperty
          BeginProperty ListImage26 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":113C4
+            Picture         =   "frmMain.frx":125BC
             Key             =   "domain"
          EndProperty
          BeginProperty ListImage27 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":11A96
+            Picture         =   "frmMain.frx":12C8E
             Key             =   "namespace"
          EndProperty
          BeginProperty ListImage28 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":12668
+            Picture         =   "frmMain.frx":13860
             Key             =   "cast"
+         EndProperty
+         BeginProperty ListImage29 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":14432
+            Key             =   "conversion"
          EndProperty
       EndProperty
    End
@@ -538,13 +547,13 @@ Begin VB.Form frmMain
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmMain.frx":1323A
+      TabPicture(0)   =   "frmMain.frx":14D0C
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lv"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).ControlCount=   1
       TabCaption(1)   =   "&Statistics"
-      TabPicture(1)   =   "frmMain.frx":13256
+      TabPicture(1)   =   "frmMain.frx":14D28
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "sv"
       Tab(1).ControlCount=   1
@@ -851,6 +860,10 @@ Begin VB.Form frmMain
          End
          Begin VB.Menu mnuPopupCreateCast 
             Caption         =   "&Cast..."
+            Enabled         =   0   'False
+         End
+         Begin VB.Menu mnuPopupCreateConversion 
+            Caption         =   "&Conversion..."
             Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateDatabase 
@@ -1586,12 +1599,16 @@ Dim objNode As Node
       svr.Groups.Refresh
     Case "USR+"
       svr.Users.Refresh
+    Case "CST+"
+      svr.Databases(objNode.Parent.Text).Casts.Refresh
     Case "LNG+"
       svr.Databases(objNode.Parent.Text).Languages.Refresh
     Case "NSP+"
       svr.Databases(objNode.Parent.Text).Namespaces.Refresh
     Case "AGG+"
       svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Aggregates.Refresh
+    Case "CNV+"
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Conversions.Refresh
     Case "DOM+"
       svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Domains.Refresh
     Case "FNC+"
@@ -1703,6 +1720,12 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
           Load objDomainForm
           objDomainForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objDomainForm.Show
+          
+        Case "Conversion"
+          Dim objConversionForm As New frmConversion
+          Load objConversionForm
+          objConversionForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
+          objConversionForm.Show
           
         Case "Foreign Key"
           Dim objForeignKeyForm As New frmForeignKey
@@ -1960,6 +1983,20 @@ Dim objCastForm As New frmCast
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateCast_Click"
+End Sub
+
+Private Sub mnuPopupCreateConversion_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateConversion_Click()", etFullDebug
+
+Dim objConversionForm As New frmConversion
+
+  Load objConversionForm
+  objConversionForm.Initialise ctx.CurrentDB, ctx.CurrentNS
+  objConversionForm.Show
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateConversion_Click"
 End Sub
 
 Private Sub mnuPopupCreateDatabase_Click()
@@ -2899,6 +2936,7 @@ Dim lvItem As ListItem
 
   If Node.Children = 0 Then
     Set ctx.CurrentObject.Aggregates.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG+" & GetID, "Aggregates (" & ctx.CurrentObject.Aggregates.Count(Not ctx.IncludeSys) & ")", "aggregate")
+    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Conversions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CNV+" & GetID, "Conversions (" & ctx.CurrentObject.Conversions.Count(Not ctx.IncludeSys) & ")", "conversion")
     If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, "Domains (" & ctx.CurrentObject.Domains.Count(Not ctx.IncludeSys) & ")", "domain")
     Set ctx.CurrentObject.Functions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC+" & GetID, "Functions (" & ctx.CurrentObject.Functions.Count(Not ctx.IncludeSys) & ")", "function")
     Set ctx.CurrentObject.Operators.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR+" & GetID, "Operators (" & ctx.CurrentObject.Operators.Count(Not ctx.IncludeSys) & ")", "operator")
@@ -3321,17 +3359,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & QUOTE & Node.Fu
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSQL As String
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
     Else
-      szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
+      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Sequence", 2000
     sv.ColumnHeaders.Add , , "Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
@@ -3477,17 +3515,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & QUOTE & Node.FullP
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSQL As String
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
     Else
-      szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
+      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Table", 2000
     sv.ColumnHeaders.Add , , "Tuples Inserted", 2000
     sv.ColumnHeaders.Add , , "Tuples Updated", 2000
@@ -3768,18 +3806,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSQL As String
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
-      szSQL = szSQL & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and schemaname='" & ctx.CurrentNS & "'"
+      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
+      szSql = szSql & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and schemaname='" & ctx.CurrentNS & "'"
     Else
-      szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
+      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Statistic"
     sv.ColumnHeaders.Add , , "Value"
   
@@ -3813,6 +3851,73 @@ Err_Handler:
   If rsStat.State <> adStateClosed Then rsStat.Close
   Set rsStat = Nothing
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svColumn"
+End Sub
+
+Private Sub tvConversions(ByVal Node As MSComctlLib.Node)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvConversions(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim conv As pgConversion
+
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Conversions.Count(Not ctx.IncludeSys) Then
+    While Not (Node.Child Is Nothing)
+      tv.Nodes.Remove Node.Child.Index
+    Wend
+    For Each conv In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Conversions
+      If Not (conv.SystemObject And Not ctx.IncludeSys) Then Set conv.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CNV-" & GetID, conv.Identifier, "conversion")
+    Next
+    Node.Text = "Conversions (" & Node.Children & ")"
+  End If
+  lv.ColumnHeaders.Add , , "Conversion"
+  For Each conv In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Conversions
+    If Not (conv.SystemObject And Not ctx.IncludeSys) Then
+      Set lvItem = lv.ListItems.Add(, "CNV-" & GetID, conv.Identifier, "conversion", "conversion")
+    End If
+  Next
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvConversions"
+End Sub
+
+Private Sub tvConversion(ByVal Node As MSComctlLib.Node)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvConversion(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+  
+  lv.ColumnHeaders.Add , , "Property"
+  lv.ColumnHeaders.Add , , "Value"
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
+  If ctx.CurrentObject.Default Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.ForEncoding
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Destination", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.ToEncoding
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Proc
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Conversion?", "property", "property")
+  If ctx.CurrentObject.SystemObject Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+
+  'Set the Definition Pane
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvConversion"
 End Sub
 
 Private Sub tvForeignKeys(ByVal Node As MSComctlLib.Node)
@@ -3936,18 +4041,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & QUOTE & Node.Full
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSQL As String
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
-      szSQL = szSQL & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
+      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
+      szSql = szSql & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
     Else
-      szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
+      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Index", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
@@ -4506,6 +4611,19 @@ Dim vData As Variant
       tvDomain Node
       If ctx.dbVer >= 7.2 Then ClearStats
       
+    Case "CNV+" 'Conversion
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
+      tvConversions Node
+      If ctx.dbVer >= 7.2 Then ClearStats
+      
+    Case "CNV-" 'Conversion
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Conversions(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
+      tvConversion Node
+      If ctx.dbVer >= 7.2 Then ClearStats
+      
     Case "FNC+" 'Functions
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
@@ -4739,6 +4857,12 @@ Dim szPath() As String
       
     Case "DOM-" 'Domain
       Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Domains(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
+      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+
+    Case "CNV-" 'Conversion
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Conversions(Item.Text)
       ctx.CurrentDB = ctx.CurrentObject.Database
       ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL

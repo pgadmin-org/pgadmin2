@@ -96,7 +96,7 @@ Dim szObjectType As String
   szObjIdentifier = Trim(Mid(UserControl.Extender.Container.Caption, InStr(UserControl.Extender.Container.Caption, ":") + 1))
   szObjectType = Mid(UserControl.Extender.Container.Name, 4)
   Select Case szObjectType
-    Case "Aggreagte", "Domain", "Function", "Operator", "Sequence", "Table", "Type", "View"
+    Case "Aggreagte", "Domain", "Function", "Operator", "Sequence", "Table", "Type", "View", "Conversion"
 
       'Find next/prev object
       szIdentifier = GetIdentifier(CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace), szObjectType & "s", VbGet), szObjIdentifier, ETypeMove)
@@ -104,11 +104,14 @@ Dim szObjectType As String
       
       'load new form
       Select Case szObjectType
-        Case "Aggregate"
+        Case "Aggreagte"
           Set objForm = New frmAggregate
         
         Case "Domain"
           Set objForm = New frmDomain
+        
+        Case "Conversion"
+          Set objForm = New frmConversion
         
         Case "Function"
           Set objForm = New frmFunction

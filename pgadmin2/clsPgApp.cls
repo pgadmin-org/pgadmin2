@@ -23,6 +23,7 @@ Public frmCast As pgAdmin2.frmCast                          'frmCast.frm
 Public frmClone As pgAdmin2.frmClone                        'frmClone.frm
 Public frmColumn As pgAdmin2.frmColumn                      'frmColumn.frm
 Public frmConnect As pgAdmin2.frmConnect                    'frmConnect.frm
+Public frmConversion As pgAdmin2.frmConversion              'frmConversion.frm
 Public frmDatabase As pgAdmin2.frmDatabase                  'frmDatabase.frm
 Public frmDomain As pgAdmin2.frmDomain                      'frmDomain.frm
 Public frmDummy As pgAdmin2.frmDummy                        'frmDummy.frm

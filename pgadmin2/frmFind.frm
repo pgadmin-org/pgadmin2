@@ -511,6 +511,7 @@ Dim lvItem As ListItem
   If ctx.dbVer >= 7.3 Then
     lvObjType.ListItems.Add , "CST", "Cast", "cast", "cast"
     lvObjType.ListItems.Add , "DOM", "Domain", "domain", "domain"
+    lvObjType.ListItems.Add , "CNV", "Conversion", "conversion", "conversion"
   End If
   lvObjType.ListItems.Add , "FNC", "Function", "function", "function"
   lvObjType.ListItems.Add , "LNG", "Language", "language", "language"
@@ -582,7 +583,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.cmdFind_Click()", etFul
 
 Dim szName As String
 Dim szComment As String
-Dim szSQL As String
+Dim szSql As String
 Dim iLenName As Integer
 Dim iLenComment As Integer
 Dim iLenSql As Integer
@@ -608,7 +609,7 @@ Dim bSreachOwner As Boolean
   'find object
   szName = txtName.Text:  iLenName = Len(szName)
   szComment = txtComment.Text:   iLenComment = Len(szComment)
-  szSQL = txtSql.Text:  iLenSql = Len(szSQL)
+  szSql = txtSql.Text:  iLenSql = Len(szSql)
   
   Set objDatabase = frmMain.svr.Databases(cboDatabase.SelectedItem.Text)
   szSearchFor = cboSearchFor.SelectedItem.Key
@@ -644,6 +645,7 @@ Dim bSreachOwner As Boolean
         If ctx.dbVer >= 7.3 Then
           If lvObjType.ListItems("CST").Checked Then colObj.Add objDatabase.Casts
           If lvObjType.ListItems("DOM").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Domains
+          If lvObjType.ListItems("CNV").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Conversions
         End If
         If lvObjType.ListItems("FNC").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Functions
         If lvObjType.ListItems("LNG").Checked Then colObj.Add objDatabase.Languages
@@ -657,6 +659,7 @@ Dim bSreachOwner As Boolean
         If ctx.dbVer >= 7.3 Then
           colObj.Add objDatabase.Casts
           colObj.Add objDatabase.Namespaces(szNamespace).Domains
+          colObj.Add objDatabase.Namespaces(szNamespace).Conversions
         End If
         colObj.Add objDatabase.Namespaces(szNamespace).Functions
         colObj.Add objDatabase.Languages
@@ -712,13 +715,13 @@ Dim bSreachOwner As Boolean
             bFoundSql = False
             Select Case szSearchFor
               Case "WWR"
-                bFoundSql = objTmp.SQL = szSQL
+                bFoundSql = objTmp.SQL = szSql
               Case "BGN"
-                bFoundSql = Left(objTmp.SQL, iLenSql) = szSQL
+                bFoundSql = Left(objTmp.SQL, iLenSql) = szSql
               Case "END"
-                bFoundSql = Right(objTmp.SQL, iLenSql) = szSQL
+                bFoundSql = Right(objTmp.SQL, iLenSql) = szSql
               Case "SBR"
-                bFoundSql = InStr(objTmp.SQL, szSQL) > 0
+                bFoundSql = InStr(objTmp.SQL, szSql) > 0
             End Select
           End If
        
@@ -750,6 +753,9 @@ Dim bSreachOwner As Boolean
               Case "Domain"
                 szImg = "domain"
                 szKey = "DOM"
+              Case "Conversion"
+                szImg = "conversion"
+                szKey = "CNV"
               Case "Function"
                 szImg = "function"
                 szKey = "FNC"
@@ -835,6 +841,12 @@ Dim szName As String
       objDomainForm.Initialise objDatabase.Name, objNamespace.Name, objNamespace.Domains(szName)
       objDomainForm.Show
       
+    Case "CNV"
+      Dim objConversionForm As New frmConversion
+      Load objConversionForm
+      objConversionForm.Initialise objDatabase.Name, objNamespace.Name, objNamespace.Conversions(szName)
+      objConversionForm.Show
+      
     Case "FNC"
       Dim objFunctionForm As New frmFunction
       Load objFunctionForm
@@ -878,12 +890,10 @@ Dim szName As String
       objViewForm.Show
   
   End Select
-  
-  
+    
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.lv_DblClick"
 End Sub
-
 
 Private Sub lvColResult_ItemCheck(ByVal Item As MSComctlLib.ListItem)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler

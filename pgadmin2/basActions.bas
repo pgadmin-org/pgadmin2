@@ -139,6 +139,12 @@ Dim szPath() As String
       objNode.Parent.Text = "Casts (" & objNode.Parent.Children - 1 & ")"
       frmMain.tv.Nodes.Remove objNode.Index
 
+    Case "Conversion"
+      szType = "CNV-"
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Conversions.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Conversions (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
+      
     Case "Domain"
       szType = "DOM-"
       frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Domains.Remove ctx.CurrentObject.Identifier

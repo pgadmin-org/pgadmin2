@@ -112,13 +112,12 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormScrollObj(" & objForm.Name & ")", etFullDebug
 
   Select Case Mid(objForm.Name, 4)
-    Case "Aggreagte", "Domain", "Function", "Operator", "Sequence", "Table", "Type", "View", "User", "Group", "Cast", "Language", "Namespace", "Database", "Column", "ForeignKey", "Rule", "Trigger", "Index"
+    Case "Aggregate", "Domain", "Function", "Operator", "Sequence", "Table", "Type", "View", "User", "Group", "Cast", "Language", "Namespace", "Database", "Column", "ForeignKey", "Rule", "Trigger", "Index", "Conversion"
       
       'create object
       objForm.Controls.Add "pgAdmin2.ScrollObjDb", "ScrollObjDb"
       With objForm!ScrollObjDb
         .Left = 25
-        '.Top = objForm.Height - .Height * 2 - 25
         .Top = objForm!cmdOK.Top
         .Visible = True
       End With
@@ -128,4 +127,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormScrollObj(" &
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basPatch.PatchFormScrollObj"
 End Sub
+
 

@@ -196,6 +196,7 @@ Public Property Let CurrentNS(ByVal szData As String)
   
   If (szData <> "") And (szData <> "pg_catalog") And (szData <> "pg_toast") And (Left(szData, 8) <> "pg_temp_") Then
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("conversion").Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = True
@@ -207,6 +208,7 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = True
     frmMain.mnuPopupCreateAggregate.Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateConversion.Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateDomain.Enabled = True
     frmMain.mnuPopupCreateFunction.Enabled = True
     frmMain.mnuPopupCreateIndex.Enabled = True
@@ -219,6 +221,7 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.mnuPopupCreateView.Enabled = True
   Else
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("conversion").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = False
@@ -230,6 +233,7 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = False
     frmMain.mnuPopupCreateAggregate.Enabled = False
+    frmMain.mnuPopupCreateConversion.Enabled = False
     frmMain.mnuPopupCreateDomain.Enabled = False
     frmMain.mnuPopupCreateFunction.Enabled = False
     frmMain.mnuPopupCreateIndex.Enabled = False
