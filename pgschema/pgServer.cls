@@ -57,6 +57,12 @@ Public Enum aclPrivileges
   aclRule = &H20
 End Enum
 
+Public Enum dbStatus
+  statClosed = 0
+  statOpen = 1
+  statInaccessible = 2
+End Enum
+
 'Collections
 Private colDatabases As Databases
 Private colUsers As Users

@@ -229,7 +229,7 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " WHERE datname != 'template0' ORDER BY datname", objServer.Connection)
+    Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " ORDER BY datname", objServer.Connection)
     While Not rs.EOF
       iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!Encoding, rs!EncodingName
       rs.MoveNext

@@ -333,7 +333,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   21
+         NumListImages   =   22
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":5892
             Key             =   "aggregate"
@@ -417,6 +417,10 @@ Begin VB.Form frmMain
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":B35A
             Key             =   "view"
+         EndProperty
+         BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":B4B4
+            Key             =   "baddatabase"
          EndProperty
       EndProperty
    End
@@ -1843,7 +1847,13 @@ Dim dat As pgDatabase
       tv.Nodes.Remove Node.Child.Index
     Wend
     For Each dat In svr.Databases
-      If Not (dat.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "database"
+      If Not (dat.SystemObject And Not ctx.IncludeSys) Then
+        If dat.Status <> statInaccessible Then
+          tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "database"
+        Else
+          tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "baddatabase"
+        End If
+      End If
     Next dat
     Node.Text = "Databases (" & Node.Children & ")"
   End If
@@ -1866,15 +1876,19 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 
-  If Node.Children = 0 Then
-    tv.Nodes.Add Node.Key, tvwChild, "AGG+" & GetID, "Aggregates", "aggregate"
-    tv.Nodes.Add Node.Key, tvwChild, "FNC+" & GetID, "Functions", "function"
-    tv.Nodes.Add Node.Key, tvwChild, "LNG+" & GetID, "Languages", "language"
-    tv.Nodes.Add Node.Key, tvwChild, "OPR+" & GetID, "Operators", "operator"
-    tv.Nodes.Add Node.Key, tvwChild, "SEQ+" & GetID, "Sequences", "sequence"
-    tv.Nodes.Add Node.Key, tvwChild, "TBL+" & GetID, "Tables", "table"
-    tv.Nodes.Add Node.Key, tvwChild, "TYP+" & GetID, "Types", "type"
-    tv.Nodes.Add Node.Key, tvwChild, "VIE+" & GetID, "Views", "view"
+  If svr.Databases(Node.Text).Status <> statInaccessible Then
+    If Node.Children = 0 Then
+      tv.Nodes.Add Node.Key, tvwChild, "AGG+" & GetID, "Aggregates", "aggregate"
+      tv.Nodes.Add Node.Key, tvwChild, "FNC+" & GetID, "Functions", "function"
+      tv.Nodes.Add Node.Key, tvwChild, "LNG+" & GetID, "Languages", "language"
+      tv.Nodes.Add Node.Key, tvwChild, "OPR+" & GetID, "Operators", "operator"
+      tv.Nodes.Add Node.Key, tvwChild, "SEQ+" & GetID, "Sequences", "sequence"
+      tv.Nodes.Add Node.Key, tvwChild, "TBL+" & GetID, "Tables", "table"
+      tv.Nodes.Add Node.Key, tvwChild, "TYP+" & GetID, "Types", "type"
+      tv.Nodes.Add Node.Key, tvwChild, "VIE+" & GetID, "Views", "view"
+    End If
+  Else
+    Node.Image = "baddatabase"
   End If
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
@@ -1888,6 +1902,12 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = svr.Databases(Node.Text).Path
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Encoding", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Text).EncodingName
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Accessible?", "property", "property")
+  If svr.Databases(Node.Text).Status <> statInaccessible Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Database?", "property", "property")
   If svr.Databases(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"

@@ -159,6 +159,7 @@ Begin VB.Form frmDatabase
          Width           =   5190
          _ExtentX        =   9155
          _ExtentY        =   5741
+         BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -168,6 +169,7 @@ Begin VB.Form frmDatabase
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         Locked          =   -1  'True
          Caption         =   "Comments"
       End
       Begin VB.Label lblProperties 
@@ -328,6 +330,8 @@ Dim objItem As ComboItem
     cboProperties(0).Locked = False
     txtProperties(3).BackColor = &H80000005
     txtProperties(3).Locked = False
+    hbxProperties(0).BackColor = &H80000005
+    hbxProperties(0).Locked = False
     
   Else
   
@@ -335,6 +339,10 @@ Dim objItem As ComboItem
     Set objDatabase = Database
     bNew = False
     Me.Caption = "Database: " & objDatabase.Identifier
+    If objDatabase.Status <> statInaccessible Then
+      hbxProperties(0).BackColor = &H80000005
+      hbxProperties(0).Locked = False
+    End If
     txtProperties(0).Text = objDatabase.Name
     txtProperties(1).Text = objDatabase.OID
     txtProperties(2).Text = objDatabase.Owner
