@@ -1,13 +1,13 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
    ClientHeight    =   6675
    ClientLeft      =   165
-   ClientTop       =   855
+   ClientTop       =   1425
    ClientWidth     =   9675
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
@@ -339,7 +339,7 @@ Begin VB.Form frmMain
          NumPanels       =   5
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   5611
+            Object.Width           =   5638
             MinWidth        =   2
             Text            =   "Ready"
             TextSave        =   "Ready"
@@ -3252,22 +3252,26 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & QUOTE & Node.Fu
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname")
+    If ctx.dbVer >= 7.3 Then
+      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+    Else
+      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
+    End If
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Sequence", 2000
     sv.ColumnHeaders.Add , , "Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
   
     While Not rsStat.EOF
-      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences.Exists(rsStat!relname) Then
-        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
-          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
-          lvItem.SubItems(1) = rsStat!blks_read & ""
-          lvItem.SubItems(2) = rsStat!blks_hit & ""
-        End If
+      If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+        lvItem.SubItems(1) = rsStat!blks_read & ""
+        lvItem.SubItems(2) = rsStat!blks_hit & ""
       End If
       rsStat.MoveNext
     Wend
@@ -3404,24 +3408,28 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & QUOTE & Node.FullP
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname")
+    If ctx.dbVer >= 7.3 Then
+      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+    Else
+      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
+    End If
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Table", 2000
     sv.ColumnHeaders.Add , , "Tuples Inserted", 2000
     sv.ColumnHeaders.Add , , "Tuples Updated", 2000
     sv.ColumnHeaders.Add , , "Tuples Deleted", 2000
   
     While Not rsStat.EOF
-      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables.Exists(rsStat!relname) Then
-        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
-          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
-          lvItem.SubItems(1) = rsStat!n_tup_ins & ""
-          lvItem.SubItems(2) = rsStat!n_tup_upd & ""
-          lvItem.SubItems(3) = rsStat!n_tup_del & ""
-        End If
+      If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+        lvItem.SubItems(1) = rsStat!n_tup_ins & ""
+        lvItem.SubItems(2) = rsStat!n_tup_upd & ""
+        lvItem.SubItems(3) = rsStat!n_tup_del & ""
       End If
       rsStat.MoveNext
     Wend
@@ -3691,11 +3699,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'")
+    If ctx.dbVer >= 7.3 Then
+      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
+      szSql = szSql & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and szhemaname='" & ctx.CurrentNS & "'"
+    Else
+      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
+    End If
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Statistic"
     sv.ColumnHeaders.Add , , "Value"
   
@@ -3852,22 +3867,27 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & QUOTE & Node.Full
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname")
+    If ctx.dbVer >= 7.3 Then
+      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
+      szSql = szSql & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
+    Else
+      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
+    End If
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Index", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
   
     While Not rsStat.EOF
-      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes.Exists(rsStat!indexrelname) Then
-        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
-          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
-          lvItem.SubItems(1) = rsStat!idx_blks_read & ""
-          lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
-        End If
+      If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
+        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
+        lvItem.SubItems(1) = rsStat!idx_blks_read & ""
+        lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
       End If
       rsStat.MoveNext
     Wend
