@@ -625,7 +625,7 @@ Public Property Get Comment() As String
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Comment()", etFullDebug
   
-  If objServer.DeferConnection Then
+  If objServer.DeferConnection And lStatus <> statOpen Then
     Comment = ""
   Else
     Comment = LookupComment(lOID)
