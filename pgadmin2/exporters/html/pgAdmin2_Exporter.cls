@@ -85,7 +85,11 @@ Dim szTemp As String
   While Not rsData.EOF
     szTemp = ""
     For X = 0 To rsData.Fields.Count - 1
-      szTemp = szTemp & "<TD>" & rsData.Fields(X).Value & "&nbsp;</TD>"
+      If rsData.Fields(X).Type = adDBTime Then
+        szTemp = szTemp & "<TD>" & Format(rsData.Fields(X).Value & "", "ttttt") & "&nbsp;</TD>"
+      Else
+        szTemp = szTemp & "<TD>" & rsData.Fields(X).Value & "&nbsp;</TD>"
+      End If
     Next
     Print #1, "      " & szTemp
     Print #1, "    </TR>"

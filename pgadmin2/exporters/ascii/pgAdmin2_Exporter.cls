@@ -61,7 +61,7 @@ Dim szField As String
   Screen.MousePointer = vbArrowHourglass
   fNum = FreeFile
   Open szFilename For Output As #fNum
-  
+      
   'Loop through the records, and save line by line.
   
   lCount = 0
@@ -71,10 +71,18 @@ Dim szField As String
     For X = 0 To rsData.Fields.Count - 1
       If frmExport.lvSubMap.ListItems.Count > 0 Then
         For Y = 1 To frmExport.lvSubMap.ListItems.Count
-          szField = Replace(rsData.Fields(X).Value & "", frmExport.lvSubMap.ListItems(Y).Text, frmExport.lvSubMap.ListItems(Y).SubItems(1))
+          If rsData.Fields(X).Type = adDBTime Then
+            szField = Replace(Format(rsData.Fields(X).Value & "", "ttttt"), frmExport.lvSubMap.ListItems(Y).Text, frmExport.lvSubMap.ListItems(Y).SubItems(1))
+          Else
+            szField = Replace(rsData.Fields(X).Value & "", frmExport.lvSubMap.ListItems(Y).Text, frmExport.lvSubMap.ListItems(Y).SubItems(1))
+          End If
         Next
       Else
-        szField = rsData.Fields(X).Value & ""
+        If rsData.Fields(X).Type = adDBTime Then
+          szField = Format(rsData.Fields(X).Value & "", "ttttt")
+        Else
+          szField = rsData.Fields(X).Value & ""
+        End If
       End If
       szData = szData & szQuote & Replace(szField, szQuote, szQuote & szQuote) & szQuote & szDelimiter
     Next

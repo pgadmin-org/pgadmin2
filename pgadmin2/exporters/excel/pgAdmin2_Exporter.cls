@@ -54,7 +54,11 @@ Dim Y As Integer
   While Not rsData.EOF
     For X = 0 To rsData.Fields.Count - 1
       ExcelApp.Cells(Y, X + 1).NumberFormat = "@"
-      ExcelApp.Cells(Y, X + 1).Value = rsData.Fields(X).Value
+      If rsData.Fields(X).Type = adDBTime Then
+        ExcelApp.Cells(Y, X + 1).Value = Format(rsData.Fields(X).Value & "", "ttttt")
+      Else
+        ExcelApp.Cells(Y, X + 1).Value = rsData.Fields(X).Value & ""
+      End If
     Next
     rsData.MoveNext
     Y = Y + 1
