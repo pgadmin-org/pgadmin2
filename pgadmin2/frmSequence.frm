@@ -20,7 +20,7 @@ Begin VB.Form frmSequence
       Default         =   -1  'True
       Height          =   375
       Left            =   3285
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   6480
       Width           =   1095
    End
@@ -29,7 +29,7 @@ Begin VB.Form frmSequence
       Caption         =   "Cancel"
       Height          =   375
       Left            =   4410
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   6480
       Width           =   1095
    End
@@ -66,42 +66,42 @@ Begin VB.Form frmSequence
       Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "lblProperties(9)"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "txtProperties(0)"
+      Tab(0).Control(9)=   "cboProperties(0)"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "txtProperties(1)"
+      Tab(0).Control(10)=   "txtProperties(0)"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "txtProperties(2)"
+      Tab(0).Control(11)=   "txtProperties(1)"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "txtProperties(3)"
+      Tab(0).Control(12)=   "txtProperties(2)"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "txtProperties(4)"
+      Tab(0).Control(13)=   "txtProperties(3)"
       Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "txtProperties(5)"
+      Tab(0).Control(14)=   "txtProperties(4)"
       Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).Control(15)=   "txtProperties(7)"
+      Tab(0).Control(15)=   "txtProperties(6)"
       Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).Control(16)=   "txtProperties(8)"
+      Tab(0).Control(16)=   "txtProperties(7)"
       Tab(0).Control(16).Enabled=   0   'False
       Tab(0).Control(17)=   "chkProperties(0)"
       Tab(0).Control(17).Enabled=   0   'False
       Tab(0).Control(18)=   "hbxProperties(0)"
       Tab(0).Control(18).Enabled=   0   'False
-      Tab(0).Control(19)=   "txtProperties(6)"
+      Tab(0).Control(19)=   "txtProperties(5)"
       Tab(0).Control(19).Enabled=   0   'False
       Tab(0).ControlCount=   20
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "cmdAdd"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
          Height          =   1815
          Left            =   -74865
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   4410
          Width           =   5190
          Begin VB.CheckBox chkPrivilege 
@@ -109,7 +109,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   5
             Left            =   3420
-            TabIndex        =   34
+            TabIndex        =   33
             ToolTipText     =   "Give rule privilege to the selected entity."
             Top             =   990
             Width           =   1590
@@ -119,7 +119,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   4
             Left            =   3420
-            TabIndex        =   33
+            TabIndex        =   32
             ToolTipText     =   "Give insert privilege to the selected entity."
             Top             =   720
             Width           =   1590
@@ -129,7 +129,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   2
             Left            =   225
-            TabIndex        =   31
+            TabIndex        =   30
             ToolTipText     =   "Give update privilege to the selected entity."
             Top             =   1260
             Width           =   1590
@@ -139,7 +139,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   1
             Left            =   225
-            TabIndex        =   30
+            TabIndex        =   29
             ToolTipText     =   "Give select privilege to the selected entity."
             Top             =   990
             Width           =   1590
@@ -149,7 +149,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   0
             Left            =   225
-            TabIndex        =   29
+            TabIndex        =   28
             ToolTipText     =   "Give all privileges to the selected entity."
             Top             =   720
             Width           =   1590
@@ -159,7 +159,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   3
             Left            =   225
-            TabIndex        =   32
+            TabIndex        =   31
             ToolTipText     =   "Give delete privilege to the selected entity."
             Top             =   1530
             Width           =   1590
@@ -169,7 +169,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   6
             Left            =   3420
-            TabIndex        =   35
+            TabIndex        =   34
             ToolTipText     =   "Give references privilege to the selected entity."
             Top             =   1260
             Width           =   1590
@@ -179,7 +179,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   7
             Left            =   3420
-            TabIndex        =   36
+            TabIndex        =   35
             ToolTipText     =   "Give trigger privilege to the selected entity."
             Top             =   1530
             Width           =   1590
@@ -187,7 +187,7 @@ Begin VB.Form frmSequence
          Begin MSComctlLib.ImageCombo cboEntities 
             Height          =   330
             Left            =   1260
-            TabIndex        =   27
+            TabIndex        =   26
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
             Top             =   315
             Width           =   3705
@@ -205,7 +205,7 @@ Begin VB.Form frmSequence
             Height          =   195
             Index           =   8
             Left            =   180
-            TabIndex        =   28
+            TabIndex        =   27
             Top             =   360
             Width           =   840
          End
@@ -213,10 +213,10 @@ Begin VB.Form frmSequence
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
          Height          =   285
-         Index           =   6
+         Index           =   5
          Left            =   1935
          Locked          =   -1  'True
-         TabIndex        =   7
+         TabIndex        =   6
          ToolTipText     =   "The initial starting value for the sequence."
          Top             =   3105
          Width           =   3390
@@ -225,7 +225,7 @@ Begin VB.Form frmSequence
          Caption         =   "&Remove"
          Height          =   375
          Left            =   -73515
-         TabIndex        =   16
+         TabIndex        =   15
          ToolTipText     =   "Remove the selected entry."
          Top             =   3915
          Width           =   1230
@@ -234,7 +234,7 @@ Begin VB.Form frmSequence
          Caption         =   "&Add"
          Height          =   375
          Left            =   -74865
-         TabIndex        =   15
+         TabIndex        =   14
          ToolTipText     =   "Add the defined entry."
          Top             =   3915
          Width           =   1230
@@ -243,7 +243,7 @@ Begin VB.Form frmSequence
          Height          =   1455
          Index           =   0
          Left            =   135
-         TabIndex        =   11
+         TabIndex        =   10
          ToolTipText     =   "Comments about the sequence."
          Top             =   4725
          Width           =   5190
@@ -266,21 +266,10 @@ Begin VB.Form frmSequence
          Height          =   240
          Index           =   0
          Left            =   135
-         TabIndex        =   10
+         TabIndex        =   9
          ToolTipText     =   $"frmSequence.frx":06FA
          Top             =   4365
          Width           =   1995
-      End
-      Begin VB.TextBox txtProperties 
-         BackColor       =   &H8000000F&
-         Height          =   285
-         Index           =   8
-         Left            =   1935
-         Locked          =   -1  'True
-         TabIndex        =   9
-         ToolTipText     =   $"frmSequence.frx":07F6
-         Top             =   3915
-         Width           =   3390
       End
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -289,19 +278,19 @@ Begin VB.Form frmSequence
          Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   8
-         ToolTipText     =   "A positive value will make an ascending sequence, a negative one a descending sequence."
-         Top             =   3510
+         ToolTipText     =   $"frmSequence.frx":07F6
+         Top             =   3915
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
          Height          =   285
-         Index           =   5
+         Index           =   6
          Left            =   1935
          Locked          =   -1  'True
-         TabIndex        =   6
-         ToolTipText     =   "The maximum value for the sequence."
-         Top             =   2700
+         TabIndex        =   7
+         ToolTipText     =   "A positive value will make an ascending sequence, a negative one a descending sequence."
+         Top             =   3510
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -311,8 +300,8 @@ Begin VB.Form frmSequence
          Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   5
-         ToolTipText     =   "The minimum value a sequence can generate."
-         Top             =   2295
+         ToolTipText     =   "The maximum value for the sequence."
+         Top             =   2700
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -322,8 +311,8 @@ Begin VB.Form frmSequence
          Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   4
-         ToolTipText     =   "The last value of the sequence."
-         Top             =   1890
+         ToolTipText     =   "The minimum value a sequence can generate."
+         Top             =   2295
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -333,8 +322,8 @@ Begin VB.Form frmSequence
          Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   3
-         ToolTipText     =   "The sequences owner."
-         Top             =   1485
+         ToolTipText     =   "The last value of the sequence."
+         Top             =   1890
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -361,7 +350,7 @@ Begin VB.Form frmSequence
          Height          =   3390
          Index           =   0
          Left            =   -74865
-         TabIndex        =   14
+         TabIndex        =   13
          ToolTipText     =   "The access control list for the sequence."
          Top             =   450
          Width           =   5190
@@ -390,13 +379,29 @@ Begin VB.Form frmSequence
             Object.Width           =   4939
          EndProperty
       End
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   330
+         Index           =   0
+         Left            =   1935
+         TabIndex        =   36
+         ToolTipText     =   "The sequences owner."
+         Top             =   1440
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Start value"
          Height          =   195
          Index           =   9
          Left            =   135
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   3150
          Width           =   765
       End
@@ -406,7 +411,7 @@ Begin VB.Form frmSequence
          Height          =   195
          Index           =   7
          Left            =   135
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   3555
          Width           =   705
       End
@@ -416,7 +421,7 @@ Begin VB.Form frmSequence
          Height          =   195
          Index           =   6
          Left            =   135
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   3960
          Width           =   900
       End
@@ -426,7 +431,7 @@ Begin VB.Form frmSequence
          Height          =   195
          Index           =   5
          Left            =   135
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   1935
          Width           =   735
       End
@@ -436,7 +441,7 @@ Begin VB.Form frmSequence
          Height          =   195
          Index           =   4
          Left            =   135
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   2340
          Width           =   1050
       End
@@ -446,7 +451,7 @@ Begin VB.Form frmSequence
          Height          =   195
          Index           =   3
          Left            =   135
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   2745
          Width           =   1095
       End
@@ -456,7 +461,7 @@ Begin VB.Form frmSequence
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   720
          Width           =   420
       End
@@ -466,7 +471,7 @@ Begin VB.Form frmSequence
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   1125
          Width           =   285
       End
@@ -476,7 +481,7 @@ Begin VB.Form frmSequence
          Height          =   195
          Index           =   2
          Left            =   135
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   1530
          Width           =   465
       End
@@ -571,11 +576,11 @@ Dim vEntity As Variant
    
   If bNew Then
     StartMsg "Creating Sequence..."
-    Set objNewSequence = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Add(txtProperties(0).Text, txtProperties(7).Text, txtProperties(4).Text, txtProperties(5).Text, txtProperties(6).Text, txtProperties(8).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text)
+    Set objNewSequence = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Add(txtProperties(0).Text, txtProperties(6).Text, txtProperties(3).Text, txtProperties(4).Text, txtProperties(5).Text, txtProperties(7).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Tag
-    Set objNewSequence = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "SEQ-" & GetID, txtProperties(0).Text, "sequence")
+    Set objNewSequence.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "SEQ-" & GetID, txtProperties(0).Text, "sequence")
     objNode.Text = "Sequences (" & objNode.Children & ")"
     
   Else
@@ -631,6 +636,11 @@ Dim vEntity As Variant
     Next objItem
   End If
   
+  'Finally, alter the username if required.
+  If (cboProperties(0).Tag = "Y") And Not (frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).SystemObject) Then
+    frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Owner = cboProperties(0).Text
+  End If
+  
   'Simulate a node click to refresh the ListSequence
   frmMain.tv_NodeClick frmMain.tv.SelectedItem
     
@@ -660,9 +670,10 @@ Dim szAccess() As String
   szNamespace = szNS
   
   'Set the font
-  For X = 0 To 8
+  For X = 0 To 7
     Set txtProperties(X).Font = ctx.Font
   Next X
+  Set cboProperties(0).Font = ctx.Font
   Set hbxProperties(0).Font = ctx.Font
   Set cboEntities.Font = ctx.Font
   Set lvProperties(0).Font = ctx.Font
@@ -673,6 +684,10 @@ Dim szAccess() As String
     chkPrivilege(7).Enabled = False
   End If
   
+  For Each objUser In frmMain.svr.Users
+    cboProperties(0).ComboItems.Add , objUser.Name, objUser.Name, "user"
+  Next objUser
+  
   If Sequence Is Nothing Then
   
     'Create a new Sequence
@@ -680,21 +695,23 @@ Dim szAccess() As String
     Me.Caption = "Create Sequence"
     
     'Unlock the edittable fields
-    For X = 4 To 8
+    cboProperties(0).BackColor = &H80000005
+    For X = 3 To 7
       txtProperties(X).BackColor = &H80000005
       txtProperties(X).Locked = False
     Next X
     
     'Set some defaults
-    txtProperties(4).Text = "1"
+    txtProperties(3).Text = "1"
     If frmMain.svr.dbVersion.VersionNum < 7.2 Then
-      txtProperties(5).Text = "2147483647"
+      txtProperties(4).Text = "2147483647"
     Else
-      txtProperties(5).Text = "9223372036854775807"
+      txtProperties(4).Text = "9223372036854775807"
     End If
+    txtProperties(5).Text = "1"
     txtProperties(6).Text = "1"
     txtProperties(7).Text = "1"
-    txtProperties(8).Text = "1"
+    cboProperties(0).ComboItems(ctx.Username).Selected = True
     
     'Redim the userlist so it doesn't cause an error later.
     ReDim szUsers(0)
@@ -707,6 +724,7 @@ Dim szAccess() As String
     Me.Caption = "Sequence: " & objSequence.Identifier
     
     If Not objSequence.SystemObject Then
+      cboProperties(0).BackColor = &H80000005
       txtProperties(3).BackColor = &H80000005
       txtProperties(3).Locked = False
     Else 'Lock the permissions Add/Remove buttons if it's a system object
@@ -716,12 +734,16 @@ Dim szAccess() As String
     
     txtProperties(0).Text = objSequence.Name
     txtProperties(1).Text = objSequence.OID
-    txtProperties(2).Text = objSequence.Owner
-    txtProperties(3).Text = objSequence.LastValue
-    txtProperties(4).Text = objSequence.Minimum
-    txtProperties(5).Text = objSequence.Maximum
-    txtProperties(7).Text = objSequence.Increment
-    txtProperties(8).Text = objSequence.Cache
+    txtProperties(2).Text = objSequence.LastValue
+    txtProperties(3).Text = objSequence.Minimum
+    txtProperties(4).Text = objSequence.Maximum
+    txtProperties(6).Text = objSequence.Increment
+    txtProperties(7).Text = objSequence.Cache
+    If objSequence.SystemObject Then
+      cboProperties(0).ComboItems.Clear
+      cboProperties(0).ComboItems.Add , objSequence.Owner, objSequence.Owner, "user", "user"
+    End If
+    cboProperties(0).ComboItems(objSequence.Owner).Selected = True
     chkProperties(0).Value = Bool2Bin(objSequence.Cycled)
     hbxProperties(0).Text = objSequence.Comment
     
@@ -756,6 +778,7 @@ Dim szAccess() As String
   For X = 0 To 7
     txtProperties(X).Tag = "N"
   Next X
+  cboProperties(0).Tag = "N"
   hbxProperties(0).Tag = "N"
   lvProperties(0).Tag = "N"
   
@@ -894,4 +917,14 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.chkProperties_Click
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.chkProperties_Click"
+End Sub
+
+Private Sub cboProperties_Click(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cboProperties_Click(" & Index & ")", etFullDebug
+
+  cboProperties(Index).Tag = "Y"
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.cboProperties_Click"
 End Sub

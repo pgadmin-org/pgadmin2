@@ -438,7 +438,7 @@ End Property
 'Set/Return the Owner
 Friend Property Let iOwner(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let iOwner(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let iOwner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
     
@@ -451,7 +451,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Owner(" & v
 
 Dim szSQL As String
 
-  szSQL = "ALTER TABLE " & FormattedID & " OWNER TO " & QUOTE & vData & QUOTE
+  szSQL = "ALTER TABLE " & FormattedID & " OWNER TO " & fmtID(vData)
 
   objServer.ExecSQL szSQL, cnDatabase
   szOwner = vData
@@ -462,7 +462,7 @@ End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Sets/Returns the Table Owner."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Owner()", etFullDebug
 
   Owner = szOwner
     

@@ -28,7 +28,7 @@ Begin VB.Form frmView
       Default         =   -1  'True
       Height          =   375
       Left            =   3285
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   6480
       Width           =   1095
    End
@@ -37,7 +37,7 @@ Begin VB.Form frmView
       Caption         =   "Cancel"
       Height          =   375
       Left            =   4410
-      TabIndex        =   6
+      TabIndex        =   5
       Top             =   6480
       Width           =   1095
    End
@@ -61,9 +61,9 @@ Begin VB.Form frmView
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "lblProperties(2)"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "hbxProperties(0)"
+      Tab(0).Control(3)=   "cboProperties(0)"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "txtProperties(2)"
+      Tab(0).Control(4)=   "hbxProperties(0)"
       Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "txtProperties(1)"
       Tab(0).Control(5).Enabled=   0   'False
@@ -73,28 +73,22 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "hbxProperties(1)"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdLoad"
-      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(1)=   "hbxProperties(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(0)"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "cmdRemove"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "fraAdd"
-      Tab(2).Control(3).Enabled=   0   'False
+      Tab(2).Control(0)=   "fraAdd"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "cmdRemove"
+      Tab(2).Control(3)=   "lvProperties(0)"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
          Height          =   1815
          Left            =   -74865
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   4410
          Width           =   5190
          Begin VB.CheckBox chkPrivilege 
@@ -102,7 +96,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   5
             Left            =   3420
-            TabIndex        =   23
+            TabIndex        =   22
             ToolTipText     =   "Give rule privilege to the selected entity."
             Top             =   990
             Width           =   1590
@@ -112,7 +106,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   4
             Left            =   3420
-            TabIndex        =   22
+            TabIndex        =   21
             ToolTipText     =   "Give insert privilege to the selected entity."
             Top             =   720
             Width           =   1590
@@ -122,7 +116,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   2
             Left            =   225
-            TabIndex        =   20
+            TabIndex        =   19
             ToolTipText     =   "Give update privilege to the selected entity."
             Top             =   1260
             Width           =   1590
@@ -132,7 +126,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   1
             Left            =   225
-            TabIndex        =   19
+            TabIndex        =   18
             ToolTipText     =   "Give select privilege to the selected entity."
             Top             =   990
             Width           =   1590
@@ -142,7 +136,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   0
             Left            =   225
-            TabIndex        =   18
+            TabIndex        =   17
             ToolTipText     =   "Give all privileges to the selected entity."
             Top             =   720
             Width           =   1590
@@ -152,7 +146,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   3
             Left            =   225
-            TabIndex        =   21
+            TabIndex        =   20
             ToolTipText     =   "Give delete privilege to the selected entity."
             Top             =   1530
             Width           =   1590
@@ -162,7 +156,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   6
             Left            =   3420
-            TabIndex        =   24
+            TabIndex        =   23
             ToolTipText     =   "Give references privilege to the selected entity."
             Top             =   1260
             Width           =   1590
@@ -172,7 +166,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   7
             Left            =   3420
-            TabIndex        =   25
+            TabIndex        =   24
             ToolTipText     =   "Give trigger privilege to the selected entity."
             Top             =   1530
             Width           =   1590
@@ -180,7 +174,7 @@ Begin VB.Form frmView
          Begin MSComctlLib.ImageCombo cboEntities 
             Height          =   330
             Left            =   1260
-            TabIndex        =   16
+            TabIndex        =   15
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
             Top             =   315
             Width           =   3705
@@ -198,7 +192,7 @@ Begin VB.Form frmView
             Height          =   195
             Index           =   3
             Left            =   180
-            TabIndex        =   17
+            TabIndex        =   16
             Top             =   360
             Width           =   840
          End
@@ -207,7 +201,7 @@ Begin VB.Form frmView
          Caption         =   "&Add"
          Height          =   375
          Left            =   -74865
-         TabIndex        =   9
+         TabIndex        =   8
          ToolTipText     =   "Add the defined entry."
          Top             =   3915
          Width           =   1230
@@ -216,7 +210,7 @@ Begin VB.Form frmView
          Caption         =   "&Remove"
          Height          =   375
          Left            =   -73515
-         TabIndex        =   10
+         TabIndex        =   9
          ToolTipText     =   "Remove the selected entry."
          Top             =   3915
          Width           =   1230
@@ -225,7 +219,7 @@ Begin VB.Form frmView
          Height          =   3390
          Index           =   0
          Left            =   -74865
-         TabIndex        =   8
+         TabIndex        =   7
          ToolTipText     =   "The access control list for the view."
          Top             =   450
          Width           =   5190
@@ -258,7 +252,7 @@ Begin VB.Form frmView
          Caption         =   "&Load"
          Height          =   330
          Left            =   -74865
-         TabIndex        =   14
+         TabIndex        =   13
          ToolTipText     =   "Load a query."
          Top             =   5895
          Width           =   945
@@ -285,22 +279,11 @@ Begin VB.Form frmView
          Top             =   1080
          Width           =   3390
       End
-      Begin VB.TextBox txtProperties 
-         BackColor       =   &H8000000F&
-         Height          =   285
-         Index           =   2
-         Left            =   1935
-         Locked          =   -1  'True
-         TabIndex        =   3
-         ToolTipText     =   "The views owner."
-         Top             =   1485
-         Width           =   3390
-      End
       Begin HighlightBox.HBX hbxProperties 
          Height          =   4245
          Index           =   0
          Left            =   120
-         TabIndex        =   4
+         TabIndex        =   3
          ToolTipText     =   "Comments about the view."
          Top             =   1935
          Width           =   5190
@@ -321,7 +304,7 @@ Begin VB.Form frmView
          Height          =   5325
          Index           =   1
          Left            =   -74865
-         TabIndex        =   7
+         TabIndex        =   6
          ToolTipText     =   "The SQL query that will generate this view."
          Top             =   450
          Width           =   5190
@@ -340,13 +323,29 @@ Begin VB.Form frmView
          Locked          =   -1  'True
          Caption         =   "View Definition (SQL)"
       End
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   330
+         Index           =   0
+         Left            =   1935
+         TabIndex        =   25
+         ToolTipText     =   "The views owner."
+         Top             =   1440
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Owner"
          Height          =   195
          Index           =   2
          Left            =   135
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   1530
          Width           =   465
       End
@@ -356,7 +355,7 @@ Begin VB.Form frmView
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   12
+         TabIndex        =   11
          Top             =   1125
          Width           =   285
       End
@@ -366,7 +365,7 @@ Begin VB.Form frmView
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   720
          Width           =   420
       End
@@ -556,6 +555,11 @@ Dim szOldName As String
     Next objItem
   End If
   
+  'Finally, alter the username if required.
+  If (cboProperties(0).Tag = "Y") And Not (frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).SystemObject) Then
+    frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Owner = cboProperties(0).Text
+  End If
+  
   'Simulate a node click to refresh the ListView
   frmMain.tv_NodeClick frmMain.tv.SelectedItem
     
@@ -570,7 +574,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional View As pgView)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -585,16 +589,21 @@ Dim szAccess() As String
   szNamespace = szNS
   
   'Set the font
-  For X = 0 To 2
+  For X = 0 To 1
     Set txtProperties(X).Font = ctx.Font
   Next X
   For X = 0 To 1
     Set hbxProperties(X).Font = ctx.Font
   Next X
+  Set cboProperties(0).Font = ctx.Font
   Set cboEntities.Font = ctx.Font
   Set lvProperties(0).Font = ctx.Font
   hbxProperties(1).Wordlist = ctx.AutoHighlight
     
+  For Each objUser In frmMain.svr.Users
+    cboProperties(0).ComboItems.Add , objUser.Name, objUser.Name, "user"
+  Next objUser
+  
   'ACLs are different in 7.2+ and have 2 extra privileges
   If frmMain.svr.dbVersion.VersionNum < 7.2 Then
     chkPrivilege(6).Enabled = False
@@ -610,9 +619,12 @@ Dim szAccess() As String
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
     txtProperties(0).Locked = False
+    cboProperties(0).BackColor = &H80000005
     hbxProperties(1).BackColor = &H80000005
     hbxProperties(1).Locked = False
     
+    cboProperties(0).ComboItems(ctx.Username).Selected = True
+        
     'Redim the userlist so it doesn't cause an error later.
     ReDim szUsers(0)
     
@@ -630,6 +642,7 @@ Dim szAccess() As String
     If Not objView.SystemObject Then
       txtProperties(0).BackColor = &H80000005
       txtProperties(0).Locked = False
+      cboProperties(0).BackColor = &H80000005
       hbxProperties(1).BackColor = &H80000005
       hbxProperties(1).Locked = False
     End If
@@ -637,7 +650,11 @@ Dim szAccess() As String
     Me.Caption = "View: " & objView.Identifier
     txtProperties(0).Text = objView.Name
     txtProperties(1).Text = objView.OID
-    txtProperties(2).Text = objView.Owner
+    If objView.SystemObject Then
+      cboProperties(0).ComboItems.Clear
+      cboProperties(0).ComboItems.Add , objView.Owner, objView.Owner, "user", "user"
+    End If
+    cboProperties(0).ComboItems(objView.Owner).Selected = True
     hbxProperties(0).Text = objView.Comment
     hbxProperties(1).Text = objView.Definition
     
@@ -673,7 +690,8 @@ Dim szAccess() As String
   hbxProperties(1).Tag = "N"
   lvProperties(0).Tag = "N"
   txtProperties(0).Tag = "N"
-
+  cboProperties(0).Tag = "N"
+  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.Initialise"
 End Sub
@@ -797,4 +815,14 @@ Dim X As Integer
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.chkPrivilege_Click"
+End Sub
+
+Private Sub cboProperties_Click(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cboProperties_Click(" & Index & ")", etFullDebug
+
+  cboProperties(Index).Tag = "Y"
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.cboProperties_Click"
 End Sub

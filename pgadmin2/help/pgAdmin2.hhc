@@ -91,10 +91,6 @@
 				<param name="Local" value="html\howtos\ssh.html">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="Use Revision Control?">
-				<param name="Local" value="html\howtos\revisioncontrol.html">
-				</OBJECT>
-			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Convert MS Access, MySQL or other databases?">
 				<param name="Local" value="html\howtos\migration.html">
 				</OBJECT>

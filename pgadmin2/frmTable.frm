@@ -74,63 +74,42 @@ Begin VB.Form frmTable
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "cmdColRemove"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "lvProperties(0)"
-      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "txtCheck(0)"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "cmdChkAdd"
-      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "cmdChkRemove"
-      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "hbxCheck(0)"
-      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "lvProperties(1)"
-      Tab(2).Control(4).Enabled=   0   'False
       Tab(2).Control(5)=   "lblProperties(5)"
-      Tab(2).Control(5).Enabled=   0   'False
       Tab(2).ControlCount=   6
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":0716
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "cmdFkyRemove"
-      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "lvProperties(2)"
-      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":0732
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "cboInheritedTables(0)"
-      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "cmdInhRemove"
-      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).Control(2)=   "cmdInhAdd"
-      Tab(4).Control(2).Enabled=   0   'False
       Tab(4).Control(3)=   "lvProperties(3)"
-      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).Control(4)=   "lblProperties(6)"
-      Tab(4).Control(4).Enabled=   0   'False
       Tab(4).ControlCount=   5
       TabCaption(5)   =   "&Security"
       TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
       Tab(5).Control(0)=   "cmdRemove"
-      Tab(5).Control(0).Enabled=   0   'False
       Tab(5).Control(1)=   "fraAdd"
-      Tab(5).Control(1).Enabled=   0   'False
       Tab(5).Control(2)=   "cmdAdd"
-      Tab(5).Control(2).Enabled=   0   'False
       Tab(5).Control(3)=   "lvProperties(4)"
-      Tab(5).Control(3).Enabled=   0   'False
       Tab(5).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -156,7 +135,7 @@ Begin VB.Form frmTable
          _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
-         BackColor       =   -2147483643
+         BackColor       =   -2147483633
          Locked          =   -1  'True
          ImageList       =   "il"
       End
@@ -1021,7 +1000,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -1207,7 +1186,9 @@ Dim X As Integer
   End If
   
   'Finally, alter the username if required.
-  If cboProperties(0).Tag = "Y" Then frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Owner = cboProperties(0).Text
+  If (cboProperties(0).Tag = "Y") And Not (frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).SystemObject) Then
+    frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Owner = cboProperties(0).Text
+  End If
   
   'Simulate a node click to refresh the ListTable
   frmMain.tv_NodeClick frmMain.tv.SelectedItem
@@ -1223,7 +1204,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional Table As pgTable)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -1283,6 +1264,7 @@ Dim szAccess() As String
     lvProperties(2).BackColor = &H80000005
     lvProperties(3).BackColor = &H80000005
     cboInheritedTables(0).BackColor = &H80000005
+    cboProperties(0).BackColor = &H80000005
     
     'Populate the Combos
     If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
@@ -1318,6 +1300,8 @@ Dim szAccess() As String
     If objTable.SystemObject Then  'Lock the permissions Add/Remove buttons if it's a system object
       cmdAdd.Enabled = False
       cmdRemove.Enabled = False
+    Else
+      cboProperties(0).BackColor = &H80000005
     End If
     
     'Allow DROP CHECK for 7.2+
@@ -1326,6 +1310,10 @@ Dim szAccess() As String
     Me.Caption = "Table: " & objTable.Identifier
     txtProperties(0).Text = objTable.Name
     txtProperties(1).Text = objTable.OID
+    If objTable.SystemObject Then
+      cboProperties(0).ComboItems.Clear
+      cboProperties(0).ComboItems.Add , objTable.Owner, objTable.Owner, "user", "user"
+    End If
     cboProperties(0).ComboItems(objTable.Owner).Selected = True
     txtProperties(2).Text = objTable.Rows
     chkProperties(0).Value = Bool2Bin(objTable.HasOIDs)

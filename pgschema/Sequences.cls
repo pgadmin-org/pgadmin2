@@ -164,7 +164,7 @@ Dim rs As New Recordset
   End If
   objNewMember.OID = lOID
   objNewMember.iName = szName
-  objNewMember.Owner = szOwner
+  objNewMember.iOwner = szOwner
   objNewMember.NamespaceOID = lNamespaceOID
   objNewMember.Namespace = szNamespace
   objNewMember.ACL = szACL

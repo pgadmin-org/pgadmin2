@@ -263,19 +263,33 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Owner
-Friend Property Let Owner(ByVal vData As String)
+Friend Property Let iOwner(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let iOwner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get Owner() As String
-Attribute Owner.VB_Description = "Returns the Sequence Owner."
+Public Property Let Owner(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+Dim szSQL As String
+
+  szSQL = "ALTER TABLE " & FormattedID & " OWNER TO " & fmtID(vData)
+
+  objServer.ExecSQL szSQL, cnDatabase
+  szOwner = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Owner() As String
+Attribute Owner.VB_Description = "Sets/Returns the Sequence Owner."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Owner()", etFullDebug
 
   Owner = szOwner
     
