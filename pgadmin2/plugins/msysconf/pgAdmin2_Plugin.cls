@@ -43,10 +43,17 @@ Private Property Get pgPlugin_Version() As String
   pgPlugin_Version = App.Major & "." & App.Minor & "." & App.Revision
 End Property
 
-'The pgPlugin_Export subroutine is called to do the actual export. The sub is
+'The pgPlugin_Export subroutine is called to do the actual job. The sub is
 'passed a reference to the main pgSchema object.
 Private Sub pgPlugin_Execute(objSchema As Variant)
 
+  'Reference the Server object
+  Set svr = objSchema
+  
+  'Display the Wizard
+  Load frmWizard
+  frmWizard.Show
+  
 End Sub
 
 
