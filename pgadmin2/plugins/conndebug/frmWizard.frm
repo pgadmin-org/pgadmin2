@@ -81,14 +81,14 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " ODBC Connect"
       TabPicture(1)   =   "frmWizard.frx":2706
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1(5)"
-      Tab(1).Control(1)=   "Label1(6)"
-      Tab(1).Control(2)=   "Label1(7)"
-      Tab(1).Control(3)=   "lvDetails"
-      Tab(1).Control(4)=   "txtPWD"
-      Tab(1).Control(5)=   "txtUID"
-      Tab(1).Control(6)=   "cmdConnect"
-      Tab(1).Control(7)=   "cboDatasource"
+      Tab(1).Control(0)=   "cboDatasource"
+      Tab(1).Control(1)=   "cmdConnect"
+      Tab(1).Control(2)=   "txtUID"
+      Tab(1).Control(3)=   "txtPWD"
+      Tab(1).Control(4)=   "lvDetails"
+      Tab(1).Control(5)=   "Label1(7)"
+      Tab(1).Control(6)=   "Label1(6)"
+      Tab(1).Control(7)=   "Label1(5)"
       Tab(1).ControlCount=   8
       Begin MSComctlLib.ImageCombo cboDatasource 
          Height          =   330
@@ -447,12 +447,15 @@ Dim szConnect As String
     Exit Sub
   End If
   
+  StartMsg "Connecting to " & cboDatasource.Text
+  
   szConnect = "DSN=" & cboDatasource.Text
   If txtUID.Text <> "" Then szConnect = szConnect & ";UID=" & txtUID.Text
   If txtPWD.Text <> "" Then szConnect = szConnect & ";PWD=" & txtPWD.Text
   
   'Initialise the ODBC subsystem
   If SQLAllocEnv(lEnv) <> 0 Then
+    EndMsg
     MsgBox "Couldn't initialise the ODBC subsystem!", vbExclamation, "Error"
     svr.LogEvent "Couldn't initialise the ODBC subsystem!", etMiniDebug
     Exit Sub
@@ -460,6 +463,7 @@ Dim szConnect As String
 
   'Allocate space for the connection object
   If SQLAllocConnect(lEnv, lDBC) <> 0 Then
+    EndMsg
     MsgBox "Couldn't allocate memory for the ODBC connection!", vbExclamation, "Error"
     svr.LogEvent "Couldn't allocate memory for the ODBC connection!", etMiniDebug
     GoTo Cleanup
@@ -468,6 +472,7 @@ Dim szConnect As String
   'Connect
   lRet = SQLDriverConnect(lDBC, Me.hWnd, szConnect, Len(szConnect), szResult, Len(szResult), iSize, SQL_DRIVER_COMPLETE_REQUIRED)
   If (lRet <> SQL_SUCCESS) And (lRet <> SQL_SUCCESS_WITH_INFO) Then
+    EndMsg
     MsgBox "An ODBC error occured whilst connecting!" & vbCrLf & "Please check the connection details and try again.", vbExclamation, "Error"
     svr.LogEvent "An ODBC error occured whilst connecting!" & vbCrLf & "Please check the connection details and try again.", etMiniDebug
     GoTo Cleanup
@@ -519,9 +524,10 @@ Dim szConnect As String
   SQLGetInfoString lDBC, SQL_DATA_SOURCE_READ_ONLY, szResult, Len(szResult), iSize
   Set objItem = lvDetails.ListItems.Add(, , "Read Only?", "property", "property")
   objItem.SubItems(1) = Left(szResult, iSize)
-
+  
 Cleanup:
   On Error Resume Next
+  EndMsg
   If lDBC <> 0 Then SQLDisconnect lDBC
   SQLFreeConnect lDBC
   If lEnv <> 0 Then SQLFreeEnv lEnv
