@@ -13,7 +13,8 @@ Added support for Casts [Frank Lupo].
 Added 'Find Object' [Frank Lupo].
 Autosize listview columns [Frank Lupo].
 New custom error dialogue [Frank Lupo].
-Added MS Access Exported [Frank Lupo].
+Added MS Access Exporter [Frank Lupo].
+Added a pg_hba.conf editor plugin [Frank Lupo, Mark Yeatman].
 
 1.4.12
 ------
