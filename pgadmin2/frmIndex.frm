@@ -437,7 +437,10 @@ Dim vArgument As Variant
     
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.FormattedID, "table"
+      If Not objTable.SystemObject Then
+        Set objItem = cboProperties(0).ComboItems.Add(, , objTable.FormattedID, "table")
+        Set objItem.Tag = objTable
+      End If
     Next objTable
     Set objItem = cboProperties(1).ComboItems.Add(, , "btree", "index")
     objItem.Selected = True
@@ -534,7 +537,7 @@ Dim objColumn As pgColumn
 
   If (Index = 0) And (objIndex Is Nothing) Then
     lvProperties(0).ListItems.Clear
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(Index).Text).Columns
+    For Each objColumn In cboProperties(Index).SelectedItem.Tag.Columns
       If Not objColumn.SystemObject Then lvProperties(0).ListItems.Add , , objColumn.Identifier, "column", "column"
     Next objColumn
   End If
