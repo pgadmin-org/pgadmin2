@@ -506,8 +506,10 @@ Dim lvItem As ListItem
   'load object type
   lvObjType.ListItems.Clear
   lvObjType.ListItems.Add , "AGG", "Aggregate", "aggregate", "aggregate"
-  lvObjType.ListItems.Add , "CST", "Cast", "cast", "cast"
-  lvObjType.ListItems.Add , "DOM", "Domain", "domain", "domain"
+  If ctx.dbVer >= 7.3 Then
+    lvObjType.ListItems.Add , "CST", "Cast", "cast", "cast"
+    lvObjType.ListItems.Add , "DOM", "Domain", "domain", "domain"
+  End If
   lvObjType.ListItems.Add , "FNC", "Function", "function", "function"
   lvObjType.ListItems.Add , "LNG", "Language", "language", "language"
   lvObjType.ListItems.Add , "OPR", "Operator", "operator", "operator"
@@ -637,8 +639,10 @@ Dim bSreachOwner As Boolean
       szNamespace = lvItem.Text
       If chkAdvOpt.Value = 1 Then
         If lvObjType.ListItems("AGG").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Aggregates
-        If lvObjType.ListItems("CST").Checked Then colObj.Add objDatabase.Casts
-        If lvObjType.ListItems("DOM").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Domains
+        If ctx.dbVer >= 7.3 Then
+          If lvObjType.ListItems("CST").Checked Then colObj.Add objDatabase.Casts
+          If lvObjType.ListItems("DOM").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Domains
+        End If
         If lvObjType.ListItems("FNC").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Functions
         If lvObjType.ListItems("LNG").Checked Then colObj.Add objDatabase.Languages
         If lvObjType.ListItems("OPR").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Operators
@@ -648,8 +652,10 @@ Dim bSreachOwner As Boolean
         If lvObjType.ListItems("VIE").Checked Then colObj.Add objDatabase.Namespaces(szNamespace).Views
       Else
         colObj.Add objDatabase.Namespaces(szNamespace).Aggregates
-        colObj.Add objDatabase.Casts
-        colObj.Add objDatabase.Namespaces(szNamespace).Domains
+        If ctx.dbVer >= 7.3 Then
+          colObj.Add objDatabase.Casts
+          colObj.Add objDatabase.Namespaces(szNamespace).Domains
+        End If
         colObj.Add objDatabase.Namespaces(szNamespace).Functions
         colObj.Add objDatabase.Languages
         colObj.Add objDatabase.Namespaces(szNamespace).Operators
