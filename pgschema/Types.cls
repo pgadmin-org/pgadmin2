@@ -327,7 +327,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Types.Remove(" & QUOTE & Key & Q
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the Type.
-  szSQL = "DROP TYPE " & mCol(ULEncode(Key)).FormattedID & QUOTE
+  szSQL = "DROP TYPE " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,
