@@ -34,7 +34,7 @@ Begin VB.Form frmTip
       BackColor       =   &H00FFFFFF&
       Height          =   2715
       Left            =   120
-      Picture         =   "frmTip.frx":08CA
+      Picture         =   "frmTip.frx":0A02
       ScaleHeight     =   2655
       ScaleWidth      =   3675
       TabIndex        =   1

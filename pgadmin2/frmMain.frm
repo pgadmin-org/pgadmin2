@@ -55,47 +55,47 @@ Begin VB.Form frmMain
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   11
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":08CA
+            Picture         =   "frmMain.frx":0A02
             Key             =   "connect"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":11A4
+            Picture         =   "frmMain.frx":12DC
             Key             =   "refresh"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":1A7E
+            Picture         =   "frmMain.frx":1BB6
             Key             =   "create"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":2358
+            Picture         =   "frmMain.frx":2490
             Key             =   "drop"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":3AEA
+            Picture         =   "frmMain.frx":3C22
             Key             =   "properties"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":43C4
+            Picture         =   "frmMain.frx":44FC
             Key             =   "sql"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":4C9E
+            Picture         =   "frmMain.frx":4DD6
             Key             =   "vacuum"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":4FB8
+            Picture         =   "frmMain.frx":50F0
             Key             =   "viewdata"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":5892
+            Picture         =   "frmMain.frx":59CA
             Key             =   "commit"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":616C
+            Picture         =   "frmMain.frx":62A4
             Key             =   "history"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":6D3E
+            Picture         =   "frmMain.frx":6E76
             Key             =   "graveyard"
          EndProperty
       EndProperty
@@ -372,95 +372,95 @@ Begin VB.Form frmMain
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   23
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":7618
+            Picture         =   "frmMain.frx":7750
             Key             =   "aggregate"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":7772
+            Picture         =   "frmMain.frx":78AA
             Key             =   "check"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":7D0C
+            Picture         =   "frmMain.frx":7E44
             Key             =   "column"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":82A6
+            Picture         =   "frmMain.frx":83DE
             Key             =   "database"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8400
+            Picture         =   "frmMain.frx":8538
             Key             =   "function"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":899A
+            Picture         =   "frmMain.frx":8AD2
             Key             =   "group"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8F34
+            Picture         =   "frmMain.frx":906C
             Key             =   "index"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":94CE
+            Picture         =   "frmMain.frx":9606
             Key             =   "indexcolumn"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9A68
+            Picture         =   "frmMain.frx":9BA0
             Key             =   "foreignkey"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A002
+            Picture         =   "frmMain.frx":A13A
             Key             =   "language"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A59C
+            Picture         =   "frmMain.frx":A6D4
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":AB36
+            Picture         =   "frmMain.frx":AC6E
             Key             =   "property"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B0D0
+            Picture         =   "frmMain.frx":B208
             Key             =   "relationship"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B66A
+            Picture         =   "frmMain.frx":B7A2
             Key             =   "rule"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B7C4
+            Picture         =   "frmMain.frx":B8FC
             Key             =   "server"
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B91E
+            Picture         =   "frmMain.frx":BA56
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":BEB8
+            Picture         =   "frmMain.frx":BFF0
             Key             =   "table"
          EndProperty
          BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C012
+            Picture         =   "frmMain.frx":C14A
             Key             =   "trigger"
          EndProperty
          BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C5AC
+            Picture         =   "frmMain.frx":C6E4
             Key             =   "type"
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":CB46
+            Picture         =   "frmMain.frx":CC7E
             Key             =   "user"
          EndProperty
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D0E0
+            Picture         =   "frmMain.frx":D218
             Key             =   "view"
          EndProperty
          BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D23A
+            Picture         =   "frmMain.frx":D372
             Key             =   "baddatabase"
          EndProperty
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D394
+            Picture         =   "frmMain.frx":D4CC
             Key             =   "hiproperty"
          EndProperty
       EndProperty

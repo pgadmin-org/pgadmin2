@@ -25,15 +25,15 @@ Begin VB.Form frmUpgradeWizard
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmUpgradeWizard.frx":08CA
+            Picture         =   "frmUpgradeWizard.frx":0A02
             Key             =   "upgrade"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmUpgradeWizard.frx":11A4
+            Picture         =   "frmUpgradeWizard.frx":12DC
             Key             =   "ok"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmUpgradeWizard.frx":1D76
+            Picture         =   "frmUpgradeWizard.frx":1EAE
             Key             =   "unknown"
          EndProperty
       EndProperty
@@ -51,7 +51,7 @@ Begin VB.Form frmUpgradeWizard
       BorderStyle     =   0  'None
       Height          =   4335
       Left            =   0
-      Picture         =   "frmUpgradeWizard.frx":2BC8
+      Picture         =   "frmUpgradeWizard.frx":2D00
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
@@ -95,7 +95,7 @@ Begin VB.Form frmUpgradeWizard
       TabHeight       =   176
       ShowFocusRect   =   0   'False
       TabCaption(0)   =   " "
-      TabPicture(0)   =   "frmUpgradeWizard.frx":3996
+      TabPicture(0)   =   "frmUpgradeWizard.frx":3ACE
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Label1(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -111,12 +111,10 @@ Begin VB.Form frmUpgradeWizard
       Tab(0).Control(5).Enabled=   0   'False
       Tab(0).ControlCount=   6
       TabCaption(1)   =   " "
-      TabPicture(1)   =   "frmUpgradeWizard.frx":39B2
+      TabPicture(1)   =   "frmUpgradeWizard.frx":3AEA
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Label1(2)"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "lvVersions"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       Begin MSComctlLib.ListView lvVersions 
          Height          =   2400
@@ -169,9 +167,9 @@ Begin VB.Form frmUpgradeWizard
       End
       Begin VB.ComboBox cboFrequency 
          Height          =   315
-         ItemData        =   "frmUpgradeWizard.frx":39CE
+         ItemData        =   "frmUpgradeWizard.frx":3B06
          Left            =   4365
-         List            =   "frmUpgradeWizard.frx":39DE
+         List            =   "frmUpgradeWizard.frx":3B16
          Style           =   2  'Dropdown List
          TabIndex        =   8
          Top             =   1710
@@ -186,7 +184,7 @@ Begin VB.Form frmUpgradeWizard
          Width           =   3480
       End
       Begin VB.Label Label1 
-         Caption         =   $"frmUpgradeWizard.frx":39FA
+         Caption         =   $"frmUpgradeWizard.frx":3B32
          Height          =   780
          Index           =   2
          Left            =   -74820
@@ -212,7 +210,7 @@ Begin VB.Form frmUpgradeWizard
          Width           =   6630
       End
       Begin VB.Label Label1 
-         Caption         =   $"frmUpgradeWizard.frx":3B0F
+         Caption         =   $"frmUpgradeWizard.frx":3C47
          Height          =   645
          Index           =   0
          Left            =   180

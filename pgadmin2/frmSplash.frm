@@ -19,45 +19,33 @@ Begin VB.Form frmSplash
    Begin VB.PictureBox picLogo 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   3750
+      Height          =   3150
       Left            =   0
       Picture         =   "frmSplash.frx":000C
-      ScaleHeight     =   3750
-      ScaleWidth      =   5250
+      ScaleHeight     =   3150
+      ScaleWidth      =   4560
       TabIndex        =   0
       Top             =   0
-      Width           =   5250
+      Width           =   4560
       Begin VB.Label lblVersion 
-         Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Version"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   12
+            Size            =   9.75
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   300
-         Left            =   624
-         TabIndex        =   2
-         Top             =   1728
-         Width           =   3492
-      End
-      Begin VB.Label lblCopyright 
-         Alignment       =   1  'Right Justify
-         BackStyle       =   0  'Transparent
-         Caption         =   "Copyright"
-         ForeColor       =   &H00FFFFFF&
-         Height          =   372
-         Left            =   -240
+         ForeColor       =   &H00000000&
+         Height          =   240
+         Left            =   135
          TabIndex        =   1
-         Top             =   1488
-         Width           =   4380
+         Top             =   2310
+         Width           =   810
       End
    End
 End
@@ -81,15 +69,9 @@ Private Sub Form_Load()
   Else
     lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
   End If
-  lblCopyright.Caption = "Copyright (C) 2001, The pgAdmin Development Team" & vbCrLf & "This software is released under the pgAdmin Public Licence"
-
 End Sub
 
 Private Sub Form_Resize()
   Me.Width = picLogo.Width
   Me.Height = picLogo.Height
-  lblCopyright.Top = picLogo.Height - (lblCopyright.Height + 50)
-  lblCopyright.Left = picLogo.Width - (lblCopyright.Width + 50)
-  lblVersion.Left = picLogo.Width - (lblVersion.Width + 50)
-  lblVersion.Top = picLogo.Height - (lblVersion.Height + lblCopyright.Height + 50)
 End Sub
