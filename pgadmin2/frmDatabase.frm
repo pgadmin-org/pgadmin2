@@ -740,7 +740,7 @@ Dim rsVar As Recordset
     szAccess = Split(szAccesslist, "|")
     For X = 0 To UBound(szUsers)
       If UCase(Left(szUsers(X), 6)) = "GROUP " Then
-        Set objItem = lvProperties(1).ListItems.Add(, , Mid(szUsers(X), 7), "group", "group")
+        Set objLItem = lvProperties(1).ListItems.Add(, , Mid(szUsers(X), 7), "group", "group")
       Else
         If UCase(szUsers(X)) = "PUBLIC" Then
           Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(X), "public", "public")
