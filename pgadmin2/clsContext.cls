@@ -107,20 +107,20 @@ On Error Resume Next
   
   'You can't drop a Server object.
   If vData.ObjectType = "Server" Then
-    frmMain.tb.Buttons("drop").Visible = False
-    frmMain.mnuPopupDrop.Visible = False
+    frmMain.tb.Buttons("drop").Enabled = False
+    frmMain.mnuPopupDrop.Enabled = False
   Else
-    frmMain.tb.Buttons("drop").Visible = True
-    frmMain.mnuPopupDrop.Visible = True
+    frmMain.tb.Buttons("drop").Enabled = True
+    frmMain.mnuPopupDrop.Enabled = True
   End If
   
   'Show/Hide the View Data Options
   If vData.ObjectType = "Table" Or vData.ObjectType = "View" Then
-    frmMain.tb.Buttons("viewdata").Visible = True
-    frmMain.mnuPopupViewData.Visible = True
+    frmMain.tb.Buttons("viewdata").Enabled = True
+    frmMain.mnuPopupViewData.Enabled = True
   Else
-    frmMain.tb.Buttons("viewdata").Visible = False
-    frmMain.mnuPopupViewData.Visible = False
+    frmMain.tb.Buttons("viewdata").Enabled = False
+    frmMain.mnuPopupViewData.Enabled = False
   End If
 End Property
 Public Property Get CurrentObject() As Object
@@ -132,68 +132,63 @@ Public Property Let CurrentDB(ByVal szData As String)
   szCurrentDB = szData
   If szData <> "" Then
     frmMain.sb.Panels("currentdb").Text = "Database: " & szData
-    frmMain.tb.Buttons("create").ButtonMenus("aggregate").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("function").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("index").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("language").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("operator").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("rule").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("sequence").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("table").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("trigger").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("type").Visible = True
-    frmMain.tb.Buttons("create").ButtonMenus("view").Visible = True
-    frmMain.tb.Buttons("sep2").Visible = True
-    frmMain.tb.Buttons("sql").Visible = True
-    frmMain.tb.Buttons("vacuum").Visible = True
-    frmMain.mnuFileSaveDBSchema.Visible = True
-    frmMain.mnuFileSep2.Visible = True
-    frmMain.mnuPopupCreateAggregate.Visible = True
-    frmMain.mnuPopupCreateFunction.Visible = True
-    frmMain.mnuPopupCreateIndex.Visible = True
-    frmMain.mnuPopupCreateLanguage.Visible = True
-    frmMain.mnuPopupCreateOperator.Visible = True
-    frmMain.mnuPopupCreateRule.Visible = True
-    frmMain.mnuPopupCreateSequence.Visible = True
-    frmMain.mnuPopupCreateTable.Visible = True
-    frmMain.mnuPopupCreateTrigger.Visible = True
-    frmMain.mnuPopupCreateType.Visible = True
-    frmMain.mnuPopupCreateView.Visible = True
-    frmMain.mnuPopupSep2.Visible = True
-    frmMain.mnuPopupSQL.Visible = True
-    frmMain.mnuPopupVacuum.Visible = True
+    frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("operator").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("rule").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("sequence").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("table").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("trigger").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = True
+    frmMain.tb.Buttons("sql").Enabled = True
+    frmMain.tb.Buttons("vacuum").Enabled = True
+    frmMain.mnuFileSaveDBSchema.Enabled = True
+    frmMain.mnuPopupCreateAggregate.Enabled = True
+    frmMain.mnuPopupCreateFunction.Enabled = True
+    frmMain.mnuPopupCreateIndex.Enabled = True
+    frmMain.mnuPopupCreateLanguage.Enabled = True
+    frmMain.mnuPopupCreateOperator.Enabled = True
+    frmMain.mnuPopupCreateRule.Enabled = True
+    frmMain.mnuPopupCreateSequence.Enabled = True
+    frmMain.mnuPopupCreateTable.Enabled = True
+    frmMain.mnuPopupCreateTrigger.Enabled = True
+    frmMain.mnuPopupCreateType.Enabled = True
+    frmMain.mnuPopupCreateView.Enabled = True
+    frmMain.mnuPopupSQL.Enabled = True
+    frmMain.mnuPopupVacuum.Enabled = True
   Else
     frmMain.sb.Panels("currentdb").Text = "Database: None"
-    frmMain.tb.Buttons("create").ButtonMenus("aggregate").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("function").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("index").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("language").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("operator").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("rule").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("sequence").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("table").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("trigger").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("type").Visible = False
-    frmMain.tb.Buttons("create").ButtonMenus("view").Visible = False
-    frmMain.tb.Buttons("sep2").Visible = False
-    frmMain.tb.Buttons("sql").Visible = False
-    frmMain.tb.Buttons("vacuum").Visible = False
-    frmMain.mnuFileSaveDBSchema.Visible = False
-    If frmMain.mnuFileSaveDefinition.Visible = False Then frmMain.mnuFileSep2.Visible = False
-    frmMain.mnuPopupCreateAggregate.Visible = False
-    frmMain.mnuPopupCreateFunction.Visible = False
-    frmMain.mnuPopupCreateIndex.Visible = False
-    frmMain.mnuPopupCreateLanguage.Visible = False
-    frmMain.mnuPopupCreateOperator.Visible = False
-    frmMain.mnuPopupCreateRule.Visible = False
-    frmMain.mnuPopupCreateSequence.Visible = False
-    frmMain.mnuPopupCreateTable.Visible = False
-    frmMain.mnuPopupCreateTrigger.Visible = False
-    frmMain.mnuPopupCreateType.Visible = False
-    frmMain.mnuPopupCreateView.Visible = False
-    frmMain.mnuPopupSep2.Visible = False
-    frmMain.mnuPopupSQL.Visible = False
-    frmMain.mnuPopupVacuum.Visible = False
+    frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("operator").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("rule").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("sequence").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("table").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("trigger").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = False
+    frmMain.tb.Buttons("drop").Enabled = False
+    frmMain.tb.Buttons("sql").Enabled = False
+    frmMain.tb.Buttons("vacuum").Enabled = False
+    frmMain.mnuFileSaveDBSchema.Enabled = False
+    frmMain.mnuPopupCreateAggregate.Enabled = False
+    frmMain.mnuPopupCreateFunction.Enabled = False
+    frmMain.mnuPopupCreateIndex.Enabled = False
+    frmMain.mnuPopupCreateLanguage.Enabled = False
+    frmMain.mnuPopupCreateOperator.Enabled = False
+    frmMain.mnuPopupCreateRule.Enabled = False
+    frmMain.mnuPopupCreateSequence.Enabled = False
+    frmMain.mnuPopupCreateTable.Enabled = False
+    frmMain.mnuPopupCreateTrigger.Enabled = False
+    frmMain.mnuPopupCreateType.Enabled = False
+    frmMain.mnuPopupCreateView.Enabled = False
+    frmMain.mnuPopupSQL.Enabled = False
+    frmMain.mnuPopupVacuum.Enabled = False
   End If
 End Property
 Public Property Get CurrentDB() As String

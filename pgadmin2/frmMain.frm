@@ -3,7 +3,7 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
-   Caption         =   "Progeny"
+   Caption         =   "pgAdmin II"
    ClientHeight    =   6675
    ClientLeft      =   165
    ClientTop       =   735
@@ -127,19 +127,19 @@ Begin VB.Form frmMain
             Style           =   5
          EndProperty
          BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Object.Visible         =   0   'False
+            Enabled         =   0   'False
             Key             =   "refresh"
             Description     =   "Refresh"
             Object.ToolTipText     =   "Refresh the data below the selected object."
             ImageKey        =   "refresh"
          EndProperty
          BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Object.Visible         =   0   'False
+            Enabled         =   0   'False
             Key             =   "sep1"
             Style           =   3
          EndProperty
          BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Object.Visible         =   0   'False
+            Enabled         =   0   'False
             Key             =   "create"
             Description     =   "Create"
             Object.ToolTipText     =   "Create a new object."
@@ -148,86 +148,86 @@ Begin VB.Form frmMain
             BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
                NumButtonMenus  =   14
                BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "aggregate"
                   Text            =   "&Aggregate"
                EndProperty
                BeginProperty ButtonMenu2 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "database"
                   Text            =   "&Database"
                EndProperty
                BeginProperty ButtonMenu3 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "function"
                   Text            =   "&Function"
                EndProperty
                BeginProperty ButtonMenu4 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "group"
                   Text            =   "&Group"
                EndProperty
                BeginProperty ButtonMenu5 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "index"
                   Text            =   "&Index"
                EndProperty
                BeginProperty ButtonMenu6 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "language"
                   Text            =   "&Language"
                EndProperty
                BeginProperty ButtonMenu7 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "operator"
                   Text            =   "&Operator"
                EndProperty
                BeginProperty ButtonMenu8 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "rule"
                   Text            =   "&Rule"
                EndProperty
                BeginProperty ButtonMenu9 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "sequence"
                   Text            =   "&Sequence"
                EndProperty
                BeginProperty ButtonMenu10 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "table"
                   Text            =   "&Table"
                EndProperty
                BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "trigger"
                   Text            =   "T&rigger"
                EndProperty
                BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "type"
                   Text            =   "T&ype"
                EndProperty
                BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "user"
                   Text            =   "&User"
                EndProperty
                BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
-                  Object.Visible         =   0   'False
+                  Enabled         =   0   'False
                   Key             =   "view"
                   Text            =   "&View"
                EndProperty
             EndProperty
          EndProperty
          BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Object.Visible         =   0   'False
+            Enabled         =   0   'False
             Key             =   "drop"
             Description     =   "Drop"
             Object.ToolTipText     =   "Drop the selected object."
             ImageKey        =   "drop"
          EndProperty
          BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Object.Visible         =   0   'False
+            Enabled         =   0   'False
             Key             =   "properties"
             Description     =   "Properties"
             Object.ToolTipText     =   "View/Edit the properties for the selected object."
@@ -235,26 +235,25 @@ Begin VB.Form frmMain
          EndProperty
          BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
-            Object.Visible         =   0   'False
             Key             =   "sep2"
             Style           =   3
          EndProperty
          BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Object.Visible         =   0   'False
+            Enabled         =   0   'False
             Key             =   "sql"
             Description     =   "SQL"
             Object.ToolTipText     =   "Execute arbitrary SQL queries."
             ImageKey        =   "sql"
          EndProperty
          BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Object.Visible         =   0   'False
+            Enabled         =   0   'False
             Key             =   "viewdata"
             Description     =   "View Data"
             Object.ToolTipText     =   "View the data in the selected table/view"
             ImageKey        =   "viewdata"
          EndProperty
          BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Object.Visible         =   0   'False
+            Enabled         =   0   'False
             Key             =   "vacuum"
             Description     =   "Vacuum"
             Object.ToolTipText     =   "Vacuum the selected object."
@@ -472,22 +471,21 @@ Begin VB.Form frmMain
       End
       Begin VB.Menu mnuFileChangePassword 
          Caption         =   "Change &Password..."
-         Visible         =   0   'False
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuFileSep1 
          Caption         =   "-"
       End
       Begin VB.Menu mnuFileSaveDefinition 
          Caption         =   "&Save Definition..."
-         Visible         =   0   'False
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuFileSaveDBSchema 
          Caption         =   "S&ave DB Schema..."
-         Visible         =   0   'False
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuFileSep2 
          Caption         =   "-"
-         Visible         =   0   'False
       End
       Begin VB.Menu mnuFileExit 
          Caption         =   "E&xit"
@@ -662,97 +660,101 @@ Begin VB.Form frmMain
       End
       Begin VB.Menu mnuPopupRefresh 
          Caption         =   "&Refresh below selection"
-         Visible         =   0   'False
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuPopupSep1 
          Caption         =   "-"
-         Visible         =   0   'False
       End
       Begin VB.Menu mnuPopupCreate 
          Caption         =   "&Create object"
-         Visible         =   0   'False
+         Enabled         =   0   'False
          Begin VB.Menu mnuPopupCreateAggregate 
             Caption         =   "&Aggregate..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateDatabase 
             Caption         =   "&Database..."
+            Enabled         =   0   'False
+            Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateFunction 
             Caption         =   "&Function..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateGroup 
             Caption         =   "&Group..."
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateIndex 
             Caption         =   "&Index..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateLanguage 
             Caption         =   "&Language..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateOperator 
             Caption         =   "&Operator..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateRule 
             Caption         =   "&Rule..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateSequence 
             Caption         =   "&Sequence..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateTable 
             Caption         =   "&Table..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateTrigger 
             Caption         =   "Tri&gger..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateType 
             Caption         =   "T&ype..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateUser 
             Caption         =   "&User..."
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateView 
             Caption         =   "&View..."
-            Visible         =   0   'False
+            Enabled         =   0   'False
          End
       End
       Begin VB.Menu mnuPopupDrop 
          Caption         =   "&Drop object"
-         Visible         =   0   'False
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuPopupProperties 
          Caption         =   "&Properties..."
-         Visible         =   0   'False
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuPopupSep2 
          Caption         =   "-"
-         Visible         =   0   'False
       End
       Begin VB.Menu mnuPopupSQL 
          Caption         =   "&SQL..."
-         Visible         =   0   'False
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuPopupViewData 
          Caption         =   "&View Data"
-         Visible         =   0   'False
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuPopupVacuum 
          Caption         =   "Vac&uum"
-         Visible         =   0   'False
+         Enabled         =   0   'False
          Begin VB.Menu mnuPopupVacuumVacuum 
             Caption         =   "&Vacuum"
+            Enabled         =   0   'False
          End
          Begin VB.Menu mnuPopupVacuumAnalyse 
             Caption         =   "Vacuum &Analyse"
+            Enabled         =   0   'False
          End
       End
    End
@@ -3399,11 +3401,9 @@ On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_Change()", etFullDebug
   
   If txtDefinition.Text = "" Then
-    mnuFileSaveDefinition.Visible = False
-    If frmMain.mnuFileSaveDBSchema.Visible = False Then mnuFileSep2.Visible = False
+    mnuFileSaveDefinition.Enabled = False
   Else
-    mnuFileSaveDefinition.Visible = True
-    mnuFileSep2.Visible = True
+    mnuFileSaveDefinition.Enabled = True
   End If
   
   Exit Sub

@@ -168,23 +168,21 @@ Dim objNode As Node
   BuildConnectionMenu
   
   'enable menu options
-  frmMain.mnuFileChangePassword.Visible = True
-  frmMain.mnuPopupRefresh.Visible = True
-  frmMain.mnuPopupSep1.Visible = True
-  frmMain.mnuPopupCreate.Visible = True
-  frmMain.mnuPopupCreateDatabase.Visible = True
-  frmMain.mnuPopupCreateGroup.Visible = True
-  frmMain.mnuPopupCreateUser.Visible = True
-  frmMain.mnuPopupProperties.Visible = True
+  frmMain.mnuFileChangePassword.Enabled = True
+  frmMain.mnuPopupRefresh.Enabled = True
+  frmMain.mnuPopupCreate.Enabled = True
+  frmMain.mnuPopupCreateDatabase.Enabled = True
+  frmMain.mnuPopupCreateGroup.Enabled = True
+  frmMain.mnuPopupCreateUser.Enabled = True
+  frmMain.mnuPopupProperties.Enabled = True
   
   'Enable buttons on the toolbar
-  frmMain.tb.Buttons("refresh").Visible = True
-  frmMain.tb.Buttons("sep1").Visible = True
-  frmMain.tb.Buttons("create").Visible = True
-  frmMain.tb.Buttons("create").ButtonMenus("database").Visible = True
-  frmMain.tb.Buttons("create").ButtonMenus("group").Visible = True
-  frmMain.tb.Buttons("create").ButtonMenus("user").Visible = True
-  frmMain.tb.Buttons("properties").Visible = True
+  frmMain.tb.Buttons("refresh").Enabled = True
+  frmMain.tb.Buttons("create").Enabled = True
+  frmMain.tb.Buttons("create").ButtonMenus("database").Enabled = True
+  frmMain.tb.Buttons("create").ButtonMenus("group").Enabled = True
+  frmMain.tb.Buttons("create").ButtonMenus("user").Enabled = True
+  frmMain.tb.Buttons("properties").Enabled = True
  
   'Rebuild the Plugins Menu
   BuildPluginsMenu
