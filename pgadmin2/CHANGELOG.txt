@@ -4,7 +4,6 @@
 Allow use of new serial8 type.
 Warn user that serial-created sequences & indexes must be manually committed to Revision Control.
 Tweak efficiency of the Comment cache in pgSchema (~30% faster population of cache).
-Ignore binary/blob fields correctly in the Database Migration Wizard (distributed seperately).
 Distribute non Win2K riched32.dll.
 Update other column properties before renaming for safety.
 Set Unknowns As LongVarChar when connecting to allow ACLs > 255 characters.

@@ -1,6 +1,7 @@
 1.2.0 Stable
 ------------
 
+Ignore binary/blob fields correctly.
 Added support for MSSQL server (tested on same installations MSSQL 7 & MSSQL 2000). [Artur Maslag]
 Some fixes to correct recognizing adNumeric type. [Artur Maslag]
 Fix for correct registry read for type mappings. [Artur Maslag]
