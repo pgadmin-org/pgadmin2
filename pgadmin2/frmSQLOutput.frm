@@ -806,12 +806,28 @@ Dim szSchemas() As String
   If iTemp <> 0 And iTemp < iEnd Then iEnd = iTemp
   If iEnd = 0 Then iEnd = Len(szQuery) + 1
 
-  'Get rid of double spaces, CRs or tabs in the rest of the query
-  szTemp = Replace(Mid(szQuery, iStart, iEnd - iStart), vbTab, " ")
-  szTemp = Replace(szTemp, vbCrLf, " ")
-  While InStr(1, szTemp, "  ")
-    szTemp = Replace(szTemp, "  ", " ")
-  Wend
+  'Get rid of double spaces, CRs or tabs in the rest of the query except within quotes
+  bInQuotes = False
+  szTemp = ""
+  For X = iStart To iEnd
+    If Mid(szQuery, X, 1) = QUOTE Then bInQuotes = Not bInQuotes
+    If Not bInQuotes Then
+      If Mid(szQuery, X, 1) = vbCrLf Then
+        szTemp = szTemp & " "
+      Else
+        szTemp = szTemp & Mid(szQuery, X, 1)
+      End If
+    Else
+      szTemp = szTemp & Mid(szQuery, X, 1)
+    End If
+  Next X
+      
+  'szTemp = Replace(Mid(szQuery, iStart, iEnd - iStart), vbTab, " ")
+
+  'szTemp = Replace(szTemp, vbCrLf, " ")
+  'While InStr(1, szTemp, "  ")
+  '  szTemp = Replace(szTemp, "  ", " ")
+  'Wend
   
   'Split the FROM clause by space. We can then iterate through each element of
   'the array to figure out whether we have more than one table. The following
