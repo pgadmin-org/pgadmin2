@@ -768,9 +768,6 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuPopupConnect 
          Caption         =   "&Connect to server..."
       End
-      Begin VB.Menu mnuPopupHideSystemObjects 
-         Caption         =   "Hide system objects"
-      End
       Begin VB.Menu mnuPopupRefresh 
          Caption         =   "&Refresh below selection"
          Enabled         =   0   'False

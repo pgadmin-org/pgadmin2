@@ -745,6 +745,7 @@ End Sub
 Private Sub Form_Load()
 On Error GoTo Err_Handler
 Dim objType As pgType
+Dim objNamespace As pgNamespace
 Dim X As Integer
 Dim Y As Integer
 Dim Temp As String
@@ -755,14 +756,34 @@ Dim Current As String
   For X = 0 To 33  ' AM 20020110 Added adNumeric
     cboType(X).Clear
   Next
-  For Each objType In svr.Databases(frmWizard.lstDatabase.SelectedItem.Text).Types
+  
+  If svr.dbVersion.VersionNum >= 7.3 Then
+    'Add the pg_catalog types first, unqualified
+    For Each objType In svr.Databases(frmWizard.lstDatabase.SelectedItem.Text).Namespaces("pg_catalog").Types
+      For X = 0 To 33
+        If Left(objType.Name, 1) <> "_" Then cboType(X).AddItem fmtID(objType.Name)
+      Next X
+    Next objType
+    'Now add the rest
+    For Each objNamespace In svr.Databases(frmWizard.lstDatabase.SelectedItem.Text).Namespaces
+      If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+        For Each objType In objNamespace.Types
+          For X = 0 To 33
+            If Left(objType.Name, 1) <> "_" Then cboType(X).AddItem objType.FormattedID
+          Next X
+        Next objType
+      End If
+    Next objNamespace
+  Else
+    For Each objType In svr.Databases(frmWizard.lstDatabase.SelectedItem.Text).Namespaces("public").Types
+      For X = 0 To 33
+        If Left(objType.Identifier, 1) <> "_" Then cboType(X).AddItem objType.Identifier
+      Next X
+    Next objType
+  End If
+  
 
-    For X = 0 To 33   ' AM 20020110  Added adNumeric
-      If Left(objType.Identifier, 1) <> "_" Then cboType(X).AddItem objType.Identifier
-    Next
-  Next objType
-
-  For X = 0 To 33   ' AM 20020110 Added adNumeric
+  For X = 0 To 33
     Select Case Label1(X).Caption
       Case "BigInt"
         Temp = "int8"

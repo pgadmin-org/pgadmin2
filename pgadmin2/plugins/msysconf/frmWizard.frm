@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
@@ -95,29 +95,29 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":18C2
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "optPasswordCaching(1)"
+      Tab(1).Control(0)=   "lblInfo(1)"
       Tab(1).Control(1)=   "optPasswordCaching(0)"
-      Tab(1).Control(2)=   "lblInfo(1)"
+      Tab(1).Control(2)=   "optPasswordCaching(1)"
       Tab(1).ControlCount=   3
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":18DE
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "udPopulationDelay"
+      Tab(2).Control(0)=   "lblInfo(2)"
       Tab(2).Control(1)=   "txtPopulationDelay"
-      Tab(2).Control(2)=   "lblInfo(2)"
+      Tab(2).Control(2)=   "udPopulationDelay"
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18FA
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "txtPopulationSize"
+      Tab(3).Control(0)=   "lblInfo(3)"
       Tab(3).Control(1)=   "udPopulationSize"
-      Tab(3).Control(2)=   "lblInfo(3)"
+      Tab(3).Control(2)=   "txtPopulationSize"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":1916
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblInfo(5)"
-      Tab(4).Control(1)=   "lblInfo(4)"
+      Tab(4).Control(0)=   "lblInfo(4)"
+      Tab(4).Control(1)=   "lblInfo(5)"
       Tab(4).ControlCount=   2
       Begin VB.CommandButton cmdDatabaseAll 
          Height          =   555
@@ -160,7 +160,7 @@ Begin VB.Form frmWizard
          Value           =   10
          AutoBuddy       =   -1  'True
          BuddyControl    =   "txtPopulationDelay"
-         BuddyDispid     =   196613
+         BuddyDispid     =   196615
          OrigLeft        =   3645
          OrigTop         =   2205
          OrigRight       =   3840
@@ -225,13 +225,13 @@ Begin VB.Form frmWizard
          Appearance      =   1
          NumItems        =   5
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Text            =   "Database"
-            Object.Width           =   2117
+            Text            =   "Database/Schema"
+            Object.Width           =   3352
          EndProperty
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             SubItemIndex    =   1
-            Text            =   "MSysConf Present?"
-            Object.Width           =   2822
+            Text            =   "Present?"
+            Object.Width           =   1587
          EndProperty
          BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             SubItemIndex    =   2
@@ -260,7 +260,7 @@ Begin VB.Form frmWizard
          _Version        =   393216
          Value           =   100
          BuddyControl    =   "txtPopulationSize"
-         BuddyDispid     =   196612
+         BuddyDispid     =   196614
          OrigLeft        =   3645
          OrigTop         =   2205
          OrigRight       =   3840
@@ -354,7 +354,7 @@ Dim bButtonPress As Boolean
 Dim bProgramPress As Boolean
 
 Private Sub cmdDatabaseAll_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdDatabaseAll_Click()", etFullDebug
 
 Dim objItem As ListItem
@@ -368,7 +368,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdDatabaseNone_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdDatabaseNone_Click()", etFullDebug
 
 Dim objItem As ListItem
@@ -382,7 +382,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdNext_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdNext_Click()", etFullDebug
 
 Dim objItem As ListItem
@@ -421,7 +421,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.Form_Unload()", etFullDebug
 
   bRunning = False
@@ -431,34 +431,75 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdOK_Click()", etFullDebug
 
 Dim objItem As ListItem
+Dim Y As Integer
+Dim szDatabase As String
+Dim bInQuotes As Boolean
+Dim szTemp As String
+Dim szSchema As String
 
   StartMsg "Configuring MSysConf tables..."
   For Each objItem In lvDatabases.ListItems
     If objItem.Checked Then
     
-      'Create table if required.
-      If objItem.SubItems(1) = "No" Then
-        svr.LogEvent "Creating MSysConf table in " & objItem.Text, etMiniDebug
-        svr.Databases(objItem.Text).Tables.Add "msysconf", "config int4 NOT NULL, chvalue varchar(255), nvalue int4, comments varchar(255)", , , , , "The MSysConf table contains global settings for the Microsoft Jet Engine."
-        svr.Databases(objItem.Text).Tables("msysconf").Grant "PUBLIC", aclSelect
-      End If
-      
-      'Drop all existing records before reinserting. This is easier than figuring out
-      'if they exist already or not to determine whether to insert or update them.
-      svr.Databases(objItem.Text).Execute "DELETE FROM msysconf"
-      
-      'Now insert all three records.
-      If Not optPasswordCaching(0).Value Then
-        svr.Databases(objItem.Text).Execute "INSERT INTO msysconf VALUES ('101', '', '1', 'Allow local storage of passwords.')"
+      If svr.dbVersion.VersionNum >= 7.3 Then
+        
+        'Split the table & schema name
+        szSchema = objItem.Text
+        bInQuotes = False
+        For Y = 1 To Len(szSchema)
+          szTemp = Mid(szSchema, Y, 1)
+          If szTemp = QUOTE Then
+            bInQuotes = Not bInQuotes
+          ElseIf szTemp = "." And Not bInQuotes Then
+            szDatabase = Mid(szSchema, 1, Y - 1)
+            szSchema = Mid(szSchema, Y + 1)
+          End If
+        Next Y
+
+        If Not svr.Databases(szDatabase).Namespaces(szSchema).Tables.Exists("msysconf") Then
+          svr.LogEvent "Creating MSysConf table in " & szDatabase & szSchema, etMiniDebug
+          svr.Databases(szDatabase).Namespaces(szSchema).Tables.Add "msysconf", "config int4 NOT NULL, chvalue varchar(255), nvalue int4, comments varchar(255)", , , , , "The MSysConf table contains global settings for the Microsoft Jet Engine."
+          svr.Databases(szDatabase).Namespaces(szSchema).Tables("msysconf").Grant "PUBLIC", aclSelect
+        End If
+        
+        'Drop all existing records before reinserting. This is easier than figuring out
+        'if they exist already or not to determine whether to insert or update them.
+        svr.Databases(szDatabase).Execute "DELETE FROM " & szSchema & ".msysconf"
+        
+        'Now insert all three records.
+        If Not optPasswordCaching(0).Value Then
+          svr.Databases(szDatabase).Execute "INSERT INTO " & szSchema & ".msysconf VALUES ('101', '', '1', 'Allow local storage of passwords.')"
+        Else
+          svr.Databases(szDatabase).Execute "INSERT INTO " & szSchema & ".msysconf VALUES ('101', '', '0', 'Disallow local storage of passwords.')"
+        End If
+        svr.Databases(szDatabase).Execute "INSERT INTO " & szSchema & ".msysconf VALUES ('102', '', '" & Val(txtPopulationDelay.Text) & "', 'Background population delay = " & Val(txtPopulationDelay.Text) & " seconds.')"
+        svr.Databases(szDatabase).Execute "INSERT INTO " & szSchema & ".msysconf VALUES ('103', '', '" & Val(txtPopulationSize.Text) & "', 'Background population size = " & Val(txtPopulationSize.Text) & " records.')"
+        
       Else
-        svr.Databases(objItem.Text).Execute "INSERT INTO msysconf VALUES ('101', '', '0', 'Disallow local storage of passwords.')"
+        If Not svr.Databases(objItem.Text).Namespaces("public").Tables.Exists("msysconf") Then
+          svr.LogEvent "Creating MSysConf table in " & objItem.Text, etMiniDebug
+          svr.Databases(objItem.Text).Namespaces("public").Tables.Add "msysconf", "config int4 NOT NULL, chvalue varchar(255), nvalue int4, comments varchar(255)", , , , , "The MSysConf table contains global settings for the Microsoft Jet Engine."
+          svr.Databases(objItem.Text).Namespaces("public").Tables("msysconf").Grant "PUBLIC", aclSelect
+        End If
+        
+        'Drop all existing records before reinserting. This is easier than figuring out
+        'if they exist already or not to determine whether to insert or update them.
+        svr.Databases(objItem.Text).Execute "DELETE FROM msysconf"
+        
+        'Now insert all three records.
+        If Not optPasswordCaching(0).Value Then
+          svr.Databases(objItem.Text).Execute "INSERT INTO msysconf VALUES ('101', '', '1', 'Allow local storage of passwords.')"
+        Else
+          svr.Databases(objItem.Text).Execute "INSERT INTO msysconf VALUES ('101', '', '0', 'Disallow local storage of passwords.')"
+        End If
+        svr.Databases(objItem.Text).Execute "INSERT INTO msysconf VALUES ('102', '', '" & Val(txtPopulationDelay.Text) & "', 'Background population delay = " & Val(txtPopulationDelay.Text) & " seconds.')"
+        svr.Databases(objItem.Text).Execute "INSERT INTO msysconf VALUES ('103', '', '" & Val(txtPopulationSize.Text) & "', 'Background population size = " & Val(txtPopulationSize.Text) & " records.')"
+
       End If
-      svr.Databases(objItem.Text).Execute "INSERT INTO msysconf VALUES ('102', '', '" & Val(txtPopulationDelay.Text) & "', 'Background population delay = " & Val(txtPopulationDelay.Text) & " seconds.')"
-      svr.Databases(objItem.Text).Execute "INSERT INTO msysconf VALUES ('103', '', '" & Val(txtPopulationSize.Text) & "', 'Background population size = " & Val(txtPopulationSize.Text) & " records.')"
       
     End If
   Next objItem
@@ -472,7 +513,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdPrevious_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdPrevious_Click()", etFullDebug
 
   bButtonPress = True
@@ -503,7 +544,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tabWizard_Click(PreviousTab As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.tabWizard_Click(" & PreviousTab & ")", etFullDebug
 
   If bButtonPress = False And bProgramPress = False Then
@@ -519,10 +560,11 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub Initialise()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.Initialise()", etFullDebug
 
 Dim objDatabase As pgDatabase
+Dim objNamespace As pgNamespace
 Dim objTable As pgTable
 Dim objItem As ListItem
 Dim rs As New Recordset
@@ -532,37 +574,58 @@ Dim rs As New Recordset
   
   StartMsg "Examining Server..."
   For Each objDatabase In svr.Databases
-    If ((Not objDatabase.SystemObject) And (objDatabase.Status <> statInaccessible)) Then
-      Set objItem = lvDatabases.ListItems.Add(, , objDatabase.Identifier, "database", "database")
-      objItem.SubItems(1) = "No"
-      For Each objTable In objDatabase.Tables
-        If objTable.Identifier = "msysconf" Then
-          objItem.SubItems(1) = "Yes"
-          Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 101")
-          If Not rs.EOF Then
-            If rs!nvalue & "" = "1" Then
-              objItem.SubItems(2) = "Yes"
-            Else
-              objItem.SubItems(2) = "No"
+    If ((Not objDatabase.SystemObject) And (Not (objDatabase.Namespaces Is Nothing))) Then
+      For Each objNamespace In objDatabase.Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          If svr.dbVersion.VersionNum >= 7.3 Then
+            Set objItem = lvDatabases.ListItems.Add(, , objDatabase.FormattedID & "." & objNamespace.FormattedID, "database", "database")
+          Else
+            Set objItem = lvDatabases.ListItems.Add(, , objDatabase.FormattedID, "database", "database")
+          End If
+          objItem.SubItems(1) = "No"
+          For Each objTable In objNamespace.Tables
+            If objTable.Identifier = "msysconf" Then
+              objItem.SubItems(1) = "Yes"
+              If svr.dbVersion.VersionNum >= 7.3 Then
+                Set rs = objDatabase.Execute("SELECT nvalue FROM " & objNamespace.FormattedID & ".msysconf WHERE config = 101")
+              Else
+                Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 101")
+              End If
+              If Not rs.EOF Then
+                If rs!nvalue & "" = "1" Then
+                  objItem.SubItems(2) = "Yes"
+                Else
+                  objItem.SubItems(2) = "No"
+                End If
+              Else
+                objItem.SubItems(2) = "Not Set"
+              End If
+              If svr.dbVersion.VersionNum >= 7.3 Then
+                Set rs = objDatabase.Execute("SELECT nvalue FROM " & objNamespace.FormattedID & ".msysconf WHERE config = 102")
+              Else
+                Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 102")
+              End If
+              If Not rs.EOF Then
+                objItem.SubItems(3) = rs!nvalue & ""
+              Else
+                objItem.SubItems(3) = "Not Set"
+              End If
+              If svr.dbVersion.VersionNum >= 7.3 Then
+                Set rs = objDatabase.Execute("SELECT nvalue FROM " & objNamespace.FormattedID & ".msysconf WHERE config = 103")
+              Else
+                Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 103")
+              End If
+              If Not rs.EOF Then
+                objItem.SubItems(4) = rs!nvalue & ""
+              Else
+                objItem.SubItems(4) = "Not Set"
+              End If
+              Exit For
             End If
-          Else
-            objItem.SubItems(2) = "Not Set"
-          End If
-          Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 102")
-          If Not rs.EOF Then
-            objItem.SubItems(3) = rs!nvalue & ""
-          Else
-            objItem.SubItems(3) = "Not Set"
-          End If
-          Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 103")
-          If Not rs.EOF Then
-            objItem.SubItems(4) = rs!nvalue & ""
-          Else
-            objItem.SubItems(4) = "Not Set"
-          End If
-          Exit For
+          Next objTable
+      
         End If
-      Next objTable
+      Next objNamespace
     End If
   Next objDatabase
   EndMsg

@@ -16,3 +16,5 @@ Global sb As StatusBar
 
 'Msg Timer start value.
 Global sTimer As Single
+
+Global Const QUOTE = """"
