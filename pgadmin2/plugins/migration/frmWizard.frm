@@ -743,7 +743,7 @@ Dim tblTemp As Table
     End If
     StartMsg "Opening and Examining Source Database..."
     svr.LogEvent "Opening File: " & txtFile.Text, etMiniDebug
-    cnLocal.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & txtFile.Text & ";Persist Security Info=False", txtUID(0).Text, txtPWD(0).Text
+    cnLocal.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & txtFile.Text & ";Persist Security Info=False;Prompt=CompleteRequired", txtUID(0).Text, txtPWD(0).Text
     szQuoteChar = "`"
     
   'ODBC
@@ -755,7 +755,7 @@ Dim tblTemp As Table
     End If
     StartMsg "Opening and Examining Source Database..."
     svr.LogEvent "Opening DSN: " & cboDatasource.Text, etMiniDebug
-    cnLocal.Open "DSN=" & cboDatasource.Text & ";UID=" & txtUID(1).Text & ";PWD=" & txtPWD(1).Text, txtUID(1).Text, txtPWD(1).Text
+    cnLocal.Open "DSN=" & cboDatasource.Text & ";UID=" & txtUID(1).Text & ";PWD=" & txtPWD(1).Text & ";Prompt=CompleteRequired", txtUID(1).Text, txtPWD(1).Text
     szQuoteChar = GetQuoteChar("DSN=" & cboDatasource.Text & ";UID=" & txtUID(1).Text & ";PWD=" & txtPWD(1).Text)
   
   'SQL Server
@@ -767,7 +767,7 @@ Dim tblTemp As Table
     End If
     StartMsg "Opening and Examining Source Database..."
     svr.LogEvent "Opening connection: " & txtSQLS.Text & " Database: " & txtSQLB.Text, etMiniDebug
-    cnLocal.Open "PROVIDER=SQLOLEDB;server=" & txtSQLS.Text & ";database=" & txtSQLB.Text, txtUID(2).Text, txtPWD(2).Text
+    cnLocal.Open "PROVIDER=SQLOLEDB;server=" & txtSQLS.Text & ";database=" & txtSQLB.Text & ";Prompt=CompleteRequired", txtUID(2).Text, txtPWD(2).Text
     szQuoteChar = QUOTE
   End If
   
