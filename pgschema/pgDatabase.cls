@@ -50,6 +50,7 @@ Friend Sub KillTypeCache()
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillTypeCache()", etFullDebug
 
+  objServer.iLogEvent "Invalidating Type cache (database: " & szName & ")...", etMiniDebug
   Set szTypeCache = Nothing
 
   Exit Sub
@@ -64,8 +65,9 @@ Dim rs As New Recordset
   'Connect if required
   If dbConnect = False Then Exit Function
   
-  'Get the Return Type
+  'Populate the cache
   If szTypeCache Is Nothing Then
+    objServer.iLogEvent "Populating Type cache (database: " & szName & ")...", etMiniDebug
     Set szTypeCache = New Collection
     Set rs = objServer.ExecSQL("SELECT oid, typname FROM pg_type", cnDatabase)
     While Not rs.EOF
@@ -74,6 +76,7 @@ Dim rs As New Recordset
     Wend
     If rs.State <> adStateClosed Then rs.Close
     Set rs = Nothing
+    objServer.iLogEvent "Completed populating Type cache (database: " & szName & ").", etMiniDebug
   End If
   
   If lOID = 0 Then
@@ -95,6 +98,7 @@ Friend Sub KillLanguageCache()
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillLanguageCache()", etFullDebug
 
+  objServer.iLogEvent "Invalidating Language cache (database: " & szName & ")...", etMiniDebug
   Set szLanguageCache = Nothing
 
   Exit Sub
@@ -109,8 +113,9 @@ Dim rs As New Recordset
   'Connect if required
   If dbConnect = False Then Exit Function
   
-  'Get the Function Language
+  'Populate the cache
   If szLanguageCache Is Nothing Then
+    objServer.iLogEvent "Populating Language cache (database: " & szName & ")...", etMiniDebug
     Set szLanguageCache = New Collection
     Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES, cnDatabase)
     While Not rs.EOF
@@ -119,6 +124,7 @@ Dim rs As New Recordset
     Wend
     If rs.State <> adStateClosed Then rs.Close
     Set rs = Nothing
+    objServer.iLogEvent "Complete populating Language cache (database: " & szName & ").", etMiniDebug
   End If
   
   On Error Resume Next
@@ -136,6 +142,7 @@ Friend Sub KillOperatorCache()
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillOperatorCache()", etFullDebug
 
+  objServer.iLogEvent "Populating Operator cache (database: " & szName & ")...", etMiniDebug
   Set szOperatorCache = Nothing
 
   Exit Sub
@@ -154,6 +161,7 @@ Dim szROT As String
   
   'Build the Operator Cache
   If szOperatorCache Is Nothing Then
+    objServer.iLogEvent "Populating Operator cache (database: " & szName & ")...", etMiniDebug
     Set szOperatorCache = New Collection
     'Select an O in front of the name to avoid strange behaviour with !
     Set rs = objServer.ExecSQL(SQL_GET_OPERATORS, cnDatabase)
@@ -167,6 +175,7 @@ Dim szROT As String
     Wend
     If rs.State <> adStateClosed Then rs.Close
     Set rs = Nothing
+    objServer.iLogEvent "Completed populating Operator cache (database: " & szName & ").", etMiniDebug
   End If
   
   On Error Resume Next
@@ -184,6 +193,7 @@ Friend Sub KillCommentCache()
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillCommentCache()", etFullDebug
 
+  objServer.iLogEvent "Invalidating Comment cache (database: " & szName & ")...", etMiniDebug
   Set szCommentCache = Nothing
 
   Exit Sub
@@ -194,26 +204,34 @@ Friend Function LookupComment(lOID As Long, Optional lSubID As Long) As String
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupComment(" & lOID & ")", etFullDebug
 Dim rs As New Recordset
+Dim arrTmp As Variant
+Dim X As Long
 
   'Connect if required
   If dbConnect = False Then Exit Function
   
   'Build the Comment Cache
   If szCommentCache Is Nothing Then
+    objServer.iLogEvent "Populating Comment cache (database: " & szName & ")...", etMiniDebug
     Set szCommentCache = New Collection
     
     '7.2+ Uses OID + SubID for some comments.
-    Set rs = objServer.ExecSQL("SELECT * FROM pg_description", cnDatabase)
-    While Not rs.EOF
-      If objServer.dbVersion.VersionNum < 7.2 Then
-        szCommentCache.Add rs!Description & "", "C" & rs!objoid & "S0"
-      Else
-        szCommentCache.Add rs!Description & "", "C" & rs!objoid & "S" & rs!objsubid
-      End If
-      rs.MoveNext
-    Wend
+    If objServer.dbVersion.VersionNum < 7.2 Then
+      Set rs = objServer.ExecSQL("SELECT objoid, description FROM pg_description", cnDatabase)
+      arrTmp = rs.GetRows
+      For X = 0 To UBound(arrTmp)
+        szCommentCache.Add arrTmp(1, X) & "", "C" & arrTmp(0, X) & "S0"
+      Next X
+    Else
+      Set rs = objServer.ExecSQL("SELECT objoid, objsubid, description FROM pg_description", cnDatabase)
+      arrTmp = rs.GetRows
+      For X = 0 To UBound(arrTmp)
+        szCommentCache.Add arrTmp(2, X) & "", "C" & arrTmp(0, X) & "S" & arrTmp(1, X)
+      Next X
+    End If
     If rs.State <> adStateClosed Then rs.Close
     Set rs = Nothing
+    objServer.iLogEvent "Completed populating Comment cache (database: " & szName & ").", etMiniDebug
   End If
   
   On Error Resume Next

@@ -3,6 +3,7 @@
 
 Allow use of new serial8 type.
 Warn user that serial-created sequences & indexes must be manually committed to Revision Control.
+Tweak efficiency of the Comment cache in pgSchema (~30% faster population of cache).
 
 1.1.76
 ------
