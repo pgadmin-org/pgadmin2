@@ -378,7 +378,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -421,7 +421,11 @@ Dim vEntity As Variant
     For Each objNode In frmMain.tv.Nodes
       If Left(objNode.Key, 4) <> "SVR-" Then
         If (Left(objNode.Key, 4) = "AGG+") And (objNode.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " " & cboProperties(0).Text, "Aggregate"
+          If cboProperties(0).Text = "ANY" Then
+            frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " opaque", "aggregate"
+          Else
+            frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " " & cboProperties(0).Text, "aggregate"
+          End If
           objNode.Text = "Aggregates (" & objNode.Children & ")"
         End If
       End If

@@ -37,7 +37,7 @@ Private colHistory As History
 
 'Return the History collection.
 Public Property Get History() As History
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get History()", etFullDebug
 
   If objServer.Databases(Database).RevisionControl Then
@@ -345,7 +345,7 @@ End Property
 
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
@@ -391,7 +391,7 @@ Dim szSQL As String
   szSQL = szSQL & "SFUNC = " & QUOTE & szStateFunction & QUOTE & ", " & _
                   "STYPE = " & QUOTE & szStateType & QUOTE
           
-  If szFinalFunction <> "" Then szSQL = szSQL & ", FINALFUNC = " & QUOTE & szFinalFunction & QUOTE
+  If (szFinalFunction <> "") And (szFinalFunction <> "-") Then szSQL = szSQL & ", FINALFUNC = " & QUOTE & szFinalFunction & QUOTE
   If szInitialCondition <> "" Then szSQL = szSQL & ", INITCOND = '" & szInitialCondition & "'"
   szSQL = szSQL & ");" & vbCrLf
           

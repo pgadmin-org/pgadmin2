@@ -64,6 +64,13 @@ Dim szFrequency As String
     frmMain.mnuViewSystemObjects.Checked = True
   End If
   
+  'Encrypted Passwords?
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Encrypt Passwords", "Y")) = "Y" Then
+    frmMain.svr.EncryptPasswords = True
+  Else
+    frmMain.svr.EncryptPasswords = False
+  End If
+  
   'Display/Hide the StausBar/ToolBar/Definition Pane
   If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Show Status Bar", "Y")) = "Y" Then
     frmMain.sb.Visible = True

@@ -21,6 +21,40 @@ Option Explicit
 Private mCol As Collection
 Private cnDatabase As Connection
 
+'Rollback to a prior version
+Public Sub Rollback(Identifier As String, Version As Long)
+Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+
+Dim szDefinition As String
+Dim objItem As rcItem
+
+  'Get the definition to restore to first as it will vanish as soon as we
+  'drop the current version
+  For Each objItem In mCol(ULEncode(Identifier)).History
+    If objItem.Version = Version Then
+      szDefinition = objItem.Definition
+      Exit For
+    End If
+  Next objItem
+  If szDefinition = "" Then Exit Sub
+  
+  'Remove the current version
+  Remove Identifier
+  
+  'Recreate the new object.
+  objServer.Databases(Database).Execute szDefinition
+  
+  'Kill the Comment Cache and log the change
+  objServer.Databases(Database).KillCommentCache
+  Refresh
+  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
@@ -221,13 +255,32 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal Key As String)
+Public Sub Remove(ByVal Key As String, Optional RemoveSubItems As Boolean)
 Attribute Remove.VB_Description = "Remove the specified Table."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
+Dim objIndex As pgIndex
+Dim objRule As pgRule
+Dim objTrigger As pgTrigger
 
+  'Remove subitems first. This is especially important when
+  'Revision Control is enabled to ensure that everything gets
+  'committed before deletetion so it can be restored later if
+  'required. We must remove Indexes, Rules & Triggers
+  If RemoveSubItems Then
+    For Each objIndex In mCol(ULEncode(Key)).Indexes
+      If Not objIndex.SystemObject Then mCol(ULEncode(Key)).Indexes.Remove objIndex.Identifier
+    Next objIndex
+    For Each objRule In mCol(ULEncode(Key)).Rules
+      If Not objRule.SystemObject Then mCol(ULEncode(Key)).Rules.Remove objRule.Identifier
+    Next objRule
+    For Each objTrigger In mCol(ULEncode(Key)).Triggers
+      If Not objTrigger.SystemObject Then mCol(ULEncode(Key)).Triggers.Remove objTrigger.Identifier
+    Next objTrigger
+  End If
+  
   'Generate/Execute SQL to drop the Language.
   szSQL = "DROP TABLE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase

@@ -24,6 +24,40 @@ Private cnDatabase As Connection
 Dim lTableOID As Long
 Dim szTable As String
 
+'Rollback to a prior version
+Public Sub Rollback(Identifier As String, Version As Long)
+Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+
+Dim szDefinition As String
+Dim objItem As rcItem
+
+  'Get the definition to restore to first as it will vanish as soon as we
+  'drop the current version
+  For Each objItem In mCol(ULEncode(Identifier)).History
+    If objItem.Version = Version Then
+      szDefinition = objItem.Definition
+      Exit For
+    End If
+  Next objItem
+  If szDefinition = "" Then Exit Sub
+  
+  'Remove the current version
+  Remove Identifier
+  
+  'Recreate the new object.
+  objServer.Databases(Database).Execute szDefinition
+  
+  'Kill the Comment Cache and log the change
+  objServer.Databases(Database).KillCommentCache
+  Refresh
+  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"

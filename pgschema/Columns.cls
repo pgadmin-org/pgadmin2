@@ -201,6 +201,14 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldNa
   objColumn.Identifier = NewName
   mCol.Add objColumn, ULEncode(NewName), ULEncode(OldName)
   mCol.Remove ULEncode(OldName)
+  
+  'Refresh all subclasses of the parent table.
+  objServer.Databases(Database).Tables(szTable).Checks.Refresh
+  objServer.Databases(Database).Tables(szTable).ForeignKeys.Refresh
+  objServer.Databases(Database).Tables(szTable).Indexes.Refresh
+  objServer.Databases(Database).Tables(szTable).Rules.Refresh
+  objServer.Databases(Database).Tables(szTable).Triggers.Refresh
+  
   objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Renamed column."
   
   Exit Sub

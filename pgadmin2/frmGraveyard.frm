@@ -320,7 +320,7 @@ Dim szSQL As String
     hbxProperties(1).Text = ""
   Else
     lEntry = 1
-    sb.Panels(1).Text = "Entry " & lEntry & " of " & frmMain.svr.Databases(szDatabase).Graveyard.Count & " (shown most recent first)"
+    sb.Panels(1).Text = "Entry " & lEntry & " of " & frmMain.svr.Databases(szDatabase).Graveyard.Count
     txtProperties(0).Text = frmMain.svr.Databases(szDatabase).Graveyard(1).Identifier
     txtProperties(1).Text = frmMain.svr.Databases(szDatabase).Graveyard(1).ObjectType
     txtProperties(2).Text = frmMain.svr.Databases(szDatabase).Graveyard(1).ParentTable
@@ -361,7 +361,7 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmGraveyard.cmdNext_Click()", etFullDebug
 
   lEntry = lEntry + 1
-  sb.Panels(1).Text = "Entry " & lEntry & " of " & frmMain.svr.Databases(szDatabase).Graveyard.Count & " (shown most recent first)"
+  sb.Panels(1).Text = "Entry " & lEntry & " of " & frmMain.svr.Databases(szDatabase).Graveyard.Count
   txtProperties(0).Text = frmMain.svr.Databases(szDatabase).Graveyard(lEntry).Identifier
   txtProperties(1).Text = frmMain.svr.Databases(szDatabase).Graveyard(lEntry).ObjectType
   txtProperties(2).Text = frmMain.svr.Databases(szDatabase).Graveyard(lEntry).ParentTable
@@ -399,7 +399,7 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmGraveyard.cmdPrevious_Click()", etFullDebug
 
   lEntry = lEntry - 1
-  sb.Panels(1).Text = "Entry " & lEntry & " of " & frmMain.svr.Databases(szDatabase).Graveyard.Count & " (shown most recent first)"
+  sb.Panels(1).Text = "Entry " & lEntry & " of " & frmMain.svr.Databases(szDatabase).Graveyard.Count
   txtProperties(0).Text = frmMain.svr.Databases(szDatabase).Graveyard(lEntry).Identifier
   txtProperties(1).Text = frmMain.svr.Databases(szDatabase).Graveyard(lEntry).ObjectType
   txtProperties(2).Text = frmMain.svr.Databases(szDatabase).Graveyard(lEntry).ParentTable

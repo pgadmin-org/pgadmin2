@@ -49,7 +49,20 @@ Dim szPath() As String
     Exit Sub
   End If
   
-  If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+  If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
+    If ctx.CurrentObject.ObjectType = "Table" Then
+      If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restore from Revision Control later, however any data in the table will be lost.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+    Else
+      If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "These objects may be restore from Revision Control later.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+    End If
+  Else
+    If ctx.CurrentObject.ObjectType = "Table" Then
+      If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+    Else
+      If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+    End If
+  End If
+  
   StartMsg "Dropping " & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.Identifier
         
   'Store the Identifier for later.
@@ -192,7 +205,7 @@ Dim szPath() As String
     
     Case "Table"
       szType = "TBL-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables.Remove ctx.CurrentObject.Identifier
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables.Remove ctx.CurrentObject.Identifier, True
       
       'Delete any matching tree nodes
       For Each objNode In frmMain.tv.Nodes

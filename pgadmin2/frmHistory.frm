@@ -14,8 +14,18 @@ Begin VB.Form frmHistory
    ScaleHeight     =   6855
    ScaleWidth      =   5490
    StartUpPosition =   3  'Windows Default
-   Begin VB.CommandButton cmdNext 
+   Begin VB.CommandButton cmdRollback 
       Cancel          =   -1  'True
+      Caption         =   "&Rollback"
+      Enabled         =   0   'False
+      Height          =   375
+      Left            =   2385
+      TabIndex        =   14
+      ToolTipText     =   "Show the next log entry."
+      Top             =   6120
+      Width           =   1095
+   End
+   Begin VB.CommandButton cmdNext 
       Caption         =   "&Next"
       Enabled         =   0   'False
       Height          =   375
@@ -232,6 +242,7 @@ Dim szSQL As String
   Set objCurrent = objCurr
   Me.Caption = "Revision history: " & objCurrent.Identifier & " (" & objCurrent.ObjectType & ")"
   hbxProperties(0).Wordlist = ctx.AutoHighlight
+  objCurrent.History.Refresh
   
   If objCurrent.History.Count = 0 Then
     lEntry = 0
@@ -259,9 +270,11 @@ Dim szSQL As String
   
   'Signal that this is the current version
   If hbxProperties(0).Text = objCurrent.SQL Then
+    cmdRollback.Enabled = False
     sb.Panels(2).Bevel = sbrRaised
     sb.Panels(2).Text = "Current Version"
   Else
+    cmdRollback.Enabled = True
     sb.Panels(2).Bevel = sbrInset
     sb.Panels(2).Text = "Previous Version"
   End If
@@ -292,9 +305,11 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmHistory.cmdPrevious_Click()"
   
   'Signal that this is the current version
   If hbxProperties(0).Text = objCurrent.SQL Then
+    cmdRollback.Enabled = False
     sb.Panels(2).Bevel = sbrRaised
     sb.Panels(2).Text = "Current Version"
   Else
+    cmdRollback.Enabled = True
     sb.Panels(2).Bevel = sbrInset
     sb.Panels(2).Text = "Previous Version"
   End If
@@ -336,9 +351,11 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmHistory.cmdNext_Click()", et
   
   'Signal that this is the current version
   If hbxProperties(0).Text = objCurrent.SQL Then
+    cmdRollback.Enabled = False
     sb.Panels(2).Bevel = sbrRaised
     sb.Panels(2).Text = "Current Version"
   Else
+    cmdRollback.Enabled = True
     sb.Panels(2).Bevel = sbrInset
     sb.Panels(2).Text = "Previous Version"
   End If
@@ -356,4 +373,48 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmHistory.cmdNext_Click()", et
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmHistory.cmdNext_Click"
+End Sub
+
+Private Sub cmdRollback_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmHistory.cmdNext_Click()", etFullDebug
+
+  If objCurrent.ObjectType = "Table" Then
+    If MsgBox("Are you sure you want to rollback this table to version " & txtProperties(1).Text & "? This will cause all data in this table to be lost, and any Indexes, Rules or Triggers will need to be restored from the Graveyard. Any Views or Functions that access this table may also be broken.", vbQuestion + vbYesNo, "Rollback Table") = vbNo Then Exit Sub
+  Else
+    If MsgBox("Are you sure you want to rollback this " & LCase(objCurrent.ObjectType) & " to version " & txtProperties(1).Text & "? Any other objects that refer to this object by it's OID may be broken.", vbQuestion + vbYesNo, "Rollback " & objCurrent.ObjectType) = vbNo Then Exit Sub
+  End If
+  
+  StartMsg "Rolling back object..."
+  Select Case objCurrent.ObjectType
+    Case "Aggregate"
+      frmMain.svr.Databases(objCurrent.Database).Aggregates.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Function"
+      frmMain.svr.Databases(objCurrent.Database).Functions.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Index"
+      frmMain.svr.Databases(objCurrent.Database).Tables(objCurrent.Table).Indexes.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Language"
+      frmMain.svr.Databases(objCurrent.Database).Languages.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Operator"
+      frmMain.svr.Databases(objCurrent.Database).Operators.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Rule"
+      frmMain.svr.Databases(objCurrent.Database).Tables(objCurrent.Table).Rules.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Sequence"
+      frmMain.svr.Databases(objCurrent.Database).Sequences.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Table"
+      frmMain.svr.Databases(objCurrent.Database).Tables.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Trigger"
+      frmMain.svr.Databases(objCurrent.Database).Tables(objCurrent.Table).Triggers.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "Type"
+      frmMain.svr.Databases(objCurrent.Database).Types.Rollback objCurrent.Identifier, txtProperties(1).Text
+    Case "View"
+      frmMain.svr.Databases(objCurrent.Database).Views.Rollback objCurrent.Identifier, txtProperties(1).Text
+  End Select
+  
+  frmMain.tv_NodeClick frmMain.tv.SelectedItem
+  Initialise objCurrent
+  EndMsg
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmHistory.cmdRollback_Click"
 End Sub

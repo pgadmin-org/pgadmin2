@@ -390,7 +390,7 @@ End Property
 'Return the History collection.
 Public Property Get Graveyard() As Graveyard
 Attribute Graveyard.VB_Description = "Returns the graveyard collection of dropped objects."
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get History()", etFullDebug
 
   If RevisionControl Then

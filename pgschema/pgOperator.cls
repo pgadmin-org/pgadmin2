@@ -43,7 +43,7 @@ Private colHistory As History
 
 'Return the History collection.
 Public Property Get History() As History
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get History()", etFullDebug
 
   If objServer.Databases(Database).RevisionControl Then

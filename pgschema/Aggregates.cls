@@ -22,6 +22,40 @@ Private mCol As Collection
 Private cnDatabase As Connection
 Private szDB As String
 
+'Rollback to a prior version
+Public Sub Rollback(Identifier As String, Version As Long)
+Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+
+Dim szDefinition As String
+Dim objItem As rcItem
+
+  'Get the definition to restore to first as it will vanish as soon as we
+  'drop the current version
+  For Each objItem In mCol(ULEncode(Identifier)).History
+    If objItem.Version = Version Then
+      szDefinition = objItem.Definition
+      Exit For
+    End If
+  Next objItem
+  If szDefinition = "" Then Exit Sub
+  
+  'Remove the current version
+  Remove Identifier
+  
+  'Recreate the new object.
+  objServer.Databases(Database).Execute szDefinition
+  
+  'Kill the Comment Cache and log the change
+  objServer.Databases(Database).KillCommentCache
+  Refresh
+  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
@@ -131,12 +165,21 @@ Dim objAggregate As pgAggregate
   objServer.ExecSQL szSQL, cnDatabase
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = "SELECT pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate, pg_type WHERE aggbasetype = pg_type.oid AND aggname = '" & dbSZ(Name) & "' AND typname = '" & dbSZ(InputType) & "'"
+  If InputType = "ANY" Then
+    szSQL = "SELECT now() AS ts, pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate WHERE aggname = '" & dbSZ(Name) & "' AND aggbasetype = 0"
+  Else
+    szSQL = "SELECT now() AS ts, pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate, pg_type WHERE aggbasetype = pg_type.oid AND aggname = '" & dbSZ(Name) & "' AND typname = '" & dbSZ(InputType) & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Comment <> "" Then
-    szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " " & QUOTE & InputType & QUOTE & " IS '" & dbSZ(Comment) & "'"
-    objServer.ExecSQL szSQL, cnDatabase
+    If InputType = "ANY" Then
+      szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " * IS '" & dbSZ(Comment) & "'"
+      objServer.ExecSQL szSQL, cnDatabase
+    Else
+      szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " " & QUOTE & InputType & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      objServer.ExecSQL szSQL, cnDatabase
+    End If
     objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
   End If
   
@@ -153,8 +196,8 @@ Dim objAggregate As pgAggregate
   
   Exit Function
 Err_Handler:
-  If rs.State <> adStateClosed Then rs.Close
-  Set rs = Nothing
+  'If rs.State <> adStateClosed Then rs.Close
+  'Set rs = Nothing
   objServer.iLogError Err
 End Function
 
@@ -162,7 +205,7 @@ End Function
 Public Property Get Item(Key As String) As pgAggregate
 Attribute Item.VB_Description = "Returns a Aggregate object."
 Attribute Item.VB_UserMemId = 0
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))

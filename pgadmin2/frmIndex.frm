@@ -381,7 +381,7 @@ Dim szColumns As String
     
   Else
     StartMsg "Updating Index..."
-    If hbxProperties(0).Tag = "Y" Then objIndex.Comment = hbxProperties(0).Text
+    If hbxProperties(1).Tag = "Y" Then objIndex.Comment = hbxProperties(1).Text
   End If
   
   'Simulate a node click to refresh the ListIndex
