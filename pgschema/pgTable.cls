@@ -462,7 +462,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & " ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
+  szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
