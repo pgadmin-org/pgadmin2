@@ -119,6 +119,7 @@ Dim szResult As String * 256
 Dim szSqlState As String * 1024
 Dim szErrorMsg As String * 1024
 Dim szPlan As String
+Dim rsPlan As New Recordset
 
   Me.Caption = "Query Plan (Database: " & szDatabase & ")"
   txtQuery.Text = szSQL
@@ -130,86 +131,113 @@ Dim szPlan As String
   
   StartMsg "Requesting Query Execution Plan..."
   
-  'Initialisze the ODBC subsystem
-  If SQLAllocEnv(lEnv) <> 0 Then
-    frmMain.svr.LogEvent "Unable to initialize ODBC API drivers!", etMiniDebug
-    MsgBox "Unable to initialize ODBC API drivers!", vbCritical, "Error"
-    GoTo Cleanup
-  End If
-
-  If SQLAllocConnect(lEnv, lDBC) <> 0 Then
-    frmMain.svr.LogEvent "Could not allocate memory for connection Handle!", etMiniDebug
-    MsgBox "Could not allocate memory for connection Handle!", vbCritical, "Error"
-    GoTo Cleanup
-  End If
-
-  szConnect = "DRIVER=" & frmMain.svr.DriverName & ";DATABASE=" & szDatabase & ";UID=" & ctx.Username & ";PWD=" & ctx.Password & ";SERVER=" & frmMain.svr.Server & ";PORT=" & frmMain.svr.Port
-  lRet = SQLDriverConnect(lDBC, Me.hWnd, szConnect, Len(szConnect), szResult, Len(szResult), iSize, 1)
-  If lRet <> SQL_SUCCESS Then
-    frmMain.svr.LogEvent "Could not establish connection to ODBC driver! Error: " & lRet, etMiniDebug
-    MsgBox "Could not establish connection to ODBC driver!" & vbCrLf & "Error: " & lRet, vbCritical, "Error"
-    GoTo Cleanup
-  End If
+  'Query plans are returned as resultsets in 7.3+
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    Set rsPlan = frmMain.svr.Databases(szDatabase).Execute("EXPLAIN " & szSQL)
+    If Not rsPlan.EOF Then
+      txtPlan.Text = rsPlan.Fields(0).Value & ""
+      txtPlan.ColourText
+    End If
+    If rsPlan.State <> adStateClosed Then rsPlan.Close
+    Set rsPlan = Nothing
+    
+    If txtPlan.Text = "" Then
+      frmMain.svr.LogEvent "A Query Execution Plan could not be calculated for the specified SQL query.", etMiniDebug
+      txtPlan.Text = "A Query Execution Plan could not be calculated for the specified SQL query."
+    End If
   
-  'Check the ODBC Driver version. EXPLAIN will only work with 07.01.0006 or higher.
-  SQLGetInfoString lDBC, SQL_DBMS_VER, szResult, Len(szResult), vbNull
-  frmMain.svr.LogEvent "ODBC Driver Version: " & szResult, etMiniDebug
-  If Val(Mid(szResult, 1, 2)) < 7 Then
-     frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
-     MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
-     GoTo Cleanup
   Else
-    If Val(Mid(szResult, 4, 2)) < 1 Then
-      frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
-      MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
+    'Initialisze the ODBC subsystem
+    If SQLAllocEnv(lEnv) <> 0 Then
+      frmMain.svr.LogEvent "Unable to initialize ODBC API drivers!", etMiniDebug
+      MsgBox "Unable to initialize ODBC API drivers!", vbCritical, "Error"
       GoTo Cleanup
+    End If
+  
+    If SQLAllocConnect(lEnv, lDBC) <> 0 Then
+      frmMain.svr.LogEvent "Could not allocate memory for connection Handle!", etMiniDebug
+      MsgBox "Could not allocate memory for connection Handle!", vbCritical, "Error"
+      GoTo Cleanup
+    End If
+  
+    szConnect = "DRIVER=" & frmMain.svr.DriverName & ";DATABASE=" & szDatabase & ";UID=" & ctx.Username & ";PWD=" & ctx.Password & ";SERVER=" & frmMain.svr.Server & ";PORT=" & frmMain.svr.Port
+    lRet = SQLDriverConnect(lDBC, Me.hWnd, szConnect, Len(szConnect), szResult, Len(szResult), iSize, 1)
+    If lRet <> SQL_SUCCESS Then
+      frmMain.svr.LogEvent "Could not establish connection to ODBC driver! Error: " & lRet, etMiniDebug
+      MsgBox "Could not establish connection to ODBC driver!" & vbCrLf & "Error: " & lRet, vbCritical, "Error"
+      GoTo Cleanup
+    End If
+    
+    'Check the ODBC Driver version. EXPLAIN will only work with 07.01.0006 or higher.
+    SQLGetInfoString lDBC, SQL_DBMS_VER, szResult, Len(szResult), vbNull
+    frmMain.svr.LogEvent "ODBC Driver Version: " & szResult, etMiniDebug
+    If Val(Mid(szResult, 1, 2)) < 7 Then
+       frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
+       MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
+       GoTo Cleanup
     Else
-      If Val(Mid(szResult, 7, 4)) < 6 Then
+      If Val(Mid(szResult, 4, 2)) < 1 Then
         frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
         MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
         GoTo Cleanup
+      Else
+        If Val(Mid(szResult, 7, 4)) < 6 Then
+          frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
+          MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
+          GoTo Cleanup
+        End If
       End If
     End If
-  End If
+    
+    'Allocate memory for the statement handle.
+    If SQLAllocStmt(lDBC, lStmt) <> 0 Then
+      frmMain.svr.LogEvent "Could not allocate memory for a statement handle!", etMiniDebug
+      MsgBox "Could not allocate memory for a statement handle!", vbCritical, "Error"
+      Exit Sub
+    End If
+    
+    szSQL = "EXPLAIN " & szSQL
+    frmMain.svr.LogEvent "SQLExecDirect: " & szSQL, etMiniDebug
+    If SQLExecDirect(lStmt, szSQL, Len(szSQL)) = SQL_SUCCESS_WITH_INFO Then
+      While SQLError(lEnv, lDBC, lStmt, szSqlState, lErr, szErrorMsg, 1024, iSize) <> SQL_NO_DATA_FOUND
+        If iSize > 512 Then iSize = 512
+        szPlan = szPlan & Left(szErrorMsg, iSize)
+      Wend
+    End If
+    
+    If Len(szPlan) > 22 Then szPlan = Mid(szPlan, 23)
+    If szPlan <> "" Then
+      txtPlan.Text = szPlan
+      txtPlan.ColourText
+    Else
+      frmMain.svr.LogEvent "A Query Execution Plan could not be calculated for the specified SQL query.", etMiniDebug
+      txtPlan.Text = "A Query Execution Plan could not be calculated for the specified SQL query."
+    End If
   
-  'Allocate memory for the statement handle.
-  If SQLAllocStmt(lDBC, lStmt) <> 0 Then
-    frmMain.svr.LogEvent "Could not allocate memory for a statement handle!", etMiniDebug
-    MsgBox "Could not allocate memory for a statement handle!", vbCritical, "Error"
-    Exit Sub
-  End If
-  
-  szSQL = "EXPLAIN " & szSQL
-  frmMain.svr.LogEvent "SQLExecDirect: " & szSQL, etMiniDebug
-  If SQLExecDirect(lStmt, szSQL, Len(szSQL)) = SQL_SUCCESS_WITH_INFO Then
-    While SQLError(lEnv, lDBC, lStmt, szSqlState, lErr, szErrorMsg, 1024, iSize) <> SQL_NO_DATA_FOUND
-      If iSize > 512 Then iSize = 512
-      szPlan = szPlan & Left(szErrorMsg, iSize)
-    Wend
-  End If
-  
-  If Len(szPlan) > 22 Then szPlan = Mid(szPlan, 23)
-  If szPlan <> "" Then
-    txtPlan.Text = szPlan
-    txtPlan.ColourText
-  Else
-    frmMain.svr.LogEvent "A Query Execution Plan could not be calculated for the specified SQL query.", etMiniDebug
-    txtPlan.Text = "A Query Execution Plan could not be calculated for the specified SQL query."
-  End If
-
 Cleanup:
-  'Log out and cleanup
-  If lDBC <> 0 Then
-    SQLDisconnect lDBC
-  End If
-  SQLFreeConnect lDBC
-  If lEnv <> 0 Then
-    SQLFreeEnv lEnv
+    'Log out and cleanup
+    If lDBC <> 0 Then
+      SQLDisconnect lDBC
+    End If
+    SQLFreeConnect lDBC
+    If lEnv <> 0 Then
+      SQLFreeEnv lEnv
+    End If
   End If
  
   EndMsg
   Exit Sub
 Err_Handler:
+  If Err.Number = -2147467259 Then 'Query cannot be EXPLAINed or is invalid
+    frmMain.svr.LogEvent "A Query Execution Plan could not be calculated for the specified SQL query.", etMiniDebug
+    txtPlan.Text = "A Query Execution Plan could not be calculated for the specified SQL query."
+    EndMsg
+    If rsPlan.State <> adStateClosed Then rsPlan.Close
+    Set rsPlan = Nothing
+    Exit Sub
+  End If
+  If rsPlan.State <> adStateClosed Then rsPlan.Close
+  Set rsPlan = Nothing
   EndMsg
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.Explain"
 End Sub

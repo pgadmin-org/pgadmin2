@@ -48,6 +48,7 @@ Added support for viewing statistics on PostgreSQL 7.2+
 Cancelling closure of child windows will now cancel application exit.
 Allow sorting of listview/statsview by clicking the column headers.
 Use Primary Keys for updating/deleting rows in the data editor where possible.
+Fix EXPLAIN for PostgreSQL 7.3+
 
 1.2.0 Stable
 ------------
