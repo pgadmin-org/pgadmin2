@@ -1,19 +1,18 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
    ClientHeight    =   6675
-   ClientLeft      =   165
-   ClientTop       =   855
+   ClientLeft      =   3720
+   ClientTop       =   2070
    ClientWidth     =   9675
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   6675
    ScaleWidth      =   9675
-   StartUpPosition =   3  'Windows Default
    Begin MSComDlg.CommonDialog cdlg 
       Left            =   8550
       Top             =   90
@@ -344,7 +343,7 @@ Begin VB.Form frmMain
          NumPanels       =   5
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   5611
+            Object.Width           =   5638
             MinWidth        =   2
             Text            =   "Ready"
             TextSave        =   "Ready"
@@ -544,7 +543,6 @@ Begin VB.Form frmMain
       _Version        =   393216
       TabOrientation  =   1
       Style           =   1
-      Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
       TabPicture(0)   =   "frmMain.frx":14D0C
@@ -557,6 +555,12 @@ Begin VB.Form frmMain
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "sv"
       Tab(1).ControlCount=   1
+      TabCaption(2)   =   "Depend"
+      TabPicture(2)   =   "frmMain.frx":14D44
+      Tab(2).ControlEnabled=   0   'False
+      Tab(2).Control(0)=   "tvDep"
+      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).ControlCount=   1
       Begin MSComctlLib.ListView lv 
          Height          =   2655
          Left            =   45
@@ -602,6 +606,22 @@ Begin VB.Form frmMain
          BorderStyle     =   1
          Appearance      =   1
          NumItems        =   0
+      End
+      Begin MSComctlLib.TreeView tvDep 
+         Height          =   2655
+         Left            =   -74955
+         TabIndex        =   7
+         Top             =   45
+         Width           =   5940
+         _ExtentX        =   10478
+         _ExtentY        =   4683
+         _Version        =   393217
+         Indentation     =   441
+         LabelEdit       =   1
+         LineStyle       =   1
+         Style           =   7
+         ImageList       =   "il"
+         Appearance      =   1
       End
    End
    Begin VB.Image splVertical 
@@ -1078,6 +1098,10 @@ Dim siWidth As Single
   lv.Height = prop.Height - 450
   sv.Width = prop.Width - 45
   sv.Height = prop.Height - 450
+  
+  'treeview depend
+  tvDep.Width = prop.Width - 45
+  tvDep.Height = prop.Height - 450
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Resize"
@@ -1630,7 +1654,12 @@ Dim objNode As Node
     Case "IND+"
       svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Indexes.Refresh
     Case "RUL+"
-      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Rules.Refresh
+      'verify if rule is for table or view
+      If svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables.Exists(objNode.Parent.Text) Then
+        svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Rules.Refresh
+      ElseIf svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Views.Exists(objNode.Parent.Text) Then
+        svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Views(objNode.Parent.Text).Rules.Refresh
+      End If
     Case "TRG+"
       svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Triggers.Refresh
     Case "TYP+"
@@ -2543,7 +2572,7 @@ Dim szTemp As String
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
@@ -2813,7 +2842,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Type source", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Source
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Type target", "property", "property")
@@ -2874,7 +2903,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Handler", "property", "property")
@@ -2951,7 +2980,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
@@ -3014,7 +3043,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Input Type", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InputType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "State Type", "property", "property")
@@ -3084,7 +3113,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Base Type", "property", "property")
@@ -3183,7 +3212,7 @@ Dim vData As Variant
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Returns", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Returns
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
@@ -3281,7 +3310,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Right Type", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.RightOperandType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Operator Function", "property", "property")
@@ -3359,17 +3388,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & QUOTE & Node.Fu
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+      szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
     Else
-      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
+      szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
     sv.ColumnHeaders.Add , , "Sequence", 2000
     sv.ColumnHeaders.Add , , "Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
@@ -3407,7 +3436,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
@@ -3454,7 +3483,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relid = " & ctx.CurrentObject.OID & "::oid")
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relid = " & ctx.CurrentObject.Oid & "::oid")
     sv.ColumnHeaders.Add , , "Statistic"
     sv.ColumnHeaders.Add , , "Value"
   
@@ -3515,17 +3544,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & QUOTE & Node.FullP
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+      szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
     Else
-      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
+      szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
     sv.ColumnHeaders.Add , , "Table", 2000
     sv.ColumnHeaders.Add , , "Tuples Inserted", 2000
     sv.ColumnHeaders.Add , , "Tuples Updated", 2000
@@ -3575,7 +3604,7 @@ Dim vData As Variant
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
@@ -3626,7 +3655,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relid = " & ctx.CurrentObject.OID & "::oid")
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relid = " & ctx.CurrentObject.Oid & "::oid")
     sv.ColumnHeaders.Add , , "Statistic"
     sv.ColumnHeaders.Add , , "Value"
   
@@ -3806,18 +3835,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
-      szSql = szSql & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and schemaname='" & ctx.CurrentNS & "'"
+      szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
+      szSQL = szSQL & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and schemaname='" & ctx.CurrentNS & "'"
     Else
-      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
+      szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
     sv.ColumnHeaders.Add , , "Statistic"
     sv.ColumnHeaders.Add , , "Value"
   
@@ -3891,7 +3920,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
@@ -3961,7 +3990,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "References", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ReferencedTable
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "On Delete", "property", "property")
@@ -4041,18 +4070,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & QUOTE & Node.Full
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSql As String
+Dim szSQL As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
-      szSql = szSql & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
+      szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
+      szSQL = szSQL & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
     Else
-      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
+      szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
     sv.ColumnHeaders.Add , , "Index", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
@@ -4092,7 +4121,7 @@ Dim vData As Variant
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Index Type", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.IndexType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Unique?", "property", "property")
@@ -4143,7 +4172,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND statio.indexrelid = " & ctx.CurrentObject.OID & "::oid")
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND statio.indexrelid = " & ctx.CurrentObject.Oid & "::oid")
     sv.ColumnHeaders.Add , , "Statistic"
     sv.ColumnHeaders.Add , , "Value"
   
@@ -4181,19 +4210,27 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvRules(" & QUOTE & Node.FullPa
 
 Dim lvItem As ListItem
 Dim rul As pgRule
+Dim objTmp
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules.Count(Not ctx.IncludeSys) Then
+  'verify if rule is for table or view
+  If svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables.Exists(Node.Parent.Text) Then
+    Set objTmp = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables
+  ElseIf svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Views.Exists(Node.Parent.Text) Then
+    Set objTmp = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Views
+  End If
+
+  If Node.Children = 0 Or Node.Children <> objTmp(Node.Parent.Text).Rules.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each rul In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules
+    For Each rul In objTmp(Node.Parent.Text).Rules
       If Not (rul.SystemObject And Not ctx.IncludeSys) Then Set rul.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL-" & GetID, rul.Identifier, "rule")
     Next rul
     Node.Text = "Rules (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Rule"
   lv.ColumnHeaders.Add , , "Comment"
-  For Each rul In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules
+  For Each rul In objTmp(Node.Parent.Text).Rules
     If Not (rul.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "RUL-" & GetID, rul.Identifier, "rule", "rule")
       lvItem.SubItems(1) = Replace(rul.Comment, vbCrLf, " ")
@@ -4215,7 +4252,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Event", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.RuleEvent
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Condition", "property", "property")
@@ -4286,7 +4323,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Executes", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Executes
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Event", "property", "property")
@@ -4351,7 +4388,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Input Function", "property", "property")
@@ -4429,10 +4466,13 @@ Dim lvItem As ListItem
 
   lv.ColumnHeaders.Add , , "Property"
   lv.ColumnHeaders.Add , , "Value"
+  If Node.Children = 0 Then
+    Set ctx.CurrentObject.Rules.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL+" & GetID, "Rules (" & ctx.CurrentObject.Rules.Count(Not ctx.IncludeSys) & ")", "rule")
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  lvItem.SubItems(1) = ctx.CurrentObject.Oid
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
@@ -4506,12 +4546,14 @@ Dim vData As Variant
       Set ctx.CurrentObject = svr
       tvServer Node
       If ctx.dbVer >= 7.2 Then svServer Node
+      tvDepend Node
 
     Case "DAT+" 'Databases
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       tvDatabases Node
       If ctx.dbVer >= 7.2 Then svDatabases Node
+      tvDepend Node
         
     Case "DAT-" 'Database
       ctx.CurrentDB = Node.Text
@@ -4519,12 +4561,14 @@ Dim vData As Variant
       Set ctx.CurrentObject = svr.Databases(Node.Text)
       tvDatabase Node
       If ctx.dbVer >= 7.2 Then svDatabase Node
+      tvDepend Node
       
     Case "GRP+" 'Groups
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       tvGroups Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "GRP-" 'Group
       ctx.CurrentDB = ""
@@ -4532,25 +4576,29 @@ Dim vData As Variant
       Set ctx.CurrentObject = svr.Groups(Node.Text)
       tvGroup Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "USR+" 'Users
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       tvUsers Node
       If ctx.dbVer >= 7.2 Then ClearStats
-      
+      tvDepend Node
+
     Case "USR-" 'User
       ctx.CurrentDB = ""
       ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Users(Node.Text)
       tvUser Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "CST+" 'Casts
       ctx.CurrentDB = Node.Parent.Text
       ctx.CurrentNS = ""
       tvCasts Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
     
     Case "CST-" 'Cast
       ctx.CurrentDB = Node.Parent.Parent.Text
@@ -4558,12 +4606,14 @@ Dim vData As Variant
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Casts(Node.Text)
       tvCast Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "LNG+" 'Languages
       ctx.CurrentDB = Node.Parent.Text
       ctx.CurrentNS = ""
       tvLanguages Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
 
     Case "LNG-" 'Language
       ctx.CurrentDB = Node.Parent.Parent.Text
@@ -4571,12 +4621,14 @@ Dim vData As Variant
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text)
       tvLanguage Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "NSP+" 'Namespaces
       ctx.CurrentDB = Node.Parent.Text
       ctx.CurrentNS = ""
       tvNamespaces Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
 
     Case "NSP-" 'Namespaces
       ctx.CurrentDB = Node.Parent.Parent.Text
@@ -4584,12 +4636,14 @@ Dim vData As Variant
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Namespaces(Node.Text)
       tvNamespace Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "AGG+" 'Aggregates
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvAggregates Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "AGG-" 'Aggregate
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4597,12 +4651,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvAggregate Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "DOM+" 'Domains
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvDomains Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "DOM-" 'Domain
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4610,12 +4666,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvDomain Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "CNV+" 'Conversion
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvConversions Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "CNV-" 'Conversion
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4623,12 +4681,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvConversion Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "FNC+" 'Functions
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvFunctions Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "FNC-" 'Function
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4636,12 +4696,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvFunction Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "OPR+" 'Operators
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvOperators Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "OPR-" 'Operator
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4649,12 +4711,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvOperator Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "SEQ+" 'Sequences
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvSequences Node
       If ctx.dbVer >= 7.2 Then svSequences Node
+      tvDepend Node
 
     Case "SEQ-" 'Sequence
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4662,12 +4726,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvSequence Node
       If ctx.dbVer >= 7.2 Then svSequence Node
+      tvDepend Node
       
     Case "TBL+" 'Tables
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvTables Node
       If ctx.dbVer >= 7.2 Then svTables Node
+      tvDepend Node
       
     Case "TBL-" 'Table
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4675,12 +4741,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvTable Node
       If ctx.dbVer >= 7.2 Then svTable Node
+      tvDepend Node
       
     Case "CHK+" 'Checks
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvChecks Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "CHK-" 'Check
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4688,12 +4756,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvCheck Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
     
     Case "COL+" 'Columns
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvColumns Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "COL-" 'Column
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4701,12 +4771,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvColumn Node
       If ctx.dbVer >= 7.2 Then svColumn Node
+      tvDepend Node
       
     Case "FKY+" 'Foreign Keys
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvForeignKeys Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "FKY-" 'Foreign Key
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4714,18 +4786,21 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvForeignKey Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "REL+" 'Relationships
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Parent.Text
       tvRelationships Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "IND+" 'Indexes
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvIndexes Node
       If ctx.dbVer >= 7.2 Then svIndexes Node
+      tvDepend Node
       
     Case "IND-" 'Index
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4733,25 +4808,34 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvIndex Node
       If ctx.dbVer >= 7.2 Then svIndex Node
+      tvDepend Node
 
     Case "RUL+" 'Rules
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvRules Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
   
     Case "RUL-" 'Rule
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
+      'verify if rule is for table or view
+      If svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables.Exists(Node.Parent.Parent.Text) Then
+        Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
+      ElseIf svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Views.Exists(Node.Parent.Parent.Text) Then
+        Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Views(Node.Parent.Parent.Text).Rules(Node.Text)
+      End If
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvRule Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "TRG+" 'Triggers
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvTriggers Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "TRG-" 'Trigger
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4759,12 +4843,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvTrigger Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "TYP+" 'Types
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvTypes Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
 
     Case "TYP-" 'Type
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4772,12 +4858,14 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvType Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "VIE+" 'Views
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       ctx.CurrentNS = Node.Parent.Text
       tvViews Node
       If ctx.dbVer >= 7.2 Then ClearStats
+      tvDepend Node
       
     Case "VIE-" 'View
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4785,7 +4873,8 @@ Dim vData As Variant
       ctx.CurrentNS = Node.Parent.Parent.Text
       tvView Node
       If ctx.dbVer >= 7.2 Then ClearStats
-      
+      tvDepend Node
+    
   End Select
     
   AutoSizeColumnLv lv
@@ -4916,7 +5005,12 @@ Dim szPath() As String
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
     Case "RUL-" 'Rule
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(szPath(6)).Rules(Item.Text)
+      'verify if rule is for table or view
+      If svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables.Exists(szPath(6)) Then
+        Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(szPath(6)).Rules(Item.Text)
+      Else
+        Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Views(szPath(6)).Rules(Item.Text)
+      End If
       ctx.CurrentDB = ctx.CurrentObject.Database
       ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
@@ -4938,7 +5032,7 @@ Dim szPath() As String
       ctx.CurrentDB = ctx.CurrentObject.Database
       ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
-      
+  
   End Select
   
   Exit Sub
@@ -4999,4 +5093,173 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.sv_ColumnClick(" & QUOT
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.sv_ColumnClick"
+End Sub
+
+Private Sub prop_Click(PreviousTab As Integer)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.prop_Click(" & PreviousTab & ")", etFullDebug
+    
+  If prop.Tab = 2 Then
+    'refresh depending
+    'Simulate a node click to refresh the ListDomain
+    tv_NodeClick tv.SelectedItem
+  End If
+
+  Exit Sub
+Err_Handler: LogError Err.Number, Err.Description, App.Title & ":frmMain.prop_Click"
+End Sub
+
+'show dependig object database
+Private Sub tvDepend(ByVal Node As MSComctlLib.Node)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDepend(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim objTmp
+Dim objDep
+Dim szKey As String
+
+  ' Depending.
+  If prop.Tab <> 2 Then
+    tvDep.Nodes.Clear
+    tvDep.Nodes.Add , , "DEP-" & GetID, "Depending not visualized.", "property", "property"
+    Exit Sub
+  ElseIf Len(ctx.CurrentDB) = 0 Then
+    tvDep.Nodes.Clear
+    tvDep.Nodes.Add , , "DEP-" & GetID, "Depending are only available in this.", "property", "property"
+    Exit Sub
+  ElseIf ctx.dbVer < 7.3 Then
+    tvDep.Nodes.Clear
+    tvDep.Nodes.Add , , "DEP-" & GetID, "Depending are only available with PostgreSQL 7.3 or higher.", "property", "property"
+    Exit Sub
+  End If
+      
+  tvDep.Nodes.Clear
+  Select Case Left(Node.Key, 4)
+    Case "SVR-", "DAT+", "DAT-", "GRP+", "GRP-", "USR+", "USR-"
+      tvDep.Nodes.Clear
+      tvDep.Nodes.Add , , "DEP-" & GetID, "Depending are only available in this.", "property", "property"
+      
+    Case "CST-", "LNG-", "NSP-", "AGG-", "DOM-", "CNV-", "FNC-", "OPR-", "SEQ-", "TBL-", "TYP-", "VIE-"
+      AddDepRef ctx.CurrentObject
+    
+    Case "CST+" 'Casts
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Casts
+        AddDepRef objTmp
+      Next
+    
+    Case "LNG+" 'Languages
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Languages
+        AddDepRef objTmp
+      Next
+
+    Case "NSP+" 'Namespaces
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces
+        AddDepRef objTmp
+      Next
+    
+    Case "AGG+" 'Aggregates
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Aggregates
+        AddDepRef objTmp
+      Next
+      
+    Case "DOM+" 'Domains
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Domains
+        AddDepRef objTmp
+      Next
+      
+    Case "CNV+" 'Conversion
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Conversions
+        AddDepRef objTmp
+      Next
+      
+    Case "FNC+" 'Functions
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Functions
+        AddDepRef objTmp
+      Next
+      
+    Case "OPR+" 'Operators
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Operators
+        AddDepRef objTmp
+      Next
+      
+    Case "SEQ+" 'Sequences
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences
+        AddDepRef objTmp
+      Next
+      
+    Case "TBL+" 'Tables
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables
+        AddDepRef objTmp
+      Next
+    
+    Case "CHK+", "CHK-", "COL+", "COL-", "FKY+", "FKY-", "REL+", "IND+", "IND-", "RUL+", "RUL-", "TRG+", "TRG-"
+      tvDep.Nodes.Clear
+      tvDep.Nodes.Add , , "DEP-" & GetID, "Depending are only available in this.", "property", "property"
+      
+    Case "TYP+" 'Types
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Types
+        AddDepRef objTmp
+      Next
+    
+    Case "VIE+" 'Views
+      For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Views
+        AddDepRef objTmp
+      Next
+      
+  End Select
+  
+  Exit Sub
+Err_Handler: LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDepend"
+End Sub
+
+Private Sub AddDepRef(CurrentObj)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.AddDepRef(" & QUOTE & CurrentObj.ObjectType & QUOTE & ")", etFullDebug
+
+Dim objDep
+Dim szKey As String
+Dim szKey1 As String
+Dim szIdentifier As String
+Dim szImg As String
+
+  szKey = "DEP-" & GetID
+  szImg = NameImageByObjectType(CurrentObj.ObjectType)
+  tvDep.Nodes.Add , , szKey, CurrentObj.Identifier, szImg, szImg
+  
+  'add depend
+  If CurrentObj.Dependent.Count > 0 Then
+    szKey1 = "DEP-" & GetID
+    tvDep.Nodes.Add szKey, tvwChild, szKey1, "Depend", "property", "property"
+    For Each objDep In CurrentObj.Dependent
+      
+      szIdentifier = objDep.Identifier
+      Select Case objDep.ObjectType
+        Case "Aggregate", "Domain", "Conversion", "Function", "Operator", "Sequence", "Table", "Type", "View"
+          szIdentifier = objDep.Namespace & "." & szIdentifier
+      End Select
+      
+      szImg = NameImageByObjectType(objDep.ObjectType)
+      tvDep.Nodes.Add szKey1, tvwChild, "DEP-" & GetID, szIdentifier, szImg, szImg
+    Next
+  End If
+  
+  'add reference
+  If CurrentObj.Referenced.Count > 0 Then
+    szKey1 = "REF-" & GetID
+    tvDep.Nodes.Add szKey, tvwChild, szKey1, "Reference", "property", "property"
+    For Each objDep In CurrentObj.Referenced
+      
+      szIdentifier = objDep.Identifier
+      Select Case objDep.ObjectType
+        Case "Aggregate", "Domain", "Conversion", "Function", "Operator", "Sequence", "Table", "Type", "View"
+          szIdentifier = objDep.Namespace & "." & szIdentifier
+      End Select
+      
+      szImg = NameImageByObjectType(objDep.ObjectType)
+      tvDep.Nodes.Add szKey1, tvwChild, "REF-" & GetID, szIdentifier, szImg, szImg
+    Next
+  End If
+
+  Exit Sub
+Err_Handler: LogError Err.Number, Err.Description, App.Title & ":frmMain.AddDepRef"
 End Sub

@@ -39,6 +39,8 @@ Private cnDatabase As Connection
 Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
+Private colDependent As Collection
+Private colReferenced As Collection
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
@@ -165,7 +167,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Double)
+Friend Property Let Oid(ByVal vData As Double)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let OID(" & vData & ")", etFullDebug
 
@@ -174,12 +176,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let OID(" & 
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
-Public Property Get OID() As Double
-Attribute OID.VB_Description = "Returns the Operator OID."
+Public Property Get Oid() As Double
+Attribute Oid.VB_Description = "Returns the Operator OID."
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get OID()", etFullDebug
 
-  OID = dOID
+  Oid = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -602,3 +604,32 @@ Dim szLOT As String
   Exit Sub
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
+
+'Return the dependent object is in
+Public Function Dependent() As Collection
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Function Dependent()", etFullDebug
+  
+  If colDependent Is Nothing Then Set colDependent = DepRef(dOID, cnDatabase, Me.Database, EDR_Depend)
+  Set Dependent = colDependent
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Function
+
+'Return the referenced object is in
+Public Function Referenced() As Collection
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Function Dependent()", etFullDebug
+  
+  If colReferenced Is Nothing Then Set colReferenced = DepRef(dOID, cnDatabase, Me.Database, EDR_Reference)
+  Set Referenced = colReferenced
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Function
+
+
+
+
+

@@ -258,5 +258,3 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Definition(
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
-
-

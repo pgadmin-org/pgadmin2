@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.UserControl ScrollObjDb 
    ClientHeight    =   375
    ClientLeft      =   0
@@ -195,6 +195,14 @@ Dim szObjectType As String
         Case "Index"
           szIdentifier = GetIdentifier(CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(szTable), "Indexes", VbGet), szObjIdentifier, ETypeMove)
         
+        Case "Rule"
+          'verify if rule is for table or view
+          If frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Exists(szTable) Then
+            szIdentifier = GetIdentifier(CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(szTable), szObjectType & "s", VbGet), szObjIdentifier, ETypeMove)
+          ElseIf frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Exists(szTable) Then
+            szIdentifier = GetIdentifier(CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(szTable), szObjectType & "s", VbGet), szObjIdentifier, ETypeMove)
+          End If
+        
         Case Else
           szIdentifier = GetIdentifier(CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(szTable), szObjectType & "s", VbGet), szObjIdentifier, ETypeMove)
       
@@ -229,6 +237,14 @@ Dim szObjectType As String
         
         Case "Index"
           objForm.Initialise szDatabase, szNamespace, CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(szTable), "Indexes", VbGet, szIdentifier)
+        
+        Case "Rule"
+          'verify if rule is for table or view
+          If frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Exists(szTable) Then
+            objForm.Initialise szDatabase, szNamespace, frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(szTable).Rules(szIdentifier)
+          ElseIf frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Exists(szTable) Then
+            objForm.Initialise szDatabase, szNamespace, frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(szTable).Rules(szIdentifier)
+          End If
         
         Case Else
           objForm.Initialise szDatabase, szNamespace, CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(szTable), szObjectType & "s", VbGet, szIdentifier)

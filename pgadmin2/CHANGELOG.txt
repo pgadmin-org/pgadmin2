@@ -26,6 +26,8 @@ Added a dialogue to allow column definition to be copied from another table in C
 Allow scroll through objects in property dialogues [Frank Lupo].
 Added Copy/Paste options for most object types [Frank Lupo].
 Added support for Conversions [Frank Lupo].
+Added support for rules on views [Frank Lupo].
+Added support for dependency checking [Frank Lupo].
 
 1.4.12
 ------

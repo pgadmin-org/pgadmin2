@@ -183,7 +183,12 @@ Dim szPath() As String
     
     Case "Rule"
       szType = "RUL-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables(ctx.CurrentObject.Table).Rules.Remove ctx.CurrentObject.Identifier
+      'verify if rule is for table or view
+      If frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables.Exists(ctx.CurrentObject.Table) Then
+        frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables(ctx.CurrentObject.Table).Rules.Remove ctx.CurrentObject.Identifier
+      ElseIf frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Views.Exists(ctx.CurrentObject.Table) Then
+        frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Views(ctx.CurrentObject.Table).Rules.Remove ctx.CurrentObject.Identifier
+      End If
       objNode.Parent.Text = "Rules (" & objNode.Parent.Children - 1 & ")"
       frmMain.tv.Nodes.Remove objNode.Index
     

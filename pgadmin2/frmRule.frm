@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmRule 
    BorderStyle     =   1  'Fixed Single
@@ -257,7 +257,7 @@ Begin VB.Form frmRule
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   2
+         NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmRule.frx":06DE
             Key             =   "table"
@@ -265,6 +265,10 @@ Begin VB.Form frmRule
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmRule.frx":0838
             Key             =   "event"
+         EndProperty
+         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmRule.frx":1112
+            Key             =   "view"
          EndProperty
       EndProperty
    End
@@ -331,7 +335,12 @@ Dim objNewRule As pgRule
     Set objNewRule = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Add(txtProperties(0).Text, cboProperties(1).Text, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(1).Text, hbxProperties(2).Text)
     
     'Add a new node and update the text on the parent
-    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Tag
+    'verify if rule is for table or view
+    If frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Exists(cboProperties(0).SelectedItem.Tag.Identifier) Then
+      Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Tag
+    ElseIf frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Exists(cboProperties(0).SelectedItem.Tag.Identifier) Then
+      Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Tag
+    End If
     Set objNewRule.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "RUL-" & GetID, txtProperties(0).Text, "rule")
     objNode.Text = "Rules (" & objNode.Children & ")"
 
@@ -359,6 +368,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.Initialise(" & QUOTE & 
 
 Dim X As Integer
 Dim objTable As pgTable
+Dim objView As pgView
 Dim objItem As ComboItem
 Dim vArgument As Variant
   
@@ -379,10 +389,16 @@ Dim vArgument As Variant
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
       If Not objTable.SystemObject Then
-        Set objItem = cboProperties(0).ComboItems.Add(, , objTable.FormattedID, "table")
+        Set objItem = cboProperties(0).ComboItems.Add(, "TBL-" & GetID, objTable.FormattedID, "table")
         Set objItem.Tag = objTable
       End If
     Next objTable
+    For Each objView In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views
+      If Not objView.SystemObject Then
+        Set objItem = cboProperties(0).ComboItems.Add(, "VIE-" & GetID, objView.FormattedID, "view")
+        Set objItem.Tag = objView
+      End If
+    Next objView
     cboProperties(1).ComboItems.Add , , "INSERT", "event"
     cboProperties(1).ComboItems.Add , , "UPDATE", "event"
     cboProperties(1).ComboItems.Add , , "DELETE", "event"
@@ -406,8 +422,13 @@ Dim vArgument As Variant
 
     Me.Caption = "Rule: " & objRule.Identifier
     txtProperties(0).Text = objRule.Name
-    txtProperties(1).Text = objRule.OID
-    Set objItem = cboProperties(0).ComboItems.Add(, , objRule.Table, "table")
+    txtProperties(1).Text = objRule.Oid
+    
+    If frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Exists(objRule.Table) Then
+      Set objItem = cboProperties(0).ComboItems.Add(, , objRule.Table, "table")
+    Else
+      Set objItem = cboProperties(0).ComboItems.Add(, , objRule.Table, "view")
+    End If
     objItem.Selected = True
     Set objItem = cboProperties(1).ComboItems.Add(, , objRule.RuleEvent, "event")
     objItem.Selected = True

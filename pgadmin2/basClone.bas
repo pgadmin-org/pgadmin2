@@ -259,12 +259,21 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.CloneView(" & QUOTE & szNewName & QUOTE & "," & QUOTE & szDatabase & QUOTE & "," & QUOTE & szNamespace & QUOTE & ")", etFullDebug
 
 Dim objNewView As pgView
+Dim objRule As pgRule
 
   Set objNewView = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Add(szNewName, ObjDbClone.Definition, ObjDbClone.Comment)
   
   'clone acl
   CloneAcl objNewView
 
+  'create rule
+  StartMsg "Creating Rules..."
+  For Each objRule In ObjDbClone.Rules
+    If Not objNewView.Rules.Exists(objRule.Name) Then
+      objNewView.Rules.Add objRule.Name, objRule.RuleEvent, objRule.Condition, objRule.DoInstead, objRule.Action, objRule.Comment
+    End If
+  Next
+  
   Set CloneView = objNewView
   Exit Function
   

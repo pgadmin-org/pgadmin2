@@ -545,22 +545,99 @@ Dim ii As Integer
 Dim szKey As String
 Dim objItem As ListItem
 
-    With lv
-        szKey = CStr(Now)
+  With lv
+    szKey = CStr(Now)
 
-        'frank_lupo add new element title in listview
-        Set objItem = .ListItems.Add(1, szKey, .ColumnHeaders(1).Text & "  ")
-        SendMessage .hwnd, LVM_SETCOLUMNWIDTH, 0, LVSCW_AUTOSIZE
+    'frank_lupo add new element title in listview
+    Set objItem = .ListItems.Add(1, szKey, .ColumnHeaders(1).Text & "  ")
+    SendMessage .hwnd, LVM_SETCOLUMNWIDTH, 0, LVSCW_AUTOSIZE
 
-        For ii = 1 To .ColumnHeaders.Count - 1
-            objItem.SubItems(ii) = .ColumnHeaders(ii + 1).Text & "  "
-            SendMessage .hwnd, LVM_SETCOLUMNWIDTH, ii, LVSCW_AUTOSIZE
-        Next
+    For ii = 1 To .ColumnHeaders.Count - 1
+      objItem.SubItems(ii) = .ColumnHeaders(ii + 1).Text & "  "
+      SendMessage .hwnd, LVM_SETCOLUMNWIDTH, ii, LVSCW_AUTOSIZE
+    Next
 
-        'frank_lupo drop element title in listview
-        .ListItems.Remove szKey
-    End With
+    'frank_lupo drop element title in listview
+    .ListItems.Remove szKey
+  End With
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.AutoSizeColumnLv"
 End Sub
+
+Public Function NameImageByObjectType(ObjectType As String) As String
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.NameImageByObjectType(" & ObjectType & ")", etFullDebug
+
+  Select Case ObjectType
+    Case "Aggregate"
+      NameImageByObjectType = "aggregate"
+          
+    Case "Cast"
+      NameImageByObjectType = "cast"
+          
+    Case "Column"
+      NameImageByObjectType = "column"
+          
+    Case "Database"
+      NameImageByObjectType = "database"
+          
+    Case "Domain"
+      NameImageByObjectType = "domain"
+          
+    Case "Conversion"
+      NameImageByObjectType = "conversion"
+          
+    Case "Foreign Key"
+      NameImageByObjectType = "foreignkey"
+          
+    Case "Function"
+      NameImageByObjectType = "function"
+
+    Case "Group"
+      NameImageByObjectType = "group"
+    
+    Case "Index"
+      NameImageByObjectType = "index"
+          
+    Case "Language"
+      NameImageByObjectType = "language"
+          
+    Case "Schema"
+      NameImageByObjectType = "namespace"
+          
+    Case "Operator"
+      NameImageByObjectType = "operator"
+          
+    Case "Rule"
+      NameImageByObjectType = "rule"
+          
+    Case "Server"
+      NameImageByObjectType = "server"
+          
+    Case "Sequence"
+      NameImageByObjectType = "sequence"
+
+    Case "Table"
+      NameImageByObjectType = "table"
+          
+    Case "Trigger"
+      NameImageByObjectType = "trigger"
+        
+    Case "Type"
+      NameImageByObjectType = "type"
+          
+    Case "User"
+      NameImageByObjectType = "user"
+          
+    Case "View"
+      NameImageByObjectType = "view"
+          
+    Case Else
+      NameImageByObjectType = "property"
+        
+  End Select
+
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.NameImageByObjectType"
+End Function

@@ -398,7 +398,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Double)
+Friend Property Let Oid(ByVal vData As Double)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let OID(" & vData & ")", etFullDebug
 
@@ -407,12 +407,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let OID(" & 
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
-Public Property Get OID() As Double
-Attribute OID.VB_Description = "Returns the OID of the Database."
+Public Property Get Oid() As Double
+Attribute Oid.VB_Description = "Returns the OID of the Database."
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get OID()", etFullDebug
 
-  OID = dOID
+  Oid = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -986,6 +986,14 @@ Dim vTemp As Variant
         End If
       Next vObject
       
+      'Conversions
+      For Each vObject In vNamespaceObject.Conversions
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vObject
+      
       'Domains
       For Each vObject In vNamespaceObject.Domains
         If Not vObject.SystemObject Then
@@ -1063,6 +1071,14 @@ Dim vTemp As Variant
         If Not vObject.SystemObject Then
           Set arrObjects(UBound(arrObjects)) = vObject
           ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        
+          'Rules
+          For Each vChildObject In vObject.Rules
+            If Not vChildObject.SystemObject Then
+              Set arrObjects(UBound(arrObjects)) = vChildObject
+              ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+            End If
+          Next vChildObject
         End If
       Next vObject
   
@@ -1075,7 +1091,7 @@ Dim vTemp As Variant
   'Now bubble sort the array by OID.
   For X = UBound(arrObjects) To LBound(arrObjects) Step -1
     For Y = LBound(arrObjects) + 1 To X
-      If arrObjects(Y - 1).OID > arrObjects(Y).OID Then
+      If arrObjects(Y - 1).Oid > arrObjects(Y).Oid Then
         Set vTemp = arrObjects(Y - 1)
         Set arrObjects(Y - 1) = arrObjects(Y)
         Set arrObjects(Y) = vTemp

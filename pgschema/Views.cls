@@ -162,7 +162,7 @@ Dim rs As New Recordset
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = dOID
+  objNewMember.Oid = dOID
   objNewMember.iName = szName
   objNewMember.iOwner = szOwner
   objNewMember.NamespaceOID = dNamespaceOID
@@ -297,7 +297,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
-
+  
   'Generate/Execute SQL to drop the View.
   szSQL = "DROP VIEW " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase

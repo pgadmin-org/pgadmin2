@@ -236,6 +236,10 @@ Public Sub AutoSizeColumnLv(lv As ListView)
   Call basMisc.AutoSizeColumnLv(lv)
 End Sub
 
+Public Function NameImageByObjectType(ObjectType As String) As String
+  NameImageByObjectType = basMisc.NameImageByObjectType(ObjectType)
+End Function
+
 ''''''''''''''''''''''''''''''''''''''''''''''''''
 'Module: basPatch
 'File: basPatch.bas

@@ -204,7 +204,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Double)
+Friend Property Let Oid(ByVal vData As Double)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Let OID(" & vData & ")", etFullDebug
 
@@ -213,12 +213,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Let OID(" & vDa
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
-Public Property Get OID() As Double
-Attribute OID.VB_Description = "Returns the Index OID."
+Public Property Get Oid() As Double
+Attribute Oid.VB_Description = "Returns the Index OID."
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get OID()", etFullDebug
 
-  OID = dOID
+  Oid = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
