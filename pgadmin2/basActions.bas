@@ -51,9 +51,17 @@ Dim szPath() As String
     End If
     If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
       If ctx.CurrentObject.ObjectType = "Table" Then
-        If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restore from Revision Control later, however any data in the table will be lost.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+        If ctx.CurrentObject.RCStatus <> rcUpToDate Then
+          If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later, however any data in the table will be lost." & vbCrLf & vbCrLf & "NOTE: This table is not up to date in the Revision Control system, so it may not be possible to restore to the current state.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+        Else
+          If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later, however any data in the table will be lost.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+        End If
       Else
-        If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "These objects may be restore from Revision Control later.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+        If ctx.CurrentObject.RCStatus <> rcUpToDate Then
+          If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "NOTE: This object is not up to date in the Revision Control system, so it may not be possible to restore to the current state.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+        Else
+          If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+        End If
       End If
     Else
       If ctx.CurrentObject.ObjectType = "Table" Then
