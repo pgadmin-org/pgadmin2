@@ -1,8 +1,13 @@
+1.4.x
+-----
+
+Allow dropping of Rules correctly with PostgreSQL < 7.3.
+
 1.4.2
 -----
 
 Fix annoying initialisation bug in frmView that prevented viewing View details.
-Fix highlighted texbox backgroud colour in data editor.
+Fix highlighted texbox background colour in data editor.
 Display Element Type in Type properties correctly.
 
 1.4.1

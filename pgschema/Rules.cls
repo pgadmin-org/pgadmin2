@@ -304,7 +304,11 @@ objServer.iLogEvent "Entering " & App.Title & ":Rules.Remove(" & QUOTE & Key & Q
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Rule.
-  szSQL = "DROP RULE " & mCol(ULEncode(Key)).FormattedID & " ON " & fmtID(szTable)
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP RULE " & mCol(ULEncode(Key)).FormattedID & " ON " & fmtID(szTable)
+  Else
+    szSQL = "DROP RULE " & mCol(ULEncode(Key)).FormattedID
+  End If
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,
