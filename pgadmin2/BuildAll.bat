@@ -1,3 +1,4 @@
+@echo off
 REM pgAdmin II - PostgreSQL Tools
 REM Copyright (C) 2001, The pgAdmin Development Team
 REM This software is released under the pgAdmin Public Licence

@@ -58,7 +58,7 @@
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="PostgreSQL Documentation">
-		<param name="Local" value="html\postgresql\postgres.html">
+		<param name="Local" value="html\postgresql\index.html">
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
@@ -69,6 +69,11 @@
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="User's Guide">
 			<param name="Local" value="html\postgresql\user.html">
+			<param name="ImageNumber" value="21">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Administrator's Guide">
+			<param name="Local" value="html\postgresql\admin.html">
 			<param name="ImageNumber" value="21">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">

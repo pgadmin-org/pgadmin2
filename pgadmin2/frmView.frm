@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmView 
    BorderStyle     =   1  'Fixed Single
@@ -73,37 +73,108 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdLoad"
-      Tab(1).Control(1)=   "hbxProperties(1)"
+      Tab(1).Control(0)=   "hbxProperties(1)"
+      Tab(1).Control(1)=   "cmdLoad"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":0182
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(0)"
-      Tab(2).Control(1)=   "cmdRemove"
-      Tab(2).Control(2)=   "fraAdd"
-      Tab(2).Control(3)=   "cmdAdd"
+      Tab(2).Control(0)=   "fraAdd"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "cmdRemove"
+      Tab(2).Control(3)=   "lvProperties(0)"
       Tab(2).ControlCount=   4
-      Begin VB.CommandButton cmdAdd 
-         Caption         =   "&Add"
-         Height          =   375
-         Left            =   -74865
-         TabIndex        =   9
-         ToolTipText     =   "Add the defined entry."
-         Top             =   3915
-         Width           =   1230
-      End
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
          Height          =   1815
          Left            =   -74865
-         TabIndex        =   21
-         Top             =   4365
+         TabIndex        =   15
+         Top             =   4410
          Width           =   5190
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "&Rule"
+            Height          =   195
+            Index           =   5
+            Left            =   3420
+            TabIndex        =   23
+            ToolTipText     =   "Give rule privilege to the selected entity."
+            Top             =   990
+            Width           =   1590
+         End
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "&Insert"
+            Height          =   195
+            Index           =   4
+            Left            =   3420
+            TabIndex        =   22
+            ToolTipText     =   "Give insert privilege to the selected entity."
+            Top             =   720
+            Width           =   1590
+         End
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "&Update"
+            Height          =   195
+            Index           =   2
+            Left            =   225
+            TabIndex        =   20
+            ToolTipText     =   "Give update privilege to the selected entity."
+            Top             =   1260
+            Width           =   1590
+         End
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "&Select"
+            Height          =   195
+            Index           =   1
+            Left            =   225
+            TabIndex        =   19
+            ToolTipText     =   "Give select privilege to the selected entity."
+            Top             =   990
+            Width           =   1590
+         End
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "&All"
+            Height          =   195
+            Index           =   0
+            Left            =   225
+            TabIndex        =   18
+            ToolTipText     =   "Give all privileges to the selected entity."
+            Top             =   720
+            Width           =   1590
+         End
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "&Delete"
+            Height          =   195
+            Index           =   3
+            Left            =   225
+            TabIndex        =   21
+            ToolTipText     =   "Give delete privilege to the selected entity."
+            Top             =   1530
+            Width           =   1590
+         End
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "R&eferences"
+            Height          =   195
+            Index           =   6
+            Left            =   3420
+            TabIndex        =   24
+            ToolTipText     =   "Give references privilege to the selected entity."
+            Top             =   1260
+            Width           =   1590
+         End
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "&Trigger"
+            Height          =   195
+            Index           =   7
+            Left            =   3420
+            TabIndex        =   25
+            ToolTipText     =   "Give trigger privilege to the selected entity."
+            Top             =   1530
+            Width           =   1590
+         End
          Begin MSComctlLib.ImageCombo cboEntities 
             Height          =   330
             Left            =   1260
-            TabIndex        =   11
+            TabIndex        =   16
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
             Top             =   315
             Width           =   3705
@@ -115,66 +186,25 @@ Begin VB.Form frmView
             Locked          =   -1  'True
             ImageList       =   "il"
          End
-         Begin VB.CheckBox chkPrivilege 
-            Caption         =   "&Rule"
-            Height          =   195
-            Index           =   4
-            Left            =   3420
-            TabIndex        =   16
-            ToolTipText     =   "Give rule privilege to the selected entity."
-            Top             =   1170
-            Width           =   1590
-         End
-         Begin VB.CheckBox chkPrivilege 
-            Caption         =   "&Insert"
-            Height          =   195
-            Index           =   3
-            Left            =   3420
-            TabIndex        =   15
-            ToolTipText     =   "Give insert privilege to the selected entity."
-            Top             =   855
-            Width           =   1590
-         End
-         Begin VB.CheckBox chkPrivilege 
-            Caption         =   "&Update/Delete"
-            Height          =   195
-            Index           =   2
-            Left            =   225
-            TabIndex        =   14
-            ToolTipText     =   "Give update & delete privilege to the selected entity."
-            Top             =   1440
-            Width           =   1590
-         End
-         Begin VB.CheckBox chkPrivilege 
-            Caption         =   "&Select"
-            Height          =   195
-            Index           =   1
-            Left            =   225
-            TabIndex        =   13
-            ToolTipText     =   "Give select privilege to the selected entity."
-            Top             =   1170
-            Width           =   1590
-         End
-         Begin VB.CheckBox chkPrivilege 
-            Caption         =   "&All"
-            Height          =   195
-            Index           =   0
-            Left            =   225
-            TabIndex        =   12
-            ToolTipText     =   "Give all privileges to the selected entity."
-            Top             =   855
-            Width           =   1590
-         End
          Begin VB.Label lblProperties 
             AutoSize        =   -1  'True
             Caption         =   "User/Group"
             Height          =   195
             Index           =   3
             Left            =   180
-            TabIndex        =   22
+            TabIndex        =   17
             Top             =   360
             Width           =   840
          End
+      End
+      Begin VB.CommandButton cmdAdd 
+         Caption         =   "&Add"
+         Height          =   375
+         Left            =   -74865
+         TabIndex        =   9
+         ToolTipText     =   "Add the defined entry."
+         Top             =   3915
+         Width           =   1230
       End
       Begin VB.CommandButton cmdRemove 
          Caption         =   "&Remove"
@@ -222,7 +252,7 @@ Begin VB.Form frmView
          Caption         =   "&Load"
          Height          =   330
          Left            =   -74865
-         TabIndex        =   20
+         TabIndex        =   14
          ToolTipText     =   "Load a query."
          Top             =   5895
          Width           =   945
@@ -309,7 +339,7 @@ Begin VB.Form frmView
          Height          =   195
          Index           =   2
          Left            =   135
-         TabIndex        =   19
+         TabIndex        =   13
          Top             =   1530
          Width           =   465
       End
@@ -319,7 +349,7 @@ Begin VB.Form frmView
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   18
+         TabIndex        =   12
          Top             =   1125
          Width           =   285
       End
@@ -329,7 +359,7 @@ Begin VB.Form frmView
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   17
+         TabIndex        =   11
          Top             =   720
          Width           =   420
       End
@@ -494,6 +524,8 @@ Dim vEntity As Variant
       If InStr(1, objItem.SubItems(1), "Delete") <> 0 Then lACL = lACL + aclDelete
       If InStr(1, objItem.SubItems(1), "Insert") <> 0 Then lACL = lACL + aclInsert
       If InStr(1, objItem.SubItems(1), "Rule") <> 0 Then lACL = lACL + aclRule
+      If InStr(1, objItem.SubItems(1), "References") <> 0 Then lACL = lACL + aclReferences
+      If InStr(1, objItem.SubItems(1), "Trigger") <> 0 Then lACL = lACL + aclTrigger
       frmMain.svr.Databases(szDatabase).Views(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
@@ -526,6 +558,12 @@ Dim szAccess() As String
   szDatabase = szDB
   hbxProperties(1).Wordlist = ctx.AutoHighlight
     
+  'ACLs are different in 7.2+ and have 2 extra privileges
+  If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+    chkPrivilege(6).Enabled = False
+    chkPrivilege(7).Enabled = False
+  End If
+  
   If View Is Nothing Then
   
     'Create a new View
@@ -627,10 +665,21 @@ Dim objItem As ListItem
   If chkPrivilege(0).Value = 1 Then
     szAccess = "All, "
   Else
-    If chkPrivilege(1).Value = 1 Then szAccess = szAccess & "Select, "
-    If chkPrivilege(2).Value = 1 Then szAccess = szAccess & "Update/Delete, "
-    If chkPrivilege(3).Value = 1 Then szAccess = szAccess & "Insert, "
-    If chkPrivilege(4).Value = 1 Then szAccess = szAccess & "Rule, "
+    'ACLs are different in 7.2+
+    If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+      If chkPrivilege(1).Value = 1 Then szAccess = szAccess & "Select, "
+      If chkPrivilege(2).Value = 1 Then szAccess = szAccess & "Update/Delete, "
+      If chkPrivilege(4).Value = 1 Then szAccess = szAccess & "Insert, "
+      If chkPrivilege(5).Value = 1 Then szAccess = szAccess & "Rule, "
+    Else
+      If chkPrivilege(1).Value = 1 Then szAccess = szAccess & "Select, "
+      If chkPrivilege(2).Value = 1 Then szAccess = szAccess & "Update, "
+      If chkPrivilege(3).Value = 1 Then szAccess = szAccess & "Delete, "
+      If chkPrivilege(4).Value = 1 Then szAccess = szAccess & "Insert, "
+      If chkPrivilege(5).Value = 1 Then szAccess = szAccess & "Rule, "
+      If chkPrivilege(6).Value = 1 Then szAccess = szAccess & "References, "
+      If chkPrivilege(7).Value = 1 Then szAccess = szAccess & "Trigger, "
+    End If
   End If
   If Len(szAccess) > 2 Then szAccess = Left(szAccess, Len(szAccess) - 2)
   If szAccess = "" Then szAccess = "None"
@@ -670,15 +719,34 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.chkPrivilege_Click(" & 
 Dim X As Integer
 
   If Index = 0 Then
-    If chkPrivilege(0).Value = 1 Then
-      For X = 1 To 4
-        chkPrivilege(X).Enabled = False
-      Next X
+    'ACLs are different in 7.2+
+    If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+      If chkPrivilege(0).Value = 1 Then
+        For X = 1 To 4
+          chkPrivilege(X).Enabled = False
+        Next X
+      Else
+        For X = 1 To 4
+          chkPrivilege(X).Enabled = True
+        Next X
+      End If
     Else
-      For X = 1 To 4
-        chkPrivilege(X).Enabled = True
-      Next X
+      If chkPrivilege(0).Value = 1 Then
+        For X = 1 To 7
+          chkPrivilege(X).Enabled = False
+        Next X
+      Else
+        For X = 1 To 7
+          chkPrivilege(X).Enabled = True
+        Next X
+      End If
     End If
+  End If
+  
+  'Link Update/Delete for older versions
+  If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+    If Index = 2 Then chkPrivilege(3).Value = chkPrivilege(2).Value
+    If Index = 3 Then chkPrivilege(2).Value = chkPrivilege(3).Value
   End If
   
   Exit Sub
