@@ -7,38 +7,39 @@ REM BuildAll.bat - Recompile all pgAdmin II Code
 REM Note that this doesn't rebuild the documentation
 
 @echo off
+
 echo Building pgSchema...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\pgschema\pgSchema.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\pgschema\pgSchema.vbp /outdir ..\binaries
 
 echo Building Abstract Exporter...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\Abstract\pgAbsExp.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\Abstract\pgAbsExp.vbp /outdir ..\binaries
 echo Building ASCII Exporter...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\ASCII\pgASCII.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\ASCII\pgASCII.vbp /outdir ..\binaries
 echo Building Excel Exporter...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\Excel\pgExcel.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\Excel\pgExcel.vbp /outdir ..\binaries
 echo Building HTML Exporter...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\HTML\pgHTML.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\HTML\pgHTML.vbp /outdir ..\binaries
 
 echo Building Abstract Plugin...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Abstract\pgAbsPlg.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Abstract\pgAbsPlg.vbp /outdir ..\binaries
 echo Building MSysConf Plugin...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\MSysConf\pgMSysConf.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\MSysConf\pgMSysConf.vbp /outdir ..\binaries
 echo Building Security Plugin...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Security\pgSecurity.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Security\pgSecurity.vbp /outdir ..\binaries
 echo Building Import Plugin...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Import\pgImport.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Import\pgImport.vbp /outdir ..\binaries
 echo Building Publishing Plugin...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Publishing\pgPublishing.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Publishing\pgPublishing.vbp /outdir ..\binaries
 echo Building ConnDebug Plugin...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\ConnDebug\pgConnDebug.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\ConnDebug\pgConnDebug.vbp /outdir ..\binaries
 echo Building Migration Wizard Plugin...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Migration\pgMigration.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Migration\pgMigration.vbp /outdir ..\binaries
 
 echo Building Highlightbox...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\ActiveX\Highlightbox\Highlightbox.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\ActiveX\Highlightbox\Highlightbox.vbp /outdir ..\binaries
 
 echo Building pgAdmin...
-"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make pgAdmin2.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make pgAdmin2.vbp /outdir ..\binaries
 
 echo
 echo Done!
