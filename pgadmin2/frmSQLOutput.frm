@@ -397,7 +397,9 @@ Dim rsCount As New Recordset
             Case adDBTimeStamp
               szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
             Case Else
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Replace(dbSZ(lvData.SelectedItem.Text), vbCrLf, "\n") & "' AND "
+              If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) Or (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) Then
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
+              End If
           End Select
         End If
       Else
@@ -410,7 +412,9 @@ Dim rsCount As New Recordset
             Case adDBTimeStamp
               szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
             Case Else
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Replace(dbSZ(lvData.SelectedItem.SubItems(X)), vbCrLf, "\n") & "' AND "
+              If ((InStr(1, lvData.SelectedItem.SubItems(X), vbCrLf) <> 0) Or (InStr(1, lvData.SelectedItem.SubItems(X), "\n")) <> 0) Then
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
+              End If
           End Select
         End If
       End If
