@@ -24,11 +24,13 @@ Public frmColumn As pgAdmin2.frmColumn                      'frmColumn.frm
 Public frmConnect As pgAdmin2.frmConnect                    'frmConnect.frm
 Public frmDatabase As pgAdmin2.frmDatabase                  'frmDatabase.frm
 Public frmDomain As pgAdmin2.frmDomain                      'frmDomain.frm
+Public frmDummy As pgAdmin2.frmDummy                        'frmDummy.frm
 Public frmError As pgAdmin2.frmError                        'frmError.frm
 Public frmFind As pgAdmin2.frmFind                          'frmFind.frm
 Public frmForeignKey As pgAdmin2.frmForeignKey              'frmForeignKey.frm
 Public frmFunction As pgAdmin2.frmFunction                  'frmFunction.frm
 Public frmGroup As pgAdmin2.frmGroup                        'frmGroup.frm
+Public frmImportColumn As pgAdmin2.frmImportColumn          'frmImportColumn.frm
 Public frmIndex As pgAdmin2.frmIndex                        'frmIndex.frm
 Public frmLanguage As pgAdmin2.frmLanguage                  'frmLanguage.frm
 Public frmLog As pgAdmin2.frmLog                            'frmLog.frm

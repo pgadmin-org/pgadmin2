@@ -12,6 +12,7 @@ Public Sub PatchForm(objForm As Form)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchForm(" & objForm.Name & ")", etFullDebug
 
+  PatchFormScrObjDB objForm
   PatchFormFont objForm
   PatchFormToolTip objForm
 
@@ -103,5 +104,27 @@ Const iMAXLNG_LINE_TOOLTIP As Integer = 50
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basPatch.PatchFormToolTip"
+End Sub
+
+'Add scroll object database
+Private Sub PatchFormScrObjDB(objForm As Form)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormScrollObj(" & objForm.Name & ")", etFullDebug
+
+  Select Case Mid(objForm.Name, 4)
+    Case "Aggregate", "Domain", "Function", "Operator", "Sequence", "Table", "Type", "View", "User", "Group", "Cast", "Language", "Namespace", "Database"
+      
+      'create object
+      objForm.Controls.Add "pgAdmin2.ScrollObjDb", "ScrollObjDb"
+      With objForm!ScrollObjDb
+        .Left = 25
+        .Top = objForm.Height - .Height * 2 - 25
+        .Visible = True
+      End With
+   
+  End Select
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basPatch.PatchFormScrollObj"
 End Sub
 
