@@ -955,12 +955,14 @@ Dim vTemp As Variant
   ReDim arrObjects(0)
   
   'Casts
-  For Each vObject In Casts
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    End If
-  Next vObject
+  If objVersion.VersionNum >= 7.3 Then
+    For Each vObject In Casts
+      If Not vObject.SystemObject Then
+        Set arrObjects(UBound(arrObjects)) = vObject
+        ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+      End If
+    Next vObject
+  End If
   
   'Languages
   For Each vObject In Languages
@@ -987,20 +989,24 @@ Dim vTemp As Variant
       Next vObject
       
       'Conversions
-      For Each vObject In vNamespaceObject.Conversions
-        If Not vObject.SystemObject Then
-          Set arrObjects(UBound(arrObjects)) = vObject
-          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-        End If
-      Next vObject
-      
+      If objVersion.VersionNum >= 7.3 Then
+        For Each vObject In vNamespaceObject.Conversions
+          If Not vObject.SystemObject Then
+            Set arrObjects(UBound(arrObjects)) = vObject
+            ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+          End If
+        Next vObject
+      End If
+    
       'Domains
-      For Each vObject In vNamespaceObject.Domains
-        If Not vObject.SystemObject Then
-          Set arrObjects(UBound(arrObjects)) = vObject
-          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-        End If
-      Next vObject
+      If objVersion.VersionNum >= 7.3 Then
+        For Each vObject In vNamespaceObject.Domains
+          If Not vObject.SystemObject Then
+            Set arrObjects(UBound(arrObjects)) = vObject
+            ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+          End If
+        Next vObject
+      End If
     
       'Functions
       For Each vObject In vNamespaceObject.Functions
