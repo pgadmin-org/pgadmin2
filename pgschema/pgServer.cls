@@ -79,6 +79,12 @@ Public Enum rcStat
   rcNotInRC = 4
 End Enum
 
+Public Enum QueryType
+  qrySystem = 1
+  qryData = 2
+  qryUser = 4
+End Enum
+
 'Collections
 Private colDatabases As Databases
 Private colUsers As Users
@@ -99,6 +105,9 @@ Private bShowPassword As Boolean
 Private szMasterDB As String
 Private bEncryptPasswords As Boolean
 Private objDriverVersion As Version
+Private lUserLogOptions As Long
+Private szUserLogfile As String
+Private bUserLog As Boolean
 
 'Error Log
 'If an application is logging it's errors through the mechanism here, then any errors
@@ -158,13 +167,42 @@ Dim fNum As Integer
   End If
 End Sub
 
-Friend Function ExecSQL(SQL As String, Connection As Connection, Optional RecordsAffected As Long, Optional Options As Long = -1) As Recordset
+Friend Function ExecSQL(SQL As String, Connection As Connection, Optional RecordsAffected As Long, Optional Options As Long = -1, Optional QryType As QueryType = qrySystem) As Recordset
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgServer.ExecSQL(" & QUOTE & SQL & QUOTE & ", " & QUOTE & "Connection: " & Connection.ConnectionString & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.ExecSQL(" & QUOTE & SQL & QUOTE & ", " & QUOTE & "Connection: " & Connection.ConnectionString & QUOTE & ", " & RecordsAffected & ", " & Options & ", " & QryType & ")", etFullDebug
   
+Dim fNum As Integer
+Dim szQueryType As String
+
   RaiseEvent SQLExecute(SQL, Connection)
   objServer.iLogEvent "SQL (" & GetDatabase(Connection.ConnectionString) & "): " & SQL, etSQL
   Set ExecSQL = Connection.Execute(SQL)
+  
+  'Userlog
+  If (bUserLog And ((lUserLogOptions And QryType) = QryType)) Then
+  
+    'Get the Query Type
+    If (QryType And qrySystem) = qrySystem Then
+      szQueryType = "System"
+    ElseIf (QryType And qryData) = qryData Then
+      szQueryType = "Data"
+    ElseIf (QryType And qryUser) = qryUser Then
+      szQueryType = "User"
+    End If
+    
+    fNum = FreeFile
+    Open szUserLogfile For Append As #fNum
+    
+    Print #fNum, "-- "
+    Print #fNum, "-- Date/Time : " & Format(Now, "yyyy-MM-dd hh:mm:ss")
+    Print #fNum, "-- Connection: " & szUsername & "@" & szServer & ":" & lPort
+    Print #fNum, "-- Database  : " & GetDatabase(Connection.ConnectionString)
+    Print #fNum, "-- Query Type: " & szQueryType & vbCrLf
+    Print #fNum, SQL & vbCrLf
+    Print #fNum, "-- End of log entry" & vbCrLf
+    
+    Close #fNum
+  End If
   
   Exit Function
 Err_Handler:
@@ -313,6 +351,7 @@ Private Sub Class_Initialize()
   lPort = 5432
   lLogging = llNone
   szLogfile = "pgSchema_" & App.ThreadID & ".log"
+  szUserLogfile = "pgSchema_User_" & App.ThreadID & ".log"
   szMasterDB = "template1"
 End Sub
 
@@ -647,7 +686,11 @@ Attribute Logfile.VB_Description = "Sets/Returns the name of the logfile to use.
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Logfile(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
-  szLogfile = Replace(vData, "%ID", App.ThreadID)
+  If vData = "" Then
+    szLogfile = "pgSchema_" & App.ThreadID & ".log"
+  Else
+    szLogfile = Replace(vData, "%ID", App.ThreadID)
+  End If
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -656,7 +699,76 @@ Public Property Get Logfile() As String
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Logfile()", etFullDebug
 
+  If szLogfile = "" Then szLogfile = "pgSchema_" & App.ThreadID & ".log"
   Logfile = szLogfile
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the UserLogOptions
+Public Property Let UserLogOptions(ByVal vData As Long)
+Attribute UserLogOptions.VB_Description = "Sets/Returns a bitmask describing the query types to include in the user log."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let UserLogOptions(" & vData & ")", etFullDebug
+
+  lUserLogOptions = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get UserLogOptions() As Long
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get UserLogOptions()", etFullDebug
+
+  UserLogOptions = lUserLogOptions
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the UserLogfile
+Public Property Let UserLogfile(ByVal vData As String)
+Attribute UserLogfile.VB_Description = "Sets/Returns the filename for the user log."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let UserLogfile(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  If vData = "" Then
+    szUserLogfile = "pgSchema_User_" & App.ThreadID & ".log"
+  Else
+    szUserLogfile = Replace(vData, "%ID", App.ThreadID)
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get UserLogfile() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get UserLogfile()", etFullDebug
+
+  If szUserLogfile = "" Then szUserLogfile = "pgSchema_" & App.ThreadID & ".log"
+  UserLogfile = szUserLogfile
+      
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the UserLog
+Public Property Let UserLog(ByVal vData As Boolean)
+Attribute UserLog.VB_Description = "Sets/Returns a value determining whether or not the user log is enabled."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let UserLog(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  bUserLog = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get UserLog() As Boolean
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get UserLog()", etFullDebug
+
+  UserLog = bUserLog
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

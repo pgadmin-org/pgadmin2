@@ -53,7 +53,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   11
+         NumListImages   =   13
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":0A02
             Key             =   "connect"
@@ -96,7 +96,15 @@ Begin VB.Form frmMain
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":7D3E
-            Key             =   "cacuum"
+            Key             =   "vacuum"
+         EndProperty
+         BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":8910
+            Key             =   "record"
+         EndProperty
+         BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":91EA
+            Key             =   "stop"
          EndProperty
       EndProperty
    End
@@ -116,7 +124,7 @@ Begin VB.Form frmMain
       ImageList       =   "ilTB"
       _Version        =   393216
       BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-         NumButtons      =   14
+         NumButtons      =   17
          BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Key             =   "connect"
             Description     =   "Connect"
@@ -294,6 +302,23 @@ Begin VB.Form frmMain
                EndProperty
             EndProperty
          EndProperty
+         BeginProperty Button15 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            Key             =   "sep4"
+            Style           =   3
+         EndProperty
+         BeginProperty Button16 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            Key             =   "record"
+            Description     =   "Record Log"
+            Object.ToolTipText     =   "Record a query log."
+            ImageIndex      =   12
+         EndProperty
+         BeginProperty Button17 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            Enabled         =   0   'False
+            Key             =   "stop"
+            Description     =   "Stop Recording"
+            Object.ToolTipText     =   "Stop recording."
+            ImageIndex      =   13
+         EndProperty
       EndProperty
    End
    Begin MSComctlLib.StatusBar sb 
@@ -358,95 +383,95 @@ Begin VB.Form frmMain
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   23
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8910
+            Picture         =   "frmMain.frx":9AC4
             Key             =   "aggregate"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8FE2
+            Picture         =   "frmMain.frx":A196
             Key             =   "check"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":96B4
+            Picture         =   "frmMain.frx":A868
             Key             =   "column"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9D86
+            Picture         =   "frmMain.frx":AF3A
             Key             =   "database"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9EE0
+            Picture         =   "frmMain.frx":B094
             Key             =   "function"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A5B2
+            Picture         =   "frmMain.frx":B766
             Key             =   "group"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":AC84
+            Picture         =   "frmMain.frx":BE38
             Key             =   "index"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B21E
+            Picture         =   "frmMain.frx":C3D2
             Key             =   "indexcolumn"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B8F0
+            Picture         =   "frmMain.frx":CAA4
             Key             =   "foreignkey"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":BFC2
+            Picture         =   "frmMain.frx":D176
             Key             =   "language"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C694
+            Picture         =   "frmMain.frx":D848
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":CD66
+            Picture         =   "frmMain.frx":DF1A
             Key             =   "property"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D300
+            Picture         =   "frmMain.frx":E4B4
             Key             =   "relationship"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D45A
+            Picture         =   "frmMain.frx":E60E
             Key             =   "rule"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":DB2C
+            Picture         =   "frmMain.frx":ECE0
             Key             =   "server"
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":DC86
+            Picture         =   "frmMain.frx":EE3A
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":E358
+            Picture         =   "frmMain.frx":F50C
             Key             =   "table"
          EndProperty
          BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":EA2A
+            Picture         =   "frmMain.frx":FBDE
             Key             =   "trigger"
          EndProperty
          BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F0FC
+            Picture         =   "frmMain.frx":102B0
             Key             =   "type"
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F7CE
+            Picture         =   "frmMain.frx":10982
             Key             =   "user"
          EndProperty
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F928
+            Picture         =   "frmMain.frx":10ADC
             Key             =   "view"
          EndProperty
          BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":FFFA
+            Picture         =   "frmMain.frx":111AE
             Key             =   "baddatabase"
          EndProperty
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":10154
+            Picture         =   "frmMain.frx":11308
             Key             =   "hiproperty"
          EndProperty
       EndProperty
@@ -812,6 +837,16 @@ Begin VB.Form frmMain
             Enabled         =   0   'False
          End
       End
+      Begin VB.Menu mnuPopupSep4 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuPopupRecordLog 
+         Caption         =   "&Record Log..."
+      End
+      Begin VB.Menu mnuPopupStopRecording 
+         Caption         =   "&Stop Recording"
+         Enabled         =   0   'False
+      End
    End
 End
 Attribute VB_Name = "frmMain"
@@ -911,6 +946,32 @@ Dim siWidth As Single
     
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Resize"
+End Sub
+
+Private Sub mnuPopupRecordLog_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupRecordLog_Click()", etFullDebug
+
+  Load frmRecordLog
+  frmRecordLog.Show vbModal, Me
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupRecordLog_Click"
+End Sub
+
+Private Sub mnuPopupStopRecording_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupStopRecording_Click()", etFullDebug
+
+  svr.LogEvent "Stopping recording query log.", etMiniDebug
+  svr.UserLog = False
+  tb.Buttons("record").Enabled = True
+  tb.Buttons("stop").Enabled = False
+  mnuPopupRecordLog.Enabled = True
+  mnuPopupStopRecording = False
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupStopRecording_Click"
 End Sub
 
 Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
@@ -1584,6 +1645,10 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")"
       mnuPopupViewData_Click
     Case "vacuum"
       Vacuum False
+    Case "record"
+      mnuPopupRecordLog_Click
+    Case "stop"
+      mnuPopupStopRecording_Click
     Case Else
       MsgBox "Unknown menu button pressed.", vbExclamation, "Error"
   End Select

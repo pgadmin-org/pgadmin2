@@ -838,13 +838,13 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 'Execute a statement
-Public Function Execute(ByVal szSQL As String, Optional ByVal RecordsAffected As Long, Optional ByVal Options As Long = -1) As Recordset
+Public Function Execute(ByVal szSQL As String, Optional ByVal RecordsAffected As Long, Optional ByVal Options As Long = -1, Optional QryType As QueryType = qrySystem) As Recordset
 Attribute Execute.VB_Description = "Execute an SQL query on the Database."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Execute(" & QUOTE & szSQL & QUOTE & ", " & RecordsAffected & ", " & Options & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Execute(" & QUOTE & szSQL & QUOTE & ", " & RecordsAffected & ", " & Options & ", " & QryType & ")", etFullDebug
 
   dbConnect
-  Set Execute = objServer.ExecSQL(szSQL, cnDatabase, RecordsAffected, Options)
+  Set Execute = objServer.ExecSQL(szSQL, cnDatabase, RecordsAffected, Options, QryType)
   
   Exit Function
 Err_Handler:  objServer.iLogError Err

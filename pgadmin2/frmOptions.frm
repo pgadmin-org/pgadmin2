@@ -69,33 +69,23 @@ Begin VB.Form frmOptions
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "cmdExpUninstall"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "cmdExpInstall"
-      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "lstExporters"
-      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "lstPlugins"
-      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "cmdPlgInstall"
-      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).Control(3)=   "cmdPlgUninstall"
-      Tab(3).Control(3).Enabled=   0   'False
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "Frame3"
-      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "Frame4"
-      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
       Begin VB.Frame Frame4 
          Caption         =   "Security"
@@ -653,7 +643,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdBrowse_Click()
-On Error Resume Next
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdBrowse_Click()", etFullDebug
 
   With cdlg
@@ -662,11 +652,12 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdBrowse_Click()", 
     .Filter = "All Files (*.*)|*.*"
     .CancelError = False
     .FLAGS = &H4
-    .CancelError = True
     .ShowOpen
   End With
   txtLogFile.Text = cdlg.FileName
 
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdBrowse_Click"
 End Sub
 
 Private Sub cmdCancel_Click()

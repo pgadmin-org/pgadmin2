@@ -279,13 +279,13 @@ Dim bFlag As Boolean
         GoTo Done
       Case 1
         StartMsg "Deleting record..."
-        frmMain.svr.Databases(szDatabase).Execute szQuery
+        frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
         lvData.ListItems.Remove (lvData.SelectedItem.Index)
         GoTo Done
       Case Else
         If MsgBox("The selected record could not be uniquely identified. " & rsCount!Count & " records match, and will all be deleted if you proceed. Do you wish to continue?", vbQuestion + vbYesNo, "Delete Multiple Records") = vbNo Then Exit Sub
         StartMsg "Deleting records..."
-        frmMain.svr.Databases(szDatabase).Execute szQuery
+        frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
         
         'Get all the values in the selected row, then iterate through all rows and delete matching
         ReDim szValues(lvData.ColumnHeaders.Count - 1)
@@ -389,7 +389,7 @@ Dim rsCount As New Recordset
     szQuery = "INSERT INTO " & szTable & " " & szColumns & " VALUES " & szValues
     
     'Execute the query
-    frmMain.svr.Databases(szDatabase).Execute szQuery
+    frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
     
     'Now add the record to the grid. If the query failed, we won't get to here 'cos
     'we'll be in the error handler.
@@ -487,7 +487,7 @@ Dim rsCount As New Recordset
           GoTo Done
         Case 1
           StartMsg "Updating record..."
-          frmMain.svr.Databases(szDatabase).Execute szQuery
+          frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
           'Update the grid
           For X = 0 To lblField.Count - 1
             If X = 0 Then
@@ -500,7 +500,7 @@ Dim rsCount As New Recordset
         Case Else
           If MsgBox("The selected record could not be uniquely identified. " & rsCount!Count & " records match, and will all be updated if you proceed. Do you wish to continue?", vbQuestion + vbYesNo, "Update Multiple Records") = vbNo Then Exit Sub
           StartMsg "Updating records..."
-          frmMain.svr.Databases(szDatabase).Execute szQuery
+          frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
 
           'Get all the values in the selected row, then iterate through all rows and update matching
           ReDim szCells(lvData.ColumnHeaders.Count - 1)

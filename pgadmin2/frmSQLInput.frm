@@ -123,7 +123,7 @@ Dim vBit As Variant
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
   
   StartMsg "Executing SQL Query..."
-  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(txtSQL.Text)
+  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(txtSQL.Text, , , qryUser)
   If rsQuery.Fields.Count > 0 Then
     Select Case cboExporters.Text
       Case "Screen"
