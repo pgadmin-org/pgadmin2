@@ -110,7 +110,7 @@ Dim rs As New Recordset
 
   'Create a new object
   Set objNewMember = New pgView
-  If lOID <= objServer.LastSystemOID Then
+  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Sub
     objNewMember.SystemObject = True
   Else

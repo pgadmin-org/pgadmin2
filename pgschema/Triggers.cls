@@ -134,7 +134,7 @@ Dim objNewMember As pgTrigger
 
   'Create a new object
   Set objNewMember = New pgTrigger
-  If (lOID <= objServer.LastSystemOID) And Left(szName, 20) <> "RI_ConstraintTrigger" Then
+  If lOID <= objServer.LastSystemOID Or Left(szName, 20) = "RI_ConstraintTrigger" Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else

@@ -134,7 +134,7 @@ Dim objNewMember As pgRule
 
   'Create a new object
   Set objNewMember = New pgRule
-  If lOID <= objServer.LastSystemOID Then
+  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else

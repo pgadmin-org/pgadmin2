@@ -255,7 +255,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get SystemObjec
   ' 2) Primary = True (i.e. created as a primary key on a table).
   
   If (((bUnique = True) And (szName = szTable & "_" & IndexedColumns(1) & "_key")) Or _
-      (bPrimary = True)) Then
+      (bPrimary = True) Or Left(szName, 8) = "pgadmin_") Then
     SystemObject = True
   Else
     SystemObject = False

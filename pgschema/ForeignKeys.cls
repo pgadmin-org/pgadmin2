@@ -105,7 +105,7 @@ Dim X As Long
 
   'Create a new object
   Set objNewMember = New pgForeignKey
-  If lOID <= objServer.LastSystemOID Then
+  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else

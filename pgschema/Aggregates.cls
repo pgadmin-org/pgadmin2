@@ -111,7 +111,7 @@ Dim szSQL As String
 
   'Create a new object
   Set objNewMember = New pgAggregate
-  If lOID <= objServer.LastSystemOID Then
+  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else

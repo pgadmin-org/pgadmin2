@@ -114,7 +114,7 @@ Dim szTemp As String
 
   'Create a new object
   Set objNewMember = New pgOperator
-  If lOID <= objServer.LastSystemOID Then
+  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
