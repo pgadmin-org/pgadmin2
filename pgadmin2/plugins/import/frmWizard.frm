@@ -107,88 +107,57 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":1D71
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblInfo(1)"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lvTables"
-      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(0)=   "lvTables"
+      Tab(1).Control(1)=   "lblInfo(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":1D8D
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lvColumns"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "cmdColumnUp"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "cmdColumnDown"
-      Tab(2).Control(3).Enabled=   0   'False
-      Tab(2).Control(4)=   "cmdColumnAll"
-      Tab(2).Control(4).Enabled=   0   'False
-      Tab(2).Control(5)=   "cmdColumnNone"
-      Tab(2).Control(5).Enabled=   0   'False
+      Tab(2).Control(0)=   "cmdColumnNone"
+      Tab(2).Control(1)=   "cmdColumnAll"
+      Tab(2).Control(2)=   "cmdColumnDown"
+      Tab(2).Control(3)=   "cmdColumnUp"
+      Tab(2).Control(4)=   "lvColumns"
+      Tab(2).Control(5)=   "lblInfo(2)"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":1DA9
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblInfo(3)"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "Label1"
-      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(0)=   "cmdBrowse"
+      Tab(3).Control(1)=   "txtFile"
       Tab(3).Control(2)=   "txtSample"
-      Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "txtFile"
-      Tab(3).Control(3).Enabled=   0   'False
-      Tab(3).Control(4)=   "cmdBrowse"
-      Tab(3).Control(4).Enabled=   0   'False
+      Tab(3).Control(3)=   "Label1"
+      Tab(3).Control(4)=   "lblInfo(3)"
       Tab(3).ControlCount=   5
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":1DC5
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblInfo(6)"
-      Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "Label2"
-      Tab(4).Control(1).Enabled=   0   'False
-      Tab(4).Control(2)=   "Label3"
-      Tab(4).Control(2).Enabled=   0   'False
-      Tab(4).Control(3)=   "Label4"
-      Tab(4).Control(3).Enabled=   0   'False
-      Tab(4).Control(4)=   "Label5"
-      Tab(4).Control(4).Enabled=   0   'False
-      Tab(4).Control(5)=   "txtDelimiter"
-      Tab(4).Control(5).Enabled=   0   'False
-      Tab(4).Control(6)=   "txtQuote"
-      Tab(4).Control(6).Enabled=   0   'False
-      Tab(4).Control(7)=   "txtAsciiDelimiter"
-      Tab(4).Control(7).Enabled=   0   'False
-      Tab(4).Control(8)=   "txtAsciiQuote"
-      Tab(4).Control(8).Enabled=   0   'False
-      Tab(4).Control(9)=   "chkTrailing"
-      Tab(4).Control(9).Enabled=   0   'False
+      Tab(4).Control(0)=   "chkTrailing"
+      Tab(4).Control(1)=   "txtAsciiQuote"
+      Tab(4).Control(2)=   "txtAsciiDelimiter"
+      Tab(4).Control(3)=   "txtQuote"
+      Tab(4).Control(4)=   "txtDelimiter"
+      Tab(4).Control(5)=   "Label5"
+      Tab(4).Control(6)=   "Label4"
+      Tab(4).Control(7)=   "Label3"
+      Tab(4).Control(8)=   "Label2"
+      Tab(4).Control(9)=   "lblInfo(6)"
       Tab(4).ControlCount=   10
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":1DE1
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lblInfo(7)"
-      Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "lvSubstitutions"
-      Tab(5).Control(1).Enabled=   0   'False
-      Tab(5).Control(2)=   "txtSubFind"
-      Tab(5).Control(2).Enabled=   0   'False
-      Tab(5).Control(3)=   "txtSubReplace"
-      Tab(5).Control(3).Enabled=   0   'False
-      Tab(5).Control(4)=   "cmdSubAdd"
-      Tab(5).Control(4).Enabled=   0   'False
-      Tab(5).Control(5)=   "cmdSubRemove"
-      Tab(5).Control(5).Enabled=   0   'False
+      Tab(5).Control(0)=   "cmdSubRemove"
+      Tab(5).Control(1)=   "cmdSubAdd"
+      Tab(5).Control(2)=   "txtSubReplace"
+      Tab(5).Control(3)=   "txtSubFind"
+      Tab(5).Control(4)=   "lvSubstitutions"
+      Tab(5).Control(5)=   "lblInfo(7)"
       Tab(5).ControlCount=   6
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":1DFD
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "lblInfo(4)"
-      Tab(6).Control(0).Enabled=   0   'False
-      Tab(6).Control(1)=   "picStatus"
-      Tab(6).Control(1).Enabled=   0   'False
+      Tab(6).Control(0)=   "picStatus"
+      Tab(6).Control(1)=   "lblInfo(4)"
       Tab(6).ControlCount=   2
       Begin VB.PictureBox picStatus 
          Height          =   2445
@@ -442,7 +411,6 @@ Begin VB.Form frmWizard
          _ExtentY        =   4313
          View            =   3
          LabelEdit       =   1
-         Sorted          =   -1  'True
          LabelWrap       =   -1  'True
          HideSelection   =   -1  'True
          FullRowSelect   =   -1  'True
@@ -876,6 +844,8 @@ Dim lTuple As Long
 Dim lErrors As Long
 Dim lCol As Long
 Dim lColumns As Long
+Dim lContCount As Long
+Dim lContQty As Long
 Dim objItem As ListItem
 Dim szDatabase As String
 Dim szTable As String
@@ -915,8 +885,10 @@ Dim bInQuote As Boolean
     ReDim szCols(lColumns)
     X = 1
     For Each objItem In lvColumns.ListItems
-      szCols(X) = QUOTE & objItem.Text & QUOTE
-      X = X + 1
+      If objItem.Checked Then
+        szCols(X) = QUOTE & objItem.Text & QUOTE
+        X = X + 1
+      End If
     Next objItem
     
     'Store some values for fast access
@@ -934,18 +906,41 @@ Dim bInQuote As Boolean
     svr.Databases(szDatabase).Execute "BEGIN"
     
     'Now we do the actual import...
+    lTuple = 0
+    lContQty = 100
     While Not EOF(fNum)
+      lContCount = 0
       lTuple = lTuple + 1
       
       'Loop through reading and processing lines until we have a complete row.
       lCol = 1
       While Not bHaveRow
         Line Input #fNum, szRawData
+        lContCount = lContCount + 1
         pbStatus.Value = pbStatus.Value + Len(szRawData) + 2
         
         'If we're already in quotes then we must have just had a CRLF
-        'We'll add vbCrLf as it will get convereted to \n later
+        'We'll add vbCrLf as it will get converted to \n later
         If bInQuote Then szData(lCol) = szData(lCol) & vbCrLf
+        
+        'Bail out if things look odd
+        If lContCount > lContQty Then
+          EndMsg
+          If MsgBox("The current data row (" & lTuple & ") appears to be split across more than " & lContQty & " lines! Unless you have more than " & lContQty & " carriage returns in this row, then it is probably that there is a missing or extra " & szQuote & " in there somewhere." & vbCrLf & vbCrLf & "Do you wish to abort the data import?", vbQuestion + vbYesNo, "Possible Data Error") = vbYes Then
+            svr.LogEvent "Import aborted at users request. Row " & lTuple & " contains more than " & lContQty & " CrLf's.", etMiniDebug
+            svr.Databases(szDatabase).Execute "ROLLBACK"
+            lErrors = lErrors + 1
+            lblErrors.Caption = lErrors
+            lblErrors.Refresh
+            MsgBox "Import rolled back! Please check the import data and try again.", vbExclamation, "Data Import"
+            Exit Sub
+          Else
+            'Note that lContQty doesn't get reset because if the user continues on a value once, they
+            'probably will again.
+            lContQty = lContQty + 100
+            StartMsg "Continuing Import..."
+          End If
+        End If
         
         'Scan the data a char at a time
         For X = 1 To Len(szRawData)
@@ -1045,8 +1040,8 @@ Err_Handler:
     lErrors = lErrors + 1
     lblErrors.Caption = lErrors
     lblErrors.Refresh
-    svr.LogEvent "An error occured importing row " & lTuple + 1 & ". The generated SQL was: " & szSQL, etErrors
-    GoTo Reset
+    svr.LogEvent "An error occured importing row " & lTuple & ". The generated SQL was: " & szSQL, etSQL
+    Resume Next
   End If
   If Err.Number <> 0 Then
     EndMsg
