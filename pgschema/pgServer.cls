@@ -149,6 +149,7 @@ End Property
 'To fix this, internally we use iLogEvent, and the hosting application can set DontLogErrors
 'as required.
 Friend Sub iLogError(ByVal objError As ErrObject)
+On Error Resume Next
 Dim lError As Long
 Dim szError As String
 
@@ -160,12 +161,14 @@ Dim szError As String
   Err.Raise lError, App.Title, szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
+On Error Resume Next
   If Not ((bDontLogErrors) And (etType = etErrors)) Then
     LogEvent szMessage, etType
   End If
 End Sub
 Public Sub LogEvent(ByVal szMessage As String, ByVal etType As ErrorType)
 Attribute LogEvent.VB_Description = "Log an event to the libraries logging system."
+On Error Resume Next
 Dim fNum As Integer
 
   RaiseEvent EventLog(etType, szMessage)
