@@ -1668,17 +1668,18 @@ Dim szQuery As String
 Dim rsQuery As New Recordset
 
   StartMsg "Counting Records..."
-  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT count(*) AS count FROM " & QUOTE & ctx.CurrentObject.Identifier & QUOTE)
+  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT count(*) AS count FROM " & ctx.CurrentObject.FormattedID)
   EndMsg
+  
   If Not rsQuery.EOF Then
     If rsQuery!Count > 5000 Then If MsgBox("This " & ctx.CurrentObject.ObjectType & " contains " & rsQuery!Count & " records which may take some time to load." & vbCrLf & "Do you wish to continue?", vbQuestion + vbYesNo, "Continue?") = vbNo Then Exit Sub
   End If
   
   StartMsg "Executing SQL Query..."
 
-  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT * FROM " & QUOTE & ctx.CurrentObject.Identifier & QUOTE)
+  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT * FROM " & ctx.CurrentObject.FormattedID)
   Load objOutputForm
-  objOutputForm.Display rsQuery, ctx.CurrentDB, "(" & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.Identifier & ")"
+  objOutputForm.Display rsQuery, ctx.CurrentDB, "(" & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.FormattedID & ")"
   objOutputForm.Show
   
   EndMsg
