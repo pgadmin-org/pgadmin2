@@ -341,7 +341,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Default(" &
 
 Dim szSQL As String
   
-  If Default = "" Then
+  If vData = "" Then
     szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE & " ALTER COLUMN " & QUOTE & dbSZ(szName) & QUOTE & " DROP DEFAULT"
   Else
     szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE & " ALTER COLUMN " & QUOTE & dbSZ(szName) & QUOTE & " SET DEFAULT " & vData

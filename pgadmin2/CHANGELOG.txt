@@ -11,6 +11,7 @@ Make System Objects not applicable for Revision Control.
 Simplified Listview handling code.
 Reworded text on encrypted passwords in frmOptions.
 Added Query Log Recorder.
+Fixed a bug that cleared default values instead of updating them.
 
 1.2.0 Stable
 ------------
