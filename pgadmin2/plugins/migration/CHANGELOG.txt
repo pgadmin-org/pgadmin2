@@ -7,3 +7,4 @@ Some fixes to correct recognizing adNumeric type. [Artur Maslag]
 Fix for correct registry read for type mappings. [Artur Maslag]
 Handle Dates/Times a little more sanely.
 Prompt for extra login details on the source database if required.
+Fixed a error that occured when creating serial columns on tables with no data in them.
