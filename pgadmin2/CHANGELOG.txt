@@ -46,6 +46,7 @@ Added a guide to setting up a development environment.
 Added a HOWTO on using MD5 Encrypted Passwords.
 Added support for viewing statistics on PostgreSQL 7.2+
 Cancelling closure of child windows will now cancel application exit.
+Allow sorting of listview/statsview by clicking the column headers.
 
 1.2.0 Stable
 ------------

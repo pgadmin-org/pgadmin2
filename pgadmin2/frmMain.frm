@@ -4488,3 +4488,44 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_Change()", etFull
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.txtDefinition_Change"
 End Sub
 
+Private Sub lv_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
+
+  lv.Sorted = True
+  'Sort by the select column. If we already are, then switch the direction.
+  If lv.SortKey = (ColumnHeader.Index - 1) Then
+    If lv.SortOrder = lvwAscending Then
+      lv.SortOrder = lvwDescending
+    Else
+      lv.SortOrder = lvwAscending
+    End If
+  Else
+    lv.SortOrder = lvwAscending
+    lv.SortKey = (ColumnHeader.Index - 1)
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_ColumnClick"
+End Sub
+
+Private Sub sv_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.sv_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
+
+  sv.Sorted = True
+  'Sort by the select column. If we already are, then switch the direction.
+  If sv.SortKey = (ColumnHeader.Index - 1) Then
+    If sv.SortOrder = lvwAscending Then
+      sv.SortOrder = lvwDescending
+    Else
+      sv.SortOrder = lvwAscending
+    End If
+  Else
+    sv.SortOrder = lvwAscending
+    sv.SortKey = (ColumnHeader.Index - 1)
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.sv_ColumnClick"
+End Sub
