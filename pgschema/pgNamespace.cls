@@ -27,6 +27,7 @@ Private colOperators As Operators
 Private colTables As Tables
 Private colDomains As Domains
 Private colConversions As Conversions
+Private colOperatorsClass As OperatorsClass
 
 'Properties
 Private dOID As Double
@@ -122,7 +123,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Aggregat
     
     'Pass the connection to the class
     Set colAggregates.Connection = cnDatabase
-    colAggregates.Namespace = szName
+    colAggregates.NameSpace = szName
     colAggregates.NamespaceOID = dOID
     colAggregates.Initialize
   End If
@@ -143,11 +144,31 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Tables()
     
     'Pass the connection to the class
     Set colTables.Connection = cnDatabase
-    colTables.Namespace = szName
+    colTables.NameSpace = szName
     colTables.NamespaceOID = dOID
     colTables.Initialize
   End If
   Set Tables = colTables
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+
+'Return the OperatorsClass Collection
+Public Property Get OperatorsClass() As OperatorsClass
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get OperatorsClass()", etFullDebug
+
+  If colOperatorsClass Is Nothing Then
+    Set colOperatorsClass = New OperatorsClass
+        
+    'Pass the connection to the class
+    Set colOperatorsClass.Connection = cnDatabase
+    colOperatorsClass.NameSpace = szName
+    colOperatorsClass.NamespaceOID = dOID
+    colOperatorsClass.Initialize
+  End If
+  Set OperatorsClass = colOperatorsClass
     
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -164,7 +185,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Operator
         
     'Pass the connection to the class
     Set colOperators.Connection = cnDatabase
-    colOperators.Namespace = szName
+    colOperators.NameSpace = szName
     colOperators.NamespaceOID = dOID
     colOperators.Initialize
   End If
@@ -185,7 +206,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Function
         
     'Pass the connection to the class
     Set colFunctions.Connection = cnDatabase
-    colFunctions.Namespace = szName
+    colFunctions.NameSpace = szName
     colFunctions.NamespaceOID = dOID
     colFunctions.Initialize
   End If
@@ -206,7 +227,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Types()"
         
     'Pass the connection to the class
     Set colTypes.Connection = cnDatabase
-    colTypes.Namespace = szName
+    colTypes.NameSpace = szName
     colTypes.NamespaceOID = dOID
     colTypes.Initialize
   End If
@@ -227,7 +248,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Views()"
         
     'Pass the connection to the class
     Set colViews.Connection = cnDatabase
-    colViews.Namespace = szName
+    colViews.NameSpace = szName
     colViews.NamespaceOID = dOID
     colViews.Initialize
   End If
@@ -248,7 +269,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Sequence
     
     'Pass the connection to the class
     Set colSequences.Connection = cnDatabase
-    colSequences.Namespace = szName
+    colSequences.NameSpace = szName
     colSequences.NamespaceOID = dOID
     colSequences.Initialize
   End If
@@ -269,7 +290,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Domains(
         
     'Pass the connection to the class
     Set colDomains.Connection = cnDatabase
-    colDomains.Namespace = szName
+    colDomains.NameSpace = szName
     colDomains.NamespaceOID = dOID
     colDomains.Initialize
   End If
@@ -290,7 +311,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Conversi
         
     'Pass the connection to the class
     Set colConversions.Connection = cnDatabase
-    colConversions.Namespace = szName
+    colConversions.NameSpace = szName
     colConversions.NamespaceOID = dOID
     colConversions.Initialize
   End If
@@ -601,9 +622,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Class_Terminate()", e
   Set colTypes = Nothing
   Set colFunctions = Nothing
   Set colOperators = Nothing
+  Set colOperatorsClass = Nothing
   Set colTables = Nothing
   Set colDomains = Nothing
   Set colConversions = Nothing
+  Set colDependent = Nothing
+  Set colReferenced = Nothing
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err.Number, Err.Description

@@ -1024,6 +1024,16 @@ Dim vTemp As Variant
         End If
       Next vObject
     
+      'Operators class
+      If objVersion.VersionNum >= 7.3 Then
+        For Each vObject In vNamespaceObject.OperatorsClass
+          If Not vObject.SystemObject Then
+            Set arrObjects(UBound(arrObjects)) = vObject
+            ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+          End If
+        Next vObject
+      End If
+      
       'Sequences
       For Each vObject In vNamespaceObject.Sequences
         If Not vObject.SystemObject Then

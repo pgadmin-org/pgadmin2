@@ -336,4 +336,14 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCast.Function Dependent()", et
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
+Private Sub Class_Terminate()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgCast.Class_Terminate()", etFullDebug
+  
+  Set colDependent = Nothing
+  Set colReferenced = Nothing
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Sub
 

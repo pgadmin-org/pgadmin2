@@ -107,7 +107,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
-Friend Property Let Namespace(ByVal vData As String)
+Friend Property Let NameSpace(ByVal vData As String)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Namespace(" & vData & ")", etFullDebug
 
@@ -116,12 +116,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Namespac
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
-Public Property Get Namespace() As String
-Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
+Public Property Get NameSpace() As String
+Attribute NameSpace.VB_Description = "Returns the name of the parent Namespace."
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Namespace()", etFullDebug
 
-  Namespace = szNamespace
+  NameSpace = szNamespace
   
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -641,6 +641,16 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Function Dependent()"
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
+Private Sub Class_Terminate()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Class_Terminate()", etFullDebug
+  
+  Set colDependent = Nothing
+  Set colReferenced = Nothing
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Sub
 
 
 

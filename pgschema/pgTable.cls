@@ -112,7 +112,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
-Friend Property Let Namespace(ByVal vData As String)
+Friend Property Let NameSpace(ByVal vData As String)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Namespace(" & vData & ")", etFullDebug
 
@@ -121,12 +121,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Namespace("
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
-Public Property Get Namespace() As String
-Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
+Public Property Get NameSpace() As String
+Attribute NameSpace.VB_Description = "Returns the name of the parent Namespace."
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Namespace()", etFullDebug
 
-  Namespace = szNamespace
+  NameSpace = szNamespace
   
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -157,7 +157,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ForeignK
     Set colForeignKeys.Connection = cnDatabase
     colForeignKeys.TableOID = dOID
     colForeignKeys.Table = szName
-    colForeignKeys.Namespace = szNamespace
+    colForeignKeys.NameSpace = szNamespace
     colForeignKeys.NamespaceOID = dNamespaceOID
     colForeignKeys.Initialize
   End If
@@ -178,7 +178,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Inherite
     
     'Pass the connection to the class
     Set colInheritedTables.Connection = cnDatabase
-    colInheritedTables.Namespace = szNamespace
+    colInheritedTables.NameSpace = szNamespace
     colInheritedTables.NamespaceOID = dNamespaceOID
     colInheritedTables.Initialize dOID
   End If
@@ -201,7 +201,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Columns()",
     Set colColumns.Connection = cnDatabase
     colColumns.TableOID = dOID
     colColumns.Table = szName
-    colColumns.Namespace = szNamespace
+    colColumns.NameSpace = szNamespace
     colColumns.NamespaceOID = dNamespaceOID
     colColumns.Initialize
   End If
@@ -224,7 +224,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Checks()", 
     Set colChecks.Connection = cnDatabase
     colChecks.TableOID = dOID
     colChecks.Table = szName
-    colChecks.Namespace = szNamespace
+    colChecks.NameSpace = szNamespace
     colChecks.NamespaceOID = dNamespaceOID
     colChecks.Initialize
   End If
@@ -247,7 +247,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Indexes()",
     Set colIndexes.Connection = cnDatabase
     colIndexes.TableOID = dOID
     colIndexes.Table = szName
-    colIndexes.Namespace = szNamespace
+    colIndexes.NameSpace = szNamespace
     colIndexes.NamespaceOID = dNamespaceOID
     colIndexes.Initialize
   End If
@@ -270,7 +270,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Triggers()"
     Set colTriggers.Connection = cnDatabase
     colTriggers.TableOID = dOID
     colTriggers.Table = szName
-    colTriggers.Namespace = szNamespace
+    colTriggers.NameSpace = szNamespace
     colTriggers.NamespaceOID = dNamespaceOID
     colTriggers.Initialize
   End If
@@ -292,7 +292,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rules()", e
     Set colRules.Connection = cnDatabase
     colRules.TableOID = dOID
     colRules.Table = szName
-    colRules.Namespace = szNamespace
+    colRules.NameSpace = szNamespace
     colRules.NamespaceOID = dNamespaceOID
     colRules.Initialize
   End If
@@ -689,6 +689,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Class_Terminate()", etFu
   Set colIndexes = Nothing
   Set colRules = Nothing
   Set colTriggers = Nothing
+  Set colDependent = Nothing
+  Set colReferenced = Nothing
 
   Exit Sub
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -864,6 +866,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Function Dependent()", e
   Exit Function
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
+
+
 
 
 
