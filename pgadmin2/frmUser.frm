@@ -86,7 +86,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   47513602
+         StartOfWeek     =   48627714
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -269,6 +269,7 @@ Dim objNode As Node
       If Left(objNode.Key, 4) = "USR+" Then
         frmMain.tv.Nodes.Add objNode.Key, tvwChild, "USR-" & GetID, txtProperties(0).Text, "user"
         objNode.Text = "Users (" & frmMain.svr.Users.Count & ")"
+        Exit For
       End If
     Next objNode
     

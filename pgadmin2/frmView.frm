@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmView 
    BorderStyle     =   1  'Fixed Single
@@ -73,18 +73,18 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(0)=   "hbxProperties(1)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "hbxProperties(1)"
+      Tab(1).Control(1)=   "cmdLoad"
       Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fraAdd"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "cmdRemove"
-      Tab(2).Control(3)=   "lvProperties(0)"
+      Tab(2).Control(0)=   "lvProperties(0)"
+      Tab(2).Control(1)=   "cmdRemove"
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(3)=   "fraAdd"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -498,6 +498,7 @@ Dim szOldName As String
         If (Left(objNode.Key, 4) = "VIE+") And (objNode.Parent.Text = szDatabase) Then
           frmMain.tv.Nodes.Add objNode.Key, tvwChild, "VIE-" & GetID, txtProperties(0).Text, "view"
           objNode.Text = "Views (" & objNode.Children & ")"
+          Exit For
         End If
       End If
     Next objNode
@@ -515,6 +516,7 @@ Dim szOldName As String
         If (InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0) Then
           If (Left(objNode.Key, 4) = "VIE-") And (objNode.Parent.Parent.Text = szDatabase) And (objNode.Text = szOldName) Then
             objNode.Text = txtProperties(0).Text
+            Exit For
           End If
         End If
       Next objNode
