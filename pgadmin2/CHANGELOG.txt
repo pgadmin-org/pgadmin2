@@ -10,6 +10,8 @@ Update other column properties before renaming for safety.
 Migration: Added support for MSSQL server (tested on same installations MSSQL 7 & MSSQL 2000). [Artur Maslag]
 Migration: Some fixes to correct recognizing adNumeric type. [Artur Maslag]
 Migration: Fix for correct registry read for type mappings. [Artur Maslag]
+Migration: HandleDates/Times a little more sanely.
+Set Unknowns As LongVarChar when connecting to allow ACLs > 255 characters.
 
 1.1.76
 ------
