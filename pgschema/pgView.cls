@@ -235,16 +235,43 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get ACL()", etFu
 Err_Handler:  objServer.iLogError Err
 End Property
 
-'Set/Return the Definition
-Friend Property Let Definition(ByVal vData As String)
+'Set/Return the View definition
+Public Property Let Definition(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Definition(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+Dim rs As New Recordset
+
+  If objServer.dbVersion.VersionNum < 7.2 Then Exit Property
+  
+  'Set the source
+  szDefinition = vData
+  objServer.Databases(Database).Execute SQL(True)
+    
+  'Select the prosrc back from the DB...
+  Set rs = objServer.ExecSQL("SELECT definition FROM pg_views WHERE viewname = '" & szName & "'", cnDatabase)
+  If Not rs.EOF Then szDefinition = rs!Definition & ""
+  
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Property
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Property
+
+Friend Property Let iDefinition(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgViews.Property Let iDefinition(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szDefinition = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
 Public Property Get Definition() As String
 Attribute Definition.VB_Description = "Returns the View definition."
 On Error GoTo Err_Handler
@@ -388,14 +415,17 @@ Err_Handler:
   objServer.iLogError Err
 End Sub
 
-Public Property Get SQL() As String
+Public Property Get SQL(Optional PseudoAlter As Boolean) As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL()", etFullDebug
 Dim szSQL As String
   
-  szSQL = "-- View: " & szName & vbCrLf & _
-          "CREATE VIEW " & QUOTE & szName & QUOTE & " AS " & _
+  szSQL = "-- View: " & szName & vbCrLf
+  If ((objServer.dbVersion.VersionNum >= 7.2) And (PseudoAlter = True)) Then
+    szSQL = szSQL & "DROP VIEW " & QUOTE & szName & QUOTE & ";" & vbCrLf
+  End If
+  szSQL = szSQL & "CREATE VIEW " & QUOTE & szName & QUOTE & " AS " & _
           szDefinition & vbCrLf
 
   If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
@@ -403,7 +433,7 @@ Dim szSQL As String
     
   SQL = szSQL
   
-  Exit Sub
+  Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 

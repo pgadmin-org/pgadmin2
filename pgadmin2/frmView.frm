@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmView 
    BorderStyle     =   1  'Fixed Single
@@ -51,38 +51,34 @@ Begin VB.Form frmView
       _ExtentY        =   11218
       _Version        =   393216
       Style           =   1
+      Tab             =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
       TabPicture(0)   =   "frmView.frx":06C2
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "lblProperties(0)"
-      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "lblProperties(1)"
-      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "lblProperties(2)"
-      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "hbxProperties(0)"
-      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "txtProperties(2)"
-      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "txtProperties(1)"
-      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "txtProperties(0)"
-      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "hbxProperties(1)"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdLoad"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fraAdd"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "cmdRemove"
-      Tab(2).Control(3)=   "lvProperties(0)"
+      Tab(2).Control(0)=   "lvProperties(0)"
+      Tab(2).Control(1)=   "cmdRemove"
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(3)=   "fraAdd"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -251,7 +247,7 @@ Begin VB.Form frmView
       Begin VB.CommandButton cmdLoad 
          Caption         =   "&Load"
          Height          =   330
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   14
          ToolTipText     =   "Load a query."
          Top             =   5895
@@ -261,7 +257,7 @@ Begin VB.Form frmView
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   0
-         Left            =   1935
+         Left            =   -73065
          Locked          =   -1  'True
          TabIndex        =   1
          ToolTipText     =   "The name of the view."
@@ -272,7 +268,7 @@ Begin VB.Form frmView
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   1
-         Left            =   1935
+         Left            =   -73065
          Locked          =   -1  'True
          TabIndex        =   2
          ToolTipText     =   "The views OID (Object ID) in the PostgreSQL Database."
@@ -283,7 +279,7 @@ Begin VB.Form frmView
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   2
-         Left            =   1935
+         Left            =   -73065
          Locked          =   -1  'True
          TabIndex        =   3
          ToolTipText     =   "The views owner."
@@ -293,7 +289,7 @@ Begin VB.Form frmView
       Begin HighlightBox.HBX hbxProperties 
          Height          =   4245
          Index           =   0
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   4
          ToolTipText     =   "Comments about the view."
          Top             =   1935
@@ -314,7 +310,7 @@ Begin VB.Form frmView
       Begin HighlightBox.HBX hbxProperties 
          Height          =   5325
          Index           =   1
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   7
          ToolTipText     =   "The SQL query that will generate this view."
          Top             =   450
@@ -331,6 +327,7 @@ Begin VB.Form frmView
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         Locked          =   -1  'True
          Caption         =   "View Definition (SQL)"
       End
       Begin VB.Label lblProperties 
@@ -338,7 +335,7 @@ Begin VB.Form frmView
          Caption         =   "Owner"
          Height          =   195
          Index           =   2
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   13
          Top             =   1530
          Width           =   465
@@ -348,7 +345,7 @@ Begin VB.Form frmView
          Caption         =   "OID"
          Height          =   195
          Index           =   1
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   12
          Top             =   1125
          Width           =   285
@@ -358,7 +355,7 @@ Begin VB.Form frmView
          Caption         =   "Name"
          Height          =   195
          Index           =   0
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   11
          Top             =   720
          Width           =   420
@@ -466,7 +463,8 @@ Dim objItem As ListItem
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
-
+Dim szComment As String
+    
   'Check the data
   If txtProperties(0).Text = "" Then
     MsgBox "You must specify a view name!", vbExclamation, "Error"
@@ -497,6 +495,15 @@ Dim vEntity As Variant
     
   Else
     StartMsg "Updating View..."
+    If hbxProperties(1).Tag = "Y" Then
+        ' Save comment value before view is dropped
+        szComment = hbxProperties(0).Text
+        hbxProperties(0).Tag = "Y"
+        
+        ' Drop/create view
+        objView.Definition = hbxProperties(1).Text
+    End If
+    
     If hbxProperties(0).Tag = "Y" Then objView.Comment = hbxProperties(0).Text
   End If
   
@@ -634,6 +641,11 @@ Dim szAccess() As String
   'Reset the Tags
   hbxProperties(0).Tag = "N"
   lvProperties(0).Tag = "N"
+  
+  If (frmMain.svr.dbVersion.VersionNum >= 7.2) And Not objView.SystemObject Then
+      hbxProperties(1).BackColor = &H80000005
+      hbxProperties(1).Locked = False
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.Initialise"

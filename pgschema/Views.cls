@@ -118,7 +118,7 @@ Dim rs As New Recordset
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
   objNewMember.ACL = szACL
-  objNewMember.Definition = szDefinition
+  objNewMember.iDefinition = szDefinition
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
   
