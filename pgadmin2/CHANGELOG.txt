@@ -9,6 +9,7 @@ Don't throw an error when changing Not Null/Primary Key on a new column in an ex
 Don't allow (attempted) alteration of certain column attributes in PostgreSQL 7.2.
 Fixed some errors in the function editor.
 Raise errors properly from pgSchema.
+Only quote identifiers in datagrid update queries when required.
 
 1.3.60
 ------
