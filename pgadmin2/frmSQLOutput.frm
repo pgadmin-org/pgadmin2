@@ -176,6 +176,7 @@ Option Explicit
 Dim rsSQL As New Recordset
 Dim szDatabase As String
 Dim szTable As String
+Dim szSchema As String
 Dim szWhere As String
 Dim iUnique As Integer
 Dim bUpdateable As Boolean
@@ -259,7 +260,11 @@ Dim bFlag As Boolean
   'give the option to update all if > 1
   StartMsg "Counting matching records..."
   If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
-  szQuery = "SELECT count(*) AS count FROM " & szTable
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    szQuery = "SELECT count(*) AS count FROM " & szSchema & "." & szTable
+  Else
+    szQuery = "SELECT count(*) AS count FROM " & szTable
+  End If
   
   'WHERE Clase
   If iUnique > 0 Then
@@ -288,7 +293,11 @@ Dim bFlag As Boolean
   Set rsCount = frmMain.svr.Databases(szDatabase).Execute(szQuery)
   
   'Prepare the delete query for later
-  szQuery = "DELETE FROM " & szTable & szFullCriteria
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    szQuery = "DELETE FROM " & szSchema & "." & szTable & szFullCriteria
+  Else
+    szQuery = "DELETE FROM " & szTable & szFullCriteria
+  End If
   
   EndMsg
   If Not rsCount.EOF Then
@@ -406,7 +415,11 @@ Dim rsCount As New Recordset
     End If
     If Len(szColumns) > 2 Then szColumns = "(" & Mid(szColumns, 1, Len(szColumns) - 2) & ")"
     If Len(szValues) > 2 Then szValues = "(" & Mid(szValues, 1, Len(szValues) - 2) & ")"
-    szQuery = "INSERT INTO " & szTable & " " & szColumns & " VALUES " & szValues
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      szQuery = "INSERT INTO " & szSchema & "." & szTable & " " & szColumns & " VALUES " & szValues
+    Else
+      szQuery = "INSERT INTO " & szTable & " " & szColumns & " VALUES " & szValues
+    End If
     
     'Execute the query
     frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
@@ -523,7 +536,11 @@ Dim rsCount As New Recordset
     StartMsg "Counting matching records..."
     If Len(szValues) > 2 Then szValues = Mid(szValues, 1, Len(szValues) - 2)
     If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
-    szQuery = "SELECT count(*) AS count FROM " & szTable
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      szQuery = "SELECT count(*) AS count FROM " & szSchema & "." & szTable
+    Else
+      szQuery = "SELECT count(*) AS count FROM " & szTable
+    End If
     
     'WHERE Clase
     If iUnique > 0 Then
@@ -552,7 +569,11 @@ Dim rsCount As New Recordset
     Set rsCount = frmMain.svr.Databases(szDatabase).Execute(szQuery)
 
     'Prepare the update query for later
-    szQuery = "UPDATE " & szTable & " SET " & szValues & szFullCriteria
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      szQuery = "UPDATE " & szSchema & "." & szTable & " SET " & szValues & szFullCriteria
+    Else
+      szQuery = "UPDATE " & szTable & " SET " & szValues & szFullCriteria
+    End If
     
     EndMsg
     If Not rsCount.EOF Then
@@ -638,7 +659,7 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
-''On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer
@@ -812,6 +833,25 @@ Dim szSchemas() As String
     szTable = Replace(szBits(0), vbTab, " ")
   End If
   
+  'If the last character is a semi-colon, then the user probably entered a
+  'psql style query: SELECT * FROM pg_class;
+  If Right(szTable, 1) = ";" Then szTable = Mid(szTable, 1, Len(szTable) - 1)
+  
+  'At this point, szTable could look like pretty much any of the following:
+  'schema.table, "schema"."table", "schema".table, schema."table", table, "table"
+  'We need to search for a . outside any quote pairs. If there is one, then
+  'we can get the schema and table
+  bInQuotes = False
+  For X = 1 To Len(szTable)
+    szTemp = Mid(szTable, X, 1)
+    If szTemp = QUOTE Then
+      bInQuotes = Not bInQuotes
+    ElseIf szTemp = "." And Not bInQuotes Then
+      szSchema = Mid(szTable, 1, X - 1)
+      szTable = Mid(szTable, X + 1)
+    End If
+  Next X
+  
   'Check to see if our table is actually a view or sequence. If it is then we can't
   'update :-(
   
@@ -830,27 +870,33 @@ Dim szSchemas() As String
     End If
   Else
     'This is a PITA with 7.3 as we can have multiple schemas in the search path.
-    Set rsSchema = frmMain.svr.Databases(szDatabase).Execute("SELECT current_schemas() AS path", , , qrySystem)
-    szTemp = rsSchema!Path & ""
-    If Len(szTemp) > 2 Then szTemp = Mid(szTemp, 2, Len(szTemp) - 2)
-    If rsSchema.State <> adStateClosed Then rsSchema.Close
-    Set rsSchema = Nothing
-    bInQuotes = False
-    ReDim szSchemas(0)
-    For X = 1 To Len(szTemp)
-      If Mid(szTemp, X, 1) = "," Then
-        If bInQuotes Then
-          szSchemas(UBound(szSchemas)) = szSchemas(UBound(szSchemas)) & ","
+    'However, if szSchema isn't empty then it's easy
+    If szSchema <> "" Then
+      ReDim szSchemas(0)
+      szSchemas(0) = szSchema
+    Else
+      Set rsSchema = frmMain.svr.Databases(szDatabase).Execute("SELECT current_schemas(true) AS path", , , qrySystem)
+      szTemp = rsSchema!Path & ""
+      If Len(szTemp) > 2 Then szTemp = Mid(szTemp, 2, Len(szTemp) - 2)
+      If rsSchema.State <> adStateClosed Then rsSchema.Close
+      Set rsSchema = Nothing
+      bInQuotes = False
+      ReDim szSchemas(0)
+      For X = 1 To Len(szTemp)
+        If Mid(szTemp, X, 1) = "," Then
+          If bInQuotes Then
+            szSchemas(UBound(szSchemas)) = szSchemas(UBound(szSchemas)) & ","
+          Else
+            ReDim Preserve szSchemas(UBound(szSchemas) + 1)
+          End If
+        ElseIf Mid(szTemp, X, 1) = QUOTE Then
+          bInQuotes = Not bInQuotes
         Else
-          ReDim Preserve szSchemas(UBound(szSchemas) + 1)
+          szSchemas(UBound(szSchemas)) = szSchemas(UBound(szSchemas)) & Mid(szTemp, X, 1)
         End If
-      ElseIf Mid(szTemp, X, 1) = QUOTE Then
-        bInQuotes = Not bInQuotes
-      Else
-        szSchemas(UBound(szSchemas)) = szSchemas(UBound(szSchemas)) & Mid(szTemp, X, 1)
-      End If
-    Next X
-    
+      Next X
+    End If
+      
     'Now check for the existance of a view, sequence or table with the current name.
     'If a table exists, then we're all go. If it's as view or sequence then it's not
     'updateable
@@ -863,6 +909,9 @@ Dim szSchemas() As String
         GoTo GotInfo
       Else
         If frmMain.svr.Databases(szDatabase).Namespaces(szSchemas(X)).Tables.Exists(szTempTable) Then
+          'Reset the schema & table names to nicely formatted ones
+          szTable = fmtID(frmMain.svr.Databases(szDatabase).Namespaces(szSchemas(X)).Tables(szTempTable).Name)
+          szSchema = fmtID(frmMain.svr.Databases(szDatabase).Namespaces(szSchemas(X)).Tables(szTempTable).Namespace)
           Exit For
         End If
       End If
@@ -937,32 +986,39 @@ GotInfo:
     cmdDelete.Enabled = False
   End If
   LoadGrid
-  
-  '*** FIXME ***
+
   'Attempt to figure out a Unique Column for safer updating
-'  If bUpdateable Then
-'    szTemp = szTable
-'    If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
-'    If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
-'    For iTemp = 1 To lvData.ColumnHeaders.Count
-'      If frmMain.svr.Databases(szDatabase).Tables.Exists(szTemp) Then
-'        If frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns.Exists(lvData.ColumnHeaders(iTemp).Text) Then
-'          If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
-'             (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
-'             (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
-'             (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
-'            iUnique = iTemp
-'            Exit For
-'          End If
-'        End If
-'      End If
-'    Next iTemp
-'    If iUnique = 0 Then
-'      frmMain.svr.LogEvent "Couldn't find a suitable unique column for use as a key.", etMiniDebug
-'    Else
-'      frmMain.svr.LogEvent "Found column: " & lvData.ColumnHeaders(iUnique).Text & " for use as a key.", etMiniDebug
-'    End If
-'  End If
+  If bUpdateable Then
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      szTemp = szSchema
+      If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
+      If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
+    Else
+      szTemp = "public"
+    End If
+    
+    szTempTable = szTable
+    If Left(szTempTable, 1) = QUOTE Then szTempTable = Right(szTempTable, Len(szTempTable) - 1)
+    If Right(szTempTable, 1) = QUOTE Then szTempTable = Left(szTempTable, Len(szTempTable) - 1)
+    For iTemp = 1 To lvData.ColumnHeaders.Count
+      If frmMain.svr.Databases(szDatabase).Namespaces(szTemp).Tables.Exists(szTempTable) Then
+        If frmMain.svr.Databases(szDatabase).Namespaces(szTemp).Tables(szTempTable).Columns.Exists(lvData.ColumnHeaders(iTemp).Text) Then
+          If ((frmMain.svr.Databases(szDatabase).Namespaces(szTemp).Tables(szTempTable).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
+             (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
+             (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
+             (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
+            iUnique = iTemp
+            Exit For
+          End If
+        End If
+      End If
+    Next iTemp
+    If iUnique = 0 Then
+      frmMain.svr.LogEvent "Couldn't find a suitable unique column for use as a key.", etMiniDebug
+    Else
+      frmMain.svr.LogEvent "Found column: " & lvData.ColumnHeaders(iUnique).Text & " for use as a key.", etMiniDebug
+    End If
+  End If
   
   Exit Sub
 Err_Handler:
