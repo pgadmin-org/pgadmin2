@@ -14,11 +14,6 @@
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="Download pgAdmin II">
-			<param name="Local" value="html\download.html">
-			<param name="ImageNumber" value="15">
-			</OBJECT>
-		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Mailing Lists">
 			<param name="Local" value="html\mailing.html">
 			<param name="ImageNumber" value="23">
