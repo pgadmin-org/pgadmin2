@@ -17,3 +17,4 @@ You can switch the Definition Pane on or off from the 'View' menu.
 The Definition Pane displays the reversed engineered SQL for the select object or collection of objects.
 Text Highlight colours, style and the trigger words themselves can be selected from the 'Options' form.
 The meaning of Life, the Universe and Everything is 42.
+The pgAdmin developers are based in the UK, France and the US.
