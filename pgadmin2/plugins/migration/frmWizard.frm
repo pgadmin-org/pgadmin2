@@ -22,7 +22,7 @@ Begin VB.Form frmWizard
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
-      TabIndex        =   22
+      TabIndex        =   28
       Top             =   0
       Width           =   465
    End
@@ -30,15 +30,15 @@ Begin VB.Form frmWizard
       Caption         =   "&Edit Type Map"
       Height          =   330
       Left            =   540
-      TabIndex        =   18
+      TabIndex        =   24
       ToolTipText     =   "Edit the data Type Map."
       Top             =   3960
       Visible         =   0   'False
       Width           =   1230
    End
    Begin MSComDlg.CommonDialog CommonDialog1 
-      Left            =   2205
-      Top             =   3915
+      Left            =   2250
+      Top             =   3870
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
@@ -48,18 +48,18 @@ Begin VB.Form frmWizard
       Enabled         =   0   'False
       Height          =   330
       Left            =   3300
-      TabIndex        =   17
+      TabIndex        =   23
       ToolTipText     =   "Move back a step."
-      Top             =   3960
+      Top             =   3945
       Width           =   1140
    End
    Begin VB.CommandButton cmdNext 
       Caption         =   "&Next"
       Height          =   330
       Left            =   4500
-      TabIndex        =   16
+      TabIndex        =   22
       ToolTipText     =   "Proceed to the next step."
-      Top             =   3960
+      Top             =   3945
       Width           =   1140
    End
    Begin VB.CommandButton cmdOK 
@@ -68,21 +68,21 @@ Begin VB.Form frmWizard
       Enabled         =   0   'False
       Height          =   330
       Left            =   5700
-      TabIndex        =   21
+      TabIndex        =   27
       ToolTipText     =   "Accept the completed migration"
-      Top             =   3960
+      Top             =   3945
       Visible         =   0   'False
       Width           =   1140
    End
    Begin TabDlg.SSTab tabWizard 
-      Height          =   3840
+      Height          =   3825
       Left            =   540
       TabIndex        =   0
       TabStop         =   0   'False
       Top             =   90
       Width           =   6300
       _ExtentX        =   11113
-      _ExtentY        =   6773
+      _ExtentY        =   6747
       _Version        =   393216
       Tabs            =   7
       TabsPerRow      =   7
@@ -93,98 +93,106 @@ Begin VB.Form frmWizard
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Label1(2)"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "fraODBC"
+      Tab(0).Control(1)=   "Frame2"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "fraAccess"
+      Tab(0).Control(2)=   "fraODBC"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "optType(0)"
+      Tab(0).Control(3)=   "fraAccess"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "chkNotNull"
+      Tab(0).Control(4)=   "optType(0)"
       Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "optType(1)"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "chkIndexes"
+      Tab(0).Control(6)=   "optType(2)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "chkLCaseColumns"
+      Tab(0).Control(7)=   "fraSQLServer"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "chkLCaseTables"
+      Tab(0).Control(8)=   "Frame1"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "chkLCaseIndexes"
-      Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "chkPrimaryKey"
-      Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "optType(2)"
-      Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "fraSQLServer"
-      Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).ControlCount=   13
+      Tab(0).ControlCount=   9
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":187D
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label2(0)"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lstDatabase"
-      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(0)=   "lstDatabase"
+      Tab(1).Control(1)=   "Label2(0)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":1899
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label2(1)"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lstNamespace"
-      Tab(2).Control(1).Enabled=   0   'False
+      Tab(2).Control(0)=   "lstNamespace"
+      Tab(2).Control(1)=   "Label2(1)"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18B5
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Label1(1)"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "cmdDeselect(0)"
-      Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "cmdSelect(0)"
-      Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "lstTables"
-      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).Control(0)=   "lstTables"
+      Tab(3).Control(1)=   "cmdSelect(0)"
+      Tab(3).Control(2)=   "cmdDeselect(0)"
+      Tab(3).Control(3)=   "Label1(1)"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":18D1
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Label1(9)"
-      Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "cmdDeselect(1)"
-      Tab(4).Control(1).Enabled=   0   'False
-      Tab(4).Control(2)=   "cmdSelect(1)"
-      Tab(4).Control(2).Enabled=   0   'False
-      Tab(4).Control(3)=   "lstData"
-      Tab(4).Control(3).Enabled=   0   'False
+      Tab(4).Control(0)=   "lstData"
+      Tab(4).Control(1)=   "cmdSelect(1)"
+      Tab(4).Control(2)=   "cmdDeselect(1)"
+      Tab(4).Control(3)=   "Label1(9)"
       Tab(4).ControlCount=   4
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":18ED
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "Label1(8)"
-      Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "Label1(10)"
-      Tab(5).Control(1).Enabled=   0   'False
+      Tab(5).Control(0)=   "lstForeignKeys"
+      Tab(5).Control(1)=   "cmdSelect(2)"
       Tab(5).Control(2)=   "cmdDeselect(2)"
-      Tab(5).Control(2).Enabled=   0   'False
-      Tab(5).Control(3)=   "cmdSelect(2)"
-      Tab(5).Control(3).Enabled=   0   'False
-      Tab(5).Control(4)=   "lstForeignKeys"
-      Tab(5).Control(4).Enabled=   0   'False
+      Tab(5).Control(3)=   "Label1(10)"
+      Tab(5).Control(4)=   "Label1(8)"
       Tab(5).ControlCount=   5
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":1909
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "pbStatus"
-      Tab(6).Control(0).Enabled=   0   'False
-      Tab(6).Control(1)=   "txtStatus"
-      Tab(6).Control(1).Enabled=   0   'False
+      Tab(6).Control(0)=   "txtStatus"
+      Tab(6).Control(1)=   "pbStatus"
       Tab(6).ControlCount=   2
+      Begin VB.Frame Frame1 
+         Caption         =   "Shift to lower case"
+         Height          =   1500
+         Left            =   4050
+         TabIndex        =   61
+         Top             =   2160
+         Width           =   2085
+         Begin VB.CheckBox chkLCaseColumns 
+            Caption         =   "Column names"
+            Height          =   240
+            Left            =   135
+            TabIndex        =   12
+            ToolTipText     =   "Select this to convert column names to lower case."
+            Top             =   270
+            Width           =   1725
+         End
+         Begin VB.CheckBox chkLCaseTables 
+            Caption         =   "Table names"
+            Height          =   240
+            Left            =   135
+            TabIndex        =   13
+            ToolTipText     =   "Select this to convert table names to lower case."
+            Top             =   720
+            Width           =   1680
+         End
+         Begin VB.CheckBox chkLCaseIndexes 
+            Caption         =   "Index/Key names"
+            Height          =   240
+            Left            =   135
+            TabIndex        =   14
+            ToolTipText     =   "Select this to convert index names to lower case."
+            Top             =   1170
+            Width           =   1635
+         End
+      End
       Begin VB.ListBox lstTables 
          Height          =   3435
          Left            =   -73470
          Style           =   1  'Checkbox
-         TabIndex        =   56
+         TabIndex        =   57
          Top             =   270
          Width           =   4650
       End
@@ -193,7 +201,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   0
          Left            =   -74820
-         TabIndex        =   55
+         TabIndex        =   56
          ToolTipText     =   "Select all tables"
          Top             =   540
          Width           =   1230
@@ -203,7 +211,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   0
          Left            =   -74820
-         TabIndex        =   54
+         TabIndex        =   55
          Top             =   945
          Width           =   1230
       End
@@ -211,7 +219,7 @@ Begin VB.Form frmWizard
          Height          =   3435
          Left            =   -73470
          Style           =   1  'Checkbox
-         TabIndex        =   52
+         TabIndex        =   53
          Top             =   270
          Width           =   4650
       End
@@ -220,7 +228,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   1
          Left            =   -74820
-         TabIndex        =   51
+         TabIndex        =   52
          ToolTipText     =   "Select all tables"
          Top             =   540
          Width           =   1230
@@ -230,7 +238,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   1
          Left            =   -74820
-         TabIndex        =   50
+         TabIndex        =   51
          Top             =   945
          Width           =   1230
       End
@@ -238,7 +246,7 @@ Begin VB.Form frmWizard
          Height          =   3435
          Left            =   -73455
          Style           =   1  'Checkbox
-         TabIndex        =   47
+         TabIndex        =   48
          Top             =   270
          Width           =   4650
       End
@@ -247,7 +255,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   2
          Left            =   -74820
-         TabIndex        =   46
+         TabIndex        =   47
          ToolTipText     =   "Select all foreign keys"
          Top             =   540
          Width           =   1230
@@ -257,7 +265,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   2
          Left            =   -74820
-         TabIndex        =   45
+         TabIndex        =   46
          Top             =   930
          Width           =   1230
       End
@@ -267,7 +275,7 @@ Begin VB.Form frmWizard
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   3  'Both
-         TabIndex        =   43
+         TabIndex        =   44
          ToolTipText     =   "Displays the status of the migration process"
          Top             =   135
          Width           =   6180
@@ -276,21 +284,21 @@ Begin VB.Form frmWizard
          Caption         =   "SQL server"
          Height          =   1455
          Left            =   720
-         TabIndex        =   34
+         TabIndex        =   39
          Top             =   600
          Visible         =   0   'False
          Width           =   4965
          Begin VB.TextBox txtSQLB 
             Height          =   285
             Left            =   3390
-            TabIndex        =   40
+            TabIndex        =   5
             Top             =   315
             Width           =   1245
          End
          Begin VB.TextBox txtSQLS 
             Height          =   285
             Left            =   1200
-            TabIndex        =   39
+            TabIndex        =   4
             Top             =   315
             Width           =   1245
          End
@@ -300,7 +308,7 @@ Begin VB.Form frmWizard
             Index           =   2
             Left            =   1200
             PasswordChar    =   "*"
-            TabIndex        =   42
+            TabIndex        =   7
             ToolTipText     =   "Enter a password for this database if required."
             Top             =   1035
             Width           =   3435
@@ -309,7 +317,7 @@ Begin VB.Form frmWizard
             Height          =   285
             Index           =   2
             Left            =   1200
-            TabIndex        =   41
+            TabIndex        =   6
             ToolTipText     =   "Enter a username for this database if required."
             Top             =   675
             Width           =   3435
@@ -320,7 +328,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   14
             Left            =   2565
-            TabIndex        =   38
+            TabIndex        =   43
             Top             =   360
             Width           =   690
          End
@@ -330,7 +338,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   13
             Left            =   120
-            TabIndex        =   37
+            TabIndex        =   42
             Top             =   360
             Width           =   930
          End
@@ -339,7 +347,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   12
             Left            =   120
-            TabIndex        =   36
+            TabIndex        =   41
             Top             =   1080
             Width           =   1125
          End
@@ -348,7 +356,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   11
             Left            =   120
-            TabIndex        =   35
+            TabIndex        =   40
             Top             =   720
             Width           =   1005
          End
@@ -358,57 +366,10 @@ Begin VB.Form frmWizard
          Height          =   240
          Index           =   2
          Left            =   4080
-         TabIndex        =   33
+         TabIndex        =   3
          ToolTipText     =   "Migrate an SQL Server Database."
          Top             =   285
          Width           =   1500
-      End
-      Begin VB.CheckBox chkPrimaryKey 
-         Caption         =   "Create Primary Keys on Migrated Tables"
-         Height          =   240
-         Left            =   660
-         TabIndex        =   12
-         ToolTipText     =   "Select this to attempt to migrate Primary Keys from the source database."
-         Top             =   2700
-         Value           =   1  'Checked
-         Width           =   4380
-      End
-      Begin VB.CheckBox chkLCaseIndexes 
-         Caption         =   "Convert Index/Key Names to Lower Case"
-         Height          =   240
-         Left            =   660
-         TabIndex        =   15
-         ToolTipText     =   "Select this to convert index names to lower case."
-         Top             =   3420
-         Width           =   4380
-      End
-      Begin VB.CheckBox chkLCaseTables 
-         Caption         =   "Convert Table Names to Lower Case"
-         Height          =   240
-         Left            =   660
-         TabIndex        =   13
-         ToolTipText     =   "Select this to convert table names to lower case."
-         Top             =   2940
-         Width           =   4380
-      End
-      Begin VB.CheckBox chkLCaseColumns 
-         Caption         =   "Convert Column Names to Lower Case"
-         Height          =   240
-         Left            =   660
-         TabIndex        =   14
-         ToolTipText     =   "Select this to convert column names to lower case."
-         Top             =   3180
-         Width           =   4380
-      End
-      Begin VB.CheckBox chkIndexes 
-         Caption         =   "Create Indexes on Migrated Tables"
-         Height          =   240
-         Left            =   660
-         TabIndex        =   11
-         ToolTipText     =   "Select this to attempt to migrate Indexes from the source database."
-         Top             =   2460
-         Value           =   1  'Checked
-         Width           =   4380
       End
       Begin VB.OptionButton optType 
          Caption         =   "&ODBC"
@@ -419,16 +380,6 @@ Begin VB.Form frmWizard
          ToolTipText     =   "Migrate an ODBC Datasource"
          Top             =   285
          Width           =   1500
-      End
-      Begin VB.CheckBox chkNotNull 
-         Caption         =   "Create columns as 'NOT NULL' where applicable"
-         Height          =   240
-         Left            =   675
-         TabIndex        =   10
-         ToolTipText     =   "Select this to attempt to migrate 'NOT NULL' rules from the source database."
-         Top             =   2220
-         Value           =   1  'Checked
-         Width           =   4380
       End
       Begin VB.OptionButton optType 
          Caption         =   "&Access"
@@ -444,7 +395,7 @@ Begin VB.Form frmWizard
       Begin MSComctlLib.ListView lstDatabase 
          Height          =   3300
          Left            =   -74955
-         TabIndex        =   19
+         TabIndex        =   25
          Top             =   450
          Width           =   6180
          _ExtentX        =   10901
@@ -475,14 +426,14 @@ Begin VB.Form frmWizard
          Caption         =   "Access Database"
          Height          =   1455
          Left            =   720
-         TabIndex        =   23
+         TabIndex        =   29
          Top             =   600
          Width           =   4965
          Begin VB.CommandButton cmdBrowse 
             Caption         =   "..."
             Height          =   285
             Left            =   4500
-            TabIndex        =   4
+            TabIndex        =   16
             ToolTipText     =   "Browse for the database to migrate"
             Top             =   315
             Width           =   330
@@ -490,7 +441,7 @@ Begin VB.Form frmWizard
          Begin VB.TextBox txtFile 
             Height          =   285
             Left            =   1080
-            TabIndex        =   3
+            TabIndex        =   15
             ToolTipText     =   "Enter the filename of the database to migrate."
             Top             =   315
             Width           =   3435
@@ -499,7 +450,7 @@ Begin VB.Form frmWizard
             Height          =   285
             Index           =   0
             Left            =   1080
-            TabIndex        =   5
+            TabIndex        =   17
             ToolTipText     =   "Enter a username for this database if required."
             Top             =   675
             Width           =   3435
@@ -510,7 +461,7 @@ Begin VB.Form frmWizard
             Index           =   0
             Left            =   1080
             PasswordChar    =   "*"
-            TabIndex        =   6
+            TabIndex        =   18
             ToolTipText     =   "Enter a password for this database if required."
             Top             =   1035
             Width           =   3435
@@ -520,7 +471,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   0
             Left            =   135
-            TabIndex        =   26
+            TabIndex        =   32
             Top             =   360
             Width           =   1365
          End
@@ -529,7 +480,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   3
             Left            =   135
-            TabIndex        =   25
+            TabIndex        =   31
             Top             =   720
             Width           =   1365
          End
@@ -538,7 +489,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   4
             Left            =   135
-            TabIndex        =   24
+            TabIndex        =   30
             Top             =   1080
             Width           =   1365
          End
@@ -547,7 +498,7 @@ Begin VB.Form frmWizard
          Caption         =   "ODBC Database"
          Height          =   1455
          Left            =   720
-         TabIndex        =   28
+         TabIndex        =   34
          Top             =   600
          Visible         =   0   'False
          Width           =   4965
@@ -557,7 +508,7 @@ Begin VB.Form frmWizard
             Index           =   1
             Left            =   1080
             PasswordChar    =   "*"
-            TabIndex        =   9
+            TabIndex        =   21
             ToolTipText     =   "Enter a valid password for this datasource"
             Top             =   1035
             Width           =   3435
@@ -566,7 +517,7 @@ Begin VB.Form frmWizard
             Height          =   285
             Index           =   1
             Left            =   1080
-            TabIndex        =   8
+            TabIndex        =   20
             ToolTipText     =   "Enter a valid username for this datasource"
             Top             =   675
             Width           =   3435
@@ -575,7 +526,7 @@ Begin VB.Form frmWizard
             Height          =   315
             Left            =   1080
             Style           =   2  'Dropdown List
-            TabIndex        =   7
+            TabIndex        =   19
             ToolTipText     =   "Select a datasource to migrate"
             Top             =   315
             Width           =   3705
@@ -585,7 +536,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   5
             Left            =   135
-            TabIndex        =   31
+            TabIndex        =   37
             Top             =   1080
             Width           =   1365
          End
@@ -594,7 +545,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   6
             Left            =   135
-            TabIndex        =   30
+            TabIndex        =   36
             Top             =   720
             Width           =   1365
          End
@@ -603,7 +554,7 @@ Begin VB.Form frmWizard
             Height          =   195
             Index           =   7
             Left            =   135
-            TabIndex        =   29
+            TabIndex        =   35
             Top             =   360
             Width           =   1365
          End
@@ -611,7 +562,7 @@ Begin VB.Form frmWizard
       Begin MSComctlLib.ProgressBar pbStatus 
          Height          =   195
          Left            =   -74955
-         TabIndex        =   44
+         TabIndex        =   45
          Top             =   3600
          Width           =   6180
          _ExtentX        =   10901
@@ -622,7 +573,7 @@ Begin VB.Form frmWizard
       Begin MSComctlLib.ListView lstNamespace 
          Height          =   3300
          Left            =   -74955
-         TabIndex        =   58
+         TabIndex        =   59
          Top             =   450
          Width           =   6180
          _ExtentX        =   10901
@@ -649,12 +600,59 @@ Begin VB.Form frmWizard
             Object.Width           =   7056
          EndProperty
       End
+      Begin VB.Frame Frame2 
+         Caption         =   "Options"
+         Height          =   1500
+         Left            =   180
+         TabIndex        =   62
+         Top             =   2160
+         Width           =   3705
+         Begin VB.CheckBox chkNotNull 
+            Caption         =   "Don't ignore NOT NULL"
+            Height          =   240
+            Left            =   135
+            TabIndex        =   8
+            ToolTipText     =   "Select this to attempt to migrate 'NOT NULL' rules from the source database."
+            Top             =   270
+            Value           =   1  'Checked
+            Width           =   3165
+         End
+         Begin VB.CheckBox chkIndexes 
+            Caption         =   "Create Indexes on migrated tables"
+            Height          =   240
+            Left            =   135
+            TabIndex        =   9
+            ToolTipText     =   "Select this to attempt to migrate Indexes from the source database."
+            Top             =   585
+            Value           =   1  'Checked
+            Width           =   3210
+         End
+         Begin VB.CheckBox chkPrimaryKey 
+            Caption         =   "Create Primary Keys on migrated tables"
+            Height          =   240
+            Left            =   135
+            TabIndex        =   10
+            ToolTipText     =   "Select this to attempt to migrate Primary Keys from the source database."
+            Top             =   870
+            Value           =   1  'Checked
+            Width           =   3300
+         End
+         Begin VB.CheckBox chkDropExistingTables 
+            Caption         =   "Drop existing destination Tables "
+            Height          =   240
+            Left            =   135
+            TabIndex        =   11
+            ToolTipText     =   "Drop tables that already exist in the target database before migration"
+            Top             =   1170
+            Width           =   3120
+         End
+      End
       Begin VB.Label Label2 
          Caption         =   "Select the schema to migrate into."
          Height          =   240
          Index           =   1
          Left            =   -74910
-         TabIndex        =   59
+         TabIndex        =   60
          Top             =   225
          Width           =   3255
       End
@@ -664,7 +662,7 @@ Begin VB.Form frmWizard
          Height          =   195
          Index           =   1
          Left            =   -74910
-         TabIndex        =   57
+         TabIndex        =   58
          Top             =   270
          Width           =   1365
       End
@@ -674,7 +672,7 @@ Begin VB.Form frmWizard
          Height          =   195
          Index           =   9
          Left            =   -74910
-         TabIndex        =   53
+         TabIndex        =   54
          Top             =   270
          Width           =   1365
       End
@@ -684,7 +682,7 @@ Begin VB.Form frmWizard
          Height          =   2100
          Index           =   10
          Left            =   -74835
-         TabIndex        =   49
+         TabIndex        =   50
          Top             =   1350
          Width           =   1185
       End
@@ -694,7 +692,7 @@ Begin VB.Form frmWizard
          Height          =   195
          Index           =   8
          Left            =   -74910
-         TabIndex        =   48
+         TabIndex        =   49
          Top             =   270
          Width           =   1365
       End
@@ -703,7 +701,7 @@ Begin VB.Form frmWizard
          Height          =   240
          Index           =   0
          Left            =   -74910
-         TabIndex        =   32
+         TabIndex        =   38
          Top             =   225
          Width           =   3255
       End
@@ -712,7 +710,7 @@ Begin VB.Form frmWizard
          Height          =   195
          Index           =   2
          Left            =   720
-         TabIndex        =   27
+         TabIndex        =   33
          Top             =   285
          Width           =   1365
       End
@@ -722,7 +720,7 @@ Begin VB.Form frmWizard
       Enabled         =   0   'False
       Height          =   330
       Left            =   5700
-      TabIndex        =   20
+      TabIndex        =   26
       ToolTipText     =   "Start the database migration."
       Top             =   3960
       Width           =   1140
@@ -1232,6 +1230,14 @@ Dim auto_increment_count As Long
 Dim auto_increment_table As String
 Dim auto_increment_query As String
 Dim auto_increment_rs As New Recordset
+Dim auto_increment_sequencename As String
+
+'Johnm - for checking for the existance of a destination table to drop
+Dim bDrop As Boolean
+'Temp variables to reduce if/then code bloat on table drop
+Dim szDropNamespace As String
+Dim szDropTablename As String
+Dim szDropTableConcatenation As String
 
   StartMsg "Migrating database..."
   lVer = svr.dbVersion.VersionNum
@@ -1245,6 +1251,7 @@ Dim auto_increment_rs As New Recordset
   If chkLCaseTables.Value = 1 Then svr.LogEvent "Table names being converted to lowercase.", etMiniDebug
   If chkLCaseColumns.Value = 1 Then svr.LogEvent "Column names being converted to lowercase.", etMiniDebug
   If chkLCaseIndexes.Value = 1 Then svr.LogEvent "Index names being converted to lowercase.", etMiniDebug
+  If chkDropExistingTables.Value = 1 Then svr.LogEvent "Pre-existing destination tables will be dropped.", etMiniDebug
 
   'Begin a transaction.
   svr.Databases(szDatabase).Execute "BEGIN"
@@ -1260,18 +1267,51 @@ Dim auto_increment_rs As New Recordset
     szTemp1 = ""  'Added 1/30/2001 Rod Childers Variables not being set to ""
     szTemp2 = ""
     
+    szQryStr = ""
+    
+    '****
+    'Johnm - If checked by the user, drop the matching destination table
+    If chkDropExistingTables = 1 Then
+      bDrop = False
+
+      If chkLCaseTables.Value = 0 Then
+        szDropTablename = lstData.List(X)
+      Else
+        szDropTablename = LCase(lstData.List(X))
+      End If
+
+      If lVer >= 7.3 Then
+        szDropNamespace = szNamespace
+        szDropTableConcatenation = szNamespace & "." & szDropTablename
+      Else
+        szDropNamespace = "public"
+        szDropTableConcatenation = szDropTablename
+      End If
+
+      'Set drop boolean based on whether the table was found in the destination DB
+      bDrop = svr.Databases(szDatabase).Namespaces(szDropNamespace).Tables.Exists(szDropTablename)
+
+      'Only attempt to drop the tables if they were found in the destination postgres database
+      If bDrop = True Then
+        txtStatus.Text = txtStatus.Text & "Dropping table " & szDropTablename & vbCrLf
+        szQryStr = szQryStr & "DROP TABLE " & szDropTableConcatenation & "; "
+      End If
+    End If
+    'Johnm - table dropping code
+    '****
+    
     loFlag = False
     If lVer >= 7.3 Then
       If chkLCaseTables.Value = 0 Then
-        szQryStr = "CREATE TABLE " & fmtID(szNamespace) & "." & fmtID(lstData.List(X)) & " ( "
+        szQryStr = szQryStr & "CREATE TABLE " & fmtID(szNamespace) & "." & fmtID(lstData.List(X)) & " ( "
       Else
-        szQryStr = "CREATE TABLE " & fmtID(szNamespace) & "." & fmtID(LCase(lstData.List(X))) & " ( "
+        szQryStr = szQryStr & "CREATE TABLE " & fmtID(szNamespace) & "." & fmtID(LCase(lstData.List(X))) & " ( "
       End If
     Else
       If chkLCaseTables.Value = 0 Then
-        szQryStr = "CREATE TABLE " & fmtID(lstData.List(X)) & " ( "
+        szQryStr = szQryStr & "CREATE TABLE " & fmtID(lstData.List(X)) & " ( "
       Else
-        szQryStr = "CREATE TABLE " & fmtID(LCase(lstData.List(X))) & " ( "
+        szQryStr = szQryStr & "CREATE TABLE " & fmtID(LCase(lstData.List(X))) & " ( "
       End If
     End If
     
@@ -1288,8 +1328,43 @@ Dim auto_increment_rs As New Recordset
       auto_increment_table = LCase(lstData.List(X))
     End If
     auto_increment_query = ""
+    
+    '****
+    'Johnm - MSSQL Autonumber code NOTE: using some of the variables defined for the Access autonumber code
+    'NOTE: currently only tested on MSSQL Server 7.0/NT4
+    If InStr(1, cnLocal.ConnectionString, "PROVIDER=SQLOLEDB") <> 0 Then
+        'The following query should pull a record that contains the autonumber column if one exists for the table
+        auto_increment_query = "select (syscolumns.status & 128) as isidentity ," & _
+        " sysobjects.name as tablename, syscolumns.name as columnname " & _
+        " From " & _
+        " sysobjects inner join syscolumns on sysobjects.id = syscolumns.id " & _
+        " inner join systypes on syscolumns.xtype = systypes.xtype " & _
+        " LEFT OUTER JOIN sysindexkeys on sysindexkeys.id = sysobjects.id and sysindexkeys.colid = syscolumns.colid " & _
+        " LEFT OUTER JOIN sysindexes on sysindexkeys.indid = sysindexes.indid AND sysindexkeys.id = sysindexes.id " & _
+        " where sysobjects.type = 'U' AND (syscolumns.status & 128) = 128 AND " & _
+        " sysobjects.name = '" & auto_increment_table & "'"
+            
+        '   Perform the query
+        auto_increment_rs.Open auto_increment_query, cnLocal, 3, 1
+        'If a record was found, then there is an autonumber for this table
+        If auto_increment_rs.EOF = False Then
+            'Johnm - setting boolean and variables to utilize the existing MSDASQL code
+            auto_increment_on = 1
+            If chkLCaseColumns.Value = 0 Then
+              auto_increment_field_name = auto_increment_rs("columnname")
+            Else
+              auto_increment_field_name = LCase(auto_increment_rs("columnname"))
+            End If
+        End If
+        If auto_increment_rs.State <> adStateClosed Then auto_increment_rs.Close
+        Set auto_increment_rs = Nothing
+        auto_increment_query = ""
+    End If
+    'Johnm - End of MSSQL Autonumber code
+    '****
+    
     '   Only do this if it's an access database
-    If InStr(1, cnLocal.ConnectionString, "MSDASQL") = 0 Then
+    If InStr(1, cnLocal.ConnectionString, "Provider=Microsoft.Jet.OLEDB.4.0") <> 0 Then
       For Y = 0 To catLocal.Tables(lstData.List(X)).Columns.Count - 1
         If catLocal.Tables(lstData.List(X)).Columns(Y).Type = adInteger Then
           If bIsAutoIncrement(catLocal.Tables(lstData.List(X)).Columns(Y).Properties("AutoIncrement")) = True Then ' AM 20020110
@@ -1305,6 +1380,7 @@ Dim auto_increment_rs As New Recordset
           End If
         End If
       Next Y
+    End If 'Johnm - Moved end if here so that both blocks of autoincrement code can use this section
     
       If auto_increment_on = 1 Then
         auto_increment_query = "SELECT MAX(" & szQuoteChar & auto_increment_field_name & szQuoteChar & ") AS RECCOUNT FROM " & szQuoteChar & auto_increment_table & szQuoteChar
@@ -1323,17 +1399,40 @@ Dim auto_increment_rs As New Recordset
         '   Destroy what I created
         If auto_increment_rs.State <> adStateClosed Then auto_increment_rs.Close
         Set auto_increment_rs = Nothing
+                
+        'Johnm - assuming that if we are to drop conflicting tables, we should also drop conflicting sequences
+        If chkDropExistingTables = 1 Then
+            auto_increment_sequencename = Left(auto_increment_table & "_" & auto_increment_field_name & "_key", 31)
+            If svr.Databases(szDatabase).Namespaces(szDropNamespace).Sequences.Exists(auto_increment_sequencename) Then
+                '   Set the PostgreSQL query
+                If lVer >= 7.3 Then
+                  auto_increment_query = "DROP SEQUENCE " & fmtID(szNamespace) & "." & fmtID(auto_increment_table & "_" & auto_increment_field_name & "_key") & ";"
+                Else
+                  auto_increment_query = "DROP SEQUENCE " & fmtID(auto_increment_table & "_" & auto_increment_field_name & "_key") & ";"
+                End If
+                'Johnm - added status update to notify of sequence creation
+                txtStatus.Text = txtStatus.Text & "Dropping sequence " & auto_increment_table & "_" & auto_increment_field_name & "_key" & vbCrLf
+            Else
+                'Johnm - added status update to notify of sequence creation
+                'txtStatus.Text = txtStatus.Text & "Sequence " & auto_increment_sequencename & " not found " & vbCrLf
+            End If
+        End If
         
+        'Johnm - added status update to notify of sequence creation
+        txtStatus.Text = txtStatus.Text & "Creating sequence " & auto_increment_table & "_" & auto_increment_field_name & "_key" & vbCrLf
+
         '   Set the PostgreSQL query
         If lVer >= 7.3 Then
-          auto_increment_query = "CREATE SEQUENCE " & fmtID(szNamespace) & "." & fmtID(auto_increment_table & "_" & auto_increment_field_name & "_key") & " START " & auto_increment_count
+          auto_increment_query = auto_increment_query & "CREATE SEQUENCE " & fmtID(szNamespace) & "." & fmtID(auto_increment_table & "_" & auto_increment_field_name & "_key") & " START " & auto_increment_count
         Else
-          auto_increment_query = "CREATE SEQUENCE " & fmtID(auto_increment_table & "_" & auto_increment_field_name & "_key") & " START " & auto_increment_count
+          auto_increment_query = auto_increment_query & "CREATE SEQUENCE " & fmtID(auto_increment_table & "_" & auto_increment_field_name & "_key") & " START " & auto_increment_count
         End If
       Else
         auto_increment_query = ""
       End If
-    End If
+    
+    'Johnm - Former location of "if access" if
+    
     '   End AutoIncrement Fix
             
     '   07/02/01 - Matthew MacSuga - Put columns in original order fix
@@ -1637,7 +1736,7 @@ Dim auto_increment_rs As New Recordset
           Tuples = Tuples + 1
           Fields = ""
           Values = ""
-          If Tuples Mod 100 = 0 Then DoEvents
+          DoEvents
           rsTemp.MoveNext
         Wend
         If rsTemp.State <> adStateClosed Then rsTemp.Close

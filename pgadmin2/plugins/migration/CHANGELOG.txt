@@ -4,6 +4,8 @@
 Copy column values into a temp variable before use to avoid problems with the Foxpro driver.
 Don't clear source table list when navigating back past the tab.
 Added pre-requisites list to README.txt.
+Added an option to the wizard to "Drop any existing destination tables" [John McCawley]
+Added support for migration of auto number fields from SQL Server. [John McCawley]
 
 
 1.2.0 Stable
