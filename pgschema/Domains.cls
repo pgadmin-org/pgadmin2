@@ -276,13 +276,13 @@ Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
-Dim objType As pgType
+Dim objDomain As pgDomain
 Dim lCount As Long
 
   If IgnoreSys Then
-    For Each objType In mCol
-      If Not objType.SystemObject Then lCount = lCount + 1
-    Next objType
+    For Each objDomain In mCol
+      If Not objDomain.SystemObject Then lCount = lCount + 1
+    Next objDomain
     Count = lCount
   Else
     Count = mCol.Count

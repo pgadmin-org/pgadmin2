@@ -3,6 +3,7 @@
 
 Refresh comment cache after editting views.
 Decode trigger procedure parameters correctly.
+Fix bug in Domain counting code.
 
 
 1.4.12
