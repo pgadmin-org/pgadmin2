@@ -17,6 +17,10 @@ Attribute VB_Exposed = True
 
 Option Explicit
 
+'Error Handler Stuff
+Dim lErrorIndex As Long
+Dim pgErrors As New Collection
+
 'Events
 Public Event EventLog(EventLevel As LogLevel, EventMessage As String)
 Attribute EventLog.VB_Description = "Executes whenever a Log event occurs."
@@ -157,13 +161,21 @@ Friend Sub iLogError(ByVal lError As Long, ByVal szError As String)
   Err.Raise lError, App.Title, szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
+
   If Not ((bDontLogErrors) And (etType = etErrors)) Then
+  
+    'If this is an error, add it to the collection
+    If etType = etErrors Then
+      pgErrors.Add szMessage
+    End If
+    
     LogEvent szMessage, etType
   End If
 End Sub
 Public Sub LogEvent(ByVal szMessage As String, ByVal etType As ErrorType)
 Attribute LogEvent.VB_Description = "Log an event to the libraries logging system."
 Dim fNum As Integer
+Dim vError As Variant
 
   RaiseEvent EventLog(etType, szMessage)
   If lLogging >= etType Then
@@ -174,9 +186,18 @@ Dim fNum As Integer
     If etType = etErrors Then
       Print #fNum, ""
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - *******************************************************************"
-      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - Error"
+      Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - Error(s)"
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - *******************************************************************"
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - " & szMessage
+      If pgErrors.Count > 0 Then
+        Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - The following error(s) have been logged:"
+        Print #fNum, ""
+        For Each vError In pgErrors
+          Print #fNum, "  " & vError
+        Next vError
+        Set pgErrors = New Collection
+      End If
+      Print #fNum, ""
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - Windows Version: " & WinName & " v" & WinVer & " build " & WinBuild & " " & WinInfo
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - pgSchema Version: " & App.Major & "." & App.Minor & "." & App.Revision
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - MDAC Version: " & cnPostgreSQL.Version
@@ -203,6 +224,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.ExecSQL(" & QUOTE & SQL & QUOTE & ", " & QUOTE & "Connection: " & Connection.ConnectionString & QUOTE & ", " & RecordsAffected & ", " & Options & ", " & QryType & ")", etFullDebug
   
 Dim fNum As Integer
+Dim objError As Error
 Dim szQueryType As String
 
   RaiseEvent SQLExecute(SQL, Connection)
@@ -236,7 +258,12 @@ Dim szQueryType As String
   End If
   
   Exit Function
-Err_Handler:  objServer.iLogError Err.Number, Err.Description
+Err_Handler:
+  'If this is an error, add it to the collection
+  For Each objError In Connection.Errors
+    pgErrors.Add objError.Number & " - " & objError.Description
+  Next objError
+  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Refresh the collections

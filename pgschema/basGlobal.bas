@@ -27,7 +27,7 @@ Public Const SQL_GET_SEQUENCES = "SELECT oid, relname, pg_get_userbyid(relowner)
 Public Const SQL_GET_VIEWS7_1 = "SELECT c.oid, c.relname, pg_get_userbyid(c.relowner) AS viewowner, c.relacl, pg_get_viewdef(c.relname) AS definition FROM pg_class c WHERE ((c.relhasrules AND (EXISTS (SELECT r.rulename FROM pg_rewrite r WHERE ((r.ev_class = c.oid) AND (bpchar(r.ev_type) = '1'::bpchar))))) OR (c.relkind = 'v'::" & QUOTE & "char" & QUOTE & "))"
 Public Const SQL_GET_VIEWS7_3 = "SELECT c.oid, c.relname, pg_get_userbyid(c.relowner) AS viewowner, c.relacl, pg_get_viewdef(c.oid) AS definition FROM pg_class c WHERE ((c.relhasrules AND (EXISTS (SELECT r.rulename FROM pg_rewrite r WHERE ((r.ev_class = c.oid) AND (bpchar(r.ev_type) = '1'::bpchar))))) OR (c.relkind = 'v'::" & QUOTE & "char" & QUOTE & "))"
 Public Const SQL_GET_TYPES7_1 = "SELECT oid, *, pg_get_userbyid(typowner) as typeowner FROM pg_type WHERE typrelid = 0"
-Public Const SQL_GET_TYPES7_3 = "SELECT oid, *, pg_get_userbyid(typowner) as typeowner FROM pg_type WHERE typtype = 'b'"
+Public Const SQL_GET_TYPES7_3 = "SELECT oid, *, pg_get_userbyid(typowner) as typeowner FROM pg_type WHERE typtype != 'd' AND typtype != 'c'"
 Public Const SQL_GET_DOMAINS = "SELECT oid, *, pg_get_userbyid(typowner) as domainowner FROM pg_type WHERE typtype = 'd'"
 Public Const SQL_GET_FUNCTIONS7_1 = "SELECT oid, *, pg_get_userbyid(proowner) as funcowner FROM pg_proc"
 Public Const SQL_GET_FUNCTIONS7_3 = "SELECT oid, *, pg_get_userbyid(proowner) as funcowner FROM pg_proc WHERE proisagg = FALSE"

@@ -131,13 +131,13 @@ Begin VB.Form frmFunction
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":2CC0
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdRemove"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lblProperties(4)"
+      Tab(1).Control(1)=   "lblProperties(5)"
+      Tab(1).Control(2)=   "cboProperties(2)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "cboProperties(2)"
-      Tab(1).Control(5)=   "lblProperties(5)"
-      Tab(1).Control(6)=   "lblProperties(4)"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cmdAdd"
+      Tab(1).Control(6)=   "cmdRemove"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":2CDC
@@ -147,10 +147,10 @@ Begin VB.Form frmFunction
       TabCaption(3)   =   "&Security"
       TabPicture(3)   =   "frmFunction.frx":2CF8
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdRemovePrivilege"
-      Tab(3).Control(1)=   "cmdAddPrivilege"
-      Tab(3).Control(2)=   "fraAdd"
-      Tab(3).Control(3)=   "lvProperties(1)"
+      Tab(3).Control(0)=   "lvProperties(1)"
+      Tab(3).Control(1)=   "fraAdd"
+      Tab(3).Control(2)=   "cmdAddPrivilege"
+      Tab(3).Control(3)=   "cmdRemovePrivilege"
       Tab(3).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -769,8 +769,10 @@ Dim szAccess() As String
     For Each objLanguage In frmMain.svr.Databases(szDatabase).Languages
       cboProperties(0).ComboItems.Add , , objLanguage.Identifier, "language"
     Next objLanguage
-    cboProperties(1).ComboItems.Add , , "opaque", "opaque"
-    cboProperties(2).ComboItems.Add , , "opaque", "opaque"
+    If ctx.dbVer < 7.3 Then
+      cboProperties(1).ComboItems.Add , , "opaque", "opaque"
+      cboProperties(2).ComboItems.Add , , "opaque", "opaque"
+    End If
     
     If ctx.dbVer >= 7.3 Then
       'Load pg_catalog entries first, unqualified
@@ -859,7 +861,7 @@ Dim szAccess() As String
 
     Set objItem = cboProperties(0).ComboItems.Add(, , objFunction.Language, "language")
     objItem.Selected = True
-    If objFunction.Returns = "opaque" Then
+    If objFunction.Returns = "opaque" And ctx.dbVer < 7.3 Then
       Set objItem = cboProperties(1).ComboItems.Add(, , objFunction.Returns, "opaque")
     Else
       Set objItem = cboProperties(1).ComboItems.Add(, , objFunction.Returns, "type")

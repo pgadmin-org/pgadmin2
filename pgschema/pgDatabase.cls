@@ -634,7 +634,7 @@ End Sub
 'Execute a statement
 Public Function Execute(ByVal szSQL As String, Optional ByVal RecordsAffected As Long, Optional ByVal Options As Long = -1, Optional QryType As QueryType = 1) As Recordset
 Attribute Execute.VB_Description = "Execute an SQL query on the Database."
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Execute(" & QUOTE & szSQL & QUOTE & ", " & RecordsAffected & ", " & Options & ", " & QryType & ")", etFullDebug
 
   dbConnect
