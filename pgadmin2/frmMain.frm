@@ -1998,6 +1998,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")"
       If ctx.CurrentObject.ObjectType <> "Server" And _
          ctx.CurrentObject.ObjectType <> "Check" And _
          ctx.CurrentObject.ObjectType <> "Column" And _
+         ctx.CurrentObject.ObjectType <> "Schema" And _
          ctx.CurrentObject.ObjectType <> "Foreign Key" Then
         tb_ButtonMenuClick Button.ButtonMenus(LCase(ctx.CurrentObject.ObjectType))
       End If
@@ -2305,6 +2306,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
       Select Case ButtonMenu.Key
         Case "aggregate"
           mnuPopupCreateAggregate_Click
+        Case "conversion"
+          mnuPopupCreateConversion_Click
         Case "cast"
           mnuPopupCreateCast_Click
         Case "database"
