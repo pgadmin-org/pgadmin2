@@ -417,6 +417,7 @@ Dim szOldName As String
       'DJP 2002-01-10 Change column name last of all otherwise things get complex.
       If txtProperties(4).Tag = "Y" Then objColumn.Default = txtProperties(4).Text
       If hbxProperties(0).Tag = "Y" Then objColumn.Comment = hbxProperties(0).Text
+      If chkProperties(0).Tag = "Y" Then objColumn.NotNull = Bin2Bool(chkProperties(0).Value)
       
       If txtProperties(0).Tag = "Y" Then
         szOldName = objColumn.Name
@@ -533,6 +534,7 @@ Dim objType As pgType
   txtProperties(0).Tag = "N"
   txtProperties(4).Tag = "N"
   hbxProperties(0).Tag = "N"
+  chkProperties(0).Tag = "N"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.Initialise"
@@ -563,7 +565,11 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objColumn Is Nothing) Then
-    chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
+    If frmMain.svr.dbVersion.VersionNum < 7.3 Then
+      chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
+    Else
+      chkProperties(0).Tag = "Y"
+    End If
     chkProperties(1).Value = Bool2Bin(objColumn.PrimaryKey)
   ElseIf bNoPrimaryKey Then
     chkProperties(1).Value = 0

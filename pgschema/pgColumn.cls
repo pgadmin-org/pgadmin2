@@ -286,11 +286,34 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return NotNull
-Friend Property Let NotNull(ByVal vData As Boolean)
+Friend Property Let iNotNull(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let iNotNull(" & vData & ")", etFullDebug
+
+  bNotNull = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Let NotNull(ByVal vData As Boolean)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let NotNull(" & vData & ")", etFullDebug
 
+Dim szSQL As String
+
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432003, App.Title, "NOT NULL can only be set or dropped post column creation in PostgreSQL 7.3 or above."
+    Exit Property
+  End If
+  
+  If vData Then
+    szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE & " ALTER COLUMN " & QUOTE & dbSZ(szName) & QUOTE & " SET NOT NULL"
+  Else
+    szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE & " ALTER COLUMN " & QUOTE & dbSZ(szName) & QUOTE & " DROP NOT NULL"
+  End If
+  objServer.ExecSQL szSQL, cnDatabase
   bNotNull = vData
+  If Not SystemObject Then objServer.Databases(Database).Tables(Table).Commit rcUpdate, "Updated column NULL/NOT NULL."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

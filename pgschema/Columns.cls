@@ -133,7 +133,7 @@ Dim bDefaults As Boolean
     objNewMember.Length = lLength
     objNewMember.NumericScale = 0
   End If
-  objNewMember.NotNull = bNotNull
+  objNewMember.iNotNull = bNotNull
   objNewMember.PrimaryKey = bPrimaryKey
   objNewMember.iDefault = szDefault
   objNewMember.Identifier = szName

@@ -6,4 +6,6 @@ NOTE: Most error in pgSchema will be raised by ADO or other libraries.
 
 5432001 - This program can only be used with PostgreSQL 7.1 or higher.
 5432002 - Domains only exist in PostgreSQL 7.3 or above.
+5432003 - NOT NULL can only be set or dropped post column creation in PostgreSQL 7.3 or above.
+5432004 - Functions can only be updated in PostgreSQL 7.3 or above.
 

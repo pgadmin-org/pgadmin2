@@ -271,7 +271,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Source("
 
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum < 7.2 Then Exit Property
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432005, App.Title, "Functions can only be updated in PostgreSQL 7.3 or above."
+    Exit Property
+  End If
   
   'Set the source
   szSource = vData

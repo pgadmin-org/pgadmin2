@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTrigger 
@@ -331,8 +331,6 @@ Option Explicit
 Dim bNew As Boolean
 Dim szDatabase As String
 Dim objTrigger As pgTrigger
-Dim szTableOldName As String
-
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
@@ -351,10 +349,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdOK_Click()", etFu
 Dim objNode As Node
 Dim objItem As ListItem
 Dim szEvent As String
-Dim bRefresh As Boolean
-  
-  bRefresh = False
-  
+
   'Check the data
   If txtProperties(0).Text = "" Then
     MsgBox "You must specify a Trigger name!", vbExclamation, "Error"
@@ -375,63 +370,41 @@ Dim bRefresh As Boolean
     Exit Sub
   End If
   
-  If chkProperties(0).Value = 1 Then szEvent = szEvent & "INSERT OR "
+  If bNew Then
+    
+    StartMsg "Creating Trigger..."
+    
+    If chkProperties(0).Value = 1 Then szEvent = szEvent & "INSERT OR "
     If chkProperties(1).Value = 1 Then szEvent = szEvent & "UPDATE OR "
     If chkProperties(2).Value = 1 Then szEvent = szEvent & "DELETE OR "
     If Len(szEvent) > 4 Then
       szEvent = Left(szEvent, Len(szEvent) - 4)
-   Else
+    Else
       MsgBox "You must select at least one event!", vbExclamation, "Error"
       tabProperties.Tab = 0
       chkProperties(0).SetFocus
       Exit Sub
-  End If
-    
-  If bNew Then
-    StartMsg "Creating Trigger..."
-    bRefresh = True
+    End If
     frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Add txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text
-    szTableOldName = cboProperties(0).Text
-  Else
-    StartMsg "Updating Trigger..."
-    If hbxProperties(0).Tag = "Y" Then
-      bRefresh = True
-      objTrigger.Comment = hbxProperties(0).Text
-    End If
-    If (cboProperties(0).Tag = "Y") Or (cboProperties(1).Tag = "Y") Or (cboProperties(3).Tag = "Y") Or (chkProperties(0).Tag = "Y") Or (chkProperties(1).Tag = "Y") Or (chkProperties(2).Tag = "Y") Then
-      bRefresh = True
-      objTrigger.Alter txtProperties(0).Text, cboProperties(1).Text, szEvent, cboProperties(0).Text, cboProperties(2).Text, cboProperties(3).Text, hbxProperties(0).Text
-    End If
-  End If
-  
-  
-  If (bRefresh = True) Then
-    ' Refresh old node
-    If (cboProperties(0).Text <> szTableOldName) Then
-      frmMain.svr.Databases(szDatabase).Tables(szTableOldName).Triggers.Refresh
-      For Each objNode In frmMain.tv.Nodes
-        If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-          If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = szTableOldName) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-             objNode.Selected = True
-             frmMain.tv_NodeClick objNode
-             Exit For
-          End If
-        End If
-      Next objNode
-    End If
     
-    ' Refresh new node
-    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
+    'Add a new node and update the text on the parent
     For Each objNode In frmMain.tv.Nodes
       If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
         If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = cboProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-          objNode.Selected = True
-          frmMain.tv_NodeClick objNode
-          Exit For
+          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "TRG-" & GetID, txtProperties(0).Text & " ON " & cboProperties(0).Text, "trigger"
+          objNode.Text = "Triggers (" & objNode.Children & ")"
         End If
       End If
     Next objNode
+    
+  Else
+    StartMsg "Updating Trigger..."
+    If hbxProperties(0).Tag = "Y" Then objTrigger.Comment = hbxProperties(0).Text
   End If
+  
+  'Simulate a node click to refresh the ListTrigger
+  frmMain.tv_NodeClick frmMain.tv.SelectedItem
+    
   EndMsg
   Unload Me
   Exit Sub
@@ -452,7 +425,7 @@ Dim objFunction As pgFunction
 Dim objItem As ComboItem
   
   szDatabase = szDB
-  
+    
   'Set the font
   For X = 0 To 1
     Set txtProperties(X).Font = ctx.Font
@@ -463,111 +436,62 @@ Dim objItem As ComboItem
   Set hbxProperties(0).Font = ctx.Font
   
   If Trigger Is Nothing Then
+  
     'Create a new Trigger
     bNew = True
     Me.Caption = "Create Trigger"
     
-    'Load widgets
-    Intialise_widgets (True)
+    'Load the combos
+    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
+      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.Identifier, "table"
+    Next objTable
+    Set objItem = cboProperties(1).ComboItems.Add(, , "BEFORE", "trigger")
+    objItem.Selected = True
+    cboProperties(1).ComboItems.Add , , "AFTER", "trigger"
+    Set objItem = cboProperties(2).ComboItems.Add(, , "ROW", "trigger")
+    objItem.Selected = True
+    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
+      If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , , objFunction.Identifier, "function"
+    Next objFunction
+
+    'Unlock the edittable fields
+    txtProperties(0).BackColor = &H80000005
+    txtProperties(0).Locked = False
+    cboProperties(0).BackColor = &H80000005
+    cboProperties(1).BackColor = &H80000005
     
-    'Set default values
-    cboProperties(1).ComboItems("Before").Selected = True
-    cboProperties(2).ComboItems("Row").Selected = True
-        
+    'TODO - Possible bug here. Unlock the Function combo to allow the user to edit the arguments.
+    'This should work but on initial testing, PostgreSQL gave an error that function() doesn't
+    'exist despite the SQL clearly showng the use of function('arg1').
+    cboProperties(3).Locked = False
+    cboProperties(3).BackColor = &H80000005
+    
   Else
   
     'Display/Edit the specified Trigger.
     Set objTrigger = Trigger
     bNew = False
+
     Me.Caption = "Trigger: " & objTrigger.Identifier
-      
-   'Load widgets
-    If (frmMain.svr.dbVersion.VersionNum >= 7.2) And Not objTrigger.SystemObject Then
-      Intialise_widgets True
-    Else
-      Intialise_widgets False
-    End If
-    
-    'Set values
-    
     txtProperties(0).Text = objTrigger.Name
     txtProperties(1).Text = objTrigger.OID
-    
-    cboProperties(0).ComboItems(objTrigger.Table).Selected = True
-    cboProperties(1).ComboItems(objTrigger.Executes).Selected = True
-    cboProperties(2).ComboItems("Row").Selected = True
-    cboProperties(3).ComboItems(objTrigger.TriggerFunction).Selected = True
-    
+    Set objItem = cboProperties(0).ComboItems.Add(, , objTrigger.Table, "table")
+    objItem.Selected = True
+    Set objItem = cboProperties(1).ComboItems.Add(, , objTrigger.Executes, "trigger")
+    objItem.Selected = True
+    Set objItem = cboProperties(2).ComboItems.Add(, , objTrigger.ForEach, "trigger")
+    objItem.Selected = True
+    Set objItem = cboProperties(3).ComboItems.Add(, , objTrigger.TriggerFunction, "trigger")
+    objItem.Selected = True
     SetChecks objTrigger.TriggerEvent
     hbxProperties(0).Text = objTrigger.Comment
   End If
   
   'Reset the Tags
   hbxProperties(0).Tag = "N"
-  cboProperties(0).Tag = "N"
-  cboProperties(1).Tag = "N"
-  cboProperties(3).Tag = "N"
-  chkProperties(0).Tag = "N"
-  chkProperties(1).Tag = "N"
-  chkProperties(2).Tag = "N"
   
-  ' This value is only used for pseudo-modification
-  szTableOldName = cboProperties(0).Text
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Initialise"
-End Sub
-
-Private Sub Intialise_widgets(ByVal bEnabled As Boolean)
-On Error GoTo Err_Handler
-
-  Dim X As Integer
-  Dim objTable As pgTable
-  Dim objFunction As pgFunction
-  Dim objItem As ComboItem
-
-  If bEnabled Then
-    ' Load values
-    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , objTable.Name, objTable.Name, "table"
-    Next objTable
-    
-    cboProperties(1).ComboItems.Add , "Before", "Before", "trigger"
-    cboProperties(1).ComboItems.Add , "After", "After", "trigger"
-    
-    cboProperties(2).ComboItems.Add , "Row", "Row", "trigger"
-    
-    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
-      If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , objFunction.Name & "()", objFunction.Name & "()", "function"
-    Next objFunction
-    
-    'editable fields
-    txtProperties(0).Locked = False
-    
-    'default colours
-    txtProperties(0).BackColor = &H80000005
-  Else
-    'Load single values
-    cboProperties(0).ComboItems.Add , objTrigger.Table, objTrigger.Table, "table"
-    cboProperties(1).ComboItems.Add , objTrigger.Executes, objTrigger.Executes, "trigger"
-    cboProperties(2).ComboItems.Add , objTrigger.ForEach, objTrigger.ForEach, "trigger"
-    cboProperties(3).ComboItems.Add , objTrigger.TriggerFunction, objTrigger.TriggerFunction, "trigger"
-  
-    cboProperties(0).Locked = True
-    cboProperties(1).Locked = True
-    cboProperties(2).Locked = True
-    cboProperties(3).Locked = True
-    
-        'default colours
-    txtProperties(0).BackColor = &H8000000F
-
-  End If
-  cboProperties(0).BackColor = &H80000005
-  cboProperties(1).BackColor = &H80000005
-  cboProperties(2).BackColor = &H80000005
-  cboProperties(3).BackColor = &H80000005
-  
-  Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Intialise_form(" & bEnabled & ")"
 End Sub
 
 Private Sub hbxProperties_Change(Trigger As Integer)
@@ -608,20 +532,11 @@ Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.chkProperties_Click(" & Index & ")", etFullDebug
 
-  If Not (objTrigger Is Nothing) And (frmMain.svr.dbVersion.VersionNum < 7.2) Then
+  If Not (objTrigger Is Nothing) Then
     SetChecks objTrigger.TriggerEvent
   End If
-  chkProperties(Index).Tag = "Y"
+  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.chkProperties_Click"
 End Sub
 
-Private Sub cboProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cboProperties_Click(" & Index & ")", etFullDebug
-
-  cboProperties(Index).Tag = "Y"
-  
-  Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.cboProperties_Click"
-End Sub

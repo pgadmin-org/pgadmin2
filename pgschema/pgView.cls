@@ -134,8 +134,6 @@ Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Name(" & vData & ")", etFullDebug
 Dim szSQL As String
-  
-  If objServer.dbVersion.VersionNum < 7.2 Then Exit Property
    
   szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
@@ -264,9 +262,8 @@ Dim szFakeViewName As String
 Dim szSQL As String
 
   'Create a fake view for testing purpose
-  szFakeViewName = "fakeview_" & Format(Now, "yymmdd_hhnnss")
-  szDefinition = vData
-  objServer.Databases(Database).Execute SQL(False, True, True, True, szFakeViewName)
+  szFakeViewName = "tmp_" & Format(Now, "yymmdd_hhnnss")
+  objServer.Databases(Database).Execute iSQL(szFakeViewName, vData)
   
   'If we are here, then drop view and rename fake view
   szSQL = "DROP VIEW " & QUOTE & dbSZ(szName) & QUOTE & ";" & vbCrLf
@@ -467,27 +464,35 @@ Err_Handler:
   objServer.iLogError Err
 End Sub
 
-Public Property Get SQL(Optional bDrop As Boolean = False, Optional bCreate As Boolean = True, Optional bComment As Boolean = True, Optional bACL As Boolean = True, Optional szViewName As String, Optional szViewDefinition As String, Optional szViewComment As String) As String
-Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
+Public Property Get iSQL(Optional szViewName As String, Optional szViewDefinition As String) As String
+Attribute iSQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get iSQL(" & QUOTE & szViewName & QUOTE & ", " & QUOTE & szViewDefinition & QUOTE & ")", etFullDebug
+ 
+Dim szSQL As String
+    
     'Set default values
-    If (bDrop = True) And (bCreate = True) And (objServer.dbVersion.VersionNum < 7.2) Then bDrop = False
-    If (szViewName = "") Then szViewName = szName
-    If (szViewDefinition = "") Then szViewDefinition = szDefinition
-    If (szViewComment = "") Then szViewComment = dbSZ(Comment)
+    If szViewName = "" Then szViewName = szName
+    If szViewDefinition = "" Then szViewDefinition = szDefinition
 
     'Log
-    objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL(" & bDrop & ", " & bCreate & ", " & bComment & ", " & bACL & ", " & szViewName & ", " & szViewDefinition & ", " & szViewComment & ")", etFullDebug
-    Dim szSQL As String
     
     szSQL = "-- View: " & szViewName & vbCrLf
+    szSQL = szSQL & "CREATE VIEW " & QUOTE & szViewName & QUOTE & " AS " & szViewDefinition & ";" & vbCrLf
+    If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL) & ";" & vbCrLf
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON VIEW " & QUOTE & szViewName & QUOTE & " IS '" & Comment & "';" & vbCrLf
       
-    If (bDrop = True) Then szSQL = szSQL & "DROP VIEW " & QUOTE & szViewName & QUOTE & ";" & vbCrLf
-    If (bCreate = True) Then szSQL = szSQL & "CREATE VIEW " & QUOTE & szViewName & QUOTE & " AS " & szViewDefinition & ";" & vbCrLf
-    If (bACL = True) And (szACL <> "") Then szSQL = szSQL & ParseACL(szName, szACL) & ";" & vbCrLf
-    If (bComment = True) Then szSQL = szSQL & "COMMENT ON VIEW " & QUOTE & szViewName & QUOTE & " IS '" & szViewComment & "';" & vbCrLf
-      
-    SQL = szSQL
+    iSQL = szSQL
+
+Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+Public Property Get SQL() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL()", etFullDebug
+ 
+    SQL = iSQL
 
 Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -521,7 +526,7 @@ Dim rs As New Recordset
   If rs.EOF Then
     RCStatus = rcNotInRC
   Else
-    If SQL(False, True, False) = rs!rc_definition & "" Then
+    If SQL = rs!rc_definition & "" Then
       RCStatus = rcUpToDate
     Else
       If rs!rc_timestamp > dTimeStamp Then

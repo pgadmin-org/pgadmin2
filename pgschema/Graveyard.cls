@@ -137,6 +137,9 @@ objServer.iLogEvent "Entering " & App.Title & ":Graveyard.Restore()", etFullDebu
     Case "Aggregate"
       objServer.Databases(Database).Aggregates.Refresh
       objServer.Databases(Database).Aggregates(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
+    Case "Domain"
+      objServer.Databases(Database).Domains.Refresh
+      objServer.Databases(Database).Domains(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Function"
       objServer.Databases(Database).Functions.Refresh
       objServer.Databases(Database).Functions(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
@@ -195,6 +198,7 @@ Dim objTable As pgTable
     
     'Refresh the database so everythig's up-to-date
     objServer.Databases(Database).Aggregates.Refresh
+    objServer.Databases(Database).Domains.Refresh
     objServer.Databases(Database).Functions.Refresh
     objServer.Databases(Database).Languages.Refresh
     objServer.Databases(Database).Operators.Refresh
@@ -211,6 +215,8 @@ Dim objTable As pgTable
         Select Case rs!rc_type & ""
           Case "Aggregate"
             bExists = objServer.Databases(Database).Aggregates.Exists(rs!rc_identifier & "")
+          Case "Domain"
+            bExists = objServer.Databases(Database).Domains.Exists(rs!rc_identifier & "")
           Case "Function"
             bExists = objServer.Databases(Database).Functions.Exists(rs!rc_identifier & "")
           Case "Language"

@@ -54,6 +54,7 @@ Enhanced the query parser to detect queries with functions and subselects in the
 Quote sequence names properly when using setval.
 Treat all objects named pgadmin_* as system objects.
 Fixed a bug in the Operator Cache which also cached the left & right types.
+Allow addition & removal of NOT NULL constraints on columns with PostgreSQL 7.3+.
 
 1.2.0 Stable
 ------------
