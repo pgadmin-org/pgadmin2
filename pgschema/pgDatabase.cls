@@ -264,8 +264,9 @@ Err_Handler: objServer.iLogError Err.Number, Err.Description
 End Sub
 
 Friend Function LookupComment(dOID As Double, Optional lSubID As Double) As String
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupComment(" & dOID & ")", etFullDebug
+'If anything goes wrong here, just continue.
+On Error Resume Next
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupComment(" & dOID & ", " & lSubID & ")", etFullDebug
 Dim rs As New Recordset
 Dim arrTmp As Variant
 Dim X As Long
@@ -297,15 +298,8 @@ Dim X As Long
     objServer.iLogEvent "Completed populating Comment cache (database: " & szName & ").", etMiniDebug
   End If
   
-  On Error Resume Next
   LookupComment = szCommentCache("C" & dOID & "S" & lSubID)
-  On Error GoTo Err_Handler
 
-  Exit Function
-Err_Handler:
-  If rs.State <> adStateClosed Then rs.Close
-  Set rs = Nothing
-  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Return the Languages Collection
@@ -634,7 +628,7 @@ End Sub
 'Execute a statement
 Public Function Execute(ByVal szSQL As String, Optional ByVal RecordsAffected As Long, Optional ByVal Options As Long = -1, Optional QryType As QueryType = 1) As Recordset
 Attribute Execute.VB_Description = "Execute an SQL query on the Database."
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Execute(" & QUOTE & szSQL & QUOTE & ", " & RecordsAffected & ", " & Options & ", " & QryType & ")", etFullDebug
 
   dbConnect
