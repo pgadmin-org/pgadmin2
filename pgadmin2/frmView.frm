@@ -73,16 +73,16 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "hbxProperties(1)"
-      Tab(1).Control(1)=   "cmdLoad"
+      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(1)=   "hbxProperties(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":0182
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdAdd"
-      Tab(2).Control(1)=   "fraAdd"
-      Tab(2).Control(2)=   "cmdRemove"
-      Tab(2).Control(3)=   "lvProperties(0)"
+      Tab(2).Control(0)=   "lvProperties(0)"
+      Tab(2).Control(1)=   "cmdRemove"
+      Tab(2).Control(2)=   "fraAdd"
+      Tab(2).Control(3)=   "cmdAdd"
       Tab(2).ControlCount=   4
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -481,9 +481,11 @@ Dim vEntity As Variant
     'Now Grant the new permissions
     For Each objItem In lvProperties(0).ListItems
       If objItem.Icon = "group" Then
-        szEntity = "GROUP " & objItem.Text
+        szEntity = "GROUP " & QUOTE & objItem.Text & QUOTE
+      ElseIf objItem.Icon = "public" Then
+        szEntity = "PUBLIC"
       Else
-        szEntity = objItem.Text
+        szEntity = QUOTE & objItem.Text & QUOTE
       End If
       lACL = 0
       If InStr(1, objItem.SubItems(1), "All") <> 0 Then lACL = lACL + aclAll

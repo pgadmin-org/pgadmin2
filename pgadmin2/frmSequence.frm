@@ -92,13 +92,13 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "cmdRemove"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(1)=   "fraAdd"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "fraAdd"
+      Tab(1).Control(2)=   "cmdAdd"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "cmdRemove"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin VB.TextBox txtProperties 
@@ -606,9 +606,11 @@ Dim vEntity As Variant
     'Now Grant the new permissions
     For Each objItem In lvProperties(0).ListItems
       If objItem.Icon = "group" Then
-        szEntity = "GROUP " & objItem.Text
+        szEntity = "GROUP " & QUOTE & objItem.Text & QUOTE
+      ElseIf objItem.Icon = "public" Then
+        szEntity = "PUBLIC"
       Else
-        szEntity = objItem.Text
+        szEntity = QUOTE & objItem.Text & QUOTE
       End If
       lACL = 0
       If InStr(1, objItem.SubItems(1), "All") <> 0 Then lACL = lACL + aclAll
