@@ -484,7 +484,7 @@ Dim rs As New Recordset
 
   If objServer.dbVersion.VersionNum < 7.3 Then
     Err.Raise 5432007, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
-    Exit Property
+    Exit Sub
   End If
   
   'Generate and execute the Grant Query

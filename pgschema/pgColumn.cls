@@ -194,10 +194,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Name(" & v
 
 Dim szSQL As String
 
-  If objVersion.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & dbSZ(szTable) & QUOTE & " RENAME COLUMN " & QUOTE & dbSZ(szName) & QUOTE & " TO " & QUOTE & dbSZ(vData) & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " RENAME COLUMN " & QUOTE & szName & QUOTE & " TO " & QUOTE & vData & QUOTE
   Else
-    szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE & " RENAME COLUMN " & QUOTE & dbSZ(szName) & QUOTE & " TO " & QUOTE & dbSZ(vData) & QUOTE
+    szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " RENAME COLUMN " & QUOTE & szName & QUOTE & " TO " & QUOTE & vData & QUOTE
   End If
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData

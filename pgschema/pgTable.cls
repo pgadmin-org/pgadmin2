@@ -427,7 +427,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Owner(" & v
 
 Dim szSQL As String
 
-  If objServer.dbVersion.ver >= 7.3 Then
+  If objServer.dbVersion.VersionNum >= 7.3 Then
     szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " OWNER TO " & QUOTE & vData & QUOTE
   Else
     szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " OWNER TO " & QUOTE & vData & QUOTE

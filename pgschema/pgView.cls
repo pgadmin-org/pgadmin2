@@ -293,19 +293,19 @@ Dim szSQL As String
   If objServer.dbVersion.VersionNum >= 7.3 Then
     'If we are here, then drop view and rename fake view
     szSQL = "DROP VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & dbSZ(szName) & QUOTE & ";" & vbCrLf
-    szSQL = szSQL & "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & dbSZ(szFakeViewName) & QUOTE & " RENAME TO " & QUOTE & dbSZ(szName) & QUOTE & ";"
+    szSQL = szSQL & "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szFakeViewName & QUOTE & " RENAME TO " & QUOTE & dbSZ(szName) & QUOTE & ";"
     objServer.Databases(Database).Execute szSQL
     
     'Select oid and definition back from the DB...
-    szSQL = SQL_GET_VIEWS & " AND relname = '" & dbSZ(szName) & "' AND relnamespace = " & lNamespaceOID & ";"
+    szSQL = SQL_GET_VIEWS7_3 & " AND relname = '" & szName & "' AND relnamespace = " & lNamespaceOID & ";"
   Else
     'If we are here, then drop view and rename fake view
     szSQL = "DROP VIEW " & QUOTE & dbSZ(szName) & QUOTE & ";" & vbCrLf
-    szSQL = szSQL & "ALTER TABLE " & QUOTE & dbSZ(szFakeViewName) & QUOTE & " RENAME TO " & QUOTE & dbSZ(szName) & QUOTE & ";"
+    szSQL = szSQL & "ALTER TABLE " & QUOTE & szFakeViewName & QUOTE & " RENAME TO " & QUOTE & szName & QUOTE & ";"
     objServer.Databases(Database).Execute szSQL
     
     'Select oid and definition back from the DB...
-    szSQL = SQL_GET_VIEWS & " AND relname = '" & dbSZ(szName) & "';"
+    szSQL = SQL_GET_VIEWS7_1 & " AND relname = '" & szName & "';"
   End If
   
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)

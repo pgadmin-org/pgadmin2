@@ -324,11 +324,11 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldNa
   mCol.Remove ULEncode(OldName)
   
   'Refresh all subclasses of the parent table.
-  objServer.Databases(Database).Tables(szTable).Checks.Refresh
-  objServer.Databases(Database).Tables(szTable).ForeignKeys.Refresh
-  objServer.Databases(Database).Tables(szTable).Indexes.Refresh
-  objServer.Databases(Database).Tables(szTable).Rules.Refresh
-  objServer.Databases(Database).Tables(szTable).Triggers.Refresh
+  objServer.Databases(Database).Namespaces(szNamespace).Tables(szTable).Checks.Refresh
+  objServer.Databases(Database).Namespaces(szNamespace).Tables(szTable).ForeignKeys.Refresh
+  objServer.Databases(Database).Namespaces(szNamespace).Tables(szTable).Indexes.Refresh
+  objServer.Databases(Database).Namespaces(szNamespace).Tables(szTable).Rules.Refresh
+  objServer.Databases(Database).Namespaces(szNamespace).Tables(szTable).Triggers.Refresh
   
   Exit Sub
 Err_Handler: objServer.iLogError Err
