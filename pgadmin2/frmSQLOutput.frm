@@ -209,7 +209,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdDelete_Click()", etFullDebug
 
 Dim X As Integer
-Dim y As Integer
+Dim Y As Integer
 Dim Z As Integer
 Dim szCriteria As String
 Dim szFullCriteria As String
@@ -218,7 +218,8 @@ Dim szQuery As String
 Dim szValues() As String
 Dim szKeys() As String
 Dim bFlag As Boolean
-  If MsgBox("Are you sure you wish to delete the selected record?", vbQuestion + vbYesNo, "Delete Record?") = vbNo Then Exit Sub
+  
+  If MsgBox(§§TrasLang§§("Are you sure you wish to delete the selected record?"), vbQuestion + vbYesNo, §§TrasLang§§("Delete Record?")) = vbNo Then Exit Sub
   
   'Build the most concise WHERE clause we can. adDate and adDBDate fields should be
   'formatted as ISO dates. Not required if we found a suitable unique column.
@@ -228,14 +229,14 @@ Dim bFlag As Boolean
         If lvData.SelectedItem.Text <> "" Then
           Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
             Case adDate
-              szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
+              szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
             Case adDBDate
-              szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
+              szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
             Case adDBTimeStamp
-              szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
+              szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
             Case Else
               If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
-                szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
+                szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
               End If
           End Select
         End If
@@ -243,14 +244,14 @@ Dim bFlag As Boolean
         If lvData.SelectedItem.SubItems(X) <> "" Then
           Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
             Case adDate
-              szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
+              szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
             Case adDBDate
-              szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
+              szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
             Case adDBTimeStamp
-              szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
+              szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
             Case Else
               If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
-                szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
+                szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
               End If
           End Select
         End If
@@ -260,7 +261,7 @@ Dim bFlag As Boolean
   
   'Find out how many records would be affected. Abort if zero, update if 1 or
   'give the option to update all if > 1
-  StartMsg "Counting matching records..."
+  StartMsg §§TrasLang§§("Counting matching records...")
   If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
   If ctx.dbVer >= 7.3 Then
     szQuery = "SELECT count(*) AS count FROM " & szSchema & "." & szTable
@@ -273,9 +274,9 @@ Dim bFlag As Boolean
     If bBuiltEditBox Then
       If txtField(iUnique - 1).Tag <> "Y" Then
         If iUnique = 1 Then
-          szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
+          szFullCriteria = " WHERE " & Quote & fmtID(lvData.ColumnHeaders(iUnique).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
         Else
-          szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
+          szFullCriteria = " WHERE " & Quote & fmtID(lvData.ColumnHeaders(iUnique).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
         End If
       Else
         If (szCriteria <> "") Or (szWhere <> "") Then
@@ -286,9 +287,9 @@ Dim bFlag As Boolean
       End If
     Else
       If iUnique = 1 Then
-        szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
+        szFullCriteria = " WHERE " & Quote & fmtID(lvData.ColumnHeaders(iUnique).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
       Else
-        szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
+        szFullCriteria = " WHERE " & Quote & fmtID(lvData.ColumnHeaders(iUnique).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
       End If
     End If
   Else
@@ -313,16 +314,16 @@ Dim bFlag As Boolean
   If Not rsCount.EOF Then
     Select Case rsCount!Count
       Case 0
-        MsgBox "Could not locate the record for deletion in the database!", vbExclamation, "Error"
+        MsgBox §§TrasLang§§("Could not locate the record for deletion in the database!"), vbExclamation, §§TrasLang§§("Error")
         GoTo Done
       Case 1
-        StartMsg "Deleting record..."
+        StartMsg §§TrasLang§§("Deleting record...")
         frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
         lvData.ListItems.Remove (lvData.SelectedItem.Index)
         GoTo Done
       Case Else
-        If MsgBox("The selected record could not be uniquely identified. " & rsCount!Count & " records match, and will all be deleted if you proceed. Do you wish to continue?", vbQuestion + vbYesNo, "Delete Multiple Records") = vbNo Then Exit Sub
-        StartMsg "Deleting records..."
+        If MsgBox(§§TrasLang§§("The selected record could not be uniquely identified. ") & rsCount!Count & §§TrasLang§§(" records match, and will all be deleted if you proceed. Do you wish to continue?"), vbQuestion + vbYesNo, §§TrasLang§§("Delete Multiple Records")) = vbNo Then Exit Sub
+        StartMsg §§TrasLang§§("Deleting records...")
         frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
         
         'Get all the values in the selected row, then iterate through all rows and delete matching
@@ -338,12 +339,12 @@ Dim bFlag As Boolean
         'Delete matching rows.
         For X = lvData.ListItems.Count To 1 Step -1
           bFlag = False
-          For y = 1 To lvData.ColumnHeaders.Count - 1
-            If szValues(y) <> lvData.ListItems(X).SubItems(y) Then
+          For Y = 1 To lvData.ColumnHeaders.Count - 1
+            If szValues(Y) <> lvData.ListItems(X).SubItems(Y) Then
               bFlag = True
               Exit For
             End If
-          Next y
+          Next Y
           If Not (bFlag Or szValues(0) <> lvData.ListItems(X).Text) Then
             lvData.ListItems.Remove lvData.ListItems(X).Index
           End If
@@ -354,9 +355,9 @@ Dim bFlag As Boolean
 Done:
   EndMsg
   If lvData.ListItems.Count > 0 Then
-    lblInfo.Caption = "Record " & lvData.SelectedItem.Index & " of " & lvData.ListItems.Count
+    lblInfo.Caption = §§TrasLang§§("Record ") & lvData.SelectedItem.Index & §§TrasLang§§(" of ") & lvData.ListItems.Count
   Else
-    lblInfo.Caption = "Record 0 of 0"
+    lblInfo.Caption = §§TrasLang§§("Record 0 of 0")
   End If
   If lvData.ListItems.Count > 0 And bUpdateable = True Then cmdEdit.Enabled = True
   If lvData.ListItems.Count > 0 And bUpdateable = True Then cmdDelete.Enabled = True
@@ -393,7 +394,7 @@ Dim szCriteria As String
 Dim szFullCriteria As String
 Dim szCells() As String
 Dim X As Integer
-Dim y As Integer
+Dim Y As Integer
 Dim Z As Integer
 Dim bFlag As Boolean
 Dim itmX As ListItem
@@ -404,7 +405,7 @@ Dim rsCount As New Recordset
     'First build lists of columns and values
     For X = 0 To lblField.Count - 1
       If txtField(X).Text <> "" Then
-        szColumns = szColumns & QUOTE & lblField(X).Caption & QUOTE & ", "
+        szColumns = szColumns & Quote & lblField(X).Caption & Quote & ", "
         Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
           Case adDate
             szValues = szValues & "'" & MakeISODate(txtField(X).Text) & "', "
@@ -421,7 +422,7 @@ Dim rsCount As New Recordset
     'Check the data, then trim the ', ' from the end of each string and create the SQL query
     If szColumns = "" Then
       EndMsg
-      MsgBox "No data has been entered!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("No data has been entered!"), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
     If Len(szColumns) > 2 Then szColumns = "(" & Mid(szColumns, 1, Len(szColumns) - 2) & ")"
@@ -450,24 +451,24 @@ Dim rsCount As New Recordset
         Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
           Case adDate
             If txtField(X).Text = "" Then
-              szValues = szValues & fmtID(lblField(X).Caption) & " = NULL, "
+              szValues = szValues & Quote & fmtID(lblField(X).Caption) & Quote & " = NULL, "
             Else
-              szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISODate(txtField(X).Text) & "', "
+              szValues = szValues & Quote & fmtID(lblField(X).Caption) & Quote & " = '" & MakeISODate(txtField(X).Text) & "', "
             End If
           Case adDBDate
             If txtField(X).Text = "" Then
-              szValues = szValues & fmtID(lblField(X).Caption) & " = NULL, "
+              szValues = szValues & Quote & fmtID(lblField(X).Caption) & Quote & " = NULL, "
             Else
-              szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISODate(txtField(X).Text) & "', "
+              szValues = szValues & Quote & fmtID(lblField(X).Caption) & Quote & " = '" & MakeISODate(txtField(X).Text) & "', "
             End If
           Case adDBTimeStamp
             If txtField(X).Text = "" Then
-              szValues = szValues & fmtID(lblField(X).Caption) & " = NULL, "
+              szValues = szValues & Quote & fmtID(lblField(X).Caption) & Quote & " = NULL, "
             Else
-              szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISOTimestamp(txtField(X).Text) & "', "
+              szValues = szValues & Quote & fmtID(lblField(X).Caption) & Quote & " = '" & MakeISOTimestamp(txtField(X).Text) & "', "
             End If
           Case Else
-            szValues = szValues & fmtID(lblField(X).Caption) & " = '" & dbSZ(txtField(X).Text) & "', "
+            szValues = szValues & Quote & fmtID(lblField(X).Caption) & Quote & " = '" & dbSZ(txtField(X).Text) & "', "
         End Select
       End If
     Next X
@@ -482,14 +483,14 @@ Dim rsCount As New Recordset
             If lvData.SelectedItem.Text <> "" Then
               Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
                 Case adDate
-                  szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISODate(lvData.SelectedItem.Text) & "' AND "
+                  szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISODate(lvData.SelectedItem.Text) & "' AND "
                 Case adDBDate
-                  szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISODate(lvData.SelectedItem.Text) & "' AND "
+                  szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISODate(lvData.SelectedItem.Text) & "' AND "
                 Case adDBTimeStamp
-                  szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISOTimestamp(lvData.SelectedItem.Text) & "' AND "
+                  szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISOTimestamp(lvData.SelectedItem.Text) & "' AND "
                 Case Else
                   If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
-                    szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
+                    szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
                   End If
               End Select
             End If
@@ -497,14 +498,14 @@ Dim rsCount As New Recordset
             If lvData.SelectedItem.SubItems(X) <> "" Then
               Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
                 Case adDate
-                  szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISODate(lvData.SelectedItem.SubItems(X)) & "' AND "
+                  szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISODate(lvData.SelectedItem.SubItems(X)) & "' AND "
                 Case adDBDate
-                  szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISODate(lvData.SelectedItem.SubItems(X)) & "' AND "
+                  szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISODate(lvData.SelectedItem.SubItems(X)) & "' AND "
                 Case adDBTimeStamp
-                  szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISOTimestamp(lvData.SelectedItem.SubItems(X)) & "' AND "
+                  szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISOTimestamp(lvData.SelectedItem.SubItems(X)) & "' AND "
                 Case Else
                   If ((InStr(1, lvData.SelectedItem.SubItems(X), vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.SubItems(X), "\n")) <> 0) = 0 Then
-                    szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
+                    szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
                   End If
               End Select
             End If
@@ -517,14 +518,14 @@ Dim rsCount As New Recordset
           If lvData.SelectedItem.Text <> "" Then
             Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
               Case adDate
-                szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISODate(lvData.SelectedItem.Text) & "' AND "
+                szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISODate(lvData.SelectedItem.Text) & "' AND "
               Case adDBDate
-                szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISODate(lvData.SelectedItem.Text) & "' AND "
+                szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISODate(lvData.SelectedItem.Text) & "' AND "
               Case adDBTimeStamp
-                szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISOTimestamp(lvData.SelectedItem.Text) & "' AND "
+                szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISOTimestamp(lvData.SelectedItem.Text) & "' AND "
               Case Else
                 If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
-                  szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
+                  szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
                 End If
             End Select
           End If
@@ -532,14 +533,14 @@ Dim rsCount As New Recordset
           If lvData.SelectedItem.SubItems(X) <> "" Then
             Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
               Case adDate
-                szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISODate(lvData.SelectedItem.SubItems(X)) & "' AND "
+                szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISODate(lvData.SelectedItem.SubItems(X)) & "' AND "
               Case adDBDate
-                szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISODate(lvData.SelectedItem.SubItems(X)) & "' AND "
+                szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISODate(lvData.SelectedItem.SubItems(X)) & "' AND "
               Case adDBTimeStamp
-                szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & MakeISOTimestamp(lvData.SelectedItem.SubItems(X)) & "' AND "
+                szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & MakeISOTimestamp(lvData.SelectedItem.SubItems(X)) & "' AND "
               Case Else
                 If ((InStr(1, lvData.SelectedItem.SubItems(X), vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.SubItems(X), "\n")) <> 0) = 0 Then
-                  szCriteria = szCriteria & fmtID(lvData.ColumnHeaders(X + 1).Text) & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
+                  szCriteria = szCriteria & Quote & fmtID(lvData.ColumnHeaders(X + 1).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
                 End If
             End Select
           End If
@@ -550,13 +551,13 @@ Dim rsCount As New Recordset
     'Check the data
     If szValues = "" Then
       EndMsg
-      MsgBox "No data has been modified!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("No data has been modified!"), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
     
     'Find out how many records would be affected. Abort if zero, update if 1 or
     'give the option to update all if > 1
-    StartMsg "Counting matching records..."
+    StartMsg §§TrasLang§§("Counting matching records...")
     If Len(szValues) > 2 Then szValues = Mid(szValues, 1, Len(szValues) - 2)
     If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
     If ctx.dbVer >= 7.3 Then
@@ -569,9 +570,9 @@ Dim rsCount As New Recordset
     If iUnique > 0 Then
       If txtField(iUnique - 1).Tag <> "Y" Then
         If iUnique = 1 Then
-          szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
+          szFullCriteria = " WHERE " & Quote & fmtID(lvData.ColumnHeaders(iUnique).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
         Else
-          szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
+          szFullCriteria = " WHERE " & Quote & fmtID(lvData.ColumnHeaders(iUnique).Text) & Quote & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
         End If
       Else
         If (szCriteria <> "") Or (szWhere <> "") Then
@@ -602,10 +603,10 @@ Dim rsCount As New Recordset
     If Not rsCount.EOF Then
       Select Case rsCount!Count
         Case 0
-          MsgBox "Could not locate the record for updating in the database!", vbExclamation, "Error"
+          MsgBox §§TrasLang§§("Could not locate the record for updating in the database!"), vbExclamation, §§TrasLang§§("Error")
           GoTo Done
         Case 1
-          StartMsg "Updating record..."
+          StartMsg §§TrasLang§§("Updating record...")
           frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
           'Update the grid
           For X = 0 To lblField.Count - 1
@@ -617,8 +618,8 @@ Dim rsCount As New Recordset
           Next X
           GoTo Done
         Case Else
-          If MsgBox("The selected record could not be uniquely identified. " & rsCount!Count & " records match, and will all be updated if you proceed. Do you wish to continue?", vbQuestion + vbYesNo, "Update Multiple Records") = vbNo Then Exit Sub
-          StartMsg "Updating records..."
+          If MsgBox(§§TrasLang§§("The selected record could not be uniquely identified. ") & rsCount!Count & §§TrasLang§§(" records match, and will all be updated if you proceed. Do you wish to continue?"), vbQuestion + vbYesNo, §§TrasLang§§("Update Multiple Records")) = vbNo Then Exit Sub
+          StartMsg §§TrasLang§§("Updating records...")
           frmMain.svr.Databases(szDatabase).Execute szQuery, , , qryData
 
           'Get all the values in the selected row, then iterate through all rows and update matching
@@ -634,12 +635,12 @@ Dim rsCount As New Recordset
           'Update matching rows.
           For X = lvData.ListItems.Count To 1 Step -1
             bFlag = False
-            For y = 1 To lvData.ColumnHeaders.Count - 1
-              If szCells(y) <> lvData.ListItems(X).SubItems(y) Then
+            For Y = 1 To lvData.ColumnHeaders.Count - 1
+              If szCells(Y) <> lvData.ListItems(X).SubItems(Y) Then
                 bFlag = True
                 Exit For
               End If
-            Next y
+            Next Y
             If Not (bFlag Or szCells(0) <> lvData.ListItems(X).Text) Then
               For Z = 0 To lblField.Count - 1
                 If Z = 0 Then
@@ -658,9 +659,9 @@ Done:
   EndMsg
   HideEditBox
   If lvData.ListItems.Count > 0 Then
-    lblInfo.Caption = "Record " & lvData.SelectedItem.Index & " of " & lvData.ListItems.Count
+    lblInfo.Caption = §§TrasLang§§("Record ") & lvData.SelectedItem.Index & §§TrasLang§§(" of ") & lvData.ListItems.Count
   Else
-    lblInfo.Caption = "Record 0 of 0"
+    lblInfo.Caption = §§TrasLang§§("Record 0 of 0")
   End If
   If lvData.ListItems.Count > 0 And bUpdateable = True Then cmdEdit.Enabled = True
   If lvData.ListItems.Count > 0 And bUpdateable = True Then cmdDelete.Enabled = True
@@ -683,7 +684,7 @@ End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & Quote & rsQuery.Source & Quote & ")", etFullDebug
 
 Dim iStart As Integer
 Dim iEnd As Integer
@@ -717,8 +718,8 @@ Dim szSchemas() As String
   bInQuotes = False
   For X = 1 To Len(rsSQL.Source)
     szChar = Mid(rsSQL.Source, X, 1)
-    If szChar = QUOTE Then
-      szQuery = szQuery & QUOTE
+    If szChar = Quote Then
+      szQuery = szQuery & Quote
       bInQuotes = Not bInQuotes
     ElseIf szChar = " " And bInQuotes Then
       szQuery = szQuery & vbTab
@@ -764,7 +765,7 @@ Dim szSchemas() As String
     iTemp = InStr(1, Mid(szQuery, 1, iStart), "(")
     If iTemp > 0 Then
       For X = 1 To iTemp
-        If ((Mid(szQuery, X, 1) = "'") Or (Mid(szQuery, X, 1) = QUOTE)) Then bInQuotes = Not bInQuotes
+        If ((Mid(szQuery, X, 1) = "'") Or (Mid(szQuery, X, 1) = Quote)) Then bInQuotes = Not bInQuotes
       Next X
       If Not bInQuotes Then
         szTable = ""
@@ -780,7 +781,7 @@ Dim szSchemas() As String
     If iTemp = 0 Then iTemp = InStr(1, UCase(Mid(szQuery, 1, iStart)), vbCrLf & "AS ")
     If iTemp > 0 Then
       For X = 1 To iTemp
-        If ((Mid(szQuery, X, 1) = "'") Or (Mid(szQuery, X, 1) = QUOTE)) Then bInQuotes = Not bInQuotes
+        If ((Mid(szQuery, X, 1) = "'") Or (Mid(szQuery, X, 1) = Quote)) Then bInQuotes = Not bInQuotes
       Next X
       If Not bInQuotes Then
         szTable = ""
@@ -820,7 +821,7 @@ Dim szSchemas() As String
   bInQuotes = False
   szTemp = ""
   For X = iStart To iEnd
-    If Mid(szQuery, X, 1) = QUOTE Then bInQuotes = Not bInQuotes
+    If Mid(szQuery, X, 1) = Quote Then bInQuotes = Not bInQuotes
     If Not bInQuotes Then
       If Mid(szQuery, X, 1) = vbCrLf Then
         szTemp = szTemp & " "
@@ -883,7 +884,7 @@ Dim szSchemas() As String
   bInQuotes = False
   For X = 1 To Len(szTable)
     szTemp = Mid(szTable, X, 1)
-    If szTemp = QUOTE Then
+    If szTemp = Quote Then
       bInQuotes = Not bInQuotes
     ElseIf szTemp = "." And Not bInQuotes Then
       szSchema = Mid(szTable, 1, X - 1)
@@ -894,7 +895,7 @@ Dim szSchemas() As String
   'Check to see if our table is actually a view or sequence. If it is then we can't
   'update :-(
   
-  If Left(szTable, 1) = QUOTE And Right(szTable, 1) = QUOTE Then
+  If Left(szTable, 1) = Quote And Right(szTable, 1) = Quote Then
     szTempTable = Mid(szTable, 2, Len(szTable) - 2)
   Else
     szTempTable = szTable
@@ -912,7 +913,7 @@ Dim szSchemas() As String
     'However, if szSchema isn't empty then it's easy
     If szSchema <> "" Then
       ReDim szSchemas(0)
-      If Left(szSchema, 1) = QUOTE And Right(szSchema, 1) = QUOTE Then
+      If Left(szSchema, 1) = Quote And Right(szSchema, 1) = Quote Then
         szSchemas(0) = Mid(szSchema, 2, Len(szSchema) - 2)
       Else
         szSchemas(0) = szSchema
@@ -932,7 +933,7 @@ Dim szSchemas() As String
           Else
             ReDim Preserve szSchemas(UBound(szSchemas) + 1)
           End If
-        ElseIf Mid(szTemp, X, 1) = QUOTE Then
+        ElseIf Mid(szTemp, X, 1) = Quote Then
           bInQuotes = Not bInQuotes
         Else
           szSchemas(UBound(szSchemas)) = szSchemas(UBound(szSchemas)) & Mid(szTemp, X, 1)
@@ -1016,7 +1017,7 @@ Dim szSchemas() As String
 GotInfo:
 
   'Setup the form
-  Me.Caption = "SQL Output " & szID & ": " & rsQuery.Source
+  Me.Caption = §§TrasLang§§("SQL Output ") & szID & ": " & rsQuery.Source
   If bUpdateable Then
     frmMain.svr.LogEvent "Recordset appears to be updateable.", etMiniDebug
     cmdEdit.Enabled = True
@@ -1034,16 +1035,16 @@ GotInfo:
   If bUpdateable Then
     If ctx.dbVer >= 7.3 Then
       szTemp = szSchema
-      If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
-      If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
+      If Left(szTemp, 1) = Quote Then szTemp = Right(szTemp, Len(szTemp) - 1)
+      If Right(szTemp, 1) = Quote Then szTemp = Left(szTemp, Len(szTemp) - 1)
       If Len(szTemp) = 0 Then szTemp = "public"
     Else
       szTemp = "public"
     End If
     
     szTempTable = szTable
-    If Left(szTempTable, 1) = QUOTE Then szTempTable = Right(szTempTable, Len(szTempTable) - 1)
-    If Right(szTempTable, 1) = QUOTE Then szTempTable = Left(szTempTable, Len(szTempTable) - 1)
+    If Left(szTempTable, 1) = Quote Then szTempTable = Right(szTempTable, Len(szTempTable) - 1)
+    If Right(szTempTable, 1) = Quote Then szTempTable = Left(szTempTable, Len(szTempTable) - 1)
     For iTemp = 1 To lvData.ColumnHeaders.Count
       If frmMain.svr.Databases(szDatabase).Namespaces(szTemp).Tables.Exists(szTempTable) Then
         If frmMain.svr.Databases(szDatabase).Namespaces(szTemp).Tables(szTempTable).Columns.Exists(lvData.ColumnHeaders(iTemp).Text) Then
@@ -1131,9 +1132,9 @@ Dim itmX As ListItem
 Dim X As Long
 
   'Load Data
-  StartMsg "Loading data..."
+  StartMsg §§TrasLang§§("Loading data...")
   lvData.ListItems.Clear
-  lblInfo.Caption = "Record 0 of 0"
+  lblInfo.Caption = §§TrasLang§§("Record 0 of 0")
   If Not (rsSQL.EOF And rsSQL.BOF) Then
     While Not rsSQL.EOF
     
@@ -1156,7 +1157,7 @@ Dim X As Long
       Next
       rsSQL.MoveNext
     Wend
-    lblInfo.Caption = "Record " & lvData.SelectedItem.Index & " of " & lvData.ListItems.Count
+    lblInfo.Caption = §§TrasLang§§("Record ") & lvData.SelectedItem.Index & §§TrasLang§§(" of ") & lvData.ListItems.Count
   End If
   
   'Set Buttons
@@ -1173,7 +1174,7 @@ End Sub
 
 Private Sub lvData_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ColumnClick(" & Quote & ColumnHeader.Text & Quote & ")", etFullDebug
 
   lvData.Sorted = True
   'Sort by the select column. If we already are, then switch the direction.
@@ -1194,9 +1195,9 @@ End Sub
 
 Private Sub lvData_ItemClick(ByVal Item As MSComctlLib.ListItem)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ItemClick(" & Quote & Item.Text & Quote & ")", etFullDebug
 
-  lblInfo.Caption = "Record " & lvData.SelectedItem.Index & " of " & lvData.ListItems.Count
+  lblInfo.Caption = §§TrasLang§§("Record ") & lvData.SelectedItem.Index & §§TrasLang§§(" of ") & lvData.ListItems.Count
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.lvData_ItemClick"
@@ -1348,9 +1349,9 @@ Dim X As Integer
   cmdCancel.Visible = False
   picEdit.Visible = False
   If lvData.ListItems.Count > 0 Then
-    lblInfo.Caption = "Record " & lvData.SelectedItem.Index & " of " & lvData.ListItems.Count
+    lblInfo.Caption = §§TrasLang§§("Record ") & lvData.SelectedItem.Index & §§TrasLang§§(" of ") & lvData.ListItems.Count
   Else
-    lblInfo.Caption = "Record 0 of 0"
+    lblInfo.Caption = §§TrasLang§§("Record 0 of 0")
   End If
   
   Exit Sub
@@ -1385,4 +1386,3 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.From_KeyDown(" & K
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.Form_KeyDown"
 End Sub
-
