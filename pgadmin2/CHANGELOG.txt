@@ -7,12 +7,7 @@ Tweak efficiency of the Comment cache in pgSchema (~30% faster population of cac
 Ignore binary/blob fields correctly in the Database Migration Wizard (distributed seperately).
 Distribute non Win2K riched32.dll.
 Update other column properties before renaming for safety.
-Migration: Added support for MSSQL server (tested on same installations MSSQL 7 & MSSQL 2000). [Artur Maslag]
-Migration: Some fixes to correct recognizing adNumeric type. [Artur Maslag]
-Migration: Fix for correct registry read for type mappings. [Artur Maslag]
-Migration: HandleDates/Times a little more sanely.
 Set Unknowns As LongVarChar when connecting to allow ACLs > 255 characters.
-Migration: Prompt for extra login details on the source database if required.
 Added features list to help.
 Added bugs and to-do lists to help menu (missing for some reason).
 Added release procedure to help.

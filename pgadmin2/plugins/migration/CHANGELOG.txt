@@ -1,0 +1,8 @@
+1.2.0 Stable
+------------
+
+Added support for MSSQL server (tested on same installations MSSQL 7 & MSSQL 2000). [Artur Maslag]
+Some fixes to correct recognizing adNumeric type. [Artur Maslag]
+Fix for correct registry read for type mappings. [Artur Maslag]
+Handle Dates/Times a little more sanely.
+Prompt for extra login details on the source database if required.
