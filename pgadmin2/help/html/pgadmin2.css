@@ -1,6 +1,6 @@
 BODY
 {
-    BACKGROUND-COLOR: #FFFFFF;
+    BACKGROUND-COLOR: #cdddeb;
     BORDER-BOTTOM: medium none;
     BORDER-LEFT: medium none;
     BORDER-RIGHT: medium none;
@@ -14,8 +14,8 @@ BODY
 
 th
 { 
-    COLOR: #000000;
-    BACKGROUND-COLOR: #D4D6FE;
+    COLOR: #ffffff;
+    BACKGROUND-COLOR: #6884a4;
     TEXT-DECORATION: none;
     FONT-WEIGHT: 600;
     FONT-FAMILY: verdana, helvetica, sans-serif;
@@ -25,7 +25,7 @@ th
 
 td
 {
-    BACKGROUND-COLOR: #FFFFC0;
+    BACKGROUND-COLOR: #ffffff;
     COLOR: black;
     FONT-FAMILY: verdana, helvetica, sans-serif;
     FONT-SIZE: 12px;
@@ -35,7 +35,7 @@ td
 
 p, li, ul, ol, center, dt, dd, dl
 {
-    BACKGROUND-COLOR: #FFFFFF;
+    BACKGROUND-COLOR: #cdddeb;
     COLOR: black;
     FONT-FAMILY: verdana, helvetica, sans-serif;
     FONT-SIZE: 12px;
@@ -45,7 +45,7 @@ p, li, ul, ol, center, dt, dd, dl
 
 #TablePar
 {
-    BACKGROUND-COLOR: #FFFFC0;
+    BACKGROUND-COLOR: #cdddeb;
     COLOR: black;
     FONT-FAMILY: verdana, helvetica, sans-serif;
     FONT-SIZE: 12px;

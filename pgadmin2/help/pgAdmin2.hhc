@@ -38,16 +38,6 @@
 				<param name="Local" value="html\developerinfo\coding.html">
 				<param name="ImageNumber" value="41">
 				</OBJECT>
-			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="Known Bugs">
-				<param name="Local" value="html\developerinfo\bugs.html">
-				<param name="ImageNumber" value="41">
-				</OBJECT>
-			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="To Do List">
-				<param name="Local" value="html\developerinfo\todo.html">
-				<param name="ImageNumber" value="41">
-				</OBJECT>
 		</UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Licence Info">

@@ -5,6 +5,7 @@ Fixed a bug in the row identification code in the Edit Grid when deleting record
 Added a Cancel option to the Save SQL Query? prompt.
 Fixed a bug in the Import Wizard which failed if not all the available target columns were selected.
 Fixed a bug that prevented dropping of triggers.
+Fixed a bug that prevented dropping of Users & Groups.
 
 
 1.1.66

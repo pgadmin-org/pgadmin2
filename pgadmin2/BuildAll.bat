@@ -1,3 +1,10 @@
+REM pgAdmin II - PostgreSQL Tools
+REM Copyright (C) 2001, The pgAdmin Development Team
+REM This software is released under the pgAdmin Public Licence
+REM
+REM BuildAll.bat - Recompile all pgAdmin II Code
+REM Note that this doesn't rebuild the documentation
+
 @echo off
 echo Building pgSchema...
 "C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\pgschema\pgSchema.vbp /outdir ..\binaries
@@ -23,6 +30,8 @@ echo Building Publishing Plugin...
 "C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Publishing\pgPublishing.vbp /outdir ..\binaries
 echo Building ConnDebug Plugin...
 "C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\ConnDebug\pgConnDebug.vbp /outdir ..\binaries
+echo Building Migration Wizard Plugin...
+"C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Migration\pgMigration.vbp /outdir ..\binaries
 
 echo Building Highlightbox...
 "C:\Program Files\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\ActiveX\Highlightbox\Highlightbox.vbp /outdir ..\binaries

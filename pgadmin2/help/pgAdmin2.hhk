@@ -6,11 +6,6 @@
 </HEAD><BODY>
 <UL>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Bugs">
-		<param name="Local" value="html\developerinfo\bugs.html">
-		<param name="Local" value="html\troubleshooting.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Charter">
 		<param name="Local" value="html\licenceinfo\team.html">
 		</OBJECT>
@@ -49,10 +44,6 @@
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Team">
 		<param name="Local" value="html\licenceinfo\team.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="To Do">
-		<param name="Local" value="html\developerinfo\todo.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Troubleshooting">

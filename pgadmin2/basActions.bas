@@ -44,22 +44,23 @@ Dim szType As String
 Dim szIdentifier As String
 Dim szPath() As String
 
-  If ctx.CurrentObject.SystemObject Then
-    MsgBox "You cannot drop system objects!", vbExclamation, "Error"
-    Exit Sub
-  End If
-  
-  If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
-    If ctx.CurrentObject.ObjectType = "Table" Then
-      If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restore from Revision Control later, however any data in the table will be lost.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-    Else
-      If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "These objects may be restore from Revision Control later.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+  If ctx.CurrentObject.ObjectType <> "User" And ctx.CurrentObject.ObjectType <> "Group" Then
+    If ctx.CurrentObject.SystemObject Then
+      MsgBox "You cannot drop system objects!", vbExclamation, "Error"
+      Exit Sub
     End If
-  Else
-    If ctx.CurrentObject.ObjectType = "Table" Then
-      If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+    If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
+      If ctx.CurrentObject.ObjectType = "Table" Then
+        If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restore from Revision Control later, however any data in the table will be lost.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+      Else
+        If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "These objects may be restore from Revision Control later.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+      End If
     Else
-      If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+      If ctx.CurrentObject.ObjectType = "Table" Then
+        If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+      Else
+        If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+      End If
     End If
   End If
   
@@ -75,14 +76,25 @@ Dim szPath() As String
     Case "User"
       szType = "USR-"
       frmMain.svr.Users.Remove ctx.CurrentObject.Identifier
-
+      
+      'Delete any matching tree nodes
+      For Each objNode In frmMain.tv.Nodes
+        If Left(objNode.Key, 4) = szType And objNode.Text = szIdentifier Then
+          objNode.Parent.Text = "Users (" & objNode.Parent.Children - 1 & ")"
+          frmMain.tv.Nodes.Remove objNode.Index
+        End If
+      Next objNode
+      
     Case "Group"
       szType = "GRP-"
       frmMain.svr.Groups.Remove ctx.CurrentObject.Identifier
       
       'Delete any matching tree nodes
       For Each objNode In frmMain.tv.Nodes
-        If Left(objNode.Key, 4) = szType And objNode.Text = szIdentifier Then frmMain.tv.Nodes.Remove objNode.Index
+        If Left(objNode.Key, 4) = szType And objNode.Text = szIdentifier Then
+          objNode.Parent.Text = "Groups (" & objNode.Parent.Children - 1 & ")"
+          frmMain.tv.Nodes.Remove objNode.Index
+        End If
       Next objNode
       
     Case "Database"
@@ -95,7 +107,10 @@ Dim szPath() As String
       
       'Delete any matching tree nodes
       For Each objNode In frmMain.tv.Nodes
-        If Left(objNode.Key, 4) = szType And objNode.Text = szIdentifier Then frmMain.tv.Nodes.Remove objNode.Index
+        If Left(objNode.Key, 4) = szType And objNode.Text = szIdentifier Then
+          objNode.Parent.Text = "Databases (" & objNode.Parent.Children - 1 & ")"
+          frmMain.tv.Nodes.Remove objNode.Index
+        End If
       Next objNode
       
     Case "Aggregate"
