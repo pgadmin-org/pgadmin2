@@ -6,6 +6,10 @@
 </HEAD><BODY>
 <UL>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Access">
+		<param name="Local" value="html\howtos\migration.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Charter">
 		<param name="Local" value="html\licenceinfo\team.html">
 		</OBJECT>
@@ -44,6 +48,10 @@
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Links">
 		<param name="Local" value="html\links.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="MySQL">
+		<param name="Local" value="html\howtos\migration.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="pgAdmin">
