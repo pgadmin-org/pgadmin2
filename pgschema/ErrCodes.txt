@@ -11,3 +11,4 @@ NOTE: Most error in pgSchema will be raised by ADO or other libraries.
 5432005 - You cannot drop dummy schemas in PostgreSQL versions prior to 7.3.
 5432006 - You cannot create schemas in PostgreSQL versions prior to 7.3.
 5432007 - You cannot modify dummy schemas in PostgreSQL versions prior to 7.3.
+5432008 - Primary Keys can only be added or dropped in PostgreSQL 7.3+

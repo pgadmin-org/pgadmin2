@@ -331,7 +331,6 @@ Dim szNamespace As String
 Dim szMode As String
 Dim frmCallingForm As Form
 Dim objColumn As pgColumn
-Dim bNoPrimaryKey As Boolean
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
@@ -415,6 +414,7 @@ Dim szOldName As String
       If txtProperties(4).Tag = "Y" Then objColumn.Default = txtProperties(4).Text
       If hbxProperties(0).Tag = "Y" Then objColumn.Comment = hbxProperties(0).Text
       If chkProperties(0).Tag = "Y" Then objColumn.NotNull = Bin2Bool(chkProperties(0).Value)
+      If chkProperties(1).Tag = "Y" Then objColumn.PrimaryKey = Bin2Bool(chkProperties(1).Value)
       
       If txtProperties(0).Tag = "Y" Then
         szOldName = objColumn.Name
@@ -438,7 +438,7 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, szNS As String, szMD As String, Optional Column As pgColumn, Optional frmCF As Form, Optional bNoPKey As Boolean)
+Public Sub Initialise(szDB As String, szNS As String, szMD As String, Optional Column As pgColumn, Optional frmCF As Form)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.Initialise(" & QUOTE & szDB & QUOTE & ", " & QUOTE & szMD & QUOTE & ")", etFullDebug
 
@@ -472,7 +472,6 @@ Dim objNamespace As pgNamespace
   
       'Create a new Column
       Me.Caption = "Create Column"
-      bNoPrimaryKey = bNoPKey
       
       'Unlock the edittable fields
       txtProperties(0).BackColor = &H80000005
@@ -555,6 +554,7 @@ Dim objNamespace As pgNamespace
   txtProperties(4).Tag = "N"
   hbxProperties(0).Tag = "N"
   chkProperties(0).Tag = "N"
+  chkProperties(1).Tag = "N"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.Initialise"
@@ -584,19 +584,16 @@ Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.chkProperties_Click(" & Index & ")", etFullDebug
 
-  If Not (objColumn Is Nothing) Then
-    If frmMain.svr.dbVersion.VersionNum < 7.3 Then
-      chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
-    Else
-      chkProperties(0).Tag = "Y"
-    End If
+  If frmMain.svr.dbVersion.VersionNum < 7.3 Then
+    chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
     chkProperties(1).Value = Bool2Bin(objColumn.PrimaryKey)
-  ElseIf bNoPrimaryKey Then
-    chkProperties(1).Value = 0
   Else
-    'Primary Key implicitly implies Not Null
-    If chkProperties(1).Value = 1 Then chkProperties(0).Value = 1
+    If Index = 0 Then chkProperties(0).Tag = "Y"
+    If Index = 1 Then chkProperties(1).Tag = "Y"
   End If
+
+  'Primary Key implies Not Null
+  If chkProperties(1).Value = 1 Then chkProperties(0).Value = 1
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.chkProperties_Click"

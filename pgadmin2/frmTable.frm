@@ -878,11 +878,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdColAdd_Click()", et
 Dim objColumnForm As New frmColumn
   
   Load objColumnForm
-  If objTable Is Nothing Then
-    objColumnForm.Initialise szDatabase, szNamespace, "TA", , Me, False
-  Else
-    objColumnForm.Initialise szDatabase, szNamespace, "TA", , Me, True
-  End If
+  objColumnForm.Initialise szDatabase, szNamespace, "TA", , Me
   objColumnForm.Show
 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdColAdd_Click"

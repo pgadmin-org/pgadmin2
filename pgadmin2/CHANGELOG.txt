@@ -61,6 +61,7 @@ Rewrote the code that associates treeview nodes with pgSchema objects. The new c
 Correctly recognise functions with one opaque argument.
 Filter functions listed when creating Types & Operators to only those that are suitable.
 Only quote identifiers when required.
+Allow addition and removal of Primary Keys with PostgreSQL 7.3+.
 
 1.2.0 Stable
 ------------

@@ -431,9 +431,53 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return PrimaryKey
-Friend Property Let PrimaryKey(ByVal vData As Boolean)
+Public Property Let PrimaryKey(ByVal vData As Boolean)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let PrimaryKey(" & vData & ")", etFullDebug
+
+Dim szSQL As String
+Dim szPkeyName As String
+Dim objIndex As pgIndex
+Dim objColumn As pgColumn
+
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432008, App.Title, "Primary Keys can only be added or dropped in PostgreSQL 7.3+."
+    Exit Property
+  End If
+  
+  If vData Then
+   
+    'First, set the column to NOT NULL if it is not already
+    If Not bNotNull Then NotNull = True
+    
+    'Now, alter the table
+    szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ADD PRIMARY KEY (" & FormattedID & ")"
+    objServer.ExecSQL szSQL, cnDatabase
+    
+  Else
+  
+    'Drop all the primary indexes (in reality there is can only be one
+    'unless something is *really* screwed.
+  
+    For Each objIndex In objServer.Databases(Database).Namespaces(szNamespace).Tables(szTable).Indexes
+      If objIndex.Primary Then objServer.Databases(Database).Namespaces(szNamespace).Tables(szTable).Indexes.Remove objIndex.Identifier
+    Next objIndex
+  
+    'Now reset the PrimaryKey property for all columns on the table.
+    For Each objColumn In objServer.Databases(Database).Namespaces(szNamespace).Tables(szTable).Columns
+      objColumn.iPrimaryKey = False
+    Next objColumn
+    
+  End If
+  
+  bPrimaryKey = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Friend Property Let iPrimaryKey(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let iPrimaryKey(" & vData & ")", etFullDebug
 
   bPrimaryKey = vData
     

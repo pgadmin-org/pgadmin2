@@ -214,7 +214,7 @@ Dim bDefaults As Boolean
     objNewMember.NumericScale = 0
   End If
   objNewMember.iNotNull = bNotNull
-  objNewMember.PrimaryKey = bPrimaryKey
+  objNewMember.iPrimaryKey = bPrimaryKey
   objNewMember.iDefault = szDefault
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
