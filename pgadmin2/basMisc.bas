@@ -196,14 +196,14 @@ Static lID As Long
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.GetID"
 End Function
 
-Public Function SetTopMostWindow(hWnd As Long, Topmost As Boolean) As Long
+Public Function SetTopMostWindow(hwnd As Long, Topmost As Boolean) As Long
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.SetTopMostWindow(" & hWnd & ", " & Topmost & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.SetTopMostWindow(" & hwnd & ", " & Topmost & ")", etFullDebug
 
   If Topmost = True Then 'Make the window topmost
-    SetTopMostWindow = SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, FLAGS)
+    SetTopMostWindow = SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, FLAGS)
   Else
-    SetTopMostWindow = SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, FLAGS)
+    SetTopMostWindow = SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, FLAGS)
   End If
   
   Exit Function
@@ -267,9 +267,13 @@ End Sub
 
 Public Sub LogError(lError As Long, szError As String, szRoutine As String)
 'No logging here, if anythings going wrong then we want the real error
-
+Dim objErrorForm As New frmError
+  
   frmMain.svr.LogEvent "Error in " & szRoutine & ": " & lError & " - " & szError, etErrors
-  MsgBox "An error has occured in " & szRoutine & ":" & vbCrLf & vbCrLf & "Number: " & lError & vbCrLf & "Description: " & szError, vbExclamation, App.Title & " Error"
+
+  Load objErrorForm
+  objErrorForm.Initialise lError, szError, szRoutine
+  objErrorForm.Show vbModal
   
   'If we are between StartMsg/EndMsg, call EndMsg with errors
   If Screen.MousePointer = vbHourglass Then
@@ -528,11 +532,11 @@ Dim objItem As ListItem
 
         'frank_lupo add new element title in listview
         Set objItem = .ListItems.Add(1, szKey, .ColumnHeaders(1).Text & "  ")
-        SendMessage .hWnd, LVM_SETCOLUMNWIDTH, 0, LVSCW_AUTOSIZE
+        SendMessage .hwnd, LVM_SETCOLUMNWIDTH, 0, LVSCW_AUTOSIZE
 
         For ii = 1 To .ColumnHeaders.Count - 1
             objItem.SubItems(ii) = .ColumnHeaders(ii + 1).Text & "  "
-            SendMessage .hWnd, LVM_SETCOLUMNWIDTH, ii, LVSCW_AUTOSIZE
+            SendMessage .hwnd, LVM_SETCOLUMNWIDTH, ii, LVSCW_AUTOSIZE
         Next
 
         'frank_lupo drop element title in listview

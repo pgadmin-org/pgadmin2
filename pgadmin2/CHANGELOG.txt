@@ -12,6 +12,7 @@ Fix ADO crash when accessing binary columns in the data grid.
 Added support for Casts [Frank Lupo].
 Added 'Find Object' [Frank Lupo].
 Autosize listview columns [Frank Lupo].
+New custom error dialogue [Frank Lupo].
 
 1.4.12
 ------

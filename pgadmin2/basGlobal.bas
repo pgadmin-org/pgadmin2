@@ -7,6 +7,9 @@ Attribute VB_Name = "basGlobal"
 
 Option Explicit
 
+'Support email address
+Global Const SUPPORT_EMAIL = "pgadmin-support@postgresql.org"
+
 'Makes life easier...
 Global Const QUOTE = """"
 

@@ -53,6 +53,7 @@ Form=frmDomain.frm
 Form=frmNamespace.frm
 Form=frmFind.frm
 Form=frmCast.frm
+Form=frmError.frm
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""
