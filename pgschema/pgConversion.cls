@@ -359,17 +359,16 @@ Dim szSQL As String
     
     szSQL = "-- Conversion: " & FormattedID & vbCrLf
     
-    szSQL = szSQL & "CREATE "
+    szSQL = szSQL & "CREATE"
     
     'default conversion
-    If bDefault Then szSQL = szSQL & "DEFAULT "
+    If bDefault Then szSQL = szSQL & " DEFAULT"
     
-    szSQL = szSQL & " CONVERSION " & FormattedID
-    szSQL = szSQL & " FOR '" & szForEncoding & "'"
-    szSQL = szSQL & " TO '" & szToEncoding & "'"
-    szSQL = szSQL & " FROM " & szProc
-    
-    SQL = szSQL & ";"
+    szSQL = szSQL & " CONVERSION " & FormattedID & vbCrLf
+    szSQL = szSQL & "   FOR '" & szForEncoding & "'" & vbCrLf
+    szSQL = szSQL & "   TO '" & szToEncoding & "'" & vbCrLf
+    szSQL = szSQL & "   FROM " & szProc
+    SQL = szSQL & ";" & vbCrLf
 
 Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description

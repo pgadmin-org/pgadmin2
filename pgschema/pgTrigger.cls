@@ -419,7 +419,7 @@ Dim szSQL As String
             " EXECUTE PROCEDURE " & szTriggerFunction & _
             ";" & vbCrLf
 
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & fmtID(szName) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & fmtID(szName) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & " IS '" & dbSZ(Comment) & "';"
   End If
 
   SQL = szSQL

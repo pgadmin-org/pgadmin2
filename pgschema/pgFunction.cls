@@ -688,14 +688,18 @@ Dim X As Long
     szSQL = szSQL & "CREATE FUNCTION " & FormattedID
   End If
   
-  szSQL = szSQL & " RETURNS "
+  szSQL = szSQL & vbCrLf
+  szSQL = szSQL & "  RETURNS "
   If objVersion.VersionNum >= 7.3 Then
     If bRetSet Then szSQL = szSQL & " SETOF "
   End If
   szSQL = szSQL & szReturns
   
-  szSQL = szSQL & " AS '" & szSource & "' "
-  szSQL = szSQL & " LANGUAGE '" & dbSZ(szLanguage) & "'"
+  szSQL = szSQL & " AS" & vbCrLf
+  szSQL = szSQL & "'"
+  szSQL = szSQL & szSource & vbCrLf
+  szSQL = szSQL & "'" & vbCrLf
+  szSQL = szSQL & "  LANGUAGE '" & dbSZ(szLanguage) & "'"
   
   If objVersion.VersionNum >= 7.3 Then
     If szVolatility <> "" Then szSQL = szSQL & " " & UCase(szVolatility)
