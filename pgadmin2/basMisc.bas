@@ -211,6 +211,12 @@ Dim objFont As New StdFont
     ctx.AskDeleteObjectDatabase = False
   End If
   
+  'max number of sql command in query
+  ctx.MaxNumberSqlQuery = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Max Number Sql Query", "50"))
+  
+  'max number of Record in View Data
+  ctx.MaxRecordViewData = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", "1000"))
+  
   'Initialise stuff
   InitVarDb
   InitClone
@@ -267,20 +273,20 @@ Public Sub BuildConnectionMenu()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildConnectionMenu()", etFullDebug
 
-Dim X As Integer
+Dim x As Integer
 Dim szConnection As String
 Dim vData
 
   frmMain.tb.Buttons(1).ButtonMenus.Clear
-  For X = 1 To 10
-    szConnection = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & X, "")
+  For x = 1 To 10
+    szConnection = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & x, "")
     If szConnection <> "" Then
       vData = Split(szConnection, "|")
       szConnection = vData(0) & "@" & vData(1) & ":" & vData(2)
       If UBound(vData) > 2 Then szConnection = szConnection & " - " & vData(3)
-      frmMain.tb.Buttons("connect").ButtonMenus.Add X, X & "|" & szConnection, szConnection
+      frmMain.tb.Buttons("connect").ButtonMenus.Add x, x & "|" & szConnection, szConnection
     End If
-  Next X
+  Next x
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildConnectionMenu"
@@ -291,34 +297,34 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildPluginsMenu()", etFullDebug
 
 Dim objPlugin As pgPlugin
-Dim X As Integer
+Dim x As Integer
 
   'Clear the menu
   frmMain.mnuPlugins.Visible = False
   frmMain.mnuPluginsPlg(0).Visible = True
-  For X = 1 To 20
-    frmMain.mnuPluginsPlg(X).Caption = "Plugin" & X
-    frmMain.mnuPluginsPlg(X).Visible = False
-  Next X
+  For x = 1 To 20
+    frmMain.mnuPluginsPlg(x).Caption = "Plugin" & x
+    frmMain.mnuPluginsPlg(x).Visible = False
+  Next x
   
   'Load new plugins
-  X = 1
+  x = 1
   For Each objPlugin In plg
     If Not ((frmMain.svr.ConnectionString = "") And (objPlugin.PluginType = 1)) Then
-      frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description & "..."
-      frmMain.mnuPluginsPlg(X).Visible = True
-      X = X + 1
+      frmMain.mnuPluginsPlg(x).Caption = objPlugin.Description & "..."
+      frmMain.mnuPluginsPlg(x).Visible = True
+      x = x + 1
       frmMain.mnuPluginsPlg(0).Visible = False
     
       'Bomb out if there's more than 20 Plugins
-      If X > 20 Then
+      If x > 20 Then
         MsgBox App.Title & " currently only supports a maximum of 20 plugins loaded at the same time. Please email the Support mailing list listed in the Helpfile and let the developers know that you've exceeded this limit.", vbExclamation, "Error"
         Exit Sub
       End If
     End If
   Next objPlugin
   frmMain.mnuPluginsPlg(0).Visible = False
-  If X > 1 Then frmMain.mnuPlugins.Visible = True
+  If x > 1 Then frmMain.mnuPlugins.Visible = True
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildPluginsMenu"
@@ -399,7 +405,7 @@ End Function
 Public Function fmtID(ByVal szData As String) As String
 On Error Resume Next
 
-Dim X As Integer
+Dim x As Integer
 Dim iVal As Integer
 Dim bFound As Boolean
 
@@ -407,8 +413,8 @@ Dim bFound As Boolean
   szData = Replace(szData, QUOTE, QUOTE & QUOTE)
 
   'verify KeyWord Reserved
-  For X = 1 To frmMain.svr.KeyWordReserved.Count
-    If LCase(frmMain.svr.KeyWordReserved(X)) = LCase(szData) Then
+  For x = 1 To frmMain.svr.KeyWordReserved.Count
+    If LCase(frmMain.svr.KeyWordReserved(x)) = LCase(szData) Then
       bFound = True
       Exit For
     End If
@@ -418,15 +424,15 @@ Dim bFound As Boolean
     If IsNumeric(szData) Then
       szData = QUOTE & szData & QUOTE
     Else
-      For X = 1 To Len(szData)
-        iVal = Asc(Mid(szData, X, 1))
+      For x = 1 To Len(szData)
+        iVal = Asc(Mid(szData, x, 1))
         If Not ((iVal >= 48) And (iVal <= 57)) And _
            Not ((iVal >= 97) And (iVal <= 122)) And _
            Not (iVal = 95) Then
           szData = QUOTE & szData & QUOTE
           Exit For
         End If
-      Next X
+      Next x
     End If
   End If
 
@@ -631,6 +637,39 @@ Dim objItem As ListItem
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.AutoSizeColumnLv"
+End Sub
+
+Public Sub AutoSizeColumnFGrid(Grd As MSFlexGrid)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.AutoSizeColumnFGrid(" & Grd.Name & ")", etFullDebug
+Dim lColWidth As Long
+Dim lii As Long
+Dim ljj As Long
+Dim szCellText As String
+Dim lLongestLen As Long
+Dim szLongestString As String
+    
+  With Grd
+    For lii = 0 To .Cols - 1
+      szLongestString = ""
+      lLongestLen = 0
+
+      For ljj = 0 To .Rows - 1
+        szCellText = .TextMatrix(ljj, lii)
+
+        If Len(szCellText) > lLongestLen Then
+          lLongestLen = Len(szCellText)
+          szLongestString = szCellText
+        End If
+      Next
+      If Len(szLongestString) > 0 Then
+        .ColWidth(lii) = .Parent.TextWidth(szLongestString) + 200
+      End If
+    Next
+  End With
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.AutoSizeColumnFGrid"
 End Sub
 
 Public Function NameImageByObjectType(ObjectType As String) As String
