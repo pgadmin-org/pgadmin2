@@ -237,13 +237,12 @@ Dim objFunction As pgFunction
   szSQL = szSQL & " RETURNS " & Returns
   
   szSQL = szSQL & " AS '" & Source & "'"
+  szSQL = szSQL & "LANGUAGE '" & Language & "'"
+  
   If objVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & "{LANGUAGE '" & Language & "'"
     If Volatility <> "" Then szSQL = szSQL & " " & UCase(Volatility)
     If Strict Then szSQL = szSQL & " STRICT"
-    szSQL = szSQL & "}"
   Else
-    szSQL = szSQL & " LANGUAGE '" & Language & "'"
     If Cachable Or Strict Or (Volatility <> "") Then szSQL = szSQL & " WITH ("
     If Cachable Then szSQL = szSQL & "ISCACHABLE, "
     '7.1+ options

@@ -667,13 +667,12 @@ Dim X As Long
   szSQL = szSQL & " RETURNS " & szReturns
   
   szSQL = szSQL & " AS '" & szSource & "' "
+  szSQL = szSQL & " LANGUAGE '" & dbSZ(szLanguage) & "'"
+  
   If objVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & "{LANGUAGE '" & dbSZ(szLanguage) & "'"
     If szVolatility <> "" Then szSQL = szSQL & " " & UCase(szVolatility)
     If bStrict Then szSQL = szSQL & " STRICT"
-    szSQL = szSQL & "}"
   Else
-    szSQL = szSQL & " LANGUAGE '" & dbSZ(szLanguage) & "'"
     If bCachable Or bStrict Or (szVolatility <> "") Then szSQL = szSQL & " WITH ("
     If bCachable Then szSQL = szSQL & "ISCACHABLE, "
     If bStrict Then szSQL = szSQL & "ISSTRICT, "
