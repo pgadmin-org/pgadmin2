@@ -146,7 +146,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -367,7 +370,7 @@ Attribute Comment.VB_Description = "Sets/Returns the Index comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get Comment()", etFullDebug
 
-  Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+  Comment = objServer.Databases(Database).LookupComment(lOID)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

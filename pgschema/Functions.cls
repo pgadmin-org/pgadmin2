@@ -20,7 +20,6 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private szDB As String
 
 'Rollback to a prior version
 Public Sub Rollback(Identifier As String, Version As Long)
@@ -81,7 +80,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -122,20 +124,20 @@ Dim X As Long
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
-  objNewMember.Returns = objServer.Databases(szDB).LookupType(lReturns)
+  objNewMember.Returns = objServer.Databases(Database).LookupType(lReturns)
   
   'Cleanup the source code
   szSource = Replace(szSource, "\", "\\")
   szSource = Replace(szSource, "'", "''")
   objNewMember.iSource = szSource
   
-  objNewMember.Language = objServer.Databases(szDB).LookupLanguage(lLanguage)
+  objNewMember.Language = objServer.Databases(Database).LookupLanguage(lLanguage)
   objNewMember.Cachable = bCachable
   objNewMember.Strict = bStrict
   
   szTemp = Split(szArgumentList, " ")
   For X = 0 To UBound(szTemp)
-    szArgs = szArgs & objServer.Databases(szDB).LookupType(Val(szTemp(X))) & ", "
+    szArgs = szArgs & objServer.Databases(Database).LookupType(Val(szTemp(X))) & ", "
   Next X
   If Len(szArgs) >= 2 Then szArgs = Left(szArgs, Len(szArgs) - 2)
   objNewMember.ArgumentList = szArgs
@@ -188,7 +190,7 @@ Dim objFunction As pgFunction
   If Comment <> "" Then
     szSQL = "COMMENT ON FUNCTION " & QUOTE & Name & QUOTE & "(" & dbSZ(Arguments) & ") IS '" & dbSZ(Comment) & "'"
     objServer.ExecSQL szSQL, cnDatabase
-    objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+    objServer.Databases(Database).KillCommentCache
   End If
   
   'There is no easy way to identify this function, so just
@@ -314,6 +316,12 @@ Attribute Refresh.VB_Description = "Refrsh the collection of Functions."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Refresh()", etFullDebug
 
+
+  'Kill the relevant caches first
+  objServer.Databases(Database).KillCommentCache
+  objServer.Databases(Database).KillLanguageCache
+  objServer.Databases(Database).KillTypeCache
+
   'Initialize will basically do a refresh so let's use that!
   Initialize
   
@@ -330,9 +338,6 @@ Dim rs As New Recordset
 
   'Create a new collection
   Set mCol = New Collection
-  
-  'Get the Database Name
-  szDB = GetDatabase(cnDatabase.ConnectionString)
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then

@@ -80,7 +80,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -179,7 +182,7 @@ Dim szSQL As String
   If Comment <> "" Then
     szSQL = "COMMENT ON SEQUENCE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
     objServer.ExecSQL szSQL, cnDatabase
-    objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+    objServer.Databases(Database).KillCommentCache
   End If
   
   'Generate and execute the SQL to retrieve *all* properties of the new object
@@ -283,6 +286,12 @@ Attribute Refresh.VB_Description = "Refresh the collection of Sequences."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Refresh()", etFullDebug
 
+  'Kill the caches first
+  objServer.Databases(Database).KillCommentCache
+  objServer.Databases(Database).KillLanguageCache
+  objServer.Databases(Database).KillOperatorCache
+  objServer.Databases(Database).KillTypeCache
+  
   'Initialize will basically do a refresh so let's use that!
   Initialize
   

@@ -20,7 +20,6 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private szDB As String
 
 'Rollback to a prior version
 Public Sub Rollback(Identifier As String, Version As Long)
@@ -81,7 +80,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -133,21 +135,21 @@ Dim szTemp As String
   End Select
 
   objNewMember.HashJoins = bHashJoins
-  szLOT = objServer.Databases(szDB).LookupType(lLeftOperandType)
+  szLOT = objServer.Databases(Database).LookupType(lLeftOperandType)
   If szLOT = "opaque" Then szLOT = "NONE"
   objNewMember.LeftOperandType = szLOT
-  szROT = objServer.Databases(szDB).LookupType(lRightOperandType)
+  szROT = objServer.Databases(Database).LookupType(lRightOperandType)
   If szROT = "opaque" Then szROT = "NONE"
   objNewMember.RightOperandType = szROT
-  szTemp = objServer.Databases(szDB).LookupType(lResultType)
+  szTemp = objServer.Databases(Database).LookupType(lResultType)
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.ResultType = szTemp
-  objNewMember.Commutator = objServer.Databases(szDB).LookupOperator(lCommutator)
-  objNewMember.Negator = objServer.Databases(szDB).LookupOperator(lNegator)
-  szTemp = objServer.Databases(szDB).LookupOperator(lLeftTypeSortOperator)
+  objNewMember.Commutator = objServer.Databases(Database).LookupOperator(lCommutator)
+  objNewMember.Negator = objServer.Databases(Database).LookupOperator(lNegator)
+  szTemp = objServer.Databases(Database).LookupOperator(lLeftTypeSortOperator)
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.LeftTypeSortOperator = szTemp
-  szTemp = objServer.Databases(szDB).LookupOperator(lRightTypeSortOperator)
+  szTemp = objServer.Databases(Database).LookupOperator(lRightTypeSortOperator)
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.RightTypeSortOperator = szTemp
   objNewMember.OperatorFunction = szOperatorFunction
@@ -203,7 +205,7 @@ Dim objOperator As pgOperator
   If Comment <> "" Then
     szSQL = "COMMENT ON OPERATOR " & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
     objServer.ExecSQL szSQL, cnDatabase
-    objServer.Databases(szDB).KillCommentCache
+    objServer.Databases(Database).KillCommentCache
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
@@ -215,7 +217,7 @@ Dim objOperator As pgOperator
   End If
     
   'Invalidate the Operator Cache...
-  objServer.Databases(szDB).KillOperatorCache
+  objServer.Databases(Database).KillOperatorCache
   
   If Not objOperator.SystemObject Then objOperator.Commit rcAdd, "Created object."
   Set Add = objOperator
@@ -293,7 +295,7 @@ Dim szLOT As String
   mCol.Remove ULEncode(Key)
   
   'Invalidate the Operator Cache...
-  objServer.Databases(szDB).KillOperatorCache
+  objServer.Databases(Database).KillOperatorCache
   
   Exit Sub
 Err_Handler:
@@ -321,6 +323,12 @@ Attribute Refresh.VB_Description = "Refresh the collection of Operators."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Refresh()", etFullDebug
 
+  'Kill the caches first
+  objServer.Databases(Database).KillCommentCache
+  objServer.Databases(Database).KillLanguageCache
+  objServer.Databases(Database).KillOperatorCache
+  objServer.Databases(Database).KillTypeCache
+  
   'Initialize will basically do a refresh so let's use that!
   Initialize
   
@@ -337,9 +345,6 @@ Dim rs As New Recordset
 
   'Create a new collection
   Set mCol = New Collection
-      
-  'Get the Database Name
-  szDB = GetDatabase(cnDatabase.ConnectionString)
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then

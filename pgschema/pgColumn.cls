@@ -50,7 +50,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -386,9 +389,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Comment()"
   'In 7.1, comments were stored in pg_description against the column OID.
   'In 7.2+, use the table OID with a SubID of the Column Position
   If objServer.dbVersion.VersionNum < 7.2 Then
-    Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+    Comment = objServer.Databases(Database).LookupComment(lOID)
   Else
-    Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lTableOID, lPosition)
+    Comment = objServer.Databases(Database).LookupComment(lTableOID, lPosition)
   End If
     
   Exit Property

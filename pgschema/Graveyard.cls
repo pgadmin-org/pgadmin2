@@ -26,7 +26,10 @@ Public Property Get Database() As String
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Graveyard.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -181,28 +184,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Checks.Initialize()", etFullDebu
 
 Dim rs As New Recordset
 Dim bExists As Boolean
-Dim szDatabase As String
 Dim objTable As pgTable
 
   'Create a new collection
   Set mCol = New Collection
-  
-  'Get the database name
-  szDatabase = GetDatabase(cnDatabase.ConnectionString)
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GRAVEYARD, cnDatabase)
     
     'Refresh the database so everythig's up-to-date
-    objServer.Databases(szDatabase).Aggregates.Refresh
-    objServer.Databases(szDatabase).Functions.Refresh
-    objServer.Databases(szDatabase).Languages.Refresh
-    objServer.Databases(szDatabase).Operators.Refresh
-    objServer.Databases(szDatabase).Sequences.Refresh
-    objServer.Databases(szDatabase).Tables.Refresh
-    objServer.Databases(szDatabase).Types.Refresh
-    objServer.Databases(szDatabase).Views.Refresh
+    objServer.Databases(Database).Aggregates.Refresh
+    objServer.Databases(Database).Functions.Refresh
+    objServer.Databases(Database).Languages.Refresh
+    objServer.Databases(Database).Operators.Refresh
+    objServer.Databases(Database).Sequences.Refresh
+    objServer.Databases(Database).Tables.Refresh
+    objServer.Databases(Database).Types.Refresh
+    objServer.Databases(Database).Views.Refresh
     
     While Not rs.EOF
       If rs!rc_action = "D" Then 'Just add an delete items
@@ -211,27 +210,27 @@ Dim objTable As pgTable
         bExists = False
         Select Case rs!rc_type & ""
           Case "Aggregate"
-            bExists = objServer.Databases(szDatabase).Aggregates.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Aggregates.Exists(rs!rc_identifier & "")
           Case "Function"
-            bExists = objServer.Databases(szDatabase).Functions.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Functions.Exists(rs!rc_identifier & "")
           Case "Language"
-            bExists = objServer.Databases(szDatabase).Languages.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Languages.Exists(rs!rc_identifier & "")
           Case "Operator"
-            bExists = objServer.Databases(szDatabase).Operators.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Operators.Exists(rs!rc_identifier & "")
           Case "Sequence"
-            bExists = objServer.Databases(szDatabase).Sequences.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Sequences.Exists(rs!rc_identifier & "")
           Case "Table"
-            bExists = objServer.Databases(szDatabase).Tables.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Tables.Exists(rs!rc_identifier & "")
           Case "Type"
-            bExists = objServer.Databases(szDatabase).Types.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Types.Exists(rs!rc_identifier & "")
           Case "View"
-            bExists = objServer.Databases(szDatabase).Views.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Views.Exists(rs!rc_identifier & "")
           Case "Index"
-            bExists = objServer.Databases(szDatabase).Tables(rs!rc_table & "").Indexes.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Tables(rs!rc_table & "").Indexes.Exists(rs!rc_identifier & "")
           Case "Rule"
-            bExists = objServer.Databases(szDatabase).Tables(rs!rc_table & "").Rules.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Tables(rs!rc_table & "").Rules.Exists(rs!rc_identifier & "")
           Case "Trigger"
-            bExists = objServer.Databases(szDatabase).Tables(rs!rc_table & "").Triggers.Exists(rs!rc_identifier & "")
+            bExists = objServer.Databases(Database).Tables(rs!rc_table & "").Triggers.Exists(rs!rc_identifier & "")
         End Select
         
         'Add the item if we couldn't find it

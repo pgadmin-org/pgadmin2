@@ -20,7 +20,6 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private szDB As String
 
 'Rollback to a prior version
 Public Sub Rollback(Identifier As String, Version As Long)
@@ -81,7 +80,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -123,9 +125,9 @@ Dim szSQL As String
   'Get the cached Type name. If an error occurs it means the
   'OID specified doesn't exist.
   On Error Resume Next
-  objNewMember.InputType = objServer.Databases(szDB).LookupType(lInputType)
-  objNewMember.StateType = objServer.Databases(szDB).LookupType(lStateType)
-  objNewMember.FinalType = objServer.Databases(szDB).LookupType(lFinalType)
+  objNewMember.InputType = objServer.Databases(Database).LookupType(lInputType)
+  objNewMember.StateType = objServer.Databases(Database).LookupType(lStateType)
+  objNewMember.FinalType = objServer.Databases(Database).LookupType(lFinalType)
   On Error GoTo Err_Handler
 
   objNewMember.StateFunction = szStateFunction
@@ -180,7 +182,7 @@ Dim objAggregate As pgAggregate
       szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " " & QUOTE & InputType & QUOTE & " IS '" & dbSZ(Comment) & "'"
       objServer.ExecSQL szSQL, cnDatabase
     End If
-    objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+    objServer.Databases(Database).KillCommentCache
   End If
   
   If Not rs.EOF Then
@@ -284,6 +286,12 @@ Attribute Refresh.VB_Description = "Refresh the collection of Aggregates."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Refresh()", etFullDebug
 
+  'Kill the caches first
+  objServer.Databases(Database).KillCommentCache
+  objServer.Databases(Database).KillLanguageCache
+  objServer.Databases(Database).KillOperatorCache
+  objServer.Databases(Database).KillTypeCache
+  
   'Initialize will basically do a refresh so let's use that!
   Initialize
   
@@ -300,9 +308,6 @@ Dim rs As New Recordset
 
   'Create a new collection
   Set mCol = New Collection
-  
-  'Get the Database Name
-  szDB = GetDatabase(cnDatabase.ConnectionString)
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then

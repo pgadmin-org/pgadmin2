@@ -90,7 +90,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -320,7 +323,7 @@ Dim szSQL As String
 
   szSQL = "COMMENT ON VIEW " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
-  objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+  objServer.Databases(Database).KillCommentCache
   
   If Not SystemObject Then Commit rcUpdate, "Updated object comment."
   
@@ -333,7 +336,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Comment()", etFullDebug
 
   If (szName <> "") Then
-    Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+    Comment = objServer.Databases(Database).LookupComment(lOID)
   Else
     Comment = ""
   End If

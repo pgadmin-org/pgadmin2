@@ -94,7 +94,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -390,7 +393,7 @@ Dim szSQL As String
 
   szSQL = "COMMENT ON SEQUENCE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
-  objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+  objServer.Databases(Database).KillCommentCache
   If Not SystemObject Then Commit rcUpdate, "Updated object comment."
   
   Exit Property
@@ -401,7 +404,7 @@ Attribute Comment.VB_Description = "Sets/Returns the Sequence's comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Comment()", etFullDebug
 
-  Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+  Comment = objServer.Databases(Database).LookupComment(lOID)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

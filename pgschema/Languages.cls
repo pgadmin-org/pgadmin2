@@ -20,7 +20,6 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private szDB As String
 
 'Rollback to a prior version
 Public Sub Rollback(Identifier As String, Version As Long)
@@ -81,7 +80,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -188,7 +190,7 @@ Dim objLanguage As pgLanguage
   Set objLanguage = objNewMember
   
   'Invalidate the Language Cache...
-  objServer.Databases(szDB).KillLanguageCache
+  objServer.Databases(Database).KillLanguageCache
   
   If Not objLanguage.SystemObject Then objLanguage.Commit rcAdd, "Created object."
   Set Add = objLanguage
@@ -260,7 +262,7 @@ Dim szSQL As String
   mCol.Remove ULEncode(Key)
 
   'Invalidate the Language Cache...
-  objServer.Databases(szDB).KillLanguageCache
+  objServer.Databases(Database).KillLanguageCache
   
   Exit Sub
 Err_Handler:
@@ -288,6 +290,12 @@ Attribute Refresh.VB_Description = "Refresh the collection of Languages."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Refresh()", etFullDebug
 
+  'Kill the caches first
+  objServer.Databases(Database).KillCommentCache
+  objServer.Databases(Database).KillLanguageCache
+  objServer.Databases(Database).KillOperatorCache
+  objServer.Databases(Database).KillTypeCache
+  
   'Initialize will basically do a refresh so let's use that!
   Initialize
   
@@ -304,9 +312,6 @@ Dim rs As New Recordset
 
   'Create a new collection
   Set mCol = New Collection
-  
-  'Get the Database Name
-  szDB = GetDatabase(cnDatabase.ConnectionString)
 
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then

@@ -20,7 +20,6 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private szDB As String
 
 'Rollback to a prior version
 Public Sub Rollback(Identifier As String, Version As Long)
@@ -81,7 +80,10 @@ Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Database()", etFullDebug
 
-  Database = GetDatabase(cnDatabase.ConnectionString)
+Static szDB As String
+
+  If szDB = "" Then szDB = GetDatabase(cnDatabase.ConnectionString)
+  Database = szDB
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -123,7 +125,7 @@ Dim szTemp As String
   objNewMember.InternalLength = lInternalLength
   objNewMember.ExternalLength = lExternalLength
   objNewMember.Default = szDefault
-  szTemp = objServer.Databases(szDB).LookupType(lElement)
+  szTemp = objServer.Databases(Database).LookupType(lElement)
   If szTemp = "opaque" Then szTemp = ""
   objNewMember.Element = szTemp
   objNewMember.Delimiter = szDelimiter
@@ -202,7 +204,7 @@ Dim objType As pgType
   If Comment <> "" Then
     szSQL = "COMMENT ON TYPE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
     objServer.ExecSQL szSQL, cnDatabase
-    objServer.Databases(szDB).KillCommentCache
+    objServer.Databases(Database).KillCommentCache
   End If
   
   If Not rs.EOF Then
@@ -214,7 +216,7 @@ Dim objType As pgType
   End If
   
   'Invalidate the Type Cache...
-  objServer.Databases(szDB).KillTypeCache
+  objServer.Databases(Database).KillTypeCache
   
   If Not objType.SystemObject Then objType.Commit rcAdd, "Created object."
   Set Add = objType
@@ -284,7 +286,7 @@ Dim szSQL As String
   mCol.Remove ULEncode(Key)
 
   'Invalidate the Type Cache...
-  objServer.Databases(szDB).KillTypeCache
+  objServer.Databases(Database).KillTypeCache
   
   Exit Sub
 Err_Handler:
@@ -312,6 +314,12 @@ Attribute Refresh.VB_Description = "Refresh the collection of Types."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Refresh()", etFullDebug
 
+  'Kill the caches first
+  objServer.Databases(Database).KillCommentCache
+  objServer.Databases(Database).KillLanguageCache
+  objServer.Databases(Database).KillOperatorCache
+  objServer.Databases(Database).KillTypeCache
+  
   'Initialize will basically do a refresh so let's use that!
   Initialize
   
@@ -328,9 +336,6 @@ Dim rs As New Recordset
 
   'Create a new collection
   Set mCol = New Collection
-  
-  'Get the Database Name
-  szDB = GetDatabase(cnDatabase.ConnectionString)
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
