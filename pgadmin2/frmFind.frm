@@ -17,13 +17,13 @@ Begin VB.Form frmFind
       Caption         =   "Display columns"
       Height          =   1215
       Left            =   120
-      TabIndex        =   21
+      TabIndex        =   22
       Top             =   3360
       Width           =   4695
       Begin MSComctlLib.ListView lvColResult 
          Height          =   855
          Left            =   120
-         TabIndex        =   22
+         TabIndex        =   6
          ToolTipText     =   "What columns should be included in the results?"
          Top             =   240
          Width           =   4455
@@ -54,13 +54,13 @@ Begin VB.Form frmFind
       Caption         =   "Find options"
       Height          =   3135
       Left            =   120
-      TabIndex        =   8
+      TabIndex        =   15
       Top             =   120
       Width           =   4695
       Begin VB.TextBox txtSql 
          Height          =   285
          Left            =   1200
-         TabIndex        =   19
+         TabIndex        =   4
          ToolTipText     =   "Enter an object's DDL, or part of an object's DDL."
          Top             =   2280
          Width           =   3375
@@ -68,7 +68,7 @@ Begin VB.Form frmFind
       Begin VB.TextBox txtComment 
          Height          =   285
          Left            =   1200
-         TabIndex        =   17
+         TabIndex        =   3
          ToolTipText     =   "Enter an object comment or part of an object comment."
          Top             =   1920
          Width           =   3375
@@ -76,7 +76,7 @@ Begin VB.Form frmFind
       Begin VB.TextBox txtName 
          Height          =   285
          Left            =   1200
-         TabIndex        =   9
+         TabIndex        =   2
          ToolTipText     =   "Enter an object name, or part of an object name."
          Top             =   1560
          Width           =   3375
@@ -84,7 +84,7 @@ Begin VB.Form frmFind
       Begin MSComctlLib.ImageCombo cboDatabase 
          Height          =   330
          Left            =   1200
-         TabIndex        =   10
+         TabIndex        =   0
          ToolTipText     =   "Select a database to search."
          Top             =   270
          Width           =   3375
@@ -99,7 +99,7 @@ Begin VB.Form frmFind
       Begin MSComctlLib.ImageCombo cboSearchFor 
          Height          =   330
          Left            =   1200
-         TabIndex        =   11
+         TabIndex        =   5
          ToolTipText     =   "What search type should be used?"
          Top             =   2640
          Width           =   3375
@@ -114,7 +114,7 @@ Begin VB.Form frmFind
       Begin MSComctlLib.ListView lvNameSpace 
          Height          =   855
          Left            =   1200
-         TabIndex        =   12
+         TabIndex        =   1
          ToolTipText     =   "Select the schemas to search in."
          Top             =   600
          Width           =   3420
@@ -146,7 +146,7 @@ Begin VB.Form frmFind
          Height          =   195
          Index           =   7
          Left            =   135
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   2385
          Width           =   315
       End
@@ -156,7 +156,7 @@ Begin VB.Form frmFind
          Height          =   195
          Index           =   6
          Left            =   120
-         TabIndex        =   18
+         TabIndex        =   20
          Top             =   1980
          Width           =   660
       End
@@ -166,7 +166,7 @@ Begin VB.Form frmFind
          Height          =   195
          Index           =   1
          Left            =   120
-         TabIndex        =   16
+         TabIndex        =   19
          Top             =   360
          Width           =   690
       End
@@ -176,7 +176,7 @@ Begin VB.Form frmFind
          Height          =   195
          Index           =   2
          Left            =   120
-         TabIndex        =   15
+         TabIndex        =   18
          Top             =   675
          Width           =   585
       End
@@ -186,7 +186,7 @@ Begin VB.Form frmFind
          Height          =   195
          Index           =   3
          Left            =   120
-         TabIndex        =   14
+         TabIndex        =   17
          Top             =   1620
          Width           =   420
       End
@@ -196,7 +196,7 @@ Begin VB.Form frmFind
          Height          =   195
          Index           =   0
          Left            =   120
-         TabIndex        =   13
+         TabIndex        =   16
          Top             =   2760
          Width           =   735
       End
@@ -205,7 +205,7 @@ Begin VB.Form frmFind
       Caption         =   "&Advanced Options"
       Height          =   255
       Left            =   4920
-      TabIndex        =   6
+      TabIndex        =   7
       ToolTipText     =   "Check to apply advanced search options."
       Top             =   240
       Width           =   2415
@@ -214,7 +214,7 @@ Begin VB.Form frmFind
       Caption         =   "Find"
       Height          =   375
       Left            =   8640
-      TabIndex        =   4
+      TabIndex        =   10
       Top             =   4200
       Width           =   1095
    End
@@ -223,13 +223,13 @@ Begin VB.Form frmFind
       Enabled         =   0   'False
       Height          =   3510
       Left            =   4920
-      TabIndex        =   1
+      TabIndex        =   11
       Top             =   600
       Width           =   4815
       Begin MSComctlLib.ListView lvObjType 
          Height          =   1530
          Left            =   1155
-         TabIndex        =   5
+         TabIndex        =   8
          ToolTipText     =   "Select the object types to search for."
          Top             =   240
          Width           =   3510
@@ -259,7 +259,7 @@ Begin VB.Form frmFind
       Begin MSComctlLib.ListView lvOwner 
          Height          =   1530
          Left            =   1170
-         TabIndex        =   7
+         TabIndex        =   9
          ToolTipText     =   "Select the object owners whose objects will be searched."
          Top             =   1845
          Width           =   3510
@@ -293,7 +293,7 @@ Begin VB.Form frmFind
          Height          =   195
          Index           =   4
          Left            =   120
-         TabIndex        =   3
+         TabIndex        =   14
          Top             =   270
          Width           =   870
       End
@@ -304,7 +304,7 @@ Begin VB.Form frmFind
          Height          =   195
          Index           =   5
          Left            =   120
-         TabIndex        =   2
+         TabIndex        =   13
          Top             =   1890
          Width           =   690
       End
@@ -442,7 +442,7 @@ Begin VB.Form frmFind
    Begin MSComctlLib.ListView lvResult 
       Height          =   2775
       Left            =   120
-      TabIndex        =   0
+      TabIndex        =   12
       ToolTipText     =   "Displays the results of the search."
       Top             =   4680
       Width           =   9660
@@ -573,7 +573,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdFind_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.cmdFind_Click()", etFullDebug
 
 Dim szName As String
@@ -789,7 +789,6 @@ Dim bSreachOwner As Boolean
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.cmdFind_Click"
 End Sub
 
-
 Private Sub lvResult_DblClick()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.lv_DblClick()", etFullDebug
@@ -875,7 +874,7 @@ Private Sub lvColResult_ItemCheck(ByVal Item As MSComctlLib.ListItem)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.lvColResult_ItemCheck(" & Item.Text & ")", etFullDebug
 
-  If Item.Key = "NAM" Or Item.Key = "SCH" Then
+  If Item.Key = "NAM" Then
     Item.Checked = True
     Exit Sub
   End If

@@ -2320,7 +2320,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvDatabase(ByVal Node As MSComctlLib.Node)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -4209,7 +4209,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
