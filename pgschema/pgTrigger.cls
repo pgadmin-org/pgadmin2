@@ -326,26 +326,48 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Comment()
 Err_Handler:  objServer.iLogError Err
 End Property
 
-Public Property Get SQL() As String
+Public Property Get SQL(Optional bSQLDrop As Boolean = False, Optional bSQLCreate As Boolean = True, Optional bSQLComment As Boolean = True, Optional szSQLTriggerName As String, Optional szSQLTriggerTable As String, Optional szSQLTriggerExecutes As String, Optional szSQLTriggerEvent As String, Optional szSQLTriggerForEach As String, Optional szSQLTriggerFunction As String, Optional szSQLTriggerComment As String) As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get SQL()", etFullDebug
-Dim szSQL As String
-Dim szMember As Variant
-  
-  szSQL = "-- Trigger: " & szIdentifier & vbCrLf & _
-          "CREATE TRIGGER " & QUOTE & szName & QUOTE & _
-          " " & UCase(szExecutes) & " " & UCase(szTriggerEvent) & _
-          " ON " & QUOTE & szTable & QUOTE & _
-          " FOR EACH " & UCase(szForEach) & _
-          " EXECUTE PROCEDURE " & szTriggerFunction & _
-          ";" & vbCrLf
-          
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+
+    'Set default values
+    If (bSQLDrop = True) And (bSQLCreate = True) And (objServer.dbVersion.VersionNum < 7.2) Then bSQLDrop = False
+    If (szSQLTriggerName = "") Then szSQLTriggerName = szName
+    If (szSQLTriggerTable = "") Then szSQLTriggerTable = szTable
+    If (szSQLTriggerExecutes = "") Then szSQLTriggerExecutes = UCase(szExecutes)
+    If (szSQLTriggerEvent = "") Then szSQLTriggerEvent = UCase(szTriggerEvent)
+    If (szSQLTriggerForEach = "") Then szSQLTriggerForEach = UCase(szForEach)
+    If (szSQLTriggerFunction = "") Then szSQLTriggerFunction = szTriggerFunction
+    If (szSQLTriggerComment = "") Then szSQLTriggerComment = dbSZ(Comment)
     
-  SQL = szSQL
+    'Log
+    objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get SQL()", etFullDebug
+    Dim szSQL As String
+    Dim szMember As Variant
+    
+    szSQL = "-- Trigger: " & szIdentifier & vbCrLf
+    
+    If (bSQLDrop = True) Then
+        szSQL = szSQL & "DROP TRIGGER " & QUOTE & szSQLTriggerName & QUOTE & _
+        " ON " & QUOTE & szSQLTriggerTable & QUOTE & ";" & vbCrLf
+    End If
+    
+    If (bSQLCreate = True) Then
+        szSQL = szSQL & "CREATE TRIGGER " & QUOTE & szSQLTriggerName & QUOTE & _
+        " " & szSQLTriggerExecutes & " " & szSQLTriggerEvent & _
+        " ON " & QUOTE & szSQLTriggerTable & QUOTE & _
+        " FOR EACH " & szSQLTriggerForEach & _
+        " EXECUTE PROCEDURE " & szSQLTriggerFunction & _
+        ";" & vbCrLf
+    End If
+     
+    If (bSQLComment = True) Then
+        szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+    End If
+    
+    SQL = szSQL
   
-  Exit Sub
+Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
@@ -377,7 +399,7 @@ Dim rs As New Recordset
   If rs.EOF Then
     RCStatus = rcNotInRC
   Else
-    If SQL = rs!rc_definition & "" Then
+    If SQL(False, True, False) = rs!rc_definition & "" Then
       RCStatus = rcUpToDate
     Else
       If rs!rc_timestamp > dTimeStamp Then
@@ -396,4 +418,27 @@ Err_Handler:
   objServer.iLogError Err
 End Property
 
+Public Sub Alter(szNewTriggerName As String, szNewTriggerExecutes As String, szNewTriggerEvent As String, szNewTriggerTable As String, szNewTriggerForEach As String, szNewTriggerFunction As String, szNewTriggerComment As String)
+On Error GoTo Err_Handler
+Dim szSQL As String
+Dim rs As New Recordset
 
+  objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Sub Alter(" & szNewTriggerName & ", " & szNewTriggerExecutes & ", " & szNewTriggerEvent & ", " & szNewTriggerTable & ", " & szNewTriggerForEach & ", " & szNewTriggerFunction & ", " & szNewTriggerComment & ")", etFullDebug
+  
+  szSQL = SQL(True, True, True, szNewTriggerName, szNewTriggerTable, szNewTriggerExecutes, szNewTriggerEvent, szNewTriggerForEach, szNewTriggerFunction, szNewTriggerComment)
+  objServer.ExecSQL szSQL, cnDatabase
+
+  'Select oid back from the DB...
+  Set rs = objServer.ExecSQL("SELECT oid FROM pg_trigger WHERE tgname = '" & szName & "'", cnDatabase)
+  If Not rs.EOF Then lOID = rs!OID & ""
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  If Not SystemObject Then Commit rcUpdate, "Altered trigger."
+  Set rs = Nothing
+Exit Sub
+  
+Err_Handler:
+Set rs = Nothing
+objServer.iLogError Err
+End Sub
