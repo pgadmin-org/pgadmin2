@@ -269,9 +269,9 @@ Dim szSQL As String
   szSQL = "DROP VIEW " & QUOTE & dbSZ(szName) & QUOTE & ";" & vbCrLf
   szSQL = szSQL & "ALTER TABLE " & QUOTE & dbSZ(szFakeViewName) & QUOTE & " RENAME TO " & QUOTE & dbSZ(szName) & QUOTE & ";"
   objServer.Databases(Database).Execute szSQL
-    
+  
   'Select oid and definition back from the DB...
-  szSQL = "SELECT oid, pg_get_viewdef(relname) AS definition FROM pg_class WHERE relname = '" & dbSZ(szName) & "';"
+  szSQL = SQL_GET_VIEWS & " AND relname = '" & dbSZ(szName) & "';"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     lOID = rs!OID & ""
