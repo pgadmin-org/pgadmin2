@@ -197,6 +197,20 @@ Dim objFont As New StdFont
     End If
   End If
   
+  'Show users for ForPrivileges
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Show Users For Privileges", "Y")) = "Y" Then
+    ctx.ShowUsersForPrivileges = True
+  Else
+    ctx.ShowUsersForPrivileges = False
+  End If
+  
+  'Ask delete object database
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Ask Delete Object Database", "Y")) = "Y" Then
+    ctx.AskDeleteObjectDatabase = True
+  Else
+    ctx.AskDeleteObjectDatabase = False
+  End If
+  
   'Initialise stuff
   InitVarDb
   InitClone
@@ -255,11 +269,17 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildConnectionMenu()",
 
 Dim X As Integer
 Dim szConnection As String
+Dim vData
+
   frmMain.tb.Buttons(1).ButtonMenus.Clear
   For X = 1 To 10
     szConnection = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & X, "")
-    szConnection = Replace(Replace(szConnection, "|", "@", 1, 1), "|", ":", 1, 1)
-    If szConnection <> "" Then frmMain.tb.Buttons("connect").ButtonMenus.Add X, X & "|" & szConnection, szConnection
+    If szConnection <> "" Then
+      vData = Split(szConnection, "|")
+      szConnection = vData(0) & "@" & vData(1) & ":" & vData(2)
+      If UBound(vData) > 2 Then szConnection = szConnection & " - " & vData(3)
+      frmMain.tb.Buttons("connect").ButtonMenus.Add X, X & "|" & szConnection, szConnection
+    End If
   Next X
   
   Exit Sub
@@ -707,3 +727,28 @@ Dim vData
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.LoadAutoHighlight"
 End Sub
+
+'load user/group privileges
+Public Sub LoadUGACL(cboUGACL As ImageCombo)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.LoadUGACL(" & cboUGACL.Name & ")", etFullDebug
+    
+Dim objUser As pgUser
+Dim objGroup As pgGroup
+    
+    cboUGACL.ComboItems.Add , , "PUBLIC", "public"
+    If ctx.ShowUsersForPrivileges Then
+      For Each objUser In frmMain.svr.Users
+        cboUGACL.ComboItems.Add , , objUser.Name, "user"
+      Next objUser
+    End If
+    For Each objGroup In frmMain.svr.Groups
+      cboUGACL.ComboItems.Add , , objGroup.Name, "group"
+    Next objGroup
+    cboUGACL.ComboItems(1).Selected = True
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.LoadUGACL"
+End Sub
+
+

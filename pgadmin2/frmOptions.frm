@@ -1,20 +1,20 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmOptions 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Options"
-   ClientHeight    =   6885
-   ClientLeft      =   2565
+   ClientHeight    =   6888
+   ClientLeft      =   2568
    ClientTop       =   1500
    ClientWidth     =   5520
    Icon            =   "frmOptions.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6888
    ScaleWidth      =   5520
    Begin MSComDlg.CommonDialog cdlg 
       Left            =   0
@@ -25,16 +25,16 @@ Begin VB.Form frmOptions
    End
    Begin TabDlg.SSTab tabOptions 
       Height          =   6360
-      Left            =   45
+      Left            =   60
       TabIndex        =   0
-      Top             =   45
+      Top             =   60
       Width           =   5460
       _ExtentX        =   9631
       _ExtentY        =   11218
       _Version        =   393216
       Style           =   1
-      Tabs            =   5
-      TabsPerRow      =   5
+      Tabs            =   6
+      TabsPerRow      =   6
       TabHeight       =   520
       TabCaption(0)   =   "&Logging"
       TabPicture(0)   =   "frmOptions.frx":0A02
@@ -78,14 +78,32 @@ Begin VB.Form frmOptions
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "Frame3"
-      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "Frame4"
-      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).Control(2)=   "Frame5"
-      Tab(4).Control(2).Enabled=   0   'False
       Tab(4).Control(3)=   "Frame6"
-      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).ControlCount=   4
+      TabCaption(5)   =   "Misc"
+      TabPicture(5)   =   "frmOptions.frx":0A8E
+      Tab(5).ControlEnabled=   0   'False
+      Tab(5).Control(0)=   "chkShowUsersForPrivileges"
+      Tab(5).Control(1)=   "chkAskDeleteObjectDatabase"
+      Tab(5).ControlCount=   2
+      Begin VB.CheckBox chkShowUsersForPrivileges 
+         Caption         =   "Show users for privileges"
+         Height          =   240
+         Left            =   -74880
+         TabIndex        =   65
+         Top             =   420
+         Width           =   3345
+      End
+      Begin VB.CheckBox chkAskDeleteObjectDatabase 
+         Caption         =   "Ask delete object database"
+         Height          =   240
+         Left            =   -74880
+         TabIndex        =   64
+         Top             =   708
+         Width           =   3345
+      End
       Begin VB.Frame Frame8 
          Caption         =   "Font"
          Height          =   1320
@@ -198,8 +216,8 @@ Begin VB.Form frmOptions
             ToolTipText     =   "Displays the Text Formatting rules."
             Top             =   1170
             Width           =   4785
-            _ExtentX        =   8440
-            _ExtentY        =   4789
+            _ExtentX        =   8446
+            _ExtentY        =   4784
             View            =   3
             LabelEdit       =   1
             LabelWrap       =   -1  'True
@@ -238,7 +256,7 @@ Begin VB.Form frmOptions
             Width           =   3345
          End
          Begin VB.Label Label4 
-            Caption         =   $"frmOptions.frx":0A8E
+            Caption         =   $"frmOptions.frx":0AAA
             Height          =   600
             Index           =   3
             Left            =   135
@@ -263,7 +281,7 @@ Begin VB.Form frmOptions
             Width           =   3345
          End
          Begin VB.Label Label4 
-            Caption         =   $"frmOptions.frx":0B36
+            Caption         =   $"frmOptions.frx":0B52
             Height          =   600
             Index           =   2
             Left            =   135
@@ -288,7 +306,7 @@ Begin VB.Form frmOptions
             Width           =   3345
          End
          Begin VB.Label Label4 
-            Caption         =   $"frmOptions.frx":0BFB
+            Caption         =   $"frmOptions.frx":0C17
             Height          =   645
             Index           =   1
             Left            =   225
@@ -346,12 +364,12 @@ Begin VB.Form frmOptions
             TabIndex        =   31
             Top             =   900
             Width           =   5055
-            _ExtentX        =   8916
-            _ExtentY        =   1667
+            _ExtentX        =   8911
+            _ExtentY        =   1672
             BackColor       =   -2147483633
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
-               Size            =   8.25
+               Size            =   7.8
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -383,19 +401,19 @@ Begin VB.Form frmOptions
          End
       End
       Begin VB.ListBox lstPlugins 
-         Height          =   3180
-         ItemData        =   "frmOptions.frx":0C8F
+         Height          =   3120
+         ItemData        =   "frmOptions.frx":0CAB
          Left            =   -74910
-         List            =   "frmOptions.frx":0C91
+         List            =   "frmOptions.frx":0CAD
          TabIndex        =   29
          Top             =   450
          Width           =   5235
       End
       Begin VB.ListBox lstExporters 
-         Height          =   3180
-         ItemData        =   "frmOptions.frx":0C93
+         Height          =   3120
+         ItemData        =   "frmOptions.frx":0CAF
          Left            =   -74910
-         List            =   "frmOptions.frx":0C95
+         List            =   "frmOptions.frx":0CB1
          TabIndex        =   20
          Top             =   450
          Width           =   5235
@@ -413,12 +431,12 @@ Begin VB.Form frmOptions
             TabIndex        =   23
             Top             =   900
             Width           =   5055
-            _ExtentX        =   8916
-            _ExtentY        =   1667
+            _ExtentX        =   8911
+            _ExtentY        =   1672
             BackColor       =   -2147483633
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
-               Size            =   8.25
+               Size            =   7.8
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -594,7 +612,7 @@ Begin VB.Form frmOptions
             Width           =   3930
          End
          Begin VB.Label Label4 
-            Caption         =   $"frmOptions.frx":0C97
+            Caption         =   $"frmOptions.frx":0CB3
             Height          =   600
             Index           =   0
             Left            =   135
@@ -620,7 +638,7 @@ Begin VB.Form frmOptions
       Index           =   3
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5685
+      ScaleWidth      =   5688
       TabIndex        =   14
       TabStop         =   0   'False
       Top             =   480
@@ -640,7 +658,7 @@ Begin VB.Form frmOptions
       Index           =   2
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5685
+      ScaleWidth      =   5688
       TabIndex        =   13
       TabStop         =   0   'False
       Top             =   480
@@ -660,7 +678,7 @@ Begin VB.Form frmOptions
       Index           =   1
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5685
+      ScaleWidth      =   5688
       TabIndex        =   12
       TabStop         =   0   'False
       Top             =   480
@@ -914,6 +932,24 @@ Dim objFont As New StdFont
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Defer Connection", regString, "N"
   End If
   
+  'Show users for Privileges
+  If chkShowUsersForPrivileges.Value = 1 Then
+    ctx.ShowUsersForPrivileges = True
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Show Users For Privileges", regString, "Y"
+  Else
+    ctx.ShowUsersForPrivileges = False
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Show Users For Privileges", regString, "N"
+  End If
+  
+  'Ask delete object database
+  If chkAskDeleteObjectDatabase.Value = 1 Then
+    ctx.AskDeleteObjectDatabase = True
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Ask Delete Object Database", regString, "Y"
+  Else
+    ctx.AskDeleteObjectDatabase = False
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Ask Delete Object Database", regString, "N"
+  End If
+  
   Unload Me
   
   Exit Sub
@@ -963,6 +999,16 @@ Dim szFont() As String
     chkMaskPassword.Value = 1
   Else
     chkMaskPassword.Value = 0
+  End If
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Show Users For Privileges", "Y")) = "Y" Then
+    chkShowUsersForPrivileges.Value = 1
+  Else
+    chkShowUsersForPrivileges.Value = 0
+  End If
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Ask Delete Object Database", "Y")) = "Y" Then
+    chkAskDeleteObjectDatabase.Value = 1
+  Else
+    chkAskDeleteObjectDatabase.Value = 0
   End If
   
   'Setup the Font Details
