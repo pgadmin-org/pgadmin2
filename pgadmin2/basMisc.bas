@@ -435,7 +435,8 @@ Dim szTemp As String
           If InStr(1, szAccess, "C") <> 0 Then szTemp = szTemp & "Create, "
           If InStr(1, szAccess, "T") <> 0 Then szTemp = szTemp & "Temp, "
           If InStr(1, szAccess, "U") <> 0 Then szTemp = szTemp & "Usage, "
-          szAccess = Left(szTemp, Len(szTemp) - 2)
+          If InStr(1, szAccess, "X") <> 0 Then szTemp = szTemp & "Execute, "
+          If Len(szTemp) > 2 Then szAccess = Left(szTemp, Len(szTemp) - 2)
       End Select
     
     End If
@@ -461,7 +462,7 @@ Dim szTemp As String
 
   If frmMain.svr.dbVersion.VersionNum >= 7.3 And objType.Namespace <> "pg_catalog" Then
     If objType.Element <> "" And objType.InternalLength = -1 Then 'Array Type
-      szTemp = fmtID(objType.Namespace) & "." & fmtID(objType.Element) & "[]"
+      szTemp = objType.Element & "[]"
     Else
       szTemp = fmtID(objType.Namespace) & "." & fmtID(objType.Name)
     End If

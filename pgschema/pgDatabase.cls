@@ -35,6 +35,7 @@ Private lStatus As dbStatus
 Private bAllowConnections As Boolean
 Private cnDatabase As New Connection
 Private szDatabaseVarList As String
+Private szACL As String
 
 Private szTypeCache As Collection
 Private szLanguageCache As Collection
@@ -741,6 +742,125 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Sub dbDisconnect()", 
 Err_Handler:  objServer.iLogError Err
 End Sub
 
+'Set/Return the ACL
+Friend Property Let ACL(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szACL = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get ACL() As String
+Attribute ACL.VB_Description = "Returns the objects Access Control List."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ACL()", etFullDebug
+
+  ACL = szACL
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Grant Permissions
+Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
+Attribute Grant.VB_Description = "Grant permissions on the object."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
+
+Dim szSQL As String
+Dim rs As New Recordset
+  
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432012, App.Title, "Database security is only available in PostgreSQL 7.3+."
+    Exit Sub
+  End If
+  
+  'Generate and execute the Grant Query
+  szSQL = "GRANT "
+  If (Privilege And aclAll) = aclAll Then
+    szSQL = szSQL & "ALL "
+  Else
+    If (Privilege And aclCreate) = aclCreate Then szSQL = szSQL & "CREATE, "
+    If (Privilege And aclTemp) = aclTemp Then szSQL = szSQL & "TEMP, "
+    If Right(szSQL, 2) = ", " Then
+      szSQL = Left(szSQL, Len(szSQL) - 2) & " "
+    Else
+      Exit Sub
+    End If
+  End If
+  
+  szSQL = szSQL & "ON DATABASE " & FormattedID & " TO " & UserOrGroup
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  'Get the current ACL
+  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & lOID
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then
+    szACL = rs!datacl & ""
+  End If
+  
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
+'Revoke Permissions
+Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
+Attribute Revoke.VB_Description = "Revoke permissions from the object."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
+
+Dim szSQL As String
+Dim rs As New Recordset
+
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432012, App.Title, "Database security is only available in PostgreSQL 7.3+."
+    Exit Sub
+  End If
+  
+  'Generate and execute the Grant Query
+  szSQL = "REVOKE "
+  If (Privilege And aclAll) = aclAll Then
+    szSQL = szSQL & "ALL "
+  Else
+    If (Privilege And aclCreate) = aclCreate Then szSQL = szSQL & "CREATE, "
+    If (Privilege And aclTemp) = aclTemp Then szSQL = szSQL & "TEMP, "
+    If Right(szSQL, 2) = ", " Then
+      szSQL = Left(szSQL, Len(szSQL) - 2) & " "
+    Else
+      Exit Sub
+    End If
+  End If
+  
+  szSQL = szSQL & "ON DATABASE " & FormattedID & " FROM " & UserOrGroup
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  'Get the current ACL
+  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & lOID
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then
+    szACL = rs!datacl & ""
+  End If
+  
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the objects reverse engineered SQL."
 On Error GoTo Err_Handler
@@ -756,11 +876,13 @@ Dim objVar As pgVar
   szSQL = szSQL & " ENCODING = '" & szServerEncoding & "'"
   szSQL = szSQL & ";" & vbCrLf
    
-  'Database Vars
+  'Database Vars/ACL
   If objServer.dbVersion.VersionNum >= 7.3 Then
     For Each objVar In DatabaseVars
       szSQL = szSQL & "ALTER DATABASE " & FormattedID & " SET " & objVar.FormattedID & " = " & objVar.Value & ";" & vbCrLf
     Next objVar
+    
+    If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclDatabase)
   End If
   
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON DATABASE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf

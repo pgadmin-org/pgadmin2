@@ -75,9 +75,9 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, szServerEncoding As String, bAllowConn As Boolean, Optional szDatabaseVarList As String)
+Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, szServerEncoding As String, bAllowConn As Boolean, Optional szDatabaseVarList As String, Optional szACL As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & szServerEncoding & ", " & bAllowConn & ", " & QUOTE & szDatabaseVarList & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & szServerEncoding & ", " & bAllowConn & ", " & QUOTE & szDatabaseVarList & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgDatabase
 
@@ -96,6 +96,7 @@ Dim objNewMember As pgDatabase
   objNewMember.Owner = szOwner
   objNewMember.ServerEncoding = szServerEncoding
   objNewMember.AllowConnections = bAllowConn
+  objNewMember.ACL = szACL
   If Left(szDatabaseVarList, 1) = "{" Then szDatabaseVarList = Mid(szDatabaseVarList, 2)
   If Right(szDatabaseVarList, 1) = "}" Then szDatabaseVarList = Mid(szDatabaseVarList, 1, Len(szDatabaseVarList) - 1)
   objNewMember.DatabaseVarList = szDatabaseVarList
@@ -137,7 +138,11 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    Set objNewMember = iAdd(rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn))
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
+    Else
+      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
+    End If
     If Comment <> "" Then objNewMember.Comment = Comment
   End If
   
@@ -271,7 +276,7 @@ Dim rs As New Recordset
     Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " ORDER BY datname", objServer.Connection)
     While Not rs.EOF
       If objServer.dbVersion.VersionNum >= 7.3 Then
-        iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & ""
+        iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
       Else
         iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
       End If

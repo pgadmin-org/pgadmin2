@@ -27,13 +27,14 @@ Private szHandler As String
 Private szComment As String
 Private cnDatabase As Connection
 Private vTag As Variant
+Private szACL As String
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get FormattedID()", etFullDebug
 
-  FormattedID = "'" & szName & "'"
+  FormattedID = fmtID(szName)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -272,6 +273,120 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Comment(
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Set/Return the ACL
+Friend Property Let ACL(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szACL = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get ACL() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get ACL()", etFullDebug
+
+  ACL = szACL
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Grant Permissions
+Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
+
+Dim szSQL As String
+Dim rs As New Recordset
+  
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432014, App.Title, "Language security is only available in PostgreSQL 7.3+."
+    Exit Sub
+  End If
+  
+  'Generate and execute the Grant Query
+  szSQL = "GRANT "
+  If (Privilege And aclAll) = aclAll Then
+    szSQL = szSQL & "ALL "
+  Else
+    If (Privilege And aclUsage) = aclUsage Then szSQL = szSQL & "USAGE, "
+    If Right(szSQL, 2) = ", " Then
+      szSQL = Left(szSQL, Len(szSQL) - 2) & " "
+    Else
+      Exit Sub
+    End If
+  End If
+  
+  szSQL = szSQL & "ON LANGUAGE " & FormattedID & " TO " & UserOrGroup
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  'Get the current ACL
+  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & lOID
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then
+    szACL = rs!lanacl & ""
+  End If
+  
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
+'Revoke Permissions
+Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
+
+Dim szSQL As String
+Dim rs As New Recordset
+
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432014, App.Title, "Language security is only available in PostgreSQL 7.3+."
+    Exit Sub
+  End If
+  
+  'Generate and execute the Grant Query
+  szSQL = "REVOKE "
+  If (Privilege And aclAll) = aclAll Then
+    szSQL = szSQL & "ALL "
+  Else
+    If (Privilege And aclUsage) = aclUsage Then szSQL = szSQL & "USAGE, "
+    If Right(szSQL, 2) = ", " Then
+      szSQL = Left(szSQL, Len(szSQL) - 2) & " "
+    Else
+      Exit Sub
+    End If
+  End If
+  
+  szSQL = szSQL & "ON LANGUAGE " & FormattedID & " FROM " & UserOrGroup
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  'Get the current ACL
+  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & lOID
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then
+    szACL = rs!lanacl & ""
+  End If
+  
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
@@ -288,6 +403,8 @@ Dim szMember As Variant
   szSQL = szSQL & " LANCOMPILER '" & dbSZ(Comment) & "'"
   szSQL = szSQL & ";" & vbCrLf
 
+  If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclLanguage)
+  
   SQL = szSQL
   
   Exit Sub

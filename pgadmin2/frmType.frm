@@ -78,28 +78,17 @@ Begin VB.Form frmType
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(11)"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lblProperties(10)"
-      Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "lblProperties(9)"
-      Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lblProperties(6)"
-      Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "lblProperties(7)"
-      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).Control(0)=   "txtProperties(5)"
+      Tab(1).Control(1)=   "txtProperties(4)"
+      Tab(1).Control(2)=   "chkProperties(0)"
+      Tab(1).Control(3)=   "cboProperties(2)"
+      Tab(1).Control(4)=   "cboProperties(3)"
       Tab(1).Control(5)=   "cboProperties(4)"
-      Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "cboProperties(3)"
-      Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "cboProperties(2)"
-      Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "chkProperties(0)"
-      Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "txtProperties(4)"
-      Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "txtProperties(5)"
-      Tab(1).Control(10).Enabled=   0   'False
+      Tab(1).Control(6)=   "lblProperties(7)"
+      Tab(1).Control(7)=   "lblProperties(6)"
+      Tab(1).Control(8)=   "lblProperties(9)"
+      Tab(1).Control(9)=   "lblProperties(10)"
+      Tab(1).Control(10)=   "lblProperties(11)"
       Tab(1).ControlCount=   11
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -479,7 +468,7 @@ Dim szOutputFunction As String
     StartMsg "Creating Type..."
     If Not (cboProperties(0).SelectedItem Is Nothing) Then szInputfunction = cboProperties(0).SelectedItem.Text
     If Not (cboProperties(1).SelectedItem Is Nothing) Then szOutputFunction = cboProperties(1).SelectedItem.Text
-    Set objNewType = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types.Add(txtProperties(0).Text, szInputfunction, szOutputFunction, Val(txtProperties(3).Text), txtProperties(4).Text, cboProperties(2).Text, txtProperties(5).Text, Bin2Bool(chkProperties(0).Value), cboProperties(5).Text, cboProperties(6).Text, hbxProperties(0).Text)
+    Set objNewType = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types.Add(txtProperties(0).Text, szInputfunction, szOutputFunction, Val(txtProperties(3).Text), txtProperties(4).Text, cboProperties(2).Text, txtProperties(5).Text, Bin2Bool(chkProperties(0).Value), cboProperties(3).Text, cboProperties(4).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types.Tag

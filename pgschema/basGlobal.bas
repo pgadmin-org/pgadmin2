@@ -230,11 +230,11 @@ Dim szTemp As String
   
     'Get the user/group name
     If UCase(Left(szEntry, 6)) = "GROUP " Then
-      szName = "GROUP " & QUOTE & Mid(szEntry, 7, InStr(1, szEntry, "=") - 7) & QUOTE
+      szName = "GROUP " & fmtID(Mid(szEntry, 7, InStr(1, szEntry, "=") - 7))
     Else
-      szName = QUOTE & Left(szEntry, InStr(1, szEntry, "=") - 1) & QUOTE
+      szName = fmtID(Left(szEntry, InStr(1, szEntry, "=") - 1))
     End If
-    If szName = QUOTE & QUOTE Then szName = "PUBLIC"
+    If szName = "" Then szName = "PUBLIC"
     
     'Get the Access
     szAccess = Mid(szEntry, InStr(1, szEntry, "=") + 1)

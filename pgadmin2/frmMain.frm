@@ -2305,6 +2305,8 @@ Dim szTemp As String
   lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.ACL
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Path", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Path
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Server Encoding", "property", "property")
@@ -2569,6 +2571,8 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.OID
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.ACL
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Handler", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Handler
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Trusted?", "property", "property")
@@ -2879,6 +2883,8 @@ Dim vData As Variant
   lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.ACL
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Language", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Language
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")

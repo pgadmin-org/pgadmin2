@@ -75,10 +75,14 @@ Begin VB.Form frmNamespace
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmNamespace.frx":0BDE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
@@ -147,6 +151,7 @@ Begin VB.Form frmNamespace
          Width           =   5190
          Begin VB.CheckBox chkPrivilege 
             Caption         =   "&Create"
+            Enabled         =   0   'False
             Height          =   195
             Index           =   0
             Left            =   180
@@ -157,6 +162,7 @@ Begin VB.Form frmNamespace
          End
          Begin VB.CheckBox chkPrivilege 
             Caption         =   "&Update"
+            Enabled         =   0   'False
             Height          =   195
             Index           =   1
             Left            =   180
@@ -176,7 +182,7 @@ Begin VB.Form frmNamespace
             _ExtentY        =   582
             _Version        =   393216
             ForeColor       =   -2147483640
-            BackColor       =   -2147483643
+            BackColor       =   -2147483633
             Locked          =   -1  'True
             ImageList       =   "il"
          End
@@ -193,6 +199,7 @@ Begin VB.Form frmNamespace
       End
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
+         Enabled         =   0   'False
          Height          =   375
          Left            =   -74865
          TabIndex        =   14
@@ -202,6 +209,7 @@ Begin VB.Form frmNamespace
       End
       Begin VB.CommandButton cmdRemove 
          Caption         =   "&Remove"
+         Enabled         =   0   'False
          Height          =   375
          Left            =   -73515
          TabIndex        =   15
@@ -228,7 +236,7 @@ Begin VB.Form frmNamespace
          SmallIcons      =   "il"
          ColHdrIcons     =   "il"
          ForeColor       =   -2147483640
-         BackColor       =   -2147483643
+         BackColor       =   -2147483633
          BorderStyle     =   1
          Appearance      =   1
          NumItems        =   2
@@ -370,9 +378,9 @@ Dim szComment As String
         If vEntity = "PUBLIC" Then
           frmMain.svr.Databases(szDatabase).Namespaces(txtProperties(0).Text).Revoke vEntity, aclAll
         ElseIf Left(vEntity, 6) = "GROUP " Then
-          frmMain.svr.Databases(szDatabase).Namespaces(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(txtProperties(0).Text).Revoke "GROUP " & fmtID(Mid(vEntity, 7)), aclAll
         Else
-          frmMain.svr.Databases(szDatabase).Namespaces(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(txtProperties(0).Text).Revoke fmtID(vEntity), aclAll
         End If
       End If
     Next vEntity
@@ -380,11 +388,11 @@ Dim szComment As String
     'Now Grant the new permissions
     For Each objItem In lvProperties(0).ListItems
       If objItem.Icon = "group" Then
-        szEntity = "GROUP " & QUOTE & objItem.Text & QUOTE
+        szEntity = "GROUP " & fmtID(objItem.Text)
       ElseIf objItem.Icon = "public" Then
         szEntity = "PUBLIC"
       Else
-        szEntity = QUOTE & objItem.Text & QUOTE
+        szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
       If InStr(1, objItem.SubItems(1), "Create") <> 0 Then lACL = lACL + aclCreate
@@ -428,6 +436,16 @@ Dim szAccess() As String
   Set hbxProperties(0).Font = ctx.Font
   Set cboEntities.Font = ctx.Font
   Set lvProperties(0).Font = ctx.Font
+  
+  'Unlock the edittable fields
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    cmdAdd.Enabled = True
+    cmdRemove.Enabled = True
+    lvProperties(0).BackColor = &H80000005
+    cboEntities.BackColor = &H80000005
+    chkPrivilege(0).Enabled = True
+    chkPrivilege(1).Enabled = True
+  End If
   
   If Namespace Is Nothing Then
   
@@ -487,14 +505,16 @@ Dim szAccess() As String
   End If
   
   'Load the Entities combo
-  cboEntities.ComboItems.Add , , "PUBLIC", "public"
-  For Each objUser In frmMain.svr.Users
-    cboEntities.ComboItems.Add , , objUser.Name, "user"
-  Next objUser
-  For Each objGroup In frmMain.svr.Groups
-    cboEntities.ComboItems.Add , , objGroup.Name, "group"
-  Next objGroup
-  cboEntities.ComboItems(1).Selected = True
+  If frmMain.svr.dbVersion.ver >= 7.3 Then
+    cboEntities.ComboItems.Add , , "PUBLIC", "public"
+    For Each objUser In frmMain.svr.Users
+      cboEntities.ComboItems.Add , , objUser.Name, "user"
+    Next objUser
+    For Each objGroup In frmMain.svr.Groups
+      cboEntities.ComboItems.Add , , objGroup.Name, "group"
+    Next objGroup
+    cboEntities.ComboItems(1).Selected = True
+  End If
   
   'Reset the Tags
   hbxProperties(0).Tag = "N"

@@ -26,10 +26,22 @@ Begin VB.Form frmLanguage
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   1
+         NumListImages   =   4
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmLanguage.frx":06C2
             Key             =   "function"
+         EndProperty
+         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmLanguage.frx":0C5C
+            Key             =   "public"
+         EndProperty
+         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmLanguage.frx":0DB6
+            Key             =   "user"
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmLanguage.frx":0F10
+            Key             =   "group"
          EndProperty
       EndProperty
    End
@@ -61,10 +73,10 @@ Begin VB.Form frmLanguage
       _ExtentY        =   11218
       _Version        =   393216
       Style           =   1
-      Tabs            =   1
+      Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmLanguage.frx":0C5C
+      TabPicture(0)   =   "frmLanguage.frx":15E2
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -83,6 +95,78 @@ Begin VB.Form frmLanguage
       Tab(0).Control(7)=   "cboProperties(0)"
       Tab(0).Control(7).Enabled=   0   'False
       Tab(0).ControlCount=   8
+      TabCaption(1)   =   "&Security"
+      TabPicture(1)   =   "frmLanguage.frx":15FE
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).ControlCount=   4
+      Begin VB.Frame fraAdd 
+         Caption         =   "Define Privilege"
+         Height          =   1815
+         Left            =   -74865
+         TabIndex        =   13
+         Top             =   4380
+         Width           =   5190
+         Begin VB.CheckBox chkPrivilege 
+            Caption         =   "&Usage"
+            Enabled         =   0   'False
+            Height          =   195
+            Index           =   0
+            Left            =   180
+            TabIndex        =   14
+            ToolTipText     =   "Give usage privilege to the selected entity."
+            Top             =   1125
+            Width           =   1590
+         End
+         Begin MSComctlLib.ImageCombo cboEntities 
+            Height          =   330
+            Left            =   1260
+            TabIndex        =   15
+            ToolTipText     =   "Select a user, group or 'PUBLIC'."
+            Top             =   315
+            Width           =   3705
+            _ExtentX        =   6535
+            _ExtentY        =   582
+            _Version        =   393216
+            ForeColor       =   -2147483640
+            BackColor       =   -2147483633
+            Locked          =   -1  'True
+            ImageList       =   "il"
+         End
+         Begin VB.Label lblProperties 
+            AutoSize        =   -1  'True
+            Caption         =   "User/Group"
+            Height          =   195
+            Index           =   5
+            Left            =   180
+            TabIndex        =   16
+            Top             =   360
+            Width           =   840
+         End
+      End
+      Begin VB.CommandButton cmdAdd 
+         Caption         =   "&Add"
+         Enabled         =   0   'False
+         Height          =   375
+         Left            =   -74865
+         TabIndex        =   12
+         ToolTipText     =   "Add the defined entry."
+         Top             =   3900
+         Width           =   1230
+      End
+      Begin VB.CommandButton cmdRemove 
+         Caption         =   "&Remove"
+         Enabled         =   0   'False
+         Height          =   375
+         Left            =   -73515
+         TabIndex        =   11
+         ToolTipText     =   "Remove the selected entry."
+         Top             =   3900
+         Width           =   1230
+      End
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
          Index           =   0
@@ -106,7 +190,7 @@ Begin VB.Form frmLanguage
          Index           =   0
          Left            =   135
          TabIndex        =   4
-         ToolTipText     =   $"frmLanguage.frx":0C78
+         ToolTipText     =   $"frmLanguage.frx":161A
          Top             =   1935
          Width           =   1995
       End
@@ -152,6 +236,39 @@ Begin VB.Form frmLanguage
             Strikethrough   =   0   'False
          EndProperty
          Caption         =   "Comments"
+      End
+      Begin MSComctlLib.ListView lvProperties 
+         Height          =   3390
+         Index           =   0
+         Left            =   -74865
+         TabIndex        =   17
+         ToolTipText     =   "The access control list for the schema."
+         Top             =   450
+         Width           =   5190
+         _ExtentX        =   9155
+         _ExtentY        =   5980
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         _Version        =   393217
+         Icons           =   "il"
+         SmallIcons      =   "il"
+         ColHdrIcons     =   "il"
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         BorderStyle     =   1
+         Appearance      =   1
+         NumItems        =   2
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Text            =   "User/Group name"
+            Object.Width           =   3528
+         EndProperty
+         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   1
+            Text            =   "Privileges"
+            Object.Width           =   4939
+         EndProperty
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
@@ -200,6 +317,7 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szUsers() As String
 Dim objLanguage As pgLanguage
 
 Private Sub cmdCancel_Click()
@@ -213,7 +331,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -251,6 +369,36 @@ Dim vEntity As Variant
     If hbxProperties(0).Tag = "Y" Then objLanguage.Comment = hbxProperties(0).Text
   End If
   
+  'Set the ACL on the Database as required
+  If lvProperties(0).Tag = "Y" Then
+    'Revoke all from existing entries
+    For Each vEntity In szUsers
+      If vEntity <> "" Then
+        If vEntity = "PUBLIC" Then
+          frmMain.svr.Databases(szDatabase).Languages(txtProperties(0).Text).Revoke vEntity, aclAll
+        ElseIf Left(vEntity, 6) = "GROUP " Then
+          frmMain.svr.Databases(szDatabase).Languages(txtProperties(0).Text).Revoke "GROUP " & fmtID(Mid(vEntity, 7)), aclAll
+        Else
+          frmMain.svr.Databases(szDatabase).Languages(txtProperties(0).Text).Revoke fmtID(vEntity), aclAll
+        End If
+      End If
+    Next vEntity
+    
+    'Now Grant the new permissions
+    For Each objItem In lvProperties(0).ListItems
+      If objItem.Icon = "group" Then
+        szEntity = "GROUP " & fmtID(objItem.Text)
+      ElseIf objItem.Icon = "public" Then
+        szEntity = "PUBLIC"
+      Else
+        szEntity = fmtID(objItem.Text)
+      End If
+      lACL = 0
+      If InStr(1, objItem.SubItems(1), "Usage") <> 0 Then lACL = lACL + aclUsage
+      frmMain.svr.Databases(szDatabase).Languages(txtProperties(0).Text).Grant szEntity, lACL
+    Next objItem
+  End If
+  
   'Simulate a node click to refresh the ListLanguage
   frmMain.tv_NodeClick frmMain.tv.SelectedItem
     
@@ -265,13 +413,19 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Language As pgLanguage)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objFunction As pgFunction
 Dim objNamespace As pgNamespace
+Dim objUser As pgUser
+Dim objGroup As pgGroup
 Dim objItem As ComboItem
+Dim objLItem As ListItem
+Dim szUserlist As String
+Dim szAccesslist As String
+Dim szAccess() As String
   
   szDatabase = szDB
   
@@ -281,6 +435,17 @@ Dim objItem As ComboItem
   Next X
   Set cboProperties(0).Font = ctx.Font
   Set hbxProperties(0).Font = ctx.Font
+  Set cboEntities.Font = ctx.Font
+  Set lvProperties(0).Font = ctx.Font
+  
+  'Unlock the edittable fields
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    cmdAdd.Enabled = True
+    cmdRemove.Enabled = True
+    lvProperties(0).BackColor = &H80000005
+    cboEntities.BackColor = &H80000005
+    chkPrivilege(0).Enabled = True
+  End If
   
   If Language Is Nothing Then
   
@@ -319,6 +484,9 @@ Dim objItem As ComboItem
     txtProperties(0).Locked = False
     cboProperties(0).BackColor = &H80000005
     
+    'Redim the userlist so it doesn't cause an error later.
+    ReDim szUsers(0)
+    
   Else
   
     'Display/Edit the specified Language.
@@ -333,10 +501,40 @@ Dim objItem As ComboItem
     objItem.Selected = True
     chkProperties(0).Value = Bool2Bin(objLanguage.Trusted)
     hbxProperties(0).Text = objLanguage.Comment
+    
+    ParseACL objLanguage.ACL, szUserlist, szAccesslist
+    szUsers = Split(szUserlist, "|")
+    szAccess = Split(szAccesslist, "|")
+    For X = 0 To UBound(szUsers)
+      If UCase(Left(szUsers(X), 6)) = "GROUP " Then
+        Set objItem = lvProperties(0).ListItems.Add(, , Mid(szUsers(X), 7), "group", "group")
+      Else
+        If UCase(szUsers(X)) = "PUBLIC" Then
+          Set objLItem = lvProperties(0).ListItems.Add(, , szUsers(X), "public", "public")
+        Else
+          Set objLItem = lvProperties(0).ListItems.Add(, , szUsers(X), "user", "user")
+        End If
+      End If
+      objLItem.SubItems(1) = szAccess(X)
+    Next X
+    
+  End If
+  
+  'Load the Entities combo
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    cboEntities.ComboItems.Add , , "PUBLIC", "public"
+    For Each objUser In frmMain.svr.Users
+      cboEntities.ComboItems.Add , , objUser.Name, "user"
+    Next objUser
+    For Each objGroup In frmMain.svr.Groups
+      cboEntities.ComboItems.Add , , objGroup.Name, "group"
+    Next objGroup
+    cboEntities.ComboItems(1).Selected = True
   End If
   
   'Reset the Tags
   hbxProperties(0).Tag = "N"
+  lvProperties(0).Tag = "N"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.Initialise"
@@ -374,3 +572,44 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.chkProperties_Click
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.chkProperties_Click"
 End Sub
 
+Private Sub cmdRemove_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdRemove_Click()", etFullDebug
+
+  If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
+  lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
+  lvProperties(0).Tag = "Y"
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.cmdRemove_Click"
+End Sub
+
+Private Sub cmdAdd_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdAdd_Click()", etFullDebug
+
+Dim szAccess As String
+Dim objItem As ListItem
+
+  If cboEntities.Text = "" Then Exit Sub
+  
+  'Check the entry doesn't already exist
+  For Each objItem In lvProperties(0).ListItems
+    If (objItem.Text = cboEntities.SelectedItem.Text) And (objItem.SmallIcon = cboEntities.SelectedItem.Image) Then
+      MsgBox "'" & objItem.Text & "' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.", vbExclamation, "Error"
+      Exit Sub
+    End If
+  Next objItem
+  
+  'Build the access string
+  If chkPrivilege(0).Value = 1 Then szAccess = szAccess & "Usage, "
+  If Len(szAccess) > 2 Then szAccess = Left(szAccess, Len(szAccess) - 2)
+  If szAccess = "" Then szAccess = "None"
+  
+  Set objItem = lvProperties(0).ListItems.Add(, , cboEntities.SelectedItem.Text, cboEntities.SelectedItem.Image, cboEntities.SelectedItem.Image)
+  objItem.SubItems(1) = szAccess
+  lvProperties(0).Tag = "Y"
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.cmdAdd_Click"
+End Sub

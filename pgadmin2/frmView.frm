@@ -526,9 +526,9 @@ Dim szOldName As String
         If vEntity = "PUBLIC" Then
           frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Revoke vEntity, aclAll
         ElseIf Left(vEntity, 6) = "GROUP " Then
-          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Revoke "GROUP " & fmtID(Mid(vEntity, 7)), aclAll
         Else
-          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Revoke fmtID(vEntity), aclAll
         End If
       End If
     Next vEntity
@@ -536,11 +536,11 @@ Dim szOldName As String
     'Now Grant the new permissions
     For Each objItem In lvProperties(0).ListItems
       If objItem.Icon = "group" Then
-        szEntity = "GROUP " & QUOTE & objItem.Text & QUOTE
+        szEntity = "GROUP " & fmtID(objItem.Text)
       ElseIf objItem.Icon = "public" Then
         szEntity = "PUBLIC"
       Else
-        szEntity = QUOTE & objItem.Text & QUOTE
+        szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
       If InStr(1, objItem.SubItems(1), "All") <> 0 Then lACL = lACL + aclAll

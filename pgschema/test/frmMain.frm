@@ -306,6 +306,8 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = svr.Databases(Node.Text).Path
   Set lvItem = lvInfo.ListItems.Add(, , "Encoding")
   lvItem.SubItems(1) = svr.Databases(Node.Text).ServerEncoding
+  Set lvItem = lvInfo.ListItems.Add(, , "ACL")
+  lvItem.SubItems(1) = svr.Databases(Node.Text).acl
   Set lvItem = lvInfo.ListItems.Add(, , "System Database?")
   If svr.Databases(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -356,7 +358,7 @@ Dim lvItem As ListItem
   Set lvItem = lvInfo.ListItems.Add(, , "Owner")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Namespaces(Node.Text).Owner
   Set lvItem = lvInfo.ListItems.Add(, , "ACL")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Namespaces(Node.Text).ACL
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Namespaces(Node.Text).acl
   Set lvItem = lvInfo.ListItems.Add(, , "System Schema?")
   If svr.Databases(Node.Parent.Parent.Text).Namespaces(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -594,6 +596,8 @@ Dim vData As Variant
   Else
     lvItem.SubItems(1) = "No"
   End If
+  Set lvItem = lvInfo.ListItems.Add(, , "ACL")
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Functions(Node.Text).acl
   Set lvItem = lvInfo.ListItems.Add(, , "System Function?")
   If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Functions(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -637,6 +641,8 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
+  Set lvItem = lvInfo.ListItems.Add(, , "ACL")
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).acl
   Set lvItem = lvInfo.ListItems.Add(, , "System Language?")
   If svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -744,7 +750,7 @@ Dim lvItem As ListItem
   Set lvItem = lvInfo.ListItems.Add(, , "Owner")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Sequences(Node.Text).Owner
   Set lvItem = lvInfo.ListItems.Add(, , "ACL")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Sequences(Node.Text).ACL
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Sequences(Node.Text).acl
   Set lvItem = lvInfo.ListItems.Add(, , "Last Value")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Sequences(Node.Text).LastValue
   Set lvItem = lvInfo.ListItems.Add(, , "Minimum")
@@ -809,7 +815,7 @@ Dim vData As Variant
   Set lvItem = lvInfo.ListItems.Add(, , "Owner")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Tables(Node.Text).Owner
   Set lvItem = lvInfo.ListItems.Add(, , "ACL")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Tables(Node.Text).ACL
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Tables(Node.Text).acl
   Set lvItem = lvInfo.ListItems.Add(, , "Rows")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Tables(Node.Text).Rows
   Set lvItem = lvInfo.ListItems.Add(, , "Inherited Tables Count")
@@ -1191,7 +1197,7 @@ Dim lvItem As ListItem
   Set lvItem = lvInfo.ListItems.Add(, , "Owner")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Views(Node.Text).Owner
   Set lvItem = lvInfo.ListItems.Add(, , "ACL")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Views(Node.Text).ACL
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Views(Node.Text).acl
   Set lvItem = lvInfo.ListItems.Add(, , "Definition")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Views(Node.Text).Definition
   Set lvItem = lvInfo.ListItems.Add(, , "System View?")

@@ -102,9 +102,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String)
+Private Sub iAdd(lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String, Optional szACL As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgLanguage
 Dim rs As New Recordset
@@ -134,6 +134,7 @@ Dim szSQL As String
   End If
   If rs.State <> adStateClosed Then rs.Close
 
+  objNewMember.ACL = szACL
   objNewMember.iComment = szComment
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
@@ -179,14 +180,11 @@ Dim objLanguage As pgLanguage
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    objNewMember.OID = rs!OID
-    objNewMember.Name = rs!lanname & ""
-    objNewMember.Trusted = ToBool(rs!lanpltrusted)
-    objNewMember.Handler = rs!lanplcallfoid & ""
-    objNewMember.iComment = rs!lancompiler & ""
-    objNewMember.Identifier = Name
-    Set objNewMember.Connection = cnDatabase
-    mCol.Add objNewMember, ULEncode(Name)
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & "", rs!lanacl & ""
+    Else
+      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
+    End If
   End If
   
   'Return the object created
@@ -318,7 +316,11 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES & " ORDER BY lanname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
+      If objServer.dbVersion.VersionNum >= 7.3 Then
+        iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & "", rs!lanacl & ""
+      Else
+        iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
+      End If
       rs.MoveNext
     Wend
   End If

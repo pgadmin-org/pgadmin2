@@ -146,9 +146,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szOwner As String, lReturns As Long, szSource As String, lLanguage As Long, bCachable As Boolean, bStrict As Boolean, szArgumentList As String) As pgFunction
+Private Function iAdd(lOID As Long, szName As String, szOwner As String, lReturns As Long, szSource As String, lLanguage As Long, bCachable As Boolean, bStrict As Boolean, szArgumentList As String, Optional szACL As String) As pgFunction
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lReturns & ", " & QUOTE & szSource & QUOTE & ", " & lLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lReturns & ", " & QUOTE & szSource & QUOTE & ", " & lLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgFunction
 Dim rs As New Recordset
@@ -180,6 +180,7 @@ Dim X As Long
   objNewMember.Language = objServer.Databases(Database).LookupLanguage(lLanguage)
   objNewMember.Cachable = bCachable
   objNewMember.Strict = bStrict
+  objNewMember.ACL = szACL
   
   szTemp = Split(szArgumentList, " ")
   For X = 0 To UBound(szTemp)
@@ -210,6 +211,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name &
 
 Dim rs As New Recordset
 Dim szSQL As String
+Dim szArgs As String
 Dim fFunc As pgFunction
 Dim bFlag As Boolean
 Dim objFunction As pgFunction
@@ -234,11 +236,12 @@ Dim objFunction As pgFunction
   objServer.ExecSQL szSQL, cnDatabase
 
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " WHERE proname = '" & Name & "' AND pronamespace = " & lNamespaceOID
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND proname = '" & Name & "' AND pronamespace = " & lNamespaceOID & " ORDER BY proname"
   Else
-    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE proname = '" & Name & "'"
+    szSQL = SQL_GET_FUNCTIONS7_1 & " AND proname = '" & Name & "' ORDER BY proname"
   End If
+    
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
 
   If Comment <> "" Then
@@ -262,10 +265,18 @@ Dim objFunction As pgFunction
       End If
     Next fFunc
     If bFlag = False Then
-      If objVersion.VersionNum >= 7.1 Then
-        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, rs!proisstrict, rs!proargtypes & "")
+      'If pronargs = 1, but no arg types are specified then it should default to opaque
+      If rs!pronargs = 1 And rs!proargtypes & "" = "" Then
+        szArgs = "0"
       Else
-        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, False, rs!proargtypes & "")
+        szArgs = rs!proargtypes & ""
+      End If
+      If objVersion.VersionNum >= 7.3 Then
+        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "")
+      ElseIf objVersion.VersionNum >= 7.1 Then
+        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs)
+      Else
+        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, szArgs)
       End If
     End If
     rs.MoveNext
@@ -402,7 +413,7 @@ Dim szArgs As String
         szArgs = rs!proargtypes & ""
       End If
       If objVersion.VersionNum >= 7.3 Then
-        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs
+        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & ""
       ElseIf objVersion.VersionNum >= 7.1 Then
         iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs
       Else

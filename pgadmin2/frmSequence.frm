@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -607,9 +607,9 @@ Dim vEntity As Variant
         If vEntity = "PUBLIC" Then
           frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Revoke vEntity, aclAll
         ElseIf Left(vEntity, 6) = "GROUP " Then
-          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Revoke "GROUP " & fmtID(Mid(vEntity, 7)), aclAll
         Else
-          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Revoke fmtID(vEntity), aclAll
         End If
       End If
     Next vEntity
@@ -617,11 +617,11 @@ Dim vEntity As Variant
     'Now Grant the new permissions
     For Each objItem In lvProperties(0).ListItems
       If objItem.Icon = "group" Then
-        szEntity = "GROUP " & QUOTE & objItem.Text & QUOTE
+        szEntity = "GROUP " & fmtID(objItem.Text)
       ElseIf objItem.Icon = "public" Then
         szEntity = "PUBLIC"
       Else
-        szEntity = QUOTE & objItem.Text & QUOTE
+        szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
       If InStr(1, objItem.SubItems(1), "All") <> 0 Then lACL = lACL + aclAll

@@ -36,6 +36,7 @@ Private cnDatabase As Connection
 Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
+Private szACL As String
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
@@ -57,7 +58,7 @@ Dim X As Long
   
   szArgs = "("
   For Each vArg In colArguments
-    szArgs = szArgs & fmtID(vArg) & ", "
+    szArgs = szArgs & vArg & ", "
   Next vArg
   If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
   szArgs = szArgs & ")"
@@ -486,6 +487,123 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Argument
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Set/Return the ACL
+Friend Property Let ACL(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szACL = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get ACL() As String
+Attribute ACL.VB_Description = "Returns the objects Access Control List."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get ACL()", etFullDebug
+
+  ACL = szACL
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Grant Permissions
+Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
+Attribute Grant.VB_Description = "Grant permissions on the object."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
+
+Dim szSQL As String
+Dim rs As New Recordset
+  
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432013, App.Title, "Function security is only available in PostgreSQL 7.3+."
+    Exit Sub
+  End If
+  
+  'Generate and execute the Grant Query
+  szSQL = "GRANT "
+  If (Privilege And aclAll) = aclAll Then
+    szSQL = szSQL & "ALL "
+  Else
+    If (Privilege And aclExecute) = aclExecute Then szSQL = szSQL & "EXECUTE, "
+    If Right(szSQL, 2) = ", " Then
+      szSQL = Left(szSQL, Len(szSQL) - 2) & " "
+    Else
+      Exit Sub
+    End If
+  End If
+  
+  szSQL = szSQL & "ON FUNCTION " & FormattedID & " TO " & UserOrGroup
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  'Get the current ACL
+  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & lOID
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then
+    szACL = rs!proacl & ""
+  End If
+  
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
+'Revoke Permissions
+Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
+Attribute Revoke.VB_Description = "Revoke permissions from the object."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
+
+Dim szSQL As String
+Dim rs As New Recordset
+
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432013, App.Title, "Function security is only available in PostgreSQL 7.3+."
+    Exit Sub
+  End If
+  
+  'Generate and execute the Grant Query
+  szSQL = "REVOKE "
+  If (Privilege And aclAll) = aclAll Then
+    szSQL = szSQL & "ALL "
+  Else
+    If (Privilege And aclExecute) = aclExecute Then szSQL = szSQL & "EXECUTE, "
+    If Right(szSQL, 2) = ", " Then
+      szSQL = Left(szSQL, Len(szSQL) - 2) & " "
+    Else
+      Exit Sub
+    End If
+  End If
+  
+  szSQL = szSQL & "ON FUNCTION " & FormattedID & " FROM " & UserOrGroup
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  'Get the current ACL
+  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & lOID
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then
+    szACL = rs!proacl & ""
+  End If
+  
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
+
 Public Property Get SQL(Optional OrReplace As Boolean = False) As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
@@ -502,7 +620,7 @@ Dim X As Long
     szSQL = szSQL & "CREATE FUNCTION " & FormattedID
   End If
   
-  szSQL = szSQL & " RETURNS " & fmtID(szReturns) & _
+  szSQL = szSQL & " RETURNS " & szReturns & _
                   " AS '" & szSource & "' " & _
                   " LANGUAGE '" & dbSZ(szLanguage) & "'"
           
@@ -511,6 +629,8 @@ Dim X As Long
   If bStrict Then szSQL = szSQL & "ISSTRICT, "
   If bCachable Or bStrict Then szSQL = Mid(szSQL, 1, Len(szSQL) - 2) & ")"
   szSQL = szSQL & ";" & vbCrLf
+  
+  If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclFunction)
   
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON FUNCTION " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     
