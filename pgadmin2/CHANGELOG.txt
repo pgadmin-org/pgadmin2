@@ -7,7 +7,6 @@ Hide System Objects in the SQL Wizard.
 Updated icons.
 Added Refresh button to DataGrid.
 Added Select All/Select None buttons to potentially large listviews.
-Make System Objects not applicable for Revision Control.
 Simplified Listview handling code.
 Reworded text on encrypted passwords in frmOptions.
 Added Query Log Recorder.

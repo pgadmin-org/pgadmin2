@@ -1,6 +1,7 @@
-1.3.??
+1.3.60
 ------
 
+Updated for PostgreSQL 7.3 Support.
 Copy column values into a temp variable before use to avoid problems with the Foxpro driver.
 Don't clear source table list when navigating back past the tab.
 Added pre-requisites list to README.txt.
