@@ -402,7 +402,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Commit(" & UpdateType 
 Dim objOperator As pgOperator
 
   For Each objOperator In mCol
-    objOperator.Commit UpdateType, UpdateComment
+    If Not objOperator.SystemObject Then objOperator.Commit UpdateType, UpdateComment
   Next objOperator
   
   Exit Sub

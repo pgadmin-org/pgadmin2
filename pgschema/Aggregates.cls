@@ -366,7 +366,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Commit(" & UpdateType
 Dim objAggregate As pgAggregate
 
   For Each objAggregate In mCol
-    objAggregate.Commit UpdateType, UpdateComment
+    If Not objAggregate.SystemObject Then objAggregate.Commit UpdateType, UpdateComment
   Next objAggregate
   
   Exit Sub

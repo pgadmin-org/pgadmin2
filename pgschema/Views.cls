@@ -354,7 +354,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Views.Commit(" & UpdateType & ",
 Dim objView As pgView
 
   For Each objView In mCol
-    objView.Commit UpdateType, UpdateComment
+    If Not objView.SystemObject Then objView.Commit UpdateType, UpdateComment
   Next objView
   
   Exit Sub

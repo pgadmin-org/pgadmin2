@@ -108,6 +108,7 @@ Private objDriverVersion As Version
 Private lUserLogOptions As Long
 Private szUserLogfile As String
 Private bUserLog As Boolean
+Private bDeferConnection As Boolean
 
 'Error Log
 'If an application is logging it's errors through the mechanism here, then any errors
@@ -205,9 +206,22 @@ Dim szQueryType As String
   End If
   
   Exit Function
-Err_Handler:
-  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err
 End Function
+
+'Refresh the collections
+Public Sub Refresh()
+Attribute Refresh.VB_Description = "Refresh the collections."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Refresh()", etFullDebug
+
+  Set colDatabases = Nothing
+  Set colGroups = Nothing
+  Set colUsers = Nothing
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
 
 'Connect to the database
 Public Function Connect(Optional ByVal Server As String, Optional ByVal Port As Long, Optional ByVal Username As String, Optional ByVal Password As String) As Long
@@ -787,6 +801,27 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get UserLog()", etFullDebug
 
   UserLog = bUserLog
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the DeferConnection
+Public Property Let DeferConnection(ByVal vData As Boolean)
+Attribute DeferConnection.VB_Description = "Sets/Returns whether to defer connecting to databases until necessary. Setting this will prevent database comment & status retrieval initiating a connection."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let DeferConnection(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  bDeferConnection = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get DeferConnection() As Boolean
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DeferConnection()", etFullDebug
+
+  DeferConnection = bDeferConnection
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

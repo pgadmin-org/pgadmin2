@@ -84,57 +84,87 @@ Begin VB.Form frmOptions
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame3"
-      Tab(4).Control(1)=   "Frame4"
-      Tab(4).Control(2)=   "Frame5"
-      Tab(4).ControlCount=   3
+      Tab(4).Control(0)=   "Frame6"
+      Tab(4).Control(0).Enabled=   0   'False
+      Tab(4).Control(1)=   "Frame5"
+      Tab(4).Control(1).Enabled=   0   'False
+      Tab(4).Control(2)=   "Frame4"
+      Tab(4).Control(2).Enabled=   0   'False
+      Tab(4).Control(3)=   "Frame3"
+      Tab(4).Control(3).Enabled=   0   'False
+      Tab(4).ControlCount=   4
+      Begin VB.Frame Frame6 
+         Caption         =   "Defer Connection"
+         Height          =   1320
+         Left            =   -74775
+         TabIndex        =   55
+         Top             =   4815
+         Width           =   5010
+         Begin VB.CheckBox chkDeferConnection 
+            Caption         =   "Don't connect until necessary."
+            Height          =   240
+            Left            =   810
+            TabIndex        =   56
+            Top             =   315
+            Width           =   3345
+         End
+         Begin VB.Label Label4 
+            Caption         =   $"frmOptions.frx":0A8E
+            Height          =   600
+            Index           =   3
+            Left            =   135
+            TabIndex        =   57
+            Top             =   630
+            Width           =   4695
+         End
+      End
       Begin VB.Frame Frame5 
          Caption         =   "Auto Row Count"
-         Height          =   1770
+         Height          =   1320
          Left            =   -74775
          TabIndex        =   52
-         Top             =   4320
+         Top             =   3375
          Width           =   5010
          Begin VB.CheckBox chkAutoRowCount 
             Caption         =   "Use auto row count on tables and views."
             Height          =   240
             Left            =   810
             TabIndex        =   53
-            Top             =   405
+            Top             =   315
             Width           =   3345
          End
          Begin VB.Label Label4 
-            Caption         =   $"frmOptions.frx":0A8E
-            Height          =   780
+            Caption         =   $"frmOptions.frx":0B36
+            Height          =   600
             Index           =   2
             Left            =   135
             TabIndex        =   54
-            Top             =   855
+            Top             =   630
             Width           =   4695
          End
       End
       Begin VB.Frame Frame4 
          Caption         =   "Security"
-         Height          =   1770
+         Height          =   1320
          Left            =   -74775
          TabIndex        =   49
-         Top             =   2430
+         Top             =   1935
          Width           =   5010
          Begin VB.CheckBox chkEncryptPasswords 
             Caption         =   "Use Encrypted passwords where possible."
             Height          =   240
             Left            =   810
             TabIndex        =   50
-            Top             =   405
+            Top             =   315
             Width           =   3345
          End
          Begin VB.Label Label4 
-            Caption         =   $"frmOptions.frx":0B63
-            Height          =   690
+            Caption         =   $"frmOptions.frx":0BFB
+            Height          =   645
             Index           =   1
-            Left            =   135
+            Left            =   225
             TabIndex        =   51
-            Top             =   945
+            Top             =   585
             Width           =   4695
          End
       End
@@ -225,18 +255,18 @@ Begin VB.Form frmOptions
       End
       Begin VB.ListBox lstPlugins 
          Height          =   3375
-         ItemData        =   "frmOptions.frx":0BF7
+         ItemData        =   "frmOptions.frx":0C8F
          Left            =   -74910
-         List            =   "frmOptions.frx":0BF9
+         List            =   "frmOptions.frx":0C91
          TabIndex        =   37
          Top             =   450
          Width           =   5235
       End
       Begin VB.ListBox lstExporters 
          Height          =   3375
-         ItemData        =   "frmOptions.frx":0BFB
+         ItemData        =   "frmOptions.frx":0C93
          Left            =   -74910
-         List            =   "frmOptions.frx":0BFD
+         List            =   "frmOptions.frx":0C95
          TabIndex        =   27
          Top             =   450
          Width           =   5235
@@ -497,26 +527,26 @@ Begin VB.Form frmOptions
       End
       Begin VB.Frame Frame3 
          Caption         =   "Master Connection Database"
-         Height          =   1770
+         Height          =   1320
          Left            =   -74775
          TabIndex        =   46
-         Top             =   540
+         Top             =   495
          Width           =   5010
          Begin VB.TextBox txtMasterDB 
             Height          =   285
             Left            =   540
             TabIndex        =   47
             ToolTipText     =   "Enter the name of a database to use as the Master Connection."
-            Top             =   360
+            Top             =   270
             Width           =   3930
          End
          Begin VB.Label Label4 
-            Caption         =   $"frmOptions.frx":0BFF
-            Height          =   690
+            Caption         =   $"frmOptions.frx":0C97
+            Height          =   600
             Index           =   0
             Left            =   135
             TabIndex        =   48
-            Top             =   945
+            Top             =   630
             Width           =   4695
          End
       End
@@ -776,12 +806,21 @@ Dim itmX As ListItem
   End If
   
   'Auto Rowcount
-  If chkAutoRowcount.Value = 1 Then
+  If chkAutoRowCount.Value = 1 Then
     ctx.AutoRowCount = True
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Auto Row Count", regString, "Y"
   Else
     ctx.AutoRowCount = False
     RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Auto Row Count", regString, "N"
+  End If
+  
+  'Defer Connections
+  If chkDeferConnection.Value = 1 Then
+    frmMain.svr.DeferConnection = True
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Defer Connection", regString, "Y"
+  Else
+    frmMain.svr.DeferConnection = False
+    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Defer Connection", regString, "N"
   End If
   
   Unload Me
@@ -875,9 +914,16 @@ Dim szValues() As String
   
   'Auto Row Count
   If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Auto Row Count", "Y")) = "Y" Then
-    chkAutoRowcount.Value = 1
+    chkAutoRowCount.Value = 1
   Else
-    chkAutoRowcount.Value = 0
+    chkAutoRowCount.Value = 0
+  End If
+  
+  'Defer Connection
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Defer Connection", "Y")) = "Y" Then
+    chkDeferConnection.Value = 1
+  Else
+    chkDeferConnection.Value = 0
   End If
   
   Exit Sub

@@ -363,7 +363,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Rules.Commit(" & UpdateType & ",
 Dim objRule As pgRule
 
   For Each objRule In mCol
-    objRule.Commit UpdateType, UpdateComment
+    If Not objRule.SystemObject Then objRule.Commit UpdateType, UpdateComment
   Next objRule
   
   Exit Sub

@@ -407,7 +407,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Triggers.Commit(" & UpdateType &
 Dim objTrigger As pgTrigger
 
   For Each objTrigger In mCol
-    objTrigger.Commit UpdateType, UpdateComment
+    If Not objTrigger.SystemObject Then objTrigger.Commit UpdateType, UpdateComment
   Next objTrigger
   
   Exit Sub

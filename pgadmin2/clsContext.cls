@@ -143,8 +143,13 @@ On Error Resume Next
       frmMain.tb.Buttons("history").Enabled = False
     End If
   Else
-    frmMain.mnuPopupCommit.Enabled = False
-    frmMain.tb.Buttons("commit").Enabled = False
+    If vData.ObjectType = "Database" Then
+      frmMain.mnuPopupCommit.Enabled = True
+      frmMain.tb.Buttons("commit").Enabled = True
+    Else
+      frmMain.mnuPopupCommit.Enabled = False
+      frmMain.tb.Buttons("commit").Enabled = False
+    End If
     frmMain.mnuPopupHistory.Enabled = False
     frmMain.tb.Buttons("history").Enabled = False
   End If

@@ -386,7 +386,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Sequences.Commit(" & UpdateType 
 Dim objSequence As pgSequence
 
   For Each objSequence In mCol
-    objSequence.Commit UpdateType, UpdateComment
+    If Not objSequence.SystemObject Then objSequence.Commit UpdateType, UpdateComment
   Next objSequence
   
   Exit Sub

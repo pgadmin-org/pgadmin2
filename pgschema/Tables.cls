@@ -405,7 +405,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Tables.Commit(" & UpdateType & "
 Dim objTable As pgTable
 
   For Each objTable In mCol
-    objTable.Commit UpdateType, UpdateComment
+    If Not objTable.SystemObject Then objTable.Commit UpdateType, UpdateComment
   Next objTable
   
   Exit Sub

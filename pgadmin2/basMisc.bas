@@ -78,6 +78,13 @@ Dim szFrequency As String
     ctx.AutoRowCount = False
   End If
   
+  'Defer Connections?
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Defer Connection", "Y")) = "Y" Then
+    frmMain.svr.DeferConnection = True
+  Else
+    frmMain.svr.DeferConnection = False
+  End If
+  
   'Display/Hide the StausBar/ToolBar/Definition Pane
   If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Show Status Bar", "Y")) = "Y" Then
     frmMain.sb.Visible = True

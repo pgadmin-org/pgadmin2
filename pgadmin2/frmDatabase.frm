@@ -367,7 +367,7 @@ Dim objItem As ComboItem
     txtProperties(0).Text = objDatabase.Name
     txtProperties(1).Text = objDatabase.OID
     txtProperties(2).Text = objDatabase.Owner
-    Set objItem = cboProperties(0).ComboItems.Add(, , objDatabase.ServerEncodingName, "encoding", "encoding")
+    Set objItem = cboProperties(0).ComboItems.Add(, , objDatabase.ServerEncoding, "encoding", "encoding")
     objItem.Selected = True
     txtProperties(3).Text = objDatabase.Path
     bSetting = True

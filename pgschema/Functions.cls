@@ -399,7 +399,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Functions.Commit(" & UpdateType 
 Dim objFunction As pgFunction
 
   For Each objFunction In mCol
-    objFunction.Commit UpdateType, UpdateComment
+    If Not objFunction.SystemObject Then objFunction.Commit UpdateType, UpdateComment
   Next objFunction
   
   Exit Sub

@@ -404,7 +404,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Indexes.Commit(" & UpdateType & 
 Dim objIndex As pgIndex
 
   For Each objIndex In mCol
-    objIndex.Commit UpdateType, UpdateComment
+    If Not objIndex.SystemObject Then objIndex.Commit UpdateType, UpdateComment
   Next objIndex
   
   Exit Sub

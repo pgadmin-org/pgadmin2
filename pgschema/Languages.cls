@@ -369,7 +369,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Commit(" & UpdateType 
 Dim objLanguage As pgLanguage
 
   For Each objLanguage In mCol
-    objLanguage.Commit UpdateType, UpdateComment
+    If Not objLanguage.SystemObject Then objLanguage.Commit UpdateType, UpdateComment
   Next objLanguage
   
   Exit Sub

@@ -582,43 +582,22 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()"
 Err_Handler:  objServer.iLogError Err
 End Property
 
-'Set/Return the Database ServerEncoding
-Friend Property Let ServerEncoding(ByVal vData As Long)
+'Set/Return the Database Server Encoding
+Friend Property Let ServerEncoding(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let ServerEncoding(" & vData & ")", etFullDebug
-
-  lServerEncoding = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get ServerEncoding() As Long
-Attribute ServerEncoding.VB_Description = "Returns the Database Encoding."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ServerEncoding()", etFullDebug
-
-  ServerEncoding = lServerEncoding
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
-'Set/Return the Database ServerEncoding Name
-Friend Property Let ServerEncodingName(ByVal vData As String)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let ServerEncodingName(" & vData & ")", etFullDebug
 
   szServerEncoding = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get ServerEncodingName() As String
-Attribute ServerEncodingName.VB_Description = "Returns the name of the encoding scheme."
+Public Property Get ServerEncoding() As String
+Attribute ServerEncoding.VB_Description = "Returns the name of the encoding scheme."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ServerEncodingName()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ServerEncoding()", etFullDebug
 
-  ServerEncodingName = szServerEncoding
+  ServerEncoding = szServerEncoding
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -646,7 +625,11 @@ Public Property Get Comment() As String
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Comment()", etFullDebug
   
-  Comment = LookupComment(lOID)
+  If objServer.DeferConnection Then
+    Comment = ""
+  Else
+    Comment = LookupComment(lOID)
+  End If
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -657,8 +640,7 @@ Public Property Get Status() As dbStatus
 Attribute Status.VB_Description = "Returns the database connection status."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Status()", etFullDebug
-  
-  dbConnect
+
   Status = lStatus
     
   Exit Property
@@ -891,7 +873,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 'Connect to the Database
-Friend Function dbConnect() As Boolean
+Public Function dbConnect() As Boolean
 Attribute dbConnect.VB_Description = "Open a connection to the database."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.dbConnect()", etFullDebug
@@ -899,7 +881,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.dbConnect()", etFullD
 Dim szConnect As String
 
   'Don't connect if AllowConnections is False
-  If Not bAllowConnections Then
+  If (Not bAllowConnections) Or (lStatus = statInaccessible) Then
     lStatus = statInaccessible
     Exit Function
   End If
@@ -925,7 +907,8 @@ Err_Handler:
 End Function
 
 'Close the Database Connection
-Friend Sub dbDisconnect()
+Public Sub dbDisconnect()
+Attribute dbDisconnect.VB_Description = "Disconnect from the database."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Sub dbDisconnect()", etFullDebug
 
@@ -1136,28 +1119,28 @@ Dim objType As pgType
 Dim objView As pgView
 
   For Each objAggregate In Aggregates
-    objAggregate.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+    If Not objAggregate.SystemObject Then objAggregate.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objAggregate
   For Each objFunction In Functions
-    objFunction.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+    If Not objFunction.SystemObject Then objFunction.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objFunction
   For Each objLanguage In Languages
-    objLanguage.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+    If Not objLanguage.SystemObject Then objLanguage.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objLanguage
   For Each objOperator In Operators
-    objOperator.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+    If Not objOperator.SystemObject Then objOperator.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objOperator
   For Each objSequence In Sequences
-    objSequence.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+    If Not objSequence.SystemObject Then objSequence.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objSequence
   For Each objTable In Tables
-    objTable.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+    If Not objTable.SystemObject Then objTable.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objTable
   For Each objType In Types
-    objType.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+    If Not objType.SystemObject Then objType.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objType
   For Each objView In Views
-    objView.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+    If Not objView.SystemObject Then objView.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
   Next objView
   
   Exit Sub

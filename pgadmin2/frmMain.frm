@@ -381,7 +381,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   23
+         NumListImages   =   24
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":9AC4
             Key             =   "aggregate"
@@ -396,83 +396,87 @@ Begin VB.Form frmMain
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":AF3A
-            Key             =   "database"
-         EndProperty
-         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B094
             Key             =   "function"
          EndProperty
-         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B766
+         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":B60C
             Key             =   "group"
          EndProperty
-         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":BE38
+         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":BCDE
             Key             =   "index"
          EndProperty
-         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C3D2
+         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":C278
             Key             =   "indexcolumn"
          EndProperty
-         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":CAA4
+         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":C94A
             Key             =   "foreignkey"
          EndProperty
-         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D176
+         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":D01C
             Key             =   "language"
          EndProperty
-         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D848
+         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":D6EE
             Key             =   "operator"
          EndProperty
-         BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":DF1A
+         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":DDC0
             Key             =   "property"
+         EndProperty
+         BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":E35A
+            Key             =   "relationship"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":E4B4
-            Key             =   "relationship"
+            Key             =   "rule"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":E60E
-            Key             =   "rule"
+            Picture         =   "frmMain.frx":EB86
+            Key             =   "server"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":ECE0
-            Key             =   "server"
-         EndProperty
-         BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":EE3A
             Key             =   "sequence"
          EndProperty
-         BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F50C
+         BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":F3B2
             Key             =   "table"
          EndProperty
-         BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":FBDE
+         BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":FA84
             Key             =   "trigger"
          EndProperty
-         BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":102B0
+         BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":10156
             Key             =   "type"
+         EndProperty
+         BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":10828
+            Key             =   "user"
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":10982
-            Key             =   "user"
-         EndProperty
-         BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":10ADC
             Key             =   "view"
          EndProperty
+         BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":11054
+            Key             =   "hiproperty"
+         EndProperty
          BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":111AE
-            Key             =   "baddatabase"
+            Picture         =   "frmMain.frx":115EE
+            Key             =   "database"
          EndProperty
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":11308
-            Key             =   "hiproperty"
+            Picture         =   "frmMain.frx":11748
+            Key             =   "baddatabase"
+         EndProperty
+         BeginProperty ListImage24 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":118A2
+            Key             =   "closeddatabase"
          EndProperty
       EndProperty
    End
@@ -1405,7 +1409,7 @@ Dim objNode As Node
   'Now refresh the required part of the svr object
   Select Case Left(objNode.Key, 4)
     Case "SVR-"
-      svr.Connect
+      svr.Refresh
     Case "DAT+"
       svr.Databases.Refresh
     Case "GRP+"
@@ -2077,8 +2081,16 @@ Dim dat As pgDatabase
     Wend
     For Each dat In svr.Databases
       If Not (dat.SystemObject And Not ctx.IncludeSys) Then
+        
+        'Connect now when not deferring to get a valid status
+        If Not svr.DeferConnection Then dat.dbConnect
+        
         If dat.Status <> statInaccessible Then
-          tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "database"
+          If svr.DeferConnection Then
+            tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "closeddatabase"
+          Else
+            tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "database"
+          End If
         Else
           tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "baddatabase"
         End If
@@ -2105,7 +2117,22 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 
-  If svr.Databases(Node.Text).Status <> statInaccessible Then
+  'Connect if required
+  If svr.DeferConnection And svr.Databases(Node.Text).Status <> statOpen Then
+    If Not svr.Databases(Node.Text).dbConnect Then
+      If svr.Databases(Node.Text).Status = statClosed Then
+        Node.Image = "closeddatabase"
+      Else
+        Node.Image = "baddatabase"
+      End If
+    Else
+      Node.Image = "database"
+    End If
+  Else
+    Node.Image = "database"
+  End If
+  
+  If svr.Databases(Node.Text).Status = statOpen Then
     If Node.Children = 0 Then
       tv.Nodes.Add Node.Key, tvwChild, "AGG+" & GetID, "Aggregates", "aggregate"
       tv.Nodes.Add Node.Key, tvwChild, "FNC+" & GetID, "Functions", "function"
@@ -2130,18 +2157,20 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Path", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Path
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Server Encoding", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.ServerEncodingName
+  lvItem.SubItems(1) = ctx.CurrentObject.ServerEncoding
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Allow Connections?", "property", "property")
   If ctx.CurrentObject.AllowConnections Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Accessible?", "property", "property")
-  If ctx.CurrentObject.Status <> statInaccessible Then
-    lvItem.SubItems(1) = "Yes"
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Connection Status?", "property", "property")
+  If ctx.CurrentObject.Status = statInaccessible Then
+    lvItem.SubItems(1) = "Inaccessible"
+  ElseIf ctx.CurrentObject.Status = statOpen Then
+    lvItem.SubItems(1) = "Connected"
   Else
-    lvItem.SubItems(1) = "No"
+    lvItem.SubItems(1) = "Not connected"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control?", "property", "property")
   If ctx.CurrentObject.Status = statInaccessible Then
@@ -2152,9 +2181,7 @@ Dim lvItem As ListItem
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Database?", "property", "property")
-  If ctx.CurrentObject.Status = statInaccessible Then
-    lvItem.SubItems(1) = "Unknown"
-  ElseIf ctx.CurrentObject.SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
