@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmVisualQueryBuilder 
    Caption         =   "Visual Query Builder"
@@ -40,6 +40,7 @@ Begin VB.Form frmVisualQueryBuilder
       Width           =   1272
       Begin VB.OptionButton OptTypeQuery 
          Caption         =   "&Insert"
+         Enabled         =   0   'False
          Height          =   192
          Index           =   3
          Left            =   120
@@ -49,6 +50,7 @@ Begin VB.Form frmVisualQueryBuilder
       End
       Begin VB.OptionButton OptTypeQuery 
          Caption         =   "&Delete"
+         Enabled         =   0   'False
          Height          =   192
          Index           =   2
          Left            =   120
@@ -58,6 +60,7 @@ Begin VB.Form frmVisualQueryBuilder
       End
       Begin VB.OptionButton OptTypeQuery 
          Caption         =   "&Update"
+         Enabled         =   0   'False
          Height          =   192
          Index           =   1
          Left            =   120
@@ -108,8 +111,8 @@ Begin VB.Form frmVisualQueryBuilder
       TabIndex        =   0
       Top             =   1380
       Width           =   9012
-      _ExtentX        =   17595
-      _ExtentY        =   8916
+      _ExtentX        =   17590
+      _ExtentY        =   8911
    End
    Begin MSComctlLib.TreeView tv 
       Height          =   1260
@@ -150,7 +153,7 @@ Begin VB.Form frmVisualQueryBuilder
          Caption         =   "-"
       End
       Begin VB.Menu mnuFileRetunQuery 
-         Caption         =   "Retun Query"
+         Caption         =   "Return Query"
          Shortcut        =   ^K
       End
       Begin VB.Menu mnuFileSep2 
@@ -535,9 +538,9 @@ Dim vData
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmVisualQueryBuilder.objFGrid_ComboChange"
 End Sub
 
-Private Sub RelQuery_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub RelQuery_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmVisualQueryBuilder.RelQuery_MouseUp(" & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmVisualQueryBuilder.RelQuery_MouseUp(" & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
 
   If Button = vbRightButton Then
     PopupMenu mnuRelQuery
@@ -619,4 +622,14 @@ Dim szSQL As String
   txtSQL.Text = szSQL
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmVisualQueryBuilder.mnuRelQueryViewSql_Click"
+End Sub
+
+Private Sub Form_Paint()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmVisualQueryBuilder.Form_Paint()", etFullDebug
+
+  RelQuery.Refresh
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmVisualQueryBuilder.Form_Paint"
 End Sub
