@@ -37,6 +37,15 @@ Public Declare Function SQLGetInfoString Lib "odbc32.dll" Alias "SQLGetInfo" (By
 Public Declare Function SQLError Lib "odbc32.dll" (ByVal henv As Long, ByVal hdbc As Long, ByVal hstmt As Long, ByVal szSqlState As String, pfNativeError As Long, ByVal szErrorMsg As String, ByVal cbErrorMsgMax As Integer, pcbErrorMsg As Integer) As Integer
 Public Declare Function SQLExecDirect Lib "odbc32.dll" (ByVal hstmt As Long, ByVal szSqlStr As String, ByVal cbSqlStr As Long) As Integer
 Public Declare Function HtmlHelp Lib "hhctrl.ocx" Alias "HtmlHelpA" (ByVal hwndCaller As Long, ByVal pszFile As String, ByVal uCommand As Long, ByVal dwData As Long) As Long
+Public Declare Function InternetOpen Lib "wininet.dll" Alias "InternetOpenA" (ByVal sAgent As String, ByVal lAccessType As Long, ByVal sProxyName As String, ByVal sProxyBypass As String, ByVal lFlags As Long) As Long
+Public Declare Function InternetConnect Lib "wininet.dll" Alias "InternetConnectA" (ByVal hInternetSession As Long, ByVal sServerName As String, ByVal nServerPort As Integer, ByVal sUsername As String, ByVal sPassword As String, ByVal lService As Long, ByVal lFlags As Long, ByVal lContext As Long) As Long
+Public Declare Function HttpOpenRequest Lib "wininet.dll" Alias "HttpOpenRequestA" (ByVal hHttpSession As Long, ByVal sVerb As String, ByVal sObjectName As String, ByVal sVersion As String, ByVal sReferer As String, ByVal something As Long, ByVal lFlags As Long, ByVal lContext As Long) As Long
+Public Declare Function HttpSendRequest Lib "wininet.dll" Alias "HttpSendRequestA" (ByVal hHttpRequest As Long, ByVal sHeaders As String, ByVal lHeadersLength As Long, sOptional As Any, ByVal lOptionalLength As Long) As Integer
+Public Declare Function HttpQueryInfo Lib "wininet.dll" Alias "HttpQueryInfoA" (ByVal hHttpRequest As Long, ByVal lInfoLevel As Long, ByRef sBuffer As Any, ByRef lBufferLength As Long, ByRef lIndex As Long) As Integer
+Public Declare Function InternetReadFile Lib "wininet.dll" (ByVal hFile As Long, ByVal sBuffer As String, ByVal lNumBytesToRead As Long, lNumberofBytesRead As Long) As Integer
+Public Declare Function InternetCloseHandle Lib "wininet.dll" (ByVal hInet As Long) As Integer
+Public Declare Function InternetQueryOption Lib "wininet.dll" Alias "InternetQueryOptionA" (ByVal hInternet As Long, ByVal lOption As Long, ByRef sBuffer As Any, ByRef lBufferLength As Long) As Integer
+Public Declare Function HttpAddRequestHeaders Lib "wininet.dll" Alias "HttpAddRequestHeadersA" (ByVal hHttpRequest As Long, ByVal sHeaders As String, ByVal lHeadersLength As Long, ByVal lModifiers As Long) As Integer
 
 'Constants
 Public Const SWP_NOMOVE = 2
@@ -261,3 +270,42 @@ Public Enum RegHives
   HKEY_CURRENT_CONFIG = &H80000005
   HKEY_DYN_DATA = &H80000006
 End Enum
+
+'WinInet constants
+Public Const scUserAgent = "http sample"
+Public Const INTERNET_OPEN_TYPE_PRECONFIG = 0
+Public Const INTERNET_DEFAULT_FTP_PORT = 21
+Public Const INTERNET_DEFAULT_GOPHER_PORT = 70
+Public Const INTERNET_DEFAULT_HTTP_PORT = 80
+Public Const INTERNET_DEFAULT_HTTPS_PORT = 443
+Public Const INTERNET_DEFAULT_SOCKS_PORT = 1080
+Public Const INTERNET_SERVICE_FTP = 1
+Public Const INTERNET_SERVICE_GOPHER = 2
+Public Const INTERNET_SERVICE_HTTP = 3
+Public Const INTERNET_FLAG_RELOAD = &H80000000
+Public Const HTTP_QUERY_CONTENT_TYPE = 1
+Public Const HTTP_QUERY_CONTENT_LENGTH = 5
+Public Const HTTP_QUERY_EXPIRES = 10
+Public Const HTTP_QUERY_LAST_MODIFIED = 11
+Public Const HTTP_QUERY_PRAGMA = 17
+Public Const HTTP_QUERY_VERSION = 18
+Public Const HTTP_QUERY_STATUS_CODE = 19
+Public Const HTTP_QUERY_STATUS_TEXT = 20
+Public Const HTTP_QUERY_RAW_HEADERS = 21
+Public Const HTTP_QUERY_RAW_HEADERS_CRLF = 22
+Public Const HTTP_QUERY_FORWARDED = 30
+Public Const HTTP_QUERY_SERVER = 37
+Public Const HTTP_QUERY_USER_AGENT = 39
+Public Const HTTP_QUERY_SET_COOKIE = 43
+Public Const HTTP_QUERY_REQUEST_METHOD = 45
+Public Const HTTP_QUERY_FLAG_REQUEST_HEADERS = &H80000000
+Public Const INTERNET_OPTION_VERSION = 40
+Public Const HTTP_ADDREQ_FLAG_ADD_IF_NEW = &H10000000
+Public Const HTTP_ADDREQ_FLAG_ADD = &H20000000
+Public Const HTTP_ADDREQ_FLAG_REPLACE = &H80000000
+
+'WinInet DLL Version Structure
+Public Type tWinInetDLLVersion
+    lMajorVersion As Long
+    lMinorVersion As Long
+End Type

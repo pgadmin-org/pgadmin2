@@ -10,6 +10,7 @@ Option Explicit
 Public Sub Main()
 
 Dim sStart As Single
+Dim szFrequency As String
   
   'Show the splash screen
   Load frmSplash
@@ -114,10 +115,28 @@ Dim sStart As Single
   'Show the main form.
   frmMain.Show
   
+  'Show the Upgrade Wizard if required.
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Check", "Y")) = "Y" Then
+    Select Case UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Frequency", "Week"))
+      Case "DAY"
+        szFrequency = "d"
+      Case "WEEK"
+        szFrequency = "ww"
+      Case "MONTH"
+        szFrequency = "m"
+      Case "YEAR"
+        szFrequency = "yyyy"
+    End Select
+    If DateAdd(szFrequency, 1, CDate(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Last Check", "2000-01-01"))) <= Date Then
+      Load frmUpgradeWizard
+      frmUpgradeWizard.Show vbModal, frmMain
+    End If
+  End If
+  
   'Show the Tips if required.
   If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Show Tips", "Y")) = "Y" Then
     Load frmTip
-    frmTip.Show
+    frmTip.Show vbModal, frmMain
   End If
    
 End Sub

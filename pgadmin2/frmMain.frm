@@ -599,6 +599,12 @@ Begin VB.Form frmMain
    End
    Begin VB.Menu mnuTools 
       Caption         =   "&Tools"
+      Begin VB.Menu mnuToolsUpgradeWizard 
+         Caption         =   "&Upgrade Wizard..."
+      End
+      Begin VB.Menu mnuToolsSep1 
+         Caption         =   "-"
+      End
       Begin VB.Menu mnuToolsOptions 
          Caption         =   "&Options..."
       End
@@ -875,6 +881,17 @@ Dim szPlugin As String
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPluginsPlg_Click"
+End Sub
+
+Private Sub mnuToolsUpgradeWizard_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsUpgradeWizard_Click()", etFullDebug
+
+  Load frmUpgradeWizard
+  frmUpgradeWizard.Show
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsUpgradeWizard_Click"
 End Sub
 
 Private Sub mnuViewSystemObjects_Click()
