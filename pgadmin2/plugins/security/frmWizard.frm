@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Security Wizard"
@@ -130,22 +130,16 @@ Begin VB.Form frmWizard
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":3583
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lvEntities"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "cmdEntityNone"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "cmdEntityAll"
-      Tab(2).Control(3).Enabled=   0   'False
+      Tab(2).Control(0)=   "cmdEntityAll"
+      Tab(2).Control(1)=   "cmdEntityNone"
+      Tab(2).Control(2)=   "lvEntities"
+      Tab(2).Control(3)=   "lblInfo(2)"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":359F
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblInfo(3)"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "picContainer(0)"
-      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(0)=   "picContainer(0)"
+      Tab(3).Control(1)=   "lblInfo(3)"
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":35BB
@@ -389,7 +383,7 @@ Begin VB.Form frmWizard
          Appearance      =   1
          NumItems        =   2
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Text            =   "Database"
+            Text            =   "Database/Schema"
             Object.Width           =   3528
          EndProperty
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
@@ -427,7 +421,7 @@ Begin VB.Form frmWizard
          EndProperty
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             SubItemIndex    =   1
-            Text            =   "Database"
+            Text            =   "Database/Schema"
             Object.Width           =   2118
          EndProperty
          BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
@@ -530,7 +524,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   "Select the databases containing the objects for which you wish to batch update the Access Control Lists (ACLs)."
+         Caption         =   "Select the databases/schemas containing the objects for which you wish to batch update the Access Control Lists (ACLs)."
          Height          =   735
          Index           =   0
          Left            =   180
@@ -780,25 +774,11 @@ Dim lACL As Long
       
       'Revoke all existing permissions if required.
       If (optAction(0).Value = True) And (optClear(0).Value = True) Then
-        Select Case objOItem.Icon
-          Case "sequence"
-            ParseACL svr.Databases(objOItem.SubItems(1)).Sequences(objOItem.Text).ACL, szUserList, szAccessList
-          Case "table"
-            ParseACL svr.Databases(objOItem.SubItems(1)).Tables(objOItem.Text).ACL, szUserList, szAccessList
-          Case "view"
-            ParseACL svr.Databases(objOItem.SubItems(1)).Views(objOItem.Text).ACL, szUserList, szAccessList
-        End Select
+        ParseACL objOItem.Tag.ACL, szUserList, szAccessList
         szUsers = Split(szUserList, "|")
         szAccess = Split(szAccessList, "|")
         For Each vEntity In szUsers
-          Select Case objOItem.Icon
-            Case "sequence"
-              If vEntity <> "" Then svr.Databases(objOItem.SubItems(1)).Sequences(objOItem.Text).Revoke vEntity, aclAll
-            Case "table"
-              If vEntity <> "" Then svr.Databases(objOItem.SubItems(1)).Tables(objOItem.Text).Revoke vEntity, aclAll
-            Case "view"
-              If vEntity <> "" Then svr.Databases(objOItem.SubItems(1)).Views(objOItem.Text).Revoke vEntity, aclAll
-          End Select
+          If vEntity <> "" Then objOItem.Tag.Revoke vEntity, aclAll
         Next vEntity
       End If
     
@@ -822,23 +802,9 @@ Dim lACL As Long
           If chkPermission(6).Value = 1 Then lACL = lACL + aclReferences
           If chkPermission(7).Value = 1 Then lACL = lACL + aclTrigger
           If optAction(0).Value Then 'Grant permissions
-            Select Case objOItem.Icon
-              Case "sequence"
-                svr.Databases(objOItem.SubItems(1)).Sequences(objOItem.Text).Grant szEntity, lACL
-              Case "table"
-                svr.Databases(objOItem.SubItems(1)).Tables(objOItem.Text).Grant szEntity, lACL
-              Case "view"
-                svr.Databases(objOItem.SubItems(1)).Views(objOItem.Text).Grant szEntity, lACL
-            End Select
+            objOItem.Tag.Grant szEntity, lACL
           Else 'Revoke permissions
-            Select Case objOItem.Icon
-              Case "sequence"
-                svr.Databases(objOItem.SubItems(1)).Sequences(objOItem.Text).Revoke szEntity, lACL
-              Case "table"
-                svr.Databases(objOItem.SubItems(1)).Tables(objOItem.Text).Revoke szEntity, lACL
-              Case "view"
-                svr.Databases(objOItem.SubItems(1)).Views(objOItem.Text).Revoke szEntity, lACL
-            End Select
+            objOItem.Tag.Revoke szEntity, lACL
           End If
         End If
       Next objEItem
@@ -915,10 +881,11 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub Initialise()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.Initialise()", etFullDebug
 
 Dim objDatabase As pgDatabase
+Dim objNamespace As pgNamespace
 Dim objItem As ListItem
   
   lvDatabases.ListItems.Clear
@@ -926,12 +893,27 @@ Dim objItem As ListItem
   cmdPrevious.Enabled = False
   
   StartMsg "Examining Server..."
-  For Each objDatabase In svr.Databases
-    If ((Not objDatabase.SystemObject) And (objDatabase.Status <> statInaccessible)) Then
-      Set objItem = lvDatabases.ListItems.Add(, , objDatabase.Identifier, "database", "database")
-      objItem.SubItems(1) = Replace(objDatabase.Comment, vbCrLf, " ")
-    End If
-  Next objDatabase
+  If svr.dbVersion.VersionNum >= 7.3 Then
+    For Each objDatabase In svr.Databases
+      If ((Not objDatabase.SystemObject) And (Not (objDatabase.Namespaces Is Nothing))) Then
+        For Each objNamespace In objDatabase.Namespaces
+          If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+            Set objItem = lvDatabases.ListItems.Add(, , objDatabase.FormattedID & "." & objNamespace.FormattedID, "database", "database")
+            objItem.SubItems(1) = Replace(objNamespace.Comment, vbCrLf, " ")
+            Set objItem.Tag = objNamespace
+          End If
+        Next objNamespace
+      End If
+    Next objDatabase
+  Else
+    For Each objDatabase In svr.Databases
+      If ((Not objDatabase.SystemObject) And (Not (objDatabase.Namespaces Is Nothing))) Then
+        Set objItem = lvDatabases.ListItems.Add(, , objDatabase.Identifier, "database", "database")
+        objItem.SubItems(1) = Replace(objDatabase.Comment, vbCrLf, " ")
+        Set objItem.Tag = objDatabase.Namespaces("public")
+      End If
+    Next objDatabase
+  End If
   
   'Enable new permissions for versions of PostgreSQL >= 7.2
   If svr.dbVersion.VersionNum < 7.2 Then
@@ -963,29 +945,44 @@ Dim objDBItem As ListItem
     If objDBItem.Checked Then
     
       'Load Sequences
-      For Each objSequence In svr.Databases(objDBItem.Text).Sequences
+      For Each objSequence In objDBItem.Tag.Sequences
         If Not objSequence.SystemObject Then
           Set objItem = lvObjects.ListItems.Add(, , objSequence.Identifier, "sequence", "sequence")
-          objItem.SubItems(1) = objSequence.Database
+          If svr.dbVersion.VersionNum >= 7.3 Then
+            objItem.SubItems(1) = fmtID(objDBItem.Tag.Database) & "." & objDBItem.Tag.FormattedID
+          Else
+            objItem.SubItems(1) = fmtID(objDBItem.Tag.Database)
+          End If
           objItem.SubItems(2) = objSequence.ACL
+          Set objItem.Tag = objSequence
         End If
       Next objSequence
       
       'Load Tables
-      For Each objTable In svr.Databases(objDBItem.Text).Tables
+      For Each objTable In objDBItem.Tag.Tables
         If Not objTable.SystemObject Then
           Set objItem = lvObjects.ListItems.Add(, , objTable.Identifier, "table", "table")
-          objItem.SubItems(1) = objTable.Database
+          If svr.dbVersion.VersionNum >= 7.3 Then
+            objItem.SubItems(1) = fmtID(objDBItem.Tag.Database) & "." & objDBItem.Tag.FormattedID
+          Else
+            objItem.SubItems(1) = fmtID(objDBItem.Tag.Database)
+          End If
           objItem.SubItems(2) = objTable.ACL
+          Set objItem.Tag = objTable
         End If
       Next objTable
           
       'Load Views
-      For Each objView In svr.Databases(objDBItem.Text).Views
+      For Each objView In objDBItem.Tag.Views
         If Not objView.SystemObject Then
           Set objItem = lvObjects.ListItems.Add(, , objView.Identifier, "view", "view")
-          objItem.SubItems(1) = objView.Database
+          If svr.dbVersion.VersionNum >= 7.3 Then
+            objItem.SubItems(1) = fmtID(objDBItem.Tag.Database) & "." & objDBItem.Tag.FormattedID
+          Else
+            objItem.SubItems(1) = fmtID(objDBItem.Tag.Database)
+          End If
           objItem.SubItems(2) = objView.ACL
+          Set objItem.Tag = objView
         End If
       Next objView
     End If
