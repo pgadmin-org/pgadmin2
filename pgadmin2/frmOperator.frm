@@ -116,19 +116,19 @@ Begin VB.Form frmOperator
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmOperator.frx":1E7E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(8)"
-      Tab(1).Control(1)=   "lblProperties(9)"
-      Tab(1).Control(2)=   "lblProperties(10)"
-      Tab(1).Control(3)=   "lblProperties(11)"
-      Tab(1).Control(4)=   "lblProperties(12)"
-      Tab(1).Control(5)=   "lblProperties(13)"
+      Tab(1).Control(0)=   "chkProperties(0)"
+      Tab(1).Control(1)=   "cboProperties(4)"
+      Tab(1).Control(2)=   "cboProperties(5)"
+      Tab(1).Control(3)=   "cboProperties(6)"
+      Tab(1).Control(4)=   "cboProperties(7)"
+      Tab(1).Control(5)=   "cboProperties(8)"
       Tab(1).Control(6)=   "cboProperties(9)"
-      Tab(1).Control(7)=   "cboProperties(8)"
-      Tab(1).Control(8)=   "cboProperties(7)"
-      Tab(1).Control(9)=   "cboProperties(6)"
-      Tab(1).Control(10)=   "cboProperties(5)"
-      Tab(1).Control(11)=   "cboProperties(4)"
-      Tab(1).Control(12)=   "chkProperties(0)"
+      Tab(1).Control(7)=   "lblProperties(13)"
+      Tab(1).Control(8)=   "lblProperties(12)"
+      Tab(1).Control(9)=   "lblProperties(11)"
+      Tab(1).Control(10)=   "lblProperties(10)"
+      Tab(1).Control(11)=   "lblProperties(9)"
+      Tab(1).Control(12)=   "lblProperties(8)"
       Tab(1).ControlCount=   13
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -580,7 +580,7 @@ Dim szRightSort As String
     If Not (cboProperties(7).SelectedItem Is Nothing) Then szJoin = cboProperties(7).SelectedItem.Text
     If Not (cboProperties(8).SelectedItem Is Nothing) Then szLeftSort = cboProperties(8).SelectedItem.Text
     If Not (cboProperties(9).SelectedItem Is Nothing) Then szRightSort = cboProperties(9).SelectedItem.Text
-    Set objNewOperator = frmMain.svr.Databases(szDatabase).Namespace(szNamespace).Operators.Add(txtProperties(0).Text, szFunction, cboProperties(0).Text, cboProperties(1).Text, szCommutator, szNegator, szRestrict, szJoin, Bin2Bool(chkProperties(0).Value), szLeftSort, szRightSort, hbxProperties(0).Text)
+    Set objNewOperator = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Operators.Add(txtProperties(0).Text, szFunction, cboProperties(0).Text, cboProperties(1).Text, szCommutator, szNegator, szRestrict, szJoin, Bin2Bool(chkProperties(0).Value), szLeftSort, szRightSort, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
     Set objNode = frmMain.svr.Databases(szDatabase).Namespace(szNamespace).Operators.Tag

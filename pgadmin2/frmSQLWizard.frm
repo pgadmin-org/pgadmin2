@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Begin VB.Form frmSQLWizard 
    BorderStyle     =   1  'Fixed Single
@@ -70,16 +71,16 @@ Begin VB.Form frmSQLWizard
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmSQLWizard.frx":0BFA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label1(2)"
-      Tab(2).Control(1)=   "Label2(4)"
-      Tab(2).Control(2)=   "cmdRemoveColumn"
-      Tab(2).Control(3)=   "cmdAddColumn"
-      Tab(2).Control(4)=   "lstIncColumns"
-      Tab(2).Control(5)=   "lstAllColumns"
-      Tab(2).Control(6)=   "cmdColumnUp"
-      Tab(2).Control(7)=   "cmdColumnDown"
-      Tab(2).Control(8)=   "cmdAddCustomColumn"
-      Tab(2).Control(9)=   "cboCustomColumn"
+      Tab(2).Control(0)=   "cboCustomColumn"
+      Tab(2).Control(1)=   "cmdAddCustomColumn"
+      Tab(2).Control(2)=   "cmdColumnDown"
+      Tab(2).Control(3)=   "cmdColumnUp"
+      Tab(2).Control(4)=   "lstAllColumns"
+      Tab(2).Control(5)=   "lstIncColumns"
+      Tab(2).Control(6)=   "cmdAddColumn"
+      Tab(2).Control(7)=   "cmdRemoveColumn"
+      Tab(2).Control(8)=   "Label2(4)"
+      Tab(2).Control(9)=   "Label1(2)"
       Tab(2).ControlCount=   10
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmSQLWizard.frx":0C16
@@ -249,24 +250,32 @@ Begin VB.Form frmSQLWizard
          Top             =   450
          Width           =   3390
       End
-      Begin VB.ComboBox cboJColumn2 
-         Height          =   315
+      Begin MSComctlLib.ImageCombo cboJColumn2 
+         Height          =   330
          Left            =   -74865
-         Style           =   2  'Dropdown List
          TabIndex        =   16
          ToolTipText     =   "Select the second column in the join."
          Top             =   3420
          Width           =   2715
+         _ExtentX        =   4789
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Locked          =   -1  'True
       End
-      Begin VB.ComboBox cboCustomColumn 
-         Height          =   315
-         ItemData        =   "frmSQLWizard.frx":0C6A
+      Begin MSComctlLib.ImageCombo cboCustomColumn 
+         Height          =   330
          Left            =   -74865
-         List            =   "frmSQLWizard.frx":0C7D
          TabIndex        =   22
          ToolTipText     =   "Select or Enter a custom column name."
          Top             =   3375
          Width           =   2760
+         _ExtentX        =   4868
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
       End
       Begin VB.TextBox txtOffset 
          BeginProperty DataFormat 
@@ -335,7 +344,7 @@ Begin VB.Form frmSQLWizard
       Begin VB.CommandButton cmdSortColUp 
          Height          =   540
          Left            =   -68610
-         Picture         =   "frmSQLWizard.frx":0CBF
+         Picture         =   "frmSQLWizard.frx":0C6A
          Style           =   1  'Graphical
          TabIndex        =   41
          ToolTipText     =   "Move the selected Column up the list"
@@ -345,7 +354,7 @@ Begin VB.Form frmSQLWizard
       Begin VB.CommandButton cmdSortColDown 
          Height          =   540
          Left            =   -68610
-         Picture         =   "frmSQLWizard.frx":1101
+         Picture         =   "frmSQLWizard.frx":10AC
          Style           =   1  'Graphical
          TabIndex        =   42
          ToolTipText     =   "Move the selected Column down the list"
@@ -361,21 +370,53 @@ Begin VB.Form frmSQLWizard
          Top             =   1575
          Width           =   915
       End
-      Begin VB.ListBox lstAllSortCols 
+      Begin MSComctlLib.ListView lstAllSortCols 
          Height          =   3180
          Left            =   -74865
          TabIndex        =   36
          ToolTipText     =   "Lists the available columns."
          Top             =   495
          Width           =   2535
+         _ExtentX        =   4471
+         _ExtentY        =   5609
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Appearance      =   1
+         NumItems        =   1
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Object.Width           =   35278
+         EndProperty
       End
-      Begin VB.ListBox lstIncSortCols 
+      Begin MSComctlLib.ListView lstIncSortCols 
          Height          =   3180
          Left            =   -71265
          TabIndex        =   40
          ToolTipText     =   "Lists the selected selected sort columns."
          Top             =   495
          Width           =   2535
+         _ExtentX        =   4471
+         _ExtentY        =   5609
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Appearance      =   1
+         NumItems        =   1
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Object.Width           =   35278
+         EndProperty
       End
       Begin VB.CommandButton cmdAddAsc 
          Caption         =   ">> (Asc)"
@@ -412,28 +453,34 @@ Begin VB.Form frmSQLWizard
          Top             =   2970
          Width           =   2760
       End
-      Begin VB.ComboBox cboBoolean 
-         Enabled         =   0   'False
-         Height          =   315
-         ItemData        =   "frmSQLWizard.frx":1543
+      Begin MSComctlLib.ImageCombo cboBoolean 
+         Height          =   330
          Left            =   -74865
-         List            =   "frmSQLWizard.frx":154D
-         Style           =   2  'Dropdown List
          TabIndex        =   29
          ToolTipText     =   "Select a boolean operator."
          Top             =   990
          Width           =   1005
+         _ExtentX        =   1773
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483633
+         Enabled         =   0   'False
+         Locked          =   -1  'True
       End
-      Begin VB.ComboBox cboOperator 
-         Height          =   315
-         ItemData        =   "frmSQLWizard.frx":155A
+      Begin MSComctlLib.ImageCombo cboOperator 
+         Height          =   330
          Left            =   -74865
-         List            =   "frmSQLWizard.frx":157C
-         Style           =   2  'Dropdown List
          TabIndex        =   31
          ToolTipText     =   "Select an Operator to use."
          Top             =   2340
          Width           =   1995
+         _ExtentX        =   3519
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Locked          =   -1  'True
       End
       Begin VB.CommandButton cmdRemoveCriteria 
          Caption         =   "<<"
@@ -453,29 +500,48 @@ Begin VB.Form frmSQLWizard
          Top             =   1305
          Width           =   420
       End
-      Begin VB.ListBox lstCriteria 
+      Begin MSComctlLib.ListView lstCriteria 
          Height          =   3375
          Left            =   -71490
          TabIndex        =   35
          ToolTipText     =   "Lists the query's selection criteria.."
          Top             =   270
          Width           =   3345
+         _ExtentX        =   5900
+         _ExtentY        =   5953
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Appearance      =   1
+         NumItems        =   1
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Object.Width           =   35278
+         EndProperty
       End
-      Begin VB.ComboBox cboWhereCols 
-         Height          =   315
-         ItemData        =   "frmSQLWizard.frx":15BB
+      Begin MSComctlLib.ImageCombo cboWhereCols 
+         Height          =   330
          Left            =   -74865
-         List            =   "frmSQLWizard.frx":15BD
-         Style           =   2  'Dropdown List
          TabIndex        =   30
          ToolTipText     =   "Select a column to include in the 'WHERE' clause."
          Top             =   1665
          Width           =   2760
+         _ExtentX        =   4868
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Locked          =   -1  'True
       End
       Begin VB.CommandButton cmdColumnDown 
          Height          =   540
          Left            =   -68610
-         Picture         =   "frmSQLWizard.frx":15BF
+         Picture         =   "frmSQLWizard.frx":14EE
          Style           =   1  'Graphical
          TabIndex        =   28
          ToolTipText     =   "Move the selected Column down the list"
@@ -485,28 +551,60 @@ Begin VB.Form frmSQLWizard
       Begin VB.CommandButton cmdColumnUp 
          Height          =   540
          Left            =   -68610
-         Picture         =   "frmSQLWizard.frx":1A01
+         Picture         =   "frmSQLWizard.frx":1930
          Style           =   1  'Graphical
          TabIndex        =   27
          ToolTipText     =   "Move the selected Column up the list"
          Top             =   495
          Width           =   435
       End
-      Begin VB.ListBox lstAllColumns 
+      Begin MSComctlLib.ListView lstAllColumns 
          Height          =   2595
          Left            =   -74865
          TabIndex        =   21
          ToolTipText     =   "Lists the columns available for inclusion in the query."
          Top             =   495
          Width           =   2760
+         _ExtentX        =   4868
+         _ExtentY        =   4577
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Appearance      =   1
+         NumItems        =   1
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Object.Width           =   35278
+         EndProperty
       End
-      Begin VB.ListBox lstIncColumns 
+      Begin MSComctlLib.ListView lstIncColumns 
          Height          =   3180
          Left            =   -71535
          TabIndex        =   26
          ToolTipText     =   "Lists the columns to be included in the query."
          Top             =   495
          Width           =   2805
+         _ExtentX        =   4948
+         _ExtentY        =   5609
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Appearance      =   1
+         NumItems        =   1
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Object.Width           =   35278
+         EndProperty
       End
       Begin VB.CommandButton cmdAddColumn 
          Caption         =   ">>"
@@ -526,22 +624,43 @@ Begin VB.Form frmSQLWizard
          Top             =   2070
          Width           =   420
       End
-      Begin VB.ComboBox cboJColumn1 
-         Height          =   315
+      Begin MSComctlLib.ImageCombo cboJColumn1 
+         Height          =   330
          Left            =   -74865
-         Style           =   2  'Dropdown List
          TabIndex        =   5
          ToolTipText     =   "Select the first column in the join."
          Top             =   675
          Width           =   2715
+         _ExtentX        =   4789
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Locked          =   -1  'True
       End
-      Begin VB.ListBox lstJoins 
+      Begin MSComctlLib.ListView lstJoins 
          Height          =   2985
          Left            =   -71535
          TabIndex        =   20
          ToolTipText     =   "Lists the selected joins."
          Top             =   765
          Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   5265
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Appearance      =   1
+         NumItems        =   1
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Object.Width           =   35279
+         EndProperty
       End
       Begin VB.CommandButton cmdAddJoin 
          Caption         =   ">>"
@@ -579,22 +698,54 @@ Begin VB.Form frmSQLWizard
          Top             =   1215
          Width           =   420
       End
-      Begin VB.ListBox lstIncTables 
+      Begin MSComctlLib.ListView lstIncTables 
          Height          =   3180
          Left            =   3780
          TabIndex        =   3
          ToolTipText     =   "Lists the selected tables."
          Top             =   495
          Width           =   3075
+         _ExtentX        =   5424
+         _ExtentY        =   5609
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Appearance      =   1
+         NumItems        =   1
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Object.Width           =   35279
+         EndProperty
       End
-      Begin VB.ListBox lstAllTables 
+      Begin MSComctlLib.ListView lstAllTables 
          Height          =   3180
          Left            =   135
-         Sorted          =   -1  'True
          TabIndex        =   0
          ToolTipText     =   "Lists the available tables."
          Top             =   495
          Width           =   3075
+         _ExtentX        =   5424
+         _ExtentY        =   5609
+         View            =   3
+         LabelEdit       =   1
+         Sorted          =   -1  'True
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483630
+         BackColor       =   -2147483643
+         Appearance      =   1
+         NumItems        =   1
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Object.Width           =   35279
+         EndProperty
       End
       Begin VB.Label Label2 
          Caption         =   "Column 2"
@@ -763,7 +914,7 @@ Begin VB.Form frmSQLWizard
       BorderStyle     =   0  'None
       Height          =   4335
       Left            =   0
-      Picture         =   "frmSQLWizard.frx":1E43
+      Picture         =   "frmSQLWizard.frx":1D72
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
@@ -792,15 +943,24 @@ Private Sub Get_Tables()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.Get_Tables()", etFullDebug
 
+Dim objNamespace As pgNamespace
 Dim objTable As pgTable
+Dim objItem As ListItem
 
   StartMsg "Getting Tables..."
-  lstAllTables.Clear
-  lstIncTables.Clear
+  lstAllTables.ListItems.Clear
+  lstIncTables.ListItems.Clear
   
-  For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-    If Not objTable.SystemObject Then lstAllTables.AddItem QUOTE & objTable.Name & QUOTE
-  Next objTable
+  For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+    If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+      For Each objTable In objNamespace.Tables
+        If Not objTable.SystemObject Then
+          Set objItem = lstAllTables.ListItems.Add(, , objTable.FormattedID)
+          Set objItem.Tag = objTable
+        End If
+      Next objTable
+    End If
+  Next objNamespace
 
   EndMsg
   
@@ -816,17 +976,24 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.Get_JoinCols()", e
 
 Dim X As Integer
 Dim objColumn As pgColumn
+Dim objItem As ComboItem
 
   StartMsg "Getting Columns..."
-  cboJColumn1.Clear
-  cboJColumn2.Clear
-  lstJoins.Clear
+  cboJColumn1.ComboItems.Clear
+  cboJColumn2.ComboItems.Clear
+  lstJoins.ListItems.Clear
   txtPrimaryTable.Text = ""
   
-  For X = 0 To lstIncTables.ListCount - 1
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-      If Not objColumn.SystemObject Then cboJColumn1.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
-      If Not objColumn.SystemObject Then cboJColumn2.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+  For X = 1 To lstIncTables.ListItems.Count
+    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(lstIncTables.ListItems(X).Tag.Namespace).Tables(lstIncTables.ListItems(X).Tag.Name).Columns
+      If Not objColumn.SystemObject Then
+        Set objItem = cboJColumn1.ComboItems.Add(, , lstIncTables.ListItems(X).Tag.FormattedID & "." & objColumn.FormattedID)
+        Set objItem.Tag = objColumn
+      End If
+      If Not objColumn.SystemObject Then
+        Set objItem = cboJColumn2.ComboItems.Add(, , lstIncTables.ListItems(X).Tag.FormattedID & "." & objColumn.FormattedID)
+        Set objItem.Tag = objColumn
+      End If
     Next objColumn
   Next X
   
@@ -848,42 +1015,61 @@ Dim Y As Integer
 Dim szTable As String
 Dim iStart As Integer
 Dim bFlag As Boolean
+Dim bInQuotes As Boolean
+Dim szTemp As String
+Dim szSchema As String
+Dim objItem As ComboItem
 
   StartMsg "Getting Columns..."
   
   'Clear down
-  cboJColumn1.Clear
-  cboJColumn2.Clear
+  cboJColumn1.ComboItems.Clear
+  cboJColumn2.ComboItems.Clear
   
+  'Split the table & schema name
+  szTable = txtPrimaryTable.Text
+  bInQuotes = False
+  For Y = 1 To Len(szTable)
+    szTemp = Mid(szTable, Y, 1)
+    If szTemp = QUOTE Then
+      bInQuotes = Not bInQuotes
+    ElseIf szTemp = "." And Not bInQuotes Then
+      szSchema = Mid(szTable, 1, Y - 1)
+      szTable = Mid(szTable, Y + 1)
+    End If
+  Next Y
+    
   'Add columns from the primary table to list1
-  szTable = Mid(txtPrimaryTable.Text, 2, Len(txtPrimaryTable.Text) - 2)
-  For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(szTable).Columns
-    cboJColumn1.AddItem QUOTE & szTable & QUOTE & "." & QUOTE & objColumn.Name & QUOTE
+  For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(szSchema).Tables(szTable).Columns
+    If Not objColumn.SystemObject Then
+      Set objItem = cboJColumn1.ComboItems.Add(, , txtPrimaryTable.Text & "." & objColumn.FormattedID)
+      Set objItem.Tag = objColumn
+    End If
   Next objColumn
   
   'Add columns from other tables to list1
-  For X = 0 To lstJoins.ListCount - 1
-    iStart = InStr(1, lstJoins.List(X), "JOIN " & QUOTE) + 6
-    szTable = Mid(lstJoins.List(X), iStart, InStr(iStart + 1, lstJoins.List(X), QUOTE) - iStart)
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(szTable).Columns
-      If Not objColumn.SystemObject Then cboJColumn1.AddItem QUOTE & szTable & QUOTE & "." & QUOTE & objColumn.Name & QUOTE
+  For X = 1 To lstJoins.ListItems.Count
+    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(lstJoins.ListItems(X).Tag.Namespace).Tables(lstJoins.ListItems(X).Tag.Table).Columns
+      If Not objColumn.SystemObject Then
+        If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+          Set objItem = cboJColumn1.ComboItems.Add(, , fmtID(lstJoins.ListItems(X).Tag.Namespace) & "." & fmtID(lstJoins.ListItems(X).Tag.Table) & "." & objColumn.FormattedID)
+        Else
+          Set objItem = cboJColumn1.ComboItems.Add(, , fmtID(lstJoins.ListItems(X).Tag.Table) & "." & objColumn.FormattedID)
+        End If
+        Set objItem.Tag = objColumn
+      End If
     Next objColumn
   Next
   
-  'Now we need to add columns to list2 that aren't in list1
-  For X = 0 To lstIncTables.ListCount - 1
-    bFlag = False
-    For Y = 0 To cboJColumn1.ListCount - 1
-      If Mid(cboJColumn1.List(Y), 1, InStr(2, cboJColumn1.List(Y), QUOTE & "." & QUOTE)) = lstIncTables.List(X) Then
-        bFlag = True
-        Exit For
+  'Add all columns to list2. Previously we only added those that weren't in list1
+  'but that prevented multiple links.
+  For X = 1 To lstIncTables.ListItems.Count
+    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(lstIncTables.ListItems(X).Tag.Namespace).Tables(lstIncTables.ListItems(X).Tag.Name).Columns
+      If Not objColumn.SystemObject Then
+        Set objItem = cboJColumn2.ComboItems.Add(, , lstIncTables.ListItems(X).Tag.FormattedID & "." & objColumn.FormattedID)
+        Set objItem.Tag = objColumn
       End If
-    Next Y
-    If bFlag = False Then
-      For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-        If Not objColumn.SystemObject Then cboJColumn2.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
-      Next objColumn
-    End If
+    Next objColumn
   Next X
   
   EndMsg
@@ -899,16 +1085,46 @@ Private Sub Get_Columns()
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.Get_Columns()", etFullDebug
 
 Dim X As Integer
+Dim Y As Integer
 Dim objColumn As pgColumn
+Dim bInQuotes As Boolean
+Dim szTemp As String
+Dim szTable As String
+Dim szSchema As String
+Dim objItem As ListItem
 
   StartMsg "Getting Columns..."
-  lstAllColumns.Clear
-  lstIncColumns.Clear
-  For X = 0 To lstIncTables.ListCount - 1
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-      If Not objColumn.SystemObject Then lstAllColumns.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+  lstAllColumns.ListItems.Clear
+  lstIncColumns.ListItems.Clear
+  For X = 1 To lstIncTables.ListItems.Count
+  
+    'Split the table & schema name
+    szTable = lstIncTables.ListItems(X).Text
+    bInQuotes = False
+    For Y = 1 To Len(szTable)
+      szTemp = Mid(szTable, Y, 1)
+      If szTemp = QUOTE Then
+        bInQuotes = Not bInQuotes
+      ElseIf szTemp = "." And Not bInQuotes Then
+        szSchema = Mid(szTable, 1, Y - 1)
+        szTable = Mid(szTable, Y + 1)
+      End If
+    Next Y
+  
+    'Add the columns
+    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(szSchema).Tables(szTable).Columns
+      If Not objColumn.SystemObject Then
+        Set objItem = lstAllColumns.ListItems.Add(, , lstIncTables.ListItems(X).Tag.FormattedID & "." & objColumn.FormattedID)
+        Set objItem.Tag = lstIncTables.ListItems(X).Tag
+      End If
     Next objColumn
   Next X
+  
+  'Load some default functions 'n' tings
+  cboCustomColumn.ComboItems.Add , , "count(*)"
+  cboCustomColumn.ComboItems.Add , , "version()"
+  cboCustomColumn.ComboItems.Add , , "current_timestamp"
+  cboCustomColumn.ComboItems.Add , , "current_user"
   
   EndMsg
   
@@ -926,14 +1142,30 @@ Dim X As Integer
 Dim objColumn As pgColumn
 
   StartMsg "Getting Columns..."
-  cboWhereCols.Clear
-  lstCriteria.Clear
+  cboWhereCols.ComboItems.Clear
+  lstCriteria.ListItems.Clear
+  cboOperator.ComboItems.Clear
+  cboBoolean.ComboItems.Clear
   
-  For X = 0 To lstIncTables.ListCount - 1
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-      If Not objColumn.SystemObject Then cboWhereCols.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+  For X = 1 To lstIncTables.ListItems.Count
+    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(lstIncTables.ListItems(X).Tag.Namespace).Tables(lstIncTables.ListItems(X).Tag.Name).Columns
+      If Not objColumn.SystemObject Then cboWhereCols.ComboItems.Add , , lstIncTables.ListItems(X).Tag.FormattedID & "." & objColumn.FormattedID
     Next objColumn
   Next X
+  
+  'Add some operators etc.
+  cboOperator.ComboItems.Add , , "="
+  cboOperator.ComboItems.Add , , "!="
+  cboOperator.ComboItems.Add , , ">"
+  cboOperator.ComboItems.Add , , ">="
+  cboOperator.ComboItems.Add , , "<"
+  cboOperator.ComboItems.Add , , "<="
+  cboOperator.ComboItems.Add , , "LIKE"
+  cboOperator.ComboItems.Add , , "NOT LIKE"
+  cboOperator.ComboItems.Add , , "IS NULL"
+  cboOperator.ComboItems.Add , , "IS NOT NULL"
+  cboBoolean.ComboItems.Add , , "AND"
+  cboBoolean.ComboItems.Add , , "OR"
 
   EndMsg
   
@@ -951,12 +1183,12 @@ Dim X As Integer
 Dim objColumn As pgColumn
 
   StartMsg "Getting Columns..."
-  lstAllSortCols.Clear
-  lstIncSortCols.Clear
+  lstAllSortCols.ListItems.Clear
+  lstIncSortCols.ListItems.Clear
   
-  For X = 0 To lstIncTables.ListCount - 1
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-      If Not objColumn.SystemObject Then lstAllSortCols.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+  For X = 1 To lstIncTables.ListItems.Count
+    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(lstIncTables.ListItems(X).Tag.Namespace).Tables(lstIncTables.ListItems(X).Tag.Name).Columns
+      If Not objColumn.SystemObject Then lstAllSortCols.ListItems.Add , , lstIncTables.ListItems(X).Tag.FormattedID & "." & objColumn.FormattedID
     Next objColumn
   Next X
   
@@ -1040,19 +1272,22 @@ Private Sub cmdAddAsc_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddAsc_Click()", etFullDebug
 
-Dim iItem As Integer
-
-  If lstAllSortCols.Text = "" Then
+  If lstAllSortCols.SelectedItem Is Nothing Then
     MsgBox "You must select a column to add!", vbExclamation, "Error"
     Exit Sub
   End If
-  lstIncSortCols.AddItem lstAllSortCols.Text & " ASC"
-  iItem = lstAllSortCols.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  lstAllSortCols.RemoveItem lstAllSortCols.ListIndex
-  If lstAllSortCols.ListCount > 0 Then lstAllSortCols.Selected(iItem) = True
-  lstAllSortCols.ToolTipText = lstAllSortCols.Text
-  lstIncSortCols.ToolTipText = lstIncSortCols.Text
+  lstIncSortCols.ListItems.Add , , lstAllSortCols.SelectedItem.Text & " ASC"
+  lstAllSortCols.ListItems.Remove lstAllSortCols.SelectedItem.Index
+  If lstAllSortCols.SelectedItem Is Nothing Then
+    lstAllSortCols.ToolTipText = ""
+  Else
+    lstAllSortCols.ToolTipText = lstAllSortCols.SelectedItem.Text
+  End If
+  If lstIncSortCols.SelectedItem Is Nothing Then
+    lstIncSortCols.ToolTipText = ""
+  Else
+    lstIncSortCols.ToolTipText = lstIncSortCols.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddAsc_Click"
@@ -1062,19 +1297,22 @@ Private Sub cmdAddDesc_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddDesc_Click()", etFullDebug
 
-Dim iItem As Integer
-
-  If lstAllSortCols.Text = "" Then
+  If lstAllSortCols.SelectedItem Is Nothing Then
     MsgBox "You must select a column to add!", vbExclamation, "Error"
     Exit Sub
   End If
-  lstIncSortCols.AddItem lstAllSortCols.Text & " DESC"
-  iItem = lstAllSortCols.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  lstAllSortCols.RemoveItem lstAllSortCols.ListIndex
-  If lstAllSortCols.ListCount > 0 Then lstAllSortCols.Selected(iItem) = True
-  lstAllSortCols.ToolTipText = lstAllSortCols.Text
-  lstIncSortCols.ToolTipText = lstIncSortCols.Text
+  lstIncSortCols.ListItems.Add , , lstAllSortCols.SelectedItem.Text & " DESC"
+  lstAllSortCols.ListItems.Remove lstAllSortCols.SelectedItem.Index
+  If lstAllSortCols.SelectedItem Is Nothing Then
+    lstAllSortCols.ToolTipText = ""
+  Else
+    lstAllSortCols.ToolTipText = lstAllSortCols.SelectedItem.Text
+  End If
+  If lstIncSortCols.SelectedItem Is Nothing Then
+    lstIncSortCols.ToolTipText = ""
+  Else
+    lstIncSortCols.ToolTipText = lstIncSortCols.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddDesc_Click"
@@ -1084,19 +1322,22 @@ Private Sub cmdAddColumn_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddColumn_Click()", etFullDebug
 
-Dim iItem As Integer
-
-  If lstAllColumns.Text = "" Then
+  If lstAllColumns.SelectedItem Is Nothing Then
     MsgBox "You must select a column to add!", vbExclamation, "Error"
     Exit Sub
   End If
-  lstIncColumns.AddItem lstAllColumns.Text
-  iItem = lstAllColumns.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  lstAllColumns.RemoveItem lstAllColumns.ListIndex
-  If lstAllColumns.ListCount > 0 Then lstAllColumns.Selected(iItem) = True
-  lstAllColumns.ToolTipText = lstAllColumns.Text
-  lstIncColumns.ToolTipText = lstIncColumns.Text
+  lstIncColumns.ListItems.Add , , lstAllColumns.SelectedItem.Text
+  lstAllColumns.ListItems.Remove lstAllColumns.SelectedItem.Index
+  If Not (lstAllColumns.SelectedItem Is Nothing) Then
+    lstAllColumns.ToolTipText = lstAllColumns.SelectedItem.Text
+  Else
+    lstAllColumns.ToolTipText = ""
+  End If
+  If Not (lstIncColumns.SelectedItem Is Nothing) Then
+    lstIncColumns.ToolTipText = lstIncColumns.SelectedItem.Text
+  Else
+    lstIncColumns.ToolTipText = ""
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddColumn_Click"
@@ -1106,15 +1347,15 @@ Private Sub cmdAddCriteria_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddCriteria_Click()", etFullDebug
 
-  If cboBoolean.Enabled = True And cboBoolean.Text = "" Then
+  If cboBoolean.Enabled = True And cboBoolean.SelectedItem Is Nothing Then
     MsgBox "You must select a boolean operator!", vbExclamation, "Error"
     Exit Sub
   End If
-  If cboWhereCols.Text = "" Then
+  If cboWhereCols.SelectedItem Is Nothing Then
     MsgBox "You must select a column!", vbExclamation, "Error"
     Exit Sub
   End If
-  If cboOperator.Text = "" Then
+  If cboOperator.SelectedItem Is Nothing Then
     MsgBox "You must select an operator!", vbExclamation, "Error"
     Exit Sub
   End If
@@ -1123,29 +1364,26 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddCriteria_Cli
     Exit Sub
   End If
   If cboBoolean.Enabled = False Then
-    If cboOperator.Text = "LIKE" Then
-      lstCriteria.AddItem cboWhereCols.Text & " ~~ " & txtValue.Text
-    ElseIf cboOperator.Text = "NOT LIKE" Then
-      lstCriteria.AddItem cboWhereCols.Text & " !~~ " & txtValue.Text
-    ElseIf cboOperator.Text = "IS NULL" Or cboOperator = "IS NOT NULL" Then
-      lstCriteria.AddItem cboWhereCols.Text & " " & cboOperator.Text
+    If cboOperator.Text = "IS NULL" Or cboOperator.Text = "IS NOT NULL" Then
+      lstCriteria.ListItems.Add , , cboWhereCols.Text & " " & cboOperator.Text
     Else
-      lstCriteria.AddItem cboWhereCols.Text & " " & cboOperator.Text & " " & txtValue.Text
+      lstCriteria.ListItems.Add , , cboWhereCols.Text & " " & cboOperator.Text & " " & txtValue.Text
     End If
   Else
-    If cboOperator.Text = "LIKE" Then
-      lstCriteria.AddItem cboBoolean.Text & " " & cboWhereCols.Text & " ~~ " & txtValue.Text
-    ElseIf cboOperator.Text = "NOT LIKE" Then
-      lstCriteria.AddItem cboBoolean.Text & " " & cboWhereCols.Text & " !~~ " & txtValue.Text
-    ElseIf cboOperator.Text = "IS NULL" Or cboOperator = "IS NOT NULL" Then
-      lstCriteria.AddItem cboBoolean.Text & " " & cboWhereCols.Text & " " & cboOperator.Text
+    If cboOperator.Text = "IS NULL" Or cboOperator.Text = "IS NOT NULL" Then
+      lstCriteria.ListItems.Add , , cboBoolean.Text & " " & cboWhereCols.Text & " " & cboOperator.Text
     Else
-      lstCriteria.AddItem cboBoolean.Text & " " & cboWhereCols.Text & " " & cboOperator.Text & " " & txtValue.Text
+      lstCriteria.ListItems.Add , , cboBoolean.Text & " " & cboWhereCols.Text & " " & cboOperator.Text & " " & txtValue.Text
     End If
   End If
   lblBoolean.Enabled = True
   cboBoolean.Enabled = True
-  lstCriteria.ToolTipText = lstCriteria.Text
+  cboBoolean.BackColor = &H80000005
+  If lstCriteria.SelectedItem Is Nothing Then
+    lstCriteria.ToolTipText = ""
+  Else
+    lstCriteria.ToolTipText = lstCriteria.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddCriteria_Click"
@@ -1156,9 +1394,17 @@ Private Sub cmdAddCustomColumn_Click()
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddCustomColumn_Click()", etFullDebug
 
   If cboCustomColumn.Text = "" Then Exit Sub
-  lstIncColumns.AddItem cboCustomColumn.Text
-  lstAllColumns.ToolTipText = lstAllColumns.Text
-  lstIncColumns.ToolTipText = lstIncColumns.Text
+  lstIncColumns.ListItems.Add , , cboCustomColumn.Text
+  If Not (lstAllColumns.SelectedItem Is Nothing) Then
+    lstAllColumns.ToolTipText = lstAllColumns.SelectedItem.Text
+  Else
+    lstAllColumns.ToolTipText = ""
+  End If
+  If Not (lstIncColumns.SelectedItem Is Nothing) Then
+    lstIncColumns.ToolTipText = lstIncColumns.SelectedItem.Text
+  Else
+    lstIncColumns.ToolTipText = ""
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddColumn_Click"
@@ -1172,6 +1418,7 @@ Dim szTable1 As String
 Dim szTable2 As String
 Dim szOperator As String
 Dim szType As String
+Dim objItem As ListItem
   
   'Error Checks
   If cboJColumn1.Text = "" Then
@@ -1188,9 +1435,14 @@ Dim szType As String
   End If
   
   'Get the table names
-  szTable1 = Mid(cboJColumn1.Text, 1, InStr(1, cboJColumn1.Text, QUOTE & "." & QUOTE))
-  szTable2 = Mid(cboJColumn2.Text, 1, InStr(1, cboJColumn2.Text, QUOTE & "." & QUOTE))
-  
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    szTable1 = fmtID(cboJColumn1.SelectedItem.Tag.Namespace) & "." & fmtID(cboJColumn1.SelectedItem.Tag.Table)
+    szTable2 = fmtID(cboJColumn2.SelectedItem.Tag.Namespace) & "." & fmtID(cboJColumn2.SelectedItem.Tag.Table)
+  Else
+    szTable1 = fmtID(cboJColumn1.SelectedItem.Tag.Table)
+    szTable2 = fmtID(cboJColumn2.SelectedItem.Tag.Table)
+  End If
+
   'If this is the first join then set the primary table.
   If txtPrimaryTable.Text = "" Then txtPrimaryTable.Text = szTable1
   
@@ -1221,8 +1473,9 @@ Dim szType As String
   End If
   
   'Add the Join and reset for next.
-  lstJoins.AddItem szType & " JOIN " & szTable2 & " ON " & cboJColumn1.Text & " " & szOperator & " " & cboJColumn2.Text
-  lstJoins.ToolTipText = lstJoins.Text
+  Set objItem = lstJoins.ListItems.Add(, , szType & " JOIN " & szTable2 & " ON " & cboJColumn1.Text & " " & szOperator & " " & cboJColumn2.Text)
+  Set objItem.Tag = cboJColumn2.SelectedItem.Tag
+  lstJoins.ToolTipText = lstJoins.SelectedItem.Text
   Get_ValidJoinCols
   
   Exit Sub
@@ -1234,18 +1487,25 @@ Private Sub cmdAddTable_Click()
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddTable_Click()", etFullDebug
 
 Dim iItem As Integer
+Dim objItem As ListItem
 
-  If lstAllTables.Text = "" Then
+  If lstAllTables.SelectedItem Is Nothing Then
     MsgBox "You must select a table to add!", vbExclamation, "Error"
     Exit Sub
   End If
-  lstIncTables.AddItem lstAllTables.Text
-  iItem = lstAllTables.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  lstAllTables.RemoveItem lstAllTables.ListIndex
-  If lstAllTables.ListCount > 0 Then lstAllTables.Selected(iItem) = True
-  lstAllTables.ToolTipText = lstAllTables.Text
-  lstIncTables.ToolTipText = lstIncTables.Text
+  Set objItem = lstIncTables.ListItems.Add(, , lstAllTables.SelectedItem.Text)
+  Set objItem.Tag = lstAllTables.SelectedItem.Tag
+  lstAllTables.ListItems.Remove lstAllTables.SelectedItem.Index
+  If Not (lstAllTables.SelectedItem Is Nothing) Then
+    lstAllTables.ToolTipText = lstAllTables.SelectedItem.Text
+  Else
+    lstAllTables.ToolTipText = ""
+  End If
+  If Not (lstIncTables.SelectedItem Is Nothing) Then
+    lstIncTables.ToolTipText = lstIncTables.SelectedItem.Text
+  Else
+    lstIncTables.ToolTipText = ""
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddTable_Click"
@@ -1257,18 +1517,18 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdColumnDown_Clic
 
 Dim szTemp As String
 
-  If lstIncColumns.ListIndex = -1 Then
+  If lstIncColumns.SelectedItem Is Nothing Then
     MsgBox "You must select a column to move!", vbExclamation, "Error"
     Exit Sub
   End If
-  If lstIncColumns.ListIndex = lstIncColumns.ListCount - 1 Then
+  If lstIncColumns.SelectedItem.Index = lstIncColumns.ListItems.Count Then
     MsgBox "This column is already at the bottom!", vbExclamation, "Error"
     Exit Sub
   End If
-  szTemp = lstIncColumns.List(lstIncColumns.ListIndex + 1)
-  lstIncColumns.List(lstIncColumns.ListIndex + 1) = lstIncColumns.List(lstIncColumns.ListIndex)
-  lstIncColumns.List(lstIncColumns.ListIndex) = szTemp
-  lstIncColumns.ListIndex = lstIncColumns.ListIndex + 1
+  szTemp = lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index + 1).Text
+  lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index + 1).Text = lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index).Text
+  lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index).Text = szTemp
+  lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index + 1).Selected = True
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdColumnDown_Click"
@@ -1280,18 +1540,18 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdColumnUp_Click(
 
 Dim szTemp As String
 
-  If lstIncColumns.ListIndex = -1 Then
+  If lstIncColumns.SelectedItem Is Nothing Then
     MsgBox "You must select a column to move!", vbExclamation, "Error"
     Exit Sub
   End If
-  If lstIncColumns.ListIndex = 0 Then
+  If lstIncColumns.SelectedItem.Index = 1 Then
     MsgBox "This column is already at the top!", vbExclamation, "Error"
     Exit Sub
   End If
-  szTemp = lstIncColumns.List(lstIncColumns.ListIndex - 1)
-  lstIncColumns.List(lstIncColumns.ListIndex - 1) = lstIncColumns.List(lstIncColumns.ListIndex)
-  lstIncColumns.List(lstIncColumns.ListIndex) = szTemp
-  lstIncColumns.ListIndex = lstIncColumns.ListIndex - 1
+  szTemp = lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index - 1).Text
+  lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index - 1).Text = lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index).Text
+  lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index).Text = szTemp
+  lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index - 1).Selected = True
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdColumnUp_Click"
@@ -1311,21 +1571,21 @@ Dim szOrderBy As String
 Dim X As Integer
 
   'Column
-  For X = 0 To lstIncColumns.ListCount - 1
-    szColumns = szColumns & "  " & lstIncColumns.List(X) & ", " & vbCrLf
+  For X = 1 To lstIncColumns.ListItems.Count
+    szColumns = szColumns & "  " & lstIncColumns.ListItems(X).Text & ", " & vbCrLf
   Next
   If Len(szColumns) > 4 Then szColumns = Mid(szColumns, 1, Len(szColumns) - 4)
   
   'Joins
-  If lstJoins.ListCount >= 1 Then szJoins = "  " & txtPrimaryTable.Text & vbCrLf
-  For X = 0 To lstJoins.ListCount - 1
-    szJoins = szJoins & "  " & lstJoins.List(X) & vbCrLf
+  If lstJoins.ListItems.Count >= 1 Then szJoins = "  " & txtPrimaryTable.Text & vbCrLf
+  For X = 1 To lstJoins.ListItems.Count
+    szJoins = szJoins & "  " & lstJoins.ListItems(X).Text & vbCrLf
   Next
   
   'Only add tables that aren't in any joins
-  For X = 0 To lstIncTables.ListCount - 1
-    If InStr(1, szJoins, lstIncTables.List(X)) = 0 Then
-      szTables = szTables & "  " & lstIncTables.List(X) & ", " & vbCrLf
+  For X = 1 To lstIncTables.ListItems.Count
+    If InStr(1, szJoins, lstIncTables.ListItems(X).Text) = 0 Then
+      szTables = szTables & "  " & lstIncTables.ListItems(X).Text & ", " & vbCrLf
     End If
   Next
   If Len(szJoins) > 7 Then szJoins = Mid(szJoins, 1, Len(szJoins) - 1)
@@ -1337,13 +1597,13 @@ Dim X As Integer
   If Len(szFrom) > 4 Then szFrom = Mid(szFrom, 1, Len(szFrom) - 4)
   
   'Criteria
-  For X = 0 To lstCriteria.ListCount - 1
-    szCriteria = szCriteria & "  " & lstCriteria.List(X) & " " & vbCrLf
+  For X = 1 To lstCriteria.ListItems.Count
+    szCriteria = szCriteria & "  " & lstCriteria.ListItems(X).Text & " " & vbCrLf
   Next
   
   'Sorting
-  For X = 0 To lstIncSortCols.ListCount - 1
-    szOrderBy = szOrderBy & "  " & lstIncSortCols.List(X) & ", " & vbCrLf
+  For X = 1 To lstIncSortCols.ListItems.Count
+    szOrderBy = szOrderBy & "  " & lstIncSortCols.ListItems(X).Text & ", " & vbCrLf
   Next
   If Len(szOrderBy) > 4 Then szOrderBy = Mid(szOrderBy, 1, Len(szOrderBy) - 4)
   
@@ -1384,17 +1644,22 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveColumn_Cl
 
 Dim iItem As Integer
 
-  If lstIncColumns.Text = "" Then
+  If lstIncColumns.SelectedItem Is Nothing Then
     MsgBox "You must select a column to remove!", vbExclamation, "Error"
     Exit Sub
   End If
-  lstAllColumns.AddItem lstIncColumns.Text
-  iItem = lstIncColumns.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  lstIncColumns.RemoveItem lstIncColumns.ListIndex
-  If lstIncColumns.ListCount > 0 Then lstIncColumns.Selected(iItem) = True
-  lstAllColumns.ToolTipText = lstAllColumns.Text
-  lstIncColumns.ToolTipText = lstIncColumns.Text
+  lstAllColumns.ListItems.Add , , lstIncColumns.SelectedItem.Text
+  lstIncColumns.ListItems.Remove lstIncColumns.SelectedItem.Index
+  If Not (lstAllColumns.SelectedItem Is Nothing) Then
+    lstAllColumns.ToolTipText = lstAllColumns.SelectedItem.Text
+  Else
+    lstAllColumns.ToolTipText = ""
+  End If
+  If Not (lstIncColumns.SelectedItem Is Nothing) Then
+    lstIncColumns.ToolTipText = lstIncColumns.SelectedItem.Text
+  Else
+    lstIncColumns.ToolTipText = ""
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveColumn_Click"
@@ -1404,25 +1669,25 @@ Private Sub cmdRemoveCriteria_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveCriteria_Click()", etFullDebug
 
-Dim iItem As Integer
-
-  If lstCriteria.Text = "" Then
+  If lstCriteria.SelectedItem Is Nothing Then
     MsgBox "You must select a join to remove!", vbExclamation, "Error"
     Exit Sub
   End If
-  If lstCriteria.ListCount > 1 And lstCriteria.ListIndex = 0 Then
+  If lstCriteria.ListItems.Count > 1 And lstCriteria.SelectedItem.Index = 1 Then
     MsgBox "You must remove all other criteria before you can remove the first!", vbExclamation, "Error"
     Exit Sub
   End If
-  If lstCriteria.ListCount = 1 And lstCriteria.ListIndex = 0 Then
+  If lstCriteria.ListItems.Count = 1 And lstCriteria.SelectedItem.Index = 1 Then
     cboBoolean.Enabled = False
     lblBoolean.Enabled = False
+    cboBoolean.BackColor = &H8000000F
   End If
-  iItem = lstCriteria.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  lstCriteria.RemoveItem lstCriteria.ListIndex
-  If lstCriteria.ListCount > 0 Then lstCriteria.Selected(iItem) = True
-  lstCriteria.ToolTipText = lstCriteria.Text
+  lstCriteria.ListItems.Remove lstCriteria.SelectedItem.Index
+  If lstCriteria.SelectedItem Is Nothing Then
+    lstCriteria.ToolTipText = ""
+  Else
+    lstCriteria.ToolTipText = lstCriteria.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveCriteria_Click"
@@ -1432,24 +1697,23 @@ Private Sub cmdRemoveJoin_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveJoin_Click()", etFullDebug
 
-Dim iItem As Integer
-
-  If lstJoins.Text = "" Then
+  If lstJoins.SelectedItem Is Nothing Then
     MsgBox "You must select a join to remove!", vbExclamation, "Error"
     Exit Sub
   End If
-  iItem = lstJoins.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  lstJoins.RemoveItem lstJoins.ListIndex
+  lstJoins.ListItems.Remove lstJoins.SelectedItem.Index
   'Set the selected item if there is one, else clear the primary table
-  If lstJoins.ListCount > 0 Then
-    lstJoins.Selected(iItem) = True
+  If lstJoins.ListItems.Count > 0 Then
     Get_ValidJoinCols
   Else
     txtPrimaryTable.Text = ""
     Get_JoinCols
   End If
-  lstJoins.ToolTipText = lstJoins.Text
+  If lstJoins.SelectedItem Is Nothing Then
+    lstJoins.ToolTipText = ""
+  Else
+    lstJoins.ToolTipText = lstJoins.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveJoin_Click"
@@ -1460,18 +1724,25 @@ Private Sub cmdRemoveTable_Click()
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveTable_Click()", etFullDebug
 
 Dim iItem As Integer
+Dim objItem As ListItem
 
-  If lstIncTables.Text = "" Then
+  If lstIncTables.SelectedItem Is Nothing Then
     MsgBox "You must select a table to remove!", vbExclamation, "Error"
     Exit Sub
   End If
-  lstAllTables.AddItem lstIncTables.Text
-  iItem = lstIncTables.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  lstIncTables.RemoveItem lstIncTables.ListIndex
-  If lstIncTables.ListCount > 0 Then lstIncTables.Selected(iItem) = True
-  lstAllTables.ToolTipText = lstAllTables.Text
-  lstIncTables.ToolTipText = lstIncTables.Text
+  Set objItem = lstAllTables.ListItems.Add(, , lstIncTables.SelectedItem.Text)
+  Set objItem.Tag = lstIncTables.SelectedItem.Tag
+  lstIncTables.ListItems.Remove lstIncTables.SelectedItem.Index
+  If lstAllTables.SelectedItem Is Nothing Then
+    lstAllTables.ToolTipText = ""
+  Else
+    lstAllTables.ToolTipText = lstAllTables.SelectedItem.Text
+  End If
+  If lstIncTables.SelectedItem Is Nothing Then
+    lstIncTables.ToolTipText = ""
+  Else
+    lstIncTables.ToolTipText = lstIncTables.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveTable_Click"
@@ -1484,8 +1755,8 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdNext_Click()", 
   bButtonPress = True
   Select Case tabWizard.Tab
     Case 0
-      If lstIncTables.ListCount = 0 Then Exit Sub
-      If lstIncTables.ListCount = 1 Then
+      If lstIncTables.ListItems.Count = 0 Then Exit Sub
+      If lstIncTables.ListItems.Count = 1 Then
         tabWizard.Tab = 2
         Get_Columns
       Else
@@ -1500,7 +1771,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdNext_Click()", 
       cmdNext.Enabled = True
       cmdPrevious.Enabled = True
     Case 2
-      If lstIncColumns.ListCount = 0 Then Exit Sub
+      If lstIncColumns.ListItems.Count = 0 Then Exit Sub
       tabWizard.Tab = 3
       Get_WhereCols
       cmdNext.Enabled = True
@@ -1545,7 +1816,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdPrevious_Click(
       cmdNext.Enabled = True
       cmdPrevious.Enabled = True
     Case 2
-      If lstIncTables.ListCount = 1 Then
+      If lstIncTables.ListItems.Count = 1 Then
         tabWizard.Tab = 0
       Else
         tabWizard.Tab = 1
@@ -1566,23 +1837,26 @@ Private Sub cmdRemoveSortCol_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveSortCol_Click()", etFullDebug
 
-Dim iItem As Integer
-
-  If lstIncSortCols.Text = "" Then
+  If lstIncSortCols.SelectedItem Is Nothing Then
     MsgBox "You must select column to remove!", vbExclamation, "Error"
     Exit Sub
   End If
-  iItem = lstIncSortCols.ListIndex - 1
-  If iItem < 0 Then iItem = 0
-  If Mid(lstIncSortCols.Text, Len(lstIncSortCols.Text) - 3, 4) = "DESC" Then
-    lstAllSortCols.AddItem Mid(lstIncSortCols.Text, 1, Len(lstIncSortCols.Text) - 5)
+  If Mid(lstIncSortCols.SelectedItem.Text, Len(lstIncSortCols.SelectedItem.Text) - 3, 4) = "DESC" Then
+    lstAllSortCols.ListItems.Add , , Mid(lstIncSortCols.SelectedItem.Text, 1, Len(lstIncSortCols.SelectedItem.Text) - 5)
   Else
-    lstAllSortCols.AddItem Mid(lstIncSortCols.Text, 1, Len(lstIncSortCols.Text) - 4)
+    lstAllSortCols.ListItems.Add , , Mid(lstIncSortCols.SelectedItem.Text, 1, Len(lstIncSortCols.SelectedItem.Text) - 4)
   End If
-  lstIncSortCols.RemoveItem lstIncSortCols.ListIndex
-  If lstIncSortCols.ListCount > 0 Then lstIncSortCols.Selected(iItem) = True
-  lstAllSortCols.ToolTipText = lstAllSortCols.Text
-  lstIncSortCols.ToolTipText = lstIncSortCols.Text
+  lstIncSortCols.ListItems.Remove lstIncSortCols.SelectedItem.Index
+  If lstAllSortCols.SelectedItem Is Nothing Then
+    lstAllSortCols.ToolTipText = ""
+  Else
+    lstAllSortCols.ToolTipText = lstAllSortCols.SelectedItem.Text
+  End If
+  If lstIncSortCols.SelectedItem Is Nothing Then
+    lstIncSortCols.ToolTipText = ""
+  Else
+    lstIncSortCols.ToolTipText = lstIncSortCols.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveSortCol_Click"
@@ -1592,20 +1866,20 @@ Private Sub cmdSortColDown_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdSortColDown_Click()", etFullDebug
 
-Dim Temp As String
+Dim szTemp As String
 
-  If lstIncSortCols.ListIndex = -1 Then
+  If lstIncSortCols.SelectedItem Is Nothing Then
     MsgBox "You must select a column to move!", vbExclamation, "Error"
     Exit Sub
   End If
-  If lstIncSortCols.ListIndex = lstIncSortCols.ListCount - 1 Then
+  If lstIncSortCols.SelectedItem.Index = lstIncSortCols.ListItems.Count Then
     MsgBox "This column is already at the bottom!", vbExclamation, "Error"
     Exit Sub
   End If
-  Temp = lstIncSortCols.List(lstIncSortCols.ListIndex + 1)
-  lstIncSortCols.List(lstIncSortCols.ListIndex + 1) = lstIncSortCols.List(lstIncSortCols.ListIndex)
-  lstIncSortCols.List(lstIncSortCols.ListIndex) = Temp
-  lstIncSortCols.ListIndex = lstIncSortCols.ListIndex + 1
+  szTemp = lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index + 1).Text
+  lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index + 1).Text = lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index).Text
+  lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index).Text = szTemp
+  lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index + 1).Selected = True
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdSortColDown_Click"
@@ -1615,20 +1889,20 @@ Private Sub cmdSortColUp_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdSortColUp_Click()", etFullDebug
 
-Dim Temp As String
+Dim szTemp As String
 
-  If lstIncSortCols.ListIndex = -1 Then
+  If lstIncSortCols.SelectedItem Is Nothing Then
     MsgBox "You must select a column to move!", vbExclamation, "Error"
     Exit Sub
   End If
-  If lstIncSortCols.ListIndex = 0 Then
+  If lstIncSortCols.SelectedItem.Index = 1 Then
     MsgBox "This column is already at the top!", vbExclamation, "Error"
     Exit Sub
   End If
-  Temp = lstIncSortCols.List(lstIncSortCols.ListIndex - 1)
-  lstIncSortCols.List(lstIncSortCols.ListIndex - 1) = lstIncSortCols.List(lstIncSortCols.ListIndex)
-  lstIncSortCols.List(lstIncSortCols.ListIndex) = Temp
-  lstIncSortCols.ListIndex = lstIncSortCols.ListIndex - 1
+  szTemp = lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index - 1).Text
+  lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index - 1).Text = lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index).Text
+  lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index).Text = szTemp
+  lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index - 1).Selected = True
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdSortColUp_Click"
@@ -1666,7 +1940,11 @@ Private Sub lstAllColumns_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllColumns_Click()", etFullDebug
 
-  lstAllColumns.ToolTipText = lstAllColumns.Text
+  If lstAllColumns.SelectedItem Is Nothing Then
+    lstAllColumns.ToolTipText = ""
+  Else
+    lstAllColumns.ToolTipText = lstAllColumns.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllColumns_Click"
@@ -1676,7 +1954,11 @@ Private Sub lstAllSortCols_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllSortCols_Click()", etFullDebug
 
-  lstAllSortCols.ToolTipText = lstAllSortCols.Text
+  If lstAllSortCols.SelectedItem Is Nothing Then
+    lstAllSortCols.ToolTipText = ""
+  Else
+    lstAllSortCols.ToolTipText = lstAllSortCols.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllSortCols_Click"
@@ -1686,7 +1968,11 @@ Private Sub lstAllTables_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllTables_Click()", etFullDebug
 
-  lstAllTables.ToolTipText = lstAllTables.Text
+  If lstAllTables.SelectedItem Is Nothing Then
+    lstAllTables.ToolTipText = ""
+  Else
+    lstAllTables.ToolTipText = lstAllTables.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllTables_Click"
@@ -1696,7 +1982,11 @@ Private Sub lstCriteria_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstCriteria_Click()", etFullDebug
 
-  lstCriteria.ToolTipText = lstCriteria.Text
+  If lstCriteria.SelectedItem Is Nothing Then
+    lstCriteria.ToolTipText = ""
+  Else
+    lstCriteria.ToolTipText = lstCriteria.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstCriteria_Click"
@@ -1716,7 +2006,11 @@ Private Sub lstIncColumns_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncColumns_Click()", etFullDebug
 
-  lstIncColumns.ToolTipText = lstIncColumns.Text
+  If lstIncColumns.SelectedItem Is Nothing Then
+    lstIncColumns.ToolTipText = ""
+  Else
+    lstIncColumns.ToolTipText = lstIncColumns.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncColumns_Click"
@@ -1726,7 +2020,11 @@ Private Sub lstIncSortCols_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncSortCols_Click()", etFullDebug
 
-  lstIncSortCols.ToolTipText = lstIncSortCols.Text
+  If lstIncSortCols.SelectedItem Is Nothing Then
+    lstIncSortCols.ToolTipText = ""
+  Else
+    lstIncSortCols.ToolTipText = lstIncSortCols.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncSortCols_Click"
@@ -1776,7 +2074,11 @@ Private Sub lstIncTables_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncTables_Click()", etFullDebug
 
-  lstIncTables.ToolTipText = lstIncTables.Text
+  If lstIncTables.SelectedItem Is Nothing Then
+    lstIncTables.ToolTipText = ""
+  Else
+    lstIncTables.ToolTipText = lstIncTables.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncTables_Click"
@@ -1806,7 +2108,11 @@ Private Sub lstJoins_Click()
 'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstJoins_Click()", etFullDebug
 
-  lstJoins.ToolTipText = lstJoins.Text
+  If lstJoins.SelectedItem Is Nothing Then
+    lstJoins.ToolTipText = ""
+  Else
+    lstJoins.ToolTipText = lstJoins.SelectedItem.Text
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstJoins_Click"
