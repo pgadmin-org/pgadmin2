@@ -121,39 +121,39 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":187D
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lstDatabase"
-      Tab(1).Control(1)=   "Label2"
+      Tab(1).Control(0)=   "Label2"
+      Tab(1).Control(1)=   "lstDatabase"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":1899
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdDeselect(0)"
-      Tab(2).Control(1)=   "cmdSelect(0)"
-      Tab(2).Control(2)=   "lstTables"
-      Tab(2).Control(3)=   "Label1(1)"
+      Tab(2).Control(0)=   "Label1(1)"
+      Tab(2).Control(1)=   "lstTables"
+      Tab(2).Control(2)=   "cmdSelect(0)"
+      Tab(2).Control(3)=   "cmdDeselect(0)"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18B5
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdDeselect(1)"
-      Tab(3).Control(1)=   "cmdSelect(1)"
-      Tab(3).Control(2)=   "lstData"
-      Tab(3).Control(3)=   "Label1(9)"
+      Tab(3).Control(0)=   "Label1(9)"
+      Tab(3).Control(1)=   "lstData"
+      Tab(3).Control(2)=   "cmdSelect(1)"
+      Tab(3).Control(3)=   "cmdDeselect(1)"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":18D1
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "cmdDeselect(2)"
-      Tab(4).Control(1)=   "cmdSelect(2)"
+      Tab(4).Control(0)=   "Label1(10)"
+      Tab(4).Control(1)=   "Label1(8)"
       Tab(4).Control(2)=   "lstForeignKeys"
-      Tab(4).Control(3)=   "Label1(8)"
-      Tab(4).Control(4)=   "Label1(10)"
+      Tab(4).Control(3)=   "cmdSelect(2)"
+      Tab(4).Control(4)=   "cmdDeselect(2)"
       Tab(4).ControlCount=   5
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":18ED
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "txtStatus"
-      Tab(5).Control(1)=   "pbStatus"
+      Tab(5).Control(0)=   "pbStatus"
+      Tab(5).Control(1)=   "txtStatus"
       Tab(5).ControlCount=   2
       Begin VB.Frame fraSQLServer 
          Caption         =   "SQL server"
@@ -1495,20 +1495,15 @@ Dim auto_increment_rs As New Recordset
                       If (tempValue = "F") Then tempValue = "False"
                       If (tempValue = "T") Then tempValue = "True"
                       Values = Values & "'" & CBool(tempValue) * "-1" & "', "
-                  '1/20/2001 Rod Childers
-                  'See if this a date field that only contains a Time, if so add Old date to it
-                  'so postgress will accept it into a timestamp field
-                   Case adDate, adDBDate, adDBTimeStamp
-                       If Len(rsTemp.Fields(Z).Value) < 12 And Right(rsTemp.Fields(Z).Value, 1) = "M" Then
-                          'Only contains the time
-                          Values = Values & "'1899-12-30 " & Replace(Replace((rsTemp.Fields(Z).Value & ""), "\", "\\"), "'", "''") & "', "
-                       Else
-                          'Valid date,treat like any other field
-                          Values = Values & "'" & Replace(Replace((rsTemp.Fields(Z).Value & ""), "\", "\\"), "'", "''") & "', "
-                       End If
-                     
+                  
+                  'We used to have a bit of a hack here, but if the recordset thinks it has a valid date
+                  'then it must do. Format to ISO (8601? - I can never remember!) will automatically add
+                  '1899-12-30 if only a time is actually in the string
+                  Case adDate, adDBDate, adDBTimeStamp
+                    Values = Values & "'" & Format(rsTemp.Fields(Z).Value, "yyyy-MM-dd hh:mm:ss") & "', "
+
                     ' Text values and others
-                    Case Else
+                  Case Else
                     Values = Values & "'" & Replace(Replace((rsTemp.Fields(Z).Value & ""), "\", "\\"), "'", "''") & "', "
                End Select
              End If
