@@ -17,7 +17,7 @@ Begin VB.Form frmDatabase
    StartUpPosition =   3  'Windows Default
    Begin MSComctlLib.ImageList il 
       Left            =   90
-      Top             =   6210
+      Top             =   6345
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -61,7 +61,7 @@ Begin VB.Form frmDatabase
       _ExtentY        =   11218
       _Version        =   393216
       Style           =   1
-      Tabs            =   1
+      Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
       TabPicture(0)   =   "frmDatabase.frx":0A24
@@ -89,6 +89,64 @@ Begin VB.Form frmDatabase
       Tab(0).Control(10)=   "cboProperties(0)"
       Tab(0).Control(10).Enabled=   0   'False
       Tab(0).ControlCount=   11
+      TabCaption(1)   =   "&Variables"
+      TabPicture(1)   =   "frmDatabase.frx":0A40
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "Label1"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "Label2"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "cmdRemoveVar"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "cmdAddVar"
+      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).Control(5)=   "txtVarName"
+      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(6)=   "txtVarValue"
+      Tab(1).Control(6).Enabled=   0   'False
+      Tab(1).ControlCount=   7
+      Begin VB.TextBox txtVarValue 
+         BackColor       =   &H8000000F&
+         Enabled         =   0   'False
+         Height          =   285
+         Left            =   -73425
+         TabIndex        =   13
+         ToolTipText     =   "Enter the name of the variable to add or update."
+         Top             =   5940
+         Width           =   3750
+      End
+      Begin VB.TextBox txtVarName 
+         BackColor       =   &H8000000F&
+         Enabled         =   0   'False
+         Height          =   285
+         Left            =   -73425
+         TabIndex        =   12
+         ToolTipText     =   "Enter the name of the variable to add or update."
+         Top             =   5535
+         Width           =   3750
+      End
+      Begin VB.CommandButton cmdAddVar 
+         Caption         =   "&Add/Update"
+         Enabled         =   0   'False
+         Height          =   375
+         Left            =   -74820
+         TabIndex        =   10
+         ToolTipText     =   "Add (or update) the specified variable."
+         Top             =   4995
+         Width           =   1230
+      End
+      Begin VB.CommandButton cmdRemoveVar 
+         Caption         =   "&Remove"
+         Enabled         =   0   'False
+         Height          =   375
+         Left            =   -73515
+         TabIndex        =   11
+         ToolTipText     =   "Remove the selected variable."
+         Top             =   4995
+         Width           =   1230
+      End
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
          Index           =   0
@@ -172,13 +230,59 @@ Begin VB.Form frmDatabase
          Locked          =   -1  'True
          Caption         =   "Comments"
       End
+      Begin MSComctlLib.ListView lvProperties 
+         Height          =   4425
+         Index           =   0
+         Left            =   -74865
+         TabIndex        =   9
+         ToolTipText     =   "Lists the configuration variables set for this database."
+         Top             =   450
+         Width           =   5190
+         _ExtentX        =   9155
+         _ExtentY        =   7805
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         BorderStyle     =   1
+         Appearance      =   1
+         NumItems        =   2
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Text            =   "Variable"
+            Object.Width           =   4410
+         EndProperty
+         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   1
+            Text            =   "Value"
+            Object.Width           =   4410
+         EndProperty
+      End
+      Begin VB.Label Label2 
+         Caption         =   "Variable Value"
+         Height          =   195
+         Left            =   -74820
+         TabIndex        =   20
+         Top             =   5985
+         Width           =   1140
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Variable Name"
+         Height          =   195
+         Left            =   -74820
+         TabIndex        =   19
+         Top             =   5580
+         Width           =   1140
+      End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Name"
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   13
+         TabIndex        =   18
          Top             =   720
          Width           =   420
       End
@@ -188,7 +292,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   12
+         TabIndex        =   17
          Top             =   1125
          Width           =   285
       End
@@ -198,7 +302,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   2
          Left            =   135
-         TabIndex        =   11
+         TabIndex        =   16
          Top             =   1530
          Width           =   465
       End
@@ -208,7 +312,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   3
          Left            =   135
-         TabIndex        =   10
+         TabIndex        =   15
          Top             =   1935
          Width           =   675
       End
@@ -218,7 +322,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   4
          Left            =   135
-         TabIndex        =   9
+         TabIndex        =   14
          Top             =   2340
          Width           =   330
       End
@@ -239,6 +343,7 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim objDatabase As pgDatabase
+Dim szVarDropList As String
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
@@ -255,7 +360,10 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
+Dim objItem As ListItem
 Dim objNewDatabase As pgDatabase
+Dim szDropVars() As String
+Dim X As Integer
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -275,6 +383,22 @@ Dim objNewDatabase As pgDatabase
     
   Else
     StartMsg "Updating Database..."
+    
+    'Add any vars
+    If lvProperties(0).Tag = "Y" Then
+      For Each objItem In lvProperties(0).ListItems
+        objDatabase.DatabaseVars.AddOrUpdate objItem.Text, objItem.SubItems(1)
+      Next objItem
+    End If
+    
+    'Drop any vars
+    If Len(szVarDropList) > 3 Then
+      szDropVars = Split(szVarDropList, "!|!")
+      For X = 0 To UBound(szDropVars)
+        If szDropVars(X) <> "" Then objDatabase.DatabaseVars.Remove szDropVars(X)
+      Next X
+    End If
+    
     If hbxProperties(0).Tag = "Y" Then objDatabase.Comment = hbxProperties(0).Text
   End If
   
@@ -289,6 +413,12 @@ Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdOK_Click"
+  
+  'If we error here, refresh the database vars to ensure they are in a consistant state
+  If Not (objDatabase Is Nothing) Then
+    objDatabase.DatabaseVars.Refresh
+    LoadVars
+  End If
 End Sub
 
 Public Sub Initialise(Optional Database As pgDatabase)
@@ -304,6 +434,9 @@ Dim objItem As ComboItem
   Next X
   Set cboProperties(0).Font = ctx.Font
   Set hbxProperties(0).Font = ctx.Font
+  Set txtVarValue.Font = ctx.Font
+  Set txtVarName.Font = ctx.Font
+  Set lvProperties(0).Font = ctx.Font
   
   If Database Is Nothing Then
   
@@ -342,6 +475,18 @@ Dim objItem As ComboItem
 
   Else
   
+    'Unlock the Vars. We only edit these for existing objects as there is no
+    ' safe way to create the object & update the vars in one 'transaction'
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      lvProperties(0).BackColor = &H80000005
+      txtVarName.Enabled = True
+      txtVarName.BackColor = &H80000005
+      txtVarValue.Enabled = True
+      txtVarValue.BackColor = &H80000005
+      cmdAddVar.Enabled = True
+      cmdRemoveVar.Enabled = True
+    End If
+    
     'Display/Edit the specified Database.
     Set objDatabase = Database
     bNew = False
@@ -357,6 +502,9 @@ Dim objItem As ComboItem
     objItem.Selected = True
     txtProperties(3).Text = objDatabase.Path
     hbxProperties(0).Text = objDatabase.Comment
+    
+    LoadVars
+    
   End If
   
   'Reset the Tags
@@ -369,6 +517,98 @@ Dim objItem As ComboItem
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.Initialise"
 End Sub
 
+Private Sub LoadVars()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.LoadVars()", etFullDebug
+
+Dim objItem As ListItem
+Dim objVar As pgVar
+
+  lvProperties(0).ListItems.Clear
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    For Each objVar In objDatabase.DatabaseVars
+      Set objItem = lvProperties(0).ListItems.Add(, , objVar.Name)
+      objItem.SubItems(1) = objVar.Value
+    Next objVar
+  End If
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.LoadVars"
+End Sub
+
+Private Sub cmdRemoveVar_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdRemoveVar_Click()", etFullDebug
+
+    If lvProperties(0).SelectedItem Is Nothing Then
+    MsgBox "You must select a variable to remove!", vbExclamation, "Error"
+    tabProperties.Tab = 1
+    lvProperties(0).SetFocus
+    Exit Sub
+  End If
+  
+  If objDatabase Is Nothing Then
+    lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
+    lvProperties(0).Tag = "Y"
+    If lvProperties(0).SelectedItem Is Nothing Then
+      cmdRemoveVar.Enabled = False
+    End If
+  Else
+    szVarDropList = szVarDropList & lvProperties(0).SelectedItem.Text & "!|!"
+    lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
+    lvProperties(0).Tag = "Y"
+    If lvProperties(0).SelectedItem Is Nothing Then
+      cmdRemoveVar.Enabled = False
+    End If
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdRemoveVar_Click"
+End Sub
+
+Private Sub cmdAddVar_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdChkAdd_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  If txtVarName.Text = "" Then
+    MsgBox "You must enter a name for the variable!", vbExclamation, "Error"
+    tabProperties.Tab = 1
+    txtVarName.SetFocus
+    Exit Sub
+  End If
+  If txtVarValue.Text = "" Then
+    MsgBox "You must enter a value for the variable!", vbExclamation, "Error"
+    tabProperties.Tab = 1
+    txtVarValue.SetFocus
+    Exit Sub
+  End If
+  
+  'Update
+  For Each objItem In lvProperties(0).ListItems
+    If objItem.Text = txtVarName.Text Then
+      objItem.SubItems(1) = txtVarValue.Text
+      lvProperties(0).Tag = "Y"
+      txtVarName.Text = ""
+      txtVarValue.Text = ""
+      Exit Sub
+    End If
+  Next objItem
+  
+  'Or add
+  Set objItem = lvProperties(0).ListItems.Add(, , txtVarName.Text)
+  objItem.SubItems(1) = txtVarValue.Text
+  lvProperties(0).Tag = "Y"
+  
+  txtVarName.Text = ""
+  txtVarValue.Text = ""
+  
+  Exit Sub
+  
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdAddVar_Click"
+End Sub
+
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.hbxProperties_Change(" & Index & ")", etFullDebug
@@ -377,6 +617,21 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.hbxProperties_Chang
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.hbxProperties_Change"
+End Sub
+
+Private Sub lvProperties_Click(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_Click(" & Index & ")", etFullDebug
+
+  If Index = 0 Then
+    If Not (lvProperties(0).SelectedItem Is Nothing) Then
+      txtVarName.Text = lvProperties(0).SelectedItem.Text
+      txtVarValue.Text = lvProperties(0).SelectedItem.SubItems(1)
+    End If
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.lvProperties_Click"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)

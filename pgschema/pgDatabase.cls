@@ -663,7 +663,7 @@ Dim szSQL As String
 Err_Handler:  objServer.iLogError Err
 End Sub
 
-'Set/Return the DatabaseVarList (Internal only)
+'Set/Return the DatabaseVarList
 Friend Property Let DatabaseVarList(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let DatabaseVarList(" & QUOTE & vData & QUOTE & ")", etFullDebug
@@ -745,7 +745,9 @@ Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the objects reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.SQL()", etFullDebug
+
 Dim szSQL As String
+Dim objVar As pgVar
   
   szSQL = "-- Database: " & FormattedID & vbCrLf & _
           "CREATE DATABASE " & FormattedID & " WITH"
@@ -753,6 +755,13 @@ Dim szSQL As String
   If szPath <> "" Then szSQL = szSQL & " LOCATION = '" & dbSZ(szPath) & "'"
   szSQL = szSQL & " ENCODING = '" & szServerEncoding & "'"
   szSQL = szSQL & ";" & vbCrLf
+   
+  'Database Vars
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    For Each objVar In DatabaseVars
+      szSQL = szSQL & "ALTER DATABASE " & FormattedID & " SET " & objVar.FormattedID & " = " & objVar.Value & ";" & vbCrLf
+    Next objVar
+  End If
   
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON DATABASE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     

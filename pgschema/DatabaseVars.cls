@@ -134,7 +134,7 @@ Dim szSQL As String
   End If
   
   'Generate the SQL query to create the new object and execute
-  szSQL = "ALTER DATABASE " & fmtID(Database) & " SET " & fmtID(Name) & " = " & "'" & dbSZ(Value) & "'"
+  szSQL = "ALTER DATABASE " & fmtID(Database) & " SET " & fmtID(Name) & " = " & dbSZ(Value)
   objServer.ExecSQL szSQL, cnDatabase
 
   'If the var already exists, then update it
@@ -215,6 +215,30 @@ objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Get NewEnu
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+'Refresh the collection
+Public Sub Refresh()
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Refresh()", etFullDebug
+
+Dim szSQL As String
+Dim szDatVarList As String
+Dim rs As New Recordset
+
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    Set rs = objServer.ExecSQL("SELECT datconfig FROM pg_database WHERE datname = '" & dbSZ(Database) & "'", objServer.Connection)
+    If Not rs.EOF Then szDatVarList = rs!datconfig & ""
+    If Left(szDatVarList, 1) = "{" Then szDatVarList = Mid(szDatVarList, 2)
+    If Right(szDatVarList, 1) = "}" Then szDatVarList = Mid(szDatVarList, 1, Len(szDatVarList) - 1)
+    Initialize szDatVarList
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
+End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize(Optional szVarList As String)

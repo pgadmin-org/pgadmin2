@@ -2271,6 +2271,8 @@ On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
+Dim objVar As pgVar
+Dim szTemp As String
 
   'Connect if required
   If svr.DeferConnection And svr.Databases(Node.Text).Status <> statOpen Then
@@ -2307,6 +2309,12 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Path
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Server Encoding", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ServerEncoding
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Variables", "property", "property")
+  For Each objVar In ctx.CurrentObject.DatabaseVars
+    szTemp = szTemp & "{" & objVar.Name & " = " & objVar.Value & "}, "
+  Next objVar
+  If Len(szTemp) > 2 Then szTemp = Mid(szTemp, 1, Len(szTemp) - 2)
+  lvItem.SubItems(1) = szTemp
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Allow Connections?", "property", "property")
   If ctx.CurrentObject.AllowConnections Then
     lvItem.SubItems(1) = "Yes"
@@ -2478,7 +2486,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvUser(" & QUOTE & Node.FullPat
 
 Dim lvItem As ListItem
 Dim szTemp As String
-Dim vData As Variant
+Dim objVar As pgVar
 
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
@@ -2506,6 +2514,12 @@ Dim vData As Variant
   Else
     lvItem.SubItems(1) = "No"
   End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Variables", "property", "property")
+  For Each objVar In ctx.CurrentObject.UserVars
+    szTemp = szTemp & "{" & objVar.Name & " = " & objVar.Value & "}, "
+  Next objVar
+  If Len(szTemp) > 2 Then szTemp = Mid(szTemp, 1, Len(szTemp) - 2)
+  lvItem.SubItems(1) = szTemp
   
   'Set the Definition Pane
   If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL

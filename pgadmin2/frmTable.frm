@@ -73,9 +73,9 @@ Begin VB.Form frmTable
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdColRemove"
+      Tab(1).Control(0)=   "lvProperties(0)"
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(2)=   "cmdColRemove"
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
@@ -90,9 +90,9 @@ Begin VB.Form frmTable
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":0716
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdFkyRemove"
+      Tab(3).Control(0)=   "lvProperties(2)"
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "lvProperties(2)"
+      Tab(3).Control(2)=   "cmdFkyRemove"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":0732
@@ -106,10 +106,10 @@ Begin VB.Form frmTable
       TabCaption(5)   =   "&Security"
       TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "cmdRemove"
-      Tab(5).Control(1)=   "fraAdd"
-      Tab(5).Control(2)=   "cmdAdd"
-      Tab(5).Control(3)=   "lvProperties(4)"
+      Tab(5).Control(0)=   "lvProperties(4)"
+      Tab(5).Control(1)=   "cmdAdd"
+      Tab(5).Control(2)=   "fraAdd"
+      Tab(5).Control(3)=   "cmdRemove"
       Tab(5).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify

@@ -328,7 +328,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get UserVars()",
 Err_Handler:  objServer.iLogError Err
 End Property
 
-'Set/Return the UserVarList (Internal only)
+'Set/Return the UserVarList
 Friend Property Let UserVarList(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let UserVarList(" & QUOTE & vData & QUOTE & ")", etFullDebug
@@ -355,6 +355,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Property Get pgUser.SQL()", etFu
 
 Dim szSQL As String
 Dim szMember As Variant
+Dim objVar As pgVar
   
   szSQL = "-- User: " & szName & vbCrLf & _
           "CREATE USER " & FormattedID & " WITH SYSID " & lID
@@ -371,6 +372,13 @@ Dim szMember As Variant
   End If
   szSQL = szSQL & " VALID UNTIL '" & Format(dAccountExpires, "yyyy-MM-dd hh:mm:ss") & "'"
   szSQL = szSQL & ";" & vbCrLf
+  
+  'User Vars
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    For Each objVar In UserVars
+      szSQL = szSQL & "ALTER USER " & FormattedID & " SET " & objVar.FormattedID & " = " & objVar.Value & ";" & vbCrLf
+    Next objVar
+  End If
 
   SQL = szSQL
   

@@ -23,6 +23,17 @@ Private szName As String
 Private szValue As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Get FormattedID()", etFullDebug
+
+  FormattedID = fmtID(szName)
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
