@@ -1,0 +1,5657 @@
+# pgAdmin II - PostgreSQL Tools
+# Copyright (C) 2001 - 2003, The pgAdmin Development Team
+# This software is released under the pgAdmin Public Licence
+# pgAdmin Developers <pgadmin-hackers@postgresql.org>
+
+#: basActions.bas:17
+<msgid>WARNING: Table vacuuming should only be performed when there is no one using the table.
+<msgstr>
+
+#: basActions.bas:17 basActions.bas:23
+<msgid>Do you wish to continue?
+<msgstr>
+
+#: basActions.bas:18 basActions.bas:24
+<msgid>Vacuuming 
+<msgstr>
+
+#: basActions.bas:18 basActions.bas:43 basActions.bas:49
+<msgid> in database: 
+<msgstr>
+
+#: basActions.bas:21 basActions.bas:46
+<msgid>The table '
+<msgstr>
+
+#: basActions.bas:21 basActions.bas:46 basActions.bas:52
+<msgid>' in database '
+<msgstr>
+
+#: basActions.bas:21 basActions.bas:27
+<msgid>' has been vacuumed.
+<msgstr>
+
+#: basActions.bas:23
+<msgid>WARNING: Database vacuuming should only be performed when there is no one using the database.
+<msgstr>
+
+#: basActions.bas:27 basActions.bas:63
+<msgid>The database '
+<msgstr>
+
+#: basActions.bas:42
+<msgid>Are you sure you wish to reindex the table: 
+<msgstr>
+
+#: basActions.bas:43 basActions.bas:56 basActions.bas:59
+<msgid>Reindexing 
+<msgstr>
+
+#: basActions.bas:46
+<msgid>' has been reindexed.
+<msgstr>
+
+#: basActions.bas:48
+<msgid>Are you sure you wish to rebuild the index: 
+<msgstr>
+
+#: basActions.bas:49
+<msgid>Rebuilding 
+<msgstr>
+
+#: basActions.bas:52
+<msgid>The index '
+<msgstr>
+
+#: basActions.bas:52
+<msgid>' has been rebuilt.
+<msgstr>
+
+#: basActions.bas:54
+<msgid>Are you sure you wish to reindex the database: 
+<msgstr>
+
+#: basActions.bas:55
+<msgid>Do you want to force the reindex operation?
+<msgstr>
+
+#: basActions.bas:59
+<msgid> (forced)...
+<msgstr>
+
+#: basActions.bas:63
+<msgid>' has been reindexed
+<msgstr>
+
+#: basActions.bas:85
+<msgid>You cannot drop system objects!
+<msgstr>
+
+#: basActions.bas:85 basActions.bas:249 basClone.bas:36
+#: basClone.bas:49 basClone.bas:56 basClone.bas:62
+#: basMisc.bas:324 frmAggregate.frm:397 frmAggregate.frm:403
+#: frmAggregate.frm:409 frmAggregate.frm:415 frmCast.frm:360
+#: frmCast.frm:366 frmClone.frm:215 frmClone.frm:244
+#: frmClone.frm:271 frmColumn.frm:438 frmColumn.frm:446
+#: frmColumn.frm:452 frmColumn.frm:462 frmConversion.frm:368
+#: frmConversion.frm:376 frmDatabase.frm:661 frmDatabase.frm:930
+#: frmDatabase.frm:990 frmDatabase.frm:1031 frmDomain.frm:332
+#: frmDomain.frm:338 Caption->frmError.frm:4 frmFind.frm:717
+#: frmFind.frm:787 frmForeignKey.frm:477 frmForeignKey.frm:485
+#: frmForeignKey.frm:491 frmForeignKey.frm:497 frmForeignKey.frm:507
+#: frmFunction.frm:636 frmFunction.frm:642 frmFunction.frm:648
+#: frmFunction.frm:654 frmFunction.frm:974 frmGroup.frm:209
+#: frmImportColumn.frm:170 frmImportColumn.frm:177 frmImportColumn.frm:181
+#: frmImportColumn.frm:190 frmIndex.frm:345 frmIndex.frm:351
+#: frmIndex.frm:363 frmLanguage.frm:351 frmLanguage.frm:357
+#: frmLanguage.frm:590 frmMain.frm:1956 frmMain.frm:2065
+#: frmNamespace.frm:348 frmNamespace.frm:535 frmOperator.frm:625
+#: frmOperator.frm:631 frmOperator.frm:637 frmOperatorClass.frm:544
+#: frmOperatorClass.frm:548 frmOperatorClass.frm:555 frmOperatorClass.frm:575
+#: frmOperatorClass.frm:594 frmOperatorClass.frm:598 frmOperatorClass.frm:605
+#: frmOperatorClass.frm:624 frmOperatorClass.frm:758 frmOperatorClass.frm:764
+#: frmOperatorClass.frm:770 frmOptions.frm:896 frmOptions.frm:902
+#: frmOptions.frm:1332 frmOptions.frm:1348 frmOptions.frm:1403
+#: frmOptions.frm:1419 frmPassword.frm:101 frmPassword.frm:105
+#: frmPassword.frm:109 frmRecordLog.frm:166 frmRecordLog.frm:177
+#: frmRule.frm:312 frmRule.frm:318 frmRule.frm:324
+#: frmSequence.frm:559 frmSequence.frm:799 frmSQLExplain.frm:152
+#: frmSQLExplain.frm:158 frmSQLExplain.frm:166 frmSQLExplain.frm:175
+#: frmSQLExplain.frm:181 frmSQLExplain.frm:187 frmSQLExplain.frm:198
+#: frmSQLOutput.frm:316 frmSQLOutput.frm:424 frmSQLOutput.frm:553
+#: frmSQLOutput.frm:605 frmSQLWizard.frm:1281 frmSQLWizard.frm:1306
+#: frmSQLWizard.frm:1331 frmSQLWizard.frm:1356 frmSQLWizard.frm:1360
+#: frmSQLWizard.frm:1364 frmSQLWizard.frm:1368 frmSQLWizard.frm:1430
+#: frmSQLWizard.frm:1434 frmSQLWizard.frm:1438 frmSQLWizard.frm:1526
+#: frmSQLWizard.frm:1530 frmSQLWizard.frm:1549 frmSQLWizard.frm:1553
+#: frmSQLWizard.frm:1653 frmSQLWizard.frm:1678 frmSQLWizard.frm:1682
+#: frmSQLWizard.frm:1706 frmSQLWizard.frm:1735 frmSQLWizard.frm:1846
+#: frmSQLWizard.frm:1877 frmSQLWizard.frm:1881 frmSQLWizard.frm:1900
+#: frmSQLWizard.frm:1904 frmTable.frm:817 frmTable.frm:823
+#: frmTable.frm:830 frmTable.frm:854 frmTable.frm:995
+#: frmTable.frm:1002 frmTable.frm:1022 frmTable.frm:1064
+#: frmTable.frm:1070 frmTable.frm:1532 frmTrigger.frm:357
+#: frmTrigger.frm:363 frmTrigger.frm:369 frmTrigger.frm:375
+#: frmTrigger.frm:391 frmType.frm:447 frmType.frm:453
+#: frmType.frm:459 frmUpgradeWizard.frm:427 frmUser.frm:512
+#: frmUser.frm:517 frmUser.frm:709 frmUser.frm:750
+#: frmView.frm:483 frmView.frm:489 frmView.frm:714
+#: frmVisualQueryBuilder.frm:393 frmVisualQueryBuilder.frm:439 frmVisualQueryBuilder.frm:461
+#: frmVisualQueryBuilder.frm:467 frmVisualQueryBuilder.frm:489 frmVisualQueryBuilder.frm:522
+#: RelationObj.ctl:394 RelationObj.ctl:449 RelationObj.ctl:456
+#: RelationObj.ctl:460 RelationObj.ctl:466 RelationObj.ctl:470
+#: RelationObj.ctl:542 RelationObj.ctl:1084 RelationObj.ctl:1089
+<msgid>Error
+<msgstr>
+
+#: basActions.bas:90
+<msgid>Are you sure you wish to drop the table '
+<msgstr>
+
+#: basActions.bas:90 basActions.bas:94 basActions.bas:99
+<msgid>Drop 
+<msgstr>
+
+#: basActions.bas:94 basActions.bas:99
+<msgid>Are you sure you wish to drop the 
+<msgstr>
+
+#: basActions.bas:103
+<msgid>Dropping 
+<msgstr>
+
+#: basActions.bas:116 frmClone.frm:384 frmMain.frm:2505
+#: frmMain.frm:2856 frmUser.frm:530
+<msgid>Users (
+<msgstr>
+
+#: basActions.bas:122 frmClone.frm:376 frmGroup.frm:222
+#: frmMain.frm:2504 frmMain.frm:2794
+<msgid>Groups (
+<msgstr>
+
+#: basActions.bas:132 frmDatabase.frm:676 frmMain.frm:2503
+#: frmMain.frm:2599
+<msgid>Databases (
+<msgstr>
+
+#: basActions.bas:138 frmAggregate.frm:433 frmClone.frm:336
+#: frmMain.frm:3056 frmMain.frm:3104
+<msgid>Aggregates (
+<msgstr>
+
+#: basActions.bas:144 frmCast.frm:382 frmClone.frm:300
+#: frmMain.frm:2684 frmMain.frm:2921
+<msgid>Casts (
+<msgstr>
+
+#: basActions.bas:150 frmClone.frm:292 frmConversion.frm:391
+#: frmMain.frm:3057 frmMain.frm:4001
+<msgid>Conversions (
+<msgstr>
+
+#: basActions.bas:156 frmClone.frm:308 frmDomain.frm:352
+#: frmMain.frm:3058 frmMain.frm:3171
+<msgid>Domains (
+<msgstr>
+
+#: basActions.bas:162 frmClone.frm:350 frmFunction.frm:676
+#: frmMain.frm:3059 frmMain.frm:3244
+<msgid>Functions (
+<msgstr>
+
+#: basActions.bas:168 frmIndex.frm:376 frmMain.frm:3722
+#: frmMain.frm:4138
+<msgid>Indexes (
+<msgstr>
+
+#: basActions.bas:174 frmLanguage.frm:371 frmMain.frm:2685
+#: frmMain.frm:2979
+<msgid>Languages (
+<msgstr>
+
+#: basActions.bas:180 frmMain.frm:2686 frmMain.frm:3034
+#: frmNamespace.frm:362
+<msgid>Schemas (
+<msgstr>
+
+#: basActions.bas:186 frmClone.frm:316 frmMain.frm:3060
+#: frmMain.frm:3336 frmOperator.frm:660
+<msgid>Operators (
+<msgstr>
+
+#: basActions.bas:192 frmClone.frm:324 frmMain.frm:3061
+#: frmMain.frm:3420 frmOperatorClass.frm:805
+<msgid>Operators Class (
+<msgstr>
+
+#: basActions.bas:203 frmMain.frm:3723 frmMain.frm:4305
+#: frmRule.frm:344
+<msgid>Rules (
+<msgstr>
+
+#: basActions.bas:209 frmMain.frm:3062 frmMain.frm:3496
+#: frmSequence.frm:584
+<msgid>Sequences (
+<msgstr>
+
+#: basActions.bas:215 frmClone.frm:358 frmMain.frm:3063
+#: frmMain.frm:3646 frmTable.frm:1129
+<msgid>Tables (
+<msgstr>
+
+#: basActions.bas:221 frmMain.frm:3719 frmMain.frm:3834
+#: frmTable.frm:1195 frmTable.frm:1215
+<msgid>Checks (
+<msgstr>
+
+#: basActions.bas:227 frmMain.frm:3720 frmMain.frm:3876
+#: frmTable.frm:1159 frmTable.frm:1179
+<msgid>Columns (
+<msgstr>
+
+#: basActions.bas:233 frmMain.frm:3724 frmMain.frm:4368
+#: frmTrigger.frm:402
+<msgid>Triggers (
+<msgstr>
+
+#: basActions.bas:239 frmClone.frm:284 frmMain.frm:3064
+#: frmMain.frm:4434 frmType.frm:475
+<msgid>Types (
+<msgstr>
+
+#: basActions.bas:245 frmClone.frm:368 frmMain.frm:3065
+#: frmMain.frm:4507 frmView.frm:503
+<msgid>Views (
+<msgstr>
+
+#: basActions.bas:249
+<msgid> objects cannot be dropped.
+<msgstr>
+
+#: basClone.bas:36
+<msgid>The current object type cannot be copied!
+<msgstr>
+
+#: basClone.bas:49
+<msgid>You must select an object to copy!
+<msgstr>
+
+#: basClone.bas:56
+<msgid>You must select a schema to paste the object into!
+<msgstr>
+
+#: basClone.bas:62
+<msgid>You must select a database to paste the new object into!
+<msgstr>
+
+#: basClone.bas:285 basClone.bas:422
+<msgid>Creating Rules...
+<msgstr>
+
+#: basClone.bas:396
+<msgid>Copying data...
+<msgstr>
+
+#: basClone.bas:403
+<msgid>Creating Indexes...
+<msgstr>
+
+#: basClone.bas:428
+<msgid>Creating Triggers...
+<msgstr>
+
+#: basLang.bas:151
+<msgid>Extract string from source.....
+<msgstr>
+
+#: basLang.bas:336
+<msgid>Merge language file...
+<msgstr>
+
+#: basMisc.bas:324
+<msgid> currently only supports a maximum of 20 plugins loaded at the same time. Please email the Support mailing list listed in the Helpfile and let the developers know that you've exceeded this limit.
+<msgstr>
+
+#: basMisc.bas:365
+<msgid>An error has occured.
+<msgstr>
+
+#: basMisc.bas:385 basMisc.bas:388
+<msgid> Secs.
+<msgstr>
+
+#: basMisc.bas:389
+<msgid> Done
+<msgstr>
+
+#: clsContext.cls:154
+<msgid>Object: 
+<msgstr>
+
+#: clsContext.cls:192 frmDatabase.frm:826
+<msgid>Database: 
+<msgstr>
+
+#: clsContext.cls:238
+<msgid>Schema: None
+<msgstr>
+
+#: clsContext.cls:240 frmVisualQueryBuilder.frm:665
+<msgid>Schema: 
+<msgstr>
+
+#: clsExporters.cls:41
+<msgid>Loading Exporters...
+<msgstr>
+
+#: clsExporters.cls:113
+<msgid>Installing Exporter...
+<msgstr>
+
+#: clsExporters.cls:136
+<msgid>Uninstalling Exporter...
+<msgstr>
+
+#: clsPlugins.cls:41
+<msgid>Loading Plugins...
+<msgstr>
+
+#: clsPlugins.cls:113
+<msgid>Installing Plugin...
+<msgstr>
+
+#: clsPlugins.cls:136
+<msgid>Uninstalling Plugin...
+<msgstr>
+
+#: Caption->frmAbout.frm:3
+<msgid>About
+<msgstr>
+
+#: Caption->frmAbout.frm:30 Caption->frmOptions.frm:509 Caption->frmOptions.frm:604
+#: Caption->frmSplash.frm:32
+<msgid>Version
+<msgstr>
+
+#: frmAbout.frm:76 frmAbout.frm:78 frmAbout.frm:80
+<msgid>Version 
+<msgstr>
+
+#: frmAbout.frm:78
+<msgid>-Dev
+<msgstr>
+
+#: Caption->frmAggregate.frm:6 frmFind.frm:555 frmMain.frm:3106
+<msgid>Aggregate
+<msgstr>
+
+#: TabCaption->frmAggregate.frm:29 TabCaption->frmCast.frm:27 TabCaption->frmConversion.frm:45
+#: TabCaption->frmDatabase.frm:111 TabCaption->frmDomain.frm:68 TabCaption->frmForeignKey.frm:45
+#: TabCaption->frmFunction.frm:97 TabCaption->frmGroup.frm:46 TabCaption->frmIndex.frm:47
+#: TabCaption->frmLanguage.frm:76 TabCaption->frmMain.frm:557 TabCaption->frmNamespace.frm:56
+#: TabCaption->frmOperatorClass.frm:75 TabCaption->frmRule.frm:46 TabCaption->frmSequence.frm:47
+#: TabCaption->frmServer.frm:46 TabCaption->frmTable.frm:47 TabCaption->frmTrigger.frm:77
+#: TabCaption->frmUser.frm:45 TabCaption->frmView.frm:54
+<msgid>&Properties
+<msgstr>
+
+#: ToolTipText->frmAggregate.frm:78
+<msgid>The name of the aggregate.
+<msgstr>
+
+#: ToolTipText->frmAggregate.frm:89
+<msgid>The aggregates OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmAggregate.frm:100
+<msgid>The aggregates owner.
+<msgstr>
+
+#: ToolTipText->frx->frmAggregate.frm:111
+<msgid>The initial setting for the state value. This must be a literal constant in the form accepted for the data type state_type. If not specified, the state value starts out NULL.
+<msgstr>
+
+#: ToolTipText->frmAggregate.frm:120
+<msgid>Comments about the aggregate.
+<msgstr>
+
+#: Caption->frmAggregate.frm:134 Caption->frmColumn.frm:212 Caption->frmDatabase.frm:386
+#: Caption->frmDomain.frm:216 Caption->frmFunction.frm:382 Caption->frmIndex.frm:98
+#: Caption->frmNamespace.frm:138 Caption->frmOperator.frm:221 Caption->frmRule.frm:204
+#: Caption->frmSequence.frm:260 Caption->frmTable.frm:526 Caption->frmTrigger.frm:213
+#: Caption->frmType.frm:203 Caption->frmView.frm:300
+<msgid>Comments
+<msgstr>
+
+#: ToolTipText->frx->frmAggregate.frm:141
+<msgid>The input data type on which this aggregate function operates. This can be specified as ANY for an aggregate that does not examine its input values (an example is count(*))ˇ
+<msgstr>
+
+#: ToolTipText->frmAggregate.frm:157
+<msgid>The data type for the aggregate's state value.
+<msgstr>
+
+#: ToolTipText->frx->frmAggregate.frm:173
+<msgid>The name of the state transition function to be called for each input data value. This is normally a function of two arguments, the first being of type state_type and the second of type input_data_type. Alternatively, for an aggregate that does not examine its input values, the function takes just one argument of type state_type. In either case the function must return a value of type state_type. This function takes the current state value and the current input data item, and returns the next state value. Å
+<msgstr>
+
+#: ToolTipText->frmAggregate.frm:189
+<msgid>The data type returned by the aggregate.
+<msgstr>
+
+#: ToolTipText->frx->frmAggregate.frm:205
+<msgid>The name of the final function called to compute the aggregate's result after all input data has been traversed. The function must take a single argument of type state_type. The output data type of the aggregate is defined as the return type of this function. If ffunc is not specified, then the ending state value is used as the aggregate's result, and the output type is state_type. ñ
+<msgstr>
+
+#: Caption->frmAggregate.frm:218 Caption->frmConversion.frm:198 Caption->frmDatabase.frm:518
+#: Caption->frmDomain.frm:260 Caption->frmFunction.frm:550 frmMain.frm:2697
+#: frmMain.frm:3074 frmMain.frm:3133 frmMain.frm:3198
+#: frmMain.frm:3289 frmMain.frm:3367 frmMain.frm:3448
+#: frmMain.frm:3568 frmMain.frm:3730 frmMain.frm:4026
+#: frmMain.frm:4461 frmMain.frm:4537 Caption->frmNamespace.frm:250
+#: Caption->frmOperator.frm:527 Caption->frmOperatorClass.frm:456 Caption->frmSequence.frm:479
+#: Caption->frmTable.frm:722 Caption->frmType.frm:341 Caption->frmView.frm:343
+<msgid>Owner
+<msgstr>
+
+#: Caption->frmAggregate.frm:228 Caption->frmCast.frm:125 Caption->frmConversion.frm:208
+#: Caption->frmDatabase.frm:508 Caption->frmDomain.frm:250 Caption->frmForeignKey.frm:360
+#: Caption->frmFunction.frm:540 Caption->frmIndex.frm:269 Caption->frmLanguage.frm:290
+#: frmMain.frm:2695 frmMain.frm:2945 frmMain.frm:3002
+#: frmMain.frm:3072 frmMain.frm:3131 frmMain.frm:3196
+#: frmMain.frm:3287 frmMain.frm:3365 frmMain.frm:3446
+#: frmMain.frm:3566 frmMain.frm:3728 frmMain.frm:4024
+#: frmMain.frm:4086 frmMain.frm:4211 frmMain.frm:4330
+#: frmMain.frm:4393 frmMain.frm:4459 frmMain.frm:4535
+#: Caption->frmNamespace.frm:260 Caption->frmOperator.frm:517 Caption->frmOperatorClass.frm:446
+#: Caption->frmRule.frm:208 Caption->frmSequence.frm:469 Caption->frmTable.frm:712
+#: Caption->frmTrigger.frm:277 Caption->frmType.frm:351 Caption->frmView.frm:353
+<msgid>OID
+<msgstr>
+
+#: Caption->frmAggregate.frm:238 Caption->frmClone.frm:174 Caption->frmColumn.frm:354
+#: Caption->frmConversion.frm:218 Caption->frmDatabase.frm:498 Caption->frmDomain.frm:240
+#: Caption->frmFind.frm:222 frmFind.frm:579 frmFind.frm:708
+#: Caption->frmForeignKey.frm:370 Caption->frmFunction.frm:530 Caption->frmIndex.frm:259
+#: Caption->frmLanguage.frm:300 frmMain.frm:2693 frmMain.frm:2823
+#: frmMain.frm:2881 frmMain.frm:2943 frmMain.frm:3000
+#: frmMain.frm:3070 frmMain.frm:3127 frmMain.frm:3194
+#: frmMain.frm:3274 frmMain.frm:3359 frmMain.frm:3444
+#: frmMain.frm:3564 frmMain.frm:3726 frmMain.frm:3853
+#: frmMain.frm:3901 frmMain.frm:4022 frmMain.frm:4084
+#: frmMain.frm:4209 frmMain.frm:4328 frmMain.frm:4391
+#: frmMain.frm:4457 frmMain.frm:4533 Caption->frmNamespace.frm:270
+#: Caption->frmOperator.frm:507 Caption->frmOperatorClass.frm:436 Caption->frmRule.frm:228
+#: Caption->frmSequence.frm:459 Caption->frmTable.frm:702 Caption->frmTrigger.frm:287
+#: Caption->frmType.frm:361 Caption->frmView.frm:363
+<msgid>Name
+<msgstr>
+
+#: Caption->frmAggregate.frm:248
+<msgid>State function
+<msgstr>
+
+#: Caption->frmAggregate.frm:258
+<msgid>State type
+<msgstr>
+
+#: Caption->frmAggregate.frm:268
+<msgid>Input type
+<msgstr>
+
+#: Caption->frmAggregate.frm:278
+<msgid>Initial condition
+<msgstr>
+
+#: Caption->frmAggregate.frm:288
+<msgid>Final function
+<msgstr>
+
+#: Caption->frmAggregate.frm:298
+<msgid>Final type
+<msgstr>
+
+#: Caption->frmAggregate.frm:308 Caption->frmCast.frm:175 Caption->frmColumn.frm:17
+#: Caption->frmConversion.frm:16 Caption->frmDatabase.frm:83 Caption->frmDomain.frm:17
+#: Caption->frmForeignKey.frm:16 Caption->frmFunction.frm:67 Caption->frmGroup.frm:17
+#: Caption->frmIndex.frm:18 Caption->frmLanguage.frm:47 Caption->frmNamespace.frm:26
+#: Caption->frmOperator.frm:17 Caption->frmOperatorClass.frm:46 Caption->frmOptions.frm:866
+#: Caption->frmRule.frm:17 Caption->frmSequence.frm:18 Caption->frmServer.frm:17
+#: Caption->frmTable.frm:17 Caption->frmTip.frm:62 Caption->frmTrigger.frm:18
+#: Caption->frmType.frm:17 Caption->frmUser.frm:17 Caption->frmView.frm:26
+<msgid>OK
+<msgstr>
+
+#: Caption->frmAggregate.frm:318 Caption->frmCast.frm:185 Caption->frmColumn.frm:27
+#: Caption->frmConversion.frm:26 Caption->frmDatabase.frm:93 Caption->frmDomain.frm:27
+#: Caption->frmForeignKey.frm:26 Caption->frmFunction.frm:77 Caption->frmGroup.frm:27
+#: Caption->frmIndex.frm:28 Caption->frmLanguage.frm:57 Caption->frmNamespace.frm:36
+#: Caption->frmOperator.frm:27 Caption->frmOperatorClass.frm:56 Caption->frmOptions.frm:858
+#: Caption->frmRecordLog.frm:86 Caption->frmRule.frm:27 Caption->frmSequence.frm:28
+#: Caption->frmServer.frm:27 Caption->frmTable.frm:27 Caption->frmTrigger.frm:28
+#: Caption->frmType.frm:27 Caption->frmUser.frm:27 Caption->frmView.frm:36
+<msgid>Cancel
+<msgstr>
+
+#: frmAggregate.frm:397
+<msgid>You must specify a Aggregate name!
+<msgstr>
+
+#: frmAggregate.frm:403
+<msgid>You must select an input type!
+<msgstr>
+
+#: frmAggregate.frm:409
+<msgid>You must select a state type!
+<msgstr>
+
+#: frmAggregate.frm:415
+<msgid>You must select a state function!
+<msgstr>
+
+#: frmAggregate.frm:422
+<msgid>Creating Aggregate...
+<msgstr>
+
+#: frmAggregate.frm:437
+<msgid>Updating Aggregate...
+<msgstr>
+
+#: frmAggregate.frm:474
+<msgid>Create Aggregate
+<msgstr>
+
+#: frmAggregate.frm:528
+<msgid>Aggregate: 
+<msgstr>
+
+#: Caption->frmCast.frm:5 frmFind.frm:557 frmMain.frm:2923
+<msgid>Cast
+<msgstr>
+
+#: ToolTipText->frmCast.frm:58
+<msgid>The Casts OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmCast.frm:112
+<msgid>The data type returned by the Cast.
+<msgstr>
+
+#: Caption->frmCast.frm:135 frmFind.frm:561 Caption->frmFunction.frm:6
+#: frmMain.frm:2951 frmMain.frm:3246 frmMain.frm:4034
+#: frmMain.frm:4401 Caption->frmOperatorClass.frm:386 Caption->frmTrigger.frm:247
+<msgid>Function
+<msgstr>
+
+#: Caption->frmCast.frm:145 frmMain.frm:2949
+<msgid>Type target
+<msgstr>
+
+#: Caption->frmCast.frm:155 frmMain.frm:2947
+<msgid>Type source
+<msgstr>
+
+#: Caption->frmCast.frm:165 frmMain.frm:2953
+<msgid>Context
+<msgstr>
+
+#: frmCast.frm:252
+<msgid>Create Cast
+<msgstr>
+
+#: frmCast.frm:274
+<msgid>Cast: 
+<msgstr>
+
+#: frmCast.frm:360
+<msgid>You must select an source type!
+<msgstr>
+
+#: frmCast.frm:366
+<msgid>You must select a target type!
+<msgstr>
+
+#: frmCast.frm:373
+<msgid>Creating Cast...
+<msgstr>
+
+#: frmCast.frm:386
+<msgid>Updating Cast...
+<msgstr>
+
+#: Caption->frmClone.frm:4
+<msgid>Copy Object
+<msgstr>
+
+#: Caption->frmClone.frm:129
+<msgid>Paste
+<msgstr>
+
+#: Caption->frmClone.frm:136
+<msgid>Structure and data
+<msgstr>
+
+#: Caption->frmClone.frm:145
+<msgid>Structure only
+<msgstr>
+
+#: Caption->frmClone.frm:156 Caption->frmPassword.frm:17 Caption->frmRecordLog.frm:76
+#: Caption->frmSQLWizard.frm:16 Caption->frmUpgradeWizard.frm:72
+<msgid>&OK
+<msgstr>
+
+#: ToolTipText->frmClone.frm:168 ToolTipText->frmColumn.frm:187
+<msgid>The name of the column.
+<msgstr>
+
+#: ToolTipText->frmClone.frm:179
+<msgid>Enter a name for the new object.
+<msgstr>
+
+#: frmClone.frm:215
+<msgid>Data can only be copied within the same database!
+<msgstr>
+
+#: frmClone.frm:244
+<msgid>The name you have entered is not valid!
+<msgstr>
+
+#: frmClone.frm:271
+<msgid>An object named 
+<msgstr>
+
+#: frmClone.frm:271
+<msgid> already exists
+<msgstr>
+
+#: frmClone.frm:275
+<msgid>Copying 
+<msgstr>
+
+#: frmClone.frm:360
+<msgid>Please verify the checks, foreign keys, rules and triggers!
+<msgstr>
+
+#: frmClone.frm:386
+<msgid>The password for the new user is blank!
+<msgstr>
+
+#: Caption->frmColumn.frm:6 frmMain.frm:3878 Caption->frmSQLWizard.frm:830
+#: frmVisualQueryBuilder.frm:263
+<msgid>Column
+<msgstr>
+
+#: TabCaption->frmColumn.frm:46 TabCaption->frmOperator.frm:76 TabCaption->frmType.frm:46
+<msgid>&Properties 1
+<msgstr>
+
+#: TabCaption->frmColumn.frm:88
+<msgid>&Properties 2
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:103
+<msgid>The defined dimension array. E.g [1][][3]
+<msgstr>
+
+#: ToolTipText->frx->frmColumn.frm:114
+<msgid>Controls the level of detail of statistics accumulated for this column by ANALYZE. A zero value indicates that no statistics should be collected.V
+<msgstr>
+
+#: Caption->frmColumn.frm:120
+<msgid>Primary key?
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:125
+<msgid>Is this column a primary key?
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:134
+<msgid>A default value for the column. This may be a literal value, user function or niladic function.
+<msgstr>
+
+#: Caption->frmColumn.frm:140
+<msgid>Restrict null values?
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:145
+<msgid>Should null values be restricted in this column?
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:156 ToolTipText->frmDomain.frm:177
+<msgid>The numeric scale of the column (applicable to numeric columns only).
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:167 ToolTipText->frmDomain.frm:122
+<msgid>The defined length of the column.
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:178
+<msgid>The ordinal position of the column in the table.
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:196
+<msgid>Comments about the column.
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:219
+<msgid>The table that the column will be part of.
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:235
+<msgid>The data type of the column.
+<msgstr>
+
+#: ToolTipText->frmColumn.frm:251 ToolTipText->frmType.frm:258
+<msgid>Storage technique for the data type. If specified, must be 'plain', 'external', 'extended', or 'main'; the default is 'plain'.
+<msgstr>
+
+#: Caption->frmColumn.frm:264
+<msgid>Array dimension
+<msgstr>
+
+#: Caption->frmColumn.frm:274 frmMain.frm:2560 frmMain.frm:2648
+#: frmMain.frm:2767 frmMain.frm:3545 frmMain.frm:3621
+#: frmMain.frm:3697 frmMain.frm:3809 frmMain.frm:3923
+#: frmMain.frm:3976 frmMain.frm:4188 frmMain.frm:4272
+#: frmMain.frm:4568 frmMain.frm:4594
+<msgid>Statistics
+<msgstr>
+
+#: Caption->frmColumn.frm:284 frmMain.frm:4479 Caption->frmType.frm:281
+<msgid>Storage
+<msgstr>
+
+#: Caption->frmColumn.frm:294
+<msgid>Default value
+<msgstr>
+
+#: Caption->frmColumn.frm:304 Caption->frmDomain.frm:270 frmMain.frm:3202
+#: frmMain.frm:3907
+<msgid>Length
+<msgstr>
+
+#: Caption->frmColumn.frm:314 frmMain.frm:3208
+<msgid>Numeric Scale
+<msgstr>
+
+#: Caption->frmColumn.frm:324
+<msgid>Data type
+<msgstr>
+
+#: Caption->frmColumn.frm:334
+<msgid>Ordinal position
+<msgstr>
+
+#: Caption->frmColumn.frm:344 frmFind.frm:568 Caption->frmForeignKey.frm:350
+#: Caption->frmIndex.frm:249 frmMain.frm:3648 frmMain.frm:3678
+#: Caption->frmTable.frm:6 Caption->frmTrigger.frm:297 frmVisualQueryBuilder.frm:262
+<msgid>Table
+<msgstr>
+
+#: frmColumn.frm:438 frmForeignKey.frm:477 frmImportColumn.frm:170
+#: frmVisualQueryBuilder.frm:393
+<msgid>The form that called this form has been destroyed!
+<msgstr>
+
+#: frmColumn.frm:446
+<msgid>You must specify a Column name!
+<msgstr>
+
+#: frmColumn.frm:452
+<msgid>You must specify a column type!
+<msgstr>
+
+#: frmColumn.frm:462 frmImportColumn.frm:190
+<msgid>A column with that name already exists!
+<msgstr>
+
+#: frmColumn.frm:500
+<msgid>Updating Column...
+<msgstr>
+
+#: frmColumn.frm:562
+<msgid>Create Column
+<msgstr>
+
+#: frmColumn.frm:612
+<msgid>Column: 
+<msgstr>
+
+#: Caption->frmConnect.frm:3
+<msgid>Connect to Server
+<msgstr>
+
+#: ToolTipText->frmConnect.frm:19
+<msgid>Enter description connection
+<msgstr>
+
+#: ToolTipText->frmConnect.frm:28
+<msgid>Enter the hostname or IP address of the server to connect to.
+<msgstr>
+
+#: ToolTipText->frmConnect.frm:37
+<msgid>Enter the port that the PostgreSQL server is listening on.
+<msgstr>
+
+#: ToolTipText->frmConnect.frm:46
+<msgid>Enter your username on the specified server.
+<msgstr>
+
+#: ToolTipText->frmConnect.frm:56
+<msgid>Enter your password on the specified server.
+<msgstr>
+
+#: Caption->frmConnect.frm:61
+<msgid>&Connect
+<msgstr>
+
+#: ToolTipText->frmConnect.frm:66
+<msgid>Connect to the Specified Server.
+<msgstr>
+
+#: Caption->frmConnect.frm:72 Caption->frmOptions.frm:519 Caption->frmOptions.frm:594
+<msgid>Description
+<msgstr>
+
+#: Caption->frmConnect.frm:82 Caption->frmServer.frm:5
+<msgid>Server
+<msgstr>
+
+#: Caption->frmConnect.frm:92 frmMain.frm:2511 Caption->frmServer.frm:258
+<msgid>Port
+<msgstr>
+
+#: Caption->frmConnect.frm:102 frmMain.frm:2513 frmMain.frm:2545
+#: frmMain.frm:2858 Caption->frmServer.frm:248 Caption->frmUser.frm:411
+<msgid>Username
+<msgstr>
+
+#: Caption->frmConnect.frm:112 Caption->frmUser.frm:391
+<msgid>Password
+<msgstr>
+
+#: frmConnect.frm:145
+<msgid>Connecting to 
+<msgstr>
+
+#: Caption->frmConversion.frm:5 frmFind.frm:559 frmMain.frm:4003
+<msgid>Conversion
+<msgstr>
+
+#: Caption->frmConversion.frm:76
+<msgid>Default conversion?
+<msgstr>
+
+#: ToolTipText->frmConversion.frm:81 ToolTipText->frmForeignKey.frm:117
+<msgid>This controls whether the constraint can be deferred to the end of the transaction.
+<msgstr>
+
+#: ToolTipText->frmConversion.frm:92 ToolTipText->frmConversion.frm:114
+<msgid>The Conversions OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmConversion.frm:103
+<msgid>The name of the Conversion.
+<msgstr>
+
+#: ToolTipText->frmConversion.frm:123 ToolTipText->frmForeignKey.frm:148
+<msgid>The table that the foreign key will be part of.
+<msgstr>
+
+#: ToolTipText->frmConversion.frm:139 ToolTipText->frmConversion.frm:155 ToolTipText->frmForeignKey.frm:164
+<msgid>The table referenced by the foreign key.
+<msgstr>
+
+#: Caption->frmConversion.frm:168 frmConversion.frm:373
+<msgid>Conversion procedure
+<msgstr>
+
+#: Caption->frmConversion.frm:178 frmConversion.frm:373
+<msgid>Source encoding
+<msgstr>
+
+#: Caption->frmConversion.frm:188 frmConversion.frm:373
+<msgid>Destination encoding
+<msgstr>
+
+#: frmConversion.frm:287
+<msgid>Create Conversion
+<msgstr>
+
+#: frmConversion.frm:329
+<msgid>Conversion: 
+<msgstr>
+
+#: frmConversion.frm:368
+<msgid>You must specify a conversion name!
+<msgstr>
+
+#: frmConversion.frm:376
+<msgid>You must specify a 
+<msgstr>
+
+#: frmConversion.frm:384
+<msgid>Creating Conversion...
+<msgstr>
+
+#: frmConversion.frm:394
+<msgid>Updating Conversion...
+<msgstr>
+
+#: Caption->frmDatabase.frm:6 Caption->frmFind.frm:202 frmMain.frm:2543
+#: frmMain.frm:2601 frmMain.frm:2625 frmMain.frm:5468
+<msgid>Database
+<msgstr>
+
+#: TabCaption->frmDatabase.frm:141 TabCaption->frmUser.frm:73
+<msgid>&Variables
+<msgstr>
+
+#: TabCaption->frmDatabase.frm:154 TabCaption->frmFunction.frm:147 TabCaption->frmLanguage.frm:98
+#: TabCaption->frmNamespace.frm:74 TabCaption->frmSequence.frm:91 TabCaption->frmTable.frm:105
+#: TabCaption->frmView.frm:78
+<msgid>&Security
+<msgstr>
+
+#: Caption->frmDatabase.frm:177
+<msgid>&Show Current Settings
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:182
+<msgid>Show the current variables and their values.
+<msgstr>
+
+#: Caption->frmDatabase.frm:201 Caption->frmDatabase.frm:296 Caption->frmForeignKey.frm:101
+#: Caption->frmFunction.frm:180 Caption->frmFunction.frm:244 Caption->frmLanguage.frm:161
+#: Caption->frmNamespace.frm:206 Caption->frmOperatorClass.frm:146 Caption->frmOperatorClass.frm:178
+#: Caption->frmSequence.frm:224 Caption->frmTable.frm:166 Caption->frmTable.frm:186
+#: Caption->frmTable.frm:222 Caption->frmTable.frm:232 Caption->frmTable.frm:344
+#: Caption->frmUser.frm:105 Caption->frmView.frm:209
+<msgid>&Remove
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:206 ToolTipText->frmFunction.frm:185 ToolTipText->frmLanguage.frm:166
+#: ToolTipText->frmNamespace.frm:211 ToolTipText->frmSequence.frm:228 ToolTipText->frmTable.frm:348
+#: ToolTipText->frmView.frm:213
+<msgid>Remove the selected entry.
+<msgstr>
+
+#: Caption->frmDatabase.frm:211 Caption->frmForeignKey.frm:91 Caption->frmFunction.frm:190
+#: Caption->frmFunction.frm:254 Caption->frmImportColumn.frm:42 Caption->frmLanguage.frm:151
+#: Caption->frmNamespace.frm:196 Caption->frmOperatorClass.frm:136 Caption->frmOperatorClass.frm:188
+#: Caption->frmSequence.frm:233 Caption->frmSQLOutput.frm:42 Caption->frmTable.frm:176
+#: Caption->frmTable.frm:195 Caption->frmTable.frm:213 Caption->frmTable.frm:242
+#: Caption->frmTable.frm:466 Caption->frmView.frm:200
+<msgid>&Add
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:216 ToolTipText->frmFunction.frm:195 ToolTipText->frmLanguage.frm:156
+#: ToolTipText->frmNamespace.frm:201 ToolTipText->frmSequence.frm:237 ToolTipText->frmTable.frm:470
+#: ToolTipText->frmView.frm:204
+<msgid>Add the defined entry.
+<msgstr>
+
+#: Caption->frmDatabase.frm:221 Caption->frmFunction.frm:200 Caption->frmLanguage.frm:107
+#: Caption->frmNamespace.frm:141 Caption->frmSequence.frm:100 Caption->frmTable.frm:353
+#: Caption->frmView.frm:87
+<msgid>Define Privilege
+<msgstr>
+
+#: Caption->frmDatabase.frm:228
+<msgid>&Temp
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:234
+<msgid>Give temp privilege to the selected entity.
+<msgstr>
+
+#: Caption->frmDatabase.frm:239 Caption->frmNamespace.frm:148
+<msgid>&Create
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:245 ToolTipText->frmNamespace.frm:154
+<msgid>Give create privilege to the selected entity.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:253 ToolTipText->frmFunction.frm:221 ToolTipText->frmLanguage.frm:128
+#: ToolTipText->frmNamespace.frm:173 ToolTipText->frmSequence.frm:190 ToolTipText->frmTable.frm:443
+#: ToolTipText->frmView.frm:177
+<msgid>Select a user, group or 'PUBLIC'.
+<msgstr>
+
+#: Caption->frmDatabase.frm:266 Caption->frmFunction.frm:234 Caption->frmLanguage.frm:141
+#: Caption->frmNamespace.frm:186 Caption->frmSequence.frm:203 Caption->frmTable.frm:456
+#: Caption->frmView.frm:190
+<msgid>User/Group
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:281 ToolTipText->frmUser.frm:130
+<msgid>Enter the name of the variable to add or update.
+<msgstr>
+
+#: Caption->frmDatabase.frm:286 Caption->frmUser.frm:115
+<msgid>&Add/Update
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:291 ToolTipText->frmUser.frm:120
+<msgid>Add (or update) the specified variable.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:301 ToolTipText->frmUser.frm:110
+<msgid>Remove the selected variable.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:310 ToolTipText->frmDatabase.frm:459
+<msgid>Select or enter the encoding scheme to use.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:328
+<msgid>An alternate filesystem location in which to store the new database, specified as a string literal.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:339
+<msgid>The databases owner.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:350
+<msgid>The databases OID (Object ID) in PostgreSQL.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:361
+<msgid>The name of the database.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:370
+<msgid>Comments about the database.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:393
+<msgid>Lists the configuration variables set for this database.
+<msgstr>
+
+#: ToolTipText->frmDatabase.frm:426 ToolTipText->frmFunction.frm:444 ToolTipText->frmLanguage.frm:224
+#: ToolTipText->frmNamespace.frm:220
+<msgid>The access control list for the schema.
+<msgstr>
+
+#: Caption->frmDatabase.frm:472
+<msgid>Template
+<msgstr>
+
+#: Caption->frmDatabase.frm:481 Caption->frmUser.frm:362
+<msgid>Variable Value
+<msgstr>
+
+#: Caption->frmDatabase.frm:489 Caption->frmUser.frm:354
+<msgid>Variable Name
+<msgstr>
+
+#: Caption->frmDatabase.frm:528
+<msgid>Encoding
+<msgstr>
+
+#: Caption->frmDatabase.frm:538 frmMain.frm:2701
+<msgid>Path
+<msgstr>
+
+#: Caption->frmDatabase.frm:548 Caption->frmImportColumn.frm:97 Caption->frmUser.frm:421
+<msgid>Modify
+<msgstr>
+
+#: Caption->frmDatabase.frm:551 Caption->frmImportColumn.frm:100 Caption->frmUser.frm:424
+<msgid>Copy Setting Variable
+<msgstr>
+
+#: Caption->frmDatabase.frm:554 Caption->frmImportColumn.frm:103 Caption->frmUser.frm:427
+<msgid>Paste Setting Variable
+<msgstr>
+
+#: frmDatabase.frm:661
+<msgid>You must specify a database name!
+<msgstr>
+
+#: frmDatabase.frm:667
+<msgid>Creating Database...
+<msgstr>
+
+#: frmDatabase.frm:680
+<msgid>Updating Database...
+<msgstr>
+
+#: frmDatabase.frm:725 frmNamespace.frm:395
+<msgid>Create
+<msgstr>
+
+#: frmDatabase.frm:726
+<msgid>Temp
+<msgstr>
+
+#: frmDatabase.frm:780
+<msgid>Create Database
+<msgstr>
+
+#: frmDatabase.frm:930 frmFunction.frm:974 frmLanguage.frm:590
+#: frmNamespace.frm:535 frmSequence.frm:799 frmTable.frm:1532
+#: frmView.frm:714
+<msgid>' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.
+<msgstr>
+
+#: frmDatabase.frm:990 frmUser.frm:709
+<msgid>You must select a variable to remove!
+<msgstr>
+
+#: frmDatabase.frm:1031 frmUser.frm:750
+<msgid>You must enter a value for the variable!
+<msgstr>
+
+#: Caption->frmDomain.frm:6 frmFind.frm:558 frmMain.frm:3173
+<msgid>Domain
+<msgstr>
+
+#: ToolTipText->frx->frmDomain.frm:111
+<msgid>A default value for columns of the domain data type. The value is any variable-free expression (but subselects are not allowed). The data type of the default expression must match the data type of the domain. 
+<msgstr>
+
+#: Caption->frmDomain.frm:128
+<msgid>Not null?
+<msgstr>
+
+#: ToolTipText->frx->frmDomain.frm:133
+<msgid>Indicates that operators and functions which use this data type should be passed an argument by value rather than by reference. Note that you may not pass by value types whose internal representation is more than four bytes.
+<msgstr>
+
+#: ToolTipText->frmDomain.frm:144
+<msgid>The domains owner.
+<msgstr>
+
+#: ToolTipText->frmDomain.frm:155
+<msgid>The domains OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmDomain.frm:166
+<msgid>The name of the domain.
+<msgstr>
+
+#: ToolTipText->frmDomain.frm:186
+<msgid>The data type of the domain.
+<msgstr>
+
+#: ToolTipText->frmDomain.frm:202 ToolTipText->frmOperator.frm:207 ToolTipText->frmType.frm:189
+<msgid>Comments about the operator.
+<msgstr>
+
+#: Caption->frmDomain.frm:220 frmMain.frm:3212 frmMain.frm:3450
+#: frmMain.frm:3917 frmMain.frm:4028 frmMain.frm:4469
+#: Caption->frmOptions.frm:275 Caption->frmType.frm:291
+<msgid>Default
+<msgstr>
+
+#: Caption->frmDomain.frm:230
+<msgid>Base type
+<msgstr>
+
+#: Caption->frmDomain.frm:280
+<msgid>Numeric scale
+<msgstr>
+
+#: frmDomain.frm:332
+<msgid>You must specify a Domain name!
+<msgstr>
+
+#: frmDomain.frm:338
+<msgid>You must select a base type!
+<msgstr>
+
+#: frmDomain.frm:345
+<msgid>Creating Domain...
+<msgstr>
+
+#: frmDomain.frm:356
+<msgid>Updating Domain...
+<msgstr>
+
+#: frmDomain.frm:393
+<msgid>Create Domain
+<msgstr>
+
+#: frmDomain.frm:428
+<msgid>Domain: 
+<msgstr>
+
+#: frmDomain.frm:433 frmMain.frm:3204 frmMain.frm:3909
+<msgid>Variable
+<msgstr>
+
+#: Caption->frmDummy.frm:2
+<msgid>Dummy Form
+<msgstr>
+
+#: Caption->frmError.frm:16
+<msgid>&Auto Start Application on exit
+<msgstr>
+
+#: Caption->frmError.frm:25
+<msgid>&Ignore this error (in this routine) until application is restarted
+<msgstr>
+
+#: Caption->frmError.frm:80
+<msgid>&Error Info.
+<msgstr>
+
+#: ToolTipText->frmError.frm:85
+<msgid>Display error information.
+<msgstr>
+
+#: Caption->frmError.frm:90
+<msgid>D&river Info.
+<msgstr>
+
+#: ToolTipText->frmError.frm:95
+<msgid>Display ODBC driver information.
+<msgstr>
+
+#: Caption->frmError.frm:100
+<msgid>&Db Info.
+<msgstr>
+
+#: ToolTipText->frmError.frm:105
+<msgid>Display database information.
+<msgstr>
+
+#: Caption->frmError.frm:110
+<msgid>&App Info.
+<msgstr>
+
+#: ToolTipText->frmError.frm:115
+<msgid>Display application information.
+<msgstr>
+
+#: Caption->frmError.frm:120
+<msgid>&System Info.
+<msgstr>
+
+#: ToolTipText->frmError.frm:125
+<msgid>Display system information.
+<msgstr>
+
+#: Caption->frmError.frm:131 frmError.frm:255 frmError.frm:263
+<msgid>D&etails >>
+<msgstr>
+
+#: ToolTipText->frmError.frm:135
+<msgid>Show extended details of the error.
+<msgstr>
+
+#: Caption->frmError.frm:140
+<msgid>&Continue
+<msgstr>
+
+#: ToolTipText->frmError.frm:145
+<msgid>Ignore the error and continue running pgAdmin.
+<msgstr>
+
+#: Caption->frmError.frm:150
+<msgid>Send &Mail
+<msgstr>
+
+#: ToolTipText->frmError.frm:154
+<msgid>Send details of this error to the support mailing list.
+<msgstr>
+
+#: Caption->frmError.frm:159
+<msgid>&Exit
+<msgstr>
+
+#: ToolTipText->frmError.frm:163
+<msgid>Exit from pgAdmin.
+<msgstr>
+
+#: Caption->frmError.frm:177
+<msgid>Error Handler
+<msgstr>
+
+#: Caption->frmError.frm:196
+<msgid>An Error Occured in pgAdmin2;
+<msgstr>
+
+#: frmError.frm:240
+<msgid> Error
+<msgstr>
+
+#: frmError.frm:257
+<msgid><< D&etails
+<msgstr>
+
+#: frmError.frm:295
+<msgid>Activate log error, Log settings are under Tools -> Options
+<msgstr>
+
+#: frmError.frm:295 frmError.frm:300
+<msgid>Activate Log
+<msgstr>
+
+#: frmError.frm:300
+<msgid>Set log file name, Log settings are under Tools -> Options
+<msgstr>
+
+#: frmError.frm:326
+<msgid>Add log file '
+<msgstr>
+
+#: frmError.frm:326
+<msgid>' to mail!
+<msgstr>
+
+#: frmError.frm:326
+<msgid>Send Error Mail
+<msgstr>
+
+#: Caption->frmFind.frm:4
+<msgid>Find Object
+<msgstr>
+
+#: Caption->frmFind.frm:16
+<msgid>Find only for &Oid
+<msgstr>
+
+#: ToolTipText->frmFind.frm:20
+<msgid>Check to find only Oid.
+<msgstr>
+
+#: Caption->frmFind.frm:25
+<msgid>Find only for Oid
+<msgstr>
+
+#: ToolTipText->frmFind.frm:37
+<msgid>Enter an object Oid.
+<msgstr>
+
+#: Caption->frmFind.frm:43
+<msgid>Oid
+<msgstr>
+
+#: Caption->frmFind.frm:54
+<msgid>Display columns
+<msgstr>
+
+#: ToolTipText->frmFind.frm:64
+<msgid>What columns should be included in the results?
+<msgstr>
+
+#: Caption->frmFind.frm:91
+<msgid>Find options
+<msgstr>
+
+#: ToolTipText->frmFind.frm:101
+<msgid>Enter an object's DDL, or part of an object's DDL.
+<msgstr>
+
+#: ToolTipText->frmFind.frm:109
+<msgid>Enter an object comment or part of an object comment.
+<msgstr>
+
+#: ToolTipText->frmFind.frm:117
+<msgid>Enter an object name, or part of an object name.
+<msgstr>
+
+#: ToolTipText->frmFind.frm:125
+<msgid>Select a database to search.
+<msgstr>
+
+#: ToolTipText->frmFind.frm:140
+<msgid>What search type should be used?
+<msgstr>
+
+#: ToolTipText->frmFind.frm:155
+<msgid>Select the schemas to search in.
+<msgstr>
+
+#: Caption->frmFind.frm:182 frmFind.frm:585 frmFind.frm:711
+#: Caption->frmSQLInput.frm:4
+<msgid>SQL
+<msgstr>
+
+#: Caption->frmFind.frm:192 frmFind.frm:584 frmFind.frm:710
+#: frmMain.frm:2602 frmMain.frm:2725 frmMain.frm:3037
+#: frmMain.frm:3080 frmMain.frm:3107 frmMain.frm:3147
+#: frmMain.frm:3174 frmMain.frm:3218 frmMain.frm:3247
+#: frmMain.frm:3312 frmMain.frm:3339 frmMain.frm:3397
+#: frmMain.frm:3499 frmMain.frm:3586 frmMain.frm:3649
+#: frmMain.frm:3752 frmMain.frm:3880 frmMain.frm:3927
+#: frmMain.frm:4141 frmMain.frm:4231 frmMain.frm:4308
+#: frmMain.frm:4344 frmMain.frm:4371 frmMain.frm:4405
+#: frmMain.frm:4437 frmMain.frm:4483 frmMain.frm:4510
+#: frmMain.frm:4551
+<msgid>Comment
+<msgstr>
+
+#: Caption->frmFind.frm:212 frmFind.frm:581 frmFind.frm:709
+#: frmMain.frm:3036 Caption->frmNamespace.frm:7
+<msgid>Schema
+<msgstr>
+
+#: Caption->frmFind.frm:232
+<msgid>Search for
+<msgstr>
+
+#: Caption->frmFind.frm:242
+<msgid>&Advanced Options
+<msgstr>
+
+#: ToolTipText->frmFind.frm:246
+<msgid>Check to apply advanced search options.
+<msgstr>
+
+#: Caption->frmFind.frm:251
+<msgid>Find
+<msgstr>
+
+#: Caption->frmFind.frm:259
+<msgid>Advanced options
+<msgstr>
+
+#: ToolTipText->frmFind.frm:270
+<msgid>Select the object types to search for.
+<msgstr>
+
+#: ToolTipText->frmFind.frm:300
+<msgid>Select the object owners whose objects will be searched.
+<msgstr>
+
+#: Caption->frmFind.frm:328
+<msgid>Object Type
+<msgstr>
+
+#: Caption->frmFind.frm:339
+<msgid>By Owner
+<msgstr>
+
+#: ToolTipText->frmFind.frm:491
+<msgid>Displays the results of the search.
+<msgstr>
+
+#: frmFind.frm:547
+<msgid>Whole Word
+<msgstr>
+
+#: frmFind.frm:548
+<msgid>Beginning
+<msgstr>
+
+#: frmFind.frm:549
+<msgid>Ending
+<msgstr>
+
+#: frmFind.frm:550
+<msgid>Substring
+<msgstr>
+
+#: frmFind.frm:562 Caption->frmFunction.frm:520 Caption->frmLanguage.frm:5
+#: frmMain.frm:2981 frmMain.frm:3293 Caption->frmTrasLang.frm:139
+<msgid>Language
+<msgstr>
+
+#: frmFind.frm:563 frmMain.frm:3338 Caption->frmOperator.frm:6
+#: Caption->frmOperatorClass.frm:426 Caption->frmSQLWizard.frm:174 Caption->frmSQLWizard.frm:821
+<msgid>Operator
+<msgstr>
+
+#: frmFind.frm:565 frmMain.frm:3422 Caption->frmOperatorClass.frm:5
+<msgid>Operator Class
+<msgstr>
+
+#: frmFind.frm:567 frmMain.frm:3498 frmMain.frm:3528
+#: Caption->frmSequence.frm:6
+<msgid>Sequence
+<msgstr>
+
+#: frmFind.frm:569 frmMain.frm:3879 frmMain.frm:4436
+#: Caption->frmType.frm:6
+<msgid>Type
+<msgstr>
+
+#: frmFind.frm:570 frmMain.frm:4509 Caption->frmView.frm:7
+<msgid>View
+<msgstr>
+
+#: frmFind.frm:583 frmFind.frm:712
+<msgid>Oid Object
+<msgstr>
+
+#: frmFind.frm:695
+<msgid>Find in progress...
+<msgstr>
+
+#: frmFind.frm:717
+<msgid>Oid is not numeric!
+<msgstr>
+
+#: frmFind.frm:787
+<msgid>Schema not selected!
+<msgstr>
+
+#: Caption->frmForeignKey.frm:5 frmMain.frm:4062
+<msgid>Foreign Key
+<msgstr>
+
+#: TabCaption->frmForeignKey.frm:79
+<msgid>&Relationships
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:96
+<msgid>Add the defined relationship.
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:106
+<msgid>Remove the selected relationship.
+<msgstr>
+
+#: Caption->frmForeignKey.frm:112
+<msgid>Deferrable?
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:128
+<msgid>The name of the foreign key.
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:139
+<msgid>The foreign keys OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:180
+<msgid>The action to take when a referenced row in the referenced table is being deleted.
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:196
+<msgid>The action to take when a referenced column in the referenced table is being updated to a new value.
+<msgstr>
+
+#: ToolTipText->frx->frmForeignKey.frm:212
+<msgid>The default time to check the constraint. IMMEDIATE: Check constraint after each statement, DEFERRED: Check constraint only at the end of the transaction.V
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:228
+<msgid>Lists the relationships in the foreign key.
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:261
+<msgid>Select a column in the local table.
+<msgstr>
+
+#: ToolTipText->frmForeignKey.frm:277
+<msgid>Select the column to be referenced in the referenced table.
+<msgstr>
+
+#: Caption->frmForeignKey.frm:290
+<msgid>Local column
+<msgstr>
+
+#: Caption->frmForeignKey.frm:300
+<msgid>Referenced column
+<msgstr>
+
+#: Caption->frmForeignKey.frm:310 frmMain.frm:4096
+<msgid>Initially
+<msgstr>
+
+#: Caption->frmForeignKey.frm:320
+<msgid>On update
+<msgstr>
+
+#: Caption->frmForeignKey.frm:330
+<msgid>On delete
+<msgstr>
+
+#: Caption->frmForeignKey.frm:340
+<msgid>Referenced table
+<msgstr>
+
+#: frmForeignKey.frm:485
+<msgid>You must specify a Foreign Key name!
+<msgstr>
+
+#: frmForeignKey.frm:491
+<msgid>You must select a referenced table!
+<msgstr>
+
+#: frmForeignKey.frm:497
+<msgid>You must specify at least one relationship!
+<msgstr>
+
+#: frmForeignKey.frm:507
+<msgid>A foreign key with that name already exists!
+<msgstr>
+
+#: frmForeignKey.frm:577
+<msgid>Create Foreign Key
+<msgstr>
+
+#: frmForeignKey.frm:645
+<msgid>ForeignKey: 
+<msgstr>
+
+#: TabCaption->frmFunction.frm:131
+<msgid>&Input/Output
+<msgstr>
+
+#: TabCaption->frmFunction.frm:142 TabCaption->frmView.frm:72
+<msgid>&Definition
+<msgstr>
+
+#: Caption->frmFunction.frm:157 frmMain.frm:3305
+<msgid>Security Definer?
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:163
+<msgid>Indicates whether the function is a security definer.
+<msgstr>
+
+#: Caption->frmFunction.frm:169 frmMain.frm:3301
+<msgid>Returns a Set?
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:175
+<msgid>Indicates whether the function returns a set (ie, multiple values of the specified data type).
+<msgstr>
+
+#: Caption->frmFunction.frm:207
+<msgid>&Execute
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:213
+<msgid>Give execute privilege to the selected entity.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:249 ToolTipText->frmOperatorClass.frm:151 ToolTipText->frmOperatorClass.frm:183
+<msgid>Remove the selected argument.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:259 ToolTipText->frmOperatorClass.frm:141 ToolTipText->frmOperatorClass.frm:193
+<msgid>Add argument.
+<msgstr>
+
+#: ToolTipText->frx->frmFunction.frm:268
+<msgid>The data type(s) of the function's arguments, if any. The input types may be base or complex types, or opaque. Opaque indicates that the function accepts arguments of a non-SQL type such as char *.†
+<msgstr>
+
+#: Caption->frmFunction.frm:293 frmMain.frm:3308
+<msgid>Strict?
+<msgstr>
+
+#: ToolTipText->frx->frmFunction.frm:298
+<msgid>Strict indicates that the function always returns NULL whenever any of its arguments are NULL. If this attribute is specified, the function is not executed when there are NULL arguments; instead a NULL result is assumed automatically. When Strict is not specified, the function will be called for NULL inputs. It is then the function author's responsibility to check for NULLs if necessary and respond appropriately.7
+<msgstr>
+
+#: Caption->frmFunction.frm:304 frmMain.frm:3298
+<msgid>Cachable?
+<msgstr>
+
+#: ToolTipText->frx->frmFunction.frm:310
+<msgid>Cachable indicates that the function always returns the same result when given the same argument values (i.e., it does not do database lookups or otherwise use information not directly present in its parameter list). The optimizer uses Cachable to know whether it is safe to pre-evaluate a call of the function.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:319
+<msgid>May be 'sql', 'C', 'internal', or 'plname', where 'plname' is the name of a created procedural language.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:337
+<msgid>The functions owner.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:348
+<msgid>The functions OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:359
+<msgid>The name of the function.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:368
+<msgid>Comments about the function.
+<msgstr>
+
+#: ToolTipText->frx->frmFunction.frm:389
+<msgid>A string defining the function; the meaning depends on the language. It may be an internal function name, the path to an object file, an SQL query, or text in a procedural language.
+<msgstr>
+
+#: Caption->frmFunction.frm:405
+<msgid>Function Definition/Object Library
+<msgstr>
+
+#: ToolTipText->frx->frmFunction.frm:412
+<msgid>The return data type. The output type may be specified as a base type, complex type, setof type, or opaque. The setof modifier indicates that the function will return a set of items, rather than a single item.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:428
+<msgid>Select an agument data type to add to the argument list.
+<msgstr>
+
+#: ToolTipText->frmFunction.frm:477
+<msgid>Indicates whether the function's result depends only on its input arguments, or is affected by outside factors.
+<msgstr>
+
+#: Caption->frmFunction.frm:490 frmMain.frm:3303
+<msgid>Volatility
+<msgstr>
+
+#: Caption->frmFunction.frm:500 frmMain.frm:3278
+<msgid>Arguments
+<msgstr>
+
+#: Caption->frmFunction.frm:510
+<msgid>Return Type
+<msgstr>
+
+#: frmFunction.frm:636
+<msgid>You must specify a function name!
+<msgstr>
+
+#: frmFunction.frm:642
+<msgid>You must select a function language!
+<msgstr>
+
+#: frmFunction.frm:648
+<msgid>You must select a return type!
+<msgstr>
+
+#: frmFunction.frm:654
+<msgid>You must specify the function definition or object library!
+<msgstr>
+
+#: frmFunction.frm:669
+<msgid>Creating Function...
+<msgstr>
+
+#: frmFunction.frm:680
+<msgid>Updating Function...
+<msgstr>
+
+#: frmFunction.frm:710
+<msgid>Execute
+<msgstr>
+
+#: frmFunction.frm:768
+<msgid>Create Function
+<msgstr>
+
+#: frmFunction.frm:854
+<msgid>Function: 
+<msgstr>
+
+#: Caption->frmGroup.frm:5 frmMain.frm:2796
+<msgid>Group
+<msgstr>
+
+#: ToolTipText->frmGroup.frm:87
+<msgid>All PostgreSQL users are listed, those that are ticked are members of the group.
+<msgstr>
+
+#: ToolTipText->frmGroup.frm:124
+<msgid>The user group ID.
+<msgstr>
+
+#: ToolTipText->frmGroup.frm:135
+<msgid>The name of the user group.
+<msgstr>
+
+#: Caption->frmGroup.frm:141 frmMain.frm:2798 frmMain.frm:2829
+<msgid>Members
+<msgstr>
+
+#: Caption->frmGroup.frm:151
+<msgid>Group name
+<msgstr>
+
+#: Caption->frmGroup.frm:161 frmMain.frm:2797 frmMain.frm:2825
+<msgid>Group ID
+<msgstr>
+
+#: frmGroup.frm:209
+<msgid>You must specify a group name!
+<msgstr>
+
+#: frmGroup.frm:215
+<msgid>Creating Group...
+<msgstr>
+
+#: frmGroup.frm:226
+<msgid>Updating Group...
+<msgstr>
+
+#: frmGroup.frm:277
+<msgid>Create Group
+<msgstr>
+
+#: frmGroup.frm:296
+<msgid>Group: 
+<msgstr>
+
+#: Caption->frmImportColumn.frm:5
+<msgid>Import column
+<msgstr>
+
+#: ToolTipText->frmImportColumn.frm:47 ToolTipText->frmSQLWizard.frm:613
+<msgid>Add the selected column.
+<msgstr>
+
+#: TabCaption->frmImportColumn.frm:63
+<msgid>&Database
+<msgstr>
+
+#: frmImportColumn.frm:136
+<msgid>Load column table...
+<msgstr>
+
+#: frmImportColumn.frm:177 frmImportColumn.frm:181
+<msgid>You must select a column to import!
+<msgstr>
+
+#: frmImportColumn.frm:232
+<msgid>Type : 
+<msgstr>
+
+#: frmImportColumn.frm:233
+<msgid>Length : 
+<msgstr>
+
+#: frmImportColumn.frm:234
+<msgid>Default : 
+<msgstr>
+
+#: frmImportColumn.frm:235
+<msgid>Not Null : 
+<msgstr>
+
+#: frmImportColumn.frm:236
+<msgid>Primary Key : 
+<msgstr>
+
+#: frmImportColumn.frm:237
+<msgid>Comment : 
+<msgstr>
+
+#: Caption->frmIndex.frm:6 frmMain.frm:4140 frmMain.frm:4171
+<msgid>Index
+<msgstr>
+
+#: ToolTipText->frmIndex.frm:84
+<msgid>Comments about the index.
+<msgstr>
+
+#: ToolTipText->frmIndex.frm:105
+<msgid>Lists the indexed columns.
+<msgstr>
+
+#: Caption->frmIndex.frm:132
+<msgid>Unique Index?
+<msgstr>
+
+#: ToolTipText->frmIndex.frm:137
+<msgid>Is the index Unique?
+<msgstr>
+
+#: Caption->frmIndex.frm:143
+<msgid>Primary Index?
+<msgstr>
+
+#: ToolTipText->frmIndex.frm:148
+<msgid>Is the index a Primary Key?
+<msgstr>
+
+#: ToolTipText->frmIndex.frm:159
+<msgid>The indexes OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmIndex.frm:168
+<msgid>The name of the index.
+<msgstr>
+
+#: ToolTipText->frmIndex.frm:177
+<msgid>The indexed table.
+<msgstr>
+
+#: ToolTipText->frx->frmIndex.frm:193
+<msgid>The name of the access method to be used for the index. Postgres provides three access methods for indexes: BTREE, an implementation of Lehman-Yao high-concurrency btrees. RTREE, implements standard rtrees using Guttman's quadratic split algorithm. HASH, an implementation of Litwin's linear hashing.ñ
+<msgstr>
+
+#: ToolTipText->frmIndex.frm:209
+<msgid>Defines the constraint expression for a partial index (PostgreSQL 7.2+).
+<msgstr>
+
+#: Caption->frmIndex.frm:225 frmMain.frm:4227
+<msgid>Constraint
+<msgstr>
+
+#: Caption->frmIndex.frm:229
+<msgid>Indexed Columns
+<msgstr>
+
+#: Caption->frmIndex.frm:239 frmMain.frm:4213
+<msgid>Index Type
+<msgstr>
+
+#: frmIndex.frm:345
+<msgid>You must specify a Index name!
+<msgstr>
+
+#: frmIndex.frm:351 frmTrigger.frm:363
+<msgid>You must select a table!
+<msgstr>
+
+#: frmIndex.frm:363
+<msgid>You must select at least one column!
+<msgstr>
+
+#: frmIndex.frm:369
+<msgid>Creating Index...
+<msgstr>
+
+#: frmIndex.frm:380
+<msgid>Updating Index...
+<msgstr>
+
+#: frmIndex.frm:427
+<msgid>Create Index
+<msgstr>
+
+#: frmIndex.frm:460
+<msgid>Index: 
+<msgstr>
+
+#: Caption->frmLanguage.frm:114
+<msgid>&Usage
+<msgstr>
+
+#: ToolTipText->frmLanguage.frm:120
+<msgid>Give usage privilege to the selected entity.
+<msgstr>
+
+#: ToolTipText->frmLanguage.frm:175
+<msgid>The name of a previously registered function that will be called to execute the PL procedures.
+<msgstr>
+
+#: Caption->frmLanguage.frm:188 frmMain.frm:3008
+<msgid>Trusted?
+<msgstr>
+
+#: ToolTipText->frx->frmLanguage.frm:193
+<msgid>TRUSTED specifies that the call handler for the language is safe; that is, it offers an unprivileged user no functionality to bypass access restrictions. If this keyword is omitted when registering the language, only users with the Postgres superuser privilege can use this language to create new functions.
+<msgstr>
+
+#: ToolTipText->frmLanguage.frm:204
+<msgid>The name of the language.
+<msgstr>
+
+#: ToolTipText->frmLanguage.frm:215
+<msgid>The languages OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frx->frmLanguage.frm:257
+<msgid>The name of a previously registered function that will be called when a new function in the language is created, to validate the new function.
+<msgstr>
+
+#: Caption->frmLanguage.frm:270
+<msgid>Validator
+<msgstr>
+
+#: Caption->frmLanguage.frm:280 frmMain.frm:3006
+<msgid>Handler
+<msgstr>
+
+#: frmLanguage.frm:351
+<msgid>You must specify a Language name!
+<msgstr>
+
+#: frmLanguage.frm:357
+<msgid>You must select a Language handler!
+<msgstr>
+
+#: frmLanguage.frm:364
+<msgid>Creating Language...
+<msgstr>
+
+#: frmLanguage.frm:375
+<msgid>Updating Language...
+<msgstr>
+
+#: frmLanguage.frm:404 frmNamespace.frm:396
+<msgid>Usage
+<msgstr>
+
+#: frmLanguage.frm:452
+<msgid>Create Language
+<msgstr>
+
+#: frmLanguage.frm:505
+<msgid>Language: 
+<msgstr>
+
+#: Caption->frmLog.frm:3
+<msgid>Log View
+<msgstr>
+
+#: ToolTipText->frmLog.frm:23
+<msgid>Displays pgAdmin's rolling log.
+<msgstr>
+
+#: Caption->frmMain.frm:6
+<msgid>pgAdmin II
+<msgstr>
+
+#: ToolTipText->frmMain.frm:26
+<msgid>Displays the SQL Definition of the currently selected object.
+<msgstr>
+
+#: Caption->frmMain.frm:42 frmMain.frm:3855 frmMain.frm:4340
+#: frmMain.frm:4547 Caption->frmTable.frm:637
+<msgid>Definition
+<msgstr>
+
+#: TabCaption->frmMain.frm:563
+<msgid>&Statistics
+<msgstr>
+
+#: TabCaption->frmMain.frm:568
+<msgid>&Dependencies
+<msgstr>
+
+#: TabCaption->frmMain.frm:573
+<msgid>&Locks
+<msgstr>
+
+#: Caption->frmMain.frm:681
+<msgid>&File
+<msgstr>
+
+#: Caption->frmMain.frm:683
+<msgid>&Connect...
+<msgstr>
+
+#: Caption->frmMain.frm:687
+<msgid>Change &Password...
+<msgstr>
+
+#: Caption->frmMain.frm:691 Caption->frmMain.frm:703 Caption->frmMain.frm:841
+#: Caption->frmMain.frm:861 Caption->frmMain.frm:887 Caption->frmMain.frm:904
+#: Caption->frmMain.frm:915 Caption->frmMain.frm:1006 Caption->frmMain.frm:1017
+#: Caption->frmMain.frm:1038 Caption->frmMain.frm:1048 Caption->frmVisualQueryBuilder.frm:157
+#: Caption->frmVisualQueryBuilder.frm:172
+<msgid>-
+<msgstr>
+
+#: Caption->frmMain.frm:694
+<msgid>&Save Definition...
+<msgstr>
+
+#: Caption->frmMain.frm:699
+<msgid>S&ave DB Schema...
+<msgstr>
+
+#: Caption->frmMain.frm:706
+<msgid>E&xit
+<msgstr>
+
+#: Caption->frmMain.frm:711 Caption->frmSQLOutput.frm:32
+<msgid>&Edit
+<msgstr>
+
+#: Caption->frmMain.frm:713 Caption->frmMain.frm:907
+<msgid>&Copy
+<msgstr>
+
+#: Caption->frmMain.frm:718 Caption->frmMain.frm:911
+<msgid>&Paste
+<msgstr>
+
+#: Caption->frmMain.frm:724 TabCaption->frmOptions.frm:69
+<msgid>&Plugins
+<msgstr>
+
+#: Caption->frmMain.frm:726
+<msgid>You should never see this!
+<msgstr>
+
+#: Caption->frmMain.frm:730
+<msgid>Plugin1
+<msgstr>
+
+#: Caption->frmMain.frm:735
+<msgid>Plugin2
+<msgstr>
+
+#: Caption->frmMain.frm:740
+<msgid>Plugin3
+<msgstr>
+
+#: Caption->frmMain.frm:745
+<msgid>Plugin4
+<msgstr>
+
+#: Caption->frmMain.frm:750
+<msgid>Plugin5
+<msgstr>
+
+#: Caption->frmMain.frm:755
+<msgid>Plugin6
+<msgstr>
+
+#: Caption->frmMain.frm:760
+<msgid>Plugin7
+<msgstr>
+
+#: Caption->frmMain.frm:765
+<msgid>Plugin8
+<msgstr>
+
+#: Caption->frmMain.frm:770
+<msgid>Plugin9
+<msgstr>
+
+#: Caption->frmMain.frm:775
+<msgid>Plugin10
+<msgstr>
+
+#: Caption->frmMain.frm:780
+<msgid>Plugin11
+<msgstr>
+
+#: Caption->frmMain.frm:785
+<msgid>Plugin12
+<msgstr>
+
+#: Caption->frmMain.frm:790
+<msgid>Plugin13
+<msgstr>
+
+#: Caption->frmMain.frm:795
+<msgid>Plugin14
+<msgstr>
+
+#: Caption->frmMain.frm:800
+<msgid>Plugin15
+<msgstr>
+
+#: Caption->frmMain.frm:805
+<msgid>Plugin16
+<msgstr>
+
+#: Caption->frmMain.frm:810
+<msgid>Plugin17
+<msgstr>
+
+#: Caption->frmMain.frm:815
+<msgid>Plugin18
+<msgstr>
+
+#: Caption->frmMain.frm:820
+<msgid>Plugin19
+<msgstr>
+
+#: Caption->frmMain.frm:825
+<msgid>Plugin20
+<msgstr>
+
+#: Caption->frmMain.frm:831
+<msgid>&Tools
+<msgstr>
+
+#: Caption->frmMain.frm:833
+<msgid>&Find Object
+<msgstr>
+
+#: Caption->frmMain.frm:838
+<msgid>&Upgrade Wizard...
+<msgstr>
+
+#: Caption->frmMain.frm:844
+<msgid>&Options...
+<msgstr>
+
+#: Caption->frmMain.frm:848
+<msgid>Utility
+<msgstr>
+
+#: Caption->frmMain.frm:850
+<msgid>&Language Traslation...
+<msgstr>
+
+#: Caption->frmMain.frm:855
+<msgid>&View
+<msgstr>
+
+#: Caption->frmMain.frm:857
+<msgid>System Objects
+<msgstr>
+
+#: Caption->frmMain.frm:864
+<msgid>Show &Definition Pane
+<msgstr>
+
+#: Caption->frmMain.frm:867
+<msgid>Show &Log Window
+<msgstr>
+
+#: Caption->frmMain.frm:870
+<msgid>Show &Status Bar
+<msgstr>
+
+#: Caption->frmMain.frm:874
+<msgid>Show &Tool Bar
+<msgstr>
+
+#: Caption->frmMain.frm:879
+<msgid>&Help
+<msgstr>
+
+#: Caption->frmMain.frm:881
+<msgid>&Contents
+<msgstr>
+
+#: Caption->frmMain.frm:884
+<msgid>&Tip of the Day
+<msgstr>
+
+#: Caption->frmMain.frm:890
+<msgid>&About
+<msgstr>
+
+#: Caption->frmMain.frm:894
+<msgid>&Popup
+<msgstr>
+
+#: Caption->frmMain.frm:897
+<msgid>&Connect to server...
+<msgstr>
+
+#: Caption->frmMain.frm:900
+<msgid>&Refresh below selection
+<msgstr>
+
+#: Caption->frmMain.frm:918
+<msgid>&Create object
+<msgstr>
+
+#: Caption->frmMain.frm:921
+<msgid>&Aggregate...
+<msgstr>
+
+#: Caption->frmMain.frm:925
+<msgid>&Cast...
+<msgstr>
+
+#: Caption->frmMain.frm:929
+<msgid>&Conversion...
+<msgstr>
+
+#: Caption->frmMain.frm:933
+<msgid>&Database...
+<msgstr>
+
+#: Caption->frmMain.frm:937
+<msgid>Do&main...
+<msgstr>
+
+#: Caption->frmMain.frm:941
+<msgid>&Function...
+<msgstr>
+
+#: Caption->frmMain.frm:945
+<msgid>&Group...
+<msgstr>
+
+#: Caption->frmMain.frm:949
+<msgid>&Index...
+<msgstr>
+
+#: Caption->frmMain.frm:953
+<msgid>&Language...
+<msgstr>
+
+#: Caption->frmMain.frm:957
+<msgid>&Operator...
+<msgstr>
+
+#: Caption->frmMain.frm:961
+<msgid>Operator &Class...
+<msgstr>
+
+#: Caption->frmMain.frm:964
+<msgid>&Rule...
+<msgstr>
+
+#: Caption->frmMain.frm:968
+<msgid>&Schema
+<msgstr>
+
+#: Caption->frmMain.frm:972
+<msgid>&Sequence...
+<msgstr>
+
+#: Caption->frmMain.frm:976
+<msgid>&Table...
+<msgstr>
+
+#: Caption->frmMain.frm:980
+<msgid>Tri&gger...
+<msgstr>
+
+#: Caption->frmMain.frm:984
+<msgid>T&ype...
+<msgstr>
+
+#: Caption->frmMain.frm:988
+<msgid>&User...
+<msgstr>
+
+#: Caption->frmMain.frm:992
+<msgid>&View...
+<msgstr>
+
+#: Caption->frmMain.frm:997
+<msgid>&Drop object
+<msgstr>
+
+#: Caption->frmMain.frm:1002
+<msgid>&Properties...
+<msgstr>
+
+#: Caption->frmMain.frm:1009
+<msgid>&SQL...
+<msgstr>
+
+#: Caption->frmMain.frm:1013
+<msgid>&View Data
+<msgstr>
+
+#: Caption->frmMain.frm:1020
+<msgid>R&eset Database Statistics
+<msgstr>
+
+#: Caption->frmMain.frm:1024
+<msgid>Re&Index
+<msgstr>
+
+#: Caption->frmMain.frm:1028
+<msgid>Vac&uum
+<msgstr>
+
+#: Caption->frmMain.frm:1031
+<msgid>&Vacuum
+<msgstr>
+
+#: Caption->frmMain.frm:1034
+<msgid>Vacuum &Analyse
+<msgstr>
+
+#: Caption->frmMain.frm:1041
+<msgid>&Record Log...
+<msgstr>
+
+#: Caption->frmMain.frm:1044
+<msgid>&Stop Recording
+<msgstr>
+
+#: Caption->frmMain.frm:1051
+<msgid>&Generate Documentation...
+<msgstr>
+
+#: frmMain.frm:1447
+<msgid>This will cause the treeview to be collapsed and rebuilt. Are you sure you wish to continue?
+<msgstr>
+
+#: frmMain.frm:1447
+<msgid>Collapse Treeview
+<msgstr>
+
+#: frmMain.frm:1506
+<msgid>Do you wish to reset Sequence values to zero in the output file?
+<msgstr>
+
+#: frmMain.frm:1506 frmTrasLang.frm:532
+<msgid>Reset Sequences
+<msgstr>
+
+#: frmMain.frm:1509
+<msgid>Save Database Schema
+<msgstr>
+
+#: frmMain.frm:1515
+<msgid>No filename specified - Database Schema not saved.
+<msgstr>
+
+#: frmMain.frm:1515 frmMain.frm:1553 frmSQLInput.frm:302
+#: frmView.frm:508
+<msgid>Warning
+<msgstr>
+
+#: frmMain.frm:1519 frmMain.frm:1557 frmSQLInput.frm:306
+<msgid>File exists - overwrite?
+<msgstr>
+
+#: frmMain.frm:1519 frmMain.frm:1557
+<msgid>Overwrite File
+<msgstr>
+
+#: frmMain.frm:1524
+<msgid>Saving Database Schema...
+<msgstr>
+
+#: frmMain.frm:1547
+<msgid>Save Object Definition
+<msgstr>
+
+#: frmMain.frm:1553
+<msgid>No filename specified - Object Definition not saved.
+<msgstr>
+
+#: frmMain.frm:1562
+<msgid>Saving Object Definition...
+<msgstr>
+
+#: frmMain.frm:1785
+<msgid>Are you sure you wish to reset the database statistics?
+<msgstr>
+
+#: frmMain.frm:1956
+<msgid>Cannot display properties for the current object.
+<msgstr>
+
+#: frmMain.frm:1996
+<msgid>Counting Records...
+<msgstr>
+
+#: frmMain.frm:2005
+<msgid>The query will return 
+<msgstr>
+
+#: frmMain.frm:2005
+<msgid> rows. Do you wish to LIMIT the output on 
+<msgstr>
+
+#: frmMain.frm:2005
+<msgid> rows ?
+<msgstr>
+
+#: frmMain.frm:2005
+<msgid>Row limit
+<msgstr>
+
+#: frmMain.frm:2014 frmSQLInput.frm:147 frmVisualQueryBuilder.frm:358
+<msgid>Executing SQL Query...
+<msgstr>
+
+#: frmMain.frm:2065
+<msgid>Unknown menu button pressed.
+<msgstr>
+
+#: frmMain.frm:2411
+<msgid>Unknown button menu option pressed.
+<msgstr>
+
+#: frmMain.frm:2507 frmMain.frm:2691 frmMain.frm:2821
+#: frmMain.frm:2879 frmMain.frm:2940 frmMain.frm:2998
+#: frmMain.frm:3068 frmMain.frm:3125 frmMain.frm:3192
+#: frmMain.frm:3272 frmMain.frm:3357 frmMain.frm:3442
+#: frmMain.frm:3562 frmMain.frm:3716 frmMain.frm:3851
+#: frmMain.frm:3899 frmMain.frm:4020 frmMain.frm:4082
+#: frmMain.frm:4207 frmMain.frm:4326 frmMain.frm:4389
+#: frmMain.frm:4455 frmMain.frm:4528
+<msgid>Property
+<msgstr>
+
+#: frmMain.frm:2508 frmMain.frm:2692 frmMain.frm:2748
+#: frmMain.frm:2822 frmMain.frm:2880 frmMain.frm:2941
+#: frmMain.frm:2999 frmMain.frm:3069 frmMain.frm:3126
+#: frmMain.frm:3193 frmMain.frm:3273 frmMain.frm:3358
+#: frmMain.frm:3443 frmMain.frm:3563 frmMain.frm:3608
+#: frmMain.frm:3717 frmMain.frm:3774 frmMain.frm:3852
+#: frmMain.frm:3900 frmMain.frm:3953 frmMain.frm:4021
+#: frmMain.frm:4083 frmMain.frm:4208 frmMain.frm:4253
+#: frmMain.frm:4327 frmMain.frm:4390 frmMain.frm:4456
+#: frmMain.frm:4529 Caption->frmSQLWizard.frm:804
+<msgid>Value
+<msgstr>
+
+#: frmMain.frm:2509
+<msgid>Hostname
+<msgstr>
+
+#: frmMain.frm:2515 Caption->frmServer.frm:238
+<msgid>Last system OID
+<msgstr>
+
+#: frmMain.frm:2517
+<msgid>ODBC driver
+<msgstr>
+
+#: frmMain.frm:2519 Caption->frmServer.frm:198
+<msgid>ODBC driver version
+<msgstr>
+
+#: frmMain.frm:2521 Caption->frmServer.frm:218
+<msgid>PostgreSQL version
+<msgstr>
+
+#: frmMain.frm:2523
+<msgid>DBMS
+<msgstr>
+
+#: frmMain.frm:2525
+<msgid>Connection string
+<msgstr>
+
+#: frmMain.frm:2544
+<msgid>PID
+<msgstr>
+
+#: frmMain.frm:2546
+<msgid>Current Query
+<msgstr>
+
+#: frmMain.frm:2561 frmMain.frm:2649 frmMain.frm:2768
+#: frmMain.frm:3546 frmMain.frm:3622 frmMain.frm:3698
+#: frmMain.frm:3810 frmMain.frm:3977 frmMain.frm:4189
+#: frmMain.frm:4273
+<msgid>Statistics are only available with PostgreSQL 7.2 or higher.
+<msgstr>
+
+#: frmMain.frm:2626 frmMain.frm:2751
+<msgid>Backends
+<msgstr>
+
+#: frmMain.frm:2627 frmMain.frm:2753
+<msgid>Xact Committed
+<msgstr>
+
+#: frmMain.frm:2628 frmMain.frm:2755
+<msgid>Xact Rolled Back
+<msgstr>
+
+#: frmMain.frm:2629 frmMain.frm:2757 frmMain.frm:3529
+<msgid>Blocks Read
+<msgstr>
+
+#: frmMain.frm:2630 frmMain.frm:2759 frmMain.frm:3530
+<msgid>Blocks Hit
+<msgstr>
+
+#: frmMain.frm:2699 frmMain.frm:3004 frmMain.frm:3076
+#: frmMain.frm:3291 frmMain.frm:3570 frmMain.frm:3732
+#: frmMain.frm:4539
+<msgid>ACL
+<msgstr>
+
+#: frmMain.frm:2703
+<msgid>Server Encoding
+<msgstr>
+
+#: frmMain.frm:2705 frmMain.frm:2893
+<msgid>Variables
+<msgstr>
+
+#: frmMain.frm:2713
+<msgid>Allow Connections?
+<msgstr>
+
+#: frmMain.frm:2715
+<msgid>Connection Status?
+<msgstr>
+
+#: frmMain.frm:2717
+<msgid>Inaccessible
+<msgstr>
+
+#: frmMain.frm:2719
+<msgid>Connected
+<msgstr>
+
+#: frmMain.frm:2721
+<msgid>Not connected
+<msgstr>
+
+#: frmMain.frm:2723
+<msgid>System Database?
+<msgstr>
+
+#: frmMain.frm:2747 frmMain.frm:3607 frmMain.frm:3773
+#: frmMain.frm:3952 frmMain.frm:4252
+<msgid>Statistic
+<msgstr>
+
+#: frmMain.frm:2827
+<msgid>Member Count
+<msgstr>
+
+#: frmMain.frm:2859 frmMain.frm:2883 Caption->frmUser.frm:401
+<msgid>User ID
+<msgstr>
+
+#: frmMain.frm:2860 frmMain.frm:2885
+<msgid>Account Expires
+<msgstr>
+
+#: frmMain.frm:2887
+<msgid>Create Databases?
+<msgstr>
+
+#: frmMain.frm:2889
+<msgid>Superuser?
+<msgstr>
+
+#: frmMain.frm:2891
+<msgid>Update Catalogues
+<msgstr>
+
+#: frmMain.frm:2955
+<msgid>System Cast?
+<msgstr>
+
+#: frmMain.frm:3010
+<msgid>System Language?
+<msgstr>
+
+#: frmMain.frm:3078
+<msgid>System Schema?
+<msgstr>
+
+#: frmMain.frm:3129
+<msgid>Input Type
+<msgstr>
+
+#: frmMain.frm:3135
+<msgid>State Type
+<msgstr>
+
+#: frmMain.frm:3137
+<msgid>State Function
+<msgstr>
+
+#: frmMain.frm:3139
+<msgid>Final Type
+<msgstr>
+
+#: frmMain.frm:3141
+<msgid>Final Function
+<msgstr>
+
+#: frmMain.frm:3143
+<msgid>Initial Condition
+<msgstr>
+
+#: frmMain.frm:3145
+<msgid>System Aggregate?
+<msgstr>
+
+#: frmMain.frm:3200
+<msgid>Base Type
+<msgstr>
+
+#: frmMain.frm:3214
+<msgid>Not Null?
+<msgstr>
+
+#: frmMain.frm:3216
+<msgid>System Domain?
+<msgstr>
+
+#: frmMain.frm:3276
+<msgid>Argument Count
+<msgstr>
+
+#: frmMain.frm:3285
+<msgid>Returns
+<msgstr>
+
+#: frmMain.frm:3295 frmMain.frm:4030
+<msgid>Source
+<msgstr>
+
+#: frmMain.frm:3310
+<msgid>System Function?
+<msgstr>
+
+#: frmMain.frm:3361
+<msgid>Left Type
+<msgstr>
+
+#: frmMain.frm:3363
+<msgid>Right Type
+<msgstr>
+
+#: frmMain.frm:3369
+<msgid>Operator Function
+<msgstr>
+
+#: frmMain.frm:3371
+<msgid>Join Function
+<msgstr>
+
+#: frmMain.frm:3373
+<msgid>Restrict Function
+<msgstr>
+
+#: frmMain.frm:3375
+<msgid>Result Type
+<msgstr>
+
+#: frmMain.frm:3377 Caption->frmOperator.frm:497
+<msgid>Commutator
+<msgstr>
+
+#: frmMain.frm:3379 Caption->frmOperator.frm:487
+<msgid>Negator
+<msgstr>
+
+#: frmMain.frm:3381
+<msgid>Kind
+<msgstr>
+
+#: frmMain.frm:3383
+<msgid>Hash Joins?
+<msgstr>
+
+#: frmMain.frm:3385
+<msgid>Merge Joins?
+<msgstr>
+
+#: frmMain.frm:3387
+<msgid>Left Sort Operator
+<msgstr>
+
+#: frmMain.frm:3389
+<msgid>Right Sort Operator
+<msgstr>
+
+#: frmMain.frm:3391
+<msgid>Less Than Operator
+<msgstr>
+
+#: frmMain.frm:3393
+<msgid>Greater Than Operator
+<msgstr>
+
+#: frmMain.frm:3395
+<msgid>System Operator?
+<msgstr>
+
+#: frmMain.frm:3452
+<msgid>For Type
+<msgstr>
+
+#: frmMain.frm:3454 Caption->frmOperatorClass.frm:406
+<msgid>Access Method
+<msgstr>
+
+#: frmMain.frm:3472
+<msgid>System Operator Class?
+<msgstr>
+
+#: frmMain.frm:3572
+<msgid>Last Value
+<msgstr>
+
+#: frmMain.frm:3574
+<msgid>Minimum
+<msgstr>
+
+#: frmMain.frm:3576
+<msgid>Maximum
+<msgstr>
+
+#: frmMain.frm:3578 Caption->frmSequence.frm:409
+<msgid>Increment
+<msgstr>
+
+#: frmMain.frm:3580
+<msgid>Cache
+<msgstr>
+
+#: frmMain.frm:3582 Caption->frmSequence.frm:264
+<msgid>Cycled?
+<msgstr>
+
+#: frmMain.frm:3584
+<msgid>System Sequence?
+<msgstr>
+
+#: frmMain.frm:3679 frmMain.frm:3785
+<msgid>Tuples Inserted
+<msgstr>
+
+#: frmMain.frm:3680 frmMain.frm:3787
+<msgid>Tuples Updated
+<msgstr>
+
+#: frmMain.frm:3681 frmMain.frm:3789
+<msgid>Tuples Deleted
+<msgstr>
+
+#: frmMain.frm:3721 frmMain.frm:4060 frmTable.frm:1238
+#: frmTable.frm:1258
+<msgid>Foreign Keys (
+<msgstr>
+
+#: frmMain.frm:3734 frmMain.frm:4541
+<msgid>Rows
+<msgstr>
+
+#: frmMain.frm:3738 frmMain.frm:4545
+<msgid>Unknown
+<msgstr>
+
+#: frmMain.frm:3740
+<msgid>Inherited Tables Count
+<msgstr>
+
+#: frmMain.frm:3742
+<msgid>Inherited Tables
+<msgstr>
+
+#: frmMain.frm:3748 Caption->frmTable.frm:124
+<msgid>OIDs?
+<msgstr>
+
+#: frmMain.frm:3750
+<msgid>System Table?
+<msgstr>
+
+#: frmMain.frm:3777
+<msgid>Sequential Scans
+<msgstr>
+
+#: frmMain.frm:3779
+<msgid>Sequential Tuples Read
+<msgstr>
+
+#: frmMain.frm:3781 frmMain.frm:4256
+<msgid>Index Scans
+<msgstr>
+
+#: frmMain.frm:3783 frmMain.frm:4260
+<msgid>Index Tuples Fetched
+<msgstr>
+
+#: frmMain.frm:3791
+<msgid>Heap Blocks Read
+<msgstr>
+
+#: frmMain.frm:3793
+<msgid>Heap Blocks Hit
+<msgstr>
+
+#: frmMain.frm:3795 frmMain.frm:4172 frmMain.frm:4262
+<msgid>Index Blocks Read
+<msgstr>
+
+#: frmMain.frm:3797 frmMain.frm:4173 frmMain.frm:4264
+<msgid>Index Blocks Hit
+<msgstr>
+
+#: frmMain.frm:3799
+<msgid>Toast Index Blocks Read
+<msgstr>
+
+#: frmMain.frm:3801
+<msgid>Toast Index Blocks Hit
+<msgstr>
+
+#: frmMain.frm:3836
+<msgid>Check
+<msgstr>
+
+#: frmMain.frm:3903
+<msgid>Position
+<msgstr>
+
+#: frmMain.frm:3905
+<msgid>Data Type
+<msgstr>
+
+#: frmMain.frm:3913
+<msgid>Numeric Precision
+<msgstr>
+
+#: frmMain.frm:3919
+<msgid>Restrict Nulls?
+<msgstr>
+
+#: frmMain.frm:3921
+<msgid>Primary Key?
+<msgstr>
+
+#: frmMain.frm:3925
+<msgid>System Column?
+<msgstr>
+
+#: frmMain.frm:3956
+<msgid>Null Fraction
+<msgstr>
+
+#: frmMain.frm:3958
+<msgid>Average Width
+<msgstr>
+
+#: frmMain.frm:3960
+<msgid>Distinct Values
+<msgstr>
+
+#: frmMain.frm:3962
+<msgid>Most Column Values
+<msgstr>
+
+#: frmMain.frm:3964
+<msgid>Most Common Frequencies
+<msgstr>
+
+#: frmMain.frm:3966
+<msgid>Histogram Bounds
+<msgstr>
+
+#: frmMain.frm:3968
+<msgid>Correlation
+<msgstr>
+
+#: frmMain.frm:4032
+<msgid>Destination
+<msgstr>
+
+#: frmMain.frm:4036
+<msgid>System Conversion?
+<msgstr>
+
+#: frmMain.frm:4063 frmMain.frm:4088 frmSequence.frm:634
+#: frmTable.frm:1301 frmView.frm:557
+<msgid>References
+<msgstr>
+
+#: frmMain.frm:4081 frmMain.frm:4114
+<msgid>Relationships (
+<msgstr>
+
+#: frmMain.frm:4090
+<msgid>On Delete
+<msgstr>
+
+#: frmMain.frm:4092
+<msgid>On Update
+<msgstr>
+
+#: frmMain.frm:4094
+<msgid>Deferrable
+<msgstr>
+
+#: frmMain.frm:4098
+<msgid>System Foreign Key?
+<msgstr>
+
+#: frmMain.frm:4112
+<msgid>Local Column
+<msgstr>
+
+#: frmMain.frm:4113
+<msgid>Referenced Column
+<msgstr>
+
+#: frmMain.frm:4215
+<msgid>Unique?
+<msgstr>
+
+#: frmMain.frm:4217
+<msgid>Primary?
+<msgstr>
+
+#: frmMain.frm:4219
+<msgid>Column Count
+<msgstr>
+
+#: frmMain.frm:4225
+<msgid>Columns
+<msgstr>
+
+#: frmMain.frm:4229
+<msgid>System Index?
+<msgstr>
+
+#: frmMain.frm:4258
+<msgid>Index Tuples Read
+<msgstr>
+
+#: frmMain.frm:4307 Caption->frmRule.frm:6 frmSequence.frm:633
+#: frmTable.frm:1300 frmView.frm:556
+<msgid>Rule
+<msgstr>
+
+#: frmMain.frm:4332 frmMain.frm:4397 Caption->frmRule.frm:218
+#: Caption->frmTrigger.frm:267
+<msgid>Event
+<msgstr>
+
+#: frmMain.frm:4334 Caption->frmRule.frm:106
+<msgid>Condition
+<msgstr>
+
+#: frmMain.frm:4336 Caption->frmRule.frm:76
+<msgid>Do Instead?
+<msgstr>
+
+#: frmMain.frm:4338 Caption->frmRule.frm:183
+<msgid>Action
+<msgstr>
+
+#: frmMain.frm:4342
+<msgid>System Rule?
+<msgstr>
+
+#: frmMain.frm:4370 frmSequence.frm:635 frmTable.frm:1302
+#: Caption->frmTrigger.frm:6 frmView.frm:558
+<msgid>Trigger
+<msgstr>
+
+#: frmMain.frm:4395 Caption->frmTrigger.frm:307
+<msgid>Executes
+<msgstr>
+
+#: frmMain.frm:4399
+<msgid>For Each
+<msgstr>
+
+#: frmMain.frm:4403
+<msgid>System Trigger?
+<msgstr>
+
+#: frmMain.frm:4463
+<msgid>Input Function
+<msgstr>
+
+#: frmMain.frm:4465 Caption->frmType.frm:331
+<msgid>Output Function
+<msgstr>
+
+#: frmMain.frm:4467
+<msgid>Internal Length
+<msgstr>
+
+#: frmMain.frm:4471
+<msgid>Element
+<msgstr>
+
+#: frmMain.frm:4473 Caption->frmType.frm:311
+<msgid>Delimiter
+<msgstr>
+
+#: frmMain.frm:4475
+<msgid>Passed by Value?
+<msgstr>
+
+#: frmMain.frm:4477 Caption->frmType.frm:271
+<msgid>Alignment
+<msgstr>
+
+#: frmMain.frm:4481
+<msgid>System Type?
+<msgstr>
+
+#: frmMain.frm:4549
+<msgid>System View?
+<msgstr>
+
+#: frmMain.frm:4569
+<msgid>No Statistics are available for the current selection
+<msgstr>
+
+#: frmMain.frm:4583
+<msgid>Examining database...
+<msgstr>
+
+#: frmMain.frm:4595
+<msgid>Statistics are only available with PostgreSQL 7.2 or higher
+<msgstr>
+
+#: frmMain.frm:5282 frmMain.frm:5285 frmMain.frm:5357
+<msgid>Dependencies are not applicable to the selected object.
+<msgstr>
+
+#: frmMain.frm:5288
+<msgid>Dependencies are only available with PostgreSQL 7.3 or higher.
+<msgstr>
+
+#: frmMain.frm:5427 frmMain.frm:5431 frmMain.frm:5441
+<msgid>Locks
+<msgstr>
+
+#: frmMain.frm:5428 frmMain.frm:5442
+<msgid>Locks are not applicable to the selected object.
+<msgstr>
+
+#: frmMain.frm:5432
+<msgid>Locks are only available with PostgreSQL 7.3 or higher.
+<msgstr>
+
+#: frmMain.frm:5469
+<msgid>Schema Name
+<msgstr>
+
+#: frmMain.frm:5470
+<msgid>Object Name
+<msgstr>
+
+#: frmMain.frm:5471 Caption->frmUser.frm:6
+<msgid>User
+<msgstr>
+
+#: frmMain.frm:5472
+<msgid>Pid
+<msgstr>
+
+#: frmMain.frm:5473
+<msgid>Lock Mode
+<msgstr>
+
+#: frmMain.frm:5475
+<msgid>Examining Locks...
+<msgstr>
+
+#: ToolTipText->frmNamespace.frm:104
+<msgid>The name of the Namespace.
+<msgstr>
+
+#: ToolTipText->frmNamespace.frm:115
+<msgid>The Namespaces OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmNamespace.frm:124
+<msgid>Comments about the Namespace.
+<msgstr>
+
+#: Caption->frmNamespace.frm:159 Caption->frmSequence.frm:127 Caption->frmTable.frm:410
+#: Caption->frmTrigger.frm:125 Caption->frmView.frm:114 Caption->frmVisualQueryBuilder.frm:70
+<msgid>&Update
+<msgstr>
+
+#: ToolTipText->frmNamespace.frm:165 ToolTipText->frmSequence.frm:132 ToolTipText->frmTable.frm:415
+#: ToolTipText->frmView.frm:119
+<msgid>Give update privilege to the selected entity.
+<msgstr>
+
+#: frmNamespace.frm:348
+<msgid>You must specify a Schema name!
+<msgstr>
+
+#: frmNamespace.frm:355
+<msgid>Creating Schema...
+<msgstr>
+
+#: frmNamespace.frm:366
+<msgid>Updating Schema...
+<msgstr>
+
+#: frmNamespace.frm:444
+<msgid>Create Namespace
+<msgstr>
+
+#: frmNamespace.frm:473
+<msgid>Namespace: 
+<msgstr>
+
+#: TabCaption->frmOperator.frm:114 TabCaption->frmType.frm:76
+<msgid>P&roperties 2
+<msgstr>
+
+#: Caption->frmOperator.frm:138
+<msgid>Merges?
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:143 ToolTipText->frmOperator.frm:154
+<msgid>Indicates this operator can support a hash join.
+<msgstr>
+
+#: Caption->frmOperator.frm:149
+<msgid>Hashes?
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:165
+<msgid>The operators owner.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:176
+<msgid>The operators OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:187
+<msgid>The name of the operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:198
+<msgid>The kind of operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:228
+<msgid>The type of the left-hand argument of the operator, if any. This option would be omitted for a left-unary operator. 
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:244
+<msgid>The type of the right-hand argument of the operator, if any. This option would be omitted for a right-unary operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:260
+<msgid>The commutator of this operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:276
+<msgid>The negator of this operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:292
+<msgid>The restriction selectivity estimator function for this operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:308
+<msgid>The join selectivity estimator function for this operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:324
+<msgid>If this operator can support a merge join, the operator that sorts the left-hand data type of this operator. 
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:340 ToolTipText->frmOperator.frm:388 ToolTipText->frmOperator.frm:404
+<msgid>If this operator can support a merge join, the operator that sorts the right-hand data type of this operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:356
+<msgid>The resultant type of the operator.
+<msgstr>
+
+#: ToolTipText->frmOperator.frm:372
+<msgid>The function used to implement this operator.
+<msgstr>
+
+#: Caption->frmOperator.frm:417
+<msgid>Greater Than operator
+<msgstr>
+
+#: Caption->frmOperator.frm:427
+<msgid>Less Than operator
+<msgstr>
+
+#: Caption->frmOperator.frm:437
+<msgid>Operator function
+<msgstr>
+
+#: Caption->frmOperator.frm:447
+<msgid>Right sort operator
+<msgstr>
+
+#: Caption->frmOperator.frm:457
+<msgid>Left sort operator
+<msgstr>
+
+#: Caption->frmOperator.frm:467
+<msgid>Join function
+<msgstr>
+
+#: Caption->frmOperator.frm:477
+<msgid>Restrict function
+<msgstr>
+
+#: Caption->frmOperator.frm:537
+<msgid>Left operand type
+<msgstr>
+
+#: Caption->frmOperator.frm:547
+<msgid>Right operand type
+<msgstr>
+
+#: Caption->frmOperator.frm:557
+<msgid>Result type
+<msgstr>
+
+#: Caption->frmOperator.frm:567
+<msgid>Operator kind
+<msgstr>
+
+#: frmOperator.frm:625
+<msgid>You must specify a Operator name!
+<msgstr>
+
+#: frmOperator.frm:631
+<msgid>You must select a Operator function!
+<msgstr>
+
+#: frmOperator.frm:637
+<msgid>You must select at least one operand type!
+<msgstr>
+
+#: frmOperator.frm:644
+<msgid>Creating Operator...
+<msgstr>
+
+#: frmOperator.frm:664
+<msgid>Updating Operator...
+<msgstr>
+
+#: frmOperator.frm:702
+<msgid>Create Operator
+<msgstr>
+
+#: frmOperator.frm:779
+<msgid>Operator: 
+<msgstr>
+
+#: TabCaption->frmOperatorClass.frm:101
+<msgid>&Operator
+<msgstr>
+
+#: TabCaption->frmOperatorClass.frm:113
+<msgid>&Function
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:131
+<msgid>The index access method's support procedure number for a function associated with the operator class.
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:162
+<msgid>The index access method's strategy number for an operator associated with the operator class.
+<msgstr>
+
+#: Caption->frmOperatorClass.frm:168
+<msgid>Recheck?
+<msgstr>
+
+#: ToolTipText->frx->frmOperatorClass.frm:173
+<msgid>If present, the index is "lossy" for this operator, and so the tuples retrieved using the index must be rechecked to verify that they actually satisfy the qualification clause involving this operator.
+<msgstr>
+
+#: Caption->frmOperatorClass.frm:236
+<msgid>Default?
+<msgstr>
+
+#: ToolTipText->frx->frmOperatorClass.frm:241
+<msgid>If present, the operator class will become the default index operator class for its data type. At most one operator class can be the default for a specific data type and access method.
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:252
+<msgid>The Operator Class owner.
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:263
+<msgid>The Operator Class OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:274
+<msgid>The name of the operator class.
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:283
+<msgid>The identifier of an operator associated with the operator class.
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:299
+<msgid>The column data type that this operator class is for.
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:315
+<msgid>The name of the index access method this operator class is for.
+<msgstr>
+
+#: ToolTipText->frmOperatorClass.frm:363
+<msgid>The name of a function that is an index access method support procedure for the operator class. 
+<msgstr>
+
+#: Caption->frmOperatorClass.frm:376
+<msgid>Support Number
+<msgstr>
+
+#: Caption->frmOperatorClass.frm:396
+<msgid>Strategy Number 
+<msgstr>
+
+#: Caption->frmOperatorClass.frm:416
+<msgid>For Data Type
+<msgstr>
+
+#: frmOperatorClass.frm:544
+<msgid>You must select a operator!
+<msgstr>
+
+#: frmOperatorClass.frm:548
+<msgid>You must specify a strategy number!
+<msgstr>
+
+#: frmOperatorClass.frm:555
+<msgid>' already appears in the Operator List!
+<msgstr>
+
+#: frmOperatorClass.frm:575
+<msgid>You must select a operator to remove!
+<msgstr>
+
+#: frmOperatorClass.frm:579
+<msgid>Are you sure you wish to remove operator '
+<msgstr>
+
+#: frmOperatorClass.frm:579
+<msgid>Remove Operator
+<msgstr>
+
+#: frmOperatorClass.frm:594 frmTrigger.frm:369
+<msgid>You must select a function!
+<msgstr>
+
+#: frmOperatorClass.frm:598
+<msgid>You must specify a support number!
+<msgstr>
+
+#: frmOperatorClass.frm:605
+<msgid>' already appears in the Function List!
+<msgstr>
+
+#: frmOperatorClass.frm:624
+<msgid>You must select a function to remove!
+<msgstr>
+
+#: frmOperatorClass.frm:628
+<msgid>Are you sure you wish to remove function '
+<msgstr>
+
+#: frmOperatorClass.frm:628
+<msgid>Remove Function
+<msgstr>
+
+#: frmOperatorClass.frm:666
+<msgid>Create Operator Class
+<msgstr>
+
+#: frmOperatorClass.frm:710
+<msgid>Operator Class: 
+<msgstr>
+
+#: frmOperatorClass.frm:758
+<msgid>You must specify a operator class name!
+<msgstr>
+
+#: frmOperatorClass.frm:764
+<msgid>You must select a data type!
+<msgstr>
+
+#: frmOperatorClass.frm:770
+<msgid>You must select a access method!
+<msgstr>
+
+#: frmOperatorClass.frm:798
+<msgid>Creating Operator Class...
+<msgstr>
+
+#: frmOperatorClass.frm:808
+<msgid>Updating Operator Class...
+<msgstr>
+
+#: Caption->frmOptions.frm:8
+<msgid>Options
+<msgstr>
+
+#: TabCaption->frmOptions.frm:39
+<msgid>&Logging
+<msgstr>
+
+#: TabCaption->frmOptions.frm:55
+<msgid>&Text
+<msgstr>
+
+#: TabCaption->frmOptions.frm:61
+<msgid>&Exporters
+<msgstr>
+
+#: TabCaption->frmOptions.frm:77
+<msgid>&PostgreSQL
+<msgstr>
+
+#: TabCaption->frmOptions.frm:85
+<msgid>Misc
+<msgstr>
+
+#: Caption->frmOptions.frm:100
+<msgid>Language Traslation
+<msgstr>
+
+#: Caption->frmOptions.frm:116
+<msgid>Generate Documentation Database
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:127
+<msgid>Enter a path on work directory
+<msgstr>
+
+#: Caption->frmOptions.frm:132 Caption->frmOptions.frm:149 Caption->frmOptions.frm:240
+#: Caption->frmOptions.frm:708 Caption->frmRecordLog.frm:60
+<msgid>...
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:136 ToolTipText->frmOptions.frm:153 ToolTipText->frmOptions.frm:712
+<msgid>Browse for a file.
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:144
+<msgid>Enter a path on program hhc.exe
+<msgstr>
+
+#: Caption->frmOptions.frm:159
+<msgid>Work directory
+<msgstr>
+
+#: Caption->frmOptions.frm:169
+<msgid>HTML Help Workshop directory
+<msgstr>
+
+#: Caption->frmOptions.frm:217
+<msgid>Show users for privileges
+<msgstr>
+
+#: Caption->frmOptions.frm:225
+<msgid>Ask delete object database
+<msgstr>
+
+#: Caption->frmOptions.frm:233
+<msgid>Font
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:253 ToolTipText->frmOptions.frm:735
+<msgid>Enter the name of a database to use as the Master Connection.
+<msgstr>
+
+#: Caption->frmOptions.frm:258
+<msgid>This is the font used for display of data in the Treeview, Listview, text boxes and the Data Grid.
+<msgstr>
+
+#: Caption->frmOptions.frm:268
+<msgid>Auto Highlight
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:279
+<msgid>Restore default words.
+<msgstr>
+
+#: Caption->frmOptions.frm:284
+<msgid>Italic
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:288
+<msgid>Should the word be made italic?
+<msgstr>
+
+#: Caption->frmOptions.frm:293
+<msgid>Bold
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:297
+<msgid>Should the word be made bold?
+<msgstr>
+
+#: Caption->frmOptions.frm:302
+<msgid>&Colour
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:307
+<msgid>Select a colour for the word.
+<msgstr>
+
+#: Caption->frmOptions.frm:312
+<msgid>Add
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:316
+<msgid>Add the selected word.
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:324
+<msgid>Enter a word to highlight.
+<msgstr>
+
+#: Caption->frmOptions.frm:329
+<msgid>Remove
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:333
+<msgid>Remove the selected word.
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:341
+<msgid>Displays the Text Formatting rules.
+<msgstr>
+
+#: Caption->frmOptions.frm:360
+<msgid>Word
+<msgstr>
+
+#: Caption->frmOptions.frm:369
+<msgid>Defer Connection
+<msgstr>
+
+#: Caption->frmOptions.frm:376
+<msgid>Don't connect until necessary.
+<msgstr>
+
+#: Caption->frx->frmOptions.frm:384
+<msgid>Versions of pgAdmin II prior to 1.3.0 automatically attempted to connect to every database when the databases node was clicked. Uncheck to revert to this behaviour.
+<msgstr>
+
+#: Caption->frmOptions.frm:394
+<msgid>Auto Row Count
+<msgstr>
+
+#: Caption->frmOptions.frm:401
+<msgid>Use auto row count on tables and views.
+<msgstr>
+
+#: Caption->frx->frmOptions.frm:409
+<msgid>When a table or view is selected in the treeview, pgAdmin will attempt to count the rows in the object. If you have large tables in your databases, this can be very slow and should be disabled.
+<msgstr>
+
+#: Caption->frmOptions.frm:419
+<msgid>Security
+<msgstr>
+
+#: Caption->frmOptions.frm:426
+<msgid>Use Encrypted passwords where possible.
+<msgstr>
+
+#: Caption->frx->frmOptions.frm:434
+<msgid>PostgreSQL 7.2 and higher can encrypt the passwords stored in the pg_shadow system table. It is highly recommended that this option is selected
+<msgstr>
+
+#: Caption->frmOptions.frm:444
+<msgid>&Uninstall Plugin
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:448
+<msgid>Uninstall the selected Plugin.
+<msgstr>
+
+#: Caption->frmOptions.frm:453
+<msgid>&Install Plugin
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:457
+<msgid>Install a new Plugin.
+<msgstr>
+
+#: Caption->frmOptions.frm:462 Caption->frmOptions.frm:547
+<msgid>Details
+<msgstr>
+
+#: Caption->frmOptions.frm:505 Caption->frmOptions.frm:572
+<msgid>Author
+<msgstr>
+
+#: Caption->frmOptions.frm:614
+<msgid>&Install Exporter
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:618
+<msgid>Install a new Exporter.
+<msgstr>
+
+#: Caption->frmOptions.frm:623
+<msgid>&Uninstall Exporter
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:627
+<msgid>Uninstall the selected Exporter.
+<msgstr>
+
+#: Caption->frmOptions.frm:632
+<msgid>&Mask the Password in Logs?
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:636
+<msgid>Check to replace the occurance of the user's password in any logs with *********.
+<msgstr>
+
+#: Caption->frmOptions.frm:641
+<msgid>Log Window 'Always on top'?
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:645
+<msgid>Make the Log Window always appear on top of other windows regardless of whether it has focus.
+<msgstr>
+
+#: Caption->frmOptions.frm:650
+<msgid>Log Level
+<msgstr>
+
+#: Caption->frmOptions.frm:657
+<msgid>&Full debug
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:662
+<msgid>Log everything. Warning - this can be *very* slow and can create huge logfiles.
+<msgstr>
+
+#: Caption->frmOptions.frm:667
+<msgid>&Debug
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:672
+<msgid>Log errors, SQL queries and important debug messages.
+<msgstr>
+
+#: Caption->frmOptions.frm:677
+<msgid>Errors and &SQL queries
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:682
+<msgid>Log errors and SQL queries.
+<msgstr>
+
+#: Caption->frmOptions.frm:687
+<msgid>&Errors only
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:692
+<msgid>Log errors only.
+<msgstr>
+
+#: Caption->frmOptions.frm:697
+<msgid>&No logging
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:702
+<msgid>Don't perform any logging.
+<msgstr>
+
+#: ToolTipText->frmOptions.frm:720
+<msgid>Enter a path & filename to write the logfile to.
+<msgstr>
+
+#: Caption->frmOptions.frm:725
+<msgid>Master Connection Database
+<msgstr>
+
+#: Caption->frx->frmOptions.frm:740
+<msgid>Normally the Master Connection Database will be template1, however, if you do not have access to this database then you will need to enter the name of another that you do have access to.
+<msgstr>
+
+#: Caption->frmOptions.frm:770
+<msgid>Max number of sql command to memorize (Query). 
+<msgstr>
+
+#: Caption->frmOptions.frm:778
+<msgid>Max number of record for view data. 
+<msgstr>
+
+#: Caption->frmOptions.frm:787
+<msgid>Logfile (%ID will be replaced with the Process ID)
+<msgstr>
+
+#: Caption->frmOptions.frm:808
+<msgid>Sample 4
+<msgstr>
+
+#: Caption->frmOptions.frm:828
+<msgid>Sample 3
+<msgstr>
+
+#: Caption->frmOptions.frm:848
+<msgid>Sample 2
+<msgstr>
+
+#: frmOptions.frm:896
+<msgid>You must enter a word to add!
+<msgstr>
+
+#: frmOptions.frm:902
+<msgid>That word is already in the list!
+<msgstr>
+
+#: frmOptions.frm:932
+<msgid>Log File
+<msgstr>
+
+#: frmOptions.frm:952
+<msgid>Data Font
+<msgstr>
+
+#: frmOptions.frm:981
+<msgid>Are you sure you wish to restore default word?
+<msgstr>
+
+#: frmOptions.frm:981
+<msgid>Restore default Word
+<msgstr>
+
+#: frmOptions.frm:994
+<msgid>Select folder on HTML Help Workshop
+<msgstr>
+
+#: frmOptions.frm:1007
+<msgid>Select folder to work
+<msgstr>
+
+#: frmOptions.frm:1160
+<msgid>For applay change of lang restart pgAdmin2!
+<msgstr>
+
+#: frmOptions.frm:1173
+<msgid>Are you sure you wish to remove the selected word?
+<msgstr>
+
+#: frmOptions.frm:1173
+<msgid>Remove Word
+<msgstr>
+
+#: frmOptions.frm:1332
+<msgid>No Exporter selected - operation aborted!
+<msgstr>
+
+#: frmOptions.frm:1348
+<msgid>You must select a Exporter to uninstall!
+<msgstr>
+
+#: frmOptions.frm:1352 frmOptions.frm:1423
+<msgid>Are you sure you wish to uninstall: 
+<msgstr>
+
+#: frmOptions.frm:1352 frmOptions.frm:1423
+<msgid>Confirm
+<msgstr>
+
+#: frmOptions.frm:1403
+<msgid>No Plugin selected - operation aborted!
+<msgstr>
+
+#: frmOptions.frm:1419
+<msgid>You must select a Plugin to uninstall!
+<msgstr>
+
+#: Caption->frmPassword.frm:3
+<msgid>Change Password
+<msgstr>
+
+#: ToolTipText->frmPassword.frm:31
+<msgid>Re-enter your new password.
+<msgstr>
+
+#: ToolTipText->frmPassword.frm:41
+<msgid>Enter your new password.
+<msgstr>
+
+#: ToolTipText->frmPassword.frm:51
+<msgid>Enter your current password.
+<msgstr>
+
+#: Caption->frmPassword.frm:56
+<msgid>Confirm Password
+<msgstr>
+
+#: Caption->frmPassword.frm:65
+<msgid>New Password
+<msgstr>
+
+#: Caption->frmPassword.frm:74
+<msgid>Current Password
+<msgstr>
+
+#: frmPassword.frm:101
+<msgid>Incorrect Password!
+<msgstr>
+
+#: frmPassword.frm:105
+<msgid>Passwords do not match!
+<msgstr>
+
+#: frmPassword.frm:109
+<msgid>Illegal characters in password!
+<msgstr>
+
+#: frmPassword.frm:114
+<msgid>Password successfully changed!
+<msgstr>
+
+#: frmPassword.frm:114 frmTrasLang.frm:534 frmTrasLang.frm:551
+#: frmTrasLang.frm:564
+<msgid>Success!!
+<msgstr>
+
+#: Caption->frmRecordLog.frm:4 frmRecordLog.frm:122
+<msgid>Record query log
+<msgstr>
+
+#: Caption->frmRecordLog.frm:18
+<msgid>Entry Types
+<msgstr>
+
+#: Caption->frmRecordLog.frm:25
+<msgid>System Queries
+<msgstr>
+
+#: ToolTipText->frmRecordLog.frm:29
+<msgid>Record queries made by pgAdmin.
+<msgstr>
+
+#: Caption->frmRecordLog.frm:34
+<msgid>Datagrid Queries
+<msgstr>
+
+#: ToolTipText->frmRecordLog.frm:38
+<msgid>Record queries generated whilst editting data in the datagrid.
+<msgstr>
+
+#: Caption->frmRecordLog.frm:43
+<msgid>User Queries
+<msgstr>
+
+#: ToolTipText->frmRecordLog.frm:47
+<msgid>Record queries entered by the user.
+<msgstr>
+
+#: ToolTipText->frmRecordLog.frm:71
+<msgid>Enter a filename to append log entries to.
+<msgstr>
+
+#: Caption->frmRecordLog.frm:95
+<msgid>Log file (entries will be appended to this file)
+<msgstr>
+
+#: frmRecordLog.frm:166
+<msgid>You must enter or select a logfile!
+<msgstr>
+
+#: frmRecordLog.frm:177
+<msgid>You must select at least on query type!
+<msgstr>
+
+#: ToolTipText->frmRule.frm:81
+<msgid>Will the new action suppress the original query?
+<msgstr>
+
+#: ToolTipText->frmRule.frm:90
+<msgid>Any SQL boolean-condition expression. The condition expression may not refer to any tables except new and old. 
+<msgstr>
+
+#: ToolTipText->frmRule.frm:115
+<msgid>The name of the rule.
+<msgstr>
+
+#: ToolTipText->frmRule.frm:126
+<msgid>The rules OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmRule.frm:135
+<msgid>Object is either table or table.column. (Currently, only the table form is actually implemented.)
+<msgstr>
+
+#: ToolTipText->frmRule.frm:151
+<msgid>The Event that will cause the rule to be invoked. Event is one of SELECT, UPDATE, DELETE or INSERT.
+<msgstr>
+
+#: ToolTipText->frmRule.frm:167
+<msgid>The query or queries making up the action can be any SQL SELECT, INSERT, UPDATE, DELETE, or NOTIFY statement.
+<msgstr>
+
+#: ToolTipText->frmRule.frm:190
+<msgid>Comments about the rule.
+<msgstr>
+
+#: Caption->frmRule.frm:238
+<msgid>Object
+<msgstr>
+
+#: frmRule.frm:312
+<msgid>You must specify a Rule name!
+<msgstr>
+
+#: frmRule.frm:318
+<msgid>You must select an object!
+<msgstr>
+
+#: frmRule.frm:324
+<msgid>You must select an event!
+<msgstr>
+
+#: frmRule.frm:332
+<msgid>Creating Rule...
+<msgstr>
+
+#: frmRule.frm:348
+<msgid>Updating Rule...
+<msgstr>
+
+#: frmRule.frm:387
+<msgid>Create Rule
+<msgstr>
+
+#: frmRule.frm:423
+<msgid>Rule: 
+<msgstr>
+
+#: Caption->frmSequence.frm:107 Caption->frmTable.frm:430 Caption->frmView.frm:94
+<msgid>&Rule
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:112 ToolTipText->frmTable.frm:435 ToolTipText->frmView.frm:99
+<msgid>Give rule privilege to the selected entity.
+<msgstr>
+
+#: Caption->frmSequence.frm:117 Caption->frmTable.frm:420 Caption->frmTrigger.frm:134
+#: Caption->frmView.frm:104 Caption->frmVisualQueryBuilder.frm:50
+<msgid>&Insert
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:122 ToolTipText->frmTable.frm:425 ToolTipText->frmView.frm:109
+<msgid>Give insert privilege to the selected entity.
+<msgstr>
+
+#: Caption->frmSequence.frm:137 Caption->frmTable.frm:400 Caption->frmView.frm:124
+#: Caption->frmVisualQueryBuilder.frm:80
+<msgid>&Select
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:142 ToolTipText->frmTable.frm:405 ToolTipText->frmView.frm:129
+<msgid>Give select privilege to the selected entity.
+<msgstr>
+
+#: Caption->frmSequence.frm:147 Caption->frmTable.frm:390 Caption->frmView.frm:134
+<msgid>&All
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:152 ToolTipText->frmTable.frm:395 ToolTipText->frmView.frm:139
+<msgid>Give all privileges to the selected entity.
+<msgstr>
+
+#: Caption->frmSequence.frm:157 Caption->frmSQLOutput.frm:22 Caption->frmTable.frm:380
+#: Caption->frmTrigger.frm:116 Caption->frmView.frm:144 Caption->frmVisualQueryBuilder.frm:60
+<msgid>&Delete
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:162 ToolTipText->frmTable.frm:385 ToolTipText->frmView.frm:149
+<msgid>Give delete privilege to the selected entity.
+<msgstr>
+
+#: Caption->frmSequence.frm:167 Caption->frmTable.frm:370 Caption->frmView.frm:154
+<msgid>R&eferences
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:172 ToolTipText->frmTable.frm:375 ToolTipText->frmView.frm:159
+<msgid>Give references privilege to the selected entity.
+<msgstr>
+
+#: Caption->frmSequence.frm:177 Caption->frmTable.frm:360 Caption->frmView.frm:164
+<msgid>&Trigger
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:182 ToolTipText->frmTable.frm:365 ToolTipText->frmView.frm:169
+<msgid>Give trigger privilege to the selected entity.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:219
+<msgid>The initial starting value for the sequence.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:246
+<msgid>Comments about the sequence.
+<msgstr>
+
+#: ToolTipText->frx->frmSequence.frm:269
+<msgid>May be used to enable the sequence to wrap around when the maxvalue or minvalue has been reached by an ascending or descending sequence respectively. If the limit is reached, the next number generated will be the minvalue or maxvalue, respectively.
+<msgstr>
+
+#: ToolTipText->frx->frmSequence.frm:280
+<msgid>Enables sequence numbers to be preallocated and stored in memory for faster access. The minimum value is 1 (only one value can be generated at a time, i.e., no cache).ñ
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:291
+<msgid>A positive value will make an ascending sequence, a negative one a descending sequence.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:302
+<msgid>The maximum value for the sequence.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:313
+<msgid>The minimum value a sequence can generate.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:324
+<msgid>The last value of the sequence.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:335
+<msgid>The sequences OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:344
+<msgid>The name of the sequence.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:353
+<msgid>The access control list for the sequence.
+<msgstr>
+
+#: ToolTipText->frmSequence.frm:386
+<msgid>The sequences owner.
+<msgstr>
+
+#: Caption->frmSequence.frm:399
+<msgid>Start value
+<msgstr>
+
+#: Caption->frmSequence.frm:419
+<msgid>Cache value
+<msgstr>
+
+#: Caption->frmSequence.frm:429
+<msgid>Last value
+<msgstr>
+
+#: Caption->frmSequence.frm:439
+<msgid>Minimum value
+<msgstr>
+
+#: Caption->frmSequence.frm:449
+<msgid>Maximum value
+<msgstr>
+
+#: frmSequence.frm:559
+<msgid>You must specify a Sequence name!
+<msgstr>
+
+#: frmSequence.frm:565
+<msgid>Changing a Sequence value can be potentially dangerous, especially if that Sequence is used to create a Unique Key for a table. Are you sure you wish to continue?
+<msgstr>
+
+#: frmSequence.frm:565
+<msgid>Change Value
+<msgstr>
+
+#: frmSequence.frm:577
+<msgid>Creating Sequence...
+<msgstr>
+
+#: frmSequence.frm:588
+<msgid>Updating Sequence...
+<msgstr>
+
+#: frmSequence.frm:628 frmTable.frm:1295 frmView.frm:551
+<msgid>All
+<msgstr>
+
+#: frmSequence.frm:629 frmTable.frm:1296 frmView.frm:552
+<msgid>Select
+<msgstr>
+
+#: frmSequence.frm:630 frmTable.frm:1297 frmView.frm:553
+<msgid>Update
+<msgstr>
+
+#: frmSequence.frm:631 frmTable.frm:1298 frmView.frm:554
+#: frmVisualQueryBuilder.frm:237 Caption->RelationObj.ctl:123 Caption->RelationObj.ctl:132
+<msgid>Delete
+<msgstr>
+
+#: frmSequence.frm:632 frmTable.frm:1299 frmView.frm:555
+<msgid>Insert
+<msgstr>
+
+#: frmSequence.frm:688
+<msgid>Create Sequence
+<msgstr>
+
+#: frmSequence.frm:717
+<msgid>Sequence: 
+<msgstr>
+
+#: ToolTipText->frmServer.frm:91
+<msgid>The ODBC driver version.
+<msgstr>
+
+#: ToolTipText->frmServer.frm:103
+<msgid>The description of the PostgreSQL database.
+<msgstr>
+
+#: ToolTipText->frmServer.frm:114
+<msgid>The servers hostname or TCP/IP address.
+<msgstr>
+
+#: ToolTipText->frmServer.frm:125
+<msgid>The TCP/IP port on the server.
+<msgstr>
+
+#: ToolTipText->frmServer.frm:136
+<msgid>The current username.
+<msgstr>
+
+#: ToolTipText->frmServer.frm:147
+<msgid>The last OID generated by initdb.
+<msgstr>
+
+#: ToolTipText->frmServer.frm:158
+<msgid>The ODBC driver name.
+<msgstr>
+
+#: ToolTipText->frmServer.frm:169
+<msgid>The version of PostgreSQL we're connected to.
+<msgstr>
+
+#: ToolTipText->frmServer.frm:178
+<msgid>The ODBC connection string used by the primary connection.
+<msgstr>
+
+#: Caption->frmServer.frm:194
+<msgid>ODBC Connection String
+<msgstr>
+
+#: Caption->frmServer.frm:208
+<msgid>PostgreSQL description
+<msgstr>
+
+#: Caption->frmServer.frm:228
+<msgid>ODBC driver name
+<msgstr>
+
+#: Caption->frmServer.frm:268
+<msgid>Hostname/IP Address
+<msgstr>
+
+#: frmServer.frm:323
+<msgid>Server: 
+<msgstr>
+
+#: Caption->frmSQLExplain.frm:3
+<msgid>Query Plan
+<msgstr>
+
+#: ToolTipText->frmSQLExplain.frm:16
+<msgid>Displays the SQL Query.
+<msgstr>
+
+#: Caption->frmSQLExplain.frm:32 Caption->frmVisualQueryBuilder.frm:40
+<msgid>SQL Query
+<msgstr>
+
+#: ToolTipText->frmSQLExplain.frm:38
+<msgid>Displays the Query Execution Plan.
+<msgstr>
+
+#: Caption->frmSQLExplain.frm:54
+<msgid>Query Execution Plan
+<msgstr>
+
+#: frmSQLExplain.frm:122
+<msgid>Query Plan (Database: 
+<msgstr>
+
+#: frmSQLExplain.frm:130
+<msgid>Requesting Query Execution Plan...
+<msgstr>
+
+#: frmSQLExplain.frm:145 frmSQLExplain.frm:217 frmSQLExplain.frm:236
+<msgid>A Query Execution Plan could not be calculated for the specified SQL query.
+<msgstr>
+
+#: frmSQLExplain.frm:152
+<msgid>Unable to initialize ODBC API drivers!
+<msgstr>
+
+#: frmSQLExplain.frm:158
+<msgid>Could not allocate memory for connection Handle!
+<msgstr>
+
+#: frmSQLExplain.frm:166
+<msgid>Could not establish connection to ODBC driver!
+<msgstr>
+
+#: frmSQLExplain.frm:166
+<msgid>Error: 
+<msgstr>
+
+#: frmSQLExplain.frm:175 frmSQLExplain.frm:181 frmSQLExplain.frm:187
+<msgid>The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)
+<msgstr>
+
+#: frmSQLExplain.frm:198
+<msgid>Could not allocate memory for a statement handle!
+<msgstr>
+
+#: Caption->frmSQLInput.frm:14
+<msgid>&VQB
+<msgstr>
+
+#: ToolTipText->frmSQLInput.frm:18
+<msgid>Run the Visual Query Builder.
+<msgstr>
+
+#: ToolTipText->frmSQLInput.frm:27
+<msgid>Select the query target.
+<msgstr>
+
+#: Caption->frmSQLInput.frm:32
+<msgid>E&xplain
+<msgstr>
+
+#: ToolTipText->frmSQLInput.frm:36 ToolTipText->frmSQLInput.frm:92
+<msgid>Execute the SQL query to the selected output option.
+<msgstr>
+
+#: ToolTipText->frmSQLInput.frm:44
+<msgid>Enter an SQL query or statement to execute.
+<msgstr>
+
+#: Caption->frmSQLInput.frm:61
+<msgid>&Wizard
+<msgstr>
+
+#: ToolTipText->frmSQLInput.frm:65
+<msgid>Run the SQL Wizard.
+<msgstr>
+
+#: Caption->frmSQLInput.frm:70 Caption->frmView.frm:251
+<msgid>&Load
+<msgstr>
+
+#: ToolTipText->frmSQLInput.frm:74 ToolTipText->frmView.frm:255
+<msgid>Load a query.
+<msgstr>
+
+#: Caption->frmSQLInput.frm:79 Caption->frmSQLOutput.frm:70 Caption->frmTrasLang.frm:30
+<msgid>&Save
+<msgstr>
+
+#: ToolTipText->frmSQLInput.frm:83
+<msgid>Save the current query.
+<msgstr>
+
+#: Caption->frmSQLInput.frm:88
+<msgid>&Execute to:
+<msgstr>
+
+#: Caption->frmSQLInput.frm:106 Caption->frmSQLWizard.frm:903 Caption->frmUpgradeWizard.frm:62
+<msgid>&Previous
+<msgstr>
+
+#: Caption->frmSQLInput.frm:110 Caption->frmSQLWizard.frm:894 Caption->frmUpgradeWizard.frm:41
+<msgid>&Next
+<msgstr>
+
+#: frmSQLInput.frm:167
+<msgid>Query Executed OK!
+<msgstr>
+
+#: frmSQLInput.frm:203 frmSQLInput.frm:411 frmVisualQueryBuilder.frm:934
+<msgid>This query has been edited - do you wish to save it?
+<msgstr>
+
+#: frmSQLInput.frm:203 frmSQLInput.frm:411 frmVisualQueryBuilder.frm:934
+<msgid>Save Query
+<msgstr>
+
+#: frmSQLInput.frm:207 frmView.frm:437
+<msgid>Load SQL Query
+<msgstr>
+
+#: frmSQLInput.frm:246
+<msgid>Visual Query Builder in progress...
+<msgstr>
+
+#: frmSQLInput.frm:251
+<msgid>Visual Query Builder 
+<msgstr>
+
+#: frmSQLInput.frm:296
+<msgid>Save SQL Query
+<msgstr>
+
+#: frmSQLInput.frm:302
+<msgid>No filename specified - SQL query not saved.
+<msgstr>
+
+#: frmSQLInput.frm:335
+<msgid>SQL Wizard 
+<msgstr>
+
+#: Caption->frmSQLOutput.frm:3
+<msgid>SQL Output
+<msgstr>
+
+#: ToolTipText->frmSQLOutput.frm:27
+<msgid>Delete the selected record.
+<msgstr>
+
+#: ToolTipText->frmSQLOutput.frm:37
+<msgid>Edit the selected record.
+<msgstr>
+
+#: ToolTipText->frmSQLOutput.frm:46 ToolTipText->frmSQLOutput.frm:64 ToolTipText->frmSQLOutput.frm:74
+<msgid>Add a new record.
+<msgstr>
+
+#: Caption->frmSQLOutput.frm:51
+<msgid>&Refresh
+<msgstr>
+
+#: ToolTipText->frmSQLOutput.frm:55
+<msgid>Refresh the query results.
+<msgstr>
+
+#: Caption->frmSQLOutput.frm:60
+<msgid>&Cancel
+<msgstr>
+
+#: Caption->frmSQLOutput.frm:81
+<msgid>0 Records
+<msgstr>
+
+#: Caption->frmSQLOutput.frm:123
+<msgid>Field Label
+<msgstr>
+
+#: frmSQLOutput.frm:221
+<msgid>Are you sure you wish to delete the selected record?
+<msgstr>
+
+#: frmSQLOutput.frm:221
+<msgid>Delete Record?
+<msgstr>
+
+#: frmSQLOutput.frm:263 frmSQLOutput.frm:559
+<msgid>Counting matching records...
+<msgstr>
+
+#: frmSQLOutput.frm:316
+<msgid>Could not locate the record for deletion in the database!
+<msgstr>
+
+#: frmSQLOutput.frm:319
+<msgid>Deleting record...
+<msgstr>
+
+#: frmSQLOutput.frm:324 frmSQLOutput.frm:620
+<msgid>The selected record could not be uniquely identified. 
+<msgstr>
+
+#: frmSQLOutput.frm:324
+<msgid> records match, and will all be deleted if you proceed. Do you wish to continue?
+<msgstr>
+
+#: frmSQLOutput.frm:324
+<msgid>Delete Multiple Records
+<msgstr>
+
+#: frmSQLOutput.frm:325
+<msgid>Deleting records...
+<msgstr>
+
+#: frmSQLOutput.frm:357 frmSQLOutput.frm:661 frmSQLOutput.frm:1159
+#: frmSQLOutput.frm:1199 frmSQLOutput.frm:1351
+<msgid>Record 
+<msgstr>
+
+#: frmSQLOutput.frm:357 frmSQLOutput.frm:661 frmSQLOutput.frm:1159
+#: frmSQLOutput.frm:1199 frmSQLOutput.frm:1351 frmTrasLang.frm:628
+<msgid> of 
+<msgstr>
+
+#: frmSQLOutput.frm:359 frmSQLOutput.frm:663 frmSQLOutput.frm:1136
+#: frmSQLOutput.frm:1353
+<msgid>Record 0 of 0
+<msgstr>
+
+#: frmSQLOutput.frm:424
+<msgid>No data has been entered!
+<msgstr>
+
+#: frmSQLOutput.frm:553
+<msgid>No data has been modified!
+<msgstr>
+
+#: frmSQLOutput.frm:605
+<msgid>Could not locate the record for updating in the database!
+<msgstr>
+
+#: frmSQLOutput.frm:608
+<msgid>Updating record...
+<msgstr>
+
+#: frmSQLOutput.frm:620
+<msgid> records match, and will all be updated if you proceed. Do you wish to continue?
+<msgstr>
+
+#: frmSQLOutput.frm:620
+<msgid>Update Multiple Records
+<msgstr>
+
+#: frmSQLOutput.frm:621
+<msgid>Updating records...
+<msgstr>
+
+#: frmSQLOutput.frm:1019
+<msgid>SQL Output 
+<msgstr>
+
+#: frmSQLOutput.frm:1134
+<msgid>Loading data...
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:5
+<msgid>SQL Wizard
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:21 ToolTipText->frmUpgradeWizard.frm:77
+<msgid>Return SQL and exit.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:125
+<msgid>Join Type
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:132
+<msgid>Full Join
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:137 ToolTipText->frmSQLWizard.frm:147 ToolTipText->frmSQLWizard.frm:157
+#: ToolTipText->frmSQLWizard.frm:167
+<msgid>Select the type of join to add.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:142
+<msgid>Right Outer Join
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:152
+<msgid>Left Outer Join
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:162
+<msgid>Inner Join
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:181
+<msgid>=
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:186 ToolTipText->frmSQLWizard.frm:197 ToolTipText->frmSQLWizard.frm:207
+#: ToolTipText->frmSQLWizard.frm:217 ToolTipText->frmSQLWizard.frm:227 ToolTipText->frmSQLWizard.frm:237
+<msgid>Select the join operator to use.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:192
+<msgid>>
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:202
+<msgid><
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:212
+<msgid>>=
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:222
+<msgid><=
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:232
+<msgid><>
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:248
+<msgid>Displays the Primary Table for the join clauses.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:256
+<msgid>Select the second column in the join.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:270
+<msgid>Select or Enter a custom column name.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:294 ToolTipText->frmSQLWizard.frm:322
+<msgid>Enter the amount of records to limit the resultset to.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:299
+<msgid>Offset resultset by
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:303
+<msgid>Offset the resultset by n rows.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:327
+<msgid>Limit resultset to
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:335
+<msgid>&Select DISTINCT values only.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:339
+<msgid>Select if you only want to retrieve distinct values.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:349 ToolTipText->frmSQLWizard.frm:556
+<msgid>Move the selected Column up the list
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:359 ToolTipText->frmSQLWizard.frm:546
+<msgid>Move the selected Column down the list
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:364
+<msgid>>> (Desc)
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:368
+<msgid>Add the selected column for descending sort.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:376
+<msgid>Lists the available columns.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:400
+<msgid>Lists the selected selected sort columns.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:421
+<msgid>>> (Asc)
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:425
+<msgid>Add the selected column for ascending sort.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:430 Caption->frmSQLWizard.frm:485 Caption->frmSQLWizard.frm:618
+#: Caption->frmSQLWizard.frm:674 Caption->frmSQLWizard.frm:683
+<msgid><<
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:434 ToolTipText->frmSQLWizard.frm:622 ToolTipText->frmTable.frm:237
+<msgid>Remove the selected column.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:439 Caption->frmSQLWizard.frm:494 Caption->frmSQLWizard.frm:609
+#: Caption->frmSQLWizard.frm:665 Caption->frmSQLWizard.frm:692
+<msgid>>>
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:443
+<msgid>Add the custom column.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:451
+<msgid>Enter the value to use in the selection criteria.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:459
+<msgid>Select a boolean operator.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:474
+<msgid>Select an Operator to use.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:489
+<msgid>Remove the selected criteria.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:498
+<msgid>Add the defined criteria.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:506
+<msgid>Lists the query's selection criteria..
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:530
+<msgid>Select a column to include in the 'WHERE' clause.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:564
+<msgid>Lists the columns available for inclusion in the query.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:588
+<msgid>Lists the columns to be included in the query.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:630
+<msgid>Select the first column in the join.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:644
+<msgid>Lists the selected joins.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:669
+<msgid>Add the defined join.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:678
+<msgid>Remove the selected join.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:687
+<msgid>Remove the selected table.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:696
+<msgid>Add the selected table.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:704
+<msgid>Lists the selected tables.
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:728
+<msgid>Lists the available tables.
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:750
+<msgid>Column 2
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:759
+<msgid>Primary Join Table
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:768 Caption->frmSQLWizard.frm:777
+<msgid>rows
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:786
+<msgid>Do you require any additional options? (DISTINCT, LIMIT, OFFSET)
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:795
+<msgid>Custom Column or Function
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:812
+<msgid>Boolean
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:839
+<msgid>How do you want the data sorted? (ORDER BY)
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:848
+<msgid>What selection criteria do you require? (WHERE)
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:857
+<msgid>What columns do you wish to include in the query?
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:866
+<msgid>Column 1
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:875
+<msgid>How are the selected tables joined?
+<msgstr>
+
+#: Caption->frmSQLWizard.frm:884
+<msgid>What tables do you want to include in your query?
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:898 ToolTipText->frmUpgradeWizard.frm:45
+<msgid>Move forward a stage
+<msgstr>
+
+#: ToolTipText->frmSQLWizard.frm:908 ToolTipText->frmUpgradeWizard.frm:67
+<msgid>Move back a stage
+<msgstr>
+
+#: frmSQLWizard.frm:949
+<msgid>Getting Tables...
+<msgstr>
+
+#: frmSQLWizard.frm:980 frmSQLWizard.frm:1022 frmSQLWizard.frm:1098
+#: frmSQLWizard.frm:1149 frmSQLWizard.frm:1190
+<msgid>Getting Columns...
+<msgstr>
+
+#: frmSQLWizard.frm:1281 frmSQLWizard.frm:1306 frmSQLWizard.frm:1331
+<msgid>You must select a column to add!
+<msgstr>
+
+#: frmSQLWizard.frm:1356
+<msgid>You must select a boolean operator!
+<msgstr>
+
+#: frmSQLWizard.frm:1360
+<msgid>You must select a column!
+<msgstr>
+
+#: frmSQLWizard.frm:1364
+<msgid>You must select an operator!
+<msgstr>
+
+#: frmSQLWizard.frm:1368
+<msgid>You must enter a value for the criteria!
+<msgstr>
+
+#: frmSQLWizard.frm:1430
+<msgid>You must select the first join column!
+<msgstr>
+
+#: frmSQLWizard.frm:1434
+<msgid>You must select the second join column!
+<msgstr>
+
+#: frmSQLWizard.frm:1438
+<msgid>You cannot join a column to itself!
+<msgstr>
+
+#: frmSQLWizard.frm:1526 frmSQLWizard.frm:1549 frmSQLWizard.frm:1877
+#: frmSQLWizard.frm:1900
+<msgid>You must select a column to move!
+<msgstr>
+
+#: frmSQLWizard.frm:1530 frmSQLWizard.frm:1881
+<msgid>This column is already at the bottom!
+<msgstr>
+
+#: frmSQLWizard.frm:1553 frmSQLWizard.frm:1904
+<msgid>This column is already at the top!
+<msgstr>
+
+#: frmSQLWizard.frm:1635
+<msgid>The SQL dialog that this wizard was initiated from appears to have been closed!
+<msgstr>
+
+#: frmSQLWizard.frm:1635
+<msgid>Fatal Error
+<msgstr>
+
+#: frmSQLWizard.frm:1653
+<msgid>You must select a column to remove!
+<msgstr>
+
+#: frmSQLWizard.frm:1678 frmSQLWizard.frm:1706
+<msgid>You must select a join to remove!
+<msgstr>
+
+#: frmSQLWizard.frm:1682
+<msgid>You must remove all other criteria before you can remove the first!
+<msgstr>
+
+#: frmSQLWizard.frm:1735 frmTable.frm:1022
+<msgid>You must select a table to remove!
+<msgstr>
+
+#: frmSQLWizard.frm:1846
+<msgid>You must select column to remove!
+<msgstr>
+
+#: TabCaption->frmTable.frm:71
+<msgid>&Columns
+<msgstr>
+
+#: TabCaption->frmTable.frm:79
+<msgid>C&hecks
+<msgstr>
+
+#: TabCaption->frmTable.frm:89
+<msgid>&Foreign Keys
+<msgstr>
+
+#: TabCaption->frmTable.frm:96
+<msgid>&Inherits
+<msgstr>
+
+#: Caption->frmTable.frm:114
+<msgid>&Import
+<msgstr>
+
+#: ToolTipText->frmTable.frm:118
+<msgid>Import column from table.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:129
+<msgid>Does this table have an OID column? (Prior to PostgreSQL 7.2, there is always an OID column).
+<msgstr>
+
+#: ToolTipText->frmTable.frm:139
+<msgid>The tables owner.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:171
+<msgid>Remove the selected foreign key.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:181
+<msgid>Add the defined foreign key.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:208
+<msgid>Enter a name for the check.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:217
+<msgid>Add the defined check.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:227
+<msgid>Remove the selected check.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:246
+<msgid>Add a new column.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:319
+<msgid>The number of tuples (rows) in the table.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:330
+<msgid>The tables OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:339
+<msgid>The name of the table.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:479 ToolTipText->frmView.frm:222
+<msgid>The access control list for the view.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:512
+<msgid>Comments about the table.
+<msgstr>
+
+#: ToolTipText->frmTable.frm:623
+<msgid>The check definition.
+<msgstr>
+
+#: Caption->frmTable.frm:672
+<msgid>Inherited table name
+<msgstr>
+
+#: Caption->frmTable.frm:682
+<msgid>Check name
+<msgstr>
+
+#: Caption->frmTable.frm:692
+<msgid>Tuples
+<msgstr>
+
+#: frmTable.frm:817
+<msgid>You must enter a name for the check!
+<msgstr>
+
+#: frmTable.frm:823
+<msgid>You must enter a definition for the check!
+<msgstr>
+
+#: frmTable.frm:830
+<msgid>This check name is already in the list!
+<msgstr>
+
+#: frmTable.frm:854
+<msgid>You must select a check to remove!
+<msgstr>
+
+#: frmTable.frm:995
+<msgid>You must select a table to add!
+<msgstr>
+
+#: frmTable.frm:1002
+<msgid>This table is already in the list!
+<msgstr>
+
+#: frmTable.frm:1064
+<msgid>You must specify a Table name!
+<msgstr>
+
+#: frmTable.frm:1070
+<msgid>You must define at least one column or inherited table!
+<msgstr>
+
+#: frmTable.frm:1077
+<msgid>Creating Table...
+<msgstr>
+
+#: frmTable.frm:1133
+<msgid>Updating Table...
+<msgstr>
+
+#: frmTable.frm:1363
+<msgid>Create Table
+<msgstr>
+
+#: frmTable.frm:1422
+<msgid>Table: 
+<msgstr>
+
+#: Caption->frmTip.frm:3
+<msgid>Tip of the Day
+<msgstr>
+
+#: Caption->frmTip.frm:16
+<msgid>&Show Tips at Startup
+<msgstr>
+
+#: ToolTipText->frmTip.frm:20
+<msgid>Do you want tips to be shown at startup?
+<msgstr>
+
+#: Caption->frmTip.frm:25
+<msgid>&Next Tip
+<msgstr>
+
+#: Caption->frmTip.frm:44
+<msgid>Did you know...
+<msgstr>
+
+#: frmTip.frm:182
+<msgid>That the Tips.txt file was not found? 
+<msgstr>
+
+#: frmTip.frm:183
+<msgid>Create a text file named Tips.txt using NotePad with 1 tip per line, 
+<msgstr>
+
+#: frmTip.frm:184
+<msgid>then place it in:
+<msgstr>
+
+#: Caption->frmTrasLang.frm:3
+<msgid>Traslation Language
+<msgstr>
+
+#: Caption->frmTrasLang.frm:39
+<msgid>&Add Language
+<msgstr>
+
+#: Caption->frmTrasLang.frm:124
+<msgid>New Language
+<msgstr>
+
+#: Caption->frmTrasLang.frm:147
+<msgid>Tools
+<msgstr>
+
+#: Caption->frmTrasLang.frm:149
+<msgid>Extract string from source
+<msgstr>
+
+#: Caption->frmTrasLang.frm:153
+<msgid>Merge
+<msgstr>
+
+#: Caption->frmTrasLang.frm:155
+<msgid>Merge File...
+<msgstr>
+
+#: Caption->frmTrasLang.frm:158
+<msgid>Merge All File
+<msgstr>
+
+#: frmTrasLang.frm:492
+<msgid>Save traslation file. Are you sure you wish to continue?
+<msgstr>
+
+#: frmTrasLang.frm:494
+<msgid>Problem to save file!
+<msgstr>
+
+#: frmTrasLang.frm:532
+<msgid>Do you wish to create a Language template file?
+<msgstr>
+
+#: frmTrasLang.frm:546
+<msgid>Do you wish to merge all Language file?
+<msgstr>
+
+#: frmTrasLang.frm:546 frmTrasLang.frm:561
+<msgid>Merge Language file
+<msgstr>
+
+#: frmTrasLang.frm:561
+<msgid>Do you wish to merge a Language file '
+<msgstr>
+
+#: ToolTipText->frmTrigger.frm:149
+<msgid>The name of the trigger.
+<msgstr>
+
+#: ToolTipText->frmTrigger.frm:160
+<msgid>The triggers OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmTrigger.frm:169
+<msgid>The name of a table.
+<msgstr>
+
+#: ToolTipText->frmTrigger.frm:184
+<msgid>When the Trigger should fire.
+<msgstr>
+
+#: ToolTipText->frmTrigger.frm:199
+<msgid>Comments about the trigger.
+<msgstr>
+
+#: ToolTipText->frmTrigger.frm:220
+<msgid>Should the Trigger fire for each row or statement? As of PostgreSQL v7.1.2, Statement level triggers are not yet supported.
+<msgstr>
+
+#: ToolTipText->frmTrigger.frm:235
+<msgid>A user-supplied function that the trigger will execute.
+<msgstr>
+
+#: Caption->frmTrigger.frm:257
+<msgid>For each
+<msgstr>
+
+#: frmTrigger.frm:357
+<msgid>You must specify a Trigger name!
+<msgstr>
+
+#: frmTrigger.frm:375
+<msgid>The function must contain a pair of parentheses even if it takes no arguments!
+<msgstr>
+
+#: frmTrigger.frm:383
+<msgid>Creating Trigger...
+<msgstr>
+
+#: frmTrigger.frm:391
+<msgid>You must select at least one event!
+<msgstr>
+
+#: frmTrigger.frm:416
+<msgid>Updating Trigger...
+<msgstr>
+
+#: frmTrigger.frm:452
+<msgid>Create Trigger
+<msgstr>
+
+#: frmTrigger.frm:511
+<msgid>Trigger: 
+<msgstr>
+
+#: ToolTipText->frmType.frm:98
+<msgid>The delimiter character for the array elements.
+<msgstr>
+
+#: ToolTipText->frmType.frm:109
+<msgid>The default value for the data type. Usually this is omitted, so that the default is NULL.
+<msgstr>
+
+#: Caption->frmType.frm:115
+<msgid>Passed by value?
+<msgstr>
+
+#: ToolTipText->frx->frmType.frm:120
+<msgid>Indicates that operators and functions which use this data type should be passed an argument by value rather than by reference. Note that you may not pass by value types whose internal representation is more than four bytes.ñ
+<msgstr>
+
+#: ToolTipText->frmType.frm:131
+<msgid>A literal value, which specifies the internal length of the new type (0 = Variable).
+<msgstr>
+
+#: ToolTipText->frmType.frm:142
+<msgid>The name of the type.
+<msgstr>
+
+#: ToolTipText->frmType.frm:153
+<msgid>The types OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmType.frm:164
+<msgid>The types owner.
+<msgstr>
+
+#: ToolTipText->frmType.frm:173
+<msgid>The name of a function, created by CREATE FUNCTION, which converts data from its external form to the type's internal form.
+<msgstr>
+
+#: ToolTipText->frmType.frm:210
+<msgid>The name of a function, created by CREATE FUNCTION, which converts data from its internal form to a form suitable for display.
+<msgstr>
+
+#: ToolTipText->frmType.frm:226
+<msgid>The type being created is an array; this specifies the type of the array elements.
+<msgstr>
+
+#: ToolTipText->frmType.frm:242
+<msgid>Storage alignment requirement of the data type.
+<msgstr>
+
+#: Caption->frmType.frm:301
+<msgid>Element type
+<msgstr>
+
+#: Caption->frmType.frm:321
+<msgid>Internal length
+<msgstr>
+
+#: Caption->frmType.frm:371
+<msgid>Input function
+<msgstr>
+
+#: frmType.frm:447
+<msgid>You must specify a Type name!
+<msgstr>
+
+#: frmType.frm:453
+<msgid>You must select an input function!
+<msgstr>
+
+#: frmType.frm:459
+<msgid>You must select an output function!
+<msgstr>
+
+#: frmType.frm:466
+<msgid>Creating Type...
+<msgstr>
+
+#: frmType.frm:479
+<msgid>Updating Type...
+<msgstr>
+
+#: frmType.frm:516
+<msgid>Create Type
+<msgstr>
+
+#: frmType.frm:615
+<msgid>Type: 
+<msgstr>
+
+#: Caption->frmUpgradeWizard.frm:4
+<msgid>Upgrade Wizard
+<msgstr>
+
+#: Caption->frmUpgradeWizard.frm:178
+<msgid>&Automatically run the Upgrade Wizard every 
+<msgstr>
+
+#: Caption->frx->frmUpgradeWizard.frm:186
+<msgid>The software packages listed below are the current versions of each. Double click on a package to open it's associated download site in your browser. Note that the installed versions of PostgreSQL and PsqlODBC will be listed as 0.0.0 if you are not connected to a database.
+<msgstr>
+
+#: Caption->frmUpgradeWizard.frm:195
+<msgid>pgAdmin website address
+<msgstr>
+
+#: Caption->frmUpgradeWizard.frm:203
+<msgid>You may also alter the Upgrade Wizard's settings on this page.
+<msgstr>
+
+#: Caption->frx->frmUpgradeWizard.frm:212
+<msgid>Click on the Next button to check for possible upgrades to pgAdmin and it's related components such as PostgreSQL or psqlODBC. You must be connected to the Internet for the Upgrade Wizard to work correctly.
+<msgstr>
+
+#: frmUpgradeWizard.frm:384
+<msgid>Contacting Server...
+<msgstr>
+
+#: frmUpgradeWizard.frm:427
+<msgid>The list of current software couldn't be downloaded from the server. Please check the server name and your network connection. If problems still persist, please contact the Support Mailing list listed in the helpfile.
+<msgstr>
+
+#: TabCaption->frmUser.frm:85
+<msgid>&Present in groups
+<msgstr>
+
+#: ToolTipText->frmUser.frm:139
+<msgid>The date that the users account expires.
+<msgstr>
+
+#: Caption->frmUser.frm:155
+<msgid>User Privileges
+<msgstr>
+
+#: Caption->frmUser.frm:163
+<msgid>Is this user a superuser?
+<msgstr>
+
+#: ToolTipText->frmUser.frm:168
+<msgid>Well, are they?
+<msgstr>
+
+#: Caption->frmUser.frm:174
+<msgid>Can this user create databases?
+<msgstr>
+
+#: ToolTipText->frmUser.frm:179
+<msgid>Well, can they?
+<msgstr>
+
+#: ToolTipText->frmUser.frm:191
+<msgid>The name of the user.
+<msgstr>
+
+#: ToolTipText->frmUser.frm:202
+<msgid>The user ID.
+<msgstr>
+
+#: ToolTipText->frmUser.frm:213
+<msgid>The users password.
+<msgstr>
+
+#: ToolTipText->frmUser.frm:224
+<msgid>If you change the password, it will need to be re-entered here to confirm the changes.
+<msgstr>
+
+#: ToolTipText->frmUser.frm:233 ToolTipText->frmUser.frm:266
+<msgid>Lists the configuration variables set for this user.
+<msgstr>
+
+#: Caption->frmUser.frm:371
+<msgid>User account expires
+<msgstr>
+
+#: Caption->frmUser.frm:381
+<msgid>Confirm password
+<msgstr>
+
+#: frmUser.frm:512
+<msgid>You must specify a username!
+<msgstr>
+
+#: frmUser.frm:517
+<msgid>The passwords do not match!
+<msgstr>
+
+#: frmUser.frm:523
+<msgid>Creating User...
+<msgstr>
+
+#: frmUser.frm:534
+<msgid>Updating User...
+<msgstr>
+
+#: frmUser.frm:596
+<msgid>Create User
+<msgstr>
+
+#: frmUser.frm:640
+<msgid>User: 
+<msgstr>
+
+#: ToolTipText->frmView.frm:266
+<msgid>The name of the view.
+<msgstr>
+
+#: ToolTipText->frmView.frm:277
+<msgid>The views OID (Object ID) in the PostgreSQL Database.
+<msgstr>
+
+#: ToolTipText->frmView.frm:286
+<msgid>Comments about the view.
+<msgstr>
+
+#: ToolTipText->frmView.frm:307
+<msgid>The SQL query that will generate this view.
+<msgstr>
+
+#: Caption->frmView.frm:323
+<msgid>View Definition (SQL)
+<msgstr>
+
+#: ToolTipText->frmView.frm:330
+<msgid>The views owner.
+<msgstr>
+
+#: frmView.frm:483
+<msgid>You must specify a view name!
+<msgstr>
+
+#: frmView.frm:489
+<msgid>The view definition must start with 'SELECT'!
+<msgstr>
+
+#: frmView.frm:496
+<msgid>Creating View...
+<msgstr>
+
+#: frmView.frm:508
+<msgid>Updating view definitions may break views, functions, rules or other objects that refer to this one. Are you sure you want to continue?
+<msgstr>
+
+#: frmView.frm:511
+<msgid>Updating View...
+<msgstr>
+
+#: frmView.frm:613
+<msgid>Create View
+<msgstr>
+
+#: frmView.frm:648
+<msgid>View: 
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:5
+<msgid>Visual Query Builder
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:43
+<msgid>Type Query
+<msgstr>
+
+#: ToolTipText->frmVisualQueryBuilder.frm:125
+<msgid>Add table to selection
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:140
+<msgid>Relation Query
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:143
+<msgid>View SQL
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:147
+<msgid>File
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:149
+<msgid>Open
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:153
+<msgid>Save
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:160
+<msgid>Clear query
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:164
+<msgid>Execute Query
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:168
+<msgid>Return Query
+<msgstr>
+
+#: Caption->frmVisualQueryBuilder.frm:175
+<msgid>Exit
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:264
+<msgid>Order
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:265
+<msgid>Visible
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:266
+<msgid>Where
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:334
+<msgid>Do you wish clear Query?
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:334
+<msgid>Clear Query
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:423
+<msgid>Visual Query Builder Open File
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:439
+<msgid>This file is not a 
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:443
+<msgid>Do you wish load this file?
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:461
+<msgid>Schema '
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:461
+<msgid>' not exists in this database!
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:467
+<msgid>Table '
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:467
+<msgid>' not exists in this schema!
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:489
+<msgid>Version file not valid!
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:522
+<msgid>Is not present relation!
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:528
+<msgid>Visual Query Builder Save File
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:535
+<msgid>Insert title query
+<msgstr>
+
+#: frmVisualQueryBuilder.frm:665
+<msgid>  Table: 
+<msgstr>
+
+#: Caption->RelationObj.ctl:51
+<msgid>Title
+<msgstr>
+
+#: Caption->RelationObj.ctl:93
+<msgid>ActionGrid
+<msgstr>
+
+#: Caption->RelationObj.ctl:96
+<msgid>Action1
+<msgstr>
+
+#: Caption->RelationObj.ctl:100
+<msgid>Action2
+<msgstr>
+
+#: Caption->RelationObj.ctl:105
+<msgid>Action3
+<msgstr>
+
+#: Caption->RelationObj.ctl:110
+<msgid>Action4
+<msgstr>
+
+#: Caption->RelationObj.ctl:115
+<msgid>Action5
+<msgstr>
+
+#: Caption->RelationObj.ctl:121
+<msgid>ActionJoin
+<msgstr>
+
+#: Caption->RelationObj.ctl:127
+<msgid>ActionRelation
+<msgstr>
+
+#: Caption->RelationObj.ctl:129
+<msgid>Rename
+<msgstr>
+
+#: RelationObj.ctl:394
+<msgid>Join already exists
+<msgstr>
+
+#: RelationObj.ctl:449
+<msgid>Relation 1 and 2 are equal!
+<msgstr>
+
+#: RelationObj.ctl:456 RelationObj.ctl:466
+<msgid>Relation: 
+<msgstr>
+
+#: RelationObj.ctl:456 RelationObj.ctl:460 RelationObj.ctl:466
+#: RelationObj.ctl:470
+<msgid> not found!
+<msgstr>
+
+#: RelationObj.ctl:460 RelationObj.ctl:470
+<msgid>Element relation : 
+<msgstr>
+
+#: RelationObj.ctl:542
+<msgid>Relation name not valid!
+<msgstr>
+
+#: RelationObj.ctl:549
+<msgid>Change name
+<msgstr>
+
+#: RelationObj.ctl:549
+<msgid>Insert alternate name
+<msgstr>
+
+#: RelationObj.ctl:996
+<msgid>Are you sure you wish to drop the join?
+<msgstr>
+
+#: RelationObj.ctl:996
+<msgid>Drop join
+<msgstr>
+
+#: RelationObj.ctl:1021
+<msgid>Are you sure you wish to drop the relation?
+<msgstr>
+
+#: RelationObj.ctl:1021
+<msgid>Drop relation
+<msgstr>
+
+#: RelationObj.ctl:1079
+<msgid>Insert new name for relation 
+<msgstr>
+
+#: RelationObj.ctl:1079 RelationObj.ctl:1094
+<msgid>Rename relation
+<msgstr>
+
+#: RelationObj.ctl:1084
+<msgid>New name not valid!
+<msgstr>
+
+#: RelationObj.ctl:1089
+<msgid>Old name and new name is equal!
+<msgstr>
+
+#: RelationObj.ctl:1094
+<msgid>Are you sure you wish to rename the relation?
+<msgstr>
+
+#: ScrollObjDb.ctl:150 ScrollObjDb.ctl:175 ScrollObjDb.ctl:200
+#: ScrollObjDb.ctl:246
+<msgid>Load 
+<msgstr>
+
