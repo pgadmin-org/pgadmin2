@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
@@ -513,7 +513,7 @@ Dim szDatabase As String
 Dim szUG As String
 Dim szIpAdrress As String
 Dim szIpMask As String
-Dim iI As Integer
+Dim ii As Integer
   
   If Index = 1 And lv.SelectedItem Is Nothing Then
     MsgBox "You must select a line to Update!", vbSystemModal + vbExclamation, "Error"
@@ -524,10 +524,6 @@ Dim iI As Integer
   If cboDatabase.SelectedItem.Key = "all" Then
     szDatabase = "all"
   ElseIf cboDatabase.SelectedItem.Key = "file" Then
-    If Dir(szPath & "\" & txtFileDatabase.Text) = "" Then
-      MsgBox "File " & szPath & "\" & txtFileDatabase.Text & " not found ", vbSystemModal + vbCritical
-      Exit Sub
-    End If
     szDatabase = "@" & txtFileDatabase.Text
   ElseIf cboDatabase.SelectedItem.Key = "database" Then
     szDatabase = ""
@@ -546,10 +542,6 @@ Dim iI As Integer
   If cboUG.SelectedItem.Key = "all" Then
     szUG = "all"
   ElseIf cboUG.SelectedItem.Key = "file" Then
-    If Dir(szPath & "\" & txtFileUG.Text) = "" Then
-      MsgBox "File " & szPath & "\" & txtFileUG.Text & " not found ", vbSystemModal + vbCritical
-      Exit Sub
-    End If
     szUG = "@" & txtFileUG.Text
   ElseIf cboUG.SelectedItem.Key = "ug" Then
     szUG = ""
@@ -571,28 +563,28 @@ Dim iI As Integer
   End If
   
   'IpAdrress
-  iI = Int(Len(txtIpAddress(0).Text) > 0) + Int(Len(txtIpAddress(1).Text) > 0) + _
+  ii = Int(Len(txtIpAddress(0).Text) > 0) + Int(Len(txtIpAddress(1).Text) > 0) + _
        Int(Len(txtIpAddress(2).Text) > 0) + Int(Len(txtIpAddress(3).Text) > 0)
-  If iI = -4 Then
+  If ii = -4 Then
     'verify if number
     szIpAdrress = ""
-    For iI = 0 To 3
-      If IsNumeric(txtIpAddress(iI).Text) Then
-        If txtIpAddress(iI).Text < 0 Or txtIpAddress(iI).Text > 255 Then
+    For ii = 0 To 3
+      If IsNumeric(txtIpAddress(ii).Text) Then
+        If txtIpAddress(ii).Text < 0 Or txtIpAddress(ii).Text > 255 Then
           MsgBox "Error IpAddress not valid (range 0 to 255) !!", vbSystemModal + vbExclamation
-          txtIpAddress(iI).SetFocus
+          txtIpAddress(ii).SetFocus
           Exit Sub
         End If
-        szIpAdrress = szIpAdrress & txtIpAddress(iI).Text & "."
+        szIpAdrress = szIpAdrress & txtIpAddress(ii).Text & "."
       Else
         MsgBox "Error IpAddress not valid !!", vbSystemModal + vbExclamation
-        txtIpAddress(iI).SetFocus
+        txtIpAddress(ii).SetFocus
         Exit Sub
       End If
     Next
     szIpAdrress = Trim(szIpAdrress)
     szIpAdrress = Mid(szIpAdrress, 1, Len(szIpAdrress) - 1)
-  ElseIf iI = 0 Then
+  ElseIf ii = 0 Then
     szIpAdrress = ""
   Else
     MsgBox "Error IpAddress not valid !!", vbSystemModal + vbExclamation
@@ -601,28 +593,28 @@ Dim iI As Integer
   End If
   
   'Ipmask
-  iI = Int(Len(txtIpMask(0).Text) > 0) + Int(Len(txtIpMask(1).Text) > 0) + _
+  ii = Int(Len(txtIpMask(0).Text) > 0) + Int(Len(txtIpMask(1).Text) > 0) + _
        Int(Len(txtIpMask(2).Text) > 0) + Int(Len(txtIpMask(3).Text) > 0)
-  If iI = -4 Then
+  If ii = -4 Then
     'verify if number
     szIpMask = ""
-    For iI = 0 To 3
-      If IsNumeric(txtIpMask(iI).Text) Then
-        If txtIpMask(iI).Text < 0 Or txtIpMask(iI).Text > 255 Then
+    For ii = 0 To 3
+      If IsNumeric(txtIpMask(ii).Text) Then
+        If txtIpMask(ii).Text < 0 Or txtIpMask(ii).Text > 255 Then
           MsgBox "Error IpMask not valid (range 0 to 255) !!", vbSystemModal + vbExclamation
-          txtIpMask(iI).SetFocus
+          txtIpMask(ii).SetFocus
           Exit Sub
         End If
-        szIpMask = szIpMask & txtIpMask(iI).Text & "."
+        szIpMask = szIpMask & txtIpMask(ii).Text & "."
       Else
         MsgBox "Error IpMask not valid !!", vbSystemModal + vbExclamation
-        txtIpMask(iI).SetFocus
+        txtIpMask(ii).SetFocus
         Exit Sub
       End If
     Next
     szIpMask = Trim(szIpMask)
     szIpMask = Mid(szIpMask, 1, Len(szIpMask) - 1)
-  ElseIf iI = 0 Then
+  ElseIf ii = 0 Then
     szIpMask = ""
   Else
     MsgBox "Error IpMask not valid !!", vbSystemModal + vbExclamation
@@ -746,7 +738,7 @@ Dim szTemp As String
 Dim szData As String
 Dim lvItem As ListItem
 Dim vData
-Dim iI As Integer
+Dim ii As Integer
 
   If lv.Tag = "N" Then
     MsgBox "The configuration is unchanged!", vbSystemModal + vbInformation
@@ -778,13 +770,13 @@ Dim iI As Integer
   
   'comment old line and mark
   szData = ""
-  For iI = 0 To UBound(vData)
-    szTemp = Trim(vData(iI))
+  For ii = 0 To UBound(vData)
+    szTemp = Trim(vData(ii))
     If Len(szTemp) = 0 Or Left(szTemp, 1) = "#" Then
       'comment
       szData = szData & szTemp
     Else
-      szData = szData & "# Change on pgAdmin II " & Date & " " & vData(iI)
+      szData = szData & "# Change on pgAdmin II " & Date & " " & vData(ii)
     End If
     szData = szData & vbCrLf
   Next
@@ -825,7 +817,7 @@ Dim objGroup As pgGroup
 Dim lvItem As ListItem
 
 Dim iFile As Integer
-Dim iI As Integer
+Dim ii As Integer
 Dim iPos As Integer
 Dim iFlag As Integer
 
@@ -930,8 +922,8 @@ Dim lB As Long
   End If
   
   
-  For iI = 0 To UBound(vData)
-    szTemp = Trim(vData(iI))
+  For ii = 0 To UBound(vData)
+    szTemp = Trim(vData(ii))
     If Len(szTemp) = 0 Or Left(szTemp, 1) = "#" Then
       'comment
     Else
@@ -1017,6 +1009,9 @@ Dim lB As Long
         End If
       End If
     Next lX
+    
+    'Size the listvire
+    AutoSizeColumnLv lv
   
 Exit Sub
 Err_Handler:
@@ -1105,7 +1100,7 @@ svr.LogEvent "Entering " & App.Title & ":frmWizard.lv_Click()", etFullDebug
 Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
-Dim iI As Integer
+Dim ii As Integer
 Dim bFound As Boolean
 
   If Not (lv.SelectedItem Is Nothing) Then
@@ -1131,10 +1126,10 @@ Dim bFound As Boolean
         cboDatabase.ComboItems("database").Selected = True
         cboDatabase_Click
         vData = Split(szTemp, ",")
-        For iI = 0 To UBound(vData)
+        For ii = 0 To UBound(vData)
           bFound = False
           For Each lvItem In lvDatabase.ListItems
-            If LCase(vData(iI)) = LCase(lvItem.Text) Then
+            If LCase(vData(ii)) = LCase(lvItem.Text) Then
               lvItem.Checked = True
               bFound = True
               Exit For
@@ -1142,7 +1137,7 @@ Dim bFound As Boolean
           Next
           If Not bFound Then
             'not found database
-            MsgBox "Error in configuration Database" & vbCrLf & vData(iI) & " not found ", vbSystemModal + vbCritical
+            MsgBox "Error in configuration Database" & vbCrLf & vData(ii) & " not found ", vbSystemModal + vbCritical
           End If
         Next
       End If
@@ -1164,19 +1159,19 @@ Dim bFound As Boolean
         cboUG.ComboItems("ug").Selected = True
         cboUG_Click
         vData = Split(szTemp, ",")
-        For iI = 0 To UBound(vData)
+        For ii = 0 To UBound(vData)
           bFound = False
           For Each lvItem In lvUG.ListItems
-            If Left(vData(iI), 1) = "+" Then
+            If Left(vData(ii), 1) = "+" Then
               'group
-              If LCase(Mid(vData(iI), 2)) = LCase(lvItem.Text) And Left(lvItem.Key, 3) = "GRP" Then
+              If LCase(Mid(vData(ii), 2)) = LCase(lvItem.Text) And Left(lvItem.Key, 3) = "GRP" Then
                 lvItem.Checked = True
                 bFound = True
                 Exit For
               End If
             Else
               'user
-              If LCase(vData(iI)) = LCase(lvItem.Text) And Left(lvItem.Key, 3) = "USR" Then
+              If LCase(vData(ii)) = LCase(lvItem.Text) And Left(lvItem.Key, 3) = "USR" Then
                 lvItem.Checked = True
                 bFound = True
                 Exit For
@@ -1186,33 +1181,33 @@ Dim bFound As Boolean
           
           If Not bFound Then
             'user/group
-            MsgBox "Error in configuration User/Group" & vbCrLf & vData(iI) & " not found ", vbSystemModal + vbCritical
+            MsgBox "Error in configuration User/Group" & vbCrLf & vData(ii) & " not found ", vbSystemModal + vbCritical
           End If
         Next
       End If
     End If
   
     'ip-address
-    For iI = 0 To 3
-      txtIpAddress(iI).Text = ""
+    For ii = 0 To 3
+      txtIpAddress(ii).Text = ""
     Next
     szTemp = lv.SelectedItem.SubItems(3)
     If Len(szTemp) > 0 Then
       vData = Split(szTemp, ".")
-      For iI = 0 To 3
-        txtIpAddress(iI).Text = vData(iI)
+      For ii = 0 To 3
+        txtIpAddress(ii).Text = vData(ii)
       Next
     End If
   
     'ip-mask
-    For iI = 0 To 3
-      txtIpMask(iI).Text = ""
+    For ii = 0 To 3
+      txtIpMask(ii).Text = ""
     Next
     szTemp = lv.SelectedItem.SubItems(4)
     If Len(szTemp) > 0 Then
       vData = Split(szTemp, ".")
-      For iI = 0 To 3
-        txtIpMask(iI).Text = vData(iI)
+      For ii = 0 To 3
+        txtIpMask(ii).Text = vData(ii)
       Next
     End If
   

@@ -39,6 +39,7 @@ Dim szMsg As String
   Screen.MousePointer = vbDefault
   
 End Sub
+
 Public Function GetID() As String
 On Error GoTo Err_Handler
 'Don't log, accessed *all* the time.
@@ -56,14 +57,43 @@ Public Function SearchListview(lvListview As ListView, szSearchstring As String)
 On Error GoTo Err_Handler
 Dim itmSearchFor As ListItem
 
-Set itmSearchFor = lvListview.FindItem(szSearchstring)
-If itmSearchFor Is Nothing Then
-  SearchListview = False
-Else
-  SearchListview = True
-End If
+  Set itmSearchFor = lvListview.FindItem(szSearchstring)
+  If itmSearchFor Is Nothing Then
+    SearchListview = False
+  Else
+    SearchListview = True
+  End If
 
-Exit Function
+  Exit Function
 Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.SearchListview"
 End Function
+
+Public Sub AutoSizeColumnLv(lv As ListView)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":basMisc.AutoSizeColumnLv(" & lv.Name & ")", etFullDebug
+Dim ii As Integer
+Dim szKey As String
+Dim objItem As ListItem
+
+    With lv
+        szKey = CStr(Now)
+
+        'frank_lupo add new element title in listview
+        Set objItem = .ListItems.Add(1, szKey, .ColumnHeaders(1).Text & "  ")
+        SendMessage .hWnd, LVM_SETCOLUMNWIDTH, 0, LVSCW_AUTOSIZE
+
+        For ii = 1 To .ColumnHeaders.Count - 1
+            objItem.SubItems(ii) = .ColumnHeaders(ii + 1).Text & "  "
+            SendMessage .hWnd, LVM_SETCOLUMNWIDTH, ii, LVSCW_AUTOSIZE
+        Next
+
+        'frank_lupo drop element title in listview
+        .ListItems.Remove szKey
+    End With
+
+  Exit Sub
+Err_Handler:
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.AutoSizeColumnLv"
+End Sub
+
