@@ -23,6 +23,25 @@ Private cnDatabase As Connection
 Dim szLocCols As String
 Dim szRefCols As String
 
+'Does the specified item exist?
+Public Function Exists(Identifier As String) As Boolean
+Attribute Exists.VB_Description = "Does the specified object exist?"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
+
+Dim objRelationship As pgRelationship
+
+  For Each objRelationship In mCol
+    If objRelationship.Identifier = Identifier Then
+      Exists = True
+      Exit For
+    End If
+  Next objRelationship
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err
+End Function
+
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."

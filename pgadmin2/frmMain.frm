@@ -53,7 +53,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   8
+         NumListImages   =   11
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":08CA
             Key             =   "connect"
@@ -85,6 +85,18 @@ Begin VB.Form frmMain
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":4FB8
             Key             =   "viewdata"
+         EndProperty
+         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":5892
+            Key             =   "commit"
+         EndProperty
+         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":616C
+            Key             =   "history"
+         EndProperty
+         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":6D3E
+            Key             =   "graveyard"
          EndProperty
       EndProperty
    End
@@ -118,7 +130,7 @@ Begin VB.Form frmMain
       ImageList       =   "ilTB"
       _Version        =   393216
       BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-         NumButtons      =   10
+         NumButtons      =   14
          BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Key             =   "connect"
             Description     =   "Connect"
@@ -240,19 +252,44 @@ Begin VB.Form frmMain
          EndProperty
          BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
+            Key             =   "commit"
+            Description     =   "Commit"
+            Object.ToolTipText     =   "Commit any changes to Revision Control."
+            ImageKey        =   "commit"
+         EndProperty
+         BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            Enabled         =   0   'False
+            Key             =   "history"
+            Description     =   "History"
+            Object.ToolTipText     =   "View the revision history of the selected object."
+            ImageKey        =   "history"
+         EndProperty
+         BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            Enabled         =   0   'False
+            Key             =   "graveyard"
+            Description     =   "Graveyard"
+            Object.ToolTipText     =   "View the deleted object graveyard."
+            ImageKey        =   "graveyard"
+         EndProperty
+         BeginProperty Button11 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            Key             =   "sep3"
+            Style           =   3
+         EndProperty
+         BeginProperty Button12 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            Enabled         =   0   'False
             Key             =   "sql"
             Description     =   "SQL"
             Object.ToolTipText     =   "Execute arbitrary SQL queries."
             ImageKey        =   "sql"
          EndProperty
-         BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button13 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "viewdata"
             Description     =   "View Data"
             Object.ToolTipText     =   "View the data in the selected table/view"
             ImageKey        =   "viewdata"
          EndProperty
-         BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button14 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "vacuum"
             Description     =   "Vacuum"
@@ -335,95 +372,95 @@ Begin VB.Form frmMain
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   23
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":5892
+            Picture         =   "frmMain.frx":7618
             Key             =   "aggregate"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":59EC
+            Picture         =   "frmMain.frx":7772
             Key             =   "check"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":5F86
+            Picture         =   "frmMain.frx":7D0C
             Key             =   "column"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":6520
+            Picture         =   "frmMain.frx":82A6
             Key             =   "database"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":667A
+            Picture         =   "frmMain.frx":8400
             Key             =   "function"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":6C14
+            Picture         =   "frmMain.frx":899A
             Key             =   "group"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":71AE
+            Picture         =   "frmMain.frx":8F34
             Key             =   "index"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":7748
+            Picture         =   "frmMain.frx":94CE
             Key             =   "indexcolumn"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":7CE2
+            Picture         =   "frmMain.frx":9A68
             Key             =   "foreignkey"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":827C
+            Picture         =   "frmMain.frx":A002
             Key             =   "language"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8816
+            Picture         =   "frmMain.frx":A59C
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8DB0
+            Picture         =   "frmMain.frx":AB36
             Key             =   "property"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":934A
+            Picture         =   "frmMain.frx":B0D0
             Key             =   "relationship"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":98E4
+            Picture         =   "frmMain.frx":B66A
             Key             =   "rule"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9A3E
+            Picture         =   "frmMain.frx":B7C4
             Key             =   "server"
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9B98
+            Picture         =   "frmMain.frx":B91E
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A132
+            Picture         =   "frmMain.frx":BEB8
             Key             =   "table"
          EndProperty
          BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A28C
+            Picture         =   "frmMain.frx":C012
             Key             =   "trigger"
          EndProperty
          BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A826
+            Picture         =   "frmMain.frx":C5AC
             Key             =   "type"
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":ADC0
+            Picture         =   "frmMain.frx":CB46
             Key             =   "user"
          EndProperty
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B35A
+            Picture         =   "frmMain.frx":D0E0
             Key             =   "view"
          EndProperty
          BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B4B4
+            Picture         =   "frmMain.frx":D23A
             Key             =   "baddatabase"
          EndProperty
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B60E
+            Picture         =   "frmMain.frx":D394
             Key             =   "hiproperty"
          EndProperty
       EndProperty
@@ -752,6 +789,10 @@ Begin VB.Form frmMain
          Caption         =   "&History"
          Enabled         =   0   'False
       End
+      Begin VB.Menu mnuPopupGraveyard 
+         Caption         =   "&Graveyard"
+         Enabled         =   0   'False
+      End
       Begin VB.Menu mnuPopupSep3 
          Caption         =   "-"
       End
@@ -916,6 +957,23 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCommit_Click()", etFull
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCommit_Click"
+End Sub
+
+Private Sub mnuPopupGraveyard_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupGraveyard_Click()", etFullDebug
+
+  StartMsg "Searching for missing objects..."
+  svr.Databases(ctx.CurrentDB).Graveyard.Refresh
+  Load frmGraveyard
+  frmGraveyard.Initialise ctx.CurrentDB
+  frmGraveyard.Show
+  EndMsg
+
+  Exit Sub
+Err_Handler:
+  EndMsg
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupGraveyard_Click"
 End Sub
 
 Private Sub mnuPopupHistory_Click()
@@ -1454,6 +1512,12 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")"
       mnuPopupDrop_Click
     Case "properties"
       mnuPopupProperties_Click
+    Case "commit"
+      mnuPopupCommit_Click
+    Case "history"
+      mnuPopupHistory_Click
+    Case "graveyard"
+      mnuPopupGraveyard_Click
     Case "sql"
       mnuPopupSQL_Click
     Case "viewdata"

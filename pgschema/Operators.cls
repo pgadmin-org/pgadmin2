@@ -22,6 +22,25 @@ Private mCol As Collection
 Private cnDatabase As Connection
 Private szDB As String
 
+'Does the specified item exist?
+Public Function Exists(Identifier As String) As Boolean
+Attribute Exists.VB_Description = "Does the specified object exist?"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
+
+Dim objOperator As pgOperator
+
+  For Each objOperator In mCol
+    If objOperator.Identifier = Identifier Then
+      Exists = True
+      Exit For
+    End If
+  Next objOperator
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err
+End Function
+
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."

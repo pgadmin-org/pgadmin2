@@ -20,6 +20,25 @@ Option Explicit
 'Collections
 Private mCol As Collection
 
+'Does the specified item exist?
+Public Function Exists(Identifier As String) As Boolean
+Attribute Exists.VB_Description = "Does the specified object exist?"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
+
+Dim objDatabase As pgDatabase
+
+  For Each objDatabase In mCol
+    If objDatabase.Identifier = Identifier Then
+      Exists = True
+      Exit For
+    End If
+  Next objDatabase
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err
+End Function
+
 'Internal Add
 Private Sub iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, lEncoding As Long, szEncoding As String)
 On Error GoTo Err_Handler

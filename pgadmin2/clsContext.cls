@@ -132,15 +132,20 @@ On Error Resume Next
      vData.ObjectType = "View" Then
     If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
       frmMain.mnuPopupCommit.Enabled = True
+      frmMain.tb.Buttons("commit").Enabled = True
       frmMain.mnuPopupHistory.Enabled = True
+      frmMain.tb.Buttons("history").Enabled = True
     Else
       frmMain.mnuPopupCommit.Enabled = False
+      frmMain.tb.Buttons("commit").Enabled = False
       frmMain.mnuPopupHistory.Enabled = False
+      frmMain.tb.Buttons("history").Enabled = False
     End If
   Else
     frmMain.mnuPopupCommit.Enabled = False
     frmMain.mnuPopupHistory.Enabled = False
   End If
+  
 End Property
 Public Property Get CurrentObject() As Object
   Set CurrentObject = objCurrentObject
@@ -150,6 +155,14 @@ End Property
 Public Property Let CurrentDB(ByVal szData As String)
   szCurrentDB = szData
   If szData <> "" Then
+    'Graveyard
+    If frmMain.svr.Databases(szData).RevisionControl Then
+      frmMain.mnuPopupGraveyard.Enabled = True
+      frmMain.tb.Buttons("graveyard").Enabled = True
+    Else
+      frmMain.mnuPopupGraveyard.Enabled = False
+      frmMain.tb.Buttons("graveyard").Enabled = False
+    End If
     frmMain.sb.Panels("currentdb").Text = "Database: " & szData
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = True
@@ -191,6 +204,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("trigger").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = False
+    frmMain.tb.Buttons("graveyard").Enabled = False
     frmMain.tb.Buttons("sql").Enabled = False
     frmMain.tb.Buttons("vacuum").Enabled = False
     frmMain.mnuFileSaveDBSchema.Enabled = False
@@ -205,6 +219,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.mnuPopupCreateTrigger.Enabled = False
     frmMain.mnuPopupCreateType.Enabled = False
     frmMain.mnuPopupCreateView.Enabled = False
+    frmMain.mnuPopupGraveyard.Enabled = False
     frmMain.mnuPopupSQL.Enabled = False
     frmMain.mnuPopupVacuum.Enabled = False
   End If

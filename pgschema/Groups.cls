@@ -20,6 +20,25 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 
+'Does the specified item exist?
+Public Function Exists(Identifier As String) As Boolean
+Attribute Exists.VB_Description = "Does the specified object exist?"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
+
+Dim objGroup As pgGroup
+
+  For Each objGroup In mCol
+    If objGroup.Identifier = Identifier Then
+      Exists = True
+      Exit For
+    End If
+  Next objGroup
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err
+End Function
+
 'Internal Add
 Private Sub iAdd(szName As String, lID As Long, szMemberList As String)
 On Error GoTo Err_Handler

@@ -18,6 +18,8 @@ Attribute VB_Exposed = True
 Option Explicit
 
 'Properties
+Private szObjectType As String
+Private szIdentifier As String
 Private dTimeStamp As Date
 Private szUser As String
 Private szAction As String
@@ -25,6 +27,48 @@ Private lOID As Long
 Private lVersion As Long
 Private szDefinition As String
 Private szComment As String
+
+'Set/Return the ObjectType
+Friend Property Let ObjectType(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":rcItem.Property Let ObjectType(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szObjectType = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":rcItem.Property Get ObjectType()", etFullDebug
+
+  ObjectType = szObjectType
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Identifier
+Friend Property Let Identifier(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":rcItem.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szIdentifier = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":rcItem.Property Get Identifier()", etFullDebug
+
+  Identifier = szIdentifier
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Set/Return the TimeStamp
 Friend Property Let TimeStamp(ByVal vData As Date)

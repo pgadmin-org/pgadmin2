@@ -24,6 +24,25 @@ Private cnDatabase As Connection
 Dim lTableOID As Long
 Dim szTable As String
 
+'Does the specified item exist?
+Public Function Exists(Identifier As String) As Boolean
+Attribute Exists.VB_Description = "Does the specified object exist?"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
+
+Dim objIndex As pgIndex
+
+  For Each objIndex In mCol
+    If objIndex.Identifier = Identifier Then
+      Exists = True
+      Exit For
+    End If
+  Next objIndex
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err
+End Function
+
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."

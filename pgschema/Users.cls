@@ -20,6 +20,25 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 
+'Does the specified item exist?
+Public Function Exists(Identifier As String) As Boolean
+Attribute Exists.VB_Description = "Does the specified object exist?"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Users.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
+
+Dim objUser As pgUser
+
+  For Each objUser In mCol
+    If objUser.Identifier = Identifier Then
+      Exists = True
+      Exit For
+    End If
+  Next objUser
+  
+  Exit Function
+Err_Handler:  objServer.iLogError Err
+End Function
+
 'Internal Add
 Friend Sub iAdd(szName As String, lID As Long, bCreateDatabases As Boolean, bSuperuser As Boolean, bUpdateCatalogues As Boolean, dAccountExpires As Variant)
 On Error GoTo Err_Handler

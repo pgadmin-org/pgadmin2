@@ -26,6 +26,7 @@ Private colTypes As Types
 Private colFunctions As Functions
 Private colOperators As Operators
 Private colTables As Tables
+Private colGraveyard As Graveyard
 
 'Properties
 Private lOID As Long
@@ -381,6 +382,27 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Sequence
     colSequences.Initialize
   End If
   Set Sequences = colSequences
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the History collection.
+Public Property Get Graveyard() As Graveyard
+Attribute Graveyard.VB_Description = "Returns the graveyard collection of dropped objects."
+'On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get History()", etFullDebug
+
+  If RevisionControl Then
+    If colGraveyard Is Nothing Then
+      Set colGraveyard = New Graveyard
+     
+      'Pass the options to the class
+      Set colGraveyard.Connection = cnDatabase
+      colGraveyard.Initialize
+    End If
+    Set Graveyard = colGraveyard
+  End If
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
