@@ -269,35 +269,35 @@ Dim szDefinitionOld As String
   'Select the prosrc back from the DB...
   Set rs = objServer.ExecSQL("SELECT definition FROM pg_views WHERE viewname = '" & szName & "'", cnDatabase)
   If Not rs.EOF Then szDefinition = rs!Definition & ""
-  If Not SystemObject Then Commit rcUpdate, "Updated view definition."
-   
-  'Select oid back from the DB...
-  Set rs = objServer.ExecSQL("SELECT relfilenode FROM pg_class WHERE relname = '" & szName & "'", cnDatabase)
-  If Not rs.EOF Then lOID = rs!relfilenode & ""
-  If Not SystemObject Then Commit rcUpdate, "Updated view OID."
-  
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
+   
+  'Select oid back from the DB...
+  Set rs = objServer.ExecSQL("SELECT oid FROM pg_class WHERE relname = '" & szName & "'", cnDatabase)
+  If Not rs.EOF Then lOID = rs!OID & ""
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  If Not SystemObject Then Commit rcUpdate, "Updated view definition."
   
   Exit Property
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   
-    ' In case of any error, apply old definition
+  ' In case of any error, apply old definition
   szDefinition = szDefinitionOld
-  objServer.Databases(Database).Execute SQL(True)
+  objServer.Databases(Database).Execute SQL
   
     'Select the prosrc back from the DB...
   Set rs = objServer.ExecSQL("SELECT definition FROM pg_views WHERE viewname = '" & szName & "'", cnDatabase)
   If Not rs.EOF Then szDefinition = rs!Definition & ""
-  If Not SystemObject Then Commit rcUpdate, "Updated view definition."
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
    
   'Select oid back from the DB...
-  Set rs = objServer.ExecSQL("SELECT relfilenode FROM pg_class WHERE relname = '" & szName & "'", cnDatabase)
-  If Not rs.EOF Then lOID = rs!relfilenode & ""
-  If Not SystemObject Then Commit rcUpdate, "Updated view OID."
-  
+  Set rs = objServer.ExecSQL("SELECT oid FROM pg_class WHERE relname = '" & szName & "'", cnDatabase)
+  If Not rs.EOF Then lOID = rs!OID & ""
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   
