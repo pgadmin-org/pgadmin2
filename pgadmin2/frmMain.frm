@@ -1394,7 +1394,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupRefresh_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupRefresh_Click()", etFullDebug
 
 Dim objNode As Node
@@ -1577,7 +1577,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
           objViewForm.Show
           
         Case Else
-          MsgBox "Unknown object type for the current object.", vbExclamation, "Error"
+          MsgBox "Cannot display properties for the current object.", vbExclamation, "Error"
       End Select
   
   Exit Sub
@@ -2771,7 +2771,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvSequence(ByVal Node As MSComctlLib.Node)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem

@@ -101,6 +101,7 @@ Dim objNewMember As pgCheck
   'Create a new object
   Set objNewMember = New pgCheck
   objNewMember.Name = szName
+  objNewMember.SystemObject = False
   objNewMember.Table = szTable
   objNewMember.Definition = szDefinition
   If szName <> "" Then
@@ -132,12 +133,15 @@ Dim szSQL As String
   objServer.ExecSQL szSQL, cnDatabase
     
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_CHECKS & " WHERE rcrelid = " & lTableOID & " AND rcname = '" & dbSZ(Name) & "'"
+  szSQL = SQL_GET_CHECKS & " AND rcrelid = " & lTableOID & " AND rcname = '" & dbSZ(Name) & "'"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
     Set Add = iAdd(rs!rcname & "", rs!rcsrc & "")
   End If
+  
+  'Commit
+  objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Added CHECK: " & Name
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -176,6 +180,38 @@ objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Count()", et
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+'Remove the specified Item
+Public Sub Remove(ByVal Key As String)
+Attribute Remove.VB_Description = "Remove the specified Check object."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Checks.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
+
+Dim szSQL As String
+Dim szName As String
+
+  If objServer.dbVersion.VersionNum < 7.2 Then Exit Sub
+  
+  szName = mCol(ULEncode(Key)).Name
+  
+  'Generate/Execute SQL to drop the Check.
+  szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " DROP CONSTRAINT " & QUOTE & szName & QUOTE & " RESTRICT"
+  objServer.ExecSQL szSQL, objServer.Connection
+  
+  'If we get this far, then we can't have errored,
+  'so remove the object from the collection.
+  mCol.Remove ULEncode(Key)
+  
+  'Commit
+  objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Dropped CHECK: " & szName
+
+  
+  Exit Sub
+Err_Handler:
+  'Error 5 is thrown if the item is not in the collection...
+  If Err.Number = 5 Then Exit Sub
+  objServer.iLogError Err
+End Sub
 
 'Allow enumeration using For...Each
 Public Property Get NewEnum() As IUnknown

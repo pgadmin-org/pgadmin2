@@ -313,7 +313,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(Optional Database As pgDatabase)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFullDebug
 
 Dim X As Integer

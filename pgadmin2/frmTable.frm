@@ -73,9 +73,9 @@ Begin VB.Form frmTable
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "cmdColRemove"
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(2)=   "cmdColRemove"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
@@ -90,26 +90,26 @@ Begin VB.Form frmTable
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":0716
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdFkyRemove"
+      Tab(3).Control(0)=   "lvProperties(2)"
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "lvProperties(2)"
+      Tab(3).Control(2)=   "cmdFkyRemove"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":0732
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblProperties(6)"
-      Tab(4).Control(1)=   "lvProperties(3)"
+      Tab(4).Control(0)=   "cboInheritedTables(0)"
+      Tab(4).Control(1)=   "cmdInhRemove"
       Tab(4).Control(2)=   "cmdInhAdd"
-      Tab(4).Control(3)=   "cmdInhRemove"
-      Tab(4).Control(4)=   "cboInheritedTables(0)"
+      Tab(4).Control(3)=   "lvProperties(3)"
+      Tab(4).Control(4)=   "lblProperties(6)"
       Tab(4).ControlCount=   5
       TabCaption(5)   =   "&Security"
       TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lvProperties(4)"
-      Tab(5).Control(1)=   "cmdAdd"
-      Tab(5).Control(2)=   "fraAdd"
-      Tab(5).Control(3)=   "cmdRemove"
+      Tab(5).Control(0)=   "cmdRemove"
+      Tab(5).Control(1)=   "fraAdd"
+      Tab(5).Control(2)=   "cmdAdd"
+      Tab(5).Control(3)=   "lvProperties(4)"
       Tab(5).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -782,6 +782,7 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szDropCheckList As String
 Dim szUsers() As String
 Dim objTable As pgTable
 
@@ -845,12 +846,23 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdChkRemove_Click()",
     Exit Sub
   End If
   
-  lvProperties(1).ListItems.Remove lvProperties(1).SelectedItem.Index
-  lvProperties(1).Tag = "Y"
-  If lvProperties(1).SelectedItem Is Nothing Then
-    cmdChkRemove.Enabled = False
+  If objTable Is Nothing Then
+    lvProperties(1).ListItems.Remove lvProperties(1).SelectedItem.Index
+    lvProperties(1).Tag = "Y"
+    If lvProperties(1).SelectedItem Is Nothing Then
+      cmdChkRemove.Enabled = False
+    Else
+      lvProperties_ItemClick 1, lvProperties(1).SelectedItem
+    End If
   Else
-    lvProperties_ItemClick 1, lvProperties(1).SelectedItem
+    szDropCheckList = szDropCheckList & lvProperties(1).SelectedItem.Text & "!|!"
+    lvProperties(1).ListItems.Remove lvProperties(1).SelectedItem.Index
+    lvProperties(1).Tag = "Y"
+    If lvProperties(1).SelectedItem Is Nothing Then
+      cmdChkRemove.Enabled = False
+    Else
+      lvProperties_ItemClick 1, lvProperties(1).SelectedItem
+    End If
   End If
   
   Exit Sub
@@ -1000,8 +1012,10 @@ Dim szDataType As String
 Dim szColumns As String
 Dim szPrimaryKeys As String
 Dim szChecks As String
+Dim szDropChecks() As String
 Dim szForeignKeys As String
 Dim szInherits As String
+Dim X As Integer
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -1134,6 +1148,24 @@ Dim szInherits As String
       Next objItem
     End If
     
+    'Drop any old checks
+    If Len(szDropCheckList) > 3 Then
+      szDropChecks = Split(szDropCheckList, "!|!")
+      For X = 0 To UBound(szDropChecks)
+        If szDropChecks(X) <> "" Then
+          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Checks.Remove szDropChecks(X)
+          For Each objNode In frmMain.tv.Nodes
+            If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
+              If (Left(objNode.Key, 4) = "CHK-") And (Left(objNode.Parent.Text, 8) = "Checks (") And (objNode.Parent.Parent.Text = szDatabase) Then
+                frmMain.tv.Nodes.Remove objNode.Index
+                objNode.Text = "Checks (" & objNode.Children & ")"
+              End If
+            End If
+          Next objNode
+        End If
+      Next X
+    End If
+    
     'Update the comment
     If hbxProperties(0).Tag = "Y" Then objTable.Comment = hbxProperties(0).Text
   End If
@@ -1260,6 +1292,9 @@ Dim szAccess() As String
       cmdAdd.Enabled = False
       cmdRemove.Enabled = False
     End If
+    
+    'Allow DROP CHECK for 7.2+
+    If frmMain.svr.dbVersion.VersionNum >= 7.2 Then cmdChkRemove.Enabled = True
     
     Me.Caption = "Table: " & objTable.Identifier
     txtProperties(0).Text = objTable.Name
@@ -1445,7 +1480,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.lvProperties_ItemClick
   End If
   
   'Don't allow removal of existing checks
-  If Index = 1 Then
+  If Index = 1 And frmMain.svr.dbVersion.VersionNum < 7.2 Then
     If Item.Tag = "ORIG" Then
       cmdChkRemove.Enabled = False
     Else

@@ -39,6 +39,7 @@ Committing a table now also commits sub objects.
 Added a '-wine' command line option to disable modal dialogues (they don't seem to work under Wine).
 Prevent connection to databases until they are selected. Added an option to revert to old behaviour.
 Allow commit of entire database to revision control.
+Added support for dropping checks with PostgreSQL 7.2+.
 
 1.2.0 Stable
 ------------

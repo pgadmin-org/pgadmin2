@@ -50,17 +50,19 @@ Dim szPath() As String
       Exit Sub
     End If
     If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
-      If ctx.CurrentObject.ObjectType = "Table" Then
-        If ctx.CurrentObject.RCStatus <> rcUpToDate Then
-          If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later, however any data in the table will be lost." & vbCrLf & vbCrLf & "NOTE: This table is not up to date in the Revision Control system, so it may not be possible to restore to the current state.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+      If ctx.CurrentObject.ObjectType <> "Check" Then
+        If ctx.CurrentObject.ObjectType = "Table" Then
+          If ctx.CurrentObject.RCStatus <> rcUpToDate Then
+            If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later, however any data in the table will be lost." & vbCrLf & vbCrLf & "NOTE: This table is not up to date in the Revision Control system, so it may not be possible to restore to the current state.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+          Else
+            If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later, however any data in the table will be lost.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+          End If
         Else
-          If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later, however any data in the table will be lost.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-        End If
-      Else
-        If ctx.CurrentObject.RCStatus <> rcUpToDate Then
-          If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "NOTE: This object is not up to date in the Revision Control system, so it may not be possible to restore to the current state.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-        Else
-          If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+          If ctx.CurrentObject.RCStatus <> rcUpToDate Then
+            If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "NOTE: This object is not up to date in the Revision Control system, so it may not be possible to restore to the current state.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+          Else
+            If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+          End If
         End If
       End If
     Else
@@ -242,7 +244,22 @@ Dim szPath() As String
           End If
         End If
       Next objNode
-    
+      
+    Case "Check"
+      szType = "CHK-"
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables(ctx.CurrentObject.Table).Checks.Remove ctx.CurrentObject.Identifier
+      
+      'Delete any matching tree nodes
+      For Each objNode In frmMain.tv.Nodes
+        szPath = Split(objNode.FullPath, "\")
+        If UBound(szPath) >= 2 Then
+          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
+            objNode.Parent.Text = "Checks (" & objNode.Parent.Children - 1 & ")"
+            frmMain.tv.Nodes.Remove objNode.Index
+          End If
+        End If
+      Next objNode
+      
     Case "Trigger"
       szType = "TRG-"
       frmMain.svr.Databases(ctx.CurrentObject.Database).Tables(ctx.CurrentObject.Table).Triggers.Remove ctx.CurrentObject.Identifier

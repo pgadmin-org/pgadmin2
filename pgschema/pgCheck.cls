@@ -21,6 +21,7 @@ Option Explicit
 Private szTable As String
 Private szName As String
 Private szIdentifier As String
+Private bSystemObject As Boolean
 Private szDefinition As String
 Private cnDatabase As Connection
 
@@ -122,6 +123,27 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get ObjectType(
 
   ObjectType = "Check"
     
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return a boolean indicating whether this is a System Object
+Friend Property Let SystemObject(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let SystemObject(" & vData & ")", etFullDebug
+
+  bSystemObject = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get SystemObject() As Boolean
+Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get SystemObject()", etFullDebug
+
+  SystemObject = bSystemObject
+  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
