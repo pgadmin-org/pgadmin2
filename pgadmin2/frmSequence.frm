@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
 Begin VB.Form frmSequence 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Sequence"
@@ -46,7 +46,7 @@ Begin VB.Form frmSequence
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmSequence.frx":058A
+      TabPicture(0)   =   "frmSequence.frx":06C2
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(2)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -90,12 +90,12 @@ Begin VB.Form frmSequence
       Tab(0).Control(19).Enabled=   0   'False
       Tab(0).ControlCount=   20
       TabCaption(1)   =   "&Security"
-      TabPicture(1)   =   "frmSequence.frx":05A6
+      TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "cmdAdd"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -267,7 +267,7 @@ Begin VB.Form frmSequence
          Index           =   0
          Left            =   135
          TabIndex        =   10
-         ToolTipText     =   $"frmSequence.frx":05C2
+         ToolTipText     =   $"frmSequence.frx":06FA
          Top             =   4365
          Width           =   1995
       End
@@ -278,7 +278,7 @@ Begin VB.Form frmSequence
          Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   9
-         ToolTipText     =   $"frmSequence.frx":06BE
+         ToolTipText     =   $"frmSequence.frx":07F6
          Top             =   3915
          Width           =   3390
       End
@@ -496,15 +496,15 @@ Begin VB.Form frmSequence
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmSequence.frx":0769
+            Picture         =   "frmSequence.frx":08A1
             Key             =   "user"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmSequence.frx":0D03
+            Picture         =   "frmSequence.frx":0E3B
             Key             =   "group"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmSequence.frx":129D
+            Picture         =   "frmSequence.frx":13D5
             Key             =   "public"
          EndProperty
       EndProperty

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
 Begin VB.Form frmGraveyard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Object Graveyard"

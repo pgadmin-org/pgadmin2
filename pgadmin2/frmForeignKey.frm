@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Begin VB.Form frmForeignKey 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Foreign Key"
@@ -45,7 +45,7 @@ Begin VB.Form frmForeignKey
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmForeignKey.frx":058A
+      TabPicture(0)   =   "frmForeignKey.frx":06C2
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -79,15 +79,15 @@ Begin VB.Form frmForeignKey
       Tab(0).Control(14).Enabled=   0   'False
       Tab(0).ControlCount=   15
       TabCaption(1)   =   "&Relationships"
-      TabPicture(1)   =   "frmForeignKey.frx":05A6
+      TabPicture(1)   =   "frmForeignKey.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(7)"
-      Tab(1).Control(1)=   "lblProperties(8)"
-      Tab(1).Control(2)=   "cboProperties(6)"
+      Tab(1).Control(0)=   "cmdAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdRemove"
-      Tab(1).Control(6)=   "cmdAdd"
+      Tab(1).Control(4)=   "cboProperties(6)"
+      Tab(1).Control(5)=   "lblProperties(8)"
+      Tab(1).Control(6)=   "lblProperties(7)"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -211,7 +211,7 @@ Begin VB.Form frmForeignKey
          Index           =   4
          Left            =   1935
          TabIndex        =   8
-         ToolTipText     =   $"frmForeignKey.frx":05C2
+         ToolTipText     =   $"frmForeignKey.frx":06FA
          Top             =   3465
          Width           =   3390
          _ExtentX        =   5980
@@ -391,19 +391,19 @@ Begin VB.Form frmForeignKey
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   4
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmForeignKey.frx":0660
+            Picture         =   "frmForeignKey.frx":0798
             Key             =   "table"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmForeignKey.frx":07BA
+            Picture         =   "frmForeignKey.frx":08F2
             Key             =   "column"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmForeignKey.frx":0D54
+            Picture         =   "frmForeignKey.frx":0E8C
             Key             =   "relationship"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmForeignKey.frx":12EE
+            Picture         =   "frmForeignKey.frx":1426
             Key             =   "key"
          EndProperty
       EndProperty

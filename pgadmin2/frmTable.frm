@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
 Begin VB.Form frmTable 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Table"
@@ -47,7 +47,7 @@ Begin VB.Form frmTable
       TabsPerRow      =   6
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmTable.frx":014A
+      TabPicture(0)   =   "frmTable.frx":06C2
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(2)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -71,48 +71,48 @@ Begin VB.Form frmTable
       Tab(0).Control(9).Enabled=   0   'False
       Tab(0).ControlCount=   10
       TabCaption(1)   =   "&Columns"
-      TabPicture(1)   =   "frmTable.frx":0166
+      TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "cmdColRemove"
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(2)=   "cmdColRemove"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
-      TabPicture(2)   =   "frmTable.frx":0182
+      TabPicture(2)   =   "frmTable.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "txtCheck(0)"
-      Tab(2).Control(1)=   "cmdChkAdd"
-      Tab(2).Control(2)=   "cmdChkRemove"
-      Tab(2).Control(3)=   "hbxCheck(0)"
-      Tab(2).Control(4)=   "lvProperties(1)"
-      Tab(2).Control(5)=   "lblProperties(5)"
+      Tab(2).Control(0)=   "lblProperties(5)"
+      Tab(2).Control(1)=   "lvProperties(1)"
+      Tab(2).Control(2)=   "hbxCheck(0)"
+      Tab(2).Control(3)=   "cmdChkRemove"
+      Tab(2).Control(4)=   "cmdChkAdd"
+      Tab(2).Control(5)=   "txtCheck(0)"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   "&Foreign Keys"
-      TabPicture(3)   =   "frmTable.frx":019E
+      TabPicture(3)   =   "frmTable.frx":0716
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdFkyRemove"
+      Tab(3).Control(0)=   "lvProperties(2)"
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "lvProperties(2)"
+      Tab(3).Control(2)=   "cmdFkyRemove"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
-      TabPicture(4)   =   "frmTable.frx":01BA
+      TabPicture(4)   =   "frmTable.frx":0732
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "cboInheritedTables(0)"
-      Tab(4).Control(1)=   "cmdInhRemove"
+      Tab(4).Control(0)=   "lblProperties(6)"
+      Tab(4).Control(1)=   "lvProperties(3)"
       Tab(4).Control(2)=   "cmdInhAdd"
-      Tab(4).Control(3)=   "lvProperties(3)"
-      Tab(4).Control(4)=   "lblProperties(6)"
+      Tab(4).Control(3)=   "cmdInhRemove"
+      Tab(4).Control(4)=   "cboInheritedTables(0)"
       Tab(4).ControlCount=   5
       TabCaption(5)   =   "&Security"
-      TabPicture(5)   =   "frmTable.frx":01D6
+      TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lvProperties(4)"
+      Tab(5).Control(0)=   "cmdRemove"
       Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "cmdAdd"
+      Tab(5).Control(1)=   "fraAdd"
       Tab(5).Control(1).Enabled=   0   'False
-      Tab(5).Control(2)=   "fraAdd"
+      Tab(5).Control(2)=   "cmdAdd"
       Tab(5).Control(2).Enabled=   0   'False
-      Tab(5).Control(3)=   "cmdRemove"
+      Tab(5).Control(3)=   "lvProperties(4)"
       Tab(5).Control(3).Enabled=   0   'False
       Tab(5).ControlCount=   4
       Begin VB.CheckBox chkProperties 
@@ -737,35 +737,35 @@ Begin VB.Form frmTable
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   8
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTable.frx":01F2
+            Picture         =   "frmTable.frx":076A
             Key             =   "column"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTable.frx":078C
+            Picture         =   "frmTable.frx":0D04
             Key             =   "table"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTable.frx":08E6
+            Picture         =   "frmTable.frx":0E5E
             Key             =   "foreignkey"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTable.frx":0E80
+            Picture         =   "frmTable.frx":13F8
             Key             =   "public"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTable.frx":0FDA
+            Picture         =   "frmTable.frx":1552
             Key             =   "group"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTable.frx":1574
+            Picture         =   "frmTable.frx":1AEC
             Key             =   "user"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTable.frx":1B0E
+            Picture         =   "frmTable.frx":2086
             Key             =   "check"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTable.frx":20A8
+            Picture         =   "frmTable.frx":2620
             Key             =   "sequence"
          EndProperty
       EndProperty

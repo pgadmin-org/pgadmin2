@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
 Begin VB.Form frmCommit 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Commit changes"

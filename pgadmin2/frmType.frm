@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
 Begin VB.Form frmType 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Type"
@@ -46,7 +46,7 @@ Begin VB.Form frmType
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties 1"
-      TabPicture(0)   =   "frmType.frx":058A
+      TabPicture(0)   =   "frmType.frx":06C2
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(3)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -76,25 +76,25 @@ Begin VB.Form frmType
       Tab(0).Control(12).Enabled=   0   'False
       Tab(0).ControlCount=   13
       TabCaption(1)   =   "P&roperties 2"
-      TabPicture(1)   =   "frmType.frx":05A6
+      TabPicture(1)   =   "frmType.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(13)"
-      Tab(1).Control(1)=   "lblProperties(12)"
-      Tab(1).Control(2)=   "lblProperties(11)"
-      Tab(1).Control(3)=   "lblProperties(10)"
-      Tab(1).Control(4)=   "lblProperties(9)"
-      Tab(1).Control(5)=   "lblProperties(8)"
-      Tab(1).Control(6)=   "lblProperties(6)"
-      Tab(1).Control(7)=   "lblProperties(7)"
+      Tab(1).Control(0)=   "txtProperties(6)"
+      Tab(1).Control(1)=   "txtProperties(5)"
+      Tab(1).Control(2)=   "txtProperties(4)"
+      Tab(1).Control(3)=   "chkProperties(0)"
+      Tab(1).Control(4)=   "cboProperties(2)"
+      Tab(1).Control(5)=   "cboProperties(3)"
+      Tab(1).Control(6)=   "cboProperties(4)"
+      Tab(1).Control(7)=   "cboProperties(5)"
       Tab(1).Control(8)=   "cboProperties(6)"
-      Tab(1).Control(9)=   "cboProperties(5)"
-      Tab(1).Control(10)=   "cboProperties(4)"
-      Tab(1).Control(11)=   "cboProperties(3)"
-      Tab(1).Control(12)=   "cboProperties(2)"
-      Tab(1).Control(13)=   "chkProperties(0)"
-      Tab(1).Control(14)=   "txtProperties(4)"
-      Tab(1).Control(15)=   "txtProperties(5)"
-      Tab(1).Control(16)=   "txtProperties(6)"
+      Tab(1).Control(9)=   "lblProperties(7)"
+      Tab(1).Control(10)=   "lblProperties(6)"
+      Tab(1).Control(11)=   "lblProperties(8)"
+      Tab(1).Control(12)=   "lblProperties(9)"
+      Tab(1).Control(13)=   "lblProperties(10)"
+      Tab(1).Control(14)=   "lblProperties(11)"
+      Tab(1).Control(15)=   "lblProperties(12)"
+      Tab(1).Control(16)=   "lblProperties(13)"
       Tab(1).ControlCount=   17
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -136,7 +136,7 @@ Begin VB.Form frmType
          Index           =   0
          Left            =   -74865
          TabIndex        =   16
-         ToolTipText     =   $"frmType.frx":05C2
+         ToolTipText     =   $"frmType.frx":06FA
          Top             =   3150
          Width           =   1995
       End
@@ -258,7 +258,7 @@ Begin VB.Form frmType
          Index           =   3
          Left            =   -73065
          TabIndex        =   14
-         ToolTipText     =   $"frmType.frx":06A6
+         ToolTipText     =   $"frmType.frx":07DE
          Top             =   2250
          Width           =   3390
          _ExtentX        =   5980
@@ -274,7 +274,7 @@ Begin VB.Form frmType
          Index           =   4
          Left            =   -73065
          TabIndex        =   15
-         ToolTipText     =   $"frmType.frx":0738
+         ToolTipText     =   $"frmType.frx":0870
          Top             =   2655
          Width           =   3390
          _ExtentX        =   5980
@@ -471,15 +471,15 @@ Begin VB.Form frmType
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmType.frx":07DD
+            Picture         =   "frmType.frx":0915
             Key             =   "function"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmType.frx":0D77
+            Picture         =   "frmType.frx":0EAF
             Key             =   "type"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmType.frx":1311
+            Picture         =   "frmType.frx":1449
             Key             =   "storage"
          EndProperty
       EndProperty

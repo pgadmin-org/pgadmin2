@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
 Begin VB.Form frmOperator 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Operator"
@@ -46,15 +46,15 @@ Begin VB.Form frmOperator
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmOperator.frx":058A
+            Picture         =   "frmOperator.frx":06C2
             Key             =   "function"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmOperator.frx":0B24
+            Picture         =   "frmOperator.frx":0C5C
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmOperator.frx":10BE
+            Picture         =   "frmOperator.frx":11F6
             Key             =   "type"
          EndProperty
       EndProperty
@@ -72,7 +72,7 @@ Begin VB.Form frmOperator
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties 1"
-      TabPicture(0)   =   "frmOperator.frx":1658
+      TabPicture(0)   =   "frmOperator.frx":1790
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(7)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -110,21 +110,21 @@ Begin VB.Form frmOperator
       Tab(0).Control(16).Enabled=   0   'False
       Tab(0).ControlCount=   17
       TabCaption(1)   =   "P&roperties 2"
-      TabPicture(1)   =   "frmOperator.frx":1674
+      TabPicture(1)   =   "frmOperator.frx":17AC
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(8)"
-      Tab(1).Control(1)=   "lblProperties(9)"
-      Tab(1).Control(2)=   "lblProperties(10)"
-      Tab(1).Control(3)=   "lblProperties(11)"
-      Tab(1).Control(4)=   "lblProperties(12)"
-      Tab(1).Control(5)=   "lblProperties(13)"
+      Tab(1).Control(0)=   "chkProperties(0)"
+      Tab(1).Control(1)=   "cboProperties(4)"
+      Tab(1).Control(2)=   "cboProperties(5)"
+      Tab(1).Control(3)=   "cboProperties(6)"
+      Tab(1).Control(4)=   "cboProperties(7)"
+      Tab(1).Control(5)=   "cboProperties(8)"
       Tab(1).Control(6)=   "cboProperties(9)"
-      Tab(1).Control(7)=   "cboProperties(8)"
-      Tab(1).Control(8)=   "cboProperties(7)"
-      Tab(1).Control(9)=   "cboProperties(6)"
-      Tab(1).Control(10)=   "cboProperties(5)"
-      Tab(1).Control(11)=   "cboProperties(4)"
-      Tab(1).Control(12)=   "chkProperties(0)"
+      Tab(1).Control(7)=   "lblProperties(13)"
+      Tab(1).Control(8)=   "lblProperties(12)"
+      Tab(1).Control(9)=   "lblProperties(11)"
+      Tab(1).Control(10)=   "lblProperties(10)"
+      Tab(1).Control(11)=   "lblProperties(9)"
+      Tab(1).Control(12)=   "lblProperties(8)"
       Tab(1).ControlCount=   13
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify

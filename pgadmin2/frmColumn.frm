@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
 Begin VB.Form frmColumn 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Column"
@@ -46,7 +46,7 @@ Begin VB.Form frmColumn
       Tabs            =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmColumn.frx":058A
+      TabPicture(0)   =   "frmColumn.frx":06C2
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -295,15 +295,15 @@ Begin VB.Form frmColumn
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":05A6
+            Picture         =   "frmColumn.frx":06DE
             Key             =   "table"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":0700
+            Picture         =   "frmColumn.frx":0838
             Key             =   "type"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":0C9A
+            Picture         =   "frmColumn.frx":0DD2
             Key             =   "sequence"
          EndProperty
       EndProperty

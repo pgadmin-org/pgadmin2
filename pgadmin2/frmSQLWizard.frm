@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Begin VB.Form frmSQLWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "SQL Wizard"
@@ -38,7 +38,7 @@ Begin VB.Form frmSQLWizard
       TabHeight       =   176
       ShowFocusRect   =   0   'False
       TabCaption(0)   =   " "
-      TabPicture(0)   =   "frmSQLWizard.frx":08CA
+      TabPicture(0)   =   "frmSQLWizard.frx":0BC2
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Label1(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -52,74 +52,74 @@ Begin VB.Form frmSQLWizard
       Tab(0).Control(4).Enabled=   0   'False
       Tab(0).ControlCount=   5
       TabCaption(1)   =   " "
-      TabPicture(1)   =   "frmSQLWizard.frx":08E6
+      TabPicture(1)   =   "frmSQLWizard.frx":0BDE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1(1)"
-      Tab(1).Control(1)=   "Label2(0)"
-      Tab(1).Control(2)=   "Label2(7)"
-      Tab(1).Control(3)=   "Label2(1)"
-      Tab(1).Control(4)=   "cmdRemoveJoin"
-      Tab(1).Control(5)=   "cmdAddJoin"
-      Tab(1).Control(6)=   "lstJoins"
-      Tab(1).Control(7)=   "cboJColumn1"
-      Tab(1).Control(8)=   "cboJColumn2"
-      Tab(1).Control(9)=   "txtPrimaryTable"
-      Tab(1).Control(10)=   "Frame1"
-      Tab(1).Control(11)=   "Frame2"
+      Tab(1).Control(0)=   "Frame2"
+      Tab(1).Control(1)=   "Frame1"
+      Tab(1).Control(2)=   "txtPrimaryTable"
+      Tab(1).Control(3)=   "cboJColumn2"
+      Tab(1).Control(4)=   "cboJColumn1"
+      Tab(1).Control(5)=   "lstJoins"
+      Tab(1).Control(6)=   "cmdAddJoin"
+      Tab(1).Control(7)=   "cmdRemoveJoin"
+      Tab(1).Control(8)=   "Label2(1)"
+      Tab(1).Control(9)=   "Label2(7)"
+      Tab(1).Control(10)=   "Label2(0)"
+      Tab(1).Control(11)=   "Label1(1)"
       Tab(1).ControlCount=   12
       TabCaption(2)   =   " "
-      TabPicture(2)   =   "frmSQLWizard.frx":0902
+      TabPicture(2)   =   "frmSQLWizard.frx":0BFA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label1(2)"
-      Tab(2).Control(1)=   "Label2(4)"
-      Tab(2).Control(2)=   "cmdRemoveColumn"
-      Tab(2).Control(3)=   "cmdAddColumn"
-      Tab(2).Control(4)=   "lstIncColumns"
-      Tab(2).Control(5)=   "lstAllColumns"
-      Tab(2).Control(6)=   "cmdColumnUp"
-      Tab(2).Control(7)=   "cmdColumnDown"
-      Tab(2).Control(8)=   "cmdAddCustomColumn"
-      Tab(2).Control(9)=   "cboCustomColumn"
+      Tab(2).Control(0)=   "cboCustomColumn"
+      Tab(2).Control(1)=   "cmdAddCustomColumn"
+      Tab(2).Control(2)=   "cmdColumnDown"
+      Tab(2).Control(3)=   "cmdColumnUp"
+      Tab(2).Control(4)=   "lstAllColumns"
+      Tab(2).Control(5)=   "lstIncColumns"
+      Tab(2).Control(6)=   "cmdAddColumn"
+      Tab(2).Control(7)=   "cmdRemoveColumn"
+      Tab(2).Control(8)=   "Label2(4)"
+      Tab(2).Control(9)=   "Label1(2)"
       Tab(2).ControlCount=   10
       TabCaption(3)   =   " "
-      TabPicture(3)   =   "frmSQLWizard.frx":091E
+      TabPicture(3)   =   "frmSQLWizard.frx":0C16
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Label1(3)"
-      Tab(3).Control(1)=   "Label2(2)"
-      Tab(3).Control(2)=   "Label2(3)"
-      Tab(3).Control(3)=   "lblBoolean"
-      Tab(3).Control(4)=   "lblValue"
-      Tab(3).Control(5)=   "cboWhereCols"
-      Tab(3).Control(6)=   "lstCriteria"
-      Tab(3).Control(7)=   "cmdAddCriteria"
-      Tab(3).Control(8)=   "cmdRemoveCriteria"
-      Tab(3).Control(9)=   "cboOperator"
-      Tab(3).Control(10)=   "cboBoolean"
-      Tab(3).Control(11)=   "txtValue"
+      Tab(3).Control(0)=   "txtValue"
+      Tab(3).Control(1)=   "cboBoolean"
+      Tab(3).Control(2)=   "cboOperator"
+      Tab(3).Control(3)=   "cmdRemoveCriteria"
+      Tab(3).Control(4)=   "cmdAddCriteria"
+      Tab(3).Control(5)=   "lstCriteria"
+      Tab(3).Control(6)=   "cboWhereCols"
+      Tab(3).Control(7)=   "lblValue"
+      Tab(3).Control(8)=   "lblBoolean"
+      Tab(3).Control(9)=   "Label2(3)"
+      Tab(3).Control(10)=   "Label2(2)"
+      Tab(3).Control(11)=   "Label1(3)"
       Tab(3).ControlCount=   12
       TabCaption(4)   =   " "
-      TabPicture(4)   =   "frmSQLWizard.frx":093A
+      TabPicture(4)   =   "frmSQLWizard.frx":0C32
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Label1(4)"
-      Tab(4).Control(1)=   "cmdRemoveSortCol"
-      Tab(4).Control(2)=   "cmdAddAsc"
-      Tab(4).Control(3)=   "lstIncSortCols"
-      Tab(4).Control(4)=   "lstAllSortCols"
-      Tab(4).Control(5)=   "cmdAddDesc"
-      Tab(4).Control(6)=   "cmdSortColDown"
-      Tab(4).Control(7)=   "cmdSortColUp"
+      Tab(4).Control(0)=   "cmdSortColUp"
+      Tab(4).Control(1)=   "cmdSortColDown"
+      Tab(4).Control(2)=   "cmdAddDesc"
+      Tab(4).Control(3)=   "lstAllSortCols"
+      Tab(4).Control(4)=   "lstIncSortCols"
+      Tab(4).Control(5)=   "cmdAddAsc"
+      Tab(4).Control(6)=   "cmdRemoveSortCol"
+      Tab(4).Control(7)=   "Label1(4)"
       Tab(4).ControlCount=   8
       TabCaption(5)   =   " "
-      TabPicture(5)   =   "frmSQLWizard.frx":0956
+      TabPicture(5)   =   "frmSQLWizard.frx":0C4E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "Label1(7)"
-      Tab(5).Control(1)=   "Label2(5)"
-      Tab(5).Control(2)=   "Label2(6)"
-      Tab(5).Control(3)=   "chkDistinct"
-      Tab(5).Control(4)=   "chkLimit"
-      Tab(5).Control(5)=   "txtLimit"
-      Tab(5).Control(6)=   "chkOffset"
-      Tab(5).Control(7)=   "txtOffset"
+      Tab(5).Control(0)=   "txtOffset"
+      Tab(5).Control(1)=   "chkOffset"
+      Tab(5).Control(2)=   "txtLimit"
+      Tab(5).Control(3)=   "chkLimit"
+      Tab(5).Control(4)=   "chkDistinct"
+      Tab(5).Control(5)=   "Label2(6)"
+      Tab(5).Control(6)=   "Label2(5)"
+      Tab(5).Control(7)=   "Label1(7)"
       Tab(5).ControlCount=   8
       Begin VB.Frame Frame2 
          Caption         =   "Join Type"
@@ -260,9 +260,9 @@ Begin VB.Form frmSQLWizard
       End
       Begin VB.ComboBox cboCustomColumn 
          Height          =   315
-         ItemData        =   "frmSQLWizard.frx":0972
+         ItemData        =   "frmSQLWizard.frx":0C6A
          Left            =   -74865
-         List            =   "frmSQLWizard.frx":0985
+         List            =   "frmSQLWizard.frx":0C7D
          TabIndex        =   22
          ToolTipText     =   "Select or Enter a custom column name."
          Top             =   3375
@@ -335,7 +335,7 @@ Begin VB.Form frmSQLWizard
       Begin VB.CommandButton cmdSortColUp 
          Height          =   540
          Left            =   -68610
-         Picture         =   "frmSQLWizard.frx":09C7
+         Picture         =   "frmSQLWizard.frx":0CBF
          Style           =   1  'Graphical
          TabIndex        =   41
          ToolTipText     =   "Move the selected Column up the list"
@@ -345,7 +345,7 @@ Begin VB.Form frmSQLWizard
       Begin VB.CommandButton cmdSortColDown 
          Height          =   540
          Left            =   -68610
-         Picture         =   "frmSQLWizard.frx":0E09
+         Picture         =   "frmSQLWizard.frx":1101
          Style           =   1  'Graphical
          TabIndex        =   42
          ToolTipText     =   "Move the selected Column down the list"
@@ -415,9 +415,9 @@ Begin VB.Form frmSQLWizard
       Begin VB.ComboBox cboBoolean 
          Enabled         =   0   'False
          Height          =   315
-         ItemData        =   "frmSQLWizard.frx":124B
+         ItemData        =   "frmSQLWizard.frx":1543
          Left            =   -74865
-         List            =   "frmSQLWizard.frx":1255
+         List            =   "frmSQLWizard.frx":154D
          Style           =   2  'Dropdown List
          TabIndex        =   29
          ToolTipText     =   "Select a boolean operator."
@@ -426,9 +426,9 @@ Begin VB.Form frmSQLWizard
       End
       Begin VB.ComboBox cboOperator 
          Height          =   315
-         ItemData        =   "frmSQLWizard.frx":1262
+         ItemData        =   "frmSQLWizard.frx":155A
          Left            =   -74865
-         List            =   "frmSQLWizard.frx":1284
+         List            =   "frmSQLWizard.frx":157C
          Style           =   2  'Dropdown List
          TabIndex        =   31
          ToolTipText     =   "Select an Operator to use."
@@ -463,9 +463,9 @@ Begin VB.Form frmSQLWizard
       End
       Begin VB.ComboBox cboWhereCols 
          Height          =   315
-         ItemData        =   "frmSQLWizard.frx":12C3
+         ItemData        =   "frmSQLWizard.frx":15BB
          Left            =   -74865
-         List            =   "frmSQLWizard.frx":12C5
+         List            =   "frmSQLWizard.frx":15BD
          Style           =   2  'Dropdown List
          TabIndex        =   30
          ToolTipText     =   "Select a column to include in the 'WHERE' clause."
@@ -475,7 +475,7 @@ Begin VB.Form frmSQLWizard
       Begin VB.CommandButton cmdColumnDown 
          Height          =   540
          Left            =   -68610
-         Picture         =   "frmSQLWizard.frx":12C7
+         Picture         =   "frmSQLWizard.frx":15BF
          Style           =   1  'Graphical
          TabIndex        =   28
          ToolTipText     =   "Move the selected Column down the list"
@@ -485,7 +485,7 @@ Begin VB.Form frmSQLWizard
       Begin VB.CommandButton cmdColumnUp 
          Height          =   540
          Left            =   -68610
-         Picture         =   "frmSQLWizard.frx":1709
+         Picture         =   "frmSQLWizard.frx":1A01
          Style           =   1  'Graphical
          TabIndex        =   27
          ToolTipText     =   "Move the selected Column up the list"
@@ -763,7 +763,7 @@ Begin VB.Form frmSQLWizard
       BorderStyle     =   0  'None
       Height          =   4335
       Left            =   0
-      Picture         =   "frmSQLWizard.frx":1B4B
+      Picture         =   "frmSQLWizard.frx":1E43
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31

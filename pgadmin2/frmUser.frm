@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
 Begin VB.Form frmUser 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "User"
@@ -45,7 +45,7 @@ Begin VB.Form frmUser
       Tabs            =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmUser.frx":058A
+      TabPicture(0)   =   "frmUser.frx":014A
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -77,8 +77,8 @@ Begin VB.Form frmUser
          TabIndex        =   7
          ToolTipText     =   "The date that the users account expires."
          Top             =   3780
-         Width           =   3075
-         _ExtentX        =   5424
+         Width           =   2955
+         _ExtentX        =   5212
          _ExtentY        =   4180
          _Version        =   393216
          ForeColor       =   -2147483630
@@ -86,7 +86,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   19791874
+         StartOfWeek     =   47513602
          CurrentDate     =   37089
          MinDate         =   36892
       End
