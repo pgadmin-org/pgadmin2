@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
@@ -1143,9 +1143,9 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_KeyDown(" & KeyCode & "," & Shift & ")", etFullDebug
   
   If KeyCode = vbKeyReturn And Shift = vbAltMask Then
-    mnuPopupProperties_Click
+    If mnuPopupProperties.Enabled Then mnuPopupProperties_Click
   ElseIf KeyCode = vbKeyDelete And Shift = 0 Then
-    mnuPopupDrop_Click
+    If mnuPopupDrop.Enabled Then mnuPopupDrop_Click
   End If
 
   Exit Sub
@@ -1310,9 +1310,9 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_KeyDown(" & KeyCode & "," & Shift & ")", etFullDebug
   
   If KeyCode = vbKeyReturn And Shift = vbAltMask Then
-    mnuPopupProperties_Click
+    If mnuPopupProperties.Enabled Then mnuPopupProperties_Click
   ElseIf KeyCode = vbKeyDelete And Shift = 0 Then
-    mnuPopupDrop_Click
+    If mnuPopupDrop.Enabled Then mnuPopupDrop_Click
   End If
 
   Exit Sub
@@ -5013,7 +5013,7 @@ Dim vData As Variant
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvNodeClick"
 End Sub
 
-Private Sub lv_ItemClick(ByVal Item As MSComctlLib.ListItem)
+Public Sub lv_ItemClick(ByVal Item As MSComctlLib.ListItem)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
 

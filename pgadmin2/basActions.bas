@@ -245,6 +245,9 @@ Dim szPath() As String
   
   'Simulate a click on the treeview to sort out the listview
   frmMain.tv_NodeClick frmMain.tv.SelectedItem
+  If Not frmMain.lv.SelectedItem Is Nothing Then
+    frmMain.lv_ItemClick frmMain.lv.SelectedItem
+  End If
   
   EndMsg
  

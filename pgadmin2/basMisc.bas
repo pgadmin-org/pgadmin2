@@ -286,7 +286,6 @@ Dim X As Integer
   For Each objPlugin In plg
     If Not ((frmMain.svr.ConnectionString = "") And (objPlugin.PluginType = 1)) Then
       frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description & "..."
-Dim szErr As String
       frmMain.mnuPluginsPlg(X).Visible = True
       X = X + 1
       frmMain.mnuPluginsPlg(0).Visible = False
