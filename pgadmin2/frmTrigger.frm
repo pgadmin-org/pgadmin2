@@ -175,7 +175,6 @@ Begin VB.Form frmTrigger
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
-         Locked          =   -1  'True
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
@@ -191,7 +190,6 @@ Begin VB.Form frmTrigger
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
-         Locked          =   -1  'True
          ImageList       =   "il"
       End
       Begin HighlightBox.HBX hbxProperties 
@@ -228,7 +226,6 @@ Begin VB.Form frmTrigger
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
-         Locked          =   -1  'True
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
@@ -432,67 +429,44 @@ Dim objItem As ComboItem
   
   szDatabase = szDB
   
-   'Load the combos
-    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , objTable.Name, objTable.Name, "table"
-    Next objTable
-    
-    Set objItem = cboProperties(1).ComboItems.Add(, "Before", "BEFORE", "trigger")
-    objItem.Selected = True
-    cboProperties(1).ComboItems.Add , "After", "AFTER", "trigger"
-    
-    Set objItem = cboProperties(2).ComboItems.Add(, "ROW", "ROW", "trigger")
-    objItem.Selected = True
-    
-    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
-      If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , objFunction.Name & "()", objFunction.Name & "()", "function"
-    Next objFunction
-    
   If Trigger Is Nothing Then
-  
     'Create a new Trigger
     bNew = True
     Me.Caption = "Create Trigger"
-
-    'Unlock the edittable fields
-    txtProperties(0).BackColor = &H80000005
-    txtProperties(0).Locked = False
-    cboProperties(0).BackColor = &H80000005
-    cboProperties(1).BackColor = &H80000005
     
-    'TODO - Possible bug here. Unlock the Function combo to allow the user to edit the arguments.
-    'This should work but on initial testing, PostgreSQL gave an error that function() doesn't
-    'exist despite the SQL clearly showng the use of function('arg1').
-    cboProperties(3).Locked = False
-    cboProperties(3).BackColor = &H80000005
+    'Load widgets
+    Intialise_widgets (True)
     
+    'Set default values
+    cboProperties(1).ComboItems("Before").Selected = True
+    cboProperties(2).ComboItems("Row").Selected = True
+        
   Else
   
     'Display/Edit the specified Trigger.
     Set objTrigger = Trigger
     bNew = False
     Me.Caption = "Trigger: " & objTrigger.Identifier
+      
+   'Load widgets
+    If (frmMain.svr.dbVersion.VersionNum >= 7.2) And Not objTrigger.SystemObject Then
+      Intialise_widgets True
+    Else
+      Intialise_widgets False
+    End If
     
+    'Set values
     
     txtProperties(0).Text = objTrigger.Name
     txtProperties(1).Text = objTrigger.OID
     
     cboProperties(0).ComboItems(objTrigger.Table).Selected = True
     cboProperties(1).ComboItems(objTrigger.Executes).Selected = True
+    cboProperties(2).ComboItems("Row").Selected = True
     cboProperties(3).ComboItems(objTrigger.TriggerFunction).Selected = True
-        
+    
     SetChecks objTrigger.TriggerEvent
     hbxProperties(0).Text = objTrigger.Comment
-    
-    'Unlock the edittable fields
-    txtProperties(0).BackColor = &H80000005
-    txtProperties(0).Locked = False
-    
-    cboProperties(0).BackColor = &H80000005
-    cboProperties(1).BackColor = &H80000005
-    cboProperties(2).BackColor = &H80000005
-    cboProperties(3).BackColor = &H80000005
-    
   End If
   
   'Reset the Tags
@@ -503,6 +477,59 @@ Dim objItem As ComboItem
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Initialise"
+End Sub
+
+Private Sub Intialise_widgets(ByVal bEnabled As Boolean)
+On Error GoTo Err_Handler
+
+  Dim X As Integer
+  Dim objTable As pgTable
+  Dim objFunction As pgFunction
+  Dim objItem As ComboItem
+
+  If bEnabled Then
+    ' Load values
+    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
+      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , objTable.Name, objTable.Name, "table"
+    Next objTable
+    
+    cboProperties(1).ComboItems.Add , "Before", "Before", "trigger"
+    cboProperties(1).ComboItems.Add , "After", "After", "trigger"
+    
+    cboProperties(2).ComboItems.Add , "Row", "Row", "trigger"
+    
+    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
+      If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , objFunction.Name & "()", objFunction.Name & "()", "function"
+    Next objFunction
+    
+    'editable fields
+    txtProperties(0).Locked = False
+    
+    'default colours
+    txtProperties(0).BackColor = &H80000005
+  Else
+    'Load single values
+    cboProperties(0).ComboItems.Add , objTrigger.Table, objTrigger.Table, "table"
+    cboProperties(1).ComboItems.Add , objTrigger.Executes, objTrigger.Executes, "trigger"
+    cboProperties(2).ComboItems.Add , objTrigger.ForEach, objTrigger.ForEach, "trigger"
+    cboProperties(3).ComboItems.Add , objTrigger.TriggerFunction, objTrigger.TriggerFunction, "trigger"
+  
+    cboProperties(0).Locked = True
+    cboProperties(1).Locked = True
+    cboProperties(2).Locked = True
+    cboProperties(3).Locked = True
+    
+        'default colours
+    txtProperties(0).BackColor = &H8000000F
+
+  End If
+  cboProperties(0).BackColor = &H80000005
+  cboProperties(1).BackColor = &H80000005
+  cboProperties(2).BackColor = &H80000005
+  cboProperties(3).BackColor = &H80000005
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Intialise_form(" & bEnabled & ")"
 End Sub
 
 Private Sub hbxProperties_Change(Trigger As Integer)
