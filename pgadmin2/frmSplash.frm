@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form frmSplash 
    BorderStyle     =   0  'None
-   ClientHeight    =   3765
+   ClientHeight    =   4200
    ClientLeft      =   210
    ClientTop       =   1365
    ClientWidth     =   5250
@@ -12,7 +12,7 @@ Begin VB.Form frmSplash
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   3765
+   ScaleHeight     =   4200
    ScaleWidth      =   5250
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -43,20 +43,20 @@ Begin VB.Form frmSplash
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   300
-         Left            =   1710
+         Left            =   624
          TabIndex        =   2
-         Top             =   2925
-         Width           =   3495
+         Top             =   1728
+         Width           =   3492
       End
       Begin VB.Label lblCopyright 
          Alignment       =   1  'Right Justify
          BackStyle       =   0  'Transparent
          Caption         =   "Copyright"
          ForeColor       =   &H00FFFFFF&
-         Height          =   375
-         Left            =   810
+         Height          =   372
+         Left            =   -240
          TabIndex        =   1
-         Top             =   3330
+         Top             =   1488
          Width           =   4380
       End
    End
@@ -75,8 +75,6 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-  Me.Width = picLogo.Width
-  Me.Height = picLogo.Height
   lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
   If App.Minor Mod 2 = 1 Then
     lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision & "-Dev"
@@ -84,4 +82,14 @@ Private Sub Form_Load()
     lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision
   End If
   lblCopyright.Caption = "Copyright (C) 2001, The pgAdmin Development Team" & vbCrLf & "This software is released under the pgAdmin Public Licence"
+
+End Sub
+
+Private Sub Form_Resize()
+  Me.Width = picLogo.Width
+  Me.Height = picLogo.Height
+  lblCopyright.Top = picLogo.Height - (lblCopyright.Height + 50)
+  lblCopyright.Left = picLogo.Width - (lblCopyright.Width + 50)
+  lblVersion.Left = picLogo.Width - (lblVersion.Width + 50)
+  lblVersion.Top = picLogo.Height - (lblVersion.Height + lblCopyright.Height + 50)
 End Sub
