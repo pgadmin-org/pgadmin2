@@ -115,7 +115,7 @@ Dim rs As New Recordset
   End If
   objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
-  objNewMember.Name = szName
+  objNewMember.iName = szName
   objNewMember.Owner = szOwner
   objNewMember.ACL = szACL
   objNewMember.iDefinition = szDefinition
@@ -175,6 +175,25 @@ Err_Handler:
   objServer.iLogError Err
 End Function
 
+'Rename
+Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Views.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
+
+  Dim objView As New pgView
+    
+  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rcDelete, "Deleted object (prior to rename)."
+  Set objView = mCol(ULEncode(OldName))
+  objView.Name = NewName
+  objView.Identifier = NewName
+  mCol.Add objView, ULEncode(NewName), ULEncode(OldName)
+  mCol.Remove ULEncode(OldName)
+  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rcAdd, "Created object (following rename)."
+  
+Exit Sub
+Err_Handler:
+objServer.iLogError Err
+End Sub
 'Return the specified Item
 Public Property Get Item(Key As String) As pgView
 Attribute Item.VB_Description = "Returns a View object."

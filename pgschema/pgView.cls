@@ -117,16 +117,31 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get OID()", etFu
 Err_Handler:  objServer.iLogError Err
 End Property
 
-'Set/Return the Name
-Friend Property Let Name(ByVal vData As String)
+Friend Property Let iName(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let iName(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Friend Property Let Name(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Name(" & vData & ")", etFullDebug
+Dim szSQL As String
+  
+  If objServer.dbVersion.VersionNum < 7.2 Then Exit Property
+   
+  szSQL = "ALTER TABLE " & QUOTE & dbSZ(szName) & QUOTE & " RENAME TO " & QUOTE & dbSZ(vData) & QUOTE
+  objServer.ExecSQL szSQL, cnDatabase
+  szName = vData
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the View name."
 On Error GoTo Err_Handler
@@ -241,8 +256,10 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Definition(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
-
-  If objServer.dbVersion.VersionNum < 7.2 Then Exit Property
+'Dim szDefinitionOld As String
+  
+  'Save old definition
+  'szDefinitionOld = szDefinition
   
   'Set the source
   szDefinition = vData
@@ -261,6 +278,10 @@ Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   objServer.iLogError Err
+  
+  ' In case of any error, apply old definition
+  'szDefinition = szDefinitionOld
+  'objServer.Databases(Database).Execute SQL(True)
 End Property
 
 Friend Property Let iDefinition(ByVal vData As String)
