@@ -95,6 +95,12 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.iAdd(" & lOID & ", " & Q
 
 Dim objNewMember As pgColumn
 Dim szHex As String
+Dim objInhCol As pgColumn
+Dim vInhTab As Variant
+Dim szInhTab As String
+Dim bFound As Boolean
+Dim bNulls As Boolean
+Dim bDefaults As Boolean
 
   'Create a new object
   Set objNewMember = New pgColumn
@@ -129,8 +135,42 @@ Dim szHex As String
   objNewMember.iDefault = szDefault
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
-  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
-  Set iAdd = objNewMember
+  
+  'We should only add columns here if they are not inherited. The following
+  'rules determine that, and are taken from src/bin/pu_dump/common.c
+  '
+  ' * For each attr, check the parent info: if no parent has an attr
+  ' * with the same name, then it's not inherited. If there *is* an
+  ' * attr with the same name, then only dump it if:
+  ' *
+  ' * - it is NOT NULL and zero parents are NOT NULL OR - it has a
+  ' * default value AND the default value does not match all parent
+  ' * default values, or no parents specify a default.
+  
+  If (objServer.Databases(Database).Tables(szTable).InheritedTables.Count > 0) And (objNewMember.Position > 0) Then
+    For Each vInhTab In objServer.Databases(Database).Tables(szTable).InheritedTables
+      'Must convert vInhTab to a String or will get a By Ref error
+      szInhTab = vInhTab
+      For Each objInhCol In objServer.Databases(Database).Tables(szInhTab).Columns
+        If objInhCol.Position > 0 Then
+          If objInhCol.Name = objNewMember.Name Then
+            bFound = True
+            If objNewMember.NotNull = True Then
+              If objInhCol.NotNull = False Then bNulls = True
+            End If
+            If objNewMember.Default <> "" Then
+              If objInhCol.Default <> objNewMember.Default Then bDefaults = True
+            End If
+          End If
+        End If
+      Next objInhCol
+    Next vInhTab
+  End If
+  
+  If (Not bFound) Or (bNulls Or bDefaults) Then
+    mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
+    Set iAdd = objNewMember
+  End If
   
   Exit Function
 Err_Handler:  objServer.iLogError Err
@@ -159,7 +199,7 @@ Dim objColumn As pgColumn
   If Comment <> "" Then
     szSQL = "COMMENT ON COLUMN " & QUOTE & szTable & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
     objServer.ExecSQL szSQL, cnDatabase
-    objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+    objServer.Databases(Database).KillCommentCache
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object

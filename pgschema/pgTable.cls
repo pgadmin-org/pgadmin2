@@ -622,12 +622,14 @@ Dim objForeignKey As pgForeignKey
 Dim objRelationship As pgRelationship
 Dim vTable As Variant
 Dim vColumn As Variant
+Dim bHaveObj As Boolean
   
   szSQL = "-- Table: " & szName & vbCrLf & _
           "CREATE TABLE " & QUOTE & szName & QUOTE & " (" & vbCrLf
 
   For Each objColumn In Columns
     If Not objColumn.SystemObject Then
+      bHaveObj = True
       szSQL = szSQL & "  " & QUOTE & objColumn.Name & QUOTE 'Name
       szSQL = szSQL & " " & objColumn.DataType 'Type
       
@@ -652,6 +654,7 @@ Dim vColumn As Variant
   If Indexes.Count > 0 Then
     For Each objIndex In Indexes
       If objIndex.Primary = False And objIndex.Unique = True Then
+        bHaveObj = True
         If objIndex.Name <> "" Then
           szSQL = szSQL & "  CONSTRAINT " & QUOTE & objIndex.Name & QUOTE & " "
         Else
@@ -670,6 +673,7 @@ Dim vColumn As Variant
   If Indexes.Count > 0 Then
     For Each objIndex In Indexes
       If objIndex.Primary = True Then
+        bHaveObj = True
         If objIndex.Name <> "" Then
           szSQL = szSQL & "  CONSTRAINT " & QUOTE & objIndex.Name & QUOTE & " "
         Else
@@ -686,6 +690,7 @@ Dim vColumn As Variant
   
   'Checks
   If Checks.Count > 0 Then
+    bHaveObj = True
     For Each objCheck In Checks
       If objCheck.Name <> "" Then
         szSQL = szSQL & "  CONSTRAINT " & QUOTE & objCheck.Name & QUOTE & " "
@@ -698,6 +703,7 @@ Dim vColumn As Variant
   
   'Foreign Keys
   If ForeignKeys.Count > 0 Then
+    bHaveObj = True
     For Each objForeignKey In ForeignKeys
       If objForeignKey.Name <> "" Then
         szSQL = szSQL & "  CONSTRAINT " & QUOTE & objForeignKey.Name & QUOTE & " "
@@ -719,7 +725,8 @@ Dim vColumn As Variant
   
   
   'Lose the ", " & vbcrlf from the last column/check/fkey
-  szSQL = Mid(szSQL, 1, Len(szSQL) - 4) & vbCrLf & ")"
+  If bHaveObj Then szSQL = Mid(szSQL, 1, Len(szSQL) - 4) & vbCrLf
+  szSQL = szSQL & ")"
   
   'Inherited Tables
   If InheritedTables.Count > 0 Then

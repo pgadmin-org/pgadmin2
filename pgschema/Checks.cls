@@ -212,7 +212,7 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_CHECKS & " WHERE rcrelid = " & lTableOID & " ORDER BY rcname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_CHECKS & " AND rcrelid = " & lTableOID & " ORDER BY rcname", cnDatabase)
     While Not rs.EOF
       iAdd rs!rcname & "", rs!rcsrc & ""
       rs.MoveNext
