@@ -2,6 +2,7 @@
 ------
 
 Create objects in the correct schema.
+Allow long FKey names in PostgreSQL 7.3+
 
 1.4.12
 ------
