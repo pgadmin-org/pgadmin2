@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmSplash 
    BorderStyle     =   0  'None
-   ClientHeight    =   4500
+   ClientHeight    =   3765
    ClientLeft      =   210
    ClientTop       =   1365
-   ClientWidth     =   7500
+   ClientWidth     =   5250
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    Icon            =   "frmSplash.frx":0000
@@ -12,21 +12,21 @@ Begin VB.Form frmSplash
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4500
-   ScaleWidth      =   7500
+   ScaleHeight     =   3765
+   ScaleWidth      =   5250
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.PictureBox picLogo 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   4500
+      Height          =   3750
       Left            =   0
       Picture         =   "frmSplash.frx":000C
-      ScaleHeight     =   4500
-      ScaleWidth      =   7500
+      ScaleHeight     =   3750
+      ScaleWidth      =   5250
       TabIndex        =   0
       Top             =   0
-      Width           =   7500
+      Width           =   5250
       Begin VB.Label lblVersion 
          Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
@@ -41,22 +41,22 @@ Begin VB.Form frmSplash
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H00800000&
+         ForeColor       =   &H00FFFFFF&
          Height          =   300
-         Left            =   3645
+         Left            =   1710
          TabIndex        =   2
-         Top             =   1935
+         Top             =   2925
          Width           =   3495
       End
       Begin VB.Label lblCopyright 
          Alignment       =   1  'Right Justify
          BackStyle       =   0  'Transparent
          Caption         =   "Copyright"
-         ForeColor       =   &H00C000C0&
-         Height          =   420
-         Left            =   2970
+         ForeColor       =   &H00FFFFFF&
+         Height          =   375
+         Left            =   810
          TabIndex        =   1
-         Top             =   4005
+         Top             =   3330
          Width           =   4380
       End
    End
