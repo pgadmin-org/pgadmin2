@@ -332,7 +332,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cmdOK_Click()", etFullDebug
 
 Dim szOldName As String
@@ -368,10 +368,10 @@ Dim szColumns As String
     End If
     
     StartMsg "Creating Index..."
-    Set objNewIndex = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes.Add(txtProperties(0).Text, Bin2Bool(chkProperties(1).Value), szColumns, cboProperties(1).Text, hbxProperties(1).Text, hbxProperties(0).Text)
+    Set objNewIndex = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Indexes.Add(txtProperties(0).Text, Bin2Bool(chkProperties(1).Value), szColumns, cboProperties(1).Text, hbxProperties(1).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes.Tag
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Indexes.Tag
     Set objNewIndex.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "IND-" & GetID, txtProperties(0).Text, "index")
     objNode.Text = "Indexes (" & objNode.Children & ")"
     
@@ -381,10 +381,10 @@ Dim szColumns As String
     'Update the sequencename if required
     If txtProperties(0).Tag = "Y" Then
       szOldName = objIndex.Name
-      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes.Rename szOldName, txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Indexes.Rename szOldName, txtProperties(0).Text
         
       'Update the node text
-      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes(cboProperties(0).SelectedItem.Tag.Identifier).Tag.Text = txtProperties(0).Text
     End If
     
     If hbxProperties(1).Tag = "Y" Then objIndex.Comment = hbxProperties(1).Text
