@@ -186,7 +186,7 @@ Dim objNewMember As pgTrigger
     objNewMember.SystemObject = False
   End If
   objNewMember.OID = lOID
-  objNewMember.Name = szName
+  objNewMember.iName = szName
   objNewMember.Table = szTable
   objNewMember.NamespaceOID = lNamespaceOID
   objNewMember.Namespace = szNamespace
@@ -194,7 +194,11 @@ Dim objNewMember As pgTrigger
   objNewMember.Executes = szExecutes
   objNewMember.TriggerEvent = szTriggerEvent
   objNewMember.ForEach = szForEach
-  objNewMember.Identifier = szName & " ON " & szTable
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    objNewMember.Identifier = szName & " ON " & szNamespace & "." & szTable
+  Else
+    objNewMember.Identifier = szName & " ON " & szTable
+  End If
   Set objNewMember.Connection = cnDatabase
   mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
@@ -334,6 +338,29 @@ Dim szSQL As String
 Err_Handler:
   'Error 5 is thrown if the item is not in the collection...
   If Err.Number = 5 Then Exit Sub
+  objServer.iLogError Err
+End Sub
+
+'Rename
+Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
+
+Dim objTrigger As New pgTrigger
+    
+  If objServer.dbVersion.VersionNum < 7.3 Then
+    Err.Raise 5432009, App.Title, "Triggers can only be renamed in PostgreSQL 7.3+."
+    Exit Sub
+  End If
+  
+  Set objTrigger = mCol(ULEncode(OldName & " ON " & szNamespace & "." & szTable))
+  objTrigger.Name = NewName
+  objTrigger.Identifier = NewName & " ON " & szNamespace & "." & szTable
+  mCol.Add objTrigger, ULEncode(objTrigger.Identifier), ULEncode(OldName & " ON " & szNamespace & "." & szTable)
+  mCol.Remove ULEncode(OldName & " ON " & szNamespace & "." & szTable)
+  
+  Exit Sub
+Err_Handler:
   objServer.iLogError Err
 End Sub
 

@@ -29,7 +29,6 @@ Added Rows property to View objects.
 Set default database encoding to "SQL_ASCII".
 Quote function definition when needed.
 Fixed a bug that prepended a carriage return when loading SQL queries from file.
-Improved warnings about dropping objects that are not up to date in the Revision Control System.
 Added AllowConnections property to database objects, display it in pgAdmin, and check it before attempting to connect to a database.
 Invalidate Caches before refreshing hierarchy in pgSchema.
 Standardised db name access method throughout pgSchema's classes, and added caching.
@@ -37,7 +36,6 @@ Added support for renaming Sequences & Indexes.
 Committing a table now also commits sub objects.
 Added a '-wine' command line option to disable modal dialogues (they don't seem to work under Wine).
 Prevent connection to databases until they are selected. Added an option to revert to old behaviour.
-Allow commit of entire database to revision control.
 Added support for dropping checks with PostgreSQL 7.2+.
 Excel Exporter: Format the cell for the data type & inserts the data using the cells 'FormulaR1C1' property (David Horwitz).
 Allow selection of font for display of data.
@@ -62,6 +60,7 @@ Correctly recognise functions with one opaque argument.
 Filter functions listed when creating Types & Operators to only those that are suitable.
 Only quote identifiers when required.
 Allow addition and removal of Primary Keys with PostgreSQL 7.3+.
+Allow renaming of Triggers in PostgreSQL 7.3+
 
 1.2.0 Stable
 ------------

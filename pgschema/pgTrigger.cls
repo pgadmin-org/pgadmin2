@@ -192,12 +192,25 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Name
-Friend Property Let Name(ByVal vData As String)
+Friend Property Let iName(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let iName(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
     
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Friend Property Let Name(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Name(" & vData & ")", etFullDebug
+
+Dim szSQL As String
+
+  szSQL = "ALTER TRIGGER " & FormattedID & " RENAME TO " & fmtID(vData)
+  objServer.ExecSQL szSQL, cnDatabase
+  szName = vData
+  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property

@@ -344,13 +344,14 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
 Dim objNewTrigger As pgTrigger
 Dim szEvent As String
+Dim szOldName As String
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -367,6 +368,12 @@ Dim szEvent As String
   End If
   If cboProperties(3).Text = "" Then
     MsgBox "You must select a function!", vbExclamation, "Error"
+    tabProperties.Tab = 0
+    cboProperties(3).SetFocus
+    Exit Sub
+  End If
+  If Right(Trim(cboProperties(3).Text), 1) <> ")" Then
+    MsgBox "The function must contain a pair of parentheses even if it takes no arguments!", vbExclamation, "Error"
     tabProperties.Tab = 0
     cboProperties(3).SetFocus
     Exit Sub
@@ -391,10 +398,20 @@ Dim szEvent As String
     
     'Add a new node and update the text on the parent
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Triggers.Tag
-    Set objNewTrigger.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TRG-" & GetID, txtProperties(0).Text & " ON " & cboProperties(0).Text, "trigger")
+    Set objNewTrigger.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TRG-" & GetID, objNewTrigger.Identifier, "trigger")
     objNode.Text = "Triggers (" & objNode.Children & ")"
     
   Else
+
+    'Update the triggername if required
+    If txtProperties(0).Tag = "Y" Then
+      szOldName = objTrigger.Name
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(objTrigger.Table).Triggers.Rename szOldName, txtProperties(0).Text
+        
+      'Update the node text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(objTrigger.Table).Triggers(objTrigger.Identifier).Tag.Text = objTrigger.Identifier
+    End If
+    
     StartMsg "Updating Trigger..."
     If hbxProperties(0).Tag = "Y" Then objTrigger.Comment = hbxProperties(0).Text
   End If
@@ -442,24 +459,31 @@ Dim objItem As ComboItem
     
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.Identifier, "table"
+      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.Formattedid, "table"
     Next objTable
+    
     Set objItem = cboProperties(1).ComboItems.Add(, , "BEFORE", "trigger")
     objItem.Selected = True
     cboProperties(1).ComboItems.Add , , "AFTER", "trigger"
     Set objItem = cboProperties(2).ComboItems.Add(, , "ROW", "trigger")
     objItem.Selected = True
-    If frmMain.svr.dbVersion.VersionNum >= 7.3 And szNamespace <> "pg_catalog" Then
+    
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      'First load pg_catalog items, unqualified
+      For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
+        If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , Mid(objFunction.Formattedid, 12), "function"
+      Next objFunction
+      'Now load the rest
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
         If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
           For Each objFunction In objNamespace.Functions
-            If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , , szNamespace & "." & objFunction.Identifier, "function"
+            If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , objFunction.Formattedid, "function"
           Next objFunction
         End If
       Next objNamespace
     Else
       For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions
-        If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , , objFunction.Identifier, "function"
+        If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , objFunction.Formattedid, "function"
       Next objFunction
     End If
     
@@ -481,6 +505,12 @@ Dim objItem As ComboItem
     Set objTrigger = Trigger
     bNew = False
 
+    'We can rename triggers in 7.3
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      txtProperties(0).BackColor = &H80000005
+      txtProperties(0).Locked = False
+    End If
+    
     Me.Caption = "Trigger: " & objTrigger.Identifier
     txtProperties(0).Text = objTrigger.Name
     txtProperties(1).Text = objTrigger.OID
@@ -497,20 +527,31 @@ Dim objItem As ComboItem
   End If
   
   'Reset the Tags
+  txtProperties(0).Tag = "N"
   hbxProperties(0).Tag = "N"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Initialise"
 End Sub
 
-Private Sub hbxProperties_Change(Trigger As Integer)
+Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.hbxProperties_Change(" & Trigger & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.hbxProperties_Change(" & Index & ")", etFullDebug
 
-  hbxProperties(Trigger).Tag = "Y"
+  hbxProperties(Index).Tag = "Y"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.hbxProperties_Change"
+End Sub
+
+Private Sub txtProperties_Change(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.txtProperties_Change(" & Index & ")", etFullDebug
+
+  txtProperties(Index).Tag = "Y"
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.txtProperties_Change"
 End Sub
 
 Private Sub SetChecks(szData As String)
