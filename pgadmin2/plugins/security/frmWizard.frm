@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Security Wizard"
@@ -115,58 +115,72 @@ Begin VB.Form frmWizard
       TabPicture(1)   =   "frmWizard.frx":2C47
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lvObjects"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "lblInfo(1)"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":2C63
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvEntities"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lblInfo(2)"
-      Tab(2).Control(1).Enabled=   0   'False
+      Tab(2).Control(0)=   "lblInfo(2)"
+      Tab(2).Control(1)=   "lvEntities"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":2C7F
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "picContainer(0)"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "lblInfo(3)"
-      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(0)=   "lblInfo(3)"
+      Tab(3).Control(1)=   "picContainer(0)"
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":2C9B
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "picContainer(1)"
-      Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "lblInfo(6)"
-      Tab(4).Control(1).Enabled=   0   'False
+      Tab(4).Control(0)=   "lblInfo(6)"
+      Tab(4).Control(1)=   "picContainer(1)"
       Tab(4).ControlCount=   2
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":2CB7
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "chkPermission(4)"
-      Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "chkPermission(3)"
-      Tab(5).Control(1).Enabled=   0   'False
-      Tab(5).Control(2)=   "chkPermission(2)"
-      Tab(5).Control(2).Enabled=   0   'False
-      Tab(5).Control(3)=   "chkPermission(1)"
-      Tab(5).Control(3).Enabled=   0   'False
-      Tab(5).Control(4)=   "chkPermission(0)"
-      Tab(5).Control(4).Enabled=   0   'False
-      Tab(5).Control(5)=   "lblInfo(7)"
-      Tab(5).Control(5).Enabled=   0   'False
-      Tab(5).ControlCount=   6
+      Tab(5).Control(0)=   "lblInfo(7)"
+      Tab(5).Control(1)=   "chkPermission(0)"
+      Tab(5).Control(2)=   "chkPermission(1)"
+      Tab(5).Control(3)=   "chkPermission(2)"
+      Tab(5).Control(4)=   "chkPermission(4)"
+      Tab(5).Control(5)=   "chkPermission(5)"
+      Tab(5).Control(6)=   "chkPermission(3)"
+      Tab(5).Control(7)=   "chkPermission(6)"
+      Tab(5).Control(8)=   "chkPermission(7)"
+      Tab(5).ControlCount=   9
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":2CD3
       Tab(6).ControlEnabled=   0   'False
       Tab(6).Control(0)=   "lblInfo(4)"
-      Tab(6).Control(0).Enabled=   0   'False
       Tab(6).Control(1)=   "lblInfo(5)"
-      Tab(6).Control(1).Enabled=   0   'False
       Tab(6).ControlCount=   2
+      Begin VB.CheckBox chkPermission 
+         Caption         =   "&Trigger"
+         Height          =   195
+         Index           =   7
+         Left            =   -72435
+         TabIndex        =   29
+         Top             =   3285
+         Width           =   1905
+      End
+      Begin VB.CheckBox chkPermission 
+         Caption         =   "&References"
+         Height          =   195
+         Index           =   6
+         Left            =   -72435
+         TabIndex        =   28
+         Top             =   2925
+         Width           =   1905
+      End
+      Begin VB.CheckBox chkPermission 
+         Caption         =   "&Delete"
+         Height          =   195
+         Index           =   3
+         Left            =   -72435
+         TabIndex        =   27
+         Top             =   1845
+         Width           =   1905
+      End
       Begin VB.PictureBox picContainer 
          BorderStyle     =   0  'None
          Height          =   1635
@@ -230,28 +244,28 @@ Begin VB.Form frmWizard
       Begin VB.CheckBox chkPermission 
          Caption         =   "&Rule"
          Height          =   195
-         Index           =   4
+         Index           =   5
          Left            =   -72435
          TabIndex        =   13
-         Top             =   3015
+         Top             =   2565
          Width           =   1905
       End
       Begin VB.CheckBox chkPermission 
          Caption         =   "&Insert"
          Height          =   195
-         Index           =   3
+         Index           =   4
          Left            =   -72435
          TabIndex        =   12
-         Top             =   2565
+         Top             =   2205
          Width           =   1905
       End
       Begin VB.CheckBox chkPermission 
-         Caption         =   "&Update/Delete"
+         Caption         =   "&Update"
          Height          =   195
          Index           =   2
          Left            =   -72435
          TabIndex        =   11
-         Top             =   2115
+         Top             =   1485
          Width           =   1905
       End
       Begin VB.CheckBox chkPermission 
@@ -260,7 +274,7 @@ Begin VB.Form frmWizard
          Index           =   1
          Left            =   -72435
          TabIndex        =   10
-         Top             =   1665
+         Top             =   1125
          Width           =   1905
       End
       Begin VB.CheckBox chkPermission 
@@ -269,7 +283,7 @@ Begin VB.Form frmWizard
          Index           =   0
          Left            =   -72435
          TabIndex        =   9
-         Top             =   1215
+         Top             =   765
          Width           =   1905
       End
       Begin MSComctlLib.ListView lvDatabases 
@@ -478,15 +492,25 @@ Dim X As Integer
 
   If Index = 0 Then
     If chkPermission(0).Value = 1 Then
-      For X = 1 To 4
+      For X = 1 To 7
         chkPermission(X).Enabled = False
       Next X
     Else
-      For X = 1 To 4
+      For X = 1 To 7
         chkPermission(X).Enabled = True
       Next X
     End If
   End If
+  
+  'Reset for < 7.2 if necessary
+  If svr.dbVersion.VersionNum < 7.2 Then
+    chkPermission(3).Enabled = False
+    chkPermission(6).Enabled = False
+    chkPermission(7).Enabled = False
+  End If
+  
+  'Lock Update/Delete for PostgresQL < 7.2
+  If ((Index = 2) And (svr.dbVersion.VersionNum < 7.2)) Then chkPermission(3).Value = chkPermission(2).Value
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.chkPermission_Click"
@@ -549,7 +573,7 @@ Dim objItem As ListItem
       cmdPrevious.Enabled = True
     Case 5
       'Only move on if at least one permission has been selected
-      If (chkPermission(0).Value = 1) Or (chkPermission(1).Value = 1) Or (chkPermission(2).Value = 1) Or (chkPermission(3).Value = 1) Or (chkPermission(4).Value = 1) Then
+      If (chkPermission(0).Value = 1) Or (chkPermission(1).Value = 1) Or (chkPermission(2).Value = 1) Or (chkPermission(3).Value = 1) Or (chkPermission(4).Value = 1) Or (chkPermission(5).Value = 1) Or (chkPermission(6).Value = 1) Or (chkPermission(7).Value = 1) Then
         tabWizard.Tab = 6
         cmdNext.Enabled = False
         cmdNext.Visible = False
@@ -630,9 +654,11 @@ Dim lACL As Long
           If chkPermission(0).Value = 1 Then lACL = lACL + aclAll
           If chkPermission(1).Value = 1 Then lACL = lACL + aclSelect
           If chkPermission(2).Value = 1 Then lACL = lACL + aclUpdate
-          If chkPermission(2).Value = 1 Then lACL = lACL + aclDelete
-          If chkPermission(3).Value = 1 Then lACL = lACL + aclInsert
-          If chkPermission(4).Value = 1 Then lACL = lACL + aclRule
+          If chkPermission(3).Value = 1 Then lACL = lACL + aclDelete
+          If chkPermission(4).Value = 1 Then lACL = lACL + aclInsert
+          If chkPermission(5).Value = 1 Then lACL = lACL + aclRule
+          If chkPermission(6).Value = 1 Then lACL = lACL + aclReferences
+          If chkPermission(7).Value = 1 Then lACL = lACL + aclTrigger
           If optAction(0).Value Then 'Grant permissions
             Select Case objOItem.Icon
               Case "sequence"
@@ -744,6 +770,14 @@ Dim objItem As ListItem
       objItem.SubItems(1) = Replace(objDatabase.Comment, vbCrLf, " ")
     End If
   Next objDatabase
+  
+  'Enable new permissions for versions of PostgreSQL >= 7.2
+  If svr.dbVersion.VersionNum < 7.2 Then
+    chkPermission(3).Enabled = False
+    chkPermission(6).Enabled = False
+    chkPermission(7).Enabled = False
+  End If
+  
   EndMsg
   
   Exit Sub

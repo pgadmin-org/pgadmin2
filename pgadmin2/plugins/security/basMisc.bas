@@ -66,29 +66,53 @@ Dim szTemp As String
       szName = "PUBLIC"
     ElseIf Len(szName) > 6 Then
       If Left(UCase(szName), 6) = "GROUP " Then
-        szName = "GROUP " & QUOTE & Mid(szName, 7) & QUOTE
+        szName = "GROUP " & Mid(szName, 7)
       Else
-        szName = QUOTE & szName & QUOTE
+        szName = szName
       End If
     Else
-      szName = QUOTE & szName & QUOTE
+      szName = szName
     End If
     
     'Get the Access
     szAccess = Mid(szEntry, InStr(1, szEntry, "=") + 1)
-
-    Select Case szAccess
-      Case "arwR"
-        szAccess = "All"
-      Case ""
-        szAccess = "None"
-      Case Else
-        If InStr(1, szAccess, "r") <> 0 Then szTemp = szTemp & "Select, "
-        If InStr(1, szAccess, "w") <> 0 Then szTemp = szTemp & "Update, Delete, "
-        If InStr(1, szAccess, "a") <> 0 Then szTemp = szTemp & "Insert, "
-        If InStr(1, szAccess, "R") <> 0 Then szTemp = szTemp & "Rule, "
-        szAccess = Left(szTemp, Len(szTemp) - 2)
-    End Select
+    szTemp = ""
+    
+    'ACLs are different in 7.2+
+    If svr.dbVersion.VersionNum < 7.2 Then
+      
+      Select Case szAccess
+        Case "arwR"
+          szAccess = "All"
+        Case ""
+          szAccess = "None"
+        Case Else
+          If InStr(1, szAccess, "a") <> 0 Then szTemp = szTemp & "Insert, "
+          If InStr(1, szAccess, "r") <> 0 Then szTemp = szTemp & "Select, "
+          If InStr(1, szAccess, "w") <> 0 Then szTemp = szTemp & "Update, Delete, "
+          If InStr(1, szAccess, "R") <> 0 Then szTemp = szTemp & "Rule, "
+          szAccess = Left(szTemp, Len(szTemp) - 2)
+      End Select
+    
+    Else
+      
+      Select Case szAccess
+        Case "arwdRxt"
+          szAccess = "All"
+        Case ""
+          szAccess = "None"
+        Case Else
+          If InStr(1, szAccess, "a") <> 0 Then szTemp = szTemp & "Insert, "
+          If InStr(1, szAccess, "r") <> 0 Then szTemp = szTemp & "Select, "
+          If InStr(1, szAccess, "w") <> 0 Then szTemp = szTemp & "Update, "
+          If InStr(1, szAccess, "d") <> 0 Then szTemp = szTemp & "Delete, "
+          If InStr(1, szAccess, "R") <> 0 Then szTemp = szTemp & "Rule, "
+          If InStr(1, szAccess, "x") <> 0 Then szTemp = szTemp & "References, "
+          If InStr(1, szAccess, "t") <> 0 Then szTemp = szTemp & "Trigger, "
+          szAccess = Left(szTemp, Len(szTemp) - 2)
+      End Select
+    
+    End If
 
     If szName <> "All" And szAccess <> "None" Then 'Don't include REVOKE ALL
       szUserList = szUserList & szName & "|"
