@@ -35,7 +35,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Let Tag(" &
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -44,7 +44,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Set Tag(" &
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -57,7 +57,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Tag()",
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -68,7 +68,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Let Namespa
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -78,7 +78,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Namespa
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -89,7 +89,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Let Namespa
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Retruns the name of the parent Namespace."
@@ -99,7 +99,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Namespa
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Does the specified item exist?
@@ -118,7 +118,7 @@ Dim objForeignKey As pgForeignKey
   Next objForeignKey
   
   Exit Function
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Get the Database Name
@@ -133,7 +133,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -144,7 +144,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Set Connect
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the TableOID for internal use.
@@ -155,7 +155,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let TableOI
   dTableOID = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Table for internal use.
@@ -166,7 +166,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let Table("
   szTable = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
@@ -226,7 +226,7 @@ Dim X As Long
   Set iAdd = objNewMember
   
   Exit Function
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Return the specified Item
@@ -239,7 +239,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Item(" 
   Set Item = mCol(ULEncode(Key))
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Item count
@@ -262,7 +262,7 @@ Dim lCount As Long
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Allow enumeration using For...Each
@@ -275,7 +275,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get NewEnum
   Set NewEnum = mCol.[_NewEnum]
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Refresh the collection
@@ -294,7 +294,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Refresh()", etFullDe
   Initialize
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Initialise the collection if possible
@@ -328,7 +328,7 @@ Dim szArgs As String
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Cleanup
@@ -339,5 +339,5 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Class_Terminate()", 
   Set mCol = Nothing
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub

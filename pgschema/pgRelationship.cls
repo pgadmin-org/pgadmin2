@@ -35,7 +35,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let Tag(
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -44,7 +44,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Set Tag(
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -57,7 +57,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Tag(
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -68,7 +68,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let Name
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -78,7 +78,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Name
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -89,7 +89,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let Name
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -99,7 +99,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Name
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 
@@ -111,7 +111,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Set Conn
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the Database Name
@@ -126,7 +126,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -137,7 +137,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let Iden
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
@@ -148,7 +148,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Iden
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -160,7 +160,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Obje
   ObjectType = "Relationship"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the LocalColumn
@@ -171,7 +171,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let Loca
   szLocalColumn = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get LocalColumn() As String
 Attribute LocalColumn.VB_Description = "Returns the Local Column in the Relationship."
@@ -181,7 +181,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Loca
   LocalColumn = szLocalColumn
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the RemoteColumn
@@ -192,7 +192,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let Refe
   szReferencedColumn = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ReferencedColumn() As String
 Attribute ReferencedColumn.VB_Description = "Returns the Referenced Column in the Relationship."
@@ -202,7 +202,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Refe
   ReferencedColumn = szReferencedColumn
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 

@@ -44,7 +44,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Formatted
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -56,7 +56,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Tag(" & v
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -65,7 +65,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Set Tag(" & v
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -78,7 +78,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Tag()", e
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -89,7 +89,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Namespace
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -99,7 +99,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Namespace
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -110,7 +110,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Namespace
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -120,7 +120,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Namespace
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -131,7 +131,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Set Connectio
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the Database Name
@@ -146,7 +146,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
@@ -157,7 +157,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let OID(" & v
   dOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Trigger OID."
@@ -167,7 +167,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get OID()", e
   OID = dOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Table
@@ -178,7 +178,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Table(" &
   szTable = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Table() As String
 Attribute Table.VB_Description = "Returns the parent table name."
@@ -188,7 +188,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Table()",
   Table = szTable
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -199,7 +199,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let iName(" &
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
@@ -212,7 +212,7 @@ Dim szSQL As String
   szName = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Trigger name."
@@ -222,7 +222,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Name()", 
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -233,7 +233,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Identifie
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
@@ -244,7 +244,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Identifie
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -256,7 +256,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get ObjectTyp
   ObjectType = "Trigger"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return a boolean indicating whether this is a System Object
@@ -267,7 +267,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let SystemObj
   bSystemObject = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether or not this is a system object."
@@ -277,7 +277,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get SystemObj
   SystemObject = bSystemObject
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the TriggerFunction
@@ -288,7 +288,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let TriggerFu
   szTriggerFunction = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get TriggerFunction() As String
 Attribute TriggerFunction.VB_Description = "Returns the function the Trigger will execute."
@@ -298,7 +298,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get TriggerFu
   TriggerFunction = szTriggerFunction
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return Executes
@@ -309,7 +309,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Executes(
   szExecutes = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Executes() As String
 Attribute Executes.VB_Description = "Returns a value indicating when the Trigger will fire - 'Before' or 'After' the firing statement is executed."
@@ -319,7 +319,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Executes(
   Executes = szExecutes
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the TriggerEvent
@@ -330,7 +330,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let TriggerEv
   szTriggerEvent = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get TriggerEvent() As String
 Attribute TriggerEvent.VB_Description = "Returns a string indicating the events that will fire the Trigger."
@@ -340,7 +340,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get TriggerEv
   TriggerEvent = szTriggerEvent
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return ForEach
@@ -351,7 +351,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let ForEach("
   szForEach = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ForEach() As String
 Attribute ForEach.VB_Description = "Returns a value indicating whether the Trigger fires for each Statement or affected Row."
@@ -361,7 +361,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get ForEach()
   ForEach = szForEach
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Comment
@@ -377,7 +377,7 @@ Dim szSQL As String
   objServer.Databases(Database).KillCommentCache
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Trigger comment."
@@ -387,7 +387,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Comment()
   Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Public Property Get SQL() As String
@@ -420,5 +420,5 @@ Dim szSQL As String
   SQL = szSQL
   
 Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

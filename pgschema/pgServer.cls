@@ -118,7 +118,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Tag(" & vD
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -127,7 +127,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Set Tag(" & vD
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -140,7 +140,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Tag()", et
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Error Log
@@ -148,27 +148,21 @@ End Property
 'generated internally will be logged internally AND logged by the host application.
 'To fix this, internally we use iLogEvent, and the hosting application can set DontLogErrors
 'as required.
-Friend Sub iLogError(ByVal objError As ErrObject)
-On Error Resume Next
-Dim lError As Long
-Dim szError As String
+Friend Sub iLogError(ByVal lError As Long, ByVal szError As String)
+'Don't include error handling here *of any kind* 'cos you'll break it!
 
-  lError = objError.Number
-  szError = objError.Description
   If Not bDontLogErrors Then
     LogEvent "Error: " & lError & " - " & szError, etErrors
   End If
   Err.Raise lError, App.Title, szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
-On Error Resume Next
   If Not ((bDontLogErrors) And (etType = etErrors)) Then
     LogEvent szMessage, etType
   End If
 End Sub
 Public Sub LogEvent(ByVal szMessage As String, ByVal etType As ErrorType)
 Attribute LogEvent.VB_Description = "Log an event to the libraries logging system."
-On Error Resume Next
 Dim fNum As Integer
 
   RaiseEvent EventLog(etType, szMessage)
@@ -242,7 +236,7 @@ Dim szQueryType As String
   End If
   
   Exit Function
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Refresh the collections
@@ -256,7 +250,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Refresh()", etFullDebug
   Set colUsers = Nothing
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Connect to the database
@@ -359,8 +353,7 @@ Dim szVersion() As String
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
-  
+  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Return the Databases Collection
@@ -376,7 +369,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Databases(
   Set Databases = colDatabases
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Users Collection
@@ -392,7 +385,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Users()", 
   Set Users = colUsers
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Groups Collection
@@ -408,7 +401,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Groups()",
   Set Groups = colGroups
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Setup default settings
@@ -438,7 +431,7 @@ On Error GoTo Err_Handler
   Set cnPostgreSQL = Nothing
     
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Return the Object Type
@@ -450,7 +443,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get ObjectType
   ObjectType = "Server"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Identifier
@@ -463,7 +456,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Identifier
   Identifier = szUsername & "@" & szServer & ":" & lPort
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the ADO Connection String
@@ -478,7 +471,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get iConnectio
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ConnectionString() As String
 Attribute ConnectionString.VB_Description = "Returns the ADO connection string currently in use."
@@ -496,7 +489,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Connection
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the ODBC Driver Name
@@ -512,7 +505,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DriverName
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Last System OID
@@ -524,7 +517,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get LastSystem
   LastSystemOID = lLastSystemOID
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Driver Version
@@ -536,7 +529,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DriverVers
   DriverVersion = objDriverVersion
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the PostgreSQL Version
@@ -548,7 +541,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get dbVersion(
   dbVersion = objVersion
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return Our Version
@@ -564,7 +557,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Version()"
   Version.VersionNum = Val(App.Major & "." & App.Minor)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return IncludeSys
@@ -576,7 +569,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let IncludeSys
   bIncludeSys = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get IncludeSys() As Boolean
 On Error GoTo Err_Handler
@@ -585,7 +578,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get IncludeSys
   IncludeSys = bIncludeSys
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return DontLogErrors
@@ -597,7 +590,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let DontLogErr
   bDontLogErrors = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get DontLogErrors() As Boolean
 On Error GoTo Err_Handler
@@ -606,7 +599,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DontLogErr
   DontLogErrors = bDontLogErrors
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return EncryptPasswords
@@ -618,7 +611,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let EncryptPas
   bEncryptPasswords = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get EncryptPasswords() As Boolean
 On Error GoTo Err_Handler
@@ -627,7 +620,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get EncryptPas
   EncryptPasswords = bEncryptPasswords
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return ShowPassword
@@ -639,7 +632,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let ShowPasswo
   bShowPassword = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ShowPassword() As Boolean
 On Error GoTo Err_Handler
@@ -648,7 +641,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get ShowPasswo
   ShowPassword = bShowPassword
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Port
@@ -660,7 +653,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Port(" & v
   lPort = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Port() As Long
 On Error GoTo Err_Handler
@@ -669,7 +662,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Port()", e
   Port = lPort
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -681,7 +674,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Server(" &
   Server = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Server() As String
 On Error GoTo Err_Handler
@@ -690,7 +683,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Server()",
   Server = szServer
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Password
@@ -702,7 +695,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Password("
   Password = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Password() As String
 On Error GoTo Err_Handler
@@ -715,7 +708,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Password()
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Get iPassword() As String
 On Error GoTo Err_Handler
@@ -724,7 +717,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get iPassword(
   iPassword = szPassword
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Username
@@ -736,7 +729,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Username("
   szUsername = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Username() As String
 On Error GoTo Err_Handler
@@ -745,7 +738,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Username()
   Username = szUsername
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Logfile
@@ -761,7 +754,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Logfile(" 
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Logfile() As String
 On Error GoTo Err_Handler
@@ -771,7 +764,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Logfile()"
   Logfile = szLogfile
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the UserLogOptions
@@ -783,7 +776,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let UserLogOpt
   lUserLogOptions = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get UserLogOptions() As Long
 On Error GoTo Err_Handler
@@ -792,7 +785,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get UserLogOpt
   UserLogOptions = lUserLogOptions
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the UserLogfile
@@ -808,7 +801,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let UserLogfil
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get UserLogfile() As String
 On Error GoTo Err_Handler
@@ -818,7 +811,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get UserLogfil
   UserLogfile = szUserLogfile
       
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the UserLog
@@ -830,7 +823,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let UserLog(" 
   bUserLog = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get UserLog() As Boolean
 On Error GoTo Err_Handler
@@ -839,7 +832,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get UserLog()"
   UserLog = bUserLog
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the DeferConnection
@@ -851,7 +844,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let DeferConne
   bDeferConnection = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get DeferConnection() As Boolean
 On Error GoTo Err_Handler
@@ -860,7 +853,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DeferConne
   DeferConnection = bDeferConnection
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the MasterDB
@@ -872,7 +865,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let MasterDB("
   szMasterDB = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get MasterDB() As String
 On Error GoTo Err_Handler
@@ -881,7 +874,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get MasterDB()
   MasterDB = szMasterDB
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Logging Property
@@ -893,7 +886,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let LogLevel("
   lLogging = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get LogLevel() As LogLevel
 On Error GoTo Err_Handler
@@ -902,7 +895,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get LogLevel()
   LogLevel = lLogging
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Friend Property Get Connection() As Connection
@@ -912,5 +905,5 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Connection
   Set Connection = cnPostgreSQL
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

@@ -59,7 +59,7 @@ Dim szLOT As String
   End If
 
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -71,7 +71,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Tag(" & 
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -80,7 +80,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Set Tag(" & 
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -93,7 +93,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Tag()", 
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -104,7 +104,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Namespac
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -114,7 +114,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Namespac
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -125,7 +125,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Namespac
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -135,7 +135,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Namespac
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -146,7 +146,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Set Connecti
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the Database Name
@@ -161,7 +161,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
@@ -172,7 +172,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let OID(" & 
   dOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Operator OID."
@@ -182,7 +182,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get OID()", 
   OID = dOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -193,7 +193,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Name(" &
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Operator name."
@@ -203,7 +203,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Name()",
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -214,7 +214,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Identifi
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
@@ -225,7 +225,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Identifi
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -237,7 +237,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get ObjectTy
   ObjectType = "Operator"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return a boolean indicating whether this is a System Object
@@ -248,7 +248,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let SystemOb
   bSystemObject = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
@@ -258,7 +258,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get SystemOb
   SystemObject = bSystemObject
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Owner
@@ -269,7 +269,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Owner(" 
   szOwner = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Returns the Operator's Owner."
@@ -279,7 +279,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()"
   Owner = szOwner
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Kind
@@ -290,7 +290,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Kind(" &
   szKind = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Kind() As String
 Attribute Kind.VB_Description = "Returns the Operators Kind (infix, prefix, postfix)."
@@ -300,7 +300,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Kind()",
   Kind = szKind
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return HashJoins?
@@ -311,7 +311,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let HashJoin
   bHashJoins = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get HashJoins() As Boolean
 Attribute HashJoins.VB_Description = "Returns a value indicating whether the Operator supports Hash Joins."
@@ -321,7 +321,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get HashJoin
   HashJoins = bHashJoins
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the LeftOperandType
@@ -332,7 +332,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let LeftOper
   szLeftOperandType = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get LeftOperandType() As String
 Attribute LeftOperandType.VB_Description = "Returns the Operator's left operand Type."
@@ -342,7 +342,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get LeftOper
   LeftOperandType = szLeftOperandType
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the RightOperandType
@@ -353,7 +353,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let RightOpe
   szRightOperandType = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get RightOperandType() As String
 Attribute RightOperandType.VB_Description = "Returns the Operator's right operand Type."
@@ -363,7 +363,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get RightOpe
   RightOperandType = szRightOperandType
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the ResultType
@@ -374,7 +374,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let ResultTy
   szResultType = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ResultType() As String
 Attribute ResultType.VB_Description = "Returns the Operator's result Type."
@@ -384,7 +384,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get ResultTy
   ResultType = szResultType
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Commutator
@@ -395,7 +395,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Commutat
   szCommutator = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Commutator() As String
 Attribute Commutator.VB_Description = "Returns the Operator's Commutator."
@@ -405,7 +405,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Commutat
   Commutator = szCommutator
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Negator
@@ -416,7 +416,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Negator(
   szNegator = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Negator() As String
 Attribute Negator.VB_Description = "Returns the Operator's negator Operator."
@@ -426,7 +426,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Negator(
   Negator = szNegator
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the LeftTypeSortOperator
@@ -437,7 +437,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let LeftType
   szLeftTypeSortOperator = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get LeftTypeSortOperator() As String
 Attribute LeftTypeSortOperator.VB_Description = "Returns the Operator's left type-sort Operator."
@@ -447,7 +447,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get LeftType
   LeftTypeSortOperator = szLeftTypeSortOperator
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the RightTypeSortOperator
@@ -458,7 +458,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let RightTyp
   szRightTypeSortOperator = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get RightTypeSortOperator() As String
 Attribute RightTypeSortOperator.VB_Description = "Returns the Operator's right type-sort Operator."
@@ -468,7 +468,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get RightTyp
   RightTypeSortOperator = szRightTypeSortOperator
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OperatorFunction
@@ -479,7 +479,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Operator
   szOperatorFunction = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OperatorFunction() As String
 Attribute OperatorFunction.VB_Description = "Returns the Operator Function."
@@ -489,7 +489,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Operator
   OperatorFunction = szOperatorFunction
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the RestrictFunction
@@ -500,7 +500,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Restrict
   szRestrictFunction = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get RestrictFunction() As String
 Attribute RestrictFunction.VB_Description = "Returns the Operator's restrict function."
@@ -510,7 +510,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Restrict
   RestrictFunction = szRestrictFunction
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the JoinFunction
@@ -521,7 +521,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let JoinFunc
   szJoinFunction = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get JoinFunction() As String
 Attribute JoinFunction.VB_Description = "Returns the Operator's Join Function."
@@ -531,7 +531,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get JoinFunc
   JoinFunction = szJoinFunction
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Comment
@@ -547,7 +547,7 @@ Dim szSQL As String
   objServer.Databases(Database).KillCommentCache
 
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Operator comment."
@@ -557,7 +557,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Comment(
   Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Public Property Get SQL() As String
@@ -600,5 +600,5 @@ Dim szLOT As String
   SQL = szSQL
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

@@ -47,7 +47,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Format
   FormattedID = fmtID(szName)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -59,7 +59,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Tag(" 
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -68,7 +68,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Set Tag(" 
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -81,7 +81,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Tag()"
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -92,7 +92,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Namesp
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -102,7 +102,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Namesp
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -113,7 +113,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Namesp
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -123,7 +123,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Namesp
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -134,7 +134,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Set Connec
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the TableOID for internal use.
@@ -145,7 +145,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let TableOI
   dTableOID = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Relationships Collection
@@ -162,7 +162,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Relation
   Set Relationships = colRelationships
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the Database Name
@@ -177,7 +177,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Table
@@ -188,7 +188,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Table(
   szTable = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Table() As String
 Attribute Table.VB_Description = "Returns the parent table name."
@@ -198,7 +198,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Table(
   Table = szTable
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
@@ -209,7 +209,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let OID(" 
   dOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Foreign Key OID."
@@ -219,7 +219,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get OID()"
   OID = dOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -230,7 +230,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Name("
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Foreign Key name."
@@ -240,7 +240,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Name()
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -251,7 +251,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Identi
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
@@ -262,7 +262,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Identi
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -274,7 +274,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Object
   ObjectType = "Foreign Key"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return a boolean indicating whether this is a System Object
@@ -285,7 +285,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let System
   bSystemObject = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
@@ -295,7 +295,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get System
   SystemObject = bSystemObject
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the ReferencedTable
@@ -306,7 +306,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Refere
   szReferencedTable = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ReferencedTable() As String
 Attribute ReferencedTable.VB_Description = "Returns the name of the table referenced by the Foreign Key."
@@ -316,7 +316,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Refere
   ReferencedTable = szReferencedTable
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the LocalColumns
@@ -327,7 +327,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let LocalC
   szLocalColumns = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Get LocalColumns() As String
 On Error GoTo Err_Handler
@@ -336,7 +336,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get LocalC
   LocalColumns = szLocalColumns
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the ReferencedColumns
@@ -347,7 +347,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Refere
   szReferencedColumns = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Get ReferencedColumns() As String
 On Error GoTo Err_Handler
@@ -356,7 +356,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Refere
   ReferencedColumns = szReferencedColumns
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return OnDelete
@@ -397,7 +397,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return OnUpdate
@@ -438,7 +438,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Deferrable
@@ -449,7 +449,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Deferr
   bDeferrable = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Deferrable() As Boolean
 Attribute Deferrable.VB_Description = "Returns a boolean indicating whether the constraint can be deferred to the end of the transaction. If DEFERRABLE, SET CONSTRAINTS ALL DEFERRED will cause the foreign key to be checked only at the end of the transaction. "
@@ -459,7 +459,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Deferr
   Deferrable = bDeferrable
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Initially
@@ -470,7 +470,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let Initia
   szInitially = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Initially() As String
 Attribute Initially.VB_Description = "Returns two possible values which specify the default time to check the constraint. \r\n\r\nIMMEDIATE - Check constraint after each statement. This is the default. \r\nDEFERRED - Check constraint only at the end of the transaction. "
@@ -480,7 +480,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get Initia
   Initially = szInitially
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Cleanup
@@ -491,5 +491,5 @@ objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Class_Terminate()",
   Set colRelationships = Nothing
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub

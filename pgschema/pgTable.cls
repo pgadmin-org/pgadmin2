@@ -51,7 +51,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get FormattedID
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -63,7 +63,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Tag(" & vDa
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -72,7 +72,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Set Tag(" & vDa
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -85,7 +85,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Tag()", etF
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -96,7 +96,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let NamespaceOI
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -106,7 +106,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get NamespaceOI
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -117,7 +117,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Namespace("
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -127,7 +127,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Namespace()
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 
@@ -139,7 +139,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Set Connection(
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the ForeignKeys Collection
@@ -162,7 +162,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ForeignK
   Set ForeignKeys = colForeignKeys
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the InheritedTables Collection
@@ -183,7 +183,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Inherite
   Set InheritedTables = colInheritedTables
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Columns Collection
@@ -206,7 +206,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Columns()",
   Set Columns = colColumns
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Checks Collection
@@ -229,7 +229,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Checks()", 
   Set Checks = colChecks
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Indexes Collection
@@ -252,7 +252,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Indexes()",
   Set Indexes = colIndexes
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Triggers Collection
@@ -275,7 +275,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Triggers()"
   Set Triggers = colTriggers
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Rules Collection
@@ -298,7 +298,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rules()", e
   Set Rules = colRules
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the Database Name
@@ -313,7 +313,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
@@ -324,7 +324,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let OID(" & vDa
   dOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Table OID."
@@ -334,7 +334,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get OID()", etF
   OID = dOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -345,7 +345,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let iName(" & Q
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
@@ -367,7 +367,7 @@ Dim szSQL As String
   Set colTriggers = Nothing
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Table name."
@@ -377,7 +377,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Name()", et
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -388,7 +388,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Identifier(
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
@@ -399,7 +399,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Identifier(
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -411,7 +411,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get ObjectType(
   ObjectType = "Table"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return a boolean indicating whether this is a System Object
@@ -422,7 +422,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let SystemObjec
   bSystemObject = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
@@ -432,7 +432,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get SystemObjec
   SystemObject = bSystemObject
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Owner
@@ -443,7 +443,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let iOwner(" & 
   szOwner = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Let Owner(ByVal vData As String)
 On Error GoTo Err_Handler
@@ -457,7 +457,7 @@ Dim szSQL As String
   szOwner = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Sets/Returns the Table Owner."
@@ -467,7 +467,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Owner()", e
   Owner = szOwner
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the ACL
@@ -478,7 +478,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let ACL(" & QUO
   szACL = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ACL() As String
 Attribute ACL.VB_Description = "Returns the Table ACL."
@@ -488,7 +488,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get ACL()", etF
   ACL = szACL
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Comment
@@ -504,7 +504,7 @@ Dim szSQL As String
   objServer.Databases(Database).KillCommentCache
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Table comment."
@@ -514,7 +514,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Comment()",
   Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the row count
@@ -535,7 +535,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return a boolean indicating whether this table has OIDs
@@ -546,7 +546,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let HasOIDs(" &
   bHasOIDs = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get HasOIDs() As Boolean
 Attribute HasOIDs.VB_Description = "Indicates whether or not the table has OIDs."
@@ -556,7 +556,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get HasOIDs()",
   HasOIDs = bHasOIDs
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Grant Permissions
@@ -607,7 +607,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Revoke Permissions
@@ -658,7 +658,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Cleanup
@@ -675,7 +675,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Class_Terminate()", etFu
   Set colTriggers = Nothing
 
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 Public Property Get SQL() As String
@@ -780,8 +780,9 @@ Dim bHaveObj As Boolean
       End If
       szSQL = szSQL & "FOREIGN KEY (" & Replace(Left(objForeignKey.LocalColumns, Len(objForeignKey.LocalColumns) - 1), "|", ", ") & ") " & _
               "REFERENCES " & fmtID(objForeignKey.ReferencedTable) & _
-              " (" & Replace(Left(objForeignKey.ReferencedColumns, Len(objForeignKey.ReferencedColumns) - 1), "|", ", ") & ")" & _
-              " ON DELETE " & UCase(objForeignKey.OnDelete) & " ON UPDATE " & UCase(objForeignKey.OnUpdate)
+              " (" & Replace(Left(objForeignKey.ReferencedColumns, Len(objForeignKey.ReferencedColumns) - 1), "|", ", ") & ")"
+      If objForeignKey.OnDelete <> "" Then szSQL = szSQL & " ON DELETE " & UCase(objForeignKey.OnDelete)
+      If objForeignKey.OnUpdate <> "" Then szSQL = szSQL & " ON UPDATE " & UCase(objForeignKey.OnUpdate)
       If objForeignKey.Deferrable Then
         szSQL = szSQL & " DEFERRABLE"
       Else
@@ -821,5 +822,5 @@ Dim bHaveObj As Boolean
   SQL = szSQL
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

@@ -33,7 +33,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Let Tag
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -42,7 +42,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Set Tag
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -55,7 +55,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Get Tag
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -66,7 +66,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Let Nam
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -76,7 +76,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Get Nam
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -87,7 +87,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Let Nam
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -97,7 +97,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Get Nam
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the Database Name
@@ -112,7 +112,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -123,7 +123,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Set Con
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
@@ -134,7 +134,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.iAdd(" & QUOTE &
   mCol.Add szTable
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Return the specified Item
@@ -146,7 +146,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Get Ite
   Item = mCol(Index)
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Item count
@@ -159,7 +159,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Get Cou
   Count = mCol.Count
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Allow enumeration using For...Each
@@ -172,7 +172,7 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Get New
   Set NewEnum = mCol.[_NewEnum]
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Initialise the collection if possible
@@ -197,7 +197,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
   
 End Sub
 
@@ -209,5 +209,5 @@ objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Class_Terminate(
   Set mCol = Nothing
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub

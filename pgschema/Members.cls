@@ -31,7 +31,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.Property Let Tag(" & vDa
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -40,7 +40,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.Property Set Tag(" & vDa
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -53,7 +53,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get Tag()", etF
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
@@ -65,7 +65,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.iAdd(" & QUOTE & szName 
   mCol.Add szName, ULEncode(szName)
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'External Add
@@ -93,7 +93,7 @@ Dim szSQL As String
   mCol.Add Name, ULEncode(Name)
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Return the specified Item
@@ -106,7 +106,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get Item(" & QU
   Set Item = mCol(ULEncode(Key))
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Name for internal use.
@@ -117,7 +117,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.Property let Name(" & QU
   szName = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Item count
@@ -130,7 +130,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get Count()", e
   Count = mCol.Count
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Remove the specified Item
@@ -153,7 +153,7 @@ Dim szSQL As String
 Err_Handler:
   'Error 5 is thrown if the item is not in the collection...
   If Err.Number = 5 Then Exit Sub
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Allow enumeration using For...Each
@@ -166,7 +166,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get NewEnum()",
   Set NewEnum = mCol.[_NewEnum]
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Initialise the collection if possible
@@ -211,7 +211,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Cleanup
@@ -222,7 +222,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Members.Class_Terminate()", etFu
   Set mCol = Nothing
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 

@@ -54,7 +54,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Formatt
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -66,7 +66,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Tag(" &
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -75,7 +75,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Set Tag(" &
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -88,7 +88,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Tag()",
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -99,7 +99,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Namespa
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -109,7 +109,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Namespa
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -120,7 +120,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Namespa
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -130,7 +130,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Namespa
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -141,7 +141,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Set Connect
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the Database Name
@@ -156,7 +156,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
@@ -167,7 +167,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let OID(" &
   dOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Aggregate OID."
@@ -177,7 +177,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get OID()",
   OID = dOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -188,7 +188,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Name(" 
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Aggregate name."
@@ -198,7 +198,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Name()"
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -209,7 +209,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Identif
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object Identifier."
@@ -220,7 +220,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Identif
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -232,7 +232,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get ObjectT
   ObjectType = "Aggregate"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return a boolean indicating whether this is a System Object
@@ -243,7 +243,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let SystemO
   bSystemObject = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Returns a boolean indicating whether this is a system object."
@@ -253,7 +253,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get SystemO
   SystemObject = bSystemObject
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Owner
@@ -264,7 +264,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Owner(" 
   szOwner = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Returns the Aggregate's Owner."
@@ -274,7 +274,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()"
   Owner = szOwner
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the InputType
@@ -285,7 +285,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let InputTyp
   szInputType = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get InputType() As String
 Attribute InputType.VB_Description = "Returns the Aggregates Input Type (Base Type)"
@@ -295,7 +295,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get InputTyp
   InputType = szInputType
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the StateFunction
@@ -306,7 +306,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let StateFu
   szStateFunction = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get StateFunction() As String
 Attribute StateFunction.VB_Description = "Returns the Aggregate's State Function."
@@ -316,7 +316,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get StateFu
   StateFunction = szStateFunction
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the StateType
@@ -327,7 +327,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let StateTy
   szStateType = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get StateType() As String
 Attribute StateType.VB_Description = "Returns the Aggregate's State Type."
@@ -337,7 +337,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get StateTy
   StateType = szStateType
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the FinalFunction
@@ -348,7 +348,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let FinalFu
   szFinalFunction = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get FinalFunction() As String
 Attribute FinalFunction.VB_Description = "Returns the Aggregate's Final Function."
@@ -358,7 +358,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get FinalFu
   FinalFunction = szFinalFunction
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the FinalType
@@ -369,7 +369,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let FinalTy
   szFinalType = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get FinalType() As String
 Attribute FinalType.VB_Description = "Returns the Aggregate's Final Type."
@@ -379,7 +379,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get FinalTy
   FinalType = szFinalType
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the InitialCondition
@@ -390,7 +390,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Initial
   szInitialCondition = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get InitialCondition() As String
 Attribute InitialCondition.VB_Description = "Returns the Aggregate's Initial Condition."
@@ -400,7 +400,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Initial
   InitialCondition = szInitialCondition
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Comment
@@ -416,7 +416,7 @@ Dim szSQL As String
   objServer.Databases(Database).KillCommentCache
 
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Aggregate comment."
@@ -426,7 +426,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Comment
   Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Public Property Get SQL() As String
@@ -461,5 +461,5 @@ Dim szSQL As String
   SQL = szSQL
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

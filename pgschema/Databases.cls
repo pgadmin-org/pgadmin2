@@ -30,7 +30,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Let Tag(" & v
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -39,7 +39,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Set Tag(" & v
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -52,7 +52,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Tag()", e
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Does the specified item exist?
@@ -71,7 +71,7 @@ Dim objDatabase As pgDatabase
   Next objDatabase
   
   Exit Function
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Internal Add
@@ -107,7 +107,7 @@ Dim objNewMember As pgDatabase
   Set iAdd = objNewMember
   
   Exit Function
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'External Add
@@ -160,7 +160,7 @@ Err_Handler:
   Set rs = Nothing
   If rsComment.State <> adStateClosed Then rsComment.Close
   Set rsComment = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
   
 End Function
 
@@ -174,7 +174,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Item(" & 
   Set Item = mCol(ULEncode(Key))
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Item count
@@ -197,7 +197,7 @@ Dim lCount As Long
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Remove the specified Item
@@ -231,7 +231,7 @@ Dim objDatabase As pgDatabase
 Err_Handler:
   'Error 5 is thrown if the item is not in the collection...
   If Err.Number = 5 Then Exit Sub
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Allow enumeration using For...Each
@@ -244,7 +244,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get NewEnum()
   Set NewEnum = mCol.[_NewEnum]
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Refresh the collection
@@ -257,7 +257,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Databases.Refresh()", etFullDebu
   Initialize
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Initialise the collection if possible
@@ -290,7 +290,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Cleanup
@@ -301,7 +301,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Databases.Class_Terminate()", et
   Set mCol = Nothing
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
@@ -320,5 +320,5 @@ Dim objDatabase As pgDatabase
   SQL = szSQL
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

@@ -41,7 +41,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get FormattedID(
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -53,7 +53,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Tag(" & vDat
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -62,7 +62,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Set Tag(" & vDat
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -75,7 +75,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Tag()", etFu
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -86,7 +86,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let NamespaceOID
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -96,7 +96,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get NamespaceOID
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -107,7 +107,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Namespace(" 
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -117,7 +117,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Namespace()"
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -128,7 +128,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Set Connection(C
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Get the Database Name
@@ -143,7 +143,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Table
@@ -154,7 +154,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Table(" & QU
   szTable = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Table() As String
 Attribute Table.VB_Description = "Returns the parent table name."
@@ -164,7 +164,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Table()", et
   Table = szTable
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the OID
@@ -175,7 +175,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let OID(" & vDat
   dOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Rule OID."
@@ -185,7 +185,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get OID()", etFu
   OID = dOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -196,7 +196,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Name(" & QUO
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Rule name."
@@ -206,7 +206,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Name()", etF
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -217,7 +217,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Identifier("
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
@@ -228,7 +228,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Identifier()
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -240,7 +240,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get ObjectType()
   ObjectType = "Rule"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return a boolean indicating whether this is a System Object
@@ -251,7 +251,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let SystemObject
   bSystemObject = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
@@ -261,7 +261,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get SystemObject
   SystemObject = bSystemObject
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Definition
@@ -272,7 +272,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Definition("
   szDefinition = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Definition() As String
 Attribute Definition.VB_Description = "Returns the Rule Definition."
@@ -282,7 +282,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Definition()
   Definition = szDefinition
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Event
@@ -295,7 +295,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get RuleEvent()"
   RuleEvent = Mid(szDefinition, InStr(1, szDefinition, " AS ON ") + 7, 6)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Condition
@@ -324,7 +324,7 @@ Dim lLength As Long
   Condition = ""
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return DoInstead
@@ -340,7 +340,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get DoInstead()"
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Action
@@ -359,7 +359,7 @@ Dim szTemp As String
   Action = Left(szTemp, Len(szTemp) - 1)
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Comment
@@ -375,7 +375,7 @@ Dim szSQL As String
   objServer.Databases(Database).KillCommentCache
 
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Rule comment."
@@ -385,7 +385,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Comment()", 
   Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Public Property Get SQL() As String
@@ -402,5 +402,5 @@ Dim szSQL As String
   SQL = szSQL
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

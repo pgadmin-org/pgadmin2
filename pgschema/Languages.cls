@@ -31,7 +31,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Let Tag(" & v
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -40,7 +40,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Set Tag(" & v
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -53,7 +53,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Tag()", e
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Does the specified item exist?
@@ -72,7 +72,7 @@ Dim objLanguage As pgLanguage
   Next objLanguage
   
   Exit Function
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Get the Database Name
@@ -87,7 +87,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -98,7 +98,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Set Connectio
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
@@ -159,7 +159,7 @@ Dim szSQL As String
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'External Add
@@ -216,7 +216,7 @@ Dim objLanguage As pgLanguage
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
   
 End Function
 
@@ -230,7 +230,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Item(" & 
   Set Item = mCol(ULEncode(Key))
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Item count
@@ -253,7 +253,7 @@ Dim lCount As Long
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Remove the specified Item
@@ -279,7 +279,7 @@ Dim szSQL As String
 Err_Handler:
   'Error 5 is thrown if the item is not in the collection...
   If Err.Number = 5 Then Exit Sub
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Allow enumeration using For...Each
@@ -292,7 +292,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get NewEnum()
   Set NewEnum = mCol.[_NewEnum]
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Refresh the collection
@@ -311,7 +311,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Refresh()", etFullDebu
   Initialize
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Initialise the collection if possible
@@ -343,7 +343,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Cleanup
@@ -354,7 +354,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Class_Terminate()", et
   Set mCol = Nothing
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
@@ -373,5 +373,5 @@ Dim objLanguage As pgLanguage
   SQL = szSQL
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

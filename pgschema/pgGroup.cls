@@ -35,7 +35,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get FormattedID
   FormattedID = fmtID(szName)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -47,7 +47,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Tag(" & vDa
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -56,7 +56,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Set Tag(" & vDa
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -69,7 +69,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Tag()", etF
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Member Users Collection
@@ -88,7 +88,7 @@ Dim szConnect As String
   Set Members = colMembers
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -99,7 +99,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Name(" & QU
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Group name."
@@ -109,7 +109,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Name()", et
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -120,7 +120,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Identifier(
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the group identifier."
@@ -131,7 +131,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Identifier(
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -143,7 +143,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get ObjectType(
   ObjectType = "Group"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return ID
@@ -154,7 +154,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let ID(" & vDat
   lID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ID() As Long
 Attribute ID.VB_Description = "Returns the Group ID."
@@ -164,7 +164,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get ID()", etFu
   ID = lID
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Members (Internal only)
@@ -175,7 +175,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let MemberList(
   szMemberList = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Get MemberList() As String
 On Error GoTo Err_Handler
@@ -184,7 +184,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get MemberList(
   MemberList = szMemberList
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Public Property Get SQL() As String
@@ -210,5 +210,5 @@ Dim szTemp As String
   SQL = szSQL
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

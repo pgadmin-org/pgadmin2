@@ -33,7 +33,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Let Tag(" & v
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -42,7 +42,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Set Tag(" & v
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -55,7 +55,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Tag()", e
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace OID
@@ -66,7 +66,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Let Namespace
   dNamespaceOID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
@@ -76,7 +76,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Namespace
   NamespaceOID = dNamespaceOID
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Namespace Name
@@ -87,7 +87,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Let Namespace
   szNamespace = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
@@ -97,7 +97,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Namespace
   Namespace = szNamespace
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Does the specified item exist?
@@ -116,7 +116,7 @@ Dim objOperator As pgOperator
   Next objOperator
   
   Exit Function
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Get the Database Name
@@ -131,7 +131,7 @@ Static szDB As String
   Database = szDB
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set the Connection to use
@@ -142,7 +142,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Set Connectio
   Set cnDatabase = vData
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
@@ -214,7 +214,7 @@ Dim szTemp As String
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'External Add
@@ -287,7 +287,7 @@ Dim objOperator As pgOperator
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'Return the specified Item
@@ -300,7 +300,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Item(" & 
   Set Item = mCol(ULEncode(Key))
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Item count
@@ -323,7 +323,7 @@ Dim lCount As Long
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Remove the specified Item
@@ -348,7 +348,7 @@ Dim szSQL As String
 Err_Handler:
   'Error 5 is thrown if the item is not in the collection...
   If Err.Number = 5 Then Exit Sub
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Allow enumeration using For...Each
@@ -361,7 +361,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get NewEnum()
   Set NewEnum = mCol.[_NewEnum]
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Refresh the collection
@@ -380,7 +380,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Refresh()", etFullDebu
   Initialize
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Initialise the collection if possible
@@ -412,7 +412,7 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
+  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 'Cleanup
@@ -423,7 +423,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Class_Terminate()", et
   Set mCol = Nothing
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
@@ -442,5 +442,5 @@ Dim objOperator As pgOperator
   SQL = szSQL
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property

@@ -39,7 +39,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get FormattedID(
   FormattedID = fmtID(szName)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -51,7 +51,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Tag(" & vDat
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -60,7 +60,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Set Tag(" & vDat
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -73,7 +73,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get Tag()", etFu
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -84,7 +84,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Name(" & QUO
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Username."
@@ -94,7 +94,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get Name()", etF
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -105,7 +105,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Identifier("
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
@@ -116,7 +116,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get Identifier()
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -128,7 +128,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get ObjectType()
   ObjectType = "User"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return ID
@@ -139,7 +139,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let ID(" & vData
   lID = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ID() As Long
 Attribute ID.VB_Description = "Returns the User ID."
@@ -149,7 +149,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get ID()", etFul
   ID = lID
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return CreateDatabases
@@ -160,7 +160,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let iCreateDatab
   bCreateDatabases = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Let CreateDatabases(ByVal vData As Boolean)
 On Error GoTo Err_Handler
@@ -177,7 +177,7 @@ Dim szSQL As String
   bCreateDatabases = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get CreateDatabases() As Boolean
 Attribute CreateDatabases.VB_Description = "Returns a value indicating whether or not the User can create databases."
@@ -187,7 +187,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get CreateDataba
   CreateDatabases = bCreateDatabases
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return Superuser
@@ -198,7 +198,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let iSuperuser("
   bSuperuser = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Let Superuser(ByVal vData As Boolean)
 On Error GoTo Err_Handler
@@ -215,7 +215,7 @@ Dim szSQL As String
   bSuperuser = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Superuser() As Boolean
 Attribute Superuser.VB_Description = "Returns a value indicating whether or not the User is a superuser."
@@ -225,7 +225,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get Superuser()"
   Superuser = bSuperuser
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return UpdateCatalogues
@@ -236,7 +236,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let UpdateCatalo
   bUpdateCatalogues = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get UpdateCatalogues() As Boolean
 Attribute UpdateCatalogues.VB_Description = "Returns a value indicating whether or not the User can update system catalogues."
@@ -246,7 +246,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get UpdateCatalo
   UpdateCatalogues = bUpdateCatalogues
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Expiry Date
@@ -257,7 +257,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let iAccountExpi
   dAccountExpires = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Let AccountExpires(ByVal vData As Date)
 On Error GoTo Err_Handler
@@ -270,7 +270,7 @@ Dim szSQL As String
   dAccountExpires = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get AccountExpires() As Date
 Attribute AccountExpires.VB_Description = "Returns the date/time the the User account expires."
@@ -280,7 +280,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get AccountExpir
   AccountExpires = dAccountExpires
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the user's password. Note that we always return ********
@@ -300,7 +300,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Password(" &
   End If
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Password() As String
 On Error GoTo Err_Handler
@@ -309,7 +309,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get Password()",
   Password = "********"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the UserVars Collection
@@ -325,7 +325,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get UserVars()",
   Set UserVars = colUserVars
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the UserVarList
@@ -336,7 +336,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let UserVarList
   szUserVarList = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Get UserVarList() As String
 On Error GoTo Err_Handler
@@ -345,7 +345,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get UserVarList
   UserVarList = szUserVarList
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Public Property Get SQL() As String
@@ -383,7 +383,7 @@ Dim objVar As pgVar
   SQL = szSQL
   
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Private Sub Class_Terminate()
@@ -393,5 +393,5 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Class_Terminate()", etFul
   Set colUserVars = Nothing
 
   Exit Sub
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub

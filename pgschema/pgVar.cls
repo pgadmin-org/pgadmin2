@@ -31,7 +31,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Get FormattedID()
   FormattedID = fmtID(szName)
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Tag
@@ -43,7 +43,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Let Tag(" & vData
   vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
@@ -52,7 +52,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Set Tag(" & vData
   Set vTag = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 On Error GoTo Err_Handler
@@ -65,7 +65,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Get Tag()", etFul
   End If
   
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Identifier
@@ -76,7 +76,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Let Identifier(" 
   szIdentifier = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
@@ -87,7 +87,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Get Identifier()"
   Identifier = szIdentifier
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Return the Object Type
@@ -99,7 +99,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Get ObjectType()"
   ObjectType = "Var"
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Name
@@ -110,7 +110,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Let Name(" & QUOT
   szName = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the variable name."
@@ -120,7 +120,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Get Name()", etFu
   Name = szName
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Set/Return the Value
@@ -131,7 +131,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Let Value(" & QUO
   szValue = vData
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Value() As String
 Attribute Value.VB_Description = "Returns the variable value."
@@ -141,7 +141,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgVar.Property Get Value()", etF
   Value = szValue
     
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 

@@ -290,7 +290,7 @@ Dim szTemp As String
   
   ParseACL = szSQL
   Exit Function
-Err_Handler:  objServer.iLogError Err
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 Public Function WinVer() As String
