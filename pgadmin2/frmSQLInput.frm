@@ -129,12 +129,12 @@ Dim szBits() As String
 Dim vBit As Variant
 Dim szSQL As String
 
-  If Len(txtSQL.Text) < 5 Then Exit Sub
+  If Len(txtSql.Text) < 5 Then Exit Sub
   
-  If txtSQL.SelLength > 5 Then
-    szSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
+  If txtSql.SelLength > 5 Then
+    szSQL = Mid(txtSql.Text, txtSql.SelStart + 1, txtSql.SelLength)
   Else
-    szSQL = txtSQL.Text
+    szSQL = txtSql.Text
   End If
   
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
@@ -173,10 +173,10 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExplain_Click()"
 Dim objQueryPlanForm As New frmSQLExplain
 
   'Check for blank query
-  If txtSQL.Text = "" Then Exit Sub
+  If txtSql.Text = "" Then Exit Sub
 
   Load objQueryPlanForm
-  objQueryPlanForm.Explain txtSQL.Text, szDatabase
+  objQueryPlanForm.Explain txtSql.Text, szDatabase
   objQueryPlanForm.Show
 
   Exit Sub
@@ -205,7 +205,7 @@ Dim fNum As Integer
   End With
   
   If cdlg.FileName = "" Then Exit Sub
-  txtSQL.Text = ""
+  txtSql.Text = ""
   fNum = FreeFile
   frmMain.svr.LogEvent "Loading " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Input As #fNum
@@ -216,7 +216,7 @@ Dim fNum As Integer
   If Len(szFile) > 2 Then szFile = Left(szFile, Len(szFile) - 2)
   
   Close #fNum
-  txtSQL.Text = szFile
+  txtSql.Text = szFile
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
 
@@ -267,7 +267,7 @@ Dim fNum As Integer
   fNum = FreeFile
   frmMain.svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Output As #fNum
-  Print #fNum, txtSQL.Text
+  Print #fNum, txtSql.Text
   Close #fNum
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
@@ -319,8 +319,8 @@ Dim szExporter As String
     End If
   Next X
   
-  Set txtSQL.Font = ctx.Font
-  txtSQL.Wordlist = ctx.AutoHighlight
+  Set txtSql.Font = ctx.Font
+  txtSql.Wordlist = ctx.AutoHighlight
   szDatabase = ctx.CurrentDB
   bDirty = False
   Me.Height = 3600
@@ -340,8 +340,8 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Resize()", etF
       If Me.Height < 3600 Then Me.Height = 3600
     End If
     
-    txtSQL.Width = Me.ScaleWidth
-    txtSQL.Height = Me.ScaleHeight - cmdExecute.Height - 50
+    txtSql.Width = Me.ScaleWidth
+    txtSql.Height = Me.ScaleHeight - cmdExecute.Height - 50
     cmdExecute.Top = Me.ScaleHeight - cmdExecute.Height
     cmdExplain.Top = cmdExecute.Top
     cmdLoad.Top = cmdExecute.Top
@@ -424,7 +424,7 @@ Dim szTemp As String
   If iCmdSql < 0 Then Exit Sub
   ReDim Preserve szCmdSql(iCmdSql) As String
   
-  If Len(txtSQL.Text) = 0 Then
+  If Len(txtSql.Text) = 0 Then
     If Index = 1 Then
       'next
       szTemp = szCmdSql(0)
@@ -434,7 +434,7 @@ Dim szTemp As String
   Else
     szTemp = ""
     For ii = 0 To UBound(szCmdSql)
-      If szCmdSql(ii) = txtSQL.Text Then
+      If szCmdSql(ii) = txtSql.Text Then
         If Index = 1 Then
           'next
           If ii < UBound(szCmdSql) Then
@@ -461,7 +461,7 @@ Dim szTemp As String
       End If
     End If
   End If
-  txtSQL.Text = szTemp
+  txtSql.Text = szTemp
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.mnuLoadCmd_Click"

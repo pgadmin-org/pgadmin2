@@ -149,10 +149,10 @@ Begin VB.Form frmFunction
       TabCaption(3)   =   "&Security"
       TabPicture(3)   =   "frmFunction.frx":2CF8
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lvProperties(1)"
-      Tab(3).Control(1)=   "fraAdd"
-      Tab(3).Control(2)=   "cmdAddPrivilege"
-      Tab(3).Control(3)=   "cmdRemovePrivilege"
+      Tab(3).Control(0)=   "cmdRemovePrivilege"
+      Tab(3).Control(1)=   "cmdAddPrivilege"
+      Tab(3).Control(2)=   "fraAdd"
+      Tab(3).Control(3)=   "lvProperties(1)"
       Tab(3).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -746,6 +746,7 @@ Dim szAccess() As String
   szNamespace = szNS
   
   PatchForm Me
+  hbxProperties(1).Wordlist = ctx.AutoHighlight
   
   'Unlock the edittable fields
   If ctx.dbVer >= 7.3 Then
