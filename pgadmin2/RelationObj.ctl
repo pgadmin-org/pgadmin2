@@ -372,9 +372,166 @@ If Not frmMain.svr Is Nothing Then frmMain.svr.LogEvent "Entering " & App.Title 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.UserControl_Resize"
 End Sub
 
+'verify if join exists
+Private Function JoinExists(IndexRelation1 As Integer, IndexElementRelation1 As Integer, IndexRelation2 As Integer, IndexElementRelation2 As Integer) As Boolean
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.JoinExists(" & IndexRelation1 & "," & IndexElementRelation1 & "," & IndexRelation2 & "," & IndexElementRelation2 & ")", etFullDebug
+
+Dim iJoinNum As Integer
+Dim bJoin1 As Boolean
+Dim bJoin2 As Boolean
+
+  JoinExists = False
+  For iJoinNum = 0 To UBound(JoinRelation)
+    If JoinRelation(iJoinNum).Enable Then
+      With JoinRelation(iJoinNum)
+        With .Join1
+          bJoin1 = (.Index = IndexRelation1 And .ColumnIndex = IndexElementRelation1)
+        End With
+        With .Join2
+          bJoin2 = (.Index = IndexRelation2 And .ColumnIndex = IndexElementRelation2)
+        End With
+        If bJoin1 And bJoin2 Then
+          MsgBox §§TrasLang§§("Join already exists"), vbExclamation, §§TrasLang§§("Error")
+          JoinExists = True
+          Exit Function
+        End If
+      End With
+    End If
+  Next
+  Exit Function
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.JoinExists"
+End Function
+
+'find relation by name
+Public Sub FindRelation(ByVal RelationName As String, ByRef IndexRelation As Integer, Optional ElementRelation As String = "", Optional ByRef IndexElementRelation As Integer)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.FindRelation(" & QUOTE & RelationName & QUOTE & ")", etFullDebug
+
+Dim ii As Integer
+Dim ijj As Integer
+
+  IndexRelation = -1
+  For ii = 0 To UBound(DataRelation)
+    With DataRelation(ii)
+      If .Enable And .Name = RelationName Then
+        IndexRelation = ii
+        
+        If Len(ElementRelation) > 0 Then
+          IndexElementRelation = -1
+          For ijj = 0 To lstDataRelation(IndexRelation).ListCount
+            If lstDataRelation(IndexRelation).List(ijj) = ElementRelation Then
+              IndexElementRelation = ijj
+              Exit For
+            End If
+          Next
+        End If
+        Exit For
+      End If
+    End With
+  Next
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.FindRelation"
+End Sub
+
+Public Sub AddJoin(RelationName1 As String, ElementRelation1 As String, RelationName2 As String, ElementRelation2 As String)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.AddJoin(" & QUOTE & RelationName1 & QUOTE & "," & QUOTE & ElementRelation1 & QUOTE & "," & QUOTE & RelationName2 & QUOTE & "," & QUOTE & ElementRelation2 & QUOTE & ")", etFullDebug
+
+Dim iIndexRelation1 As Integer
+Dim iIndexElementRelation1 As Integer
+Dim iIndexRelation2 As Integer
+Dim iIndexElementRelation2 As Integer
+Dim iJoinNum As Integer
+Dim dPos As Double
+  
+  If RelationName1 = RelationName2 Then
+    MsgBox §§TrasLang§§("Relation 1 and 2 are equal!"), vbCritical, §§TrasLang§§("Error")
+    Exit Sub
+  End If
+  
+  'find relation
+  FindRelation RelationName1, iIndexRelation1, ElementRelation1, iIndexElementRelation1
+  If iIndexRelation1 < 0 Then
+    MsgBox §§TrasLang§§("Relation: ") & RelationName1 & §§TrasLang§§(" not found!"), vbCritical, §§TrasLang§§("Error")
+    Exit Sub
+  End If
+  If iIndexElementRelation1 < 0 Then
+    MsgBox §§TrasLang§§("Element relation : ") & ElementRelation1 & §§TrasLang§§(" not found!"), vbCritical, , §§TrasLang§§("Error")
+    Exit Sub
+  End If
+  
+  FindRelation RelationName2, iIndexRelation2, ElementRelation2, iIndexElementRelation2
+  If iIndexRelation2 < 0 Then
+    MsgBox §§TrasLang§§("Relation: ") & RelationName2 & §§TrasLang§§(" not found!"), vbCritical, §§TrasLang§§("Error")
+    Exit Sub
+  End If
+  If iIndexElementRelation2 < 0 Then
+    MsgBox §§TrasLang§§("Element relation : ") & ElementRelation2 & §§TrasLang§§(" not found!"), vbCritical, §§TrasLang§§("Error")
+    Exit Sub
+  End If
+  
+  'verify if join exists
+  If JoinExists(iIndexRelation1, iIndexElementRelation1, iIndexRelation2, iIndexElementRelation2) Then Exit Sub
+
+  'create new join
+  iJoinNum = UBound(JoinRelation) + 1
+  ReDim Preserve JoinRelation(iJoinNum) As RelationJoin
+  With JoinRelation(iJoinNum)
+    .Enable = True
+    With .Join1
+      .Index = iIndexRelation1
+      .ColumnIndex = iIndexElementRelation1
+      .RectRelation.Left = lstDataRelation(.Index).Left
+      .RectRelation.Top = lstDataRelation(.Index).Top
+      .RectImage.Left = lstDataRelation(.Index).Left + lstDataRelation(.Index).Width
+      dPos = ((lstDataRelation(.Index).Height / 10) * iIndexElementRelation1) + lstDataRelation(.Index).Top + 100
+      .RectImage.Top = dPos
+      .InitailRectImage = .RectImage
+    End With
+    
+    With .Join2
+      .Index = iIndexRelation2
+      .ColumnIndex = iIndexElementRelation2
+      .RectRelation.Left = lstDataRelation(.Index).Left
+      .RectRelation.Top = lstDataRelation(.Index).Top
+      .RectImage.Left = lstDataRelation(.Index).Left + lstDataRelation(.Index).Width
+      dPos = ((lstDataRelation(.Index).Height / 10) * iIndexElementRelation2) + lstDataRelation(.Index).Top + 100
+      .RectImage.Top = dPos
+      .InitailRectImage = .RectImage
+    End With
+  End With
+  
+  'set image join
+  Load ImgJoin1(iJoinNum)
+  With ImgJoin1(iJoinNum)
+    .Picture = picColor.Image
+    .Visible = True
+    .ZOrder
+  End With
+  
+  Load ImgJoin2(iJoinNum)
+  With ImgJoin2(iJoinNum)
+    .Picture = picColor.Image
+    .Visible = True
+    .ZOrder
+  End With
+
+  SetPositionImg (iJoinNum)
+  DrawLines
+  
+  lstDataRelation_Scroll iIndexRelation1
+  lstDataRelation_Scroll iIndexRelation2
+
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.AddJoin"
+End Sub
+
 Public Sub AddElement(Name As String, Tag As String, ToolTipText As String, DataRel As Variant)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.AddElement(" & QUOTE & Name & QUOTE & "," & QUOTE & Tag & QUOTE & "," & QUOTE & ToolTipText & QUOTE & "," & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.AddElement(" & QUOTE & Name & QUOTE & "," & QUOTE & Tag & QUOTE & "," & QUOTE & ToolTipText & QUOTE & ")", etFullDebug
 
 Dim iNumRelation As Integer
 Dim szName As String
@@ -383,14 +540,14 @@ Dim ii As Integer
   szName = Name
   'verify valid name relation
   If Not IsValidName(szName) Then
-    MsgBox "Relation name not valid!", vbApplicationModal + vbExclamation
+    MsgBox §§TrasLang§§("Relation name not valid!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   
 LoopName:
   'verify if relation exists
   If RelationExists(szName) Then
-    szName = InputBox("Change name", "Insert alternate name", szName)
+    szName = InputBox(§§TrasLang§§("Change name"), §§TrasLang§§("Insert alternate name"), szName)
     If Len(szName) = 0 Then Exit Sub
     GoTo LoopName
   End If
@@ -549,89 +706,15 @@ Dim ii As Integer
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.DrawLines"
 End Sub
 
- 
 Private Sub lstDataRelation_DragDrop(Index As Integer, Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_DragDrop(" & Index & "," & QUOTE & Source.Name & QUOTE & "," & X & "," & Y & ")", etFullDebug
 
-Dim iJoinNum As Integer
-Dim bJoin1 As Boolean
-Dim bJoin2 As Boolean
-  
   If szDragItem = "fraRelation" Then
     UserControl_DragDrop Source, lstDataRelation(Index).Left + X, lstDataRelation(Index).Top + Y
   ElseIf szDragItem = "imgDrag" And Index <> iCurDragNumber Then
-    If sOldX > X + lstDataRelation(Index).Left Then
-      X = lstDataRelation(Index).Left + lstDataRelation(Index).Width
-      sOldX = sOldX - lstDataRelation(iCurDragNumber).Width - 252
-    Else
-      X = lstDataRelation(Index).Left - 252
-    End If
-    Y = Y + lstDataRelation(Index).Top - 100
-
-    'verify if join exists
-    For iJoinNum = 0 To UBound(JoinRelation)
-      If JoinRelation(iJoinNum).Enable Then
-        With JoinRelation(iJoinNum)
-          With .Join1
-            bJoin1 = ((.Index = Index Or .Index = iCurDragNumber) And _
-                      (.ColumnIndex = lstDataRelation(.Index).ListIndex))
-          End With
-          With .Join2
-            bJoin2 = ((.Index = Index Or .Index = iCurDragNumber) And _
-                      (.ColumnIndex = lstDataRelation(.Index).ListIndex))
-          End With
-          If bJoin1 And bJoin2 Then
-            MsgBox "Join already exists", vbApplicationModal + vbExclamation
-            Exit Sub
-          End If
-        End With
-      End If
-    Next
-    
-    'create new join
-    iJoinNum = UBound(JoinRelation) + 1
-    ReDim Preserve JoinRelation(iJoinNum) As RelationJoin
-    With JoinRelation(iJoinNum)
-      .Enable = True
-      With .Join1
-        .Index = Index
-        .ColumnIndex = lstDataRelation(.Index).ListIndex
-        .RectRelation.Left = lstDataRelation(.Index).Left
-        .RectRelation.Top = lstDataRelation(.Index).Top
-        .RectImage.Left = X
-        .RectImage.Top = Y
-        .InitailRectImage = .RectImage
-      End With
-      
-      With .Join2
-        .Index = iCurDragNumber
-        .ColumnIndex = lstDataRelation(.Index).ListIndex
-        .RectRelation.Left = lstDataRelation(.Index).Left
-        .RectRelation.Top = lstDataRelation(.Index).Top
-        .RectImage.Left = sOldX
-        .RectImage.Top = sOldY
-        .InitailRectImage = .RectImage
-      End With
-    End With
-    
-    'set image join
-    Load ImgJoin1(iJoinNum)
-    With ImgJoin1(iJoinNum)
-      .Picture = picColor.Image
-      .Visible = True
-      .ZOrder
-    End With
-    
-    Load ImgJoin2(iJoinNum)
-    With ImgJoin2(iJoinNum)
-      .Picture = picColor.Image
-      .Visible = True
-      .ZOrder
-    End With
-  
-    SetPositionImg (iJoinNum)
-    DrawLines
+    'add join
+    AddJoin DataRelation(Index).Name, lstDataRelation(Index).Text, DataRelation(iCurDragNumber).Name, lstDataRelation(iCurDragNumber).Text
   End If
   Exit Sub
 
@@ -695,13 +778,19 @@ Dim ii As Integer
       If .Enable Then
         If .Join1.Index = Index Then
           If .Join1.InitailRectImage.Top - (210 * lstDataRelation(Index).TopIndex) > lstDataRelation(Index).Top - 240 Then
-            .Join1.RectImage.Top = .Join1.InitailRectImage.Top - (210 * (lstDataRelation(Index).TopIndex))
+            .Join1.RectImage.Top = .Join1.InitailRectImage.Top - (210 * lstDataRelation(Index).TopIndex)
             If .Join1.RectImage.Top < lstDataRelation(Index).Top Then .Join1.RectImage.Top = lstDataRelation(Index).Top
+          End If
+          If .Join1.RectImage.Top > lstDataRelation(Index).Top + lstDataRelation(Index).Height - 100 Then
+            .Join1.RectImage.Top = lstDataRelation(Index).Top + lstDataRelation(Index).Height - 100
           End If
         ElseIf .Join2.Index = Index Then
           If .Join2.InitailRectImage.Top - (210 * lstDataRelation(Index).TopIndex) > lstDataRelation(Index).Top - 240 Then
-            .Join2.RectImage.Top = .Join2.InitailRectImage.Top - (210 * (lstDataRelation(Index).TopIndex))
+            .Join2.RectImage.Top = .Join2.InitailRectImage.Top - (210 * lstDataRelation(Index).TopIndex)
             If .Join2.RectImage.Top < lstDataRelation(Index).Top Then .Join2.RectImage.Top = lstDataRelation(Index).Top
+          End If
+          If .Join2.RectImage.Top > lstDataRelation(Index).Top + lstDataRelation(Index).Height - 100 Then
+            .Join2.RectImage.Top = lstDataRelation(Index).Top + lstDataRelation(Index).Height - 100
           End If
         End If
       End If
@@ -734,7 +823,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.VScroll_Scroll()", 
 Dim objCtrl As Control
 Dim ii As Integer
 Static iCurrScrollV As Integer
-
 
   For Each objCtrl In Controls
     If objCtrl.Name = "fraRelation" Or objCtrl.Name = "lstDataRelation" Then
@@ -906,10 +994,8 @@ Private Sub mnuActionJoinDelete_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.mnuActionJoinDelete_Click()", etFullDebug
 
-  If MsgBox("Are you sure you wish to drop the join?", vbSystemModal + vbYesNo + vbQuestion, "Drop join") = vbNo Then Exit Sub
-  JoinRelation(iJoinIndexAction).Enable = False
-  ImgJoin1(iJoinIndexAction).Visible = False
-  ImgJoin2(iJoinIndexAction).Visible = False
+  If MsgBox(§§TrasLang§§("Are you sure you wish to drop the join?"), vbYesNo + vbQuestion, §§TrasLang§§("Drop join")) = vbNo Then Exit Sub
+  RemoveJoin iJoinIndexAction
   DrawJoins
   Exit Sub
 
@@ -933,30 +1019,51 @@ Private Sub mnuActionRelationDelete_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.mnuActionJoinRelationDelete_Click()", etFullDebug
 
+  If MsgBox(§§TrasLang§§("Are you sure you wish to drop the relation?"), vbYesNo + vbQuestion, §§TrasLang§§("Drop relation")) = vbNo Then Exit Sub
+  RemoveRelation iRelationIndexAction
+  DrawJoins
+  
+  RaiseEvent RemoveRelation(DataRelation(iRelationIndexAction).Name, DataRelation(iRelationIndexAction).Tag)
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.mnuActionJoinRelationDelete_Click"
+End Sub
+
+Private Sub RemoveRelation(Index As Integer)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.RemoveRelation(" & Index & ")", etFullDebug
+  
 Dim ii As Integer
 
-  If MsgBox("Are you sure you wish to drop the relation?", vbSystemModal + vbYesNo + vbQuestion, "Drop relation") = vbNo Then Exit Sub
-  DataRelation(iRelationIndexAction).Enable = False
-  fraRelation(iRelationIndexAction).Visible = False
-  lstDataRelation(iRelationIndexAction).Visible = False
+  DataRelation(Index).Enable = False
+  fraRelation(Index).Visible = False
+  lstDataRelation(Index).Visible = False
   
   'disable join relation
   For ii = 1 To UBound(JoinRelation)
     With JoinRelation(ii)
       If .Enable Then
-        If .Join1.Index = iRelationIndexAction Or .Join2.Index = iRelationIndexAction Then
-          JoinRelation(ii).Enable = False
-          ImgJoin1(ii).Visible = False
-          ImgJoin2(ii).Visible = False
+        If .Join1.Index = Index Or .Join2.Index = Index Then
+          RemoveJoin ii
         End If
       End If
     End With
   Next
-  DrawJoins
-  RaiseEvent RemoveRelation(DataRelation(iRelationIndexAction).Name, DataRelation(iRelationIndexAction).Tag)
   Exit Sub
 
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.mnuActionJoinRelationDelete_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.RemoveRelation"
+End Sub
+
+Private Sub RemoveJoin(Index As Integer)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.RemoveJoin(" & Index & ")", etFullDebug
+  
+  JoinRelation(Index).Enable = False
+  ImgJoin1(Index).Visible = False
+  ImgJoin2(Index).Visible = False
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.RemoveJoin"
 End Sub
 
 'rename relation
@@ -970,37 +1077,24 @@ Dim szOldName As String
   
   szOldName = DataRelation(iRelationIndexAction).Name
   Do
-    szTemp = InputBox("Insert new name for relation " & DataRelation(iRelationIndexAction).Name, "Rename relation", DataRelation(iRelationIndexAction).Name)
+    szTemp = InputBox(§§TrasLang§§("Insert new name for relation ") & DataRelation(iRelationIndexAction).Name, §§TrasLang§§("Rename relation"), DataRelation(iRelationIndexAction).Name)
     If Len(szTemp) = 0 Then Exit Sub
   
     'verify valid name relation
     If Not IsValidName(szTemp) Then
-      MsgBox "New name not valid!", vbApplicationModal + vbExclamation
+      MsgBox §§TrasLang§§("New name not valid!"), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   
     If szTemp = DataRelation(iRelationIndexAction).Name Then
-      MsgBox "Old name and new name is equal!", vbApplicationModal + vbExclamation
+      MsgBox §§TrasLang§§("Old name and new name is equal!"), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Loop While RelationExists(szTemp)   'verify if relation exists
   
-  If MsgBox("Are you sure you wish to rename the relation?", vbSystemModal + vbYesNo + vbQuestion, "Drop relation") = vbNo Then Exit Sub
+  If MsgBox(§§TrasLang§§("Are you sure you wish to rename the relation?"), vbYesNo + vbQuestion, §§TrasLang§§("Rename relation")) = vbNo Then Exit Sub
   DataRelation(iRelationIndexAction).Name = szTemp
   fraRelation(iRelationIndexAction).Caption = szTemp
-  
-  'disable join relation
-  For ii = 1 To UBound(JoinRelation)
-    With JoinRelation(ii)
-      If .Enable Then
-        If .Join1.Index = iRelationIndexAction Or .Join2.Index = iRelationIndexAction Then
-          JoinRelation(ii).Enable = False
-          ImgJoin1(ii).Visible = False
-          ImgJoin2(ii).Visible = False
-        End If
-      End If
-    End With
-  Next
   DrawJoins
   
   RaiseEvent RenameRelation(szOldName, DataRelation(iRelationIndexAction).Name)
@@ -1099,3 +1193,54 @@ Dim szTemp As String
 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.GetJoinRelation"
 End Function
+
+'clear all
+Public Sub Clear()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.Clear()", etFullDebug
+
+Dim ii As Integer
+  
+  ReDim JoinRelation(0) As RelationJoin
+  ReDim DataRelation(0) As RelationData
+  
+  'remove object
+  For ii = 1 To lstDataRelation.Count - 1
+    Unload lstDataRelation(ii)
+  Next
+  For ii = 1 To fraRelation.Count - 1
+    Unload fraRelation(ii)
+  Next
+  For ii = 1 To ImgJoin1.Count - 1
+    Unload ImgJoin1(ii)
+  Next
+  For ii = 1 To ImgJoin2.Count - 1
+    Unload ImgJoin2(ii)
+  Next
+  
+  'clear flex grid
+  If FGridCompose.Visible Then
+    FGridCompose.Clear
+  End If
+
+  DrawJoins
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.Clear"
+End Sub
+
+Public Property Set Font(ByVal objData As StdFont)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":Property Set RelationObj.Font()", etFullDebug
+
+Dim objCtrl As Control
+  
+  Set UserControl.Font = objData
+  On Error Resume Next
+  For Each objCtrl In UserControl.Controls
+    Set objCtrl.Font = objData
+  Next
+  Exit Property
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":Property Set RelationObj.Font"
+End Property
