@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmSplash 
    BorderStyle     =   0  'None
-   ClientHeight    =   3750
+   ClientHeight    =   4500
    ClientLeft      =   210
    ClientTop       =   1365
-   ClientWidth     =   5250
+   ClientWidth     =   7500
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    Icon            =   "frmSplash.frx":0000
@@ -12,22 +12,23 @@ Begin VB.Form frmSplash
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   3750
-   ScaleWidth      =   5250
+   ScaleHeight     =   4500
+   ScaleWidth      =   7500
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.PictureBox picLogo 
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None
-      Height          =   3750
+      Height          =   4500
       Left            =   0
       Picture         =   "frmSplash.frx":000C
-      ScaleHeight     =   3750
-      ScaleWidth      =   5250
+      ScaleHeight     =   4500
+      ScaleWidth      =   7500
       TabIndex        =   0
       Top             =   0
-      Width           =   5250
+      Width           =   7500
       Begin VB.Label lblVersion 
+         Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Version"
@@ -40,22 +41,23 @@ Begin VB.Form frmSplash
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H00FFFFC0&
+         ForeColor       =   &H00800000&
          Height          =   300
-         Left            =   135
+         Left            =   3645
          TabIndex        =   2
-         Top             =   2745
-         Width           =   930
+         Top             =   1935
+         Width           =   3495
       End
       Begin VB.Label lblCopyright 
+         Alignment       =   1  'Right Justify
          BackStyle       =   0  'Transparent
          Caption         =   "Copyright"
-         ForeColor       =   &H00FFC0FF&
-         Height          =   465
-         Left            =   135
+         ForeColor       =   &H00C000C0&
+         Height          =   420
+         Left            =   2970
          TabIndex        =   1
-         Top             =   3105
-         Width           =   4965
+         Top             =   4005
+         Width           =   4110
       End
    End
 End
