@@ -544,7 +544,7 @@ Dim szSQL As String
           
   If bCycled Then szSQL = szSQL & " CYCLE"
   szSQL = szSQL & ";" & vbCrLf
-  If Not Reset Then szSQL = szSQL & "SELECT setval('" & dbSZ(szName) & "', " & LastValue & ");" & vbCrLf
+  If Not Reset Then szSQL = szSQL & "SELECT setval('" & QUOTE & dbSZ(szName) & QUOTE & "', " & LastValue & ");" & vbCrLf
   
   If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON SEQUENCE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
