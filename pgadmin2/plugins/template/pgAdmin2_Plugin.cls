@@ -13,7 +13,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 
 Option Explicit
 

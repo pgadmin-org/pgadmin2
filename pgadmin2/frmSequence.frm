@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -520,7 +520,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmSequence.frm - Edit/Create a Sequence
 
@@ -726,7 +726,7 @@ Dim szAccess() As String
     End If
     
     txtProperties(0).Text = objSequence.Name
-    txtProperties(1).Text = objSequence.OID
+    txtProperties(1).Text = objSequence.Oid
     txtProperties(2).Text = objSequence.LastValue
     txtProperties(3).Text = objSequence.Minimum
     txtProperties(4).Text = objSequence.Maximum

@@ -224,7 +224,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmCast.frm - Edit/Create a Cast
 
@@ -273,7 +273,7 @@ Dim objType As pgType
     bNew = False
     
     Me.Caption = "Cast: " & objCast.Identifier
-    txtProperties(0).Text = objCast.OID
+    txtProperties(0).Text = objCast.Oid
     cboProperties(0).ComboItems.Add , , fmtID(objCast.Source), "type"
     cboProperties(0).ComboItems(1).Selected = True
     cboProperties(1).ComboItems.Add , , fmtID(objCast.Target), "type"

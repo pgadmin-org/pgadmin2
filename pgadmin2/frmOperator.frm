@@ -116,19 +116,19 @@ Begin VB.Form frmOperator
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmOperator.frx":1E7E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "chkProperties(0)"
-      Tab(1).Control(1)=   "cboProperties(4)"
-      Tab(1).Control(2)=   "cboProperties(5)"
-      Tab(1).Control(3)=   "cboProperties(6)"
-      Tab(1).Control(4)=   "cboProperties(7)"
-      Tab(1).Control(5)=   "cboProperties(8)"
+      Tab(1).Control(0)=   "lblProperties(8)"
+      Tab(1).Control(1)=   "lblProperties(9)"
+      Tab(1).Control(2)=   "lblProperties(10)"
+      Tab(1).Control(3)=   "lblProperties(11)"
+      Tab(1).Control(4)=   "lblProperties(12)"
+      Tab(1).Control(5)=   "lblProperties(13)"
       Tab(1).Control(6)=   "cboProperties(9)"
-      Tab(1).Control(7)=   "lblProperties(13)"
-      Tab(1).Control(8)=   "lblProperties(12)"
-      Tab(1).Control(9)=   "lblProperties(11)"
-      Tab(1).Control(10)=   "lblProperties(10)"
-      Tab(1).Control(11)=   "lblProperties(9)"
-      Tab(1).Control(12)=   "lblProperties(8)"
+      Tab(1).Control(7)=   "cboProperties(8)"
+      Tab(1).Control(8)=   "cboProperties(7)"
+      Tab(1).Control(9)=   "cboProperties(6)"
+      Tab(1).Control(10)=   "cboProperties(5)"
+      Tab(1).Control(11)=   "cboProperties(4)"
+      Tab(1).Control(12)=   "chkProperties(0)"
       Tab(1).ControlCount=   13
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -515,7 +515,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmOperator.frm - Edit/Create a Operator
 
@@ -699,7 +699,7 @@ Dim vArgument As Variant
 
     Me.Caption = "Operator: " & objOperator.Identifier
     txtProperties(0).Text = objOperator.Name
-    txtProperties(1).Text = objOperator.OID
+    txtProperties(1).Text = objOperator.Oid
     txtProperties(2).Text = objOperator.Owner
     txtProperties(3).Text = objOperator.Kind
     Set objItem = cboProperties(2).ComboItems.Add(, , objOperator.OperatorFunction, "function")

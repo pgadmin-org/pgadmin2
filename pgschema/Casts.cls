@@ -13,7 +13,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 ' pgSchema - PostgreSQL Schema Objects
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 
 Option Explicit
 
@@ -118,7 +118,7 @@ Dim szSQL As String
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = dOID
+  objNewMember.Oid = dOID
   objNewMember.Source = szSource
   objNewMember.Target = szTarget
   objNewMember.Funct = szFunc

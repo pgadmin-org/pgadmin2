@@ -142,23 +142,23 @@ Begin VB.Form frmDatabase
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmDatabase.frx":4578
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1"
-      Tab(1).Control(1)=   "Label2"
-      Tab(1).Control(2)=   "lvProperties(0)"
-      Tab(1).Control(3)=   "cmdRemoveVar"
+      Tab(1).Control(0)=   "cboVarValue"
+      Tab(1).Control(1)=   "cmdCurrVal"
+      Tab(1).Control(2)=   "cboVarName"
+      Tab(1).Control(3)=   "txtVarValue"
       Tab(1).Control(4)=   "cmdAddVar"
-      Tab(1).Control(5)=   "txtVarValue"
-      Tab(1).Control(6)=   "cboVarName"
-      Tab(1).Control(7)=   "cmdCurrVal"
-      Tab(1).Control(8)=   "cboVarValue"
+      Tab(1).Control(5)=   "cmdRemoveVar"
+      Tab(1).Control(6)=   "lvProperties(0)"
+      Tab(1).Control(7)=   "Label2"
+      Tab(1).Control(8)=   "Label1"
       Tab(1).ControlCount=   9
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmDatabase.frx":4594
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdRemove"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "fraAdd"
-      Tab(2).Control(3)=   "lvProperties(1)"
+      Tab(2).Control(0)=   "lvProperties(1)"
+      Tab(2).Control(1)=   "fraAdd"
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(3)=   "cmdRemove"
       Tab(2).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboVarValue 
          Height          =   330
@@ -563,7 +563,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmDatabase.frm - Edit/Create a Database
 
@@ -860,7 +860,7 @@ Dim objDb As pgDatabase
       hbxProperties(0).Locked = False
     End If
     txtProperties(0).Text = objDatabase.Name
-    txtProperties(1).Text = objDatabase.OID
+    txtProperties(1).Text = objDatabase.Oid
     txtProperties(2).Text = objDatabase.Owner
     Set objItem = cboProperties(0).ComboItems.Add(, , objDatabase.ServerEncoding, "encoding", "encoding")
     objItem.Selected = True

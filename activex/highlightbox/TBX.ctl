@@ -57,7 +57,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 ' HBX - Auto Highlighting Expanding text box
 ' Copyright (C) 2001, 2002, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 
 Option Explicit
 

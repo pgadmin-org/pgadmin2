@@ -45,11 +45,11 @@ Begin VB.Form frmExport
       TabCaption(1)   =   "&Substitution Map"
       TabPicture(1)   =   "frmExport.frx":0326
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdDelete"
-      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(0)=   "lvSubMap"
+      Tab(1).Control(1)=   "txtSearch"
       Tab(1).Control(2)=   "txtReplace"
-      Tab(1).Control(3)=   "txtSearch"
-      Tab(1).Control(4)=   "lvSubMap"
+      Tab(1).Control(3)=   "cmdAdd"
+      Tab(1).Control(4)=   "cmdDelete"
       Tab(1).ControlCount=   5
       Begin VB.CommandButton cmdDelete 
          Caption         =   "&Delete Substitution"
@@ -270,7 +270,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 
 Option Explicit
 Public szDelimiter As String

@@ -25,14 +25,6 @@
   all</b> connections to a database before issuing the 'DROP DATABASE' 
   statement, hence the DROP fails.<br>
   &nbsp;</li>
-  <li>If you attempt to view the data in pg_index or pg_trigger you are likely to get an error
-  like:<br><br>
-  <i>PGADMIN2 caused an invalid page fault in module MSADRH15.DLL at 016f:1f541588.</i><br><br>
-  As far as I can tell, this is a bug in ADO that occurs in frmSQLOutput:RefreshData at the line<br><br>
-  <i>Select Case rsSQL.Fields(X).Type</i><br><br>
-  Reasons for this error are completely unknown as it is almost certainly a Microsoft bug.
-  &nbsp;<br>
-&nbsp;</li>
   <li>The Publishing Wizard should drop objects in reverse order otherwise it 
   will fail with inherited tables.<br>
 &nbsp;</li>

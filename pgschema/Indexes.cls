@@ -13,7 +13,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 ' pgSchema - PostgreSQL Schema Objects
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 
 Option Explicit
 
@@ -178,7 +178,7 @@ Dim objNewMember As pgIndex
 
   'Create a new object
   Set objNewMember = New pgIndex
-  objNewMember.OID = dOID
+  objNewMember.Oid = dOID
   objNewMember.iName = szName
   objNewMember.Table = szTable
   objNewMember.Unique = bUnique
@@ -283,7 +283,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Sequences.Rename(" & QUOTE & Old
   objIndex.Identifier = NewName
 
   'Select definition back from the DB...
-  szSQL = "SELECT pg_get_indexdef(" & objIndex.OID & "::oid) AS definition"
+  szSQL = "SELECT pg_get_indexdef(" & objIndex.Oid & "::oid) AS definition"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     objIndex.Definition = rs!Definition & ""

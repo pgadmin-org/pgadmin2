@@ -255,7 +255,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmConversion.frm - Edit/Create a Conversion
 
@@ -329,7 +329,7 @@ Dim vData
     
     Me.Caption = "Conversion: " & objConversion.Identifier
     txtProperties(0).Text = objConversion.Name
-    txtProperties(1).Text = objConversion.OID
+    txtProperties(1).Text = objConversion.Oid
     txtProperties(2).Text = objConversion.Owner
     
     cboProperties(0).ComboItems.Add , , objConversion.ForEncoding, "encoding", "encoding"

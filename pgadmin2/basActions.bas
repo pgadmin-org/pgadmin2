@@ -1,7 +1,7 @@
 Attribute VB_Name = "basActions"
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' basActions.bas - Things that we do to objects (for want of a better description!)
 

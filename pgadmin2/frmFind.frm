@@ -1,17 +1,17 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmFind 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Find Object"
-   ClientHeight    =   7524
-   ClientLeft      =   2232
-   ClientTop       =   1572
+   ClientHeight    =   7515
+   ClientLeft      =   2235
+   ClientTop       =   1575
    ClientWidth     =   9840
    Icon            =   "frmFind.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7524
+   ScaleHeight     =   7515
    ScaleWidth      =   9840
    Begin VB.CheckBox chkOnlyOid 
       Caption         =   "Find only for &Oid"
@@ -65,8 +65,8 @@ Begin VB.Form frmFind
          ToolTipText     =   "What columns should be included in the results?"
          Top             =   240
          Width           =   4452
-         _ExtentX        =   7853
-         _ExtentY        =   1503
+         _ExtentX        =   7858
+         _ExtentY        =   1508
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -120,14 +120,14 @@ Begin VB.Form frmFind
          Width           =   3375
       End
       Begin MSComctlLib.ImageCombo cboDatabase 
-         Height          =   300
+         Height          =   330
          Left            =   1200
          TabIndex        =   0
          ToolTipText     =   "Select a database to search."
-         Top             =   276
-         Width           =   3372
-         _ExtentX        =   5948
-         _ExtentY        =   529
+         Top             =   270
+         Width           =   3375
+         _ExtentX        =   5953
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
@@ -135,14 +135,14 @@ Begin VB.Form frmFind
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboSearchFor 
-         Height          =   300
+         Height          =   330
          Left            =   1200
          TabIndex        =   5
          ToolTipText     =   "What search type should be used?"
          Top             =   2640
-         Width           =   3372
-         _ExtentX        =   5948
-         _ExtentY        =   529
+         Width           =   3375
+         _ExtentX        =   5953
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
@@ -157,7 +157,7 @@ Begin VB.Form frmFind
          Top             =   600
          Width           =   3420
          _ExtentX        =   6033
-         _ExtentY        =   1503
+         _ExtentY        =   1508
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -271,8 +271,8 @@ Begin VB.Form frmFind
          ToolTipText     =   "Select the object types to search for."
          Top             =   240
          Width           =   3516
-         _ExtentX        =   6202
-         _ExtentY        =   2074
+         _ExtentX        =   6191
+         _ExtentY        =   2064
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -301,8 +301,8 @@ Begin VB.Form frmFind
          ToolTipText     =   "Select the object owners whose objects will be searched."
          Top             =   1560
          Width           =   3516
-         _ExtentX        =   6202
-         _ExtentY        =   2074
+         _ExtentX        =   6191
+         _ExtentY        =   2064
          View            =   2
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -350,8 +350,8 @@ Begin VB.Form frmFind
    Begin MSComctlLib.ImageList il 
       Left            =   9000
       Top             =   120
-      _ExtentX        =   995
-      _ExtentY        =   995
+      _ExtentX        =   1005
+      _ExtentY        =   1005
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -489,7 +489,7 @@ Begin VB.Form frmFind
       Top             =   4680
       Width           =   9660
       _ExtentX        =   17039
-      _ExtentY        =   4890
+      _ExtentY        =   4895
       View            =   3
       LabelEdit       =   1
       LabelWrap       =   -1  'True
@@ -513,7 +513,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmFind.frm - Find Object Database
 

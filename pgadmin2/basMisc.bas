@@ -1,7 +1,7 @@
 Attribute VB_Name = "basMisc"
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' basMisc.bas - Contains miscellaneous functions and subroutines.
 

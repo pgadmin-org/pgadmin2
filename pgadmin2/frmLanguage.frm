@@ -99,13 +99,13 @@ Begin VB.Form frmLanguage
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmLanguage.frx":15FE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "fraAdd"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
@@ -319,7 +319,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmLanguage.frm - Edit/Create a Language
 
@@ -510,7 +510,7 @@ Dim szAccess() As String
     cboProperties(0).BackColor = &H8000000F
     Me.Caption = "Language: " & objLanguage.Identifier
     txtProperties(0).Text = objLanguage.Name
-    txtProperties(1).Text = objLanguage.OID
+    txtProperties(1).Text = objLanguage.Oid
     Set objItem = cboProperties(0).ComboItems.Add(, , objLanguage.Handler, "function")
     objItem.Selected = True
     Set objItem = cboProperties(1).ComboItems.Add(, , objLanguage.Validator, "function")

@@ -1,18 +1,18 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmType 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Type"
-   ClientHeight    =   6876
-   ClientLeft      =   6264
-   ClientTop       =   552
+   ClientHeight    =   6870
+   ClientLeft      =   6270
+   ClientTop       =   555
    ClientWidth     =   5520
    Icon            =   "frmType.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6876
+   ScaleHeight     =   6870
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -48,19 +48,19 @@ Begin VB.Form frmType
       TabCaption(0)   =   "&Properties 1"
       TabPicture(0)   =   "frmType.frx":06C2
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "lblProperties(3)"
-      Tab(0).Control(1)=   "lblProperties(0)"
-      Tab(0).Control(2)=   "lblProperties(1)"
-      Tab(0).Control(3)=   "lblProperties(2)"
-      Tab(0).Control(4)=   "lblProperties(4)"
-      Tab(0).Control(5)=   "lblProperties(5)"
+      Tab(0).Control(0)=   "txtProperties(3)"
+      Tab(0).Control(1)=   "txtProperties(0)"
+      Tab(0).Control(2)=   "txtProperties(1)"
+      Tab(0).Control(3)=   "txtProperties(2)"
+      Tab(0).Control(4)=   "cboProperties(0)"
+      Tab(0).Control(5)=   "hbxProperties(0)"
       Tab(0).Control(6)=   "cboProperties(1)"
-      Tab(0).Control(7)=   "hbxProperties(0)"
-      Tab(0).Control(8)=   "cboProperties(0)"
-      Tab(0).Control(9)=   "txtProperties(2)"
-      Tab(0).Control(10)=   "txtProperties(1)"
-      Tab(0).Control(11)=   "txtProperties(0)"
-      Tab(0).Control(12)=   "txtProperties(3)"
+      Tab(0).Control(7)=   "lblProperties(5)"
+      Tab(0).Control(8)=   "lblProperties(4)"
+      Tab(0).Control(9)=   "lblProperties(2)"
+      Tab(0).Control(10)=   "lblProperties(1)"
+      Tab(0).Control(11)=   "lblProperties(0)"
+      Tab(0).Control(12)=   "lblProperties(3)"
       Tab(0).ControlCount=   13
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":06DE
@@ -166,15 +166,15 @@ Begin VB.Form frmType
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   0
-         Left            =   -73068
+         Left            =   -73065
          TabIndex        =   4
          ToolTipText     =   "The name of a function, created by CREATE FUNCTION, which converts data from its external form to the type's internal form."
-         Top             =   1848
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Top             =   1845
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -189,11 +189,11 @@ Begin VB.Form frmType
          ToolTipText     =   "Comments about the operator."
          Top             =   3105
          Width           =   5190
-         _ExtentX        =   9165
-         _ExtentY        =   5271
+         _ExtentX        =   9155
+         _ExtentY        =   5265
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   7.8
+            Size            =   8.25
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -203,15 +203,15 @@ Begin VB.Form frmType
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   1
-         Left            =   -73068
+         Left            =   -73065
          TabIndex        =   5
          ToolTipText     =   "The name of a function, created by CREATE FUNCTION, which converts data from its internal form to a form suitable for display."
-         Top             =   2256
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Top             =   2250
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -219,15 +219,15 @@ Begin VB.Form frmType
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   2
-         Left            =   1932
+         Left            =   1935
          TabIndex        =   11
          ToolTipText     =   "The type being created is an array; this specifies the type of the array elements."
          Top             =   1080
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -235,15 +235,15 @@ Begin VB.Form frmType
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   3
-         Left            =   1932
+         Left            =   1935
          TabIndex        =   14
          ToolTipText     =   "Storage alignment requirement of the data type."
-         Top             =   2256
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Top             =   2250
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -251,15 +251,15 @@ Begin VB.Form frmType
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   4
-         Left            =   1932
+         Left            =   1935
          TabIndex        =   15
          ToolTipText     =   "Storage technique for the data type. If specified, must be 'plain', 'external', 'extended', or 'main'; the default is 'plain'."
-         Top             =   2652
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Top             =   2655
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -380,8 +380,8 @@ Begin VB.Form frmType
    Begin MSComctlLib.ImageList il 
       Left            =   45
       Top             =   6300
-      _ExtentX        =   995
-      _ExtentY        =   995
+      _ExtentX        =   1005
+      _ExtentY        =   1005
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -411,7 +411,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmType.frm - Edit/Create a Type
 

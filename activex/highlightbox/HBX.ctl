@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
 Begin VB.UserControl HBX 
    ClientHeight    =   1065
    ClientLeft      =   0
@@ -19,6 +19,7 @@ Begin VB.UserControl HBX
       _ExtentY        =   661
       _Version        =   393217
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ScrollBars      =   3
       Appearance      =   0
       AutoVerbMenu    =   -1  'True
@@ -65,7 +66,7 @@ Attribute VB_Exposed = True
 Attribute VB_Ext_KEY = "PropPageWizardRun" ,"Yes"
 ' HBX - Auto Highlighting Expanding text box
 ' Copyright (C) 2001, 2002, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 
 Option Explicit
 

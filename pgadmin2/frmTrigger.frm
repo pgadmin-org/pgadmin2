@@ -322,7 +322,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmTrigger.frm - Edit/Create a Trigger
 
@@ -509,7 +509,7 @@ Dim objItem As ComboItem
     
     Me.Caption = "Trigger: " & objTrigger.Identifier
     txtProperties(0).Text = objTrigger.Name
-    txtProperties(1).Text = objTrigger.OID
+    txtProperties(1).Text = objTrigger.Oid
     Set objItem = cboProperties(0).ComboItems.Add(, , objTrigger.Table, "table")
     objItem.Selected = True
     Set objItem = cboProperties(1).ComboItems.Add(, , objTrigger.Executes, "trigger")

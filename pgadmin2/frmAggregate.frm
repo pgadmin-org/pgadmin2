@@ -361,7 +361,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmAggregate.frm - Edit/Create a Aggregate
 
@@ -526,7 +526,7 @@ Dim objItem As ComboItem
     
     Me.Caption = "Aggregate: " & objAggregate.Identifier
     txtProperties(0).Text = objAggregate.Name
-    txtProperties(1).Text = objAggregate.OID
+    txtProperties(1).Text = objAggregate.Oid
     txtProperties(2).Text = objAggregate.Owner
     Set objItem = cboProperties(0).ComboItems.Add(, , objAggregate.InputType, "type")
     objItem.Selected = True

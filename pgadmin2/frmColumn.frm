@@ -1,18 +1,18 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmColumn 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Column"
-   ClientHeight    =   6876
-   ClientLeft      =   4008
+   ClientHeight    =   6870
+   ClientLeft      =   4005
    ClientTop       =   1920
    ClientWidth     =   5520
    Icon            =   "frmColumn.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6876
+   ScaleHeight     =   6870
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -89,13 +89,13 @@ Begin VB.Form frmColumn
       TabCaption(1)   =   "&Properties 2"
       TabPicture(1)   =   "frmColumn.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(8)"
+      Tab(1).Control(0)=   "txtProperties(5)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lblProperties(1)"
+      Tab(1).Control(1)=   "cboProperties(2)"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cboProperties(2)"
+      Tab(1).Control(2)=   "lblProperties(1)"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "txtProperties(5)"
+      Tab(1).Control(3)=   "lblProperties(8)"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin VB.TextBox txtProperties 
@@ -201,12 +201,12 @@ Begin VB.Form frmColumn
          ToolTipText     =   "Comments about the column."
          Top             =   4800
          Width           =   5196
-         _ExtentX        =   9165
+         _ExtentX        =   9155
          _ExtentY        =   2434
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   7.8
+            Size            =   8.25
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -217,15 +217,15 @@ Begin VB.Form frmColumn
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   0
-         Left            =   1932
+         Left            =   1935
          TabIndex        =   2
          ToolTipText     =   "The table that the column will be part of."
          Top             =   1080
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -233,15 +233,15 @@ Begin VB.Form frmColumn
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   1
-         Left            =   1932
+         Left            =   1935
          TabIndex        =   4
          ToolTipText     =   "The data type of the column."
-         Top             =   1848
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Top             =   1845
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -249,15 +249,15 @@ Begin VB.Form frmColumn
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   300
+         Height          =   330
          Index           =   2
-         Left            =   -73044
+         Left            =   -73050
          TabIndex        =   21
          ToolTipText     =   "Storage technique for the data type. If specified, must be 'plain', 'external', 'extended', or 'main'; the default is 'plain'."
-         Top             =   1128
-         Width           =   3396
-         _ExtentX        =   5990
-         _ExtentY        =   529
+         Top             =   1125
+         Width           =   3405
+         _ExtentX        =   6006
+         _ExtentY        =   582
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -368,8 +368,8 @@ Begin VB.Form frmColumn
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6345
-      _ExtentX        =   995
-      _ExtentY        =   995
+      _ExtentX        =   1005
+      _ExtentY        =   1005
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -407,7 +407,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmColumn.frm - Edit/Create a Column
 

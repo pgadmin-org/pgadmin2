@@ -310,7 +310,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' frmIndex.frm - Edit/Create a Index
 
@@ -458,7 +458,7 @@ Dim vArgument As Variant
 
     Me.Caption = "Index: " & objIndex.Identifier
     txtProperties(0).Text = objIndex.Name
-    txtProperties(1).Text = objIndex.OID
+    txtProperties(1).Text = objIndex.Oid
     Set objItem = cboProperties(0).ComboItems.Add(, , objIndex.Table, "table")
     objItem.Selected = True
     Set objItem = cboProperties(1).ComboItems.Add(, , objIndex.IndexType, "index")

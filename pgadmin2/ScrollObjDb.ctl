@@ -1,11 +1,11 @@
 VERSION 5.00
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
 Begin VB.UserControl ScrollObjDb 
-   ClientHeight    =   372
+   ClientHeight    =   375
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   240
-   ScaleHeight     =   372
+   ScaleHeight     =   375
    ScaleWidth      =   240
    Begin MSComCtl2.UpDown UpDownObjDb 
       Height          =   375
@@ -14,7 +14,7 @@ Begin VB.UserControl ScrollObjDb
       Top             =   0
       Width           =   240
       _ExtentX        =   423
-      _ExtentY        =   656
+      _ExtentY        =   661
       _Version        =   393216
       Enabled         =   -1  'True
    End
@@ -26,7 +26,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 '
 ' ScrollObjDb.ctl - Scroll object database
 

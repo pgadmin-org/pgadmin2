@@ -142,62 +142,62 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":6BD1
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdObjectAll"
-      Tab(1).Control(1)=   "cmdObjectNone"
-      Tab(1).Control(2)=   "lvObjects"
-      Tab(1).Control(3)=   "lblInfo(1)"
+      Tab(1).Control(0)=   "lblInfo(1)"
+      Tab(1).Control(1)=   "lvObjects"
+      Tab(1).Control(2)=   "cmdObjectNone"
+      Tab(1).Control(3)=   "cmdObjectAll"
       Tab(1).ControlCount=   4
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":6BED
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
-      Tab(2).Control(1)=   "Picture1"
+      Tab(2).Control(0)=   "Picture1"
+      Tab(2).Control(1)=   "lblInfo(2)"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":6C09
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Picture2"
+      Tab(3).Control(0)=   "lblInfo(4)"
       Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "lblInfo(4)"
+      Tab(3).Control(1)=   "Picture2"
       Tab(3).Control(1).Enabled=   0   'False
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":6C25
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "txtHost"
+      Tab(4).Control(0)=   "Label1(4)"
       Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "txtPort"
+      Tab(4).Control(1)=   "Label1(3)"
       Tab(4).Control(1).Enabled=   0   'False
-      Tab(4).Control(2)=   "txtDatabase"
+      Tab(4).Control(2)=   "Label1(2)"
       Tab(4).Control(2).Enabled=   0   'False
-      Tab(4).Control(3)=   "txtPassword"
+      Tab(4).Control(3)=   "Label1(1)"
       Tab(4).Control(3).Enabled=   0   'False
-      Tab(4).Control(4)=   "txtUsername"
+      Tab(4).Control(4)=   "Label1(0)"
       Tab(4).Control(4).Enabled=   0   'False
-      Tab(4).Control(5)=   "cmdRemove"
+      Tab(4).Control(5)=   "lblInfo(3)"
       Tab(4).Control(5).Enabled=   0   'False
-      Tab(4).Control(6)=   "cmdAdd"
+      Tab(4).Control(6)=   "lvServers"
       Tab(4).Control(6).Enabled=   0   'False
-      Tab(4).Control(7)=   "lvServers"
+      Tab(4).Control(7)=   "cmdAdd"
       Tab(4).Control(7).Enabled=   0   'False
-      Tab(4).Control(8)=   "lblInfo(3)"
+      Tab(4).Control(8)=   "cmdRemove"
       Tab(4).Control(8).Enabled=   0   'False
-      Tab(4).Control(9)=   "Label1(0)"
+      Tab(4).Control(9)=   "txtUsername"
       Tab(4).Control(9).Enabled=   0   'False
-      Tab(4).Control(10)=   "Label1(1)"
+      Tab(4).Control(10)=   "txtPassword"
       Tab(4).Control(10).Enabled=   0   'False
-      Tab(4).Control(11)=   "Label1(2)"
+      Tab(4).Control(11)=   "txtDatabase"
       Tab(4).Control(11).Enabled=   0   'False
-      Tab(4).Control(12)=   "Label1(3)"
+      Tab(4).Control(12)=   "txtPort"
       Tab(4).Control(12).Enabled=   0   'False
-      Tab(4).Control(13)=   "Label1(4)"
+      Tab(4).Control(13)=   "txtHost"
       Tab(4).Control(13).Enabled=   0   'False
       Tab(4).ControlCount=   14
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":6C41
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lblInfo(5)"
-      Tab(5).Control(1)=   "fraStatus"
+      Tab(5).Control(0)=   "fraStatus"
+      Tab(5).Control(1)=   "lblInfo(5)"
       Tab(5).ControlCount=   2
       Begin VB.Frame fraStatus 
          Caption         =   "Status"
@@ -616,7 +616,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
 ' Copyright (C) 2001 - 2003, The pgAdmin Development Team
-' This software is released under the pgAdmin Public Licence
+' This software is released under the Artistic Licence
 
 Option Explicit
 Dim bButtonPress As Boolean
@@ -774,7 +774,7 @@ Dim cnPublish As New ADODB.Connection
   'Aggregates
   For Each vObject In lvDatabases.SelectedItem.Tag.Aggregates
     If Not vObject.SystemObject Then
-      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+      If lvObjects.ListItems("O" & vObject.Oid).Checked Then
         Set arrObjects(UBound(arrObjects)) = vObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
       End If
@@ -784,7 +784,7 @@ Dim cnPublish As New ADODB.Connection
   'Domains
   For Each vObject In lvDatabases.SelectedItem.Tag.Domains
     If Not vObject.SystemObject Then
-      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+      If lvObjects.ListItems("O" & vObject.Oid).Checked Then
         Set arrObjects(UBound(arrObjects)) = vObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
       End If
@@ -794,7 +794,7 @@ Dim cnPublish As New ADODB.Connection
   'Functions
   For Each vObject In lvDatabases.SelectedItem.Tag.Functions
     If Not vObject.SystemObject Then
-      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+      If lvObjects.ListItems("O" & vObject.Oid).Checked Then
         Set arrObjects(UBound(arrObjects)) = vObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
       End If
@@ -804,7 +804,7 @@ Dim cnPublish As New ADODB.Connection
   'Operators
   For Each vObject In lvDatabases.SelectedItem.Tag.Operators
     If Not vObject.SystemObject Then
-      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+      If lvObjects.ListItems("O" & vObject.Oid).Checked Then
         Set arrObjects(UBound(arrObjects)) = vObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
       End If
@@ -814,7 +814,7 @@ Dim cnPublish As New ADODB.Connection
   'Sequences
   For Each vObject In lvDatabases.SelectedItem.Tag.Sequences
     If Not vObject.SystemObject Then
-      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+      If lvObjects.ListItems("O" & vObject.Oid).Checked Then
         Set arrObjects(UBound(arrObjects)) = vObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
       End If
@@ -824,14 +824,14 @@ Dim cnPublish As New ADODB.Connection
   'Tables
   For Each vObject In lvDatabases.SelectedItem.Tag.Tables
     If Not vObject.SystemObject Then
-      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+      If lvObjects.ListItems("O" & vObject.Oid).Checked Then
         Set arrObjects(UBound(arrObjects)) = vObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
     
         'Indexes
         For Each vChildObject In vObject.Indexes
           If Not vObject.SystemObject Then
-            If lvObjects.ListItems("O" & vObject.OID).Checked Then
+            If lvObjects.ListItems("O" & vObject.Oid).Checked Then
               Set arrObjects(UBound(arrObjects)) = vChildObject
               ReDim Preserve arrObjects(UBound(arrObjects) + 1)
             End If
@@ -841,7 +841,7 @@ Dim cnPublish As New ADODB.Connection
         'Rules
         For Each vChildObject In vObject.Rules
           If Not vObject.SystemObject Then
-            If lvObjects.ListItems("O" & vObject.OID).Checked Then
+            If lvObjects.ListItems("O" & vObject.Oid).Checked Then
               Set arrObjects(UBound(arrObjects)) = vChildObject
               ReDim Preserve arrObjects(UBound(arrObjects) + 1)
             End If
@@ -851,7 +851,7 @@ Dim cnPublish As New ADODB.Connection
         'Triggers
         For Each vChildObject In vObject.Triggers
           If Not vObject.SystemObject Then
-            If lvObjects.ListItems("O" & vObject.OID).Checked Then
+            If lvObjects.ListItems("O" & vObject.Oid).Checked Then
               Set arrObjects(UBound(arrObjects)) = vChildObject
               ReDim Preserve arrObjects(UBound(arrObjects) + 1)
             End If
@@ -864,7 +864,7 @@ Dim cnPublish As New ADODB.Connection
   'Types
   For Each vObject In lvDatabases.SelectedItem.Tag.Types
     If Not vObject.SystemObject Then
-      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+      If lvObjects.ListItems("O" & vObject.Oid).Checked Then
         Set arrObjects(UBound(arrObjects)) = vObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
       End If
@@ -874,7 +874,7 @@ Dim cnPublish As New ADODB.Connection
   'Views
   For Each vObject In lvDatabases.SelectedItem.Tag.Views
     If Not vObject.SystemObject Then
-      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+      If lvObjects.ListItems("O" & vObject.Oid).Checked Then
         Set arrObjects(UBound(arrObjects)) = vObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
       End If
@@ -887,7 +887,7 @@ Dim cnPublish As New ADODB.Connection
   'Now bubble sort the array by OID.
   For X = UBound(arrObjects) To LBound(arrObjects) Step -1
     For Y = LBound(arrObjects) + 1 To X
-      If arrObjects(Y - 1).OID > arrObjects(Y).OID Then
+      If arrObjects(Y - 1).Oid > arrObjects(Y).Oid Then
         Set vTemp = arrObjects(Y - 1)
         Set arrObjects(Y - 1) = arrObjects(Y)
         Set arrObjects(Y) = vTemp
@@ -1116,7 +1116,7 @@ Dim vChildObject As Variant
   'Aggregates
   For Each vObject In lvDatabases.SelectedItem.Tag.Aggregates
     If Not vObject.SystemObject Then
-      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.FormattedID, "aggregate", "aggregate")
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.Oid, vObject.FormattedID, "aggregate", "aggregate")
       objItem.SubItems(1) = "Aggregate"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     End If
@@ -1125,7 +1125,7 @@ Dim vChildObject As Variant
   'Domains
   For Each vObject In lvDatabases.SelectedItem.Tag.Domains
     If Not vObject.SystemObject Then
-      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.FormattedID, "domain", "domain")
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.Oid, vObject.FormattedID, "domain", "domain")
       objItem.SubItems(1) = "Domain"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     End If
@@ -1134,7 +1134,7 @@ Dim vChildObject As Variant
   'Functions
   For Each vObject In lvDatabases.SelectedItem.Tag.Functions
     If Not vObject.SystemObject Then
-      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.FormattedID, "function", "function")
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.Oid, vObject.FormattedID, "function", "function")
       objItem.SubItems(1) = "Function"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     End If
@@ -1143,7 +1143,7 @@ Dim vChildObject As Variant
   'Operators
   For Each vObject In lvDatabases.SelectedItem.Tag.Operators
     If Not vObject.SystemObject Then
-      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.FormattedID, "operator", "operator")
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.Oid, vObject.FormattedID, "operator", "operator")
       objItem.SubItems(1) = "Operator"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     End If
@@ -1152,7 +1152,7 @@ Dim vChildObject As Variant
   'Sequences
   For Each vObject In lvDatabases.SelectedItem.Tag.Sequences
     If Not vObject.SystemObject Then
-      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.FormattedID, "sequence", "sequence")
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.Oid, vObject.FormattedID, "sequence", "sequence")
       objItem.SubItems(1) = "Sequence"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     End If
@@ -1161,14 +1161,14 @@ Dim vChildObject As Variant
   'Tables
   For Each vObject In lvDatabases.SelectedItem.Tag.Tables
     If Not vObject.SystemObject Then
-      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.FormattedID, "table", "table")
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.Oid, vObject.FormattedID, "table", "table")
       objItem.SubItems(1) = "Table"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     
       'Indexes
       For Each vChildObject In vObject.Indexes
         If Not vChildObject.SystemObject Then
-          Set objItem = lvObjects.ListItems.Add(, "O" & vChildObject.OID, vChildObject.FormattedID, "index", "index")
+          Set objItem = lvObjects.ListItems.Add(, "O" & vChildObject.Oid, vChildObject.FormattedID, "index", "index")
           objItem.SubItems(1) = "Index"
           objItem.SubItems(2) = Replace(vChildObject.Comment, vbCrLf, " ")
         End If
@@ -1177,7 +1177,7 @@ Dim vChildObject As Variant
       'Rules
       For Each vChildObject In vObject.Rules
         If Not vChildObject.SystemObject Then
-          Set objItem = lvObjects.ListItems.Add(, "O" & vChildObject.OID, vChildObject.FormattedID, "rule", "rule")
+          Set objItem = lvObjects.ListItems.Add(, "O" & vChildObject.Oid, vChildObject.FormattedID, "rule", "rule")
           objItem.SubItems(1) = "Rule"
           objItem.SubItems(2) = Replace(vChildObject.Comment, vbCrLf, " ")
         End If
@@ -1186,7 +1186,7 @@ Dim vChildObject As Variant
       'Triggers
       For Each vChildObject In vObject.Triggers
         If Not vChildObject.SystemObject Then
-          Set objItem = lvObjects.ListItems.Add(, "O" & vChildObject.OID, vChildObject.FormattedID, "trigger", "trigger")
+          Set objItem = lvObjects.ListItems.Add(, "O" & vChildObject.Oid, vChildObject.FormattedID, "trigger", "trigger")
           objItem.SubItems(1) = "Trigger"
           objItem.SubItems(2) = Replace(vChildObject.Comment, vbCrLf, " ")
         End If
@@ -1197,7 +1197,7 @@ Dim vChildObject As Variant
   'Types
   For Each vObject In lvDatabases.SelectedItem.Tag.Types
     If Not vObject.SystemObject Then
-      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.FormattedID, "type", "type")
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.Oid, vObject.FormattedID, "type", "type")
       objItem.SubItems(1) = "Type"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     End If
@@ -1206,7 +1206,7 @@ Dim vChildObject As Variant
   'Views
   For Each vObject In lvDatabases.SelectedItem.Tag.Views
     If Not vObject.SystemObject Then
-      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.FormattedID, "view", "view")
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.Oid, vObject.FormattedID, "view", "view")
       objItem.SubItems(1) = "View"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     End If
