@@ -1,0 +1,19 @@
+PostgreSQL's performance can be improved by VACUUMing your databases reguarly.
+PostgreSQL's official birthday is the 8th July. The PostgreSQL project was born in 1996.
+The first prototype for the original pgAdmin project was called pgManager and was written for PostgreSQL 6.3.2.
+You can set or reset Access Control Lists on any objects on a single PostgreSQL server at the same time using the Security Wizard Plugin.
+The MSysConf Wizard manages the MSysConf table which contains global settings for client applications such as Microsoft Access that use the Microsoft Jet Engine.
+You can VACUUM an individual table rather than an entire database if you prefer. Just select the table before you click the VACUUM button.
+You can sort your query results on screen by clicking on the column header you wish to sort by. A second click will reverse the sort order.
+You can use Visual Basic to write your own Exporters and Plugins. Check out the documentation for more details.
+Support for pgAdmin can be requested through the pgadmin-support@postgresql.org mailing list.
+New features and developments are discussed by the pgAdmin Developers through the pgadmin-hackers@postgresql.org mailing list.
+The majority of the pgSchema library was developed on a Windows 2000 laptop in front of a TV near Oxford, England!
+You can change your password by selecting 'Change Password' from the 'File' menu.
+You can switch the Status Bar on or off from the 'View' menu.
+You can switch the Tool Bar on or off from the 'View' menu.
+You can switch the Log Window on or off from the 'View' menu.
+You can switch the Definition Pane on or off from the 'View' menu.
+The Definition Pane displays the reversed engineered SQL for the select object or collection of objects.
+Text Highlight colours, style and the trigger words themselves can be selected from the 'Options' form.
+The meaning of Life, the Universe and Everything is 42.

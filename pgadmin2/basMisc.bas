@@ -113,6 +113,12 @@ Dim sStart As Single
   
   'Show the main form.
   frmMain.Show
+  
+  'Show the Tips if required.
+  If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Show Tips", "Y")) = "Y" Then
+    Load frmTip
+    frmTip.Show
+  End If
    
 End Sub
 

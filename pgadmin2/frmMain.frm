@@ -632,6 +632,9 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuHelpContents 
          Caption         =   "&Contents"
       End
+      Begin VB.Menu mnuHelpTipOfTheDay 
+         Caption         =   "&Tip of the Day"
+      End
       Begin VB.Menu mnuHelpSep1 
          Caption         =   "-"
       End
@@ -846,6 +849,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpContents_Click()", etFul
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuHelpContents_Click"
+End Sub
+
+Private Sub mnuHelpTipOfTheDay_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpTipOfTheDay_Click()", etFullDebug
+
+  Load frmTip
+  frmTip.Show
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuHelpTipOfTheDay_Click"
 End Sub
 
 Private Sub mnuPluginsPlg_Click(Index As Integer)
