@@ -6,7 +6,8 @@ REM
 REM BuildAll.bat - Recompile all pgAdmin II Code
 REM Note that this doesn't rebuild the documentation
 
-@echo off
+echo Creating clsPgApp.cls class...
+cscript //nologo crtpgAppClass.vbs > clspgApp.cls
 
 echo Building pgSchema...
 "%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\pgschema\pgSchema.vbp /outdir ..\binaries

@@ -26,6 +26,7 @@ Dim objFont As New StdFont
   
   'Create the Server Object
   Set frmMain.svr = New pgServer
+  Set frmMain.svr.pgApp = New clspgApp
  
   'Setup the logging and log the startup. Set DontLogErrors to prevent pgSchema errors
   'being logged internally in pgSchema, as they will go through the error traps here.

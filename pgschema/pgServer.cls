@@ -17,6 +17,9 @@ Attribute VB_Exposed = True
 
 Option Explicit
 
+'pgAdmin II application
+Public pgApp As Object
+
 'Error Handler Stuff
 Dim lErrorIndex As Long
 Dim pgErrors As New Collection
