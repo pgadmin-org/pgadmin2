@@ -1,6 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
@@ -23,7 +24,7 @@ Begin VB.Form frmMain
    Begin HighlightBox.HBX txtDefinition 
       Height          =   1635
       Left            =   3825
-      TabIndex        =   4
+      TabIndex        =   3
       ToolTipText     =   "Displays the SQL Definition of the currently selected object."
       Top             =   4275
       Width           =   5820
@@ -325,7 +326,7 @@ Begin VB.Form frmMain
       Align           =   2  'Align Bottom
       Height          =   285
       Left            =   0
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   6390
       Width           =   9675
       _ExtentX        =   17066
@@ -381,7 +382,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   24
+         NumListImages   =   25
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":9AC4
             Key             =   "aggregate"
@@ -478,30 +479,11 @@ Begin VB.Form frmMain
             Picture         =   "frmMain.frx":118A2
             Key             =   "closeddatabase"
          EndProperty
+         BeginProperty ListImage25 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":119FC
+            Key             =   "statistics"
+         EndProperty
       EndProperty
-   End
-   Begin MSComctlLib.ListView lv 
-      Height          =   3255
-      Left            =   3825
-      TabIndex        =   2
-      Top             =   675
-      Width           =   5820
-      _ExtentX        =   10266
-      _ExtentY        =   5741
-      View            =   3
-      LabelEdit       =   1
-      LabelWrap       =   -1  'True
-      HideSelection   =   -1  'True
-      FullRowSelect   =   -1  'True
-      _Version        =   393217
-      Icons           =   "il"
-      SmallIcons      =   "il"
-      ColHdrIcons     =   "il"
-      ForeColor       =   -2147483640
-      BackColor       =   -2147483643
-      BorderStyle     =   1
-      Appearance      =   1
-      NumItems        =   0
    End
    Begin MSComctlLib.TreeView tv 
       Height          =   5235
@@ -517,6 +499,77 @@ Begin VB.Form frmMain
       Style           =   7
       ImageList       =   "il"
       Appearance      =   1
+   End
+   Begin TabDlg.SSTab prop 
+      Height          =   3255
+      Left            =   3720
+      TabIndex        =   4
+      Top             =   720
+      Width           =   5895
+      _ExtentX        =   10398
+      _ExtentY        =   5741
+      _Version        =   393216
+      TabOrientation  =   1
+      Style           =   1
+      Tabs            =   2
+      TabHeight       =   520
+      TabCaption(0)   =   "&Properties"
+      TabPicture(0)   =   "frmMain.frx":125CE
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "lv"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).ControlCount=   1
+      TabCaption(1)   =   "&Statistics"
+      TabPicture(1)   =   "frmMain.frx":125EA
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "sv"
+      Tab(1).ControlCount=   1
+      Begin MSComctlLib.ListView lv 
+         Height          =   2655
+         Left            =   45
+         TabIndex        =   5
+         Top             =   45
+         Width           =   5940
+         _ExtentX        =   10478
+         _ExtentY        =   4683
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         Icons           =   "il"
+         SmallIcons      =   "il"
+         ColHdrIcons     =   "il"
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         NumItems        =   0
+      End
+      Begin MSComctlLib.ListView sv 
+         Height          =   2655
+         Left            =   -74955
+         TabIndex        =   6
+         Top             =   45
+         Width           =   5940
+         _ExtentX        =   10478
+         _ExtentY        =   4683
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         Icons           =   "il"
+         SmallIcons      =   "il"
+         ColHdrIcons     =   "il"
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         BorderStyle     =   1
+         Appearance      =   1
+         NumItems        =   0
+      End
    End
    Begin VB.Image splVertical 
       DragMode        =   1  'Automatic
@@ -920,11 +973,11 @@ Dim siWidth As Single
   tv.Top = siTop
   tv.Height = siHeight - tv.Top
   
-  lv.Top = siTop
-  If txtDefinition.Visible And ((HPos - lv.Top) > 0) Then
-    lv.Height = HPos - lv.Top
+  prop.Top = siTop
+  If txtDefinition.Visible And ((HPos - prop.Top) > 0) Then
+    prop.Height = HPos - prop.Top
   Else
-    lv.Height = tv.Height
+    prop.Height = tv.Height
   End If
   
   txtDefinition.Top = HPos + 50
@@ -938,16 +991,22 @@ Dim siWidth As Single
   tv.Left = siLeft
   tv.Width = VPos - tv.Left
   
-  lv.Left = VPos + 50
-  lv.Width = siWidth - lv.Left
+  prop.Left = VPos + 50
+  prop.Width = siWidth - prop.Left
   
-  txtDefinition.Left = lv.Left
-  txtDefinition.Width = lv.Width
+  txtDefinition.Left = prop.Left
+  txtDefinition.Width = prop.Width
   
   splHorizontal.Left = -(siWidth * 2)
   splHorizontal.Width = siWidth * 5
   splHorizontal.Top = HPos
-    
+  
+  'Set the properties listview size
+  lv.Width = prop.Width - 45
+  lv.Height = prop.Height - 450
+  sv.Width = prop.Width - 45
+  sv.Height = prop.Height - 450
+  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Resize"
 End Sub
@@ -996,18 +1055,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & "
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_DragDrop"
 End Sub
 
-Private Sub lv_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub prop_DragDrop(Source As Control, X As Single, Y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize lv.Left + X, splHorizontal.Top
+    Resize prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, lv.Top + Y
+    Resize splVertical.Left, prop.Top + Y
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DragDrop"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.prop_DragDrop"
 End Sub
 
 Private Sub txtDefinition_DragDrop(Source As Control, X As Single, Y As Single)
@@ -1325,14 +1384,12 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowLogWindow_Click()", 
 
   If mnuViewShowLogWindow.Checked = True Then
     ctx.LogView = False
-    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Visible", regString, "N"
-    mnuViewShowLogWindow.Checked = False
     frmLog.Hide
+    mnuViewShowLogWindow.Checked = False
   Else
     ctx.LogView = True
-    RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Visible", regString, "Y"
-    mnuViewShowLogWindow.Checked = True
     frmLog.Show
+    mnuViewShowLogWindow.Checked = True
   End If
   
   Exit Sub
@@ -2038,6 +2095,7 @@ On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvServer(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
+    
   If Node.Children = 0 Then
     tv.Nodes.Add Node.Key, tvwChild, "DAT+" & GetID, "Databases", "database"
     tv.Nodes.Add Node.Key, tvwChild, "GRP+" & GetID, "Groups", "group"
@@ -2066,6 +2124,43 @@ Dim lvItem As ListItem
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvServer"
+End Sub
+
+Private Sub svServer(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svServer(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT datname, procpid, usename, current_query FROM pg_stat_activity")
+    sv.ColumnHeaders.Add , , "Database", 2000
+    sv.ColumnHeaders.Add , , "PID", 1500
+    sv.ColumnHeaders.Add , , "Username", 2000
+    sv.ColumnHeaders.Add , , "Current Query", lv.Width - 5600
+  
+    While Not rsStat.EOF
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, rsStat!datname & "", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!procpid & ""
+      lvItem.SubItems(2) = rsStat!usename & ""
+      lvItem.SubItems(3) = rsStat!current_query & ""
+      rsStat.MoveNext
+    Wend
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svServer"
 End Sub
 
 Private Sub tvDatabases(ByVal Node As MSComctlLib.Node)
@@ -2109,6 +2204,47 @@ Dim dat As pgDatabase
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDatabases"
+End Sub
+
+Private Sub svDatabases(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabases(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT datname, numbackends, xact_commit, xact_rollback, blks_read, blks_hit FROM pg_stat_database ORDER BY datname")
+    sv.ColumnHeaders.Add , , "Database", 2000
+    sv.ColumnHeaders.Add , , "Backends", 1500
+    sv.ColumnHeaders.Add , , "Xact Committed", 1500
+    sv.ColumnHeaders.Add , , "Xact Rolled Back", 1500
+    sv.ColumnHeaders.Add , , "Blocks Read", 1500
+    sv.ColumnHeaders.Add , , "Blocks Hit", 1500
+  
+    While Not rsStat.EOF
+      Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!datname & "", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!numbackends & ""
+      lvItem.SubItems(2) = rsStat!xact_commit & ""
+      lvItem.SubItems(3) = rsStat!xact_rollback & ""
+      lvItem.SubItems(4) = rsStat!blks_read & ""
+      lvItem.SubItems(5) = rsStat!blks_hit & ""
+      rsStat.MoveNext
+    Wend
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svDatabases"
 End Sub
 
 Private Sub tvDatabase(ByVal Node As MSComctlLib.Node)
@@ -2194,6 +2330,48 @@ Dim lvItem As ListItem
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDatabase"
+End Sub
+
+Private Sub svDatabase(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT numbackends, xact_commit, xact_rollback, blks_read, blks_hit FROM pg_stat_database WHERE datname = '" & Node.Text & "'")
+    sv.ColumnHeaders.Add , , "Statistic", 2500
+    sv.ColumnHeaders.Add , , "Value", sv.Width - 2600
+  
+    If Not rsStat.EOF Then
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Backends", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!numbackends & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Xact Committed", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!xact_commit & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Xact Rolled Back", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!xact_rollback & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Blocks Read", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!blks_read & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Blocks Hit", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!blks_hit & ""
+    Else
+      ClearStats
+    End If
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svDatabase"
 End Sub
 
 Private Sub tvGroups(ByVal Node As MSComctlLib.Node)
@@ -2770,6 +2948,41 @@ Dim seq As pgSequence
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvSequences"
 End Sub
 
+Private Sub svSequences(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname")
+    sv.ColumnHeaders.Add , , "Sequence", 2000
+    sv.ColumnHeaders.Add , , "Blocks Read", 2000
+    sv.ColumnHeaders.Add , , "Blocks Hit", 2000
+  
+    While Not rsStat.EOF
+      Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!blks_read & ""
+      lvItem.SubItems(2) = rsStat!blks_hit & ""
+      rsStat.MoveNext
+    Wend
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svSequences"
+End Sub
+
 Private Sub tvSequence(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
@@ -2841,6 +3054,42 @@ Dim lvItem As ListItem
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvSequence"
 End Sub
 
+Private Sub svSequence(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relname = '" & Node.Text & "'")
+    sv.ColumnHeaders.Add , , "Statistic", 2500
+    sv.ColumnHeaders.Add , , "Value", sv.Width - 2600
+  
+    If Not rsStat.EOF Then
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Blocks Read", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!blks_read & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Blocks Hit", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!blks_hit & ""
+    Else
+      ClearStats
+    End If
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svSequence"
+End Sub
+
 Private Sub tvTables(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvTables(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
@@ -2868,6 +3117,43 @@ Dim tbl As pgTable
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTables"
+End Sub
+
+Private Sub svTables(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname")
+    sv.ColumnHeaders.Add , , "Table", 2000
+    sv.ColumnHeaders.Add , , "Tuples Inserted", 2000
+    sv.ColumnHeaders.Add , , "Tuples Updated", 2000
+    sv.ColumnHeaders.Add , , "Tuples Deleted", 2000
+  
+    While Not rsStat.EOF
+      Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!n_tup_ins & ""
+      lvItem.SubItems(2) = rsStat!n_tup_upd & ""
+      lvItem.SubItems(3) = rsStat!n_tup_del & ""
+      rsStat.MoveNext
+    Wend
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svTables"
 End Sub
 
 Private Sub tvTable(ByVal Node As MSComctlLib.Node)
@@ -2953,6 +3239,64 @@ Dim vData As Variant
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTable"
+End Sub
+
+Private Sub svTable(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svTable(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relname = '" & Node.Text & "'")
+    sv.ColumnHeaders.Add , , "Statistic", 2500
+    sv.ColumnHeaders.Add , , "Value", sv.Width - 2600
+  
+    If Not rsStat.EOF Then
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Sequential Scans", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!seq_scan & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Sequential Tuples Read", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!seq_tup_read & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Scans", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_scan & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Tuples Fetched", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_tup_fetch & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Tuples Inserted", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!n_tup_ins & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Tuples Updated", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!n_tup_upd & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Tuples Deleted", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!n_tup_del & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Heap Blocks Read", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!heap_blks_read & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Heap Blocks Hit", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!heap_blks_hit & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Blocks Read", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_blks_read & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Blocks Hit", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_blks_hit & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Toast Index Blocks Read", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!tidx_blks_read & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Toast Index Blocks Hit", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!tidx_blks_hit & ""
+    Else
+      ClearStats
+    End If
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svTable"
 End Sub
 
 Private Sub tvChecks(ByVal Node As MSComctlLib.Node)
@@ -3075,6 +3419,52 @@ Dim lvItem As ListItem
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvColumn"
 End Sub
 
+Private Sub svColumn(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'")
+    sv.ColumnHeaders.Add , , "Statistic", 2500
+    sv.ColumnHeaders.Add , , "Value", sv.Width - 2600
+  
+    If Not rsStat.EOF Then
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Null Fraction", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!null_frac & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Average Width", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!avg_width & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Distinct Values", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!n_distinct & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Most Column Values", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!most_common_vals & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Most Common Frequencies", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!most_common_freqs & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Histogram Bounds", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!histogram_bounds & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Correlation", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!correlation & ""
+    Else
+      ClearStats
+    End If
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svColumn"
+End Sub
+
 Private Sub tvForeignKeys(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKeys(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
@@ -3190,6 +3580,41 @@ Dim ind As pgIndex
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvIndexes"
 End Sub
 
+Private Sub svIndexes(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname")
+    sv.ColumnHeaders.Add , , "Index", 2000
+    sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
+    sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
+  
+    While Not rsStat.EOF
+      Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_blks_read & ""
+      lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
+      rsStat.MoveNext
+    Wend
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svIndexes"
+End Sub
+
 Private Sub tvIndex(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndex(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
@@ -3265,6 +3690,48 @@ Dim vData As Variant
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvIndex"
+End Sub
+
+Private Sub svIndex(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.svIndex(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim rsStat As New Recordset
+
+  ' Statistics.
+  ' These don't come from pgSchema because they aren't really schema related.
+  If svr.dbVersion.VersionNum >= 7.2 Then
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND stat.relname = '" & Node.Parent.Parent.Text & "' AND stat.indexrelname = '" & Node.Text & "'")
+    sv.ColumnHeaders.Add , , "Statistic", 2500
+    sv.ColumnHeaders.Add , , "Value", sv.Width - 2600
+  
+    If Not rsStat.EOF Then
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Scans", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_scan & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Tuples Read", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_tup_read & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Tuples Fetched", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_tup_fetch & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Blocks Read", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_blks_read & ""
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Blocks Hit", "statistics", "statistics")
+      lvItem.SubItems(1) = rsStat!idx_blks_hit & ""
+    Else
+      ClearStats
+    End If
+    If rsStat.State <> adStateClosed Then rsStat.Close
+    Set rsStat = Nothing
+  Else
+    sv.ColumnHeaders.Add , , "Statistics", lv.Width - 100
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+  End If
+  
+  Exit Sub
+Err_Handler:
+  If rsStat.State <> adStateClosed Then rsStat.Close
+  Set rsStat = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.svIndex"
 End Sub
 
 Private Sub tvRules(ByVal Node As MSComctlLib.Node)
@@ -3650,6 +4117,20 @@ Dim lvItem As ListItem
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvView"
 End Sub
 
+Public Sub ClearStats()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.ClearStats()", etFullDebug
+
+  sv.ColumnHeaders.Clear
+  sv.ListItems.Clear
+
+  sv.ColumnHeaders.Add , , "Statistics", sv.Width
+  sv.ListItems.Add , , "No Statistics are available for the current selection", "statistics", "statistics"
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.ClearStats"
+End Sub
+
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
@@ -3663,7 +4144,15 @@ Dim vData As Variant
   lv.ColumnHeaders.Clear
   lv.ListItems.Clear
   lv.Tag = Node.FullPath
+  sv.ColumnHeaders.Clear
+  sv.ListItems.Clear
   If txtDefinition.Visible Then txtDefinition.Text = ""
+  
+  'Stats are only on 7.2+
+  If svr.dbVersion.VersionNum < 7.2 Then
+    sv.ColumnHeaders.Add , , "Statistics", sv.Width
+    sv.ListItems.Add , , "Statistics are only available with PostgreSQL 7.2 or higher", "database", "database"
+  End If
   
   Select Case Left(Node.Key, 4)
 
@@ -3671,163 +4160,199 @@ Dim vData As Variant
       ctx.CurrentDB = ""
       Set ctx.CurrentObject = svr
       tvServer Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svServer Node
 
     Case "DAT+" 'Databases
       ctx.CurrentDB = ""
       tvDatabases Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svDatabases Node
         
     Case "DAT-" 'Database
       ctx.CurrentDB = Node.Text
       Set ctx.CurrentObject = svr.Databases(Node.Text)
       tvDatabase Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svDatabase Node
       
     Case "GRP+" 'Groups
       ctx.CurrentDB = ""
       tvGroups Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "GRP-" 'Group
       ctx.CurrentDB = ""
       Set ctx.CurrentObject = svr.Groups(Node.Text)
       tvGroup Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "USR+" 'Users
       ctx.CurrentDB = ""
       tvUsers Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "USR-" 'User
       ctx.CurrentDB = ""
       Set ctx.CurrentObject = svr.Users(Node.Text)
       tvUser Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "AGG+" 'Aggregates
       ctx.CurrentDB = Node.Parent.Text
       tvAggregates Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "AGG-" 'Aggregate
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text)
       tvAggregate Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "FNC+" 'Functions
       ctx.CurrentDB = Node.Parent.Text
       tvFunctions Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "FNC-" 'Function
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text)
       tvFunction Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "LNG+" 'Languages
       ctx.CurrentDB = Node.Parent.Text
       tvLanguages Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
 
     Case "LNG-" 'Language
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text)
       tvLanguage Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "OPR+" 'Operators
       ctx.CurrentDB = Node.Parent.Text
       tvOperators Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "OPR-" 'Operator
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text)
       tvOperator Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "SEQ+" 'Sequences
       ctx.CurrentDB = Node.Parent.Text
       tvSequences Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svSequences Node
 
     Case "SEQ-" 'Sequence
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text)
       tvSequence Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svSequence Node
       
     Case "TBL+" 'Tables
       ctx.CurrentDB = Node.Parent.Text
       tvTables Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svTables Node
       
     Case "TBL-" 'Table
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text)
       tvTable Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svTable Node
       
     Case "CHK+" 'Checks
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       tvChecks Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "CHK-" 'Check
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text)
       tvCheck Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
     
     Case "COL+" 'Columns
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       tvColumns Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "COL-" 'Column
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text)
       tvColumn Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svColumn Node
       
     Case "FKY+" 'Foreign Keys
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       tvForeignKeys Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "FKY-" 'Foreign Key
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text)
       tvForeignKey Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "REL+" 'Relationships
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
       tvRelationships Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "IND+" 'Indexes
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       tvIndexes Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svIndexes Node
       
     Case "IND-" 'Index
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text)
       tvIndex Node
+      If svr.dbVersion.VersionNum >= 7.2 Then svIndex Node
 
     Case "RUL+" 'Rules
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       tvRules Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
   
     Case "RUL-" 'Rule
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
       tvRule Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "TRG+" 'Triggers
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
       tvTriggers Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "TRG-" 'Trigger
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text)
       tvTrigger Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "TYP+" 'Types
       ctx.CurrentDB = Node.Parent.Text
       tvTypes Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
 
     Case "TYP-" 'Type
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text)
       tvType Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "VIE+" 'Views
       ctx.CurrentDB = Node.Parent.Text
       tvViews Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "VIE-" 'View
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text)
       tvView Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
   End Select
   EndMsg
