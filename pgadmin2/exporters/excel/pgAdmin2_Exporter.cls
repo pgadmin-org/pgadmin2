@@ -55,11 +55,11 @@ Dim Y As Integer
     For X = 0 To rsData.Fields.Count - 1
       Select Case rsData.Fields(X).Type
          Case adDBTimeStamp
-            ExcelApp.cells(Y, X + 1).NumberFormat = "yyyy/mm/dd hh:mm:ss"
-            ExcelApp.cells(Y, X + 1).FormulaR1C1 = rsData.Fields(X).Value & ""
+            ExcelApp.cells(Y, X + 1).NumberFormat = "yyyy-mm-dd hh:mm:ss"
+            ExcelApp.cells(Y, X + 1).FormulaR1C1 = Format(rsData.Fields(X).Value & "", "yyyy-mm-dd ttttt")
          Case adDBDate, adDate
-            ExcelApp.cells(Y, X + 1).NumberFormat = "yyyy/mm/dd"
-            ExcelApp.cells(Y, X + 1).FormulaR1C1 = rsData.Fields(X).Value & ""
+            ExcelApp.cells(Y, X + 1).NumberFormat = "yyyy-mm-dd"
+            ExcelApp.cells(Y, X + 1).FormulaR1C1 = Format(rsData.Fields(X).Value & "", "yyyy-mm-dd")
          Case adInteger '
             ExcelApp.cells(Y, X + 1).NumberFormat = "0.00"
             ExcelApp.cells(Y, X + 1).FormulaR1C1 = rsData.Fields(X).Value & ""

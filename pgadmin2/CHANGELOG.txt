@@ -28,6 +28,7 @@ Added Copy/Paste options for most object types [Frank Lupo].
 Added support for Conversions [Frank Lupo].
 Added support for rules on views [Frank Lupo].
 Added support for dependency checking [Frank Lupo].
+Fixed date handling in the Excel exporter.
 
 1.4.12
 ------
