@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Database Publishing Wizard"
@@ -26,7 +26,7 @@ Begin VB.Form frmWizard
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   13
+         NumListImages   =   14
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmWizard.frx":08CA
             Key             =   "database"
@@ -79,13 +79,17 @@ Begin VB.Form frmWizard
             Picture         =   "frmWizard.frx":52BA
             Key             =   "server"
          EndProperty
+         BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmWizard.frx":5414
+            Key             =   "domain"
+         EndProperty
       EndProperty
    End
    Begin VB.PictureBox picStrip 
       BorderStyle     =   0  'None
       Height          =   4335
       Left            =   0
-      Picture         =   "frmWizard.frx":5414
+      Picture         =   "frmWizard.frx":5AE6
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
@@ -128,7 +132,7 @@ Begin VB.Form frmWizard
       TabHeight       =   176
       ShowFocusRect   =   0   'False
       TabCaption(0)   =   " "
-      TabPicture(0)   =   "frmWizard.frx":64E3
+      TabPicture(0)   =   "frmWizard.frx":6BB5
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblInfo(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -136,27 +140,27 @@ Begin VB.Form frmWizard
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).ControlCount=   2
       TabCaption(1)   =   " "
-      TabPicture(1)   =   "frmWizard.frx":64FF
+      TabPicture(1)   =   "frmWizard.frx":6BD1
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdObjectAll"
-      Tab(1).Control(1)=   "cmdObjectNone"
-      Tab(1).Control(2)=   "lvObjects"
-      Tab(1).Control(3)=   "lblInfo(1)"
+      Tab(1).Control(0)=   "lblInfo(1)"
+      Tab(1).Control(1)=   "lvObjects"
+      Tab(1).Control(2)=   "cmdObjectNone"
+      Tab(1).Control(3)=   "cmdObjectAll"
       Tab(1).ControlCount=   4
       TabCaption(2)   =   " "
-      TabPicture(2)   =   "frmWizard.frx":651B
+      TabPicture(2)   =   "frmWizard.frx":6BED
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
-      Tab(2).Control(1)=   "Picture1"
+      Tab(2).Control(0)=   "Picture1"
+      Tab(2).Control(1)=   "lblInfo(2)"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   " "
-      TabPicture(3)   =   "frmWizard.frx":6537
+      TabPicture(3)   =   "frmWizard.frx":6C09
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblInfo(4)"
-      Tab(3).Control(1)=   "Picture2"
+      Tab(3).Control(0)=   "Picture2"
+      Tab(3).Control(1)=   "lblInfo(4)"
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
-      TabPicture(4)   =   "frmWizard.frx":6553
+      TabPicture(4)   =   "frmWizard.frx":6C25
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "Label1(4)"
       Tab(4).Control(1)=   "Label1(3)"
@@ -174,10 +178,10 @@ Begin VB.Form frmWizard
       Tab(4).Control(13)=   "txtHost"
       Tab(4).ControlCount=   14
       TabCaption(5)   =   " "
-      TabPicture(5)   =   "frmWizard.frx":656F
+      TabPicture(5)   =   "frmWizard.frx":6C41
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lblInfo(5)"
-      Tab(5).Control(1)=   "fraStatus"
+      Tab(5).Control(0)=   "fraStatus"
+      Tab(5).Control(1)=   "lblInfo(5)"
       Tab(5).ControlCount=   2
       Begin VB.Frame fraStatus 
          Caption         =   "Status"
@@ -285,7 +289,7 @@ Begin VB.Form frmWizard
       Begin VB.CommandButton cmdObjectAll 
          Height          =   555
          Left            =   -68655
-         Picture         =   "frmWizard.frx":658B
+         Picture         =   "frmWizard.frx":6C5D
          Style           =   1  'Graphical
          TabIndex        =   5
          ToolTipText     =   "Select all objects."
@@ -295,7 +299,7 @@ Begin VB.Form frmWizard
       Begin VB.CommandButton cmdObjectNone 
          Height          =   555
          Left            =   -68655
-         Picture         =   "frmWizard.frx":6E55
+         Picture         =   "frmWizard.frx":7527
          Style           =   1  'Graphical
          TabIndex        =   6
          ToolTipText     =   "Deselect all objects."
@@ -475,7 +479,7 @@ Begin VB.Form frmWizard
          End
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":771F
+         Caption         =   $"frmWizard.frx":7DF1
          Height          =   825
          Index           =   5
          Left            =   -74820
@@ -493,7 +497,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":77CC
+         Caption         =   $"frmWizard.frx":7E9E
          Height          =   825
          Index           =   3
          Left            =   -74820
@@ -552,7 +556,7 @@ Begin VB.Form frmWizard
          Width           =   690
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":7920
+         Caption         =   $"frmWizard.frx":7FF2
          Height          =   735
          Index           =   2
          Left            =   -74820
@@ -760,6 +764,16 @@ Dim cnPublish As New ADODB.Connection
       End If
     End If
   Next vObject
+  
+  'Domains
+  For Each vObject In svr.Databases(lvDatabases.SelectedItem.Text).Domains
+    If Not vObject.SystemObject Then
+      If lvObjects.ListItems("O" & vObject.OID).Checked Then
+        Set arrObjects(UBound(arrObjects)) = vObject
+        ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+      End If
+    End If
+  Next vObject
 
   'Functions
   For Each vObject In svr.Databases(lvDatabases.SelectedItem.Text).Functions
@@ -897,6 +911,9 @@ Dim cnPublish As New ADODB.Connection
             Else
               szSQL = "DROP AGGREGATE " & QUOTE & arrObjects(X).Name & QUOTE & " " & QUOTE & arrObjects(X).InputType & QUOTE
             End If
+            
+          Case "Domain"
+            szSQL = "DROP DOMAIN " & QUOTE & dbSZ(arrObjects(X).Name) & QUOTE
  
           Case "Function"
             szArgs = "("
@@ -1007,10 +1024,6 @@ svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdPrevious_Click()", etFullD
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdPrevious_Click"
 End Sub
 
-Private Sub fraStatus_DragDrop(Source As Control, X As Single, Y As Single)
-
-End Sub
-
 Private Sub tabWizard_Click(PreviousTab As Integer)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmWizard.tabWizard_Click(" & PreviousTab & ")", etFullDebug
@@ -1075,6 +1088,7 @@ Dim objItem As ListItem
   Next objDatabase
   
   txtUsername.Text = svr.Username
+  txtPort.Text = svr.Port
   txtHost.Text = svr.Server
   
   EndMsg
@@ -1099,6 +1113,15 @@ Dim vChildObject As Variant
     If Not vObject.SystemObject Then
       Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.Identifier, "aggregate", "aggregate")
       objItem.SubItems(1) = "Aggregate"
+      objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
+    End If
+  Next vObject
+  
+  'Domains
+  For Each vObject In svr.Databases(lvDatabases.SelectedItem.Text).Domains
+    If Not vObject.SystemObject Then
+      Set objItem = lvObjects.ListItems.Add(, "O" & vObject.OID, vObject.Identifier, "domain", "domain")
+      objItem.SubItems(1) = "Domain"
       objItem.SubItems(2) = Replace(vObject.Comment, vbCrLf, " ")
     End If
   Next vObject
