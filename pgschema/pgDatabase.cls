@@ -740,9 +740,9 @@ Err_Handler:
   objServer.iLogError Err
 End Property
 
-Friend Sub LogRevision(szType As String, szIdentifier As String, szDefinition As String, szComment As String, rlAction As rlLogType)
+Friend Sub LogRevision(szType As String, szIdentifier As String, lobjoid As Long, szDefinition As String, szComment As String, rlAction As rlLogType)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LogRevision(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ", " & rlAction & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LogRevision(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & lOID & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ", " & rlAction & ")", etFullDebug
 
 Dim szSQL As String
 Dim szAction As String
@@ -761,7 +761,7 @@ Dim szAction As String
     Case rlDelete
       szAction = "D"
   End Select
-  szSQL = "INSERT INTO pgadmin_revlog(rev_action, rev_type, rev_identifier, rev_version, rev_definition, rev_comment) VALUES ('" & szAction & "', '" & szType & "', '" & szIdentifier & "', (SELECT CASE WHEN max(rev_version) IS NULL THEN 0 ELSE max(rev_version) +1::int4 END from pgadmin_revlog WHERE rev_type = '" & szType & "' AND rev_identifier = '" & szIdentifier & "'), '" & szDefinition & "', '" & szComment & "');"
+  szSQL = "INSERT INTO pgadmin_revlog(rev_action, rev_type, rev_identifier, rev_oid, rev_version, rev_definition, rev_comment) VALUES ('" & szAction & "', '" & szType & "', '" & szIdentifier & "', " & lobjoid & ", (SELECT CASE WHEN max(rev_version) IS NULL THEN 0 ELSE max(rev_version) +1::int4 END from pgadmin_revlog WHERE rev_type = '" & szType & "' AND rev_identifier = '" & szIdentifier & "'), '" & szDefinition & "', '" & szComment & "');"
   objServer.ExecSQL szSQL, cnDatabase
   
   Exit Sub

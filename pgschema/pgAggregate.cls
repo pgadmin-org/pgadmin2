@@ -368,7 +368,7 @@ Attribute Commit.VB_Description = "Commit changes."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
 
-  objServer.Databases(Database).LogRevision ObjectType, Identifier, SQL, UpdateComment, UpdateType
+  objServer.Databases(Database).LogRevision ObjectType, Identifier, OID, SQL, UpdateComment, UpdateType
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err

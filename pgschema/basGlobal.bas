@@ -38,7 +38,9 @@ Public Const SQL_GET_INHERITED_TABLES = "SELECT c.relname FROM pg_class c, pg_in
 Public Const SQL_GET_AGGREGATES = "SELECT oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate"
 Public Const SQL_GET_FOREIGN_KEYS = "SELECT oid, tgrelid, tgconstrname, tgnargs, tgargs, tgdeferrable, tginitdeferred FROM pg_trigger WHERE tgisconstraint = TRUE AND tgtype = 21"
 
-Public Const SQL_CREATE_REVLOG = "CREATE TABLE pgadmin_revlog(rev_timestamp timestamp DEFAULT now(), rev_user name DEFAULT current_user, rev_action varchar(1), rev_type varchar(32), rev_identifier varchar(256), rev_version int4, rev_definition text, rev_comment text); GRANT SELECT, INSERT ON pgadmin_revlog TO PUBLIC; COMMENT ON TABLE pgadmin_revlog IS 'pgAdmin II Revision Log';"
+'SQL related to Revision Logging.
+'Note that the object OID is also logged to help create objects in dependency order when building scripts.
+Public Const SQL_CREATE_REVLOG = "CREATE TABLE pgadmin_revlog(rev_timestamp timestamp DEFAULT now(), rev_user name DEFAULT current_user, rev_action varchar(1), rev_type varchar(32), rev_identifier varchar(256), rev_oid oid, rev_version int4, rev_definition text, rev_comment text); GRANT SELECT, INSERT ON pgadmin_revlog TO PUBLIC; COMMENT ON TABLE pgadmin_revlog IS 'pgAdmin II Revision Log';"
 Public Const SQL_DROP_REVLOG = "DROP TABLE pgadmin_revlog;"
 
 'Type Declarations
