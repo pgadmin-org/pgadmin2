@@ -37,7 +37,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -49,7 +49,7 @@ End Property
 Public Property Get Arguments() As Arguments
 Attribute Arguments.VB_Description = "Returns a collection of Function Arguments."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgDatabase.Property Get Arguments()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Arguments()", etFullDebug
 
   If colArguments Is Nothing Then
     Set colArguments = New Arguments
@@ -67,7 +67,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get Database()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Database()", etFullDebug
 
   Database = GetDatabase(cnDatabase.ConnectionString)
   
@@ -78,7 +78,7 @@ End Property
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let OID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
     
@@ -88,7 +88,7 @@ End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Type OID."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get OID()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get OID()", etFullDebug
 
   OID = lOID
   
@@ -99,7 +99,7 @@ End Property
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
     
@@ -109,7 +109,7 @@ End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Type name."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get Name()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Name()", etFullDebug
 
   Name = szName
     
@@ -120,7 +120,7 @@ End Property
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
     
@@ -130,7 +130,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get Identifier()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
     
@@ -141,7 +141,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get ObjectType()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Function"
     
@@ -152,7 +152,7 @@ End Property
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let SystemObject(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
     
@@ -161,7 +161,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get SystemObject()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
   
@@ -172,7 +172,7 @@ End Property
 'Set/Return the Owner
 Friend Property Let Owner(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
     
@@ -182,7 +182,7 @@ End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Returns an object representing the Type's owner."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get Owner()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Owner()", etFullDebug
 
   Owner = szOwner
     
@@ -193,7 +193,7 @@ End Property
 'Set/Return the Return Type
 Friend Property Let Returns(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let Returns(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Returns(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szReturns = vData
     
@@ -203,7 +203,7 @@ End Property
 Public Property Get Returns() As String
 Attribute Returns.VB_Description = "Returns the Function Return data type."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get Returns()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Returns()", etFullDebug
 
   Returns = szReturns
     
@@ -214,7 +214,7 @@ End Property
 'Set/Return the Function Source
 Friend Property Let Source(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let Source(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Source(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szSource = vData
     
@@ -224,7 +224,7 @@ End Property
 Public Property Get Source() As String
 Attribute Source.VB_Description = "Returns the Function Source. This may be the path to an object library, or Procedural Language code."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get Source()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Source()", etFullDebug
 
   Source = szSource
     
@@ -235,7 +235,7 @@ End Property
 'Set/Return the Language
 Friend Property Let Language(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let Language(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Language(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szLanguage = vData
     
@@ -245,7 +245,7 @@ End Property
 Public Property Get Language() As String
 Attribute Language.VB_Description = "RFeturns the Function Language."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get Language()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Language()", etFullDebug
 
   Language = szLanguage
     
@@ -256,7 +256,7 @@ End Property
 'Set/Return Cachable?
 Friend Property Let Cachable(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgLanguage.Property Let Cachable(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Cachable(" & vData & ")", etFullDebug
 
   bCachable = vData
     
@@ -266,7 +266,7 @@ End Property
 Public Property Get Cachable() As Boolean
 Attribute Cachable.VB_Description = "Returns a value indicating whether the Function result may be cached."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgLanguage.Property Get Cachable()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Cachable()", etFullDebug
 
   Cachable = bCachable
     
@@ -277,7 +277,7 @@ End Property
 'Set/Return Strict?
 Friend Property Let Strict(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgLanguage.Property Let Strict(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Strict(" & vData & ")", etFullDebug
 
   bStrict = vData
     
@@ -287,7 +287,7 @@ End Property
 Public Property Get Strict() As Boolean
 Attribute Strict.VB_Description = "Returns a value indicating whether the Function is Strict."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgLanguage.Property Get Strict()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Strict()", etFullDebug
 
   Strict = bStrict
     
@@ -298,7 +298,7 @@ End Property
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let Comment(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 Dim szArgs As String
@@ -331,7 +331,7 @@ End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Type comment."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get Comment()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Comment()", etFullDebug
 
   Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
     
@@ -343,7 +343,7 @@ End Property
 Friend Property Let ArgumentList(ByVal vData As String)
 Attribute ArgumentList.VB_Description = "Returns the Function Arguments."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Let ArgumentList(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let ArgumentList(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szArgumentList = vData
     
@@ -353,7 +353,7 @@ End Property
 
 Public Property Get SQL() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgFunction.Property Get SQL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim szArgs As String
 Dim vArg As Variant

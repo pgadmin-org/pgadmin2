@@ -27,7 +27,7 @@ Dim szTable As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -38,7 +38,7 @@ End Property
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Property let TableOID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
   
@@ -49,7 +49,7 @@ End Property
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
   
@@ -60,7 +60,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, szDefinition As String) As pgRule
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgRule
 
@@ -89,7 +89,7 @@ End Function
 Public Function Add(ByVal Name As String, ByVal TriggerEvent As String, ByVal Condition As String, ByVal Instead As Boolean, ByVal Action As String, Optional ByVal Comment As String) As pgRule
 Attribute Add.VB_Description = "Add a new Rule."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & TriggerEvent & QUOTE & ", " & QUOTE & Condition & QUOTE & ", " & Instead & ", " & QUOTE & Action & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & TriggerEvent & QUOTE & ", " & QUOTE & Condition & QUOTE & ", " & Instead & ", " & QUOTE & Action & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -135,7 +135,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgRule
 Attribute Item.VB_Description = "Returns a Rule object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -148,7 +148,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Rules on the current Table."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objRule As pgRule
 Dim lCount As Long
@@ -170,7 +170,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Rule."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
@@ -195,7 +195,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -207,7 +207,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Rules."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -219,7 +219,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -248,7 +248,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -258,7 +258,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Rules.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objRule As pgRule
   

@@ -27,7 +27,7 @@ Dim szTable As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -38,7 +38,7 @@ End Property
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Property let TableOID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
   
@@ -49,7 +49,7 @@ End Property
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
   
@@ -60,7 +60,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, lNArgs As Long, szArgs As String, bDeferrable As Boolean, bInitially As String) As pgForeignKey
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lNArgs & ", " & QUOTE & szArgs & QUOTE & ", " & bDeferrable & ", " & bInitially & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lNArgs & ", " & QUOTE & szArgs & QUOTE & ", " & bDeferrable & ", " & bInitially & ")", etFullDebug
 
 Dim objNewMember As pgForeignKey
 Dim szArgString As String
@@ -120,7 +120,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgForeignKey
 Attribute Item.VB_Description = "Returns a Foreign Key object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -133,7 +133,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Foreign Keys on the current Table."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objForeignKey As pgForeignKey
 Dim lCount As Long
@@ -156,7 +156,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -168,7 +168,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Foreign Keys."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -180,7 +180,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 Dim X As Long
@@ -214,7 +214,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering ForeignKeys.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   

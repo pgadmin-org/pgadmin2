@@ -24,7 +24,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -35,7 +35,7 @@ End Property
 'Internal Add
 Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgTable
 Dim szSQL As String
@@ -71,7 +71,7 @@ End Sub
 Public Function Add(ByVal Name As String, ByVal Columns As String, Optional ByVal PrimaryKeys As String, Optional ByVal Checks As String, Optional ByVal ForeignKeys As String, Optional ByVal Inherits As String, Optional ByVal Comment As String) As pgTable
 Attribute Add.VB_Description = "Add a new Table."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Columns & QUOTE & ", " & QUOTE & PrimaryKeys & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & ForeignKeys & QUOTE & ", " & QUOTE & Inherits & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Columns & QUOTE & ", " & QUOTE & PrimaryKeys & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & ForeignKeys & QUOTE & ", " & QUOTE & Inherits & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -117,7 +117,7 @@ End Function
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objTable As New pgTable
   
@@ -138,7 +138,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgTable
 Attribute Item.VB_Description = "Returns a Table object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -151,7 +151,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Tables in the current database."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objTable As pgTable
 Dim lCount As Long
@@ -173,7 +173,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Table."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -197,7 +197,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -208,7 +208,7 @@ End Property
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -237,7 +237,7 @@ End Sub
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Tables."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -249,7 +249,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -259,7 +259,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Tables.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objTable As pgTable
   

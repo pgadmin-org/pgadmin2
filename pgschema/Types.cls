@@ -25,7 +25,7 @@ Private szDB As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -36,7 +36,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, szOwner As String, szInputFunction As String, szOutputFunction As String, lInternalLength As Long, lExternalLength As Long, szDefault As String, lElement As Long, szDelimiter As String, szSendFunction As String, szReceiveFunction As String, bPassedByValue As Boolean, szAlignment As String, szStorage As String) As pgType
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & lExternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & lElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & QUOTE & szSendFunction & QUOTE & ", " & QUOTE & szReceiveFunction & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & lExternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & lElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & QUOTE & szSendFunction & QUOTE & ", " & QUOTE & szReceiveFunction & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgType
 Dim szTemp As String
@@ -103,7 +103,7 @@ End Function
 Public Function Add(ByVal Name As String, ByVal InputFunction As String, ByVal OutputFunction As String, ByVal InternalLength As Long, Optional ByVal ExternalLength As Long, Optional ByVal Default As String, Optional ByVal Element As String, Optional ByVal Delimiter As String, Optional ByVal SendFunction As String, Optional ByVal ReceiveFunction As String, Optional ByVal PassedByValue As Boolean, Optional ByVal Alignment As String, Optional ByVal Storage As String, Optional ByVal Comment As String)
 Attribute Add.VB_Description = "Add a new Type."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.iAdd(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputFunction & QUOTE & ", " & QUOTE & OutputFunction & QUOTE & ", " & InternalLength & ", " & ExternalLength & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Element & QUOTE & ", " & QUOTE & Delimiter & QUOTE & ", " & QUOTE & SendFunction & QUOTE & ", " & QUOTE & ReceiveFunction & QUOTE & ", " & PassedByValue & ", " & QUOTE & Alignment & QUOTE & ", " & QUOTE & Storage & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputFunction & QUOTE & ", " & QUOTE & OutputFunction & QUOTE & ", " & InternalLength & ", " & ExternalLength & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Element & QUOTE & ", " & QUOTE & Delimiter & QUOTE & ", " & QUOTE & SendFunction & QUOTE & ", " & QUOTE & ReceiveFunction & QUOTE & ", " & PassedByValue & ", " & QUOTE & Alignment & QUOTE & ", " & QUOTE & Storage & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -165,7 +165,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgType
 Attribute Item.VB_Description = "Returns a Type object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -178,7 +178,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Types in the current database."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objType As pgType
 Dim lCount As Long
@@ -200,7 +200,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Type."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -227,7 +227,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -239,7 +239,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Types."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -251,7 +251,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -286,7 +286,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -296,7 +296,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Types.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objType As pgType
   

@@ -27,7 +27,7 @@ Dim szTable As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -38,7 +38,7 @@ End Property
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Property let TableOID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
   
@@ -49,7 +49,7 @@ End Property
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
   
@@ -60,7 +60,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, szTriggerFunction As String, szExecutes As String, szTriggerEvent As String, szForEach As String) As pgTrigger
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szTriggerFunction & QUOTE & ", " & QUOTE & szExecutes & QUOTE & ", " & QUOTE & szTriggerEvent & QUOTE & ", " & QUOTE & szForEach & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szTriggerFunction & QUOTE & ", " & QUOTE & szExecutes & QUOTE & ", " & QUOTE & szTriggerEvent & QUOTE & ", " & QUOTE & szForEach & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgTrigger
 
@@ -92,7 +92,7 @@ End Function
 Public Function Add(ByVal Name As String, ByVal TriggerFunction As String, ByVal Executes As String, ByVal TriggerEvent As String, ByVal ForEach As String, Optional ByVal Comment As String) As pgTrigger
 Attribute Add.VB_Description = "Add a new Trigger."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.iAdd(" & QUOTE & Name & QUOTE & ", " & QUOTE & TriggerFunction & QUOTE & ", " & QUOTE & Executes & QUOTE & ", " & QUOTE & TriggerEvent & QUOTE & ", " & QUOTE & ForEach & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.iAdd(" & QUOTE & Name & QUOTE & ", " & QUOTE & TriggerFunction & QUOTE & ", " & QUOTE & Executes & QUOTE & ", " & QUOTE & TriggerEvent & QUOTE & ", " & QUOTE & ForEach & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -157,7 +157,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgTrigger
 Attribute Item.VB_Description = "Returns a Trigger object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -170,7 +170,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Triggers on the current Table."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objTrigger As pgTrigger
 Dim lCount As Long
@@ -192,7 +192,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Trigger."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
@@ -216,7 +216,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -228,7 +228,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Triggers."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -240,7 +240,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 Dim szExecutes As String
@@ -291,7 +291,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -301,7 +301,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Triggers.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objTrigger As pgTrigger
   

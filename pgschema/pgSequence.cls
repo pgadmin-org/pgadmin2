@@ -34,7 +34,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -45,7 +45,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Database()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Database()", etFullDebug
 
   Database = GetDatabase(cnDatabase.ConnectionString)
   
@@ -56,7 +56,7 @@ End Property
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let OID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
     
@@ -66,7 +66,7 @@ End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Sequence OID."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get OID()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get OID()", etFullDebug
 
   OID = lOID
   
@@ -77,7 +77,7 @@ End Property
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
     
@@ -87,7 +87,7 @@ End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Sequence name."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Name()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Name()", etFullDebug
 
   Name = szName
     
@@ -98,7 +98,7 @@ End Property
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
     
@@ -108,7 +108,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Identifier()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
     
@@ -119,7 +119,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get ObjectType()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Sequence"
     
@@ -130,7 +130,7 @@ End Property
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let SystemObject(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
     
@@ -139,7 +139,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get SystemObject()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
   
@@ -150,7 +150,7 @@ End Property
 'Set/Return the Owner
 Friend Property Let Owner(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgDatabase.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
     
@@ -160,7 +160,7 @@ End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Returns the Sequence Owner."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgDatabase.Property Get Owner()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()", etFullDebug
 
   Owner = szOwner
     
@@ -171,7 +171,7 @@ End Property
 'Set/Return the ACL
 Friend Property Let ACL(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szACL = vData
     
@@ -181,7 +181,7 @@ End Property
 Public Property Get ACL() As String
 Attribute ACL.VB_Description = "Returns the Sequence's ACL."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get ACL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get ACL()", etFullDebug
 
   ACL = szACL
     
@@ -192,7 +192,7 @@ End Property
 'Set/Return the LastValue (Always get the latest value)
 Public Property Let LastValue(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let LastValue(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let LastValue(" & vData & ")", etFullDebug
 
   'Use setval to set the last value
   objServer.ExecSQL "SELECT setval('" & szName & "', " & vData & ")", cnDatabase
@@ -203,7 +203,7 @@ End Property
 Public Property Get LastValue() As Long
 Attribute LastValue.VB_Description = "Returns the Sequence's Last value."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get LastValue()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get LastValue()", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -229,7 +229,7 @@ End Property
 'Set/Return the Increment
 Friend Property Let Increment(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let Increment(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Increment(" & vData & ")", etFullDebug
 
   lIncrement = vData
     
@@ -239,7 +239,7 @@ End Property
 Public Property Get Increment() As Long
 Attribute Increment.VB_Description = "Returns the Sequence's Increment value."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Increment()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Increment()", etFullDebug
 
   Increment = lIncrement
     
@@ -250,7 +250,7 @@ End Property
 'Set/Return the Maximum
 Friend Property Let Maximum(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let Maximum(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Maximum(" & vData & ")", etFullDebug
 
   lMaximum = vData
     
@@ -260,7 +260,7 @@ End Property
 Public Property Get Maximum() As Long
 Attribute Maximum.VB_Description = "Returns the Sequence's Maximum value."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Maximum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Maximum()", etFullDebug
 
   Maximum = lMaximum
     
@@ -271,7 +271,7 @@ End Property
 'Set/Return the Minimum
 Friend Property Let Minimum(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let Minimum(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Minimum(" & vData & ")", etFullDebug
 
   lMinimum = vData
     
@@ -281,7 +281,7 @@ End Property
 Public Property Get Minimum() As Long
 Attribute Minimum.VB_Description = "Returns the Sequence's Minimum value."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Minimum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Minimum()", etFullDebug
 
   Minimum = lMinimum
     
@@ -292,7 +292,7 @@ End Property
 'Set/Return the Cache
 Friend Property Let Cache(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let Cache(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Cache(" & vData & ")", etFullDebug
 
   lCache = vData
     
@@ -302,7 +302,7 @@ End Property
 Public Property Get Cache() As Long
 Attribute Cache.VB_Description = "Returns the Sequence's Cache value."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Cache()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Cache()", etFullDebug
 
   Cache = lCache
     
@@ -313,7 +313,7 @@ End Property
 'Set/Return Cycled?
 Friend Property Let Cycled(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let Cycled(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Cycled(" & vData & ")", etFullDebug
 
   bCycled = vData
     
@@ -323,7 +323,7 @@ End Property
 Public Property Get Cycled() As Boolean
 Attribute Cycled.VB_Description = "Returns a value indicating whether the Sequence value is cycled."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Cycled()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Cycled()", etFullDebug
 
   Cycled = bCycled
     
@@ -334,7 +334,7 @@ End Property
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Let Comment(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -348,7 +348,7 @@ End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Sequence's comment."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get Comment()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Comment()", etFullDebug
 
   Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
     
@@ -360,7 +360,7 @@ End Property
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Grant.VB_Description = "Grant privileges on the Sequence"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
 Dim rs As New Recordset
@@ -407,7 +407,7 @@ End Sub
 Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Revoke.VB_Description = "Revoke privileges on the Sequence."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
 Dim rs As New Recordset
@@ -452,7 +452,7 @@ End Sub
 
 Public Property Get SQL(Optional Reset As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgSequence.Property Get SQL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get SQL()", etFullDebug
 Dim szSQL As String
   
   szSQL = "-- Sequence: " & szName & vbCrLf & _

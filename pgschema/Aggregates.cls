@@ -25,7 +25,7 @@ Private szDB As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -36,7 +36,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, szOwner As String, lInputType As Long, szStateFunction As String, lStateType As Long, szFinalFunction As String, lFinalType As Long, szInitialCondition As String) As pgAggregate
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & lStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & lFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & lStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & lFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgAggregate
 Dim rs As New Recordset
@@ -82,7 +82,7 @@ End Function
 Public Function Add(ByVal Name As String, ByVal InputType As String, ByVal StateFunction As String, ByVal StateType As String, Optional ByVal FinalFunction As String, Optional ByVal InitialCondition As String, Optional ByVal Comment As String) As pgAggregate
 Attribute Add.VB_Description = "Add a new Aggregate."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputType & QUOTE & ", " & QUOTE & StateFunction & QUOTE & ", " & QUOTE & StateType & QUOTE & ", " & QUOTE & FinalFunction & QUOTE & ", " & QUOTE & InitialCondition & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputType & QUOTE & ", " & QUOTE & StateFunction & QUOTE & ", " & QUOTE & StateType & QUOTE & ", " & QUOTE & FinalFunction & QUOTE & ", " & QUOTE & InitialCondition & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -127,7 +127,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgAggregate
 Attribute Item.VB_Description = "Returns a Aggregate object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -140,7 +140,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Aggregates in the current database."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objAggregate As pgAggregate
 Dim lCount As Long
@@ -162,7 +162,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Aggregate."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
@@ -186,7 +186,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -198,7 +198,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Aggregates."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -210,7 +210,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -242,7 +242,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -252,7 +252,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Aggregates.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objAggregate As pgAggregate
   

@@ -24,7 +24,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Arguments.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -35,7 +35,7 @@ End Property
 'Internal Add
 Private Sub iAdd(szType As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Arguments.iAdd(" & QUOTE & szType & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.iAdd(" & QUOTE & szType & QUOTE & ")", etFullDebug
 
   mCol.Add szType
   
@@ -48,7 +48,7 @@ Public Property Get Item(IndexOrKey As Variant) As String
 Attribute Item.VB_Description = "Returns a Argument object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Arguments.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Item = mCol(IndexOrKey)
   
@@ -61,7 +61,7 @@ Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Arguments on the current Function."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Arguments.Property Get Count()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get Count()", etFullDebug
 
   Count = mCol.Count
   
@@ -74,7 +74,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Arguments.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -85,7 +85,7 @@ End Property
 'Initialise the collection if possible
 Friend Sub Initialize(szArgumentList As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Arguments.Initialize(" & QUOTE & szArgumentList & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Initialize(" & QUOTE & szArgumentList & QUOTE & ")", etFullDebug
 
 Dim szArgs() As String
 Dim X As Long
@@ -105,7 +105,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Arguments.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   

@@ -134,7 +134,7 @@ End Sub
 
 Friend Function ExecSQL(SQL As String, Connection As Connection, Optional RecordsAffected As Long, Optional Options As Long = -1) As Recordset
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.ExecSQL(" & QUOTE & SQL & QUOTE & ", " & QUOTE & "Connection: " & Connection.ConnectionString & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.ExecSQL(" & QUOTE & SQL & QUOTE & ", " & QUOTE & "Connection: " & Connection.ConnectionString & QUOTE & ")", etFullDebug
   
   RaiseEvent SQLExecute(SQL, Connection)
   objServer.iLogEvent "SQL (" & GetDatabase(Connection.ConnectionString) & "): " & SQL, etSQL
@@ -150,7 +150,7 @@ Public Function Connect(Optional ByVal Server As String, Optional ByVal Port As 
 Attribute Connect.VB_Description = "Open a connection to the specified database."
 Attribute Connect.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Connect(" & QUOTE & Server & QUOTE & ", " & lPort & ", " & QUOTE & Username & QUOTE & ", " & QUOTE & "********" & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Connect(" & QUOTE & Server & QUOTE & ", " & lPort & ", " & QUOTE & Username & QUOTE & ", " & QUOTE & "********" & QUOTE & ")", etFullDebug
 
 Dim szConnect As String
 Dim rs As New Recordset
@@ -214,7 +214,7 @@ End Function
 Public Property Get Databases() As Databases
 Attribute Databases.VB_Description = "Returns a collection of Database objects on the current Server."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Databases()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Databases()", etFullDebug
 
   If colDatabases Is Nothing Then
     Set colDatabases = New Databases
@@ -230,7 +230,7 @@ End Property
 Public Property Get Users() As Users
 Attribute Users.VB_Description = "Returns a collection of User objects on the current Server."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Users()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Users()", etFullDebug
 
   If colUsers Is Nothing Then
     Set colUsers = New Users
@@ -246,7 +246,7 @@ End Property
 Public Property Get Groups() As Groups
 Attribute Groups.VB_Description = "Returns a collection of User Group objects on the current Server."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Groups()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Groups()", etFullDebug
 
   If colGroups Is Nothing Then
     Set colGroups = New Groups
@@ -271,7 +271,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-  objServer.iLogEvent "Entering pgServer.Class_Terminate()", etFullDebug
+  objServer.iLogEvent "Entering " & App.Title & ":pgServer.Class_Terminate()", etFullDebug
   
   Set colDatabases = Nothing
   Set colUsers = Nothing
@@ -289,7 +289,7 @@ End Sub
 'Return the Object Type
 Public Property Get ObjectType() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get ObjectType()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Server"
     
@@ -301,7 +301,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Identifier()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Identifier()", etFullDebug
 
   Identifier = szUsername & "@" & szServer & ":" & lPort
     
@@ -312,7 +312,7 @@ End Property
 'Return the ADO Connection String
 Friend Property Get iConnectionString() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get iConnectionString()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get iConnectionString()", etFullDebug
 
   If cnPostgreSQL.State <> adStateOpen Then
     iConnectionString = ""
@@ -326,7 +326,7 @@ End Property
 Public Property Get ConnectionString() As String
 Attribute ConnectionString.VB_Description = "Returns the ADO connection string currently in use."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get ConnectionString()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get ConnectionString()", etFullDebug
 
   If cnPostgreSQL.State <> adStateOpen Then
     ConnectionString = ""
@@ -345,7 +345,7 @@ End Property
 'Return the ODBC Driver Name
 Public Property Get DriverName() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get DriverName()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DriverName()", etFullDebug
 
   If cnPostgreSQL.State <> adStateOpen Then
     DriverName = ""
@@ -361,7 +361,7 @@ End Property
 Public Property Get LastSystemOID() As Long
 Attribute LastSystemOID.VB_Description = "Returns the last OID used by the Database System."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get LastSystemOID()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get LastSystemOID()", etFullDebug
 
   LastSystemOID = lLastSystemOID
     
@@ -373,7 +373,7 @@ End Property
 Public Property Get dbVersion() As Version
 Attribute dbVersion.VB_Description = "Returns a Version structure indicating the Version of the PostgreSQL Server."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get dbVersion()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get dbVersion()", etFullDebug
 
   dbVersion = objVersion
     
@@ -385,7 +385,7 @@ End Property
 Public Property Get Version() As Version
 Attribute Version.VB_Description = "Returns a Version structure indicating the Version of the object library."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Version()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Version()", etFullDebug
 
   Version.Description = App.Comments & " v" & App.Major & "." & App.Minor & "." & App.Revision
   Version.Major = App.Major
@@ -400,7 +400,7 @@ End Property
 Public Property Let IncludeSys(ByVal vData As Boolean)
 Attribute IncludeSys.VB_Description = "Sets/Returns a flag indicating whether or not to include System Objects in the Object Hierarchy."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let IncludeSys(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let IncludeSys(" & vData & ")", etFullDebug
 
   bIncludeSys = vData
     
@@ -409,7 +409,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get IncludeSys() As Boolean
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get IncludeSys()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get IncludeSys()", etFullDebug
 
   IncludeSys = bIncludeSys
     
@@ -421,7 +421,7 @@ End Property
 Public Property Let DontLogErrors(ByVal vData As Boolean)
 Attribute DontLogErrors.VB_Description = "If an application is logging it's errors using LogEvent, then any errors generated internally will be logged internally AND logged by the host application. This property (when True) prevents errors being logged internally."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let DontLogErrors(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let DontLogErrors(" & vData & ")", etFullDebug
 
   bDontLogErrors = vData
     
@@ -430,7 +430,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get DontLogErrors() As Boolean
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get DontLogErrors()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DontLogErrors()", etFullDebug
 
   DontLogErrors = bDontLogErrors
     
@@ -441,7 +441,7 @@ End Property
 'Set/Return ShowPassword
 Public Property Let ShowPassword(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let ShowPassword(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let ShowPassword(" & vData & ")", etFullDebug
 
   bShowPassword = vData
     
@@ -450,7 +450,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get ShowPassword() As Boolean
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get ShowPassword()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get ShowPassword()", etFullDebug
 
   ShowPassword = bShowPassword
     
@@ -462,7 +462,7 @@ End Property
 Public Property Let Port(ByVal vData As Long)
 Attribute Port.VB_Description = "Returns the port number that the PostgreSQL server is listening on."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let Port(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Port(" & vData & ")", etFullDebug
 
   lPort = vData
     
@@ -471,7 +471,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Port() As Long
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Port()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Port()", etFullDebug
 
   Port = lPort
     
@@ -483,7 +483,7 @@ End Property
 Public Property Let Server(ByVal vData As String)
 Attribute Server.VB_Description = "Sets/Returns the PostgreSQL Server Hostname or IP address."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let Server(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Server(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   Server = vData
     
@@ -492,7 +492,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Server() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Server()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Server()", etFullDebug
 
   Server = szServer
     
@@ -504,7 +504,7 @@ End Property
 Public Property Let Password(ByVal vData As String)
 Attribute Password.VB_Description = "Sets/Returns the Password used for the connection."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let Password(" & QUOTE & "********" & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Password(" & QUOTE & "********" & QUOTE & ")", etFullDebug
 
   Password = vData
     
@@ -513,7 +513,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Password() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Password()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Password()", etFullDebug
 
   If bShowPassword Then
     Password = szPassword
@@ -526,7 +526,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Friend Property Get iPassword() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get iPassword()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get iPassword()", etFullDebug
 
   iPassword = szPassword
     
@@ -538,7 +538,7 @@ End Property
 Public Property Let Username(ByVal vData As String)
 Attribute Username.VB_Description = "Sets/Returns the Username used for the connection."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let Username(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Username(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szUsername = vData
     
@@ -547,7 +547,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Username() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Username()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Username()", etFullDebug
 
   Username = szUsername
     
@@ -559,7 +559,7 @@ End Property
 Public Property Let Logfile(ByVal vData As String)
 Attribute Logfile.VB_Description = "Sets/Returns the name of the logfile to use. Include %ID in the filename which will be replaced with a process ID (hInstance) if required."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let Logfile(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Logfile(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szLogfile = Replace(vData, "%ID", App.ThreadID)
     
@@ -568,7 +568,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Logfile() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Logfile()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Logfile()", etFullDebug
 
   Logfile = szLogfile
     
@@ -580,7 +580,7 @@ End Property
 Public Property Let LogLevel(ByVal vData As LogLevel)
 Attribute LogLevel.VB_Description = "Sets/Returns the level of detail to include in the logfile."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Let LogLevel(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let LogLevel(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   llLogging = vData
     
@@ -589,7 +589,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get LogLevel() As LogLevel
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get LogLevel()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get LogLevel()", etFullDebug
 
   LogLevel = llLogging
     
@@ -599,7 +599,7 @@ End Property
 
 Friend Property Get Connection() As Connection
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgServer.Property Get Connection()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Connection()", etFullDebug
 
   Set Connection = cnPostgreSQL
     

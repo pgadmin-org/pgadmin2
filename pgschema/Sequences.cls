@@ -24,7 +24,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -35,7 +35,7 @@ End Property
 'Internal Add
 Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgSequence
 Dim szSQL As String
@@ -90,7 +90,7 @@ End Sub
 Public Function Add(ByVal Name As String, Optional ByVal Increment As Long, Optional ByVal Minimum As Long, Optional ByVal Maximum As Long, Optional ByVal Start As Long, Optional ByVal Cache As Long, Optional ByVal Cycled As Boolean, Optional ByVal Comment As String) As pgSequence
 Attribute Add.VB_Description = "Add a new Sequence."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Add(" & QUOTE & Name & QUOTE & ", " & Increment & ", " & Minimum & ", " & Maximum & ", " & Start & ", " & Cache & ", " & Cycled & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Add(" & QUOTE & Name & QUOTE & ", " & Increment & ", " & Minimum & ", " & Maximum & ", " & Start & ", " & Cache & ", " & Cycled & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim objNewMember As pgSequence
@@ -147,7 +147,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgSequence
 Attribute Item.VB_Description = "Returns a Sequence object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -160,7 +160,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Sequences in the current database."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objSequence As pgSequence
 Dim lCount As Long
@@ -182,7 +182,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Sequence."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -206,7 +206,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -218,7 +218,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Sequences."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -230,7 +230,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -258,7 +258,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -268,7 +268,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean, Optional Reset As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Sequences.Property Get SQL(" & IncludeSystem & ", " & Reset & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get SQL(" & IncludeSystem & ", " & Reset & ")", etFullDebug
 Dim szSQL As String
 Dim objSequence As pgSequence
   

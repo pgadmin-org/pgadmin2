@@ -25,7 +25,7 @@ Private szDB As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -36,7 +36,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, szOwner As String, szKind As String, bHashJoins As Boolean, lLeftOperandType As Long, lRightOperandType As Long, lResultType As Long, lCommutator As Long, lNegator As Long, lLeftTypeSortOperator As Long, lRightTypeSortOperator As Long, szOperatorFunction As String, szRestrictFunction As String, szJoinFunction As String) As pgOperator
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szKind & QUOTE & ", " & bHashJoins & ", " & lLeftOperandType & ", " & lRightOperandType & ", " & lResultType & ", " & lCommutator & ", " & lNegator & ", " & lLeftTypeSortOperator & ", " & lRightTypeSortOperator & ", " & QUOTE & szOperatorFunction & QUOTE & ", " & QUOTE & szRestrictFunction & QUOTE & ", " & QUOTE & szJoinFunction & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szKind & QUOTE & ", " & bHashJoins & ", " & lLeftOperandType & ", " & lRightOperandType & ", " & lResultType & ", " & lCommutator & ", " & lNegator & ", " & lLeftTypeSortOperator & ", " & lRightTypeSortOperator & ", " & QUOTE & szOperatorFunction & QUOTE & ", " & QUOTE & szRestrictFunction & QUOTE & ", " & QUOTE & szJoinFunction & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgOperator
 Dim rs As New Recordset
@@ -106,7 +106,7 @@ End Function
 Public Function Add(ByVal Name As String, ByVal OperatorFunction As String, Optional ByVal LeftOperandType As String, Optional ByVal RightOperandType As String, Optional ByVal Commutator As String, Optional ByVal Negator As String, Optional ByVal RestrictFunction As String, Optional ByVal JoinFunction As String, Optional ByVal Hashes As Boolean, Optional ByVal LeftTypeSortOperator As String, Optional ByVal RightTypeSortOperator As String, Optional ByVal Comment As String) As pgOperator
 Attribute Add.VB_Description = "Add a new Operator."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & OperatorFunction & QUOTE & ", " & QUOTE & LeftOperandType & QUOTE & ", " & QUOTE & RightOperandType & QUOTE & ", " & QUOTE & Commutator & QUOTE & ", " & QUOTE & Negator & QUOTE & ", " & QUOTE & RestrictFunction & QUOTE & ", " & QUOTE & JoinFunction & QUOTE & ", " & Hashes & ", " & QUOTE & LeftTypeSortOperator & QUOTE & ", " & QUOTE & RightTypeSortOperator & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & OperatorFunction & QUOTE & ", " & QUOTE & LeftOperandType & QUOTE & ", " & QUOTE & RightOperandType & QUOTE & ", " & QUOTE & Commutator & QUOTE & ", " & QUOTE & Negator & QUOTE & ", " & QUOTE & RestrictFunction & QUOTE & ", " & QUOTE & JoinFunction & QUOTE & ", " & Hashes & ", " & QUOTE & LeftTypeSortOperator & QUOTE & ", " & QUOTE & RightTypeSortOperator & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -167,7 +167,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgOperator
 Attribute Item.VB_Description = "Returns a Operator object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -180,7 +180,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Operators in the current database."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objOperator As pgOperator
 Dim lCount As Long
@@ -202,7 +202,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Operator."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 Dim szROT As String
@@ -236,7 +236,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -248,7 +248,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Operators."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -260,7 +260,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -291,7 +291,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -301,7 +301,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Operators.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objOperator As pgOperator
   

@@ -23,7 +23,7 @@ Private mCol As Collection
 'Internal Add
 Private Sub iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, lEncoding As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lEncoding & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lEncoding & ")", etFullDebug
 
 Dim objNewMember As pgDatabase
 
@@ -55,7 +55,7 @@ End Sub
 Public Function Add(ByVal Name As String, Optional ByVal Path As String, Optional Encoding As String, Optional ByVal Comment As String) As pgDatabase
 Attribute Add.VB_Description = "Add a new database object."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Path & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Path & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim rsComment As New Recordset
@@ -123,7 +123,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgDatabase
 Attribute Item.VB_Description = "Returns  a database object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -136,7 +136,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of Database objects."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objDatabase As pgDatabase
 Dim lCount As Long
@@ -158,7 +158,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Database object."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 Dim objDatabase As pgDatabase
@@ -193,7 +193,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -205,7 +205,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Databases."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -217,7 +217,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Initialize()", etFullDebug
 
 Dim szSQL As String
 Dim rs As New Recordset
@@ -246,7 +246,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -256,7 +256,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Databases.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objDatabase As pgDatabase
   

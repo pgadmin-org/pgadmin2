@@ -27,7 +27,7 @@ Dim szTable As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -38,7 +38,7 @@ End Property
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Property let TableOID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
   
@@ -49,7 +49,7 @@ End Property
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
   
@@ -60,7 +60,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, bUnique As Boolean, bPrimary As Boolean, szDefinition As String) As pgIndex
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bUnique & ", " & bPrimary & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bUnique & ", " & bPrimary & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgIndex
 
@@ -96,7 +96,7 @@ End Function
 Public Function Add(ByVal Name As String, ByVal Unique As Boolean, ByVal ColumnList As String, Optional ByVal AccessMethod As String, Optional ByVal Comment As String) As pgIndex
 Attribute Add.VB_Description = "Add a new Index."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Add(" & QUOTE & Name & QUOTE & ", " & Unique & ", " & QUOTE & ColumnList & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Add(" & QUOTE & Name & QUOTE & ", " & Unique & ", " & QUOTE & ColumnList & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -141,7 +141,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgIndex
 Attribute Item.VB_Description = "Returns an Index object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -154,7 +154,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Indexes on the current Table."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objIndex As pgIndex
 Dim lCount As Long
@@ -176,7 +176,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Index."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
@@ -200,7 +200,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -212,7 +212,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Indexes."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -224,7 +224,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -252,7 +252,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -262,7 +262,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Indexes.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objIndex As pgIndex
   

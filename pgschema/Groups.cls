@@ -23,7 +23,7 @@ Private mCol As Collection
 'Internal Add
 Private Sub iAdd(lOID As Long, szName As String, lID As Long, szMemberList As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lID & ", " & QUOTE & szMemberList & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lID & ", " & QUOTE & szMemberList & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgGroup
 
@@ -49,7 +49,7 @@ End Sub
 Public Function Add(ByVal Name As String, Optional ByVal ID As Long) As pgGroup
 Attribute Add.VB_Description = "Add a new user group."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Add(" & QUOTE & Name & QUOTE & ", " & ID & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Add(" & QUOTE & Name & QUOTE & ", " & ID & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim objNewMember As pgGroup
@@ -101,7 +101,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgGroup
 Attribute Item.VB_Description = "Returns a Group item."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -114,7 +114,7 @@ Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Groups on the current server."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Property Get Count()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get Count()", etFullDebug
 
   Count = mCol.Count
   
@@ -126,7 +126,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Group."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -150,7 +150,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -161,7 +161,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -173,7 +173,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -201,7 +201,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -211,7 +211,7 @@ End Sub
 
 Public Property Get SQL() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Groups.Property Get SQL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim objGroup As pgGroup
   

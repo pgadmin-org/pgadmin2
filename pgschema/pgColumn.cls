@@ -35,7 +35,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -46,7 +46,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get Database()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Database()", etFullDebug
 
   Database = GetDatabase(cnDatabase.ConnectionString)
   
@@ -57,7 +57,7 @@ End Property
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let OID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
     
@@ -67,7 +67,7 @@ End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Column OID."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get OID()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get OID()", etFullDebug
 
   OID = lOID
   
@@ -78,7 +78,7 @@ End Property
 'Set/Return the Table
 Friend Property Let Table(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
     
@@ -87,7 +87,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Table() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get Table()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Table()", etFullDebug
 
   Table = szTable
     
@@ -98,7 +98,7 @@ End Property
 'Set/Return the Name
 Friend Property Let iName(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let iName(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let iName(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
     
@@ -107,7 +107,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgTable.Property Let Name(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Name(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -121,7 +121,7 @@ End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Column name."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get Name()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Name()", etFullDebug
 
   Name = szName
     
@@ -132,7 +132,7 @@ End Property
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
     
@@ -142,7 +142,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get Identifier()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
     
@@ -153,7 +153,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get ObjectType()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Column"
     
@@ -164,7 +164,7 @@ End Property
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let SystemObject(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
     
@@ -173,7 +173,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get SystemObject()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
   
@@ -184,7 +184,7 @@ End Property
 'Set/Return the Position
 Friend Property Let Position(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let Position(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Position(" & vData & ")", etFullDebug
 
   lPosition = vData
     
@@ -194,7 +194,7 @@ End Property
 Public Property Get Position() As Long
 Attribute Position.VB_Description = "Returns the Column's Ordinal Position."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get Position()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Position()", etFullDebug
 
   Position = lPosition
   
@@ -205,7 +205,7 @@ End Property
 'Set/Return the Length
 Friend Property Let Length(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let Length(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Length(" & vData & ")", etFullDebug
 
   lLength = vData
     
@@ -215,7 +215,7 @@ End Property
 Public Property Get Length() As Long
 Attribute Length.VB_Description = "Sets/Returns the Column Length."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get Length()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Length()", etFullDebug
 
   Length = lLength
   
@@ -226,7 +226,7 @@ End Property
 'Set/Return the NumericScale
 Friend Property Let NumericScale(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let NumericScale(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let NumericScale(" & vData & ")", etFullDebug
 
   lNumericScale = vData
     
@@ -235,7 +235,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get NumericScale() As Long
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get NumericScale()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get NumericScale()", etFullDebug
 
   NumericScale = lNumericScale
   
@@ -246,7 +246,7 @@ End Property
 'Set/Return the Type
 Friend Property Let DataType(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let DataType(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let DataType(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szDataType = vData
     
@@ -256,7 +256,7 @@ End Property
 Public Property Get DataType() As String
 Attribute DataType.VB_Description = "Returns the Column's Data Type"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get DataType()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get DataType()", etFullDebug
 
   DataType = szDataType
     
@@ -267,7 +267,7 @@ End Property
 'Set/Return NotNull
 Friend Property Let NotNull(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let NotNull(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let NotNull(" & vData & ")", etFullDebug
 
   bNotNull = vData
     
@@ -277,7 +277,7 @@ End Property
 Public Property Get NotNull() As Boolean
 Attribute NotNull.VB_Description = "Returns a value indicating whether or not NULL values are restricted."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get NotNull()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get NotNull()", etFullDebug
 
   NotNull = bNotNull
     
@@ -288,7 +288,7 @@ End Property
 'Set/Return PrimaryKey
 Friend Property Let PrimaryKey(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let PrimaryKey(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let PrimaryKey(" & vData & ")", etFullDebug
 
   bPrimaryKey = vData
     
@@ -298,7 +298,7 @@ End Property
 Public Property Get PrimaryKey() As Boolean
 Attribute PrimaryKey.VB_Description = "Returns a boolean indicating whether the column forms part of a primary key."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get PrimaryKey()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get PrimaryKey()", etFullDebug
 
   PrimaryKey = bPrimaryKey
     
@@ -309,7 +309,7 @@ End Property
 'Set/Return the Default
 Friend Property Let iDefault(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let iDefault(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let iDefault(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szDefault = vData
     
@@ -319,7 +319,7 @@ End Property
 Public Property Let Default(ByVal vData As String)
 Attribute Default.VB_Description = "Sets/Returns the columns Default Value."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgTable.Property Let Default(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Default(" & vData & ")", etFullDebug
 
 Dim szSQL As String
   
@@ -336,7 +336,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Default() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get Default()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Default()", etFullDebug
 
   Default = szDefault
     
@@ -347,7 +347,7 @@ End Property
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Let Comment(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -361,7 +361,7 @@ End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Column comment."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgColumn.Property Get Comment()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Comment()", etFullDebug
 
   Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
     

@@ -29,7 +29,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -40,7 +40,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get Database()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Database()", etFullDebug
 
   Database = GetDatabase(cnDatabase.ConnectionString)
   
@@ -51,7 +51,7 @@ End Property
 'Set/Return the Table
 Friend Property Let Table(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
     
@@ -60,7 +60,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Table() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get Table()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Table()", etFullDebug
 
   Table = szTable
     
@@ -71,7 +71,7 @@ End Property
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Let OID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
     
@@ -81,7 +81,7 @@ End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Rule OID."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get OID()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get OID()", etFullDebug
 
   OID = lOID
   
@@ -92,7 +92,7 @@ End Property
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
     
@@ -102,7 +102,7 @@ End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Rule name."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get Name()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Name()", etFullDebug
 
   Name = szName
     
@@ -113,7 +113,7 @@ End Property
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
     
@@ -123,7 +123,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get Identifier()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
     
@@ -134,7 +134,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get ObjectType()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Rule"
     
@@ -145,7 +145,7 @@ End Property
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Let SystemObject(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
     
@@ -154,7 +154,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get SystemObject()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
   
@@ -165,7 +165,7 @@ End Property
 'Set/Return the Definition
 Friend Property Let Definition(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Let Definition(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Definition(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szDefinition = vData
     
@@ -175,7 +175,7 @@ End Property
 Public Property Get Definition() As String
 Attribute Definition.VB_Description = "Returns the Rule Definition."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get Definition()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Definition()", etFullDebug
 
   Definition = szDefinition
     
@@ -187,7 +187,7 @@ End Property
 Public Property Get RuleEvent() As String
 Attribute RuleEvent.VB_Description = "Returns the event that will fire the rule (INSERT, UPDATE, SELECT, DELETE)."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get RuleEvent()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get RuleEvent()", etFullDebug
 
   'Extract the Event
   RuleEvent = Mid(szDefinition, InStr(1, szDefinition, " AS ON ") + 7, 6)
@@ -200,7 +200,7 @@ End Property
 Public Property Get Condition() As String
 Attribute Condition.VB_Description = "Returns the conditions (if any) under which the rule will apply."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get Condition()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Condition()", etFullDebug
 
 Dim szTemp As String
 Dim lStart As Long
@@ -234,7 +234,7 @@ End Property
 Public Property Get DoInstead() As Boolean
 Attribute DoInstead.VB_Description = "Returns a boolean indicating whether the Action will be performed instead of the original query."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get DoInstead()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get DoInstead()", etFullDebug
 
   If InStr(1, szDefinition, " DO INSTEAD ") <> 0 Then
     DoInstead = True
@@ -250,7 +250,7 @@ End Property
 Public Property Get Action() As String
 Attribute Action.VB_Description = "Returns the action the the rule will take."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get Action()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Action()", etFullDebug
 
 Dim szTemp As String
 
@@ -268,7 +268,7 @@ End Property
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Let Comment(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -282,7 +282,7 @@ End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Rule comment."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get Comment()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Comment()", etFullDebug
 
   Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
     
@@ -292,7 +292,7 @@ End Property
 
 Public Property Get SQL() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRule.Property Get SQL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get SQL()", etFullDebug
 Dim szSQL As String
   
   szSQL = "-- Rule: " & szName & vbCrLf & _

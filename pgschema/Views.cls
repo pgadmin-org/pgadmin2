@@ -24,7 +24,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -35,7 +35,7 @@ End Property
 'Internal Add
 Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String, szDefinition As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgView
 Dim szSQL As String
@@ -72,7 +72,7 @@ End Sub
 Public Function Add(ByVal Name As String, ByVal Definition As String, Optional ByVal Comment As String) As pgView
 Attribute Add.VB_Description = "Add a new View."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Definition & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Definition & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -114,7 +114,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgView
 Attribute Item.VB_Description = "Returns a View object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -127,7 +127,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Views in the current database."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objView As pgView
 Dim lCount As Long
@@ -149,7 +149,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified View."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -173,7 +173,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -184,7 +184,7 @@ End Property
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -213,7 +213,7 @@ End Sub
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Views."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -225,7 +225,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -235,7 +235,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Views.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objView As pgView
   

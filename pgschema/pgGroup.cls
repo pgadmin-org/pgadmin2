@@ -31,7 +31,7 @@ Private szMemberList As String
 Public Property Get Members() As Members
 Attribute Members.VB_Description = "Returns a collection of Users in the Group."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Get Members()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Members()", etFullDebug
 
 Dim szConnect As String
 
@@ -49,7 +49,7 @@ End Property
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Let OID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
     
@@ -59,7 +59,7 @@ End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Group OID."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Get OID()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get OID()", etFullDebug
 
   OID = lOID
   
@@ -70,7 +70,7 @@ End Property
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
     
@@ -80,7 +80,7 @@ End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Group name."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Get Name()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Name()", etFullDebug
 
   Name = szName
     
@@ -91,7 +91,7 @@ End Property
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
     
@@ -101,7 +101,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Get Identifier()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
     
@@ -112,7 +112,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Get ObjectType()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Group"
     
@@ -123,7 +123,7 @@ End Property
 'Set/Return ID
 Friend Property Let ID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Let ID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let ID(" & vData & ")", etFullDebug
 
   lID = vData
     
@@ -133,7 +133,7 @@ End Property
 Public Property Get ID() As Long
 Attribute ID.VB_Description = "Returns the Group ID."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Get ID()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get ID()", etFullDebug
 
   ID = lID
     
@@ -144,7 +144,7 @@ End Property
 'Set/Return the Members (Internal only)
 Friend Property Let MemberList(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Let MemberList(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let MemberList(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szMemberList = vData
     
@@ -153,7 +153,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Friend Property Get MemberList() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgGroup.Property Get MemberList()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get MemberList()", etFullDebug
 
   MemberList = szMemberList
     
@@ -163,7 +163,7 @@ End Property
 
 Public Property Get SQL() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Property Get pgGroup.SQL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Property Get pgGroup.SQL()", etFullDebug
 Dim szSQL As String
 Dim szMember As Variant
 Dim szTemp As String

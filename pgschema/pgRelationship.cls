@@ -26,7 +26,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -37,7 +37,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Get Database()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Database()", etFullDebug
 
   Database = GetDatabase(cnDatabase.ConnectionString)
   
@@ -48,7 +48,7 @@ End Property
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
     
@@ -58,7 +58,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Get Identifier()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
     
@@ -69,7 +69,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Get ObjectType()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Relationship"
     
@@ -80,7 +80,7 @@ End Property
 'Set/Return the LocalColumn
 Friend Property Let LocalColumn(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Let LocalColumn(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let LocalColumn(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szLocalColumn = vData
     
@@ -90,7 +90,7 @@ End Property
 Public Property Get LocalColumn() As String
 Attribute LocalColumn.VB_Description = "Returns the Local Column in the Relationship."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Get LocalColumn()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get LocalColumn()", etFullDebug
 
   LocalColumn = szLocalColumn
     
@@ -101,7 +101,7 @@ End Property
 'Set/Return the RemoteColumn
 Friend Property Let ReferencedColumn(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Let ReferencedColumn(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let ReferencedColumn(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szReferencedColumn = vData
     
@@ -111,7 +111,7 @@ End Property
 Public Property Get ReferencedColumn() As String
 Attribute ReferencedColumn.VB_Description = "Returns the Referenced Column in the Relationship."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering pgRelationship.Property Get ReferencedColumn()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get ReferencedColumn()", etFullDebug
 
   ReferencedColumn = szReferencedColumn
     

@@ -27,7 +27,7 @@ Dim szTable As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -38,7 +38,7 @@ End Property
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Property let TableOID(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
   
@@ -49,7 +49,7 @@ End Property
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
   
@@ -60,7 +60,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String) As pgColumn
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgColumn
 Dim szHex As String
@@ -102,7 +102,7 @@ End Function
 Public Function Add(ByVal Name As String, ByVal DataType As String, Optional ByVal Default As String, Optional ByVal Comment As String) As pgColumn
 Attribute Add.VB_Description = "Add a new column."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & DataType & QUOTE & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & DataType & QUOTE & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -146,7 +146,7 @@ End Function
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objColumn As New pgColumn
   
@@ -167,7 +167,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgColumn
 Attribute Item.VB_Description = "Returns a Column object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -180,7 +180,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Columns in the current Table."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objColumn As pgColumn
 Dim lCount As Long
@@ -203,7 +203,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -215,7 +215,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refreshes the collection of Columns."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -227,7 +227,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -255,7 +255,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Columns.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   

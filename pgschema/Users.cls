@@ -23,7 +23,7 @@ Private mCol As Collection
 'Internal Add
 Friend Sub iAdd(szName As String, lID As Long, bCreateDatabases As Boolean, bSuperuser As Boolean, bUpdateCatalogues As Boolean, dAccountExpires As Variant)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.iAdd(" & QUOTE & szName & QUOTE & ", " & lID & ", " & bCreateDatabases & ", " & bSuperuser & ", " & bUpdateCatalogues & ", " & QUOTE & dAccountExpires & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.iAdd(" & QUOTE & szName & QUOTE & ", " & lID & ", " & bCreateDatabases & ", " & bSuperuser & ", " & bUpdateCatalogues & ", " & QUOTE & dAccountExpires & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgUser
 
@@ -49,7 +49,7 @@ End Sub
 Public Function Add(ByVal Name As String, Optional ByVal ID As Long, Optional ByVal Password As String, Optional ByVal CreateDatabases As Boolean, Optional ByVal Superuser As Boolean, Optional ByVal AccountExpires As Date) As pgUser
 Attribute Add.VB_Description = "Add a new User."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Add(" & QUOTE & Name & QUOTE & ", " & ID & ", " & QUOTE & Password & QUOTE & ", " & CreateDatabases & ", " & Superuser & ", " & QUOTE & AccountExpires & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Add(" & QUOTE & Name & QUOTE & ", " & ID & ", " & QUOTE & Password & QUOTE & ", " & CreateDatabases & ", " & Superuser & ", " & QUOTE & AccountExpires & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim objNewMember As pgUser
@@ -118,7 +118,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgUser
 Attribute Item.VB_Description = "Returns a User object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -131,7 +131,7 @@ Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the User objects."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Property Get Count()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get Count()", etFullDebug
 
   Count = mCol.Count
   
@@ -143,7 +143,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified user."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -167,7 +167,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -179,7 +179,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Users."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -191,7 +191,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -223,7 +223,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -233,7 +233,7 @@ End Sub
 
 Public Property Get SQL() As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Users.Property Get SQL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim objUser As pgUser
   

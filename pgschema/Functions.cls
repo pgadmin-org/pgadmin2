@@ -25,7 +25,7 @@ Private szDB As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -36,7 +36,7 @@ End Property
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, szOwner As String, lReturns As Long, szSource As String, lLanguage As Long, bCachable As Boolean, bStrict As Boolean, szArgumentList As String) As pgFunction
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lReturns & ", " & QUOTE & szSource & QUOTE & ", " & lLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lReturns & ", " & QUOTE & szSource & QUOTE & ", " & lLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgFunction
 Dim rs As New Recordset
@@ -87,7 +87,7 @@ End Function
 Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String) As pgFunction
 Attribute Add.VB_Description = "Add a new function."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -156,7 +156,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgFunction
 Attribute Item.VB_Description = "Returns a Type object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -169,7 +169,7 @@ Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Functions in the current database."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Property Get Count(" & IgnoreSys & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objFunction As pgFunction
 Dim lCount As Long
@@ -191,7 +191,7 @@ End Property
 Public Sub Remove(ByVal IndexOrKey As Variant)
 Attribute Remove.VB_Description = "Remove the specified Function."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 Dim szArgs As String
@@ -224,7 +224,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -236,7 +236,7 @@ End Property
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refrsh the collection of Functions."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize
@@ -248,7 +248,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Initialize()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Initialize()", etFullDebug
 
 Dim rs As New Recordset
 
@@ -283,7 +283,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
@@ -293,7 +293,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Functions.Property Get SQL(" & IncludeSystem & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objFunction As pgFunction
   

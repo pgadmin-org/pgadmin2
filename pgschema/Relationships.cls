@@ -26,7 +26,7 @@ Dim szRefCols As String
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Relationships.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -37,7 +37,7 @@ End Property
 'Internal Add
 Private Function iAdd(szLocalColumn As String, szReferencedColumn As String) As pgRelationship
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Relationships.iAdd(" & QUOTE & szLocalColumn & QUOTE & ", " & QUOTE & szReferencedColumn & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.iAdd(" & QUOTE & szLocalColumn & QUOTE & ", " & QUOTE & szReferencedColumn & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgRelationship
 
@@ -59,7 +59,7 @@ Public Property Get Item(IndexOrKey As Variant) As pgOperator
 Attribute Item.VB_Description = "Returns a Relationship object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Relationships.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Set Item = mCol(IndexOrKey)
   
@@ -72,7 +72,7 @@ Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Relationships on the current Foreign Key."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Relationships.Property Get Count()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Property Get Count()", etFullDebug
 
   Count = mCol.Count
   
@@ -85,7 +85,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Relationships.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -96,7 +96,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Relationships.Refresh()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
   Initialize szLocCols, szRefCols
@@ -108,7 +108,7 @@ End Sub
 'Initialise the collection if possible
 Friend Sub Initialize(szLocalColumns As String, szReferencedColumns As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Relationships.Initialize(" & QUOTE & szLocalColumns & QUOTE & ", " & QUOTE & szReferencedColumns & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Initialize(" & QUOTE & szLocalColumns & QUOTE & ", " & QUOTE & szReferencedColumns & QUOTE & ")", etFullDebug
 
 Dim szLocal() As String
 Dim szReferenced() As String
@@ -134,7 +134,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering Relationships.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   

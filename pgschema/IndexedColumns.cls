@@ -24,7 +24,7 @@ Private cnDatabase As Connection
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering IndexedColumns.Property Set Connection(Connection: " & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
   
@@ -35,7 +35,7 @@ End Property
 'Internal Add
 Private Sub iAdd(szColumn As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering IndexedColumns.iAdd(" & QUOTE & szColumn & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.iAdd(" & QUOTE & szColumn & QUOTE & ")", etFullDebug
 
   mCol.Add szColumn
   
@@ -48,7 +48,7 @@ Public Property Get Item(IndexOrKey As Variant) As String
 Attribute Item.VB_Description = "Returns a Column Name."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering IndexedColumns.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
 
   Item = mCol(IndexOrKey)
   
@@ -61,7 +61,7 @@ Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Indexed Columns in the current Index."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering IndexedColumns.Property Get Count()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get Count()", etFullDebug
 
   Count = mCol.Count
   
@@ -74,7 +74,7 @@ Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering IndexedColumns.Property Get NewEnum()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
   
@@ -85,7 +85,7 @@ End Property
 'Initialise the collection if possible
 Friend Sub Initialize(lTableOID As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering IndexedColumns.Initialize(" & QUOTE & lTableOID & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Initialize(" & QUOTE & lTableOID & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 
@@ -110,7 +110,7 @@ End Sub
 'Cleanup
 Private Sub Class_Terminate()
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering IndexedColumns.Class_Terminate()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
   
