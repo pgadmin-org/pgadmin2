@@ -1257,6 +1257,11 @@ Dim szDropNamespace As String
 Dim szDropTablename As String
 Dim szDropTableConcatenation As String
 
+'AC - for collecting field names for query to fix milliseconds issue
+Dim szSQLDataQuery As String
+Dim szFieldName As String
+'AC - end
+
   StartMsg "Migrating database..."
   lVer = svr.dbVersion.VersionNum
   pbStatus.Max = lstData.ListCount
@@ -1279,6 +1284,10 @@ Dim szDropTableConcatenation As String
   End If
           
   For X = 0 To lstData.ListCount - 1
+  
+    'AC 20030908 millisecond fix
+    szSQLDataQuery = ""
+    'AC - end
   
     '1/18/2003 John Wells
     'if we want one transaction per table ported...
@@ -1495,6 +1504,8 @@ Dim szDropTableConcatenation As String
     If rsTemp_Column.State <> adStateClosed Then rsTemp_Column.Close
     Set rsTemp_Column = Nothing
     
+
+    
     For Y = 0 To catLocal.Tables(lstData.List(X)).Columns.Count - 1
       'DJP 2001-07-02 Don't migrate the oid column on PostgreSQL Databases!
       If Not ((cnLocal.Properties("DBMS Name") = "PostgreSQL") And (newColumnArray(Y) = "oid")) Then
@@ -1503,6 +1514,9 @@ Dim szDropTableConcatenation As String
         Else
           szTemp1 = szTemp1 & fmtID(LCase(catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Name))
         End If
+        'AC 20030908 millisecond fix
+        szFieldName = fmtID(LCase(catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Name))
+        'AC end
         Select Case catLocal.Tables(lstData.List(X)).Columns(newColumnArray(Y)).Type
         ' AM 20020110
         ' Regkey was wrong - "Software\pgAdmin\Type Map"
@@ -1619,6 +1633,20 @@ Dim szDropTableConcatenation As String
           End If
         End If
       
+        'AC 20030908 millisecond fix
+        If (optType(2).Value = True) Then
+          If szTemp2 = "timestamp" Then
+            szFieldName = "CONVERT(char(30), " & szFieldName & ", 121) as " & szFieldName
+          End If
+        End If
+        'AC end
+      
+        If (szSQLDataQuery = "") Then
+         szSQLDataQuery = szFieldName
+        Else
+         szSQLDataQuery = szSQLDataQuery & ", " & szFieldName
+        End If
+      
         ' Matthew MacSuga Auto Increment Fix
         If auto_increment_on = 1 Then
           If LCase(newColumnArray(Y)) = LCase(auto_increment_field_name) Then
@@ -1703,8 +1731,16 @@ Dim szDropTableConcatenation As String
         txtStatus.SelStart = Len(txtStatus.Text)
         Me.Refresh
         svr.LogEvent "Migrating Data from: " & lstData.List(X), etMiniDebug
-        svr.LogEvent "Executing: SELECT * FROM " & szQuoteChar & lstData.List(X) & szQuoteChar, etMiniDebug
-        rsTemp.Open "SELECT * FROM " & szQuoteChar & lstData.List(X) & szQuoteChar, cnLocal, adOpenForwardOnly
+        'AC 20030908 millisecond fix
+        If (optType(2).Value = True) Then
+          svr.LogEvent "Executing: SELECT " & szSQLDataQuery & " FROM " & szQuoteChar & lstData.List(X) & szQuoteChar, etMiniDebug
+          rsTemp.Open "SELECT " & szSQLDataQuery & " FROM " & szQuoteChar & lstData.List(X) & szQuoteChar, cnLocal, adOpenForwardOnly
+        Else
+          svr.LogEvent "Executing: SELECT * FROM " & szQuoteChar & lstData.List(X) & szQuoteChar, etMiniDebug
+          rsTemp.Open "SELECT * FROM " & szQuoteChar & lstData.List(X) & szQuoteChar, cnLocal, adOpenForwardOnly
+        End If
+        'AC end
+        
         While Not rsTemp.EOF
           If lVer >= 7.3 Then
             If chkLCaseTables.Value = 0 Then
@@ -2240,4 +2276,6 @@ Finally:
   ' if not we think that this field is standart
   bIsAutoIncrement = False
 End Function
+
+
 

@@ -1,3 +1,9 @@
+1.X.X
+-----
+
+Allow proper migration of timestamps from SQL Server [Alban Colley]
+
+
 1.5.60
 ------
 
