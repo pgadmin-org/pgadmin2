@@ -1,0 +1,79 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" href="pgadmin2.css" type="text/css">
+<title>Troubleshooting Guide</title>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <td style="background-color: #FFFFFF" valign="middle">
+      <h3>Troubleshooting Guide</h3>
+    </td>
+    <td width="150" style="background-color: #FFFFFF">
+      <a href="index.html">
+      <img border="0" src="images/logo.jpg" align="right" width="147" height="69"></a>
+    </td>
+  </tr>
+</table>
+
+
+<p>Before emailing the lists with any problems, please take a look to see if 
+your problem is listed in the troubleshooting guide below.</p>
+<table width="98%">
+  <tr>
+    <th width="35%">Problem</th>
+    <th width="65%">Solution</th>
+  </tr>
+  <tr>
+    <td width="35%">pgAdmin gives the error:  <br><br><i>Could not connect to the server</i><br><br> when attempting to logon to the server.</td>
+    <td width="65%"><br>
+    Check each of the following possible causes of this error:
+      <ul>
+        <li id=TablePar>The server or port specified is incorrect.</li><br><br>
+        <li id=TablePar>The client workstation cannot establish a network connection to the server. Try using 'ping' on the workstation to check the network.</li><br><br>
+        <li id=TablePar>The server is not listening on a TCP/IP port. Make sure that the postmaster was started with the -i option, or that <i>tcpip_socket = true</i> is set in $PGDATA/postgresql.conf.</li><br><br>
+      </ul>
+  </tr>
+  <tr>
+    <td width="35%"><br>
+    pgAdmin gives an error similar to: <br><br><i>Attribute 'datlastsysoid' not found</i><br><br> when attempting to logon to the server.<br>
+&nbsp;</td>
+    <td width="65%">pgAdmin II requires PostgreSQL 7.1 or higher to operate correctly. The 'datlastsysoid' attribute is found in the pg_database system catalogue, but only on PostgreSQL 7.1+</td>
+  </tr>
+  <tr>
+    <td width="35%">pgAdmin gives an error similar to: <br><br><i>No pg_hba.conf entry for host 127.0.0.1, user postgres, database template1</i><br><br> when attempting to logon to the server.</td>
+    <td width="65%"><br>
+    Your workstation has not been given permission to access the 
+    Master Connection Database (in this case, the default template1). Either:<br>
+    <br>
+    add a suitable entry to $PGDATA/pg_hba.conf to allow access to the database,
+    <br>
+    <br>
+    or, if that is not possible, <br>
+    <br>
+    specify a different Master Connection Database for pgAdmin to use. This can 
+    be set on the 'PostgreSQL' tab under the 'Tools' -&gt; 'Options' menu option in 
+    the main pgAdmin window.<br>
+&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="35%">pgAdmin gives an error similar to: <br><br><i>DROP DATABASE: database "dbname" is being accessed by other users</i><br><br> when attempting to DROP a database.</td>
+    <td width="65%"><br>
+    This is a known bug in the pgSchema library which has proven impossible to fix so far! To work around this, exit pgAdmin and execute the SQL statement <br><br><i>DROP DATABASE dbname;</i><br><br> in a psql session. If anyone can fix the bug, that would also be a great help :-)<br>
+&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+
+
+
+
+</body>
+
+</html>

@@ -6,12 +6,42 @@
 </HEAD><BODY>
 <UL>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Bugs">
+		<param name="Local" value="html\developerinfo\bugs.html">
+		<param name="Local" value="html\troubleshooting.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Charter">
+		<param name="Local" value="html\licenceinfo\team.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Coding">
+		<param name="Local" value="html\developerinfo\coding.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="CVS">
 		<param name="Local" value="html\developerinfo\cvs.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Download">
+		<param name="Local" value="html\download.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Help">
+		<param name="Local" value="html\troubleshooting.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Info">
 		<param name="Local" value="html\developerinfo\index.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Licence">
+		<param name="Local" value="html\licenceinfo\licence.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="pgAdmin">
+		<param name="Local" value="html\index.html">
+		<param name="Local" value="html\download.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Standards">
@@ -22,37 +52,16 @@
 		<param name="Local" value="html\mailing.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Coding">
-		<param name="Local" value="html\developerinfo\coding.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Licence">
-		<param name="Local" value="html\licenceinfo\licence.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Team">
 		<param name="Local" value="html\licenceinfo\team.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Charter">
-		<param name="Local" value="html\licenceinfo\team.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Download">
-		<param name="Local" value="html\download.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="pgAdmin">
-		<param name="Local" value="html\index.html">
-		<param name="Local" value="html\download.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Bugs">
-		<param name="Local" value="html\developerinfo\bugs.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="To Do">
 		<param name="Local" value="html\developerinfo\todo.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Troubleshooting">
+		<param name="Local" value="html\troubleshooting.html">
 		</OBJECT>
 </UL>
 </BODY></HTML>

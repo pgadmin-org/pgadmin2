@@ -24,6 +24,11 @@
 			<param name="ImageNumber" value="23">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Troubleshooting Guide">
+			<param name="Local" value="html\troubleshooting.html">
+			<param name="ImageNumber" value="42">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Developer Info">
 			<param name="Local" value="html\developerinfo\index.html">
 			</OBJECT>
