@@ -1,0 +1,1 @@
+This folder is a plug-in template to help you write your own templates.
