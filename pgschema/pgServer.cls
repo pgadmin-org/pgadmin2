@@ -86,7 +86,7 @@ Private colGroups As Groups
 
 'Properties
 Private cnPostgreSQL As New Connection
-Private llLogging As LogLevel
+Private lLogging As LogLevel
 Private szLogfile As String
 Private szServer As String
 Private lPort As Long
@@ -126,7 +126,7 @@ Attribute LogEvent.VB_Description = "Log an event to the libraries logging syste
 Dim fNum As Integer
 
   RaiseEvent EventLog(etType, szMessage)
-  If llLogging >= etType Then
+  If lLogging >= etType Then
     fNum = FreeFile
     Open szLogfile For Append As #fNum
     
@@ -204,8 +204,20 @@ Dim szVersion() As String
   Set colUsers = Nothing
   Set colGroups = Nothing
   
+  'Connection String
+  szConnect = "SERVER=" & szServer & ";PORT=" & lPort & ";UID=" & szUsername & ";PWD=" & szPassword & ";DATABASE=" & szMasterDB & ";" & ODBC_CONNECT_OPTIONS
+  
+  'Set the ODBC logging
+  Select Case lLogging
+    Case llMiniDebug
+      szConnect = szConnect & "COMMLOG=1;DEBUG=0;"
+    Case llFullDebug
+      szConnect = szConnect & "COMMLOG=1;DEBUG=1;"
+    Case Else
+      szConnect = szConnect & "COMMLOG=0;DEBUG=0;"
+  End Select
+  
   'Open the connection
-  szConnect = "DRIVER=PostgreSQL;SERVER=" & szServer & ";PORT=" & lPort & ";UID=" & szUsername & ";PWD=" & szPassword & ";DATABASE=" & szMasterDB & ";MAX_LONG_VARCHAR=65536"
   If bShowPassword Then
     objServer.iLogEvent "Opening cnPostgreSQL: " & szConnect, etMiniDebug
   Else
@@ -299,7 +311,7 @@ Private Sub Class_Initialize()
   Set objServer = Me
   szServer = "127.0.0.1"
   lPort = 5432
-  llLogging = llNone
+  lLogging = llNone
   szLogfile = "pgSchema_" & App.ThreadID & ".log"
   szMasterDB = "template1"
 End Sub
@@ -677,7 +689,7 @@ Attribute LogLevel.VB_Description = "Sets/Returns the level of detail to include
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let LogLevel(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
-  llLogging = vData
+  lLogging = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -686,7 +698,7 @@ Public Property Get LogLevel() As LogLevel
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get LogLevel()", etFullDebug
 
-  LogLevel = llLogging
+  LogLevel = lLogging
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

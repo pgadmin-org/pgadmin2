@@ -6,6 +6,9 @@ Clear Relationships/Referenced Columns when selecting a new Referenced Table whe
 Correctly escape single quotes & backslashes in function code.
 Print function source nicely in the properties listview.
 Set MAX_VARCHAR_LENGTH to 64Kb so we don't truncate long functions etc.
+Allow double-clicking of items in the listview.
+Display some missing Server Properties in the listview.
+Switch on Commlog/Mylog when loglevel is high enough.
 
 1.1.72
 ------
