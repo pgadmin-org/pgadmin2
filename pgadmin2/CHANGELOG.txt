@@ -9,7 +9,7 @@ Set MAX_VARCHAR_LENGTH to 64Kb so we don't truncate long functions etc.
 Allow double-clicking of items in the listview.
 Display some missing Server Properties in the listview.
 Switch on Commlog/Mylog when loglevel is high enough.
-Added SSH Tunneling HOWTO from Fred Yanowski.
+Added SSH Tunneling HOWTO from Fred Yankowski.
 Fixed the Highlightbox control so it doesn't strip braces {} from text.
 Added support for PostgreSQL 7.2 style ACLs (seperated Update/Delete, added References & Trigger) in the Security Wizard.
 Support 64Bit sequences properly on PostgreSQL 7.2+
