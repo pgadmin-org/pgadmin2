@@ -236,6 +236,13 @@ Public Sub LogError(lError As Long, szError As String, szRoutine As String)
   frmMain.svr.LogEvent "Error in " & szRoutine & ": " & lError & " - " & szError, etErrors
   MsgBox "An error has occured in " & szRoutine & ":" & vbCrLf & vbCrLf & "Number: " & lError & vbCrLf & "Description: " & szError, vbExclamation, App.Title & " Error"
   
+  'If we are between StartMsg/EndMsg, call EndMsg with errors
+  If Screen.MousePointer = vbHourglass Then
+    EndMsg " with errors"
+  Else
+    frmMain.sb.Panels("info").Text = "An error has occured."
+  End If
+  
 End Sub
 
 Public Sub StartMsg(ByVal szMsg As String)
@@ -255,14 +262,10 @@ Public Sub EndMsg(Optional ByVal szErr As String)
 Dim szMsg As String
    
   szMsg = "Done" & szErr & " - " & Fix((Timer - sTimer) * 100) / 100 & " Secs."
-  If InStr(1, frmMain.sb.Panels("info").Text, " Done") = 0 Then
+  If InStr(1, frmMain.sb.Panels("info").Text, "Done") = 0 Then
     frmMain.svr.LogEvent szMsg, etMiniDebug
     frmMain.sb.Panels("timer").Text = Fix((Timer - sTimer) * 100) / 100 & " Secs."
-    If szErr = "" Then
-      frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & " Done."
-    Else
-      frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & " Done: " & szErr & "."
-    End If
+    frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & " Done" & szErr & "." 'szMsg '" Done."
     frmMain.sb.Refresh
   End If
   Screen.MousePointer = vbDefault
