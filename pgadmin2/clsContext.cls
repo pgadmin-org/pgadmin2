@@ -146,6 +146,8 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("sep2").Visible = True
     frmMain.tb.Buttons("sql").Visible = True
     frmMain.tb.Buttons("vacuum").Visible = True
+    frmMain.mnuFileSaveDBSchema.Visible = True
+    frmMain.mnuFileSep2.Visible = True
     frmMain.mnuPopupCreateAggregate.Visible = True
     frmMain.mnuPopupCreateFunction.Visible = True
     frmMain.mnuPopupCreateIndex.Visible = True
@@ -176,6 +178,8 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("sep2").Visible = False
     frmMain.tb.Buttons("sql").Visible = False
     frmMain.tb.Buttons("vacuum").Visible = False
+    frmMain.mnuFileSaveDBSchema.Visible = False
+    If frmMain.mnuFileSaveDefinition.Visible = False Then frmMain.mnuFileSep2.Visible = False
     frmMain.mnuPopupCreateAggregate.Visible = False
     frmMain.mnuPopupCreateFunction.Visible = False
     frmMain.mnuPopupCreateIndex.Visible = False

@@ -47,10 +47,16 @@ complete <a href="developerinfo/index.html">technical information</a>.</p>
 
 
 <p>In order to run install and run pgAdmin II, you will need the following 
-software pre-installed on your PC:</p>
+software pre-installed:</p>
 
 
 <ul>
+  <li><a href="http://www.postgresql.org">PostgreSQL 7.1</a> or higher. This may be installed 
+  locally (under Cygwin, or in a suitable virtual machine such as <a href="http://www.vmware.com/">
+  VMware</a> running Linux, BSD or Solaris). In many cases, PostgreSQL will be 
+  installed on a remote server.
+  pgAdmin II has also been run successfully using <a href="http://www.winehq.org">Wine</a>
+  to manage a PostgreSQL installation on the same Linux machine.<br><br></li>
   <li>The <a href="http://msdn.microsoft.com/downloads/">Windows Installer</a>. 
   This is pre-installed on Windows 2000 and ME, but may be required on earlier 
   versions of Windows. Unfortunately Microsoft re-organise their website 
@@ -59,7 +65,7 @@ software pre-installed on your PC:</p>
 &nbsp;</li>
   <li><a href="http://www.microsoft.com/data">Microsoft Data Access Components (MDAC)</a>. 
   Unlike it's predecessor, pgAdmin II is not dependent on the latest version of 
-  MDAC requiring version 2.0 or higher. MDAC is pre-installed on most newer 
+  MDAC, requiring only version 2.0 or higher. MDAC is pre-installed on most newer 
   versions of Windows.</li>
 </ul>
 <p>Note that the PostgreSQL ODBC driver is <b>not</b> required, as the latest 

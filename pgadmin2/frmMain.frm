@@ -481,6 +481,10 @@ Begin VB.Form frmMain
          Caption         =   "&Save Definition..."
          Visible         =   0   'False
       End
+      Begin VB.Menu mnuFileSaveDBSchema 
+         Caption         =   "S&ave DB Schema..."
+         Visible         =   0   'False
+      End
       Begin VB.Menu mnuFileSep2 
          Caption         =   "-"
          Visible         =   0   'False
@@ -947,6 +951,48 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileChangePassword_Click()",
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileChangePassword_Click"
 End Sub
 
+Private Sub mnuFileSaveDbSchema_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileSaveDBSchema_Click()", etFullDebug
+
+Dim fNum As Integer
+Dim bResetSequences As Boolean
+
+  'Reset Sequences
+  If MsgBox("Do you wish to reset Sequence values to zero in the output file?", vbQuestion + vbYesNo, "Reset Sequences") = vbYes Then bResetSequences = True
+  
+  With cdlg
+    .DialogTitle = "Save Database Schema"
+    .Filter = "SQL Scripts (*.sql)|*.sql"
+    .CancelError = True
+    .ShowSave
+  End With
+  If cdlg.FileName = "" Then
+    MsgBox "No filename specified - Database Schema not saved.", vbExclamation, "Warning"
+    Exit Sub
+  End If
+  If Dir(cdlg.FileName) <> "" Then
+    If MsgBox("File exists - overwrite?", vbYesNo + vbQuestion, "Overwrite File") = vbNo Then mnuFileSaveDbSchema_Click
+  End If
+  fNum = FreeFile
+  svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug
+  Open cdlg.FileName For Output As #fNum
+  StartMsg "Saving Database Schema..."
+  Print #fNum, "-- " & App.Title & " v" & App.Major & "." & App.Minor & "." & App.Revision & " Database Schema Dump" & vbCrLf
+  Print #fNum, svr.Databases(ctx.CurrentDB).Schema(bResetSequences)
+  EndMsg
+  Close #fNum
+
+  Exit Sub
+Err_Handler:
+  EndMsg
+  If Err.Number = 32755 Then
+    svr.LogEvent "Save Database Schema operation cancelled.", etMiniDebug
+    Exit Sub
+  End If
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileSaveDBSchema_Click"
+End Sub
+
 Private Sub mnuFileSaveDefinition_Click()
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileSaveDefinition_Click()", etFullDebug
@@ -954,13 +1000,13 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileSaveDefinition_Click()",
 Dim fNum As Integer
 
   With cdlg
-    .DialogTitle = "Save SQL Query"
+    .DialogTitle = "Save Object Definition"
     .Filter = "SQL Scripts (*.sql)|*.sql"
     .CancelError = True
     .ShowSave
   End With
   If cdlg.FileName = "" Then
-    MsgBox "No filename specified - SQL query not saved.", vbExclamation, "Warning"
+    MsgBox "No filename specified - Object Definition not saved.", vbExclamation, "Warning"
     Exit Sub
   End If
   If Dir(cdlg.FileName) <> "" Then
@@ -969,13 +1015,16 @@ Dim fNum As Integer
   fNum = FreeFile
   svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Output As #fNum
+  StartMsg "Saving Object Definition..."
   Print #fNum, txtDefinition.Text
+  EndMsg
   Close #fNum
 
   Exit Sub
 Err_Handler:
+  EndMsg
   If Err.Number = 32755 Then
-    svr.LogEvent "Save Definition operation cancelled.", etMiniDebug
+    svr.LogEvent "Save Object Definition operation cancelled.", etMiniDebug
     Exit Sub
   End If
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileSaveDefinition_Click"
@@ -1777,9 +1826,6 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "DBMS", "property", "property")
   lvItem.SubItems(1) = svr.dbVersion.Description
   
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ""
-  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvServer"
 End Sub
@@ -1808,9 +1854,6 @@ Dim dat As pgDatabase
       lvItem.SubItems(1) = Replace(dat.Comment, vbCrLf, " ")
     End If
   Next dat
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDatabases"
@@ -1891,9 +1934,6 @@ Dim grp As pgGroup
     If Len(szTemp) > 2 Then lvItem.SubItems(2) = Left(szTemp, Len(szTemp) - 2)
   Next grp
   
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Groups.SQL
-  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvGroups"
 End Sub
@@ -1953,9 +1993,6 @@ Dim usr As pgUser
     lvItem.SubItems(1) = usr.ID
     lvItem.SubItems(2) = usr.AccountExpires
   Next usr
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Users.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvUsers"
@@ -2027,9 +2064,6 @@ Dim agg As pgAggregate
       lvItem.SubItems(1) = Replace(agg.Comment, vbCrLf, " ")
     End If
   Next agg
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Aggregates.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvAggregates"
@@ -2108,9 +2142,6 @@ Dim fnc As pgFunction
       lvItem.SubItems(1) = Replace(fnc.Comment, vbCrLf, " ")
     End If
   Next fnc
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Functions.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvFunctions"
@@ -2200,9 +2231,6 @@ Dim lng As pgLanguage
     End If
   Next lng
   
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Languages.SQL
-  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvLanguages"
 End Sub
@@ -2267,9 +2295,6 @@ Dim opr As pgOperator
       lvItem.SubItems(1) = Replace(opr.Comment, vbCrLf, " ")
     End If
   Next opr
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Operators.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvOperators"
@@ -2358,9 +2383,6 @@ Dim seq As pgSequence
     End If
   Next seq
   
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Sequences.SQL
-  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvSequences"
 End Sub
@@ -2437,9 +2459,6 @@ Dim tbl As pgTable
       lvItem.SubItems(1) = Replace(tbl.Comment, vbCrLf, " ")
     End If
   Next tbl
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Tables.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTables"
@@ -2520,9 +2539,6 @@ Dim chk As pgCheck
     End If
   Next chk
   
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ""
-  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvChecks"
 End Sub
@@ -2547,9 +2563,6 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvCheck"
@@ -2581,9 +2594,6 @@ Dim col As pgColumn
       lvItem.SubItems(2) = Replace(col.Comment, vbCrLf, " ")
     End If
   Next col
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvColumns"
@@ -2634,9 +2644,6 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Comment
   
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ""
-  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvColumn"
 End Sub
@@ -2665,9 +2672,6 @@ Dim fky As pgForeignKey
       lvItem.SubItems(1) = fky.ReferencedTable
     End If
   Next fky
-
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvForeignKeys"
@@ -2706,9 +2710,6 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
-
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvForeignKey"
@@ -2728,9 +2729,6 @@ Dim rel As pgRelationship
     Set lvItem = lv.ListItems.Add(, "REL-" & GetID, rel.LocalColumn, "relationship", "relationship")
     lvItem.SubItems(1) = rel.ReferencedColumn
   Next rel
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvRelationships"
@@ -2760,9 +2758,6 @@ Dim ind As pgIndex
       lvItem.SubItems(1) = Replace(ind.Comment, vbCrLf, " ")
     End If
   Next ind
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvIndexes"
@@ -2845,9 +2840,6 @@ Dim rul As pgRule
     End If
   Next rul
   
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules.SQL
-  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvRules"
 End Sub
@@ -2919,9 +2911,6 @@ Dim trg As pgTrigger
     End If
   Next trg
   
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers.SQL
-  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTriggers"
 End Sub
@@ -2986,9 +2975,6 @@ Dim typ As pgType
       lvItem.SubItems(1) = Replace(typ.Comment, vbCrLf, " ")
     End If
   Next typ
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Types.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTypes"
@@ -3075,9 +3061,6 @@ Dim lvItem As ListItem
       lvItem.SubItems(1) = Replace(vie.Comment, vbCrLf, " ")
     End If
   Next vie
-
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Views.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvViews"
@@ -3130,6 +3113,7 @@ Dim vData As Variant
   lv.ColumnHeaders.Clear
   lv.ListItems.Clear
   lv.Tag = Node.FullPath
+  If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Select Case Left(Node.Key, 4)
 
@@ -3304,7 +3288,7 @@ End Sub
 
 
 Private Sub lv_ItemClick(ByVal Item As MSComctlLib.ListItem)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
 
 Dim szPath() As String
@@ -3416,7 +3400,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_Change()", etFull
   
   If txtDefinition.Text = "" Then
     mnuFileSaveDefinition.Visible = False
-    mnuFileSep2.Visible = False
+    If frmMain.mnuFileSaveDBSchema.Visible = False Then mnuFileSep2.Visible = False
   Else
     mnuFileSaveDefinition.Visible = True
     mnuFileSep2.Visible = True
