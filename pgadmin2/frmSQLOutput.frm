@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmSQLOutput 
    Caption         =   "SQL Output"
    ClientHeight    =   3195
@@ -22,7 +22,7 @@ Begin VB.Form frmSQLOutput
          Caption         =   "&Delete"
          Enabled         =   0   'False
          Height          =   330
-         Left            =   1845
+         Left            =   1755
          TabIndex        =   8
          ToolTipText     =   "Delete the selected record."
          Top             =   45
@@ -32,7 +32,7 @@ Begin VB.Form frmSQLOutput
          Caption         =   "&Edit"
          Enabled         =   0   'False
          Height          =   330
-         Left            =   945
+         Left            =   900
          TabIndex        =   7
          ToolTipText     =   "Edit the selected record."
          Top             =   45
@@ -47,15 +47,24 @@ Begin VB.Form frmSQLOutput
          Top             =   45
          Width           =   825
       End
+      Begin VB.CommandButton cmdRefresh 
+         Caption         =   "&Refresh"
+         Height          =   330
+         Left            =   2610
+         TabIndex        =   13
+         ToolTipText     =   "Delete the selected record."
+         Top             =   45
+         Width           =   825
+      End
       Begin VB.CommandButton cmdCancel 
          Caption         =   "&Cancel"
          Height          =   330
-         Left            =   1395
+         Left            =   1755
          TabIndex        =   10
          ToolTipText     =   "Add a new record."
          Top             =   45
          Visible         =   0   'False
-         Width           =   1275
+         Width           =   1680
       End
       Begin VB.CommandButton cmdSave 
          Caption         =   "&Save"
@@ -65,13 +74,13 @@ Begin VB.Form frmSQLOutput
          ToolTipText     =   "Add a new record."
          Top             =   45
          Visible         =   0   'False
-         Width           =   1275
+         Width           =   1680
       End
       Begin VB.Label lblInfo 
          AutoSize        =   -1  'True
          Caption         =   "0 Records"
          Height          =   195
-         Left            =   2745
+         Left            =   3510
          TabIndex        =   11
          Top             =   120
          Width           =   735
@@ -322,6 +331,16 @@ Err_Handler:
   If rsCount.State <> adStateClosed Then rsCount.Close
   Set rsCount = Nothing
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.cmdDelete_Click"
+End Sub
+
+Private Sub cmdRefresh_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdSave_Click()", etFullDebug
+
+  rsSQL.Requery
+  RefreshData
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.cmdSave_Click"
 End Sub
 
 Private Sub cmdSave_Click()
@@ -786,19 +805,33 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.LoadGrid()", etFullDebug
 
 Dim X As Long
-Dim itmX As ListItem
 
   cmdSave.Visible = False
   cmdCancel.Visible = False
   
   'Load Headers
-  StartMsg "Loading Data..."
   lvData.ColumnHeaders.Clear
   For X = 0 To rsSQL.Fields.Count - 1
     lvData.ColumnHeaders.Add , "C" & X & ":" & rsSQL.Fields(X).Type, rsSQL.Fields(X).Name & ""
   Next X
       
+  RefreshData
+  
+  Exit Sub
+Err_Handler:
+  EndMsg
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.LoadGrid"
+End Sub
+
+Private Sub RefreshData()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.RefreshData()", etFullDebug
+
+Dim itmX As ListItem
+Dim X As Long
+
   'Load Data
+  StartMsg "Loading data..."
   lvData.ListItems.Clear
   lblInfo.Caption = "Record 0 of 0"
   If Not (rsSQL.EOF And rsSQL.BOF) Then
@@ -835,7 +868,7 @@ Dim itmX As ListItem
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.LoadGrid"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.RefreshData"
 End Sub
 
 Private Sub lvData_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
@@ -916,6 +949,7 @@ Dim X As Integer
   cmdAdd.Visible = False
   cmdEdit.Visible = False
   cmdDelete.Visible = False
+  cmdRefresh.Visible = False
   cmdSave.Visible = True
   cmdCancel.Visible = True
   txtField(0).SetFocus
@@ -1007,6 +1041,7 @@ Dim X As Integer
   cmdAdd.Visible = True
   cmdEdit.Visible = True
   cmdDelete.Visible = True
+  cmdRefresh.Visible = True
   cmdSave.Visible = False
   cmdCancel.Visible = False
   picEdit.Visible = False
