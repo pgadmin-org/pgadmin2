@@ -25,7 +25,7 @@
   A single project should be exportable to an SQL script, or publishable to 
   other databases/servers. Should also include security to restrict access to 
   objects to authorised development team members.<br>&nbsp;</li>
-  <li>Add code to allow pseudo-editing of Views, Triggers, Functions &amp; Tables. 
+  <li>Add code to allow pseudo-editing of Views, Triggers &amp; Tables. 
   This would be implemented in pgSchema and would generally involve dropping 
   object and re-creating them with the new changes applied.<br>&nbsp;</li>
   <li>Build a Log Analyser Plugin to analyse PostgreSQL logs. eg. Watching a 
@@ -46,6 +46,8 @@
   <li>Only connect to each database when accessed, not when Databases node is clicked.<br>&nbsp;</li>
   <li>Allow selection of the .mdw file in the Migration Wizard.<br>&nbsp;</li>
   <li>Allow Migration of data only to pre-existing tables in the Migration Wizard.<br>&nbsp;</li>
+  <li>Allow creation of tables with no columnc, just inherits.<br>&nbsp;</li>
+  <li>Publishing Wizard should remember production databases.<br>&nbsp;</li>
 </ul>
 
 </body>
