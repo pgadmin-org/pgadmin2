@@ -40,7 +40,7 @@ suitable for import into PostgreSQL.  Written for MS SQL Server 2000.
 This should also work on SQL 7.0, but the return length must be shortened
 to 255 characters (which means the input varbinary should be no more than
 50 characters, since every input character results in 5 for the output).
-07 JAN 2003 - Roman Fail (rfail@posportal.com)  
+07 JAN 2003 - Roman Fail
 */
 
 DECLARE @p1 INTEGER, @p8 INTEGER, @p64 INTEGER,
@@ -80,8 +80,6 @@ to prevent this problem.<br>&nbsp;</li>
 <li>Start bcp for the table. My server took about 1.5 hours to generate 24 million rows 
 (must enter the actual sa password & server name in correct spot).<br><br>
 
-Execute bcp_batchdetail.bat on MSSQL server, which contains only one command:<br><br>
-
 <code>bcp "SELECT primaryKeyID, dbo.vbin2oct(myVarBinaryField), otherField FROM myTable" queryout c:\tabledata.txt -k -U "sa" -P "&lt;sapassword&gt;" -c -S &lt;myservername&gt;</code>
 <br>&nbsp;</li>
  
@@ -115,7 +113,7 @@ CREATE TABLE mytable (
 
 <li>On the PostgreSQL server, run psql and issue the command:<br><br>
 
-<code>COPY batchdetail FROM ‘/home/postgres/tabledata.txt’;</code>
+<code>COPY mytable FROM ‘/home/postgres/tabledata.txt’;</code>
 
 For me, this took 45 minutes for 24 million rows - about a 10GB file.<br>&nbsp;</li>
 
