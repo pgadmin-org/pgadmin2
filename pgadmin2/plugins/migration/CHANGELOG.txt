@@ -2,6 +2,7 @@
 ------
 
 Copy column values into a temp variable before use to avoid problems with the Foxpro driver.
+Don't clear source table list when navigating back past the tab.
 
 
 1.2.0 Stable
