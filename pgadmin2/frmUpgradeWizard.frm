@@ -291,6 +291,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.cmdNext_Click(
   bButtonPress = True
   Select Case tabWizard.Tab
     Case 0
+      lvVersions.ListItems.Clear
       tabWizard.Tab = 1
       cmdNext.Enabled = False
       cmdNext.Visible = False
