@@ -3150,7 +3150,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If svr.dbVersion.VersionNum >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relid = " & ctx.CurrentObject.OID)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relid = " & ctx.CurrentObject.OID & "::oid")
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
   
@@ -3318,7 +3318,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If svr.dbVersion.VersionNum >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relid = " & ctx.CurrentObject.OID)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relid = " & ctx.CurrentObject.OID & "::oid")
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
   
@@ -3756,7 +3756,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If svr.dbVersion.VersionNum >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND statio.indexrelid = " & ctx.CurrentObject.OID)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND statio.indexrelid = " & ctx.CurrentObject.OID & "::oid")
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", FixWidth(sv.Width - 2600)
   

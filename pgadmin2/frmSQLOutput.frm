@@ -794,12 +794,19 @@ Dim szSchemas() As String
   If iTemp <> 0 And iTemp < iEnd Then iEnd = iTemp
   If iEnd = 0 Then iEnd = Len(szQuery) + 1
 
+  'Get rid of double spaces, CRs or tabs in the rest of the query
+  szTemp = Replace(Mid(szQuery, iStart, iEnd - iStart), vbTab, " ")
+  szTemp = Replace(szTemp, vbCrLf, " ")
+  While InStr(1, szTemp, "  ")
+    szTemp = Replace(szTemp, "  ", " ")
+  Wend
+  
   'Split the FROM clause by space. We can then iterate through each element of
   'the array to figure out whether we have more than one table. The following
   'conditions could determine that we have more than one table:
   '1) A trailing , on any element
   '2) An element containing JOIN INNER OUTER LEFT RIGHT FULL CROSS or [(]SELECT
-  szBits = Split(Mid(szQuery, iStart, iEnd - iStart), " ")
+  szBits = Split(Trim(szTemp), " ")
   For X = 0 To UBound(szBits)
     If Right(szBits(X), 1) = "," Then
       szTable = ""
