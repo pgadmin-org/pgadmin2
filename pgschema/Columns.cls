@@ -95,6 +95,7 @@ Dim szHex As String
   End If
   
   objNewMember.Position = lPosition
+  If szDataType = "bpchar" Then szDataType = "char"
   objNewMember.DataType = szDataType
   If szDataType = "numeric" Then
     szHex = Hex((Int(lLength) - 4) And &HFFFF)
