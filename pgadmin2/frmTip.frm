@@ -86,7 +86,7 @@ Dim colTips As New Collection
 
 
 Private Sub DoNextTip()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.DoNextTip()", etFullDebug
 
 Dim lTip As Long
@@ -99,7 +99,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Function LoadTips() As Boolean
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.LoadTips()", etFullDebug
 
 Dim szNextTip As String
@@ -130,7 +130,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
 
 Private Sub chkLoadTipsAtStartup_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.chkLoadTipsAtStartup_Click()", etFullDebug
 
   If chkLoadTipsAtStartup.Value = 1 Then
@@ -144,7 +144,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdNextTip_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.cmdNextTip_Click()", etFullDebug
 
   DoNextTip
@@ -154,7 +154,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.cmdOK_Click()", etFullDebug
 
   Unload Me
@@ -164,7 +164,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Load()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.Form_Load()", etFullDebug
 
   'See if we should be shown at startup
@@ -189,7 +189,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub Display(lTip As Long)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.Display(" & lTip & ")", etFullDebug
 
   If colTips.Count > 0 Then

@@ -113,8 +113,8 @@ Begin VB.Form frmUpgradeWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmUpgradeWizard.frx":3AEA
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvVersions"
-      Tab(1).Control(1)=   "Label1(2)"
+      Tab(1).Control(0)=   "Label1(2)"
+      Tab(1).Control(1)=   "lvVersions"
       Tab(1).ControlCount=   2
       Begin MSComctlLib.ListView lvVersions 
          Height          =   2400
@@ -236,7 +236,7 @@ Dim bButtonPress As Boolean
 Dim bProgramPress As Boolean
 
 Private Sub lvVersions_DblClick()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.lvVersions_DblClick()", etFullDebug
 
 Dim hDC As Long
@@ -251,7 +251,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtServer_Change()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.txtServer_Change()", etFullDebug
 
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Server", regString, txtServer.Text
@@ -261,7 +261,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cboFrequency_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.cboFrequency_Click()", etFullDebug
 
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Frequency", regString, cboFrequency.Text
@@ -271,7 +271,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkAuto_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.chkAuto_Click()", etFullDebug
 
   If chkAuto.Value = 1 Then
@@ -285,7 +285,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdNext_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.cmdNext_Click()", etFullDebug
 
   bButtonPress = True
@@ -306,7 +306,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdPrevious_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.cmdPrevious_Click()", etFullDebug
 
   bButtonPress = True
@@ -325,7 +325,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.cmdOK_Click()", etFullDebug
 
   Unload Me
@@ -335,7 +335,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Load()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.Form_Load()", etFullDebug
 
   'Set the font
@@ -360,7 +360,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tabWizard_Click(PreviousTab As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.tabWizard_Click(" & PreviousTab & ")", etFullDebug
 
   If bButtonPress = False And bProgramPress = False Then
@@ -376,7 +376,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub UpgradeCheck()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.UpgradeCheck()", etFullDebug
 
 Dim szData As String
@@ -438,7 +438,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Function VersionGreater(szVer1 As String, szVer2 As String) As Boolean
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.VersionGreater(" & QUOTE & szVer1 & QUOTE & ", " & QUOTE & szVer2 & QUOTE & ")", etFullDebug
 
 Dim szBits1() As String
@@ -467,7 +467,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
 
 Private Function GetVersions() As String
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.GetVersions()", etFullDebug
 
 Dim lISession As Long

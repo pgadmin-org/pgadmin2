@@ -418,7 +418,7 @@ Dim szUsers() As String
 Dim objView As pgView
 
 Private Sub cmdCancel_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -428,7 +428,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdLoad_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdLoad_Click()", etFullDebug
 
 Dim szLine As String
@@ -468,7 +468,7 @@ Err_Handler:
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -509,10 +509,10 @@ Dim szOldName As String
     'Update the viewname if required
     If txtProperties(0).Tag = "Y" Then
       szOldName = objView.Name
-      frmMain.svr.Databases(szDatabase).Views.Rename szOldName, txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Rename szOldName, txtProperties(0).Text
         
       'Update the node text
-      frmMain.svr.Databases(szDatabase).Views(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
     End If
     
     If hbxProperties(1).Tag = "Y" Then objView.Definition = hbxProperties(1).Text
@@ -570,7 +570,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional View As pgView)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -627,7 +627,7 @@ Dim szAccess() As String
       cmdRemove.Enabled = False
     End If
     
-    If (frmMain.svr.dbVersion.VersionNum >= 7.2) And Not objView.SystemObject Then
+    If Not objView.SystemObject Then
       txtProperties(0).BackColor = &H80000005
       txtProperties(0).Locked = False
       hbxProperties(1).BackColor = &H80000005
@@ -679,7 +679,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemove_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
@@ -691,7 +691,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String
@@ -739,7 +739,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -749,7 +749,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -759,7 +759,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.chkPrivilege_Click(" & Index & ")", etFullDebug
 
 Dim X As Integer

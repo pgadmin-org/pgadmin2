@@ -334,7 +334,7 @@ Dim szNamespace As String
 Dim objTrigger As pgTrigger
 
 Private Sub cmdCancel_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -344,7 +344,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -413,7 +413,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional Trigger As pgTrigger)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -504,7 +504,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Trigger As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.hbxProperties_Change(" & Trigger & ")", etFullDebug
 
   hbxProperties(Trigger).Tag = "Y"
@@ -514,7 +514,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub SetChecks(szData As String)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.SetChecks(" & QUOTE & szData & QUOTE & ")", etFullDebug
 
 Static bSetting As Boolean
@@ -538,7 +538,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objTrigger Is Nothing) Then

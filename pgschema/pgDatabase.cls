@@ -761,8 +761,10 @@ Dim vTemp As Variant
   'Namespaces
   For Each vNamespaceObject In Namespaces
     If (Not vNamespaceObject.SystemObject) Or (vNamespaceObject.Name = "public") Then
-      Set arrObjects(UBound(arrObjects)) = vNamespaceObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+      If objServer.dbVersion.VersionNum >= 7.3 Then
+        Set arrObjects(UBound(arrObjects)) = vNamespaceObject
+        ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+      End If
   
       'Aggregates
       For Each vObject In vNamespaceObject.Aggregates

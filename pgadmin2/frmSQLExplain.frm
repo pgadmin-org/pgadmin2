@@ -69,7 +69,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Load()", etFullDebug
 
   Me.Width = 5790
@@ -85,7 +85,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Resize()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Resize()", etFullDebug
 
   txtQuery.Minimise
@@ -105,7 +105,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub Explain(szSQL As String, szDatabase As String)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Resize()", etFullDebug
 
 Dim lEnv As Long

@@ -527,7 +527,7 @@ Dim szNamespace As String
 Dim objOperator As pgOperator
 
 Private Sub cmdCancel_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -537,7 +537,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -583,7 +583,7 @@ Dim szRightSort As String
     Set objNewOperator = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Operators.Add(txtProperties(0).Text, szFunction, cboProperties(0).Text, cboProperties(1).Text, szCommutator, szNegator, szRestrict, szJoin, Bin2Bool(chkProperties(0).Value), szLeftSort, szRightSort, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    Set objNode = frmMain.svr.Databases(szDatabase).Namespace(szNamespace).Operators.Tag
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Operators.Tag
     Set objNewOperator.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPR-" & GetID, txtProperties(0).Text & " (" & cboProperties(0).Text & ", " & cboProperties(1).Text & ")", "Operator")
     objNode.Text = "Operators (" & objNode.Children & ")"
   
@@ -606,7 +606,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional Operator As pgOperator)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -742,7 +742,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -752,7 +752,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objOperator Is Nothing) Then
@@ -764,7 +764,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objNamespace As pgNamespace

@@ -102,7 +102,7 @@ End Property
 
 'The Current Object
 Public Property Set CurrentObject(ByVal vData As Variant)
-'On Error Resume Next
+On Error Resume Next
 
   Set objCurrentObject = vData
   

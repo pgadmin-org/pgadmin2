@@ -529,7 +529,7 @@ Dim szUsers() As String
 Dim objSequence As pgSequence
 
 Private Sub cmdCancel_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -539,7 +539,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdOK_Click()", etFullDebug
 
 Dim szOldName As String
@@ -584,7 +584,7 @@ Dim vEntity As Variant
     'Update the sequencename if required
     If txtProperties(0).Tag = "Y" Then
       szOldName = objSequence.Name
-      frmMain.svr.Databases(szDatabase).Sequences.Rename szOldName, txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Rename szOldName, txtProperties(0).Text
         
       'Update the node text
       frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
@@ -645,7 +645,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional Sequence As pgSequence)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -764,7 +764,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemove_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
@@ -776,7 +776,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String
@@ -824,7 +824,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -834,7 +834,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -844,7 +844,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.chkPrivilege_Click(" & Index & ")", etFullDebug
 
 Dim X As Integer
@@ -885,7 +885,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objSequence Is Nothing) Then
