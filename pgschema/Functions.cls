@@ -258,7 +258,7 @@ Dim objFunction As pgFunction
   If objVersion.VersionNum >= 7.3 Then
     szSQL = SQL_GET_FUNCTIONS7_3 & " AND proname = '" & Name & "' WHERE pronamespace = " & dNamespaceOID & "::oid ORDER BY proname"
   Else
-    szSQL = SQL_GET_FUNCTIONS7_1 & " AND proname = '" & Name & "' ORDER BY proname"
+    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE proname = '" & Name & "' ORDER BY proname"
   End If
     
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
