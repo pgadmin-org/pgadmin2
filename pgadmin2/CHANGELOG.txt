@@ -1,4 +1,4 @@
-1.1.??
+1.1.72
 ------
 
 Fixed a bug in the row identification code in the Edit Grid when deleting records.
