@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Database Migration Wizard"
@@ -22,7 +22,7 @@ Begin VB.Form frmWizard
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
-      TabIndex        =   5
+      TabIndex        =   33
       Top             =   0
       Width           =   465
    End
@@ -30,7 +30,7 @@ Begin VB.Form frmWizard
       Caption         =   "&Edit Type Map"
       Height          =   330
       Left            =   540
-      TabIndex        =   4
+      TabIndex        =   18
       ToolTipText     =   "Edit the data Type Map."
       Top             =   3960
       Visible         =   0   'False
@@ -48,7 +48,7 @@ Begin VB.Form frmWizard
       Enabled         =   0   'False
       Height          =   330
       Left            =   3300
-      TabIndex        =   0
+      TabIndex        =   17
       ToolTipText     =   "Move back a step."
       Top             =   3960
       Width           =   1140
@@ -57,18 +57,8 @@ Begin VB.Form frmWizard
       Caption         =   "&Next"
       Height          =   330
       Left            =   4500
-      TabIndex        =   1
+      TabIndex        =   16
       ToolTipText     =   "Proceed to the next step."
-      Top             =   3960
-      Width           =   1140
-   End
-   Begin VB.CommandButton cmdMigrate 
-      Caption         =   "&Migrate db"
-      Enabled         =   0   'False
-      Height          =   330
-      Left            =   5700
-      TabIndex        =   2
-      ToolTipText     =   "Start the database migration."
       Top             =   3960
       Width           =   1140
    End
@@ -78,7 +68,7 @@ Begin VB.Form frmWizard
       Enabled         =   0   'False
       Height          =   330
       Left            =   5700
-      TabIndex        =   3
+      TabIndex        =   32
       ToolTipText     =   "Accept the completed migration"
       Top             =   3960
       Visible         =   0   'False
@@ -87,9 +77,9 @@ Begin VB.Form frmWizard
    Begin TabDlg.SSTab tabWizard 
       Height          =   3840
       Left            =   540
-      TabIndex        =   6
+      TabIndex        =   0
       TabStop         =   0   'False
-      Top             =   60
+      Top             =   90
       Width           =   6300
       _ExtentX        =   11113
       _ExtentY        =   6773
@@ -128,45 +118,62 @@ Begin VB.Form frmWizard
       TabPicture(1)   =   "frmWizard.frx":187D
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Label2"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "lstDatabase"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":1899
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "Label1(1)"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "lstTables"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "cmdSelect(0)"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "cmdDeselect(0)"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18B5
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "Label1(9)"
+      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "lstData"
+      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "cmdSelect(1)"
+      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).Control(3)=   "cmdDeselect(1)"
+      Tab(3).Control(3).Enabled=   0   'False
       Tab(3).ControlCount=   4
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":18D1
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "Label1(10)"
+      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "Label1(8)"
+      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).Control(2)=   "lstForeignKeys"
+      Tab(4).Control(2).Enabled=   0   'False
       Tab(4).Control(3)=   "cmdSelect(2)"
+      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).Control(4)=   "cmdDeselect(2)"
+      Tab(4).Control(4).Enabled=   0   'False
       Tab(4).ControlCount=   5
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":18ED
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "txtStatus"
-      Tab(5).Control(1)=   "pbStatus"
+      Tab(5).Control(0)=   "pbStatus"
+      Tab(5).Control(0).Enabled=   0   'False
+      Tab(5).Control(1)=   "txtStatus"
+      Tab(5).Control(1).Enabled=   0   'False
       Tab(5).ControlCount=   2
       Begin VB.CommandButton cmdDeselect 
          Caption         =   "&Deselect All"
          Height          =   330
          Index           =   0
          Left            =   -74790
-         TabIndex        =   44
+         TabIndex        =   21
          Top             =   975
          Width           =   1230
       End
@@ -175,7 +182,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   0
          Left            =   -74790
-         TabIndex        =   43
+         TabIndex        =   20
          ToolTipText     =   "Select all tables"
          Top             =   555
          Width           =   1230
@@ -184,7 +191,7 @@ Begin VB.Form frmWizard
          Height          =   3435
          Left            =   -73410
          Style           =   1  'Checkbox
-         TabIndex        =   42
+         TabIndex        =   22
          Top             =   315
          Width           =   4650
       End
@@ -193,7 +200,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   1
          Left            =   -74790
-         TabIndex        =   40
+         TabIndex        =   24
          Top             =   975
          Width           =   1230
       End
@@ -202,7 +209,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   1
          Left            =   -74790
-         TabIndex        =   39
+         TabIndex        =   23
          ToolTipText     =   "Select all tables"
          Top             =   555
          Width           =   1230
@@ -211,7 +218,7 @@ Begin VB.Form frmWizard
          Height          =   3435
          Left            =   -73410
          Style           =   1  'Checkbox
-         TabIndex        =   38
+         TabIndex        =   25
          Top             =   315
          Width           =   4650
       End
@@ -220,7 +227,7 @@ Begin VB.Form frmWizard
          Height          =   330
          Index           =   2
          Left            =   -74790
-         TabIndex        =   35
+         TabIndex        =   27
          Top             =   975
          Width           =   1230
       End
@@ -228,17 +235,17 @@ Begin VB.Form frmWizard
          Caption         =   "&Select All"
          Height          =   330
          Index           =   2
-         Left            =   -74790
-         TabIndex        =   34
+         Left            =   -74820
+         TabIndex        =   26
          ToolTipText     =   "Select all foreign keys"
-         Top             =   555
+         Top             =   585
          Width           =   1230
       End
       Begin VB.ListBox lstForeignKeys 
          Height          =   3435
          Left            =   -73410
          Style           =   1  'Checkbox
-         TabIndex        =   33
+         TabIndex        =   28
          Top             =   315
          Width           =   4650
       End
@@ -248,7 +255,7 @@ Begin VB.Form frmWizard
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   3  'Both
-         TabIndex        =   31
+         TabIndex        =   29
          ToolTipText     =   "Displays the status of the migration process"
          Top             =   135
          Width           =   6180
@@ -257,7 +264,7 @@ Begin VB.Form frmWizard
          Caption         =   "Create Primary Keys on Migrated Tables"
          Height          =   240
          Left            =   660
-         TabIndex        =   9
+         TabIndex        =   12
          ToolTipText     =   "Select this to attempt to migrate Primary Keys from the source database."
          Top             =   2700
          Value           =   1  'Checked
@@ -267,7 +274,7 @@ Begin VB.Form frmWizard
          Caption         =   "Convert Index/Key Names to Lower Case"
          Height          =   240
          Left            =   660
-         TabIndex        =   30
+         TabIndex        =   15
          ToolTipText     =   "Select this to convert index names to lower case."
          Top             =   3420
          Width           =   4380
@@ -276,7 +283,7 @@ Begin VB.Form frmWizard
          Caption         =   "Convert Table Names to Lower Case"
          Height          =   240
          Left            =   660
-         TabIndex        =   29
+         TabIndex        =   13
          ToolTipText     =   "Select this to convert table names to lower case."
          Top             =   2940
          Width           =   4380
@@ -285,7 +292,7 @@ Begin VB.Form frmWizard
          Caption         =   "Convert Column Names to Lower Case"
          Height          =   240
          Left            =   660
-         TabIndex        =   28
+         TabIndex        =   14
          ToolTipText     =   "Select this to convert column names to lower case."
          Top             =   3180
          Width           =   4380
@@ -294,7 +301,7 @@ Begin VB.Form frmWizard
          Caption         =   "Create Indexes on Migrated Tables"
          Height          =   240
          Left            =   660
-         TabIndex        =   8
+         TabIndex        =   11
          ToolTipText     =   "Select this to attempt to migrate Indexes from the source database."
          Top             =   2460
          Value           =   1  'Checked
@@ -305,7 +312,7 @@ Begin VB.Form frmWizard
          Height          =   240
          Index           =   1
          Left            =   3150
-         TabIndex        =   18
+         TabIndex        =   2
          ToolTipText     =   "Migrate an ODBC Datasource"
          Top             =   285
          Width           =   1500
@@ -314,7 +321,7 @@ Begin VB.Form frmWizard
          Caption         =   "Create columns as 'NOT NULL' where applicable"
          Height          =   240
          Left            =   675
-         TabIndex        =   7
+         TabIndex        =   10
          ToolTipText     =   "Select this to attempt to migrate 'NOT NULL' rules from the source database."
          Top             =   2220
          Value           =   1  'Checked
@@ -325,153 +332,16 @@ Begin VB.Form frmWizard
          Height          =   240
          Index           =   0
          Left            =   2070
-         TabIndex        =   19
+         TabIndex        =   1
          ToolTipText     =   "Migrate an MS Access Database"
          Top             =   285
          Value           =   -1  'True
          Width           =   1500
       End
-      Begin VB.Frame fraAccess 
-         Caption         =   "Access Database"
-         Height          =   1455
-         Left            =   585
-         TabIndex        =   10
-         Top             =   600
-         Width           =   4965
-         Begin VB.CommandButton cmdBrowse 
-            Caption         =   "..."
-            Height          =   285
-            Left            =   4500
-            TabIndex        =   14
-            ToolTipText     =   "Browse for the database to migrate"
-            Top             =   315
-            Width           =   330
-         End
-         Begin VB.TextBox txtFile 
-            Height          =   285
-            Left            =   1080
-            TabIndex        =   13
-            ToolTipText     =   "Enter the filename of the database to migrate."
-            Top             =   315
-            Width           =   3435
-         End
-         Begin VB.TextBox txtUID 
-            Height          =   285
-            Index           =   0
-            Left            =   1080
-            TabIndex        =   12
-            ToolTipText     =   "Enter a username for this database if required."
-            Top             =   675
-            Width           =   3435
-         End
-         Begin VB.TextBox txtPWD 
-            Height          =   285
-            IMEMode         =   3  'DISABLE
-            Index           =   0
-            Left            =   1080
-            PasswordChar    =   "*"
-            TabIndex        =   11
-            ToolTipText     =   "Enter a password for this database if required."
-            Top             =   1035
-            Width           =   3435
-         End
-         Begin VB.Label Label1 
-            Caption         =   ".mdb File"
-            Height          =   195
-            Index           =   0
-            Left            =   135
-            TabIndex        =   17
-            Top             =   360
-            Width           =   1365
-         End
-         Begin VB.Label Label1 
-            Caption         =   "Username"
-            Height          =   195
-            Index           =   3
-            Left            =   135
-            TabIndex        =   16
-            Top             =   720
-            Width           =   1365
-         End
-         Begin VB.Label Label1 
-            Caption         =   "Password"
-            Height          =   195
-            Index           =   4
-            Left            =   135
-            TabIndex        =   15
-            Top             =   1080
-            Width           =   1365
-         End
-      End
-      Begin VB.Frame fraODBC 
-         Caption         =   "ODBC Database"
-         Height          =   1455
-         Left            =   600
-         TabIndex        =   21
-         Top             =   600
-         Visible         =   0   'False
-         Width           =   4965
-         Begin VB.TextBox txtPWD 
-            Height          =   285
-            IMEMode         =   3  'DISABLE
-            Index           =   1
-            Left            =   1080
-            PasswordChar    =   "*"
-            TabIndex        =   24
-            ToolTipText     =   "Enter a valid password for this datasource"
-            Top             =   1035
-            Width           =   3435
-         End
-         Begin VB.TextBox txtUID 
-            Height          =   285
-            Index           =   1
-            Left            =   1080
-            TabIndex        =   23
-            ToolTipText     =   "Enter a valid username for this datasource"
-            Top             =   675
-            Width           =   3435
-         End
-         Begin VB.ComboBox cboDatasource 
-            Height          =   315
-            Left            =   1080
-            Style           =   2  'Dropdown List
-            TabIndex        =   22
-            ToolTipText     =   "Select a datasource to migrate"
-            Top             =   315
-            Width           =   3705
-         End
-         Begin VB.Label Label1 
-            Caption         =   "Password"
-            Height          =   195
-            Index           =   5
-            Left            =   135
-            TabIndex        =   27
-            Top             =   1080
-            Width           =   1365
-         End
-         Begin VB.Label Label1 
-            Caption         =   "Username"
-            Height          =   195
-            Index           =   6
-            Left            =   135
-            TabIndex        =   26
-            Top             =   720
-            Width           =   1365
-         End
-         Begin VB.Label Label1 
-            Caption         =   "Datasource"
-            Height          =   195
-            Index           =   7
-            Left            =   135
-            TabIndex        =   25
-            Top             =   360
-            Width           =   1365
-         End
-      End
       Begin MSComctlLib.ProgressBar pbStatus 
          Height          =   195
          Left            =   -74955
-         TabIndex        =   32
+         TabIndex        =   30
          Top             =   3600
          Width           =   6180
          _ExtentX        =   10901
@@ -482,7 +352,7 @@ Begin VB.Form frmWizard
       Begin MSComctlLib.ListView lstDatabase 
          Height          =   3300
          Left            =   -74955
-         TabIndex        =   46
+         TabIndex        =   19
          Top             =   450
          Width           =   6180
          _ExtentX        =   10901
@@ -509,6 +379,143 @@ Begin VB.Form frmWizard
             Object.Width           =   7056
          EndProperty
       End
+      Begin VB.Frame fraAccess 
+         Caption         =   "Access Database"
+         Height          =   1455
+         Left            =   585
+         TabIndex        =   34
+         Top             =   600
+         Width           =   4965
+         Begin VB.CommandButton cmdBrowse 
+            Caption         =   "..."
+            Height          =   285
+            Left            =   4500
+            TabIndex        =   4
+            ToolTipText     =   "Browse for the database to migrate"
+            Top             =   315
+            Width           =   330
+         End
+         Begin VB.TextBox txtFile 
+            Height          =   285
+            Left            =   1080
+            TabIndex        =   3
+            ToolTipText     =   "Enter the filename of the database to migrate."
+            Top             =   315
+            Width           =   3435
+         End
+         Begin VB.TextBox txtUID 
+            Height          =   285
+            Index           =   0
+            Left            =   1080
+            TabIndex        =   5
+            ToolTipText     =   "Enter a username for this database if required."
+            Top             =   675
+            Width           =   3435
+         End
+         Begin VB.TextBox txtPWD 
+            Height          =   285
+            IMEMode         =   3  'DISABLE
+            Index           =   0
+            Left            =   1080
+            PasswordChar    =   "*"
+            TabIndex        =   6
+            ToolTipText     =   "Enter a password for this database if required."
+            Top             =   1035
+            Width           =   3435
+         End
+         Begin VB.Label Label1 
+            Caption         =   ".mdb File"
+            Height          =   195
+            Index           =   0
+            Left            =   135
+            TabIndex        =   37
+            Top             =   360
+            Width           =   1365
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Username"
+            Height          =   195
+            Index           =   3
+            Left            =   135
+            TabIndex        =   36
+            Top             =   720
+            Width           =   1365
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Password"
+            Height          =   195
+            Index           =   4
+            Left            =   135
+            TabIndex        =   35
+            Top             =   1080
+            Width           =   1365
+         End
+      End
+      Begin VB.Frame fraODBC 
+         Caption         =   "ODBC Database"
+         Height          =   1455
+         Left            =   600
+         TabIndex        =   39
+         Top             =   600
+         Visible         =   0   'False
+         Width           =   4965
+         Begin VB.TextBox txtPWD 
+            Height          =   285
+            IMEMode         =   3  'DISABLE
+            Index           =   1
+            Left            =   1080
+            PasswordChar    =   "*"
+            TabIndex        =   9
+            ToolTipText     =   "Enter a valid password for this datasource"
+            Top             =   1035
+            Width           =   3435
+         End
+         Begin VB.TextBox txtUID 
+            Height          =   285
+            Index           =   1
+            Left            =   1080
+            TabIndex        =   8
+            ToolTipText     =   "Enter a valid username for this datasource"
+            Top             =   675
+            Width           =   3435
+         End
+         Begin VB.ComboBox cboDatasource 
+            Height          =   315
+            Left            =   1080
+            Style           =   2  'Dropdown List
+            TabIndex        =   7
+            ToolTipText     =   "Select a datasource to migrate"
+            Top             =   315
+            Width           =   3705
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Password"
+            Height          =   195
+            Index           =   5
+            Left            =   135
+            TabIndex        =   42
+            Top             =   1080
+            Width           =   1365
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Username"
+            Height          =   195
+            Index           =   6
+            Left            =   135
+            TabIndex        =   41
+            Top             =   720
+            Width           =   1365
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Datasource"
+            Height          =   195
+            Index           =   7
+            Left            =   135
+            TabIndex        =   40
+            Top             =   360
+            Width           =   1365
+         End
+      End
       Begin VB.Label Label2 
          Caption         =   "Select the database to migrate into."
          Height          =   240
@@ -524,7 +531,7 @@ Begin VB.Form frmWizard
          Height          =   195
          Index           =   1
          Left            =   -74910
-         TabIndex        =   45
+         TabIndex        =   46
          Top             =   315
          Width           =   1365
       End
@@ -535,7 +542,7 @@ Begin VB.Form frmWizard
          Height          =   195
          Index           =   9
          Left            =   -74910
-         TabIndex        =   41
+         TabIndex        =   45
          Top             =   315
          Width           =   1365
       End
@@ -546,7 +553,7 @@ Begin VB.Form frmWizard
          Height          =   195
          Index           =   8
          Left            =   -74910
-         TabIndex        =   37
+         TabIndex        =   44
          Top             =   315
          Width           =   1365
       End
@@ -556,7 +563,7 @@ Begin VB.Form frmWizard
          Height          =   2100
          Index           =   10
          Left            =   -74790
-         TabIndex        =   36
+         TabIndex        =   43
          Top             =   1395
          Width           =   1185
       End
@@ -565,10 +572,20 @@ Begin VB.Form frmWizard
          Height          =   195
          Index           =   2
          Left            =   720
-         TabIndex        =   20
+         TabIndex        =   38
          Top             =   285
          Width           =   1365
       End
+   End
+   Begin VB.CommandButton cmdMigrate 
+      Caption         =   "&Migrate db"
+      Enabled         =   0   'False
+      Height          =   330
+      Left            =   5700
+      TabIndex        =   31
+      ToolTipText     =   "Start the database migration."
+      Top             =   3960
+      Width           =   1140
    End
 End
 Attribute VB_Name = "frmWizard"
