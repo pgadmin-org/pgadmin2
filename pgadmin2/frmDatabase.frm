@@ -6,8 +6,8 @@ Begin VB.Form frmDatabase
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Database"
    ClientHeight    =   6885
-   ClientLeft      =   9600
-   ClientTop       =   1200
+   ClientLeft      =   2085
+   ClientTop       =   1800
    ClientWidth     =   5520
    Icon            =   "frmDatabase.frx":0000
    LinkTopic       =   "Form1"
@@ -16,7 +16,7 @@ Begin VB.Form frmDatabase
    ScaleWidth      =   5520
    Begin MSComctlLib.ImageList il 
       Left            =   90
-      Top             =   6345
+      Top             =   6240
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -25,26 +25,58 @@ Begin VB.Form frmDatabase
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   5
+         NumListImages   =   13
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmDatabase.frx":014A
             Key             =   "encoding"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmDatabase.frx":0A24
-            Key             =   "public"
+            Key             =   "off"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmDatabase.frx":0B7E
-            Key             =   "user"
+            Picture         =   "frmDatabase.frx":0E76
+            Key             =   "database"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmDatabase.frx":0CD8
-            Key             =   "group"
+            Picture         =   "frmDatabase.frx":0FD0
+            Key             =   "public"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmDatabase.frx":13AA
+            Picture         =   "frmDatabase.frx":112A
+            Key             =   "user"
+         EndProperty
+         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":1284
+            Key             =   "group"
+         EndProperty
+         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":1956
             Key             =   "property"
+         EndProperty
+         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":2028
+            Key             =   "on"
+         EndProperty
+         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":247A
+            Key             =   "info"
+         EndProperty
+         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":28CC
+            Key             =   "error"
+         EndProperty
+         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":2D1E
+            Key             =   "warning"
+         EndProperty
+         BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":3170
+            Key             =   "debug"
+         EndProperty
+         BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":370A
+            Key             =   "log"
          EndProperty
       EndProperty
    End
@@ -78,7 +110,7 @@ Begin VB.Form frmDatabase
       Style           =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmDatabase.frx":1A7C
+      TabPicture(0)   =   "frmDatabase.frx":455C
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(4)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -90,21 +122,25 @@ Begin VB.Form frmDatabase
       Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "lblProperties(0)"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "hbxProperties(0)"
+      Tab(0).Control(5)=   "lblProperties(6)"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "txtProperties(0)"
+      Tab(0).Control(6)=   "cboProperties(1)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "txtProperties(1)"
+      Tab(0).Control(7)=   "hbxProperties(0)"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "txtProperties(2)"
+      Tab(0).Control(8)=   "txtProperties(0)"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "txtProperties(3)"
+      Tab(0).Control(9)=   "txtProperties(1)"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "cboProperties(0)"
+      Tab(0).Control(10)=   "txtProperties(2)"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).ControlCount=   11
+      Tab(0).Control(11)=   "txtProperties(3)"
+      Tab(0).Control(11).Enabled=   0   'False
+      Tab(0).Control(12)=   "cboProperties(0)"
+      Tab(0).Control(12).Enabled=   0   'False
+      Tab(0).ControlCount=   13
       TabCaption(1)   =   "&Variables"
-      TabPicture(1)   =   "frmDatabase.frx":1A98
+      TabPicture(1)   =   "frmDatabase.frx":4578
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Label1"
       Tab(1).Control(1)=   "Label2"
@@ -114,15 +150,30 @@ Begin VB.Form frmDatabase
       Tab(1).Control(5)=   "txtVarValue"
       Tab(1).Control(6)=   "cboVarName"
       Tab(1).Control(7)=   "cmdCurrVal"
-      Tab(1).ControlCount=   8
+      Tab(1).Control(8)=   "cboVarValue"
+      Tab(1).ControlCount=   9
       TabCaption(2)   =   "&Security"
-      TabPicture(2)   =   "frmDatabase.frx":1AB4
+      TabPicture(2)   =   "frmDatabase.frx":4594
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "cmdRemove"
       Tab(2).Control(1)=   "cmdAdd"
       Tab(2).Control(2)=   "fraAdd"
       Tab(2).Control(3)=   "lvProperties(1)"
       Tab(2).ControlCount=   4
+      Begin MSComctlLib.ImageCombo cboVarValue 
+         Height          =   330
+         Left            =   -73425
+         TabIndex        =   30
+         Top             =   5940
+         Width           =   3735
+         _ExtentX        =   6588
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
       Begin VB.CommandButton cmdCurrVal 
          Caption         =   "&Show Current Settings"
          Enabled         =   0   'False
@@ -137,7 +188,6 @@ Begin VB.Form frmDatabase
          Height          =   330
          Left            =   -73425
          TabIndex        =   28
-         ToolTipText     =   "Select or enter the encoding scheme to use."
          Top             =   5520
          Width           =   3735
          _ExtentX        =   6588
@@ -314,15 +364,15 @@ Begin VB.Form frmDatabase
          Width           =   3390
       End
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   3300
+         Height          =   2940
          Index           =   0
          Left            =   135
          TabIndex        =   6
          ToolTipText     =   "Comments about the database."
-         Top             =   2700
+         Top             =   3060
          Width           =   5190
          _ExtentX        =   9155
-         _ExtentY        =   5821
+         _ExtentY        =   5186
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -351,6 +401,9 @@ Begin VB.Form frmDatabase
          LabelWrap       =   -1  'True
          HideSelection   =   -1  'True
          _Version        =   393217
+         Icons           =   "il"
+         SmallIcons      =   "il"
+         ColHdrIcons     =   "il"
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
          BorderStyle     =   1
@@ -398,6 +451,32 @@ Begin VB.Form frmDatabase
             Text            =   "Privileges"
             Object.Width           =   4939
          EndProperty
+      End
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   330
+         Index           =   1
+         Left            =   1935
+         TabIndex        =   31
+         ToolTipText     =   "Select or enter the encoding scheme to use."
+         Top             =   2640
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
+      Begin VB.Label lblProperties 
+         AutoSize        =   -1  'True
+         Caption         =   "Template"
+         Height          =   195
+         Index           =   6
+         Left            =   120
+         TabIndex        =   32
+         Top             =   2685
+         Width           =   660
       End
       Begin VB.Label Label2 
          Caption         =   "Variable Value"
@@ -466,6 +545,16 @@ Begin VB.Form frmDatabase
          Width           =   330
       End
    End
+   Begin VB.Menu mnuModify 
+      Caption         =   "Modify"
+      Visible         =   0   'False
+      Begin VB.Menu mnuModifyCopyVar 
+         Caption         =   "Copy Setting Variable"
+      End
+      Begin VB.Menu mnuModifyPasteVar 
+         Caption         =   "Paste Setting Variable"
+      End
+   End
 End
 Attribute VB_Name = "frmDatabase"
 Attribute VB_GlobalNameSpace = False
@@ -484,6 +573,48 @@ Dim bNew As Boolean
 Dim objDatabase As pgDatabase
 Dim szUsers() As String
 Dim szVarDropList As String
+Const PrefKey = "KEY_"
+
+Private Sub cboVarName_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cboVarName_Click()", etFullDebug
+
+Dim objVardb As VarDb
+Dim vData
+Dim szImg As String
+
+  txtVarValue.Visible = False
+  txtVarValue.Text = ""
+  cboVarValue.Visible = False
+  cboVarValue.Text = ""
+  cboVarValue.ComboItems.Clear
+  cboVarValue.Locked = True
+  
+  objVardb = GetVarDb(cboVarName.Text)
+  
+  If objVardb.Type = TVDB_BOOLEAN Then
+    szImg = GetImageFromVal("ON", TVDB_BOOLEAN)
+    cboVarValue.ComboItems.Add , PrefKey & "on", "ON", szImg, szImg
+    szImg = GetImageFromVal("OFF", TVDB_BOOLEAN)
+    cboVarValue.ComboItems.Add , PrefKey & "off", "OFF", szImg, szImg
+    cboVarValue.ComboItems(1).Selected = True
+    cboVarValue.Locked = True
+    cboVarValue.Visible = True
+  ElseIf objVardb.Type = TVDB_FLOAT Or objVardb.Type = TVDB_INTEGR Or objVardb.Type = TVDB_STRING Then
+    txtVarValue.Visible = True
+  ElseIf objVardb.Type = TVDB_CAST Then
+    For Each vData In objVardb.CastValue
+      szImg = GetImageFromVal(CStr(vData), TVDB_CAST)
+      cboVarValue.ComboItems.Add , PrefKey & LCase(vData), vData, szImg, szImg
+    Next
+    cboVarValue.ComboItems(1).Selected = True
+    cboVarValue.Locked = False
+    cboVarValue.Visible = True
+  End If
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdCancel_Click"
+End Sub
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
@@ -521,7 +652,7 @@ Dim objNode As Node
 Dim objItem As ListItem
 Dim objNewDatabase As pgDatabase
 Dim szDropVars() As String
-Dim X As Integer
+Dim x As Integer
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
@@ -535,7 +666,9 @@ Dim vEntity As Variant
   
   If bNew Then
     StartMsg "Creating Database..."
-    Set objNewDatabase = frmMain.svr.Databases.Add(txtProperties(0).Text, txtProperties(3).Text, cboProperties(0).Text, hbxProperties(0).Text)
+    Set objNewDatabase = frmMain.svr.Databases.Add(txtProperties(0).Text, cboProperties(1).Text, _
+                                                   txtProperties(3).Text, cboProperties(0).Text, _
+                                                   hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
     Set objNode = frmMain.svr.Databases.Tag
@@ -555,9 +688,9 @@ Dim vEntity As Variant
     'Drop any vars
     If Len(szVarDropList) > 3 Then
       szDropVars = Split(szVarDropList, "!|!")
-      For X = 0 To UBound(szDropVars)
-        If szDropVars(X) <> "" Then objDatabase.DatabaseVars.Remove szDropVars(X)
-      Next X
+      For x = 0 To UBound(szDropVars)
+        If szDropVars(x) <> "" Then objDatabase.DatabaseVars.Remove szDropVars(x)
+      Next x
     End If
     
     If hbxProperties(0).Tag = "Y" Then objDatabase.Comment = hbxProperties(0).Text
@@ -617,7 +750,7 @@ Public Sub Initialise(Optional Database As pgDatabase)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFullDebug
 
-Dim X As Integer
+Dim x As Integer
 Dim objItem As ComboItem
 Dim objLItem As ListItem
 Dim objUser As pgUser
@@ -626,18 +759,21 @@ Dim szUserlist As String
 Dim szAccesslist As String
 Dim szAccess() As String
 Dim rsVar As Recordset
+Dim objDb As pgDatabase
   
   'Set the font
-  For X = 0 To 3
-    Set txtProperties(X).Font = ctx.Font
-  Next X
+  For x = 0 To 3
+    Set txtProperties(x).Font = ctx.Font
+  Next x
   Set cboProperties(0).Font = ctx.Font
+  Set cboProperties(1).Font = ctx.Font
   Set hbxProperties(0).Font = ctx.Font
   Set txtVarValue.Font = ctx.Font
   Set lvProperties(0).Font = ctx.Font
   Set cboEntities.Font = ctx.Font
   Set lvProperties(1).Font = ctx.Font
   Set cboVarName.Font = ctx.Font
+  Set cboVarValue.Font = ctx.Font
   
   'Unlock the edittable fields
   If ctx.dbVer >= 7.3 Then
@@ -680,6 +816,8 @@ Dim rsVar As Recordset
     txtProperties(0).Locked = False
     cboProperties(0).BackColor = &H80000005
     cboProperties(0).Locked = False
+    cboProperties(1).BackColor = &H80000005
+    cboProperties(1).Locked = False
     txtProperties(3).BackColor = &H80000005
     txtProperties(3).Locked = False
     hbxProperties(0).BackColor = &H80000005
@@ -688,6 +826,11 @@ Dim rsVar As Recordset
     'Redim the userlist so it doesn't cause an error later.
     ReDim szUsers(0)
 
+    'Load the Template Database
+    For Each objDb In frmMain.svr.Databases
+      cboProperties(1).ComboItems.Add , objDb.Name, objDb.Name, "database", "database"
+    Next
+    cboProperties(1).ComboItems("template0").Selected = True
   Else
     
     'Display/Edit the specified Database.
@@ -705,15 +848,18 @@ Dim rsVar As Recordset
       cmdRemoveVar.Enabled = True
       cboVarName.Enabled = True
       cboVarName.BackColor = &H80000005
+      cboVarValue.Enabled = True
+      cboVarValue.BackColor = &H80000005
       
       'load var name
       cboVarName.ComboItems.Clear
       Set rsVar = frmMain.svr.Databases(frmMain.svr.MasterDB).Execute("SELECT name FROM pg_settings ORDER BY name")
       While Not rsVar.EOF
-        cboVarName.ComboItems.Add , rsVar("name"), rsVar("name"), "property"
+        cboVarName.ComboItems.Add , LCase(rsVar("name")), rsVar("name"), "property"
         rsVar.MoveNext
       Wend
       cboVarName.ComboItems(1).Selected = True
+      cboVarName_Click
     End If
     
     If objDatabase.SystemObject Then  'Lock the permissions Add/Remove buttons if it's a system object
@@ -738,18 +884,18 @@ Dim rsVar As Recordset
     ParseACL objDatabase.ACL, szUserlist, szAccesslist
     szUsers = Split(szUserlist, "|")
     szAccess = Split(szAccesslist, "|")
-    For X = 0 To UBound(szUsers)
-      If UCase(Left(szUsers(X), 6)) = "GROUP " Then
-        Set objLItem = lvProperties(1).ListItems.Add(, , Mid(szUsers(X), 7), "group", "group")
+    For x = 0 To UBound(szUsers)
+      If UCase(Left(szUsers(x), 6)) = "GROUP " Then
+        Set objItem = lvProperties(1).ListItems.Add(, , Mid(szUsers(x), 7), "group", "group")
       Else
-        If UCase(szUsers(X)) = "PUBLIC" Then
-          Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(X), "public", "public")
+        If UCase(szUsers(x)) = "PUBLIC" Then
+          Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(x), "public", "public")
         Else
-          Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(X), "user", "user")
+          Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(x), "user", "user")
         End If
       End If
-      objLItem.SubItems(1) = szAccess(X)
-    Next X
+      objLItem.SubItems(1) = szAccess(x)
+    Next x
     
   End If
 
@@ -766,9 +912,9 @@ Dim rsVar As Recordset
   End If
   
   'Reset the Tags
-  For X = 0 To 3
-    txtProperties(X).Tag = "N"
-  Next X
+  For x = 0 To 3
+    txtProperties(x).Tag = "N"
+  Next x
   hbxProperties(0).Tag = "N"
   lvProperties(0).Tag = "N"
   lvProperties(1).Tag = "N"
@@ -826,12 +972,23 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.LoadVars()", etFull
 
 Dim objItem As ListItem
 Dim objVar As pgVar
+Dim objVardb As VarDb
+Dim szImg As String
 
   lvProperties(0).ListItems.Clear
   If ctx.dbVer >= 7.3 Then
     For Each objVar In objDatabase.DatabaseVars
       Set objItem = lvProperties(0).ListItems.Add(, , objVar.Name)
       objItem.SubItems(1) = objVar.Value
+      
+      'get image
+      szImg = "property"    'image default
+      objVardb = GetVarDb(objVar.Name)
+      If objVardb.Type = TVDB_BOOLEAN Or objVardb.Type = TVDB_CAST Then
+        szImg = GetImageFromVal(objVar.Value, objVardb.Type)
+      End If
+      objItem.Icon = szImg
+      objItem.SmallIcon = szImg
     Next objVar
   End If
 
@@ -843,7 +1000,7 @@ Private Sub cmdRemoveVar_Click()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdRemoveVar_Click()", etFullDebug
 
-    If lvProperties(0).SelectedItem Is Nothing Then
+  If lvProperties(0).SelectedItem Is Nothing Then
     MsgBox "You must select a variable to remove!", vbExclamation, "Error"
     tabProperties.Tab = 1
     lvProperties(0).SetFocus
@@ -874,39 +1031,66 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdChkAdd_Click()", etFullDebug
 
 Dim objItem As ListItem
+Dim szVal As String
+Dim szImg As String
 
-  If txtVarValue.Text = "" Then
+  'get value variable
+  If txtVarValue.Visible = True Then
+    szVal = txtVarValue.Text
+  ElseIf cboVarValue.Visible = True Then
+    szVal = cboVarValue.Text
+  End If
+
+  If Trim(szVal) = "" Then
     MsgBox "You must enter a value for the variable!", vbExclamation, "Error"
     tabProperties.Tab = 1
     txtVarValue.SetFocus
     Exit Sub
   End If
+ 
+  'image default
+  szImg = "property"
   
   'Update
   For Each objItem In lvProperties(0).ListItems
     If objItem.Text = cboVarName.SelectedItem.Text Then
-      objItem.SubItems(1) = txtVarValue.Text
+      objItem.SubItems(1) = szVal
       lvProperties(0).Tag = "Y"
+      
+      If cboVarValue.Visible And Not cboVarValue.SelectedItem Is Nothing Then
+        If Len(cboVarValue.SelectedItem.Image) > 0 Then
+          szImg = cboVarValue.SelectedItem.Image
+        End If
+      End If
+      objItem.Icon = szImg
+      objItem.SmallIcon = szImg
+      
       cboVarName.ComboItems(1).Selected = True
-      txtVarValue.Text = ""
+      cboVarName_Click
       Exit Sub
     End If
   Next objItem
   
   'Or add
   Set objItem = lvProperties(0).ListItems.Add(, , cboVarName.SelectedItem.Text)
-  objItem.SubItems(1) = txtVarValue.Text
+  objItem.SubItems(1) = szVal
   lvProperties(0).Tag = "Y"
   
+  If cboVarValue.Visible And Not cboVarValue.SelectedItem Is Nothing Then
+    If Len(cboVarValue.SelectedItem.Image) > 0 Then
+      szImg = cboVarValue.SelectedItem.Image
+    End If
+  End If
+  objItem.Icon = szImg
+  objItem.SmallIcon = szImg
+  
   cboVarName.ComboItems(1).Selected = True
-  txtVarValue.Text = ""
+  cboVarName_Click
   
   Exit Sub
   
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdAddVar_Click"
 End Sub
-
-
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
@@ -922,10 +1106,45 @@ Private Sub lvProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_Click(" & Index & ")", etFullDebug
 
+Dim objVardb As VarDb
+Dim vData
+Dim szVal As String
+
   If Index = 0 Then
     If Not (lvProperties(0).SelectedItem Is Nothing) Then
-      cboVarName.ComboItems(lvProperties(0).SelectedItem.Text).Selected = True
-      txtVarValue.Text = lvProperties(0).SelectedItem.SubItems(1)
+      cboVarName.ComboItems(LCase(lvProperties(0).SelectedItem.Text)).Selected = True
+      cboVarName_Click
+      
+      If txtVarValue.Visible = True Then
+        txtVarValue.Text = lvProperties(0).SelectedItem.SubItems(1)
+      ElseIf cboVarValue.Visible = True Then
+        objVardb = GetVarDb(cboVarName.Text)
+        If objVardb.Type = TVDB_BOOLEAN Then
+          Select Case UCase(lvProperties(0).SelectedItem.SubItems(1))
+            Case "ON", "TRUE", "YES", "1"
+              szVal = "ON"
+            Case "OFF", "FALSE", "NO", "0"
+              szVal = "OFF"
+            Case Else
+              szVal = "OFF"
+          End Select
+          cboVarValue.ComboItems(PrefKey & LCase(szVal)).Selected = True
+        Else
+          szVal = lvProperties(0).SelectedItem.SubItems(1)
+        End If
+        
+        'find value in combo
+        For Each vData In objVardb.CastValue
+          If UCase(szVal) = UCase(vData) Then
+            cboVarValue.ComboItems("KEY_" & LCase(szVal)).Selected = True
+            Exit Sub
+          End If
+        Next
+        
+        'cast value not present
+        'manual insert
+        If objVardb.Type = TVDB_CAST Then cboVarValue.Text = szVal
+      End If
     End If
   End If
   
@@ -942,3 +1161,63 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.txtProperties_Chang
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.txtProperties_Change"
 End Sub
+
+Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+
+  If Button = vbRightButton Then
+    mnuModifyPasteVar.Enabled = False
+    If ColVarDbBuffer.Count > 0 Then mnuModifyPasteVar.Enabled = True
+    PopupMenu mnuModify
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.lvProperties_MouseDown"
+End Sub
+
+'copy var setting database
+Private Sub mnuModifyCopyVar_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.mnuModifyCopyVar_Click()", etFullDebug
+
+Dim objLv As ListItem
+
+  Set ColVarDbBuffer = New Collection
+  For Each objLv In lvProperties(0).ListItems
+    ColVarDbBuffer.Add objLv.Text & "|" & objLv.SubItems(1)
+  Next
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.mnuModifyCopyVar_Click"
+End Sub
+
+'paste var setting database
+Private Sub mnuModifyPasteVar_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.mnuModifyPasteVar_Click()", etFullDebug
+
+Dim vData
+
+  'simulate add/update var
+  For Each vData In ColVarDbBuffer
+    vData = Split(vData, "|")
+    'select variable name
+    cboVarName.ComboItems(vData(0)).Selected = True
+    cboVarName_Click
+    
+    'set value
+    If cboVarValue.Visible Then
+      cboVarValue.ComboItems(PrefKey & LCase(vData(1))).Selected = True
+    Else
+      txtVarValue.Text = vData(1)
+    End If
+    
+    'add var
+    cmdAddVar_Click
+  Next
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.mnuModifyPasteVar_Click"
+End Sub
+

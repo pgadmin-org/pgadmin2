@@ -181,6 +181,9 @@ Dim objFont As New StdFont
       frmTip.Show vbModal, frmMain
     End If
   End If
+  
+  'Initialise the variable collection
+  InitVarDb
    
 End Sub
 
