@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmFunction 
@@ -103,18 +103,19 @@ Begin VB.Form frmFunction
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":138E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(4)"
-      Tab(1).Control(1)=   "lblProperties(5)"
-      Tab(1).Control(2)=   "cboProperties(2)"
+      Tab(1).Control(0)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdAdd"
-      Tab(1).Control(6)=   "cmdRemove"
+      Tab(1).Control(4)=   "cboProperties(2)"
+      Tab(1).Control(5)=   "lblProperties(5)"
+      Tab(1).Control(6)=   "lblProperties(4)"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":13AA
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "hbxProperties(1)"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).ControlCount=   1
       Begin VB.CommandButton cmdRemove 
          Caption         =   "&Remove"

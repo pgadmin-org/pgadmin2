@@ -184,6 +184,7 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdLoad_Click()", etFullDebug
 
 Dim szLine As String
+Dim szFile As String
 Dim fNum As Integer
 
   If bDirty = True Then
@@ -206,9 +207,10 @@ Dim fNum As Integer
   Open cdlg.FileName For Input As #fNum
   While Not EOF(fNum)
     Line Input #fNum, szLine
-    txtSQL.Text = txtSQL.Text & szLine & vbCrLf
+     szFile = szFile & vbCrLf & szLine
   Wend
   Close #fNum
+  txtSQL.Text = szFile
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
 

@@ -73,16 +73,16 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "hbxProperties(1)"
-      Tab(1).Control(1)=   "cmdLoad"
+      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(1)=   "hbxProperties(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":0182
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fraAdd"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "cmdRemove"
-      Tab(2).Control(3)=   "lvProperties(0)"
+      Tab(2).Control(0)=   "lvProperties(0)"
+      Tab(2).Control(1)=   "cmdRemove"
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(3)=   "fraAdd"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -424,6 +424,7 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdLoad_Click()", etFullDebug
 
 Dim szLine As String
+Dim szFile As String
 Dim fNum As Integer
   
   With cdlg
@@ -439,15 +440,13 @@ Dim fNum As Integer
   hbxProperties(1).Text = ""
   fNum = FreeFile
   frmMain.svr.LogEvent "Loading " & cdlg.FileName, etMiniDebug
-  hbxProperties(1).AutoColour = False
   Open cdlg.FileName For Input As #fNum
   While Not EOF(fNum)
     Line Input #fNum, szLine
-    hbxProperties(1).Text = hbxProperties(1).Text & szLine & vbCrLf
+    szFile = szFile & vbCrLf & szLine
   Wend
   Close #fNum
-  hbxProperties(1).AutoColour = True
-  hbxProperties(1).ColourText
+  hbxProperties(1).Text = szFile
 
   Exit Sub
 Err_Handler:
