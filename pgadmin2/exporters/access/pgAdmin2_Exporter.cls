@@ -176,6 +176,7 @@ Dim rsDataMdb
     lNumRecord = lNumRecord + 1
     rsData.MoveNext
   Wend
+  If lNumRecord = 1 Then lNumRecord = lNumRecord + 1
   frmStatus.pb.Max = lNumRecord
   frmStatus.Show
   
