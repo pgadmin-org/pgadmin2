@@ -46,5 +46,13 @@
 		<param name="Local" value="html\index.html">
 		<param name="Local" value="html\download.html">
 		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Bugs">
+		<param name="Local" value="html\developerinfo\bugs.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="To Do">
+		<param name="Local" value="html\developerinfo\todo.html">
+		</OBJECT>
 </UL>
 </BODY></HTML>
