@@ -3,6 +3,7 @@
 
 New resize code in frmMain - allows adjustment of the Listview/Definition pane split.
 Fixed a bug where selecting privilege ALL did not disable the Rule privilege.
+Hide System Objects in the SQL Wizard.
 
 1.2.0 Stable
 ------------

@@ -799,7 +799,7 @@ Dim objTable As pgTable
   lstIncTables.Clear
   
   For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-    lstAllTables.AddItem QUOTE & objTable.Name & QUOTE
+    If Not objTable.SystemObject Then lstAllTables.AddItem QUOTE & objTable.Name & QUOTE
   Next objTable
 
   EndMsg
@@ -825,8 +825,8 @@ Dim objColumn As pgColumn
   
   For X = 0 To lstIncTables.ListCount - 1
     For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-      cboJColumn1.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
-      cboJColumn2.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+      If Not objColumn.SystemObject Then cboJColumn1.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+      If Not objColumn.SystemObject Then cboJColumn2.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
     Next objColumn
   Next X
   
@@ -866,7 +866,7 @@ Dim bFlag As Boolean
     iStart = InStr(1, lstJoins.List(X), "JOIN " & QUOTE) + 6
     szTable = Mid(lstJoins.List(X), iStart, InStr(iStart + 1, lstJoins.List(X), QUOTE) - iStart)
     For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(szTable).Columns
-      cboJColumn1.AddItem QUOTE & szTable & QUOTE & "." & QUOTE & objColumn.Name & QUOTE
+      If Not objColumn.SystemObject Then cboJColumn1.AddItem QUOTE & szTable & QUOTE & "." & QUOTE & objColumn.Name & QUOTE
     Next objColumn
   Next
   
@@ -881,7 +881,7 @@ Dim bFlag As Boolean
     Next Y
     If bFlag = False Then
       For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-        cboJColumn2.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+        If Not objColumn.SystemObject Then cboJColumn2.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
       Next objColumn
     End If
   Next X
@@ -906,7 +906,7 @@ Dim objColumn As pgColumn
   lstIncColumns.Clear
   For X = 0 To lstIncTables.ListCount - 1
     For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-      lstAllColumns.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+      If Not objColumn.SystemObject Then lstAllColumns.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
     Next objColumn
   Next X
   
@@ -931,7 +931,7 @@ Dim objColumn As pgColumn
   
   For X = 0 To lstIncTables.ListCount - 1
     For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-      cboWhereCols.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+      If Not objColumn.SystemObject Then cboWhereCols.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
     Next objColumn
   Next X
 
@@ -956,7 +956,7 @@ Dim objColumn As pgColumn
   
   For X = 0 To lstIncTables.ListCount - 1
     For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(Mid(lstIncTables.List(X), 2, Len(lstIncTables.List(X)) - 2)).Columns
-      lstAllSortCols.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
+      If Not objColumn.SystemObject Then lstAllSortCols.AddItem lstIncTables.List(X) & "." & QUOTE & objColumn.Name & QUOTE
     Next objColumn
   Next X
   
