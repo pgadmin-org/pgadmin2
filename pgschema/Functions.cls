@@ -391,3 +391,17 @@ Dim objFunction As pgFunction
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objFunction As pgFunction
+
+  For Each objFunction In mCol
+    objFunction.Commit UpdateType, UpdateComment
+  Next objFunction
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

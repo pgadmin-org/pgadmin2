@@ -399,3 +399,17 @@ Dim objTrigger As pgTrigger
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objTrigger As pgTrigger
+
+  For Each objTrigger In mCol
+    objTrigger.Commit UpdateType, UpdateComment
+  Next objTrigger
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

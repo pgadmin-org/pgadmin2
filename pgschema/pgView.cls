@@ -137,7 +137,7 @@ Dim szSQL As String
   
   If objServer.dbVersion.VersionNum < 7.2 Then Exit Property
    
-  szSQL = "ALTER TABLE " & QUOTE & dbSZ(szName) & QUOTE & " RENAME TO " & QUOTE & dbSZ(vData) & QUOTE
+  szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData
   Identifier = vData

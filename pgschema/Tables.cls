@@ -218,7 +218,6 @@ objServer.iLogEvent "Entering " & App.Title & ":Tables.Rename(" & QUOTE & OldNam
   Exit Sub
 Err_Handler:
   objServer.iLogError Err
-  
 End Sub
 
 'Return the specified Item
@@ -397,3 +396,18 @@ Dim objTable As pgTable
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objTable As pgTable
+
+  For Each objTable In mCol
+    objTable.Commit UpdateType, UpdateComment
+  Next objTable
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

@@ -389,5 +389,18 @@ Dim objType As pgType
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
 
+Dim objType As pgType
+
+  For Each objType In mCol
+    objType.Commit UpdateType, UpdateComment
+  Next objType
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
 

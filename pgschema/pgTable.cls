@@ -288,7 +288,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Name(" & vD
 
 Dim szSQL As String
 
-  szSQL = "ALTER TABLE " & QUOTE & dbSZ(szName) & QUOTE & " RENAME TO " & QUOTE & dbSZ(vData) & QUOTE
+  szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData
   
@@ -764,7 +764,21 @@ Attribute Commit.VB_Description = "Commit object changes."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
 
+Dim objIndex As pgIndex
+Dim objRule As pgRule
+Dim objTrigger As pgTrigger
+  
   objServer.Databases(Database).LogRevision ObjectType, Identifier, OID, SQL, UpdateComment, UpdateType
+  
+  For Each objIndex In Indexes
+    objIndex.Commit UpdateType, "(Parent table committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objIndex
+  For Each objRule In Rules
+    objRule.Commit UpdateType, "(Parent table committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objRule
+  For Each objTrigger In Triggers
+    objTrigger.Commit UpdateType, "(Parent table committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objTrigger
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err

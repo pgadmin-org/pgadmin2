@@ -119,7 +119,7 @@ Dim rs As New Recordset
   End If
   objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
-  objNewMember.Name = szName
+  objNewMember.iName = szName
   objNewMember.Owner = szOwner
   objNewMember.ACL = szACL
   
@@ -206,6 +206,27 @@ Err_Handler:
   objServer.iLogError Err
   
 End Function
+
+'Rename
+Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
+Attribute Rename.VB_Description = "Rename the specified sequence."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
+
+  Dim objSequence As New pgSequence
+    
+  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rcDelete, "Deleted object (prior to rename)."
+  Set objSequence = mCol(ULEncode(OldName))
+  objSequence.Name = NewName
+  objSequence.Identifier = NewName
+  mCol.Add objSequence, ULEncode(NewName), ULEncode(OldName)
+  mCol.Remove ULEncode(OldName)
+  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rcAdd, "Created object (following rename)."
+  
+  Exit Sub
+Err_Handler:
+  objServer.iLogError Err
+End Sub
 
 'Return the specified Item
 Public Property Get Item(Key As String) As pgSequence
@@ -356,3 +377,18 @@ Dim objSequence As pgSequence
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objSequence As pgSequence
+
+  For Each objSequence In mCol
+    objSequence.Commit UpdateType, UpdateComment
+  Next objSequence
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

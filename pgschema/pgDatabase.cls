@@ -1121,3 +1121,46 @@ Dim vTemp As Variant
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all objects to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objAggregate As pgAggregate
+Dim objFunction As pgFunction
+Dim objLanguage As pgLanguage
+Dim objOperator As pgOperator
+Dim objSequence As pgSequence
+Dim objTable As pgTable
+Dim objType As pgType
+Dim objView As pgView
+
+  For Each objAggregate In Aggregates
+    objAggregate.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objAggregate
+  For Each objFunction In Functions
+    objFunction.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objFunction
+  For Each objLanguage In Languages
+    objLanguage.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objLanguage
+  For Each objOperator In Operators
+    objOperator.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objOperator
+  For Each objSequence In Sequences
+    objSequence.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objSequence
+  For Each objTable In Tables
+    objTable.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objTable
+  For Each objType In Types
+    objType.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objType
+  For Each objView In Views
+    objView.Commit UpdateType, "(Database committed)" & vbCrLf & vbCrLf & UpdateComment
+  Next objView
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+

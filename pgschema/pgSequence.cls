@@ -125,10 +125,23 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Name
+Friend Property Let iName(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let iName(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szName = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
+Dim szSQL As String
+
+  szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
+  objServer.ExecSQL szSQL, cnDatabase
   szName = vData
     
   Exit Property

@@ -357,3 +357,18 @@ Dim objAggregate As pgAggregate
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objAggregate As pgAggregate
+
+  For Each objAggregate In mCol
+    objAggregate.Commit UpdateType, UpdateComment
+  Next objAggregate
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

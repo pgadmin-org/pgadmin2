@@ -361,3 +361,17 @@ Dim objLanguage As pgLanguage
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Languages.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objLanguage As pgLanguage
+
+  For Each objLanguage In mCol
+    objLanguage.Commit UpdateType, UpdateComment
+  Next objLanguage
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

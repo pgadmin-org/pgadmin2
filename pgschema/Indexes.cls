@@ -136,7 +136,7 @@ Dim objNewMember As pgIndex
   Set objNewMember = New pgIndex
   objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
-  objNewMember.Name = szName
+  objNewMember.iName = szName
   objNewMember.Table = szTable
   objNewMember.Unique = bUnique
   objNewMember.Primary = bPrimary
@@ -212,6 +212,39 @@ Err_Handler:
   objServer.iLogError Err
   
 End Function
+
+'Rename
+Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
+Attribute Rename.VB_Description = "Rename the specified index."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
+
+  Dim objIndex As New pgIndex
+  Dim szSQL As String
+  Dim rs As New Recordset
+    
+  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rcDelete, "Deleted object (prior to rename)."
+  Set objIndex = mCol(ULEncode(OldName))
+  objIndex.Name = NewName
+  objIndex.Identifier = NewName
+
+  'Select definition back from the DB...
+  szSQL = "SELECT pg_get_indexdef(" & objIndex.OID & ") AS definition"
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If Not rs.EOF Then
+    objIndex.Definition = rs!Definition & ""
+  End If
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  mCol.Add objIndex, ULEncode(NewName), ULEncode(OldName)
+  mCol.Remove ULEncode(OldName)
+  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rcAdd, "Created object (following rename)."
+  
+  Exit Sub
+Err_Handler:
+  objServer.iLogError Err
+End Sub
 
 'Return the specified Item
 Public Property Get Item(Key As String) As pgIndex
@@ -362,4 +395,19 @@ Dim objIndex As pgIndex
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objIndex As pgIndex
+
+  For Each objIndex In mCol
+    objIndex.Commit UpdateType, UpdateComment
+  Next objIndex
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
 

@@ -355,3 +355,18 @@ Dim objRule As pgRule
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit all changes to Revision Control."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+Dim objRule As pgRule
+
+  For Each objRule In mCol
+    objRule.Commit UpdateType, UpdateComment
+  Next objRule
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+
