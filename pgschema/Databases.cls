@@ -133,7 +133,11 @@ Dim szSQL As String
   objServer.ExecSQL szSQL, objServer.Connection
   
   'Generate and execute the SQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_DATABASES & " WHERE datname = '" & dbSZ(Name) & "'"
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_DATABASES7_3 & " WHERE datname = '" & dbSZ(Name) & "'"
+  Else
+    szSQL = SQL_GET_DATABASES7_1 & " WHERE datname = '" & dbSZ(Name) & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, objServer.Connection)
   
   'Create a new member of the collection
@@ -273,7 +277,11 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " ORDER BY datname", objServer.Connection)
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_DATABASES7_3 & " ORDER BY datname", objServer.Connection)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_DATABASES7_1 & " ORDER BY datname", objServer.Connection)
+    End If
     While Not rs.EOF
       If objVersion.VersionNum >= 7.3 Then
         iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
