@@ -400,7 +400,7 @@ Dim szEvent As String
   Else
     StartMsg "Updating Trigger..."
     If hbxProperties(0).Tag = "Y" Then objTrigger.Comment = hbxProperties(0).Text
-    If (cboProperties(0).Tag = "Y") Or (cboProperties(1).Tag = "Y") Or (cboProperties(3).Tag = "y") Then
+    If (cboProperties(0).Tag = "Y") Or (cboProperties(1).Tag = "Y") Or (cboProperties(3).Tag = "Y") Or (chkProperties(0).Tag = "Y") Or (chkProperties(1).Tag = "Y") Or (chkProperties(2).Tag = "Y") Then
       objTrigger.Alter txtProperties(0).Text, cboProperties(1).Text, szEvent, cboProperties(0).Text, cboProperties(2).Text, cboProperties(3).Text, hbxProperties(0).Text
       
       frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
@@ -477,7 +477,9 @@ Dim objItem As ComboItem
   cboProperties(0).Tag = "N"
   cboProperties(1).Tag = "N"
   cboProperties(3).Tag = "N"
-  
+  chkProperties(0).Tag = "N"
+  chkProperties(1).Tag = "N"
+  chkProperties(2).Tag = "N"
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Initialise"
 End Sub
@@ -573,10 +575,10 @@ Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.chkProperties_Click(" & Index & ")", etFullDebug
 
-  If Not (objTrigger Is Nothing) Then
+  If Not (objTrigger Is Nothing) And (frmMain.svr.dbVersion.VersionNum < 7.2) Then
     SetChecks objTrigger.TriggerEvent
   End If
-  
+  chkProperties(Index).Tag = "Y"
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.chkProperties_Click"
 End Sub
