@@ -93,10 +93,10 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'External Add
-Public Function Add(ByVal Name As String, ByVal Unique As Boolean, ByVal ColumnList As String, Optional ByVal AccessMethod As String, Optional ByVal Comment As String) As pgIndex
+Public Function Add(ByVal Name As String, ByVal Unique As Boolean, ByVal ColumnList As String, Optional ByVal AccessMethod As String, Optional ByVal Comment As String, Optional ByVal Constraint As String) As pgIndex
 Attribute Add.VB_Description = "Add a new Index."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Indexes.Add(" & QUOTE & Name & QUOTE & ", " & Unique & ", " & QUOTE & ColumnList & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Add(" & QUOTE & Name & QUOTE & ", " & Unique & ", " & QUOTE & ColumnList & QUOTE & ", " & QUOTE & Comment & QUOTE & ", " & QUOTE & Constraint & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -108,6 +108,10 @@ Dim szSQL As String
   szSQL = szSQL & " ON " & QUOTE & szTable & QUOTE
   If AccessMethod <> "" Then szSQL = szSQL & " USING " & dbSZ(AccessMethod)
   szSQL = szSQL & " (" & dbSZ(ColumnList) & ")"
+  'Constraint is only valid for PostgreSQL 7.2+
+  If (Constraint <> "") And (objServer.dbVersion.VersionNum >= 7.2) Then
+    szSQL = szSQL & " WHERE " & Constraint
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   
   If Comment <> "" Then

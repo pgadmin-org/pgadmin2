@@ -787,7 +787,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Resize()", etFullDebug
   txtDefinition.Minimise
   If Me.Width < 8000 Then Me.Width = 8000
   If Me.Height < 6000 Then Me.Height = 6000
-  SizeControls imgSplitter.Left
+  SizeControls RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Splitter Position")
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Form_Resize"
@@ -2499,6 +2499,12 @@ Dim vData As Variant
   Next vData
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
   lvItem.SubItems(1) = szTemp
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OIDs?", "property", "property")
+  If svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).HasOIDs Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Table?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2786,6 +2792,8 @@ Dim vData As Variant
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Columns", "property", "property")
   lvItem.SubItems(1) = szTemp
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Constraint", "property", "property")
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).Constraint
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Index?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"

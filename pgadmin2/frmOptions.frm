@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmOptions 
    BorderStyle     =   1  'Fixed Single
@@ -34,8 +34,8 @@ Begin VB.Form frmOptions
       _ExtentY        =   11218
       _Version        =   393216
       Style           =   1
-      Tabs            =   4
-      TabsPerRow      =   4
+      Tabs            =   5
+      TabsPerRow      =   5
       TabHeight       =   520
       TabCaption(0)   =   "&Logging"
       TabPicture(0)   =   "frmOptions.frx":08CA
@@ -68,19 +68,34 @@ Begin VB.Form frmOptions
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0902
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdExpUninstall"
-      Tab(2).Control(1)=   "cmdExpInstall"
-      Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(3)=   "lstExporters"
+      Tab(2).Control(0)=   "lstExporters"
+      Tab(2).Control(1)=   "Frame1"
+      Tab(2).Control(2)=   "cmdExpInstall"
+      Tab(2).Control(3)=   "cmdExpUninstall"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":091E
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lstPlugins"
-      Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(2)=   "cmdPlgInstall"
-      Tab(3).Control(3)=   "cmdPlgUninstall"
+      Tab(3).Control(0)=   "cmdPlgUninstall"
+      Tab(3).Control(1)=   "cmdPlgInstall"
+      Tab(3).Control(2)=   "Frame2"
+      Tab(3).Control(3)=   "lstPlugins"
       Tab(3).ControlCount=   4
+      TabCaption(4)   =   "&Master DB"
+      TabPicture(4)   =   "frmOptions.frx":093A
+      Tab(4).ControlEnabled=   0   'False
+      Tab(4).Control(0)=   "txtMasterDB"
+      Tab(4).Control(1)=   "Label4"
+      Tab(4).Control(2)=   "Label3"
+      Tab(4).ControlCount=   3
+      Begin VB.TextBox txtMasterDB 
+         Height          =   285
+         Left            =   -74325
+         TabIndex        =   46
+         ToolTipText     =   "Enter the name of a database to use as the Master Connection."
+         Top             =   1980
+         Width           =   3930
+      End
       Begin VB.CommandButton cmdPlgUninstall 
          Caption         =   "&Uninstall Plugin"
          Height          =   330
@@ -168,18 +183,18 @@ Begin VB.Form frmOptions
       End
       Begin VB.ListBox lstPlugins 
          Height          =   3375
-         ItemData        =   "frmOptions.frx":093A
+         ItemData        =   "frmOptions.frx":0956
          Left            =   -74910
-         List            =   "frmOptions.frx":093C
+         List            =   "frmOptions.frx":0958
          TabIndex        =   37
          Top             =   450
          Width           =   5235
       End
       Begin VB.ListBox lstExporters 
          Height          =   3375
-         ItemData        =   "frmOptions.frx":093E
+         ItemData        =   "frmOptions.frx":095A
          Left            =   -74910
-         List            =   "frmOptions.frx":0940
+         List            =   "frmOptions.frx":095C
          TabIndex        =   27
          Top             =   450
          Width           =   5235
@@ -438,6 +453,23 @@ Begin VB.Form frmOptions
          Appearance      =   1
          NumItems        =   0
       End
+      Begin VB.Label Label4 
+         Caption         =   $"frmOptions.frx":095E
+         Height          =   915
+         Left            =   -74595
+         TabIndex        =   48
+         Top             =   2970
+         Width           =   4695
+      End
+      Begin VB.Label Label3 
+         AutoSize        =   -1  'True
+         Caption         =   "Master Connection Database"
+         Height          =   195
+         Left            =   -74325
+         TabIndex        =   47
+         Top             =   1755
+         Width           =   2070
+      End
       Begin VB.Label Label2 
          Caption         =   "Word"
          Height          =   255
@@ -676,6 +708,13 @@ Dim itmX As ListItem
   ctx.AutoHighlight = szTextColours
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "AutoHighlight", regString, CStr(ctx.AutoHighlight)
     
+  'Master DB
+  If txtMasterDB.Text <> RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", "template1") And _
+     frmMain.svr.ConnectionString <> "" Then
+    MsgBox "The change to the Master Connection Database will not take effect until you reconnect to the server.", vbInformation, "Master Connection Database"
+  End If
+  RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", regString, txtMasterDB.Text
+  
   Unload Me
   
   Exit Sub
@@ -755,6 +794,9 @@ Dim szValues() As String
     End If
   Next iLoop
 
+  'Master DB
+  txtMasterDB.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", "template1")
+  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.Form_Load"
 End Sub

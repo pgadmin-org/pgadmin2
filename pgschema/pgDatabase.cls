@@ -202,7 +202,7 @@ Dim rs As New Recordset
     '7.2+ Uses OID + SubID for some comments.
     Set rs = objServer.ExecSQL("SELECT * FROM pg_description", cnDatabase)
     While Not rs.EOF
-      If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+      If objServer.dbVersion.VersionNum < 7.2 Then
         szCommentCache.Add rs!Description & "", "C" & rs!objoid & "S0"
       Else
         szCommentCache.Add rs!Description & "", "C" & rs!objoid & "S" & rs!objsubid
@@ -674,7 +674,7 @@ Dim szConnect As String
 
   'Open the connection if required
   If cnDatabase.State <> adStateOpen Then
-    szConnect = Replace(objServer.Connection.ConnectionString, ";DATABASE=template1", ";DATABASE=" & szName)
+    szConnect = Replace(objServer.Connection.ConnectionString, ";DATABASE=" & objServer.MasterDB, ";DATABASE=" & szName)
     If objServer.ShowPassword Then
       objServer.iLogEvent "Opening cnDatabase: " & szConnect, etMiniDebug
     Else

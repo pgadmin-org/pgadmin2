@@ -827,7 +827,7 @@ End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.chkProperties_Click(" & Index & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objSequence Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objSequence.Cycled)

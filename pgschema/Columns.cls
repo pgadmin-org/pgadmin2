@@ -78,7 +78,7 @@ Dim szHex As String
   objNewMember.TableOID = lTableOID
   
   'Only have an OID pre 7.2
-  If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+  If objServer.dbVersion.VersionNum < 7.2 Then
     objNewMember.OID = lOID
   End If
   
@@ -130,7 +130,7 @@ Dim szSQL As String
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+  If objServer.dbVersion.VersionNum < 7.2 Then
     szSQL = SQL_GET_COLUMNS7_1 & " AND attrelid = " & lTableOID & " AND attname = '" & dbSZ(Name) & "'"
   Else
     szSQL = SQL_GET_COLUMNS7_2 & " AND attrelid = " & lTableOID & " AND attname = '" & dbSZ(Name) & "'"
@@ -243,7 +243,7 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+    If objServer.dbVersion.VersionNum < 7.2 Then
       Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_1 & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_2 & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)

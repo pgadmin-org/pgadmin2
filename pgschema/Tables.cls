@@ -33,9 +33,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String)
+Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String, bHasOIDs As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & bHasOIDs & ")", etFullDebug
 
 Dim objNewMember As pgTable
 Dim szSQL As String
@@ -53,6 +53,7 @@ Dim rs As New Recordset
   objNewMember.iName = szName
   objNewMember.iOwner = szOwner
   objNewMember.ACL = szACL
+  objNewMember.HasOIDs = bHasOIDs
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
   
@@ -68,10 +69,10 @@ Err_Handler:
 End Sub
 
 'External Add
-Public Function Add(ByVal Name As String, ByVal Columns As String, Optional ByVal PrimaryKeys As String, Optional ByVal Checks As String, Optional ByVal ForeignKeys As String, Optional ByVal Inherits As String, Optional ByVal Comment As String) As pgTable
+Public Function Add(ByVal Name As String, ByVal Columns As String, Optional ByVal PrimaryKeys As String, Optional ByVal Checks As String, Optional ByVal ForeignKeys As String, Optional ByVal Inherits As String, Optional ByVal Comment As String, Optional ByVal OIDs As Boolean = True) As pgTable
 Attribute Add.VB_Description = "Add a new Table."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Columns & QUOTE & ", " & QUOTE & PrimaryKeys & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & ForeignKeys & QUOTE & ", " & QUOTE & Inherits & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Columns & QUOTE & ", " & QUOTE & PrimaryKeys & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & ForeignKeys & QUOTE & ", " & QUOTE & Inherits & QUOTE & ", " & QUOTE & Comment & QUOTE & ", " & OIDs & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -83,6 +84,13 @@ Dim szSQL As String
   If ForeignKeys <> "" Then szSQL = szSQL & ", " & ForeignKeys
   szSQL = szSQL & ")"
   If Inherits <> "" Then szSQL = szSQL & " INHERITS (" & Inherits & ")"
+  If objServer.dbVersion.VersionNum >= 7.2 Then
+    If OIDs Then
+      szSQL = szSQL & " WITH OIDS"
+    Else
+      szSQL = szSQL & " WITHOUT OIDS"
+    End If
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
     szSQL = "COMMENT ON TABLE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
@@ -91,12 +99,20 @@ Dim szSQL As String
   End If
 
   'Generate and execute the SQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_TABLES & " AND relname = '" & dbSZ(Name) & "'"
+  If objServer.dbVersion.VersionNum >= 7.2 Then
+    szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & dbSZ(Name) & "'"
+  Else
+    szSQL = SQL_GET_TABLES7_1 & " AND relname = '" & dbSZ(Name) & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & ""
+    If objServer.dbVersion.VersionNum >= 7.2 Then
+      iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
+    Else
+      iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
+    End If
   End If
   
   'Return the object created
@@ -217,9 +233,17 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_TABLES & " ORDER BY relname", cnDatabase)
-    While Not rs.EOF
-      iAdd rs!OID, rs!relname & "", rs!tableowner, rs!relacl & ""
+    If objServer.dbVersion.VersionNum >= 7.2 Then
+      Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " ORDER BY relname", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_TABLES7_1 & " ORDER BY relname", cnDatabase)
+    End If
+      While Not rs.EOF
+        If objServer.dbVersion.VersionNum >= 7.2 Then
+          iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
+        Else
+          iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
+        End If
       rs.MoveNext
     Wend
   End If

@@ -127,6 +127,7 @@ Dim objNode As Node
   StartMsg "Connecting to " & txtServer.Text & "..."
   
   'Connect the Server Object
+  frmMain.svr.MasterDB = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", "template1")
   frmMain.svr.Connect txtServer.Text, Val(txtPort.Text), txtUsername.Text, txtPassword.Text
   frmMain.Caption = txtServer.Text & ":" & Val(txtPort.Text) & "- " & App.Title
   
@@ -225,8 +226,7 @@ Dim szConnection() As String
   txtUsername.Text = szConnection(0)
   txtServer.Text = szConnection(1)
   txtPort.Text = szConnection(2)
-  
+
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmConnect.Load_Defaults"
 End Sub
-

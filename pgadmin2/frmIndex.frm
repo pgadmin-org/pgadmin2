@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmIndex 
    BorderStyle     =   1  'Fixed Single
@@ -20,7 +20,7 @@ Begin VB.Form frmIndex
       Default         =   -1  'True
       Height          =   375
       Left            =   3285
-      TabIndex        =   9
+      TabIndex        =   10
       Top             =   6480
       Width           =   1095
    End
@@ -29,7 +29,7 @@ Begin VB.Form frmIndex
       Caption         =   "Cancel"
       Height          =   375
       Left            =   4410
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   6480
       Width           =   1095
    End
@@ -58,33 +58,35 @@ Begin VB.Form frmIndex
       Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "lblProperties(5)"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "cboProperties(1)"
+      Tab(0).Control(5)=   "hbxProperties(0)"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "cboProperties(0)"
+      Tab(0).Control(6)=   "cboProperties(1)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "txtProperties(0)"
+      Tab(0).Control(7)=   "cboProperties(0)"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "txtProperties(1)"
+      Tab(0).Control(8)=   "txtProperties(0)"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "chkProperties(0)"
+      Tab(0).Control(9)=   "txtProperties(1)"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "chkProperties(1)"
+      Tab(0).Control(10)=   "chkProperties(0)"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "lvProperties(0)"
+      Tab(0).Control(11)=   "chkProperties(1)"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "hbxProperties(0)"
+      Tab(0).Control(12)=   "lvProperties(0)"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).ControlCount=   13
+      Tab(0).Control(13)=   "hbxProperties(1)"
+      Tab(0).Control(13).Enabled=   0   'False
+      Tab(0).ControlCount=   14
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   915
-         Index           =   0
+         Height          =   870
+         Index           =   1
          Left            =   135
-         TabIndex        =   8
+         TabIndex        =   9
          ToolTipText     =   "Comments about the index."
-         Top             =   5265
-         Width           =   5145
-         _ExtentX        =   9075
-         _ExtentY        =   1614
+         Top             =   5310
+         Width           =   5190
+         _ExtentX        =   9155
+         _ExtentY        =   1535
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -97,7 +99,7 @@ Begin VB.Form frmIndex
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ListView lvProperties 
-         Height          =   1995
+         Height          =   1140
          Index           =   0
          Left            =   1935
          TabIndex        =   7
@@ -105,7 +107,7 @@ Begin VB.Form frmIndex
          Top             =   3195
          Width           =   3390
          _ExtentX        =   5980
-         _ExtentY        =   3519
+         _ExtentY        =   2011
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -202,13 +204,36 @@ Begin VB.Form frmIndex
          Locked          =   -1  'True
          ImageList       =   "il"
       End
+      Begin HighlightBox.HBX hbxProperties 
+         Height          =   825
+         Index           =   0
+         Left            =   135
+         TabIndex        =   8
+         ToolTipText     =   "Defines the constraint expression for a partial index (PostgreSQL 7.2+)."
+         Top             =   4410
+         Width           =   5190
+         _ExtentX        =   9155
+         _ExtentY        =   1455
+         BackColor       =   -2147483633
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Locked          =   -1  'True
+         Caption         =   "Constraint"
+      End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Indexed Columns"
          Height          =   195
          Index           =   5
          Left            =   135
-         TabIndex        =   15
+         TabIndex        =   16
          Top             =   3285
          Width           =   1215
       End
@@ -218,7 +243,7 @@ Begin VB.Form frmIndex
          Height          =   195
          Index           =   4
          Left            =   135
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   2025
          Width           =   795
       End
@@ -228,7 +253,7 @@ Begin VB.Form frmIndex
          Height          =   195
          Index           =   3
          Left            =   135
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   1575
          Width           =   405
       End
@@ -238,7 +263,7 @@ Begin VB.Form frmIndex
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   12
+         TabIndex        =   13
          Top             =   720
          Width           =   420
       End
@@ -248,7 +273,7 @@ Begin VB.Form frmIndex
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   11
+         TabIndex        =   12
          Top             =   1125
          Width           =   285
       End
@@ -342,7 +367,7 @@ Dim szColumns As String
     End If
     
     StartMsg "Creating Index..."
-    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Indexes.Add txtProperties(0).Text, Bin2Bool(chkProperties(1).Value), szColumns, cboProperties(1).Text, hbxProperties(0).Text
+    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Indexes.Add txtProperties(0).Text, Bin2Bool(chkProperties(1).Value), szColumns, cboProperties(1).Text, hbxProperties(1).Text, hbxProperties(0).Text
     
     'Add a new node and update the text on the parent
     For Each objNode In frmMain.tv.Nodes
@@ -399,6 +424,10 @@ Dim vArgument As Variant
     objItem.Selected = True
     cboProperties(1).ComboItems.Add , , "rtree", "index"
     cboProperties(1).ComboItems.Add , , "hash", "index"
+    'Gist indexes are in 7.2
+    If frmMain.svr.dbVersion.VersionNum > 7.1 Then
+      cboProperties(1).ComboItems.Add , , "gist", "index"
+    End If
 
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -406,6 +435,10 @@ Dim vArgument As Variant
     cboProperties(0).BackColor = &H80000005
     cboProperties(1).BackColor = &H80000005
     lvProperties(0).BackColor = &H80000005
+    If frmMain.svr.dbVersion.VersionNum >= 7.2 Then
+      hbxProperties(0).BackColor = &H80000005
+      hbxProperties(0).Locked = False
+    End If
     
   Else
   
@@ -429,11 +462,12 @@ Dim vArgument As Variant
       lvProperties(0).ListItems(vColumn).Checked = True
       lvProperties(0).ListItems(vColumn).Tag = "Y"
     Next vColumn
-    hbxProperties(0).Text = objIndex.Comment
+    hbxProperties(0).Text = objIndex.Constraint
+    hbxProperties(1).Text = objIndex.Comment
   End If
   
   'Reset the Tags
-  hbxProperties(0).Tag = "N"
+  hbxProperties(1).Tag = "N"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.Initialise"

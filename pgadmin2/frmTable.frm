@@ -20,7 +20,7 @@ Begin VB.Form frmTable
       Default         =   -1  'True
       Height          =   375
       Left            =   3285
-      TabIndex        =   5
+      TabIndex        =   6
       Top             =   6480
       Width           =   1095
    End
@@ -29,7 +29,7 @@ Begin VB.Form frmTable
       Caption         =   "Cancel"
       Height          =   375
       Left            =   4410
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   6480
       Width           =   1095
    End
@@ -67,7 +67,9 @@ Begin VB.Form frmTable
       Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "cboProperties(0)"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).ControlCount=   9
+      Tab(0).Control(9)=   "chkProperties(0)"
+      Tab(0).Control(9).Enabled=   0   'False
+      Tab(0).ControlCount=   10
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":0166
       Tab(1).ControlEnabled=   0   'False
@@ -109,11 +111,23 @@ Begin VB.Form frmTable
       Tab(5).Control(2)=   "cmdAdd"
       Tab(5).Control(3)=   "lvProperties(4)"
       Tab(5).ControlCount=   4
+      Begin VB.CheckBox chkProperties 
+         Alignment       =   1  'Right Justify
+         Caption         =   "OIDs?"
+         Height          =   240
+         Index           =   0
+         Left            =   135
+         TabIndex        =   4
+         ToolTipText     =   "Does this table have an OID column? (Prior to PostgreSQL 7.2, there is always an OID column)."
+         Top             =   2340
+         Value           =   1  'Checked
+         Width           =   1995
+      End
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
          Index           =   0
          Left            =   1935
-         TabIndex        =   39
+         TabIndex        =   40
          ToolTipText     =   "The tables owner."
          Top             =   1440
          Width           =   3390
@@ -129,7 +143,7 @@ Begin VB.Form frmTable
          Height          =   330
          Index           =   0
          Left            =   -73065
-         TabIndex        =   21
+         TabIndex        =   22
          Top             =   5850
          Width           =   3390
          _ExtentX        =   5980
@@ -145,7 +159,7 @@ Begin VB.Form frmTable
          Enabled         =   0   'False
          Height          =   375
          Left            =   -73560
-         TabIndex        =   17
+         TabIndex        =   18
          ToolTipText     =   "Remove the selected foreign key."
          Top             =   5805
          Width           =   1230
@@ -155,7 +169,7 @@ Begin VB.Form frmTable
          Enabled         =   0   'False
          Height          =   375
          Left            =   -74865
-         TabIndex        =   16
+         TabIndex        =   17
          ToolTipText     =   "Add the defined foreign key."
          Top             =   5805
          Width           =   1230
@@ -165,7 +179,7 @@ Begin VB.Form frmTable
          Enabled         =   0   'False
          Height          =   375
          Left            =   -73560
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   5355
          Width           =   1230
       End
@@ -174,7 +188,7 @@ Begin VB.Form frmTable
          Enabled         =   0   'False
          Height          =   375
          Left            =   -74865
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   5355
          Width           =   1230
       End
@@ -182,7 +196,7 @@ Begin VB.Form frmTable
          Height          =   285
          Index           =   0
          Left            =   -73065
-         TabIndex        =   13
+         TabIndex        =   14
          ToolTipText     =   "Enter a name for the check."
          Top             =   4950
          Width           =   3390
@@ -191,7 +205,7 @@ Begin VB.Form frmTable
          Caption         =   "&Add"
          Height          =   375
          Left            =   -74865
-         TabIndex        =   11
+         TabIndex        =   12
          ToolTipText     =   "Add the defined check."
          Top             =   4410
          Width           =   1230
@@ -201,7 +215,7 @@ Begin VB.Form frmTable
          Enabled         =   0   'False
          Height          =   375
          Left            =   -73560
-         TabIndex        =   12
+         TabIndex        =   13
          ToolTipText     =   "Remove the selected check."
          Top             =   4410
          Width           =   1230
@@ -211,7 +225,7 @@ Begin VB.Form frmTable
          Enabled         =   0   'False
          Height          =   375
          Left            =   -73560
-         TabIndex        =   9
+         TabIndex        =   10
          ToolTipText     =   "Remove the selected column."
          Top             =   5805
          Width           =   1230
@@ -220,7 +234,7 @@ Begin VB.Form frmTable
          Caption         =   "&Add"
          Height          =   375
          Left            =   -74865
-         TabIndex        =   8
+         TabIndex        =   9
          ToolTipText     =   "Add a new column."
          Top             =   5805
          Width           =   1230
@@ -229,7 +243,7 @@ Begin VB.Form frmTable
          Height          =   5280
          Index           =   0
          Left            =   -74865
-         TabIndex        =   7
+         TabIndex        =   8
          Top             =   450
          Width           =   5190
          _ExtentX        =   9155
@@ -322,7 +336,7 @@ Begin VB.Form frmTable
          Caption         =   "&Remove"
          Height          =   375
          Left            =   -73560
-         TabIndex        =   24
+         TabIndex        =   25
          ToolTipText     =   "Remove the selected entry."
          Top             =   3915
          Width           =   1230
@@ -331,7 +345,7 @@ Begin VB.Form frmTable
          Caption         =   "Define Privilege"
          Height          =   1815
          Left            =   -74865
-         TabIndex        =   31
+         TabIndex        =   32
          Top             =   4365
          Width           =   5190
          Begin VB.CheckBox chkPrivilege 
@@ -339,7 +353,7 @@ Begin VB.Form frmTable
             Height          =   195
             Index           =   0
             Left            =   225
-            TabIndex        =   26
+            TabIndex        =   27
             ToolTipText     =   "Give all privileges to the selected entity."
             Top             =   855
             Width           =   1590
@@ -349,7 +363,7 @@ Begin VB.Form frmTable
             Height          =   195
             Index           =   1
             Left            =   225
-            TabIndex        =   27
+            TabIndex        =   28
             ToolTipText     =   "Give select privilege to the selected entity."
             Top             =   1170
             Width           =   1590
@@ -359,7 +373,7 @@ Begin VB.Form frmTable
             Height          =   195
             Index           =   2
             Left            =   225
-            TabIndex        =   28
+            TabIndex        =   29
             ToolTipText     =   "Give update & delete privilege to the selected entity."
             Top             =   1440
             Width           =   1590
@@ -369,7 +383,7 @@ Begin VB.Form frmTable
             Height          =   195
             Index           =   3
             Left            =   3420
-            TabIndex        =   29
+            TabIndex        =   30
             ToolTipText     =   "Give insert privilege to the selected entity."
             Top             =   855
             Width           =   1590
@@ -379,7 +393,7 @@ Begin VB.Form frmTable
             Height          =   195
             Index           =   4
             Left            =   3420
-            TabIndex        =   30
+            TabIndex        =   31
             ToolTipText     =   "Give rule privilege to the selected entity."
             Top             =   1170
             Width           =   1590
@@ -387,7 +401,7 @@ Begin VB.Form frmTable
          Begin MSComctlLib.ImageCombo cboEntities 
             Height          =   330
             Left            =   1260
-            TabIndex        =   25
+            TabIndex        =   26
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
             Top             =   315
             Width           =   3705
@@ -405,7 +419,7 @@ Begin VB.Form frmTable
             Height          =   195
             Index           =   3
             Left            =   180
-            TabIndex        =   32
+            TabIndex        =   33
             Top             =   360
             Width           =   840
          End
@@ -414,7 +428,7 @@ Begin VB.Form frmTable
          Caption         =   "&Add"
          Height          =   375
          Left            =   -74865
-         TabIndex        =   23
+         TabIndex        =   24
          ToolTipText     =   "Add the defined entry."
          Top             =   3915
          Width           =   1230
@@ -423,7 +437,7 @@ Begin VB.Form frmTable
          Height          =   3390
          Index           =   4
          Left            =   -74865
-         TabIndex        =   22
+         TabIndex        =   23
          ToolTipText     =   "The access control list for the view."
          Top             =   450
          Width           =   5190
@@ -453,15 +467,15 @@ Begin VB.Form frmTable
          EndProperty
       End
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   3885
+         Height          =   3480
          Index           =   0
          Left            =   135
-         TabIndex        =   4
+         TabIndex        =   5
          ToolTipText     =   "Comments about the table."
-         Top             =   2295
+         Top             =   2700
          Width           =   5190
          _ExtentX        =   9155
-         _ExtentY        =   6853
+         _ExtentY        =   6138
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -477,7 +491,7 @@ Begin VB.Form frmTable
          Height          =   5235
          Index           =   2
          Left            =   -74865
-         TabIndex        =   15
+         TabIndex        =   16
          Top             =   450
          Width           =   5190
          _ExtentX        =   9155
@@ -540,7 +554,7 @@ Begin VB.Form frmTable
          Height          =   4785
          Index           =   3
          Left            =   -74865
-         TabIndex        =   18
+         TabIndex        =   19
          Top             =   450
          Width           =   5190
          _ExtentX        =   9155
@@ -567,7 +581,7 @@ Begin VB.Form frmTable
          Height          =   870
          Index           =   0
          Left            =   -74865
-         TabIndex        =   14
+         TabIndex        =   15
          ToolTipText     =   "The check definition."
          Top             =   5355
          Width           =   5190
@@ -588,7 +602,7 @@ Begin VB.Form frmTable
          Height          =   3885
          Index           =   1
          Left            =   -74865
-         TabIndex        =   10
+         TabIndex        =   11
          Top             =   450
          Width           =   5190
          _ExtentX        =   9155
@@ -621,7 +635,7 @@ Begin VB.Form frmTable
          Height          =   195
          Index           =   6
          Left            =   -74820
-         TabIndex        =   38
+         TabIndex        =   39
          Top             =   5940
          Width           =   1440
       End
@@ -631,7 +645,7 @@ Begin VB.Form frmTable
          Height          =   195
          Index           =   5
          Left            =   -74820
-         TabIndex        =   37
+         TabIndex        =   38
          Top             =   4995
          Width           =   900
       End
@@ -641,7 +655,7 @@ Begin VB.Form frmTable
          Height          =   195
          Index           =   4
          Left            =   135
-         TabIndex        =   36
+         TabIndex        =   37
          Top             =   1935
          Width           =   480
       End
@@ -651,7 +665,7 @@ Begin VB.Form frmTable
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   35
+         TabIndex        =   36
          Top             =   720
          Width           =   420
       End
@@ -661,7 +675,7 @@ Begin VB.Form frmTable
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   34
+         TabIndex        =   35
          Top             =   1125
          Width           =   285
       End
@@ -671,7 +685,7 @@ Begin VB.Form frmTable
          Height          =   195
          Index           =   2
          Left            =   135
-         TabIndex        =   33
+         TabIndex        =   34
          Top             =   1530
          Width           =   465
       End
@@ -1015,7 +1029,7 @@ Dim szInherits As String
     Next objItem
     If Len(szInherits) > 2 Then szInherits = Left(szInherits, Len(szInherits) - 2)
      
-    frmMain.svr.Databases(szDatabase).Tables.Add txtProperties(0).Text, szColumns, szPrimaryKeys, szChecks, szForeignKeys, szInherits, hbxProperties(0).Text
+    frmMain.svr.Databases(szDatabase).Tables.Add txtProperties(0).Text, szColumns, szPrimaryKeys, szChecks, szForeignKeys, szInherits, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value)
     
     'Add any comments for the columns.
     For Each objItem In lvProperties(0).ListItems
@@ -1206,6 +1220,7 @@ Dim szAccess() As String
     txtProperties(1).Text = objTable.OID
     cboProperties(0).ComboItems(objTable.Owner).Selected = True
     txtProperties(2).Text = objTable.Rows
+    chkProperties(0).Value = Bool2Bin(objTable.HasOIDs)
     hbxProperties(0).Text = objTable.Comment
     
     For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(objTable.Name).Columns
@@ -1425,4 +1440,18 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cboProperties_Click(" 
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cboProperties_Click"
+End Sub
+
+Private Sub chkProperties_Click(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.chkProperties_Click(" & Index & ")", etFullDebug
+
+  If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+    chkProperties(0).Value = 1
+  ElseIf Not (objTable Is Nothing) Then
+    chkProperties(0).Value = Bool2Bin(objTable.HasOIDs)
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.chkProperties_Click"
 End Sub

@@ -376,7 +376,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Comment()"
 
   'In 7.1, comments were stored in pg_description against the column OID.
   'In 7.2+, use the table OID with a SubID of the Column Position
-  If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+  If objServer.dbVersion.VersionNum < 7.2 Then
     Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
   Else
     Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lTableOID, lPosition)

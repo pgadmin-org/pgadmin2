@@ -210,6 +210,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get IndexType()
     IndexType = "btree"
   ElseIf InStr(1, szDefinition, " USING rtree ") <> 0 Then
     IndexType = "rtree"
+  ElseIf InStr(1, szDefinition, " USING gist ") <> 0 Then
+    IndexType = "gist"
   End If
     
   Exit Property
@@ -274,6 +276,21 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get Definition()", etFullDebug
 
   Definition = szDefinition
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Index Constraint
+Public Property Get Constraint() As String
+Attribute Constraint.VB_Description = "Returns the Index Constraint. This should only be present for PostgreSQL 7.2+"
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get Constraint()", etFullDebug
+
+Dim lPos As Long
+
+  lPos = InStr(1, szDefinition, " WHERE ")
+  If lPos <> 0 Then Constraint = Mid(szDefinition, lPos + 7)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

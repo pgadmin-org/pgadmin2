@@ -29,6 +29,7 @@ Public Type Version
   Major As Integer
   Minor As Integer
   Revision As Integer
+  VersionNum As Single
 End Type
 
 'Enums
@@ -73,6 +74,7 @@ Private lLastSystemOID As Long
 Private bIncludeSys As Boolean
 Private bDontLogErrors As Boolean
 Private bShowPassword As Boolean
+Private szMasterDB As String
 Private objDriverVersion As Version
 
 'Error Log
@@ -180,7 +182,7 @@ Dim szVersion() As String
   Set colGroups = Nothing
   
   'Open the connection
-  szConnect = "DRIVER=PostgreSQL;SERVER=" & szServer & ";PORT=" & lPort & ";UID=" & szUsername & ";PWD=" & szPassword & ";DATABASE=template1"
+  szConnect = "DRIVER=PostgreSQL;SERVER=" & szServer & ";PORT=" & lPort & ";UID=" & szUsername & ";PWD=" & szPassword & ";DATABASE=" & szMasterDB
   If bShowPassword Then
     objServer.iLogEvent "Opening cnPostgreSQL: " & szConnect, etMiniDebug
   Else
@@ -202,12 +204,14 @@ Dim szVersion() As String
   If UBound(szVersion) >= 0 Then objVersion.Major = Val(szVersion(0))
   If UBound(szVersion) >= 1 Then objVersion.Minor = Val(szVersion(1))
   If UBound(szVersion) >= 2 Then objVersion.Revision = Val(szVersion(2))
+  objVersion.VersionNum = Val(objVersion.Major & "." & objVersion.Minor)
   
   'Get the Driver Version
   szVersion = Split(cnPostgreSQL.Properties("Driver Version"), ".")
   If UBound(szVersion) >= 0 Then objDriverVersion.Major = Val(szVersion(0))
   If UBound(szVersion) >= 1 Then objDriverVersion.Minor = Val(szVersion(1))
   If UBound(szVersion) >= 2 Then objDriverVersion.Revision = Val(szVersion(2))
+  objDriverVersion.VersionNum = Val(objDriverVersion.Major & "." & objDriverVersion.Minor)
   objDriverVersion.Description = Mid(cnPostgreSQL.Properties("DBMS Version"), 12)
   
   Exit Function
@@ -274,6 +278,7 @@ Private Sub Class_Initialize()
   lPort = 5432
   llLogging = llNone
   szLogfile = "pgSchema_" & App.ThreadID & ".log"
+  szMasterDB = "template1"
 End Sub
 
 'Cleanup
@@ -410,6 +415,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Version()"
   Version.Major = App.Major
   Version.Minor = App.Minor
   Version.Revision = App.Revision
+  Version.VersionNum = Val(App.Major & "." & App.Minor)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -590,6 +596,26 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Logfile()", etFullDebug
 
   Logfile = szLogfile
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the MasterDB
+Public Property Let MasterDB(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let MasterDB(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szMasterDB = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get MasterDB() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get MasterDB()", etFullDebug
+
+  MasterDB = szMasterDB
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

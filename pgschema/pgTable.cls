@@ -33,6 +33,7 @@ Private szIdentifier As String
 Private bSystemObject As String
 Private szOwner As String
 Private szACL As String
+Private bHasOIDs As Boolean
 Private cnDatabase As Connection
 
 'Set the Connection to use
@@ -414,6 +415,27 @@ Dim rs As New Recordset
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Set/Return a boolean indicating whether this table has OIDs
+Friend Property Let HasOIDs(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let HasOIDs(" & vData & ")", etFullDebug
+
+  bHasOIDs = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get HasOIDs() As Boolean
+Attribute HasOIDs.VB_Description = "Indicates whether or not the table has OIDs."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get HasOIDs()", etFullDebug
+
+  HasOIDs = bHasOIDs
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Grant Permissions
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Grant.VB_Description = "Grant privileges on the Table."
@@ -635,6 +657,15 @@ Dim vColumn As Variant
       szSQL = szSQL & QUOTE & vTable & QUOTE & ", "
     Next vTable
     szSQL = Left(szSQL, Len(szSQL) - 2) & ")"
+  End If
+  
+  'OIDs?
+  If objServer.dbVersion.VersionNum >= 7.2 Then
+    If bHasOIDs Then
+      szSQL = szSQL & " WITH OIDS"
+    Else
+      szSQL = szSQL & " WITHOUT OIDS"
+    End If
   End If
   
   szSQL = szSQL & ";" & vbCrLf
