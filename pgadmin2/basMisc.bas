@@ -477,5 +477,20 @@ Dim szTemp As String
   fmtTypeName = szTemp
   
   Exit Function
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.ParseACL"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.fmtTypeName"
+End Function
+
+'Make sure a column width is valid
+Public Function FixWidth(lWidth As Long) As Long
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.FixWidth(" & lWidth & ")", etFullDebug
+
+  If lWidth < 0 Then
+    FixWidth = 500
+  Else
+    FixWidth = lWidth
+  End If
+  
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.FixWidth"
 End Function
