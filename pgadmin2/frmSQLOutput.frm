@@ -638,7 +638,7 @@ On Error Resume Next
 End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmColumn 
@@ -233,13 +233,13 @@ Begin VB.Form frmColumn
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
-         Caption         =   "Numeric Precision"
+         Caption         =   "Numeric Scale"
          Height          =   195
          Index           =   5
          Left            =   135
          TabIndex        =   17
          Top             =   2745
-         Width           =   1275
+         Width           =   1035
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True

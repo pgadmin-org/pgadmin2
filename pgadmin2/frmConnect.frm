@@ -197,7 +197,7 @@ Dim objNode As Node
   'Set the CurrentObject
   Set ctx.CurrentObject = frmMain.svr
   ctx.CurrentDB = ""
-  
+ 
   'Expand the node
   frmMain.tv_NodeClick objNode
   objNode.Expanded = True

@@ -139,6 +139,21 @@ Dim szPath() As String
           End If
         End If
       Next objNode
+
+    Case "Domain"
+      szType = "DOM-"
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Domains.Remove ctx.CurrentObject.Identifier
+      
+      'Delete any matching tree nodes
+      For Each objNode In frmMain.tv.Nodes
+        szPath = Split(objNode.FullPath, "\")
+        If UBound(szPath) >= 2 Then
+          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
+            objNode.Parent.Text = "Domains (" & objNode.Parent.Children - 1 & ")"
+            frmMain.tv.Nodes.Remove objNode.Index
+          End If
+        End If
+      Next objNode
     
     Case "Function"
       szType = "FNC-"

@@ -131,7 +131,7 @@ On Error Resume Next
      vData.ObjectType = "Operator" Or vData.ObjectType = "Rule" Or _
      vData.ObjectType = "Sequence" Or vData.ObjectType = "Table" Or _
      vData.ObjectType = "Trigger" Or vData.ObjectType = "Type" Or _
-     vData.ObjectType = "View" Then
+     vData.ObjectType = "View" Or vData.ObjectType = "Domain" Then
     If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl And vData.RCStatus <> rcNotApplicable Then
       frmMain.mnuPopupCommit.Enabled = True
       frmMain.tb.Buttons("commit").Enabled = True
@@ -174,6 +174,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     End If
     frmMain.sb.Panels("currentdb").Text = "Database: " & szData
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = True
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = True
@@ -188,6 +189,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("vacuum").Enabled = True
     frmMain.mnuFileSaveDBSchema.Enabled = True
     frmMain.mnuPopupCreateAggregate.Enabled = True
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then frmMain.mnuPopupCreateDomain.Enabled = True
     frmMain.mnuPopupCreateFunction.Enabled = True
     frmMain.mnuPopupCreateIndex.Enabled = True
     frmMain.mnuPopupCreateLanguage.Enabled = True
@@ -203,6 +205,7 @@ Public Property Let CurrentDB(ByVal szData As String)
   Else
     frmMain.sb.Panels("currentdb").Text = "Database: None"
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = False
@@ -218,6 +221,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("vacuum").Enabled = False
     frmMain.mnuFileSaveDBSchema.Enabled = False
     frmMain.mnuPopupCreateAggregate.Enabled = False
+    frmMain.mnuPopupCreateDomain.Enabled = False
     frmMain.mnuPopupCreateFunction.Enabled = False
     frmMain.mnuPopupCreateIndex.Enabled = False
     frmMain.mnuPopupCreateLanguage.Enabled = False

@@ -153,7 +153,7 @@ Begin VB.Form frmMain
             ImageIndex      =   3
             Style           =   5
             BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
-               NumButtonMenus  =   14
+               NumButtonMenus  =   15
                BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "aggregate"
@@ -166,60 +166,65 @@ Begin VB.Form frmMain
                EndProperty
                BeginProperty ButtonMenu3 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
+                  Key             =   "domain"
+                  Text            =   "Do&main"
+               EndProperty
+               BeginProperty ButtonMenu4 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
                   Key             =   "function"
                   Text            =   "&Function"
                EndProperty
-               BeginProperty ButtonMenu4 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu5 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "group"
                   Text            =   "&Group"
                EndProperty
-               BeginProperty ButtonMenu5 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu6 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "index"
                   Text            =   "&Index"
                EndProperty
-               BeginProperty ButtonMenu6 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu7 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "language"
                   Text            =   "&Language"
                EndProperty
-               BeginProperty ButtonMenu7 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu8 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "operator"
                   Text            =   "&Operator"
                EndProperty
-               BeginProperty ButtonMenu8 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu9 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "rule"
                   Text            =   "&Rule"
                EndProperty
-               BeginProperty ButtonMenu9 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu10 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "sequence"
                   Text            =   "&Sequence"
                EndProperty
-               BeginProperty ButtonMenu10 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "table"
                   Text            =   "&Table"
                EndProperty
-               BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "trigger"
                   Text            =   "T&rigger"
                EndProperty
-               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "type"
                   Text            =   "T&ype"
                EndProperty
-               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "user"
                   Text            =   "&User"
                EndProperty
-               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "view"
                   Text            =   "&View"
@@ -382,7 +387,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   25
+         NumListImages   =   26
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":9AC4
             Key             =   "aggregate"
@@ -483,6 +488,10 @@ Begin VB.Form frmMain
             Picture         =   "frmMain.frx":119FC
             Key             =   "statistics"
          EndProperty
+         BeginProperty ListImage26 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":125CE
+            Key             =   "domain"
+         EndProperty
       EndProperty
    End
    Begin MSComctlLib.TreeView tv 
@@ -514,13 +523,13 @@ Begin VB.Form frmMain
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmMain.frx":125CE
+      TabPicture(0)   =   "frmMain.frx":12CA0
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lv"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).ControlCount=   1
       TabCaption(1)   =   "&Statistics"
-      TabPicture(1)   =   "frmMain.frx":125EA
+      TabPicture(1)   =   "frmMain.frx":12CBC
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "sv"
       Tab(1).ControlCount=   1
@@ -799,6 +808,10 @@ Begin VB.Form frmMain
             Caption         =   "&Database..."
             Enabled         =   0   'False
          End
+         Begin VB.Menu mnuPopupCreateDomain 
+            Caption         =   "Do&main..."
+            Enabled         =   0   'False
+         End
          Begin VB.Menu mnuPopupCreateFunction 
             Caption         =   "&Function..."
             Enabled         =   0   'False
@@ -1007,6 +1020,20 @@ Dim siWidth As Single
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Resize"
+End Sub
+
+Private Sub mnuPopupCreateDomain_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateDomain_Click()", etFullDebug
+
+Dim objDomainForm As New frmDomain
+
+  Load objDomainForm
+  objDomainForm.Initialise ctx.CurrentDB
+  objDomainForm.Show
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateDomain_Click"
 End Sub
 
 Private Sub mnuPopupRecordLog_Click()
@@ -1501,6 +1528,8 @@ Dim objNode As Node
       svr.Users.Refresh
     Case "AGG+"
       svr.Databases(objNode.Parent.Text).Aggregates.Refresh
+    Case "DOM+"
+      svr.Databases(objNode.Parent.Text).Domains.Refresh
     Case "FNC+"
       svr.Databases(objNode.Parent.Text).Functions.Refresh
     Case "LNG+"
@@ -1553,7 +1582,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupProperties_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", etFullDebug
 
       Select Case ctx.CurrentObject.ObjectType
@@ -1574,6 +1603,12 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
           Load objDatabaseForm
           objDatabaseForm.Initialise ctx.CurrentObject
           objDatabaseForm.Show
+          
+        Case "Domain"
+          Dim objDomainForm As New frmDomain
+          Load objDomainForm
+          objDomainForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objDomainForm.Show
           
         Case "Foreign Key"
           Dim objForeignKeyForm As New frmForeignKey
@@ -2002,6 +2037,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
           mnuPopupCreateAggregate_Click
         Case "database"
           mnuPopupCreateDatabase_Click
+        Case "domain"
+          mnuPopupCreateDomain_Click
         Case "function"
           mnuPopupCreateFunction_Click
         Case "group"
@@ -2307,6 +2344,7 @@ Dim lvItem As ListItem
   If svr.Databases(Node.Text).Status = statOpen Then
     If Node.Children = 0 Then
       tv.Nodes.Add Node.Key, tvwChild, "AGG+" & GetID, "Aggregates", "aggregate"
+      If svr.dbVersion.VersionNum >= 7.3 Then tv.Nodes.Add Node.Key, tvwChild, "DOM+" & GetID, "Domains", "domain"
       tv.Nodes.Add Node.Key, tvwChild, "FNC+" & GetID, "Functions", "function"
       tv.Nodes.Add Node.Key, tvwChild, "LNG+" & GetID, "Languages", "language"
       tv.Nodes.Add Node.Key, tvwChild, "OPR+" & GetID, "Operators", "operator"
@@ -2637,6 +2675,108 @@ Dim lvItem As ListItem
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvAggregate"
+End Sub
+
+Private Sub tvDomains(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomains(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim dom As pgDomain
+
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Domains.Count(Not ctx.IncludeSys) Then
+    While Not (Node.Child Is Nothing)
+      tv.Nodes.Remove Node.Child.Index
+    Wend
+    For Each dom In svr.Databases(Node.Parent.Text).Domains
+      If Not (dom.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "DOM-" & GetID, dom.Identifier, "domain"
+    Next dom
+    Node.Text = "Domains (" & Node.Children & ")"
+  End If
+  lv.ColumnHeaders.Add , , "Domain", 2000
+  lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
+  For Each dom In svr.Databases(Node.Parent.Text).Domains
+    If Not (dom.SystemObject And Not ctx.IncludeSys) Then
+      Set lvItem = lv.ListItems.Add(, "DOM-" & GetID, dom.Identifier, "domain", "domain")
+      lvItem.SubItems(1) = Replace(dom.Comment, vbCrLf, " ")
+    End If
+  Next dom
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDomains"
+End Sub
+
+Private Sub tvDomain(ByVal Node As MSComctlLib.Node)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomain(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+
+  lv.ColumnHeaders.Add , , "Property", 2000
+  lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Base Type", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.BaseType
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Length", "property", "property")
+  If ctx.CurrentObject.Length = 0 Then
+    lvItem.SubItems(1) = "Variable"
+  Else
+    lvItem.SubItems(1) = ctx.CurrentObject.Length
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Numeric Scale", "property", "property")
+  If ctx.CurrentObject.BaseType = "numeric" Then
+    lvItem.SubItems(1) = ctx.CurrentObject.NumericScale
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Default
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Not Null?", "property", "property")
+  If ctx.CurrentObject.NotNull Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
+  If ctx.CurrentObject.SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case ctx.CurrentObject.RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Domain?", "property", "property")
+  If ctx.CurrentObject.SystemObject Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
+
+  'Set the Definition Pane
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDomain"
 End Sub
 
 Private Sub tvFunctions(ByVal Node As MSComctlLib.Node)
@@ -3426,8 +3566,12 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Position
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Data Type", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.DataType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Size", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.Length
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Length", "property", "property")
+  If ctx.CurrentObject.Length = 0 Then
+    lvItem.SubItems(1) = "Variable"
+  Else
+    lvItem.SubItems(1) = ctx.CurrentObject.Length
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Numeric Precision", "property", "property")
   If ctx.CurrentObject.DataType = "numeric" Then
     lvItem.SubItems(1) = ctx.CurrentObject.NumericScale
@@ -4174,7 +4318,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -4246,6 +4390,17 @@ Dim vData As Variant
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text)
       tvAggregate Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "DOM+" 'Domains
+      ctx.CurrentDB = Node.Parent.Text
+      tvDomains Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "DOM-" 'Domain
+      ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Domains(Node.Text)
+      tvDomain Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "FNC+" 'Functions
@@ -4436,6 +4591,11 @@ Dim szPath() As String
       
     Case "AGG-" 'Aggregate
       Set ctx.CurrentObject = svr.Databases(szPath(2)).Aggregates(Item.Text)
+      ctx.CurrentDB = szPath(2)
+      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+      
+    Case "DOM-" 'Domain
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Domains(Item.Text)
       ctx.CurrentDB = szPath(2)
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
 
