@@ -304,7 +304,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cmdCancel_Click()", et
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmIndex.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -369,7 +369,7 @@ Dim szColumns As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmIndex.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Index As pgIndex)
@@ -436,7 +436,7 @@ Dim vArgument As Variant
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmIndex.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -446,7 +446,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.hbxProperties_Change("
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmIndex.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.hbxProperties_Change"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -461,7 +461,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.chkProperties_Click(" 
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmIndex.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.chkProperties_Click"
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
@@ -478,7 +478,7 @@ Dim objColumn As pgColumn
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmIndex.cboProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.cboProperties_Click"
 End Sub
 
 Private Sub lvProperties_ItemCheck(Index As Integer, ByVal Item As MSComctlLib.ListItem)
@@ -494,5 +494,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.lvProperties_ItemCheck
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmIndex.cboProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.cboProperties_Click"
 End Sub

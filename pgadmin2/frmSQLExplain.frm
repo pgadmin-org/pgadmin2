@@ -78,7 +78,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Load()", etF
   txtPlan.Wordlist = ctx.AutoHighlight
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.Form_Load"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.Form_Load"
 End Sub
 
 Private Sub Form_Resize()
@@ -98,7 +98,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Resize()", e
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.Form_Resize"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.Form_Resize"
 End Sub
 
 Public Sub Explain(szSQL As String, szDatabase As String)
@@ -208,5 +208,5 @@ Cleanup:
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.Explain"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.Explain"
 End Sub

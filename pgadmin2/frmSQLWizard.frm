@@ -54,72 +54,72 @@ Begin VB.Form frmSQLWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmSQLWizard.frx":08E6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1(1)"
-      Tab(1).Control(1)=   "Label2(0)"
-      Tab(1).Control(2)=   "Label2(7)"
-      Tab(1).Control(3)=   "Label2(1)"
-      Tab(1).Control(4)=   "cmdRemoveJoin"
-      Tab(1).Control(5)=   "cmdAddJoin"
-      Tab(1).Control(6)=   "lstJoins"
-      Tab(1).Control(7)=   "cboJColumn1"
-      Tab(1).Control(8)=   "cboJColumn2"
-      Tab(1).Control(9)=   "txtPrimaryTable"
-      Tab(1).Control(10)=   "Frame1"
-      Tab(1).Control(11)=   "Frame2"
+      Tab(1).Control(0)=   "Frame2"
+      Tab(1).Control(1)=   "Frame1"
+      Tab(1).Control(2)=   "txtPrimaryTable"
+      Tab(1).Control(3)=   "cboJColumn2"
+      Tab(1).Control(4)=   "cboJColumn1"
+      Tab(1).Control(5)=   "lstJoins"
+      Tab(1).Control(6)=   "cmdAddJoin"
+      Tab(1).Control(7)=   "cmdRemoveJoin"
+      Tab(1).Control(8)=   "Label2(1)"
+      Tab(1).Control(9)=   "Label2(7)"
+      Tab(1).Control(10)=   "Label2(0)"
+      Tab(1).Control(11)=   "Label1(1)"
       Tab(1).ControlCount=   12
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmSQLWizard.frx":0902
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label1(2)"
-      Tab(2).Control(1)=   "Label2(4)"
-      Tab(2).Control(2)=   "cmdRemoveColumn"
-      Tab(2).Control(3)=   "cmdAddColumn"
-      Tab(2).Control(4)=   "lstIncColumns"
-      Tab(2).Control(5)=   "lstAllColumns"
-      Tab(2).Control(6)=   "cmdColumnUp"
-      Tab(2).Control(7)=   "cmdColumnDown"
-      Tab(2).Control(8)=   "cmdAddCustomColumn"
-      Tab(2).Control(9)=   "cboCustomColumn"
+      Tab(2).Control(0)=   "cboCustomColumn"
+      Tab(2).Control(1)=   "cmdAddCustomColumn"
+      Tab(2).Control(2)=   "cmdColumnDown"
+      Tab(2).Control(3)=   "cmdColumnUp"
+      Tab(2).Control(4)=   "lstAllColumns"
+      Tab(2).Control(5)=   "lstIncColumns"
+      Tab(2).Control(6)=   "cmdAddColumn"
+      Tab(2).Control(7)=   "cmdRemoveColumn"
+      Tab(2).Control(8)=   "Label2(4)"
+      Tab(2).Control(9)=   "Label1(2)"
       Tab(2).ControlCount=   10
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmSQLWizard.frx":091E
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Label1(3)"
-      Tab(3).Control(1)=   "Label2(2)"
-      Tab(3).Control(2)=   "Label2(3)"
-      Tab(3).Control(3)=   "lblBoolean"
-      Tab(3).Control(4)=   "lblValue"
-      Tab(3).Control(5)=   "cboWhereCols"
-      Tab(3).Control(6)=   "lstCriteria"
-      Tab(3).Control(7)=   "cmdAddCriteria"
-      Tab(3).Control(8)=   "cmdRemoveCriteria"
-      Tab(3).Control(9)=   "cboOperator"
-      Tab(3).Control(10)=   "cboBoolean"
-      Tab(3).Control(11)=   "txtValue"
+      Tab(3).Control(0)=   "txtValue"
+      Tab(3).Control(1)=   "cboBoolean"
+      Tab(3).Control(2)=   "cboOperator"
+      Tab(3).Control(3)=   "cmdRemoveCriteria"
+      Tab(3).Control(4)=   "cmdAddCriteria"
+      Tab(3).Control(5)=   "lstCriteria"
+      Tab(3).Control(6)=   "cboWhereCols"
+      Tab(3).Control(7)=   "lblValue"
+      Tab(3).Control(8)=   "lblBoolean"
+      Tab(3).Control(9)=   "Label2(3)"
+      Tab(3).Control(10)=   "Label2(2)"
+      Tab(3).Control(11)=   "Label1(3)"
       Tab(3).ControlCount=   12
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmSQLWizard.frx":093A
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Label1(4)"
-      Tab(4).Control(1)=   "cmdRemoveSortCol"
-      Tab(4).Control(2)=   "cmdAddAsc"
-      Tab(4).Control(3)=   "lstIncSortCols"
-      Tab(4).Control(4)=   "lstAllSortCols"
-      Tab(4).Control(5)=   "cmdAddDesc"
-      Tab(4).Control(6)=   "cmdSortColDown"
-      Tab(4).Control(7)=   "cmdSortColUp"
+      Tab(4).Control(0)=   "cmdSortColUp"
+      Tab(4).Control(1)=   "cmdSortColDown"
+      Tab(4).Control(2)=   "cmdAddDesc"
+      Tab(4).Control(3)=   "lstAllSortCols"
+      Tab(4).Control(4)=   "lstIncSortCols"
+      Tab(4).Control(5)=   "cmdAddAsc"
+      Tab(4).Control(6)=   "cmdRemoveSortCol"
+      Tab(4).Control(7)=   "Label1(4)"
       Tab(4).ControlCount=   8
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmSQLWizard.frx":0956
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "Label1(7)"
-      Tab(5).Control(1)=   "Label2(5)"
-      Tab(5).Control(2)=   "Label2(6)"
-      Tab(5).Control(3)=   "chkDistinct"
-      Tab(5).Control(4)=   "chkLimit"
-      Tab(5).Control(5)=   "txtLimit"
-      Tab(5).Control(6)=   "chkOffset"
-      Tab(5).Control(7)=   "txtOffset"
+      Tab(5).Control(0)=   "txtOffset"
+      Tab(5).Control(1)=   "chkOffset"
+      Tab(5).Control(2)=   "txtLimit"
+      Tab(5).Control(3)=   "chkLimit"
+      Tab(5).Control(4)=   "chkDistinct"
+      Tab(5).Control(5)=   "Label2(6)"
+      Tab(5).Control(6)=   "Label2(5)"
+      Tab(5).Control(7)=   "Label1(7)"
       Tab(5).ControlCount=   8
       Begin VB.Frame Frame2 
          Caption         =   "Join Type"
@@ -806,7 +806,7 @@ Dim objTable As pgTable
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.Get_Tables"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.Get_Tables"
 End Sub
 
 Private Sub Get_JoinCols()
@@ -834,7 +834,7 @@ Dim objColumn As pgColumn
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.Get_JoinCols"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.Get_JoinCols"
 End Sub
 
 Private Sub Get_ValidJoinCols()
@@ -890,7 +890,7 @@ Dim bFlag As Boolean
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.Get_ValidJoinCols"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.Get_ValidJoinCols"
 End Sub
 
 Private Sub Get_Columns()
@@ -914,7 +914,7 @@ Dim objColumn As pgColumn
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.Get_Columns"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.Get_Columns"
 End Sub
 
 Private Sub Get_WhereCols()
@@ -939,7 +939,7 @@ Dim objColumn As pgColumn
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.Get_WhereCols"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.Get_WhereCols"
 End Sub
 
 Private Sub Get_SortCols()
@@ -964,7 +964,7 @@ Dim objColumn As pgColumn
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.Get_SortCols"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.Get_SortCols"
 End Sub
 
 Private Sub cboJColumn1_Click()
@@ -974,7 +974,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cboJColumn1_Click(
   cboJColumn1.ToolTipText = cboJColumn1.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cboJColumn1_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cboJColumn1_Click"
 End Sub
 
 Private Sub cboJColumn2_Click()
@@ -984,7 +984,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cboJColumn2_Click(
   cboJColumn2.ToolTipText = cboJColumn2.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cboJColumn2_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cboJColumn2_Click"
 End Sub
 
 Private Sub cboOperator_Click()
@@ -1000,7 +1000,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cboOperator_Click(
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cboOperator_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cboOperator_Change"
 End Sub
 
 Private Sub chkLimit_Click()
@@ -1018,7 +1018,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.chkLimit_Click()",
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.chkLimit_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.chkLimit_Click"
 End Sub
 
 Private Sub chkOffset_Click()
@@ -1032,7 +1032,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.chkOffset_Click()"
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.chkOffset_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.chkOffset_Click"
 End Sub
 
 Private Sub cmdAddAsc_Click()
@@ -1054,7 +1054,7 @@ Dim iItem As Integer
   lstIncSortCols.ToolTipText = lstIncSortCols.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdAddAsc_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddAsc_Click"
 End Sub
 
 Private Sub cmdAddDesc_Click()
@@ -1076,7 +1076,7 @@ Dim iItem As Integer
   lstIncSortCols.ToolTipText = lstIncSortCols.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdAddDesc_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddDesc_Click"
 End Sub
 
 Private Sub cmdAddColumn_Click()
@@ -1098,7 +1098,7 @@ Dim iItem As Integer
   lstIncColumns.ToolTipText = lstIncColumns.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdAddColumn_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddColumn_Click"
 End Sub
 
 Private Sub cmdAddCriteria_Click()
@@ -1147,7 +1147,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddCriteria_Cli
   lstCriteria.ToolTipText = lstCriteria.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdAddCriteria_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddCriteria_Click"
 End Sub
 
 Private Sub cmdAddCustomColumn_Click()
@@ -1160,7 +1160,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddCustomColumn
   lstIncColumns.ToolTipText = lstIncColumns.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdAddColumn_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddColumn_Click"
 End Sub
 
 Private Sub cmdAddJoin_Click()
@@ -1225,7 +1225,7 @@ Dim szType As String
   Get_ValidJoinCols
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdAddJoin_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddJoin_Click"
 End Sub
 
 Private Sub cmdAddTable_Click()
@@ -1247,7 +1247,7 @@ Dim iItem As Integer
   lstIncTables.ToolTipText = lstIncTables.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdAddTable_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdAddTable_Click"
 End Sub
 
 Private Sub cmdColumnDown_Click()
@@ -1270,7 +1270,7 @@ Dim szTemp As String
   lstIncColumns.ListIndex = lstIncColumns.ListIndex + 1
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdColumnDown_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdColumnDown_Click"
 End Sub
 
 Private Sub cmdColumnUp_Click()
@@ -1293,7 +1293,7 @@ Dim szTemp As String
   lstIncColumns.ListIndex = lstIncColumns.ListIndex - 1
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdColumnUp_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdColumnUp_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -1374,7 +1374,7 @@ Dim X As Integer
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdOK_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdOK_Click"
 End Sub
 
 Private Sub cmdRemoveColumn_Click()
@@ -1396,7 +1396,7 @@ Dim iItem As Integer
   lstIncColumns.ToolTipText = lstIncColumns.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdRemoveColumn_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveColumn_Click"
 End Sub
 
 Private Sub cmdRemoveCriteria_Click()
@@ -1424,7 +1424,7 @@ Dim iItem As Integer
   lstCriteria.ToolTipText = lstCriteria.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdRemoveCriteria_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveCriteria_Click"
 End Sub
 
 Private Sub cmdRemoveJoin_Click()
@@ -1451,7 +1451,7 @@ Dim iItem As Integer
   lstJoins.ToolTipText = lstJoins.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdRemoveJoin_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveJoin_Click"
 End Sub
 
 Private Sub cmdRemoveTable_Click()
@@ -1473,7 +1473,7 @@ Dim iItem As Integer
   lstIncTables.ToolTipText = lstIncTables.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdRemoveTable_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveTable_Click"
 End Sub
 
 Private Sub cmdNext_Click()
@@ -1519,7 +1519,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdNext_Click()", 
   End Select
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdNext_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdNext_Click"
 End Sub
 
 Private Sub cmdPrevious_Click()
@@ -1558,7 +1558,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdPrevious_Click(
   End Select
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdPrevious_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdPrevious_Click"
 End Sub
 
 Private Sub cmdRemoveSortCol_Click()
@@ -1584,7 +1584,7 @@ Dim iItem As Integer
   lstIncSortCols.ToolTipText = lstIncSortCols.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdRemoveSortCol_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdRemoveSortCol_Click"
 End Sub
 
 Private Sub cmdSortColDown_Click()
@@ -1607,7 +1607,7 @@ Dim Temp As String
   lstIncSortCols.ListIndex = lstIncSortCols.ListIndex + 1
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdSortColDown_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdSortColDown_Click"
 End Sub
 
 Private Sub cmdSortColUp_Click()
@@ -1630,7 +1630,7 @@ Dim Temp As String
   lstIncSortCols.ListIndex = lstIncSortCols.ListIndex - 1
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.cmdSortColUp_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.cmdSortColUp_Click"
 End Sub
 
 Private Sub lstAllColumns_Click()
@@ -1640,7 +1640,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllColumns_Clic
   lstAllColumns.ToolTipText = lstAllColumns.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstAllColumns_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllColumns_Click"
 End Sub
 
 Private Sub lstAllSortCols_Click()
@@ -1650,7 +1650,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllSortCols_Cli
   lstAllSortCols.ToolTipText = lstAllSortCols.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstAllSortCols_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllSortCols_Click"
 End Sub
 
 Private Sub lstAllTables_Click()
@@ -1660,7 +1660,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllTables_Click
   lstAllTables.ToolTipText = lstAllTables.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstAllTables_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllTables_Click"
 End Sub
 
 Private Sub lstCriteria_Click()
@@ -1670,7 +1670,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstCriteria_Click(
   lstCriteria.ToolTipText = lstCriteria.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstCriteria_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstCriteria_Click"
 End Sub
 
 Private Sub lstCriteria_DblClick()
@@ -1680,7 +1680,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstCriteria_DblCli
   cmdRemoveCriteria_Click
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstCriteria_DblClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstCriteria_DblClick"
 End Sub
 
 Private Sub lstIncColumns_Click()
@@ -1690,7 +1690,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncColumns_Clic
   lstIncColumns.ToolTipText = lstIncColumns.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstIncColumns_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncColumns_Click"
 End Sub
 
 Private Sub lstIncSortCols_Click()
@@ -1700,7 +1700,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncSortCols_Cli
   lstIncSortCols.ToolTipText = lstIncSortCols.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstIncSortCols_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncSortCols_Click"
 End Sub
 
 Private Sub lstIncsortCols_DblClick()
@@ -1710,7 +1710,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncsortCols_Dbl
   cmdRemoveSortCol_Click
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstIncsortCols_DblClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncsortCols_DblClick"
 End Sub
 
 Private Sub lstAllSortCols_DblClick()
@@ -1720,7 +1720,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllSortCols_Dbl
   cmdAddAsc_Click
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstAllsortCols_DblClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllsortCols_DblClick"
 End Sub
 
 Private Sub lstIncColumns_DblClick()
@@ -1730,7 +1730,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncColumns_DblC
   cmdRemoveColumn_Click
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstIncColumns_DblClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncColumns_DblClick"
 End Sub
 
 Private Sub lstAllColumns_DblClick()
@@ -1740,7 +1740,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllColumns_DblC
   cmdAddColumn_Click
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstAllColumns_DblClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllColumns_DblClick"
 End Sub
 
 Private Sub lstIncTables_Click()
@@ -1750,7 +1750,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncTables_Click
   lstIncTables.ToolTipText = lstIncTables.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstIncTables_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncTables_Click"
 End Sub
 
 Private Sub lstIncTables_DblClick()
@@ -1760,7 +1760,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstIncTables_DblCl
   cmdRemoveTable_Click
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstIncTables_DblClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstIncTables_DblClick"
 End Sub
 
 Private Sub lstAllTables_DblClick()
@@ -1770,7 +1770,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstAllTables_DblCl
   cmdAddTable_Click
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstAllTables_DblClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstAllTables_DblClick"
 End Sub
 
 Private Sub lstJoins_Click()
@@ -1780,7 +1780,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.lstJoins_Click()",
   lstJoins.ToolTipText = lstJoins.Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.lstJoins_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.lstJoins_Click"
 End Sub
 
 Private Sub tabWizard_Click(PreviousTab As Integer)
@@ -1796,7 +1796,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.tabWizard_Click(" 
   bButtonPress = False
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.tabWizard_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.tabWizard_Click"
 End Sub
 
 Public Sub Initialise(szDB As String)
@@ -1823,7 +1823,7 @@ Dim sVersion As Single
   Get_Tables
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLWizard.Form_Load"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLWizard.Form_Load"
 End Sub
 
 

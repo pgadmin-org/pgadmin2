@@ -209,7 +209,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdCancel_Click()",
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLanguage.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -265,7 +265,7 @@ Dim vEntity As Variant
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLanguage.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Language As pgLanguage)
@@ -316,7 +316,7 @@ Dim objItem As ComboItem
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLanguage.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -326,7 +326,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.hbxProperties_Chang
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLanguage.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.hbxProperties_Change"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
@@ -336,7 +336,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.txtProperties_Chang
   txtProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLanguage.txtProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.txtProperties_Change"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -348,6 +348,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.chkProperties_Click
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLanguage.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLanguage.chkProperties_Click"
 End Sub
 

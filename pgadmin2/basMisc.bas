@@ -125,7 +125,7 @@ Static lID As Long
   GetID = lID
   
   Exit Function
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "basMisc.GetID"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.GetID"
 End Function
 
 Public Function SetTopMostWindow(hWnd As Long, Topmost As Boolean) As Long
@@ -139,7 +139,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.SetTopMostWindow(" & hW
   End If
   
   Exit Function
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "basMisc.SetTopMostWindow"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.SetTopMostWindow"
 End Function
  
 Public Sub BuildConnectionMenu()
@@ -156,7 +156,7 @@ Dim szConnection As String
   Next X
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "basMisc.BuildConnectionMenu"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildConnectionMenu"
 End Sub
 
 Public Sub BuildPluginsMenu()
@@ -189,7 +189,7 @@ Dim X As Integer
   Next objPlugin
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "basMisc.BuildPluginsMenu"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildPluginsMenu"
 End Sub
 
 Public Sub LogError(lError As Long, szError As String, szRoutine As String)
@@ -308,5 +308,5 @@ Dim szTemp As String
   szAccesslist = Left(szAccesslist, Len(szAccesslist) - 1)
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "basMisc.ParseACL"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.ParseACL"
 End Sub

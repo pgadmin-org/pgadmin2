@@ -342,7 +342,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdCancel_Click()", 
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTrigger.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -415,7 +415,7 @@ Dim szEvent As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTrigger.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Trigger As pgTrigger)
@@ -485,7 +485,7 @@ Dim objItem As ComboItem
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTrigger.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Trigger As Integer)
@@ -495,7 +495,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.hbxProperties_Change
   hbxProperties(Trigger).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTrigger.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.hbxProperties_Change"
 End Sub
 
 Private Sub SetChecks(szData As String)
@@ -519,7 +519,7 @@ Static bSetting As Boolean
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTrigger.SetChecks"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.SetChecks"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -531,5 +531,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.chkProperties_Click(
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTrigger.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.chkProperties_Click"
 End Sub

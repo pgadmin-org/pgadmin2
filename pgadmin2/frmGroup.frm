@@ -192,7 +192,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.cmdCancel_Click()", et
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmGroup.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmGroup.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -248,7 +248,7 @@ Dim szRemoveList As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmGroup.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmGroup.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(Optional Group As pgGroup)
@@ -310,7 +310,7 @@ Dim lNextID As Long
   txtProperties(1).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmGroup.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmGroup.Initialise"
 End Sub
 
 Private Sub lvProperties_ItemCheck(Index As Integer, ByVal Item As MSComctlLib.ListItem)
@@ -320,7 +320,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.lvProperties_ItemCheck
   Item.Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmGroup.lvProperties_ItemCheck"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmGroup.lvProperties_ItemCheck"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
@@ -330,7 +330,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.txtProperties_Change("
   txtProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmGroup.txtProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmGroup.txtProperties_Change"
 End Sub
 
 

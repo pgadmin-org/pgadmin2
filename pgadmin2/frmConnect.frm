@@ -208,7 +208,7 @@ Dim objNode As Node
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmConnect.cmdConnect_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmConnect.cmdConnect_Click"
 End Sub
 
 Public Sub Load_Defaults(Optional Connection As Integer)
@@ -227,6 +227,6 @@ Dim szConnection() As String
   txtPort.Text = szConnection(2)
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmConnect.Load_Defaults"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmConnect.Load_Defaults"
 End Sub
 

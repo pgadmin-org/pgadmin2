@@ -121,6 +121,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.cmdOK_Click()", etF
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmPassword.Form_Load"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmPassword.Form_Load"
 End Sub
 

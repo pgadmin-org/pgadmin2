@@ -28,7 +28,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Class_Initialize()
   
   Exit Sub
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsExporters.Class_Initialize"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsExporters.Class_Initialize"
 End Sub
 
 Public Sub LoadExporters()
@@ -65,7 +65,7 @@ Err_Handler:
     GoTo Continue
   Else
     EndMsg
-    If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsExporters.LoadExporters"
+    If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsExporters.LoadExporters"
   End If
 End Sub
 
@@ -78,7 +78,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Property Get Item(
   Set Item = mCol(IndexOrKey)
   
   Exit Property
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsExporters.Property Get Item"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsExporters.Property Get Item"
 End Property
 
 'Return the Item count
@@ -89,7 +89,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Property Get Count
   Count = mCol.Count
   
   Exit Property
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsExporters.Property Get Count"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsExporters.Property Get Count"
 End Property
 
 'Allow enumeration using For...Each
@@ -102,7 +102,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Property Get NewEn
   Set NewEnum = mCol.[_NewEnum]
   
   Exit Property
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsExporters.Property Get NewEnum"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsExporters.Property Get NewEnum"
 End Property
 
 Public Sub Install(szFilename As String)
@@ -120,7 +120,7 @@ Dim lHdc As Long
   EndMsg
   Exit Sub
     
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsExporters.Install"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsExporters.Install"
 End Sub
 
 Public Sub Uninstall(szExporter As String)
@@ -156,5 +156,5 @@ Dim X As Long
   EndMsg
   Exit Sub
     
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsExporters.Uninstall"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsExporters.Uninstall"
 End Sub

@@ -777,7 +777,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Resize()", etFullDebug
   SizeControls imgSplitter.Left
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.Form_Resize"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Form_Resize"
 End Sub
 
 Private Sub imgSplitter_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -791,7 +791,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseDown(" & Butto
   bMoving = True
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.imgSplitter_MouseDown"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.imgSplitter_MouseDown"
 End Sub
 
 Private Sub imgSplitter_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -812,7 +812,7 @@ Dim sglPos As Single
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.imgSplitter_MouseMove"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.imgSplitter_MouseMove"
 End Sub
 
 Private Sub imgSplitter_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -825,7 +825,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseUp(" & Button 
   bMoving = False
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.imgSplitter_MouseUp"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.imgSplitter_MouseUp"
 End Sub
 
 Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -835,7 +835,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.lv_MouseUp"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_MouseUp"
 End Sub
 
 Private Sub mnuHelpContents_Click()
@@ -845,7 +845,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpContents_Click()", etFul
   HtmlHelp hWnd, App.Path & "\" & "help\pgadmin2.chm", HH_DISPLAY_TOPIC, 0
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuHelpContents_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuHelpContents_Click"
 End Sub
 
 Private Sub mnuPluginsPlg_Click(Index As Integer)
@@ -860,7 +860,7 @@ Dim szPlugin As String
   plg(szPlugin).Execute svr, sb
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPluginsPlg_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPluginsPlg_Click"
 End Sub
 
 Private Sub mnuViewSystemObjects_Click()
@@ -893,7 +893,7 @@ Dim objNode As Node
   End If
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuViewSystemObjects_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewSystemObjects_Click"
 End Sub
 
 Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -903,7 +903,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tv_MouseUp"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_MouseUp"
 End Sub
 
 Private Sub mnuFileChangePassword_Click()
@@ -914,7 +914,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileChangePassword_Click()",
   frmPassword.Show vbModal, Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuFileChangePassword_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileChangePassword_Click"
 End Sub
 
 Private Sub mnuFileSaveDefinition_Click()
@@ -948,7 +948,7 @@ Err_Handler:
     svr.LogEvent "Save Definition operation cancelled.", etMiniDebug
     Exit Sub
   End If
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuFileSaveDefinition_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileSaveDefinition_Click"
 End Sub
 
 Private Sub mnuHelpAbout_Click()
@@ -959,7 +959,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpAbout_Click()", etFullDe
   frmAbout.Show vbModal, Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuHelpAbout_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuHelpAbout_Click"
 End Sub
 
 Private Sub mnuToolsOptions_Click()
@@ -970,7 +970,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsOptions_Click()", etFul
   frmOptions.Show vbModal, Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuToolsOptions_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsOptions_Click"
 End Sub
 
 Private Sub mnuViewShowDefinitionPane_Click()
@@ -990,7 +990,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowDefinitionPane_Click
   SizeControls imgSplitter.Left
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuViewShowDefinitionPane_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewShowDefinitionPane_Click"
 End Sub
 
 Private Sub mnuViewShowLogWindow_Click()
@@ -1010,7 +1010,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowLogWindow_Click()", 
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuViewShowLogWindow_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewShowLogWindow_Click"
 End Sub
 
 Private Sub mnuViewShowStatusBar_Click()
@@ -1029,7 +1029,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowStatusBar_Click()", 
   SizeControls imgSplitter.Left
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuViewShowStatusBar_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewShowStatusBar_Click"
 End Sub
 
 Private Sub mnuViewShowToolBar_Click()
@@ -1048,7 +1048,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowToolBar_Click()", et
   SizeControls imgSplitter.Left
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuViewShowToolBar_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewShowToolBar_Click"
 End Sub
 
 Private Sub mnuPopupConnect_Click()
@@ -1060,7 +1060,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupConnect_Click()", etFul
   frmConnect.Show vbModal, Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupConnect_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupConnect_Click"
 End Sub
 
 Private Sub mnuPopupRefresh_Click()
@@ -1126,7 +1126,7 @@ Dim objNode As Node
   tv_NodeClick objNode
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupRefresh_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupRefresh_Click"
 End Sub
 
 Private Sub mnuPopupDrop_Click()
@@ -1136,7 +1136,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupDrop_Click()", etFullDe
   Drop
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupDrop_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupDrop_Click"
 End Sub
 
 Private Sub mnuPopupProperties_Click()
@@ -1251,7 +1251,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
       End Select
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupProperties_Click"
 End Sub
 
 Private Sub mnuPopupSQL_Click()
@@ -1274,7 +1274,7 @@ Dim X As Integer
   objSQLInputForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupSQL_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupSQL_Click"
 End Sub
 
 Private Sub mnuPopupViewData_Click()
@@ -1308,7 +1308,7 @@ Err_Handler:
   If rsQuery.State <> adStateClosed Then rsQuery.Close
   Set rsQuery = Nothing
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupViewData_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupViewData_Click"
 End Sub
 
 Private Sub tb_ButtonClick(ByVal Button As MSComctlLib.Button)
@@ -1342,7 +1342,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")"
   End Select
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tb_ButtonClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tb_ButtonClick"
 End Sub
 
 Private Sub mnuPopupVacuumVacuum_Click()
@@ -1352,7 +1352,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupVacuumVacuum_Click()", 
   Vacuum False
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupVacuumVacuum_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupVacuumVacuum_Click"
 End Sub
 
 Private Sub mnuPopupVacuumAnalyse_Click()
@@ -1362,7 +1362,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupVacuumAnalyse_Click()",
   Vacuum True
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupVacuumAnalyse_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupVacuumAnalyse_Click"
 End Sub
 
 Private Sub mnuPopupCreateAggregate_Click()
@@ -1376,7 +1376,7 @@ Dim objAggregateForm As New frmAggregate
   objAggregateForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateAggregate_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateAggregate_Click"
 End Sub
 
 Private Sub mnuPopupCreateDatabase_Click()
@@ -1390,7 +1390,7 @@ Dim objDatabaseForm As New frmDatabase
   objDatabaseForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateDatabase_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateDatabase_Click"
 End Sub
 
 Private Sub mnuPopupCreateFunction_Click()
@@ -1404,7 +1404,7 @@ Dim objFunctionForm As New frmFunction
   objFunctionForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateFunction_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateFunction_Click"
 End Sub
 
 Private Sub mnuPopupCreateGroup_Click()
@@ -1418,7 +1418,7 @@ Dim objGroupForm As New frmGroup
   objGroupForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateGroup_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateGroup_Click"
 End Sub
 
 Private Sub mnuPopupCreateIndex_Click()
@@ -1432,7 +1432,7 @@ Dim objIndexForm As New frmIndex
   objIndexForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateIndex_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateIndex_Click"
 End Sub
 
 Private Sub mnuPopupCreateLanguage_Click()
@@ -1446,7 +1446,7 @@ Dim objLanguageForm As New frmLanguage
   objLanguageForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateLanguage_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateLanguage_Click"
 End Sub
 
 Private Sub mnuPopupCreateOperator_Click()
@@ -1460,7 +1460,7 @@ Dim objOperatorForm As New frmOperator
   objOperatorForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateOperator_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateOperator_Click"
 End Sub
 
 Private Sub mnuPopupCreateRule_Click()
@@ -1474,7 +1474,7 @@ Dim objRuleForm As New frmRule
   objRuleForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateRule_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateRule_Click"
 End Sub
 
 Private Sub mnuPopupCreateSequence_Click()
@@ -1488,7 +1488,7 @@ Dim objSequenceForm As New frmSequence
   objSequenceForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateSequence_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateSequence_Click"
 End Sub
 
 Private Sub mnuPopupCreateTable_Click()
@@ -1502,7 +1502,7 @@ Dim objTableForm As New frmTable
   objTableForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateTable_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateTable_Click"
 End Sub
 
 Private Sub mnuPopupCreateTrigger_Click()
@@ -1516,7 +1516,7 @@ Dim objTriggerForm As New frmTrigger
   objTriggerForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateTrigger_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateTrigger_Click"
 End Sub
 
 Private Sub mnuPopupCreateType_Click()
@@ -1530,7 +1530,7 @@ Dim objTypeForm As New frmType
   objTypeForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateType_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateType_Click"
 End Sub
 
 Private Sub mnuPopupCreateUser_Click()
@@ -1544,7 +1544,7 @@ Dim objUserForm As New frmUser
   objUserForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateUser_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateUser_Click"
 End Sub
 
 Private Sub mnuPopupCreateView_Click()
@@ -1558,7 +1558,7 @@ Dim objViewForm As New frmView
   objViewForm.Show
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPopupCreateView_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateView_Click"
 End Sub
 
 Private Sub tb_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMenu)
@@ -1619,7 +1619,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
   End Select
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tb_ButtonMenuClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tb_ButtonMenuClick"
 End Sub
 
 Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
@@ -1631,7 +1631,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & QUOTE & Source.
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tv_DragDrop"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_DragDrop"
 End Sub
 
 Public Sub SizeControls(X As Single)
@@ -1702,7 +1702,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileExit_Click()", etFullDeb
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuFileExit_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileExit_Click"
 End Sub
 
 Private Sub mnuFileConnect_Click()
@@ -1714,7 +1714,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileConnect_Click()", etFull
   frmConnect.Show vbModal, Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuFileConnect_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuFileConnect_Click"
 End Sub
 
 Private Sub svr_EventLog(EventLevel As pgSchema.LogLevel, EventMessage As String)
@@ -1751,7 +1751,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvServer"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvServer"
 End Sub
 
 Private Sub tvDatabases(ByVal Node As MSComctlLib.Node)
@@ -1783,7 +1783,7 @@ Dim dat As pgDatabase
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvDatabases"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDatabases"
 End Sub
 
 Private Sub tvDatabase(ByVal Node As MSComctlLib.Node)
@@ -1827,7 +1827,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvDatabase"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDatabase"
 End Sub
 
 Private Sub tvGroups(ByVal Node As MSComctlLib.Node)
@@ -1865,7 +1865,7 @@ Dim grp As pgGroup
   If txtDefinition.Visible Then txtDefinition.Text = svr.Groups.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvGroups"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvGroups"
 End Sub
 
 Private Sub tvGroup(ByVal Node As MSComctlLib.Node)
@@ -1896,7 +1896,7 @@ Dim vData As Variant
   If txtDefinition.Visible Then txtDefinition.Text = svr.Groups(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvGroup"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvGroup"
 End Sub
 
 Private Sub tvUsers(ByVal Node As MSComctlLib.Node)
@@ -1928,7 +1928,7 @@ Dim usr As pgUser
   If txtDefinition.Visible Then txtDefinition.Text = svr.Users.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvUsers"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvUsers"
 End Sub
 
 Private Sub tvUser(ByVal Node As MSComctlLib.Node)
@@ -1970,7 +1970,7 @@ Dim vData As Variant
   If txtDefinition.Visible Then txtDefinition.Text = svr.Users(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvUser"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvUser"
 End Sub
 
 Private Sub tvAggregates(ByVal Node As MSComctlLib.Node)
@@ -2002,7 +2002,7 @@ Dim agg As pgAggregate
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Aggregates.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvAggregates"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvAggregates"
 End Sub
 
 Private Sub tvAggregate(ByVal Node As MSComctlLib.Node)
@@ -2044,7 +2044,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvAggregate"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvAggregate"
 End Sub
 
 Private Sub tvFunctions(ByVal Node As MSComctlLib.Node)
@@ -2083,7 +2083,7 @@ Dim fnc As pgFunction
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Functions.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvFunctions"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvFunctions"
 End Sub
 
 Private Sub tvFunction(ByVal Node As MSComctlLib.Node)
@@ -2142,7 +2142,7 @@ Dim vData As Variant
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvFunction"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvFunction"
 End Sub
 
 Private Sub tvLanguages(ByVal Node As MSComctlLib.Node)
@@ -2174,7 +2174,7 @@ Dim lng As pgLanguage
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Languages.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvLanguages"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvLanguages"
 End Sub
 
 Private Sub tvLanguage(ByVal Node As MSComctlLib.Node)
@@ -2210,7 +2210,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvLanguage"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvLanguage"
 End Sub
 
 Private Sub tvOperators(ByVal Node As MSComctlLib.Node)
@@ -2242,7 +2242,7 @@ Dim opr As pgOperator
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Operators.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvOperators"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvOperators"
 End Sub
 
 Private Sub tvOperator(ByVal Node As MSComctlLib.Node)
@@ -2300,7 +2300,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvOperator"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvOperator"
 End Sub
 
 Private Sub tvSequences(ByVal Node As MSComctlLib.Node)
@@ -2332,7 +2332,7 @@ Dim seq As pgSequence
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Sequences.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvSequences"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvSequences"
 End Sub
 
 Private Sub tvSequence(ByVal Node As MSComctlLib.Node)
@@ -2380,7 +2380,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvSequence"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvSequence"
 End Sub
 
 Private Sub tvTables(ByVal Node As MSComctlLib.Node)
@@ -2412,7 +2412,7 @@ Dim tbl As pgTable
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Tables.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvTables"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTables"
 End Sub
 
 Private Sub tvTable(ByVal Node As MSComctlLib.Node)
@@ -2464,7 +2464,7 @@ Dim vData As Variant
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvTable"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTable"
 End Sub
 
 Private Sub tvChecks(ByVal Node As MSComctlLib.Node)
@@ -2494,7 +2494,7 @@ Dim chk As pgCheck
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvChecks"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvChecks"
 End Sub
 
 Private Sub tvCheck(ByVal Node As MSComctlLib.Node)
@@ -2522,7 +2522,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvCheck"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvCheck"
 End Sub
 
 Private Sub tvColumns(ByVal Node As MSComctlLib.Node)
@@ -2556,7 +2556,7 @@ Dim col As pgColumn
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvColumns"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvColumns"
 End Sub
 
 Private Sub tvColumn(ByVal Node As MSComctlLib.Node)
@@ -2608,7 +2608,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvColumn"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvColumn"
 End Sub
 
 Private Sub tvForeignKeys(ByVal Node As MSComctlLib.Node)
@@ -2640,7 +2640,7 @@ Dim fky As pgForeignKey
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvForeignKeys"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvForeignKeys"
 End Sub
 
 Private Sub tvForeignKey(ByVal Node As MSComctlLib.Node)
@@ -2681,7 +2681,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvForeignKey"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvForeignKey"
 End Sub
 
 Private Sub tvRelationships(ByVal Node As MSComctlLib.Node)
@@ -2703,7 +2703,7 @@ Dim rel As pgRelationship
   If txtDefinition.Visible Then txtDefinition.Text = ""
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvRelationships"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvRelationships"
 End Sub
 
 Private Sub tvIndexes(ByVal Node As MSComctlLib.Node)
@@ -2735,7 +2735,7 @@ Dim ind As pgIndex
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvIndexes"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvIndexes"
 End Sub
 
 Private Sub tvIndex(ByVal Node As MSComctlLib.Node)
@@ -2787,7 +2787,7 @@ Dim vData As Variant
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).SQL
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvIndex"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvIndex"
 End Sub
 
 Private Sub tvRules(ByVal Node As MSComctlLib.Node)
@@ -2819,7 +2819,7 @@ Dim rul As pgRule
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvRules"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvRules"
 End Sub
 
 Private Sub tvRule(ByVal Node As MSComctlLib.Node)
@@ -2861,7 +2861,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvRule"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvRule"
 End Sub
 
 Private Sub tvTriggers(ByVal Node As MSComctlLib.Node)
@@ -2893,7 +2893,7 @@ Dim trg As pgTrigger
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvTriggers"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTriggers"
 End Sub
 
 Private Sub tvTrigger(ByVal Node As MSComctlLib.Node)
@@ -2929,7 +2929,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).SQL
     
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvTrigger"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTrigger"
 End Sub
 
 Private Sub tvTypes(ByVal Node As MSComctlLib.Node)
@@ -2961,7 +2961,7 @@ Dim typ As pgType
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Types.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvTypes"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTypes"
 End Sub
 
 Private Sub tvType(ByVal Node As MSComctlLib.Node)
@@ -3019,7 +3019,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvType"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvType"
 End Sub
 
 Private Sub tvViews(ByVal Node As MSComctlLib.Node)
@@ -3050,7 +3050,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Text).Views.SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvViews"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvViews"
 End Sub
 
 Private Sub tvView(ByVal Node As MSComctlLib.Node)
@@ -3084,7 +3084,7 @@ Dim lvItem As ListItem
   If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).SQL
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvView"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvView"
 End Sub
 
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
@@ -3269,7 +3269,7 @@ Dim vData As Variant
   EndMsg
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.tvNodeClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvNodeClick"
 End Sub
 
 
@@ -3377,7 +3377,7 @@ Dim szPath() As String
   End Select
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.lv_ItemClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_ItemClick"
 End Sub
 
 Private Sub txtDefinition_Change()
@@ -3393,6 +3393,6 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_Change()", etFull
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.txtDefinition_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.txtDefinition_Change"
 End Sub
 

@@ -73,16 +73,16 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdLoad"
-      Tab(1).Control(1)=   "hbxProperties(1)"
+      Tab(1).Control(0)=   "hbxProperties(1)"
+      Tab(1).Control(1)=   "cmdLoad"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":0182
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(0)"
-      Tab(2).Control(1)=   "cmdRemove"
-      Tab(2).Control(2)=   "fraAdd"
-      Tab(2).Control(3)=   "cmdAdd"
+      Tab(2).Control(0)=   "cmdAdd"
+      Tab(2).Control(1)=   "fraAdd"
+      Tab(2).Control(2)=   "cmdRemove"
+      Tab(2).Control(3)=   "lvProperties(0)"
       Tab(2).ControlCount=   4
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -386,7 +386,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdCancel_Click()", etF
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.cmdCancel_Click"
 End Sub
 
 Private Sub cmdLoad_Click()
@@ -425,7 +425,7 @@ Err_Handler:
     frmMain.svr.LogEvent "Load Query operation cancelled.", etMiniDebug
     Exit Sub
   End If
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.cmdLoad_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.cmdLoad_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -506,7 +506,7 @@ Dim vEntity As Variant
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional View As pgView)
@@ -589,7 +589,7 @@ Dim szAccess() As String
   lvProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.Initialise"
 End Sub
 
 Private Sub cmdRemove_Click()
@@ -601,7 +601,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdRemove_Click()", etF
   lvProperties(0).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.cmdRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.cmdRemove_Click"
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -638,7 +638,7 @@ Dim objItem As ListItem
   lvProperties(0).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.cmdAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.cmdAdd_Click"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -648,7 +648,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.hbxProperties_Change(" 
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.hbxProperties_Change"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
@@ -658,7 +658,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.txtProperties_Change(" 
   txtProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.txtProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.txtProperties_Change"
 End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
@@ -680,5 +680,5 @@ Dim X As Integer
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmView.chkPrivilege_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.chkPrivilege_Click"
 End Sub

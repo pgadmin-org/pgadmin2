@@ -374,7 +374,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.cmdCancel_Click()"
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmAggregate.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAggregate.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -442,7 +442,7 @@ Dim vEntity As Variant
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmAggregate.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAggregate.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Aggregate As pgAggregate)
@@ -507,7 +507,7 @@ Dim objItem As ComboItem
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmAggregate.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAggregate.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -517,7 +517,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.hbxProperties_Chan
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmAggregate.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAggregate.hbxProperties_Change"
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
@@ -561,5 +561,5 @@ Dim objFunction As pgFunction
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmAggregate.cboProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAggregate.cboProperties_Click"
 End Sub

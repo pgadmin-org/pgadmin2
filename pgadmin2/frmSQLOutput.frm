@@ -178,7 +178,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdAdd_Click()", e
   lblInfo.Caption = "Add Record"
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.cmdAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.cmdAdd_Click"
 End Sub
 
 Private Sub cmdCancel_Click()
@@ -188,7 +188,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdCancel_Click()"
   HideEditBox
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.cmdCancel_Click"
 End Sub
 
 Private Sub cmdDelete_Click()
@@ -308,7 +308,7 @@ Err_Handler:
   EndMsg
   If rsCount.State <> adStateClosed Then rsCount.Close
   Set rsCount = Nothing
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.cmdDelete_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.cmdDelete_Click"
 End Sub
 
 Private Sub cmdSave_Click()
@@ -509,7 +509,7 @@ Err_Handler:
   EndMsg
   If rsCount.State <> adStateClosed Then rsCount.Close
   Set rsCount = Nothing
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.cmdSave_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.cmdSave_Click"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -727,7 +727,7 @@ GotInfo:
   LoadGrid
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.Display"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.Display"
 End Sub
 
 Private Sub Form_Resize()
@@ -753,7 +753,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Form_Resize()", et
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.Form_Resize"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.Form_Resize"
 End Sub
 
 Private Sub LoadGrid()
@@ -810,7 +810,7 @@ Dim itmX As ListItem
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.LoadGrid"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.LoadGrid"
 End Sub
 
 Private Sub lvData_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
@@ -831,7 +831,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ColumnClick
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.lvData_ColumnClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.lvData_ColumnClick"
 End Sub
 
 Private Sub lvData_ItemClick(ByVal Item As MSComctlLib.ListItem)
@@ -841,7 +841,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ItemClick("
   lblInfo.Caption = "Record " & lvData.SelectedItem.Index & " of " & lvData.ListItems.Count
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.lvData_ItemClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.lvData_ItemClick"
 End Sub
 
 Private Sub BuildEditBox()
@@ -896,7 +896,7 @@ Dim X As Integer
   txtField(0).SetFocus
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.BuildEditBox"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.BuildEditBox"
 End Sub
 
 Private Sub cmdEdit_Click()
@@ -917,7 +917,7 @@ Dim X As Long
   lblInfo.Caption = "Edit Record"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.cmdEdit_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.cmdEdit_Click"
 End Sub
 
 Private Sub scScroll_Change()
@@ -927,7 +927,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.scScroll_Change()"
   picScroll.Top = -scScroll.Value
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.scScroll_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.scScroll_Change"
 End Sub
 
 Private Sub txtField_Change(Index As Integer)
@@ -937,7 +937,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.txtField_Change(" 
   txtField(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.txtField_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.txtField_Change"
 End Sub
 
 Private Sub txtField_GotFocus(Index As Integer)
@@ -964,7 +964,7 @@ Dim X As Long
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.txtField_GotFocus"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.txtField_GotFocus"
 End Sub
 
 Private Sub HideEditBox()
@@ -992,6 +992,6 @@ Dim X As Integer
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLOutput.HideEditBox"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.HideEditBox"
 End Sub
 

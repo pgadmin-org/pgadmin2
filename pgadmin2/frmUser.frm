@@ -86,7 +86,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   22740994
+         StartOfWeek     =   104071170
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -239,7 +239,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.cmdCancel_Click()", etF
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmUser.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -290,7 +290,7 @@ Dim objNode As Node
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmUser.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(Optional User As pgUser)
@@ -344,7 +344,7 @@ Dim lNextID As Long
   mvProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmUser.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.Initialise"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
@@ -354,7 +354,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.txtProperties_Change(" 
   txtProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmUser.txtProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.txtProperties_Change"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -369,7 +369,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.chkProperties_Click(" &
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmUser.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.chkProperties_Click"
 End Sub
 
 Private Sub mvProperties_DateClick(Index As Integer, ByVal DateClicked As Date)
@@ -379,5 +379,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.mvProperties_DateClick(
   mvProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmUser.mvProperties_DateClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.mvProperties_DateClick"
 End Sub

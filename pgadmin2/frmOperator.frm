@@ -112,19 +112,19 @@ Begin VB.Form frmOperator
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmOperator.frx":1674
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(8)"
-      Tab(1).Control(1)=   "lblProperties(9)"
-      Tab(1).Control(2)=   "lblProperties(10)"
-      Tab(1).Control(3)=   "lblProperties(11)"
-      Tab(1).Control(4)=   "lblProperties(12)"
-      Tab(1).Control(5)=   "lblProperties(13)"
+      Tab(1).Control(0)=   "chkProperties(0)"
+      Tab(1).Control(1)=   "cboProperties(4)"
+      Tab(1).Control(2)=   "cboProperties(5)"
+      Tab(1).Control(3)=   "cboProperties(6)"
+      Tab(1).Control(4)=   "cboProperties(7)"
+      Tab(1).Control(5)=   "cboProperties(8)"
       Tab(1).Control(6)=   "cboProperties(9)"
-      Tab(1).Control(7)=   "cboProperties(8)"
-      Tab(1).Control(8)=   "cboProperties(7)"
-      Tab(1).Control(9)=   "cboProperties(6)"
-      Tab(1).Control(10)=   "cboProperties(5)"
-      Tab(1).Control(11)=   "cboProperties(4)"
-      Tab(1).Control(12)=   "chkProperties(0)"
+      Tab(1).Control(7)=   "lblProperties(13)"
+      Tab(1).Control(8)=   "lblProperties(12)"
+      Tab(1).Control(9)=   "lblProperties(11)"
+      Tab(1).Control(10)=   "lblProperties(10)"
+      Tab(1).Control(11)=   "lblProperties(9)"
+      Tab(1).Control(12)=   "lblProperties(8)"
       Tab(1).ControlCount=   13
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -528,7 +528,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cmdCancel_Click()",
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOperator.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -607,7 +607,7 @@ Dim szRightSort As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOperator.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Operator As pgOperator)
@@ -700,7 +700,7 @@ Dim vArgument As Variant
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOperator.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -710,7 +710,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.hbxProperties_Chang
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOperator.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.hbxProperties_Change"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -722,7 +722,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.chkProperties_Click
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOperator.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.chkProperties_Click"
 End Sub
 
 

@@ -81,13 +81,13 @@ Begin VB.Form frmForeignKey
       TabCaption(1)   =   "&Relationships"
       TabPicture(1)   =   "frmForeignKey.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(7)"
-      Tab(1).Control(1)=   "lblProperties(8)"
-      Tab(1).Control(2)=   "cboProperties(6)"
+      Tab(1).Control(0)=   "cmdAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdRemove"
-      Tab(1).Control(6)=   "cmdAdd"
+      Tab(1).Control(4)=   "cboProperties(6)"
+      Tab(1).Control(5)=   "lblProperties(8)"
+      Tab(1).Control(6)=   "lblProperties(7)"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -435,7 +435,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdRemove_Click()
   lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.cmdRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.cmdRemove_Click"
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -451,7 +451,7 @@ Dim objItem As ListItem
   objItem.SubItems(1) = cboProperties(6).Text
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.cmdAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.cmdAdd_Click"
 End Sub
 
 Private Sub cmdCancel_Click()
@@ -461,7 +461,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdCancel_Click()
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmForeignKey.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmForeignKey.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -544,7 +544,7 @@ Dim szOldName As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmForeignKey.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmForeignKey.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, szMD As String, Optional ForeignKey As pgForeignKey, Optional frmCF As Form)
@@ -643,7 +643,7 @@ Dim objRelationship As pgRelationship
   End Select
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmForeignKey.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmForeignKey.Initialise"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -655,7 +655,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.chkProperties_Cli
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmForeignKey.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmForeignKey.chkProperties_Click"
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
@@ -673,5 +673,5 @@ Dim objColumn As pgColumn
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmForeignKey.cboProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmForeignKey.cboProperties_Click"
 End Sub

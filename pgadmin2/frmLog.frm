@@ -76,7 +76,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Load()", etFullDebu
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLog.Form_Load"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLog.Form_Load"
 End Sub
 
 Private Sub Form_Resize()
@@ -87,7 +87,7 @@ On Error GoTo Err_Handler
   txtLog.Height = Me.ScaleHeight
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLog.Form_Resize"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLog.Form_Resize"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -104,5 +104,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Unload(" & Cancel &
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Height", regString, Me.Height
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmLog.Form_Unload"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmLog.Form_Unload"
 End Sub

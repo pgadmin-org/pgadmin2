@@ -56,30 +56,30 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "&Auto Highlight"
       TabPicture(1)   =   "frmOptions.frx":08E6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdRemove"
-      Tab(1).Control(1)=   "txtWord"
-      Tab(1).Control(2)=   "cmdAdd"
-      Tab(1).Control(3)=   "cmdColour"
-      Tab(1).Control(4)=   "chkBold"
-      Tab(1).Control(5)=   "chkItalic"
-      Tab(1).Control(6)=   "lvWords"
-      Tab(1).Control(7)=   "Label2"
+      Tab(1).Control(0)=   "Label2"
+      Tab(1).Control(1)=   "lvWords"
+      Tab(1).Control(2)=   "chkItalic"
+      Tab(1).Control(3)=   "chkBold"
+      Tab(1).Control(4)=   "cmdColour"
+      Tab(1).Control(5)=   "cmdAdd"
+      Tab(1).Control(6)=   "txtWord"
+      Tab(1).Control(7)=   "cmdRemove"
       Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0902
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lstExporters"
-      Tab(2).Control(1)=   "Frame1"
-      Tab(2).Control(2)=   "cmdExpInstall"
-      Tab(2).Control(3)=   "cmdExpUninstall"
+      Tab(2).Control(0)=   "cmdExpUninstall"
+      Tab(2).Control(1)=   "cmdExpInstall"
+      Tab(2).Control(2)=   "Frame1"
+      Tab(2).Control(3)=   "lstExporters"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":091E
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdPlgUninstall"
-      Tab(3).Control(1)=   "cmdPlgInstall"
-      Tab(3).Control(2)=   "Frame2"
-      Tab(3).Control(3)=   "lstPlugins"
+      Tab(3).Control(0)=   "lstPlugins"
+      Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(2)=   "cmdPlgInstall"
+      Tab(3).Control(3)=   "cmdPlgUninstall"
       Tab(3).ControlCount=   4
       Begin VB.CommandButton cmdPlgUninstall 
          Caption         =   "&Uninstall Plugin"
@@ -583,7 +583,7 @@ Dim itmX As ListItem
   End If
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdAdd_Click"
 End Sub
 
 Private Sub cmdBrowse_Click()
@@ -610,7 +610,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdCancel_Click()", 
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -679,7 +679,7 @@ Dim itmX As ListItem
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdOK_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdOK_Click"
 End Sub
 
 Private Sub cmdRemove_Click()
@@ -690,7 +690,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdRemove_Click()", 
   lvWords.ListItems.Remove lvWords.SelectedItem.Index
       
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdRemove_Click"
 End Sub
 
 Private Sub Form_Load()
@@ -756,7 +756,7 @@ Dim szValues() As String
   Next iLoop
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.Form_Load"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.Form_Load"
 End Sub
 
 Private Sub cmdColour_Click()
@@ -767,7 +767,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdColour_Click()", 
   txtWord.ForeColor = cdlg.Color
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdColour_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdColour_Click"
 End Sub
 
 Private Sub GetExporters()
@@ -786,7 +786,7 @@ Dim objExporter As pgExporter
   Next objExporter
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.GetExporters"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.GetExporters"
 End Sub
 
 Private Sub cmdExpInstall_Click()
@@ -805,7 +805,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdExpInstall_Click(
   GetExporters
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdExpInstall_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdExpInstall_Click"
 End Sub
 
 Private Sub cmdExpUninstall_Click()
@@ -823,7 +823,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdExpUninstall_Clic
   End If
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdExpUninstall_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdExpUninstall_Click"
 End Sub
 
 Private Sub lstExporters_Click()
@@ -835,7 +835,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.lstExporters_Click()
   txtExpAuthor.Text = exp(lstExporters.Text).Author
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.lstExporters_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.lstExporters_Click"
 End Sub
 
 Private Sub GetPlugins()
@@ -857,7 +857,7 @@ Dim objPlugin As pgPlugin
   BuildPluginsMenu
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.GetPlugins"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.GetPlugins"
 End Sub
 
 Private Sub cmdPlgInstall_Click()
@@ -876,7 +876,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdPlgInstall_Click(
   GetPlugins
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdPlgInstall_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdPlgInstall_Click"
 End Sub
 
 Private Sub cmdPlgUninstall_Click()
@@ -894,7 +894,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdPlgUninstall_Clic
   End If
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.cmdPlgUninstall_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdPlgUninstall_Click"
 End Sub
 
 Private Sub lstPlugins_Click()
@@ -906,7 +906,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.lstPlugins_Click()",
   txtPlgAuthor.Text = plg(lstPlugins.Text).Author
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.lstPlugins_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.lstPlugins_Click"
 End Sub
 
 Private Sub tabOptions_Click(PreviousTab As Integer)
@@ -925,6 +925,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.tabOptions_Click(" &
   End Select
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmOptions.tabOptions_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.tabOptions_Click"
 End Sub
 

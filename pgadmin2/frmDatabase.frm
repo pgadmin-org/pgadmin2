@@ -221,7 +221,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdCancel_Click()",
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmDatabase.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -264,7 +264,7 @@ Dim objNode As Node
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmDatabase.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(Optional Database As pgDatabase)
@@ -308,7 +308,7 @@ Dim X As Integer
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmDatabase.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -318,7 +318,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.hbxProperties_Chang
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmDatabase.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.hbxProperties_Change"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
@@ -328,5 +328,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.txtProperties_Chang
   txtProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmDatabase.txtProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.txtProperties_Change"
 End Sub

@@ -92,13 +92,13 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdRemove"
+      Tab(1).Control(0)=   "lvProperties(0)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdAdd"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(2)=   "fraAdd"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(3)=   "cmdRemove"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin VB.TextBox txtProperties 
@@ -510,7 +510,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdCancel_Click()",
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSequence.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -631,7 +631,7 @@ Dim vEntity As Variant
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSequence.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Sequence As pgSequence)
@@ -733,7 +733,7 @@ Dim szAccess() As String
   lvProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSequence.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.Initialise"
 End Sub
 
 Private Sub cmdRemove_Click()
@@ -745,7 +745,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdRemove_Click()",
   lvProperties(0).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSequence.cmdRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.cmdRemove_Click"
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -782,7 +782,7 @@ Dim objItem As ListItem
   lvProperties(0).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSequence.cmdAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.cmdAdd_Click"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -792,7 +792,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.hbxProperties_Chang
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSequence.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.hbxProperties_Change"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
@@ -802,7 +802,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.txtProperties_Chang
   txtProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSequence.txtProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.txtProperties_Change"
 End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
@@ -824,7 +824,7 @@ Dim X As Integer
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSequence.chkPrivilege_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.chkPrivilege_Click"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -836,5 +836,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.chkProperties_Click(" &
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmUser.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.chkProperties_Click"
 End Sub

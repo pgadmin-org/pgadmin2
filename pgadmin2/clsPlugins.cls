@@ -28,7 +28,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Class_Initialize()",
   
   Exit Sub
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsPlugins.Class_Initialize"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsPlugins.Class_Initialize"
 End Sub
 
 Public Sub LoadPlugins()
@@ -65,7 +65,7 @@ Err_Handler:
     GoTo Continue
   Else
     EndMsg
-    If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsPlugins.LoadPlugins"
+    If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsPlugins.LoadPlugins"
   End If
 End Sub
 
@@ -78,7 +78,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Property Get Item(" 
   Set Item = mCol(IndexOrKey)
   
   Exit Property
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsPlugins.Property Get Item"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsPlugins.Property Get Item"
 End Property
 
 'Return the Item count
@@ -89,7 +89,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Property Get Count()
   Count = mCol.Count
   
   Exit Property
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsPlugins.Property Get Count"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsPlugins.Property Get Count"
 End Property
 
 'Allow enumeration using For...Each
@@ -102,7 +102,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Property Get NewEnum
   Set NewEnum = mCol.[_NewEnum]
   
   Exit Property
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsPlugins.Property Get NewEnum"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsPlugins.Property Get NewEnum"
 End Property
 
 Public Sub Install(szFilename As String)
@@ -120,7 +120,7 @@ Dim lHdc As Long
   EndMsg
   Exit Sub
     
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsPlugins.Install"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsPlugins.Install"
 End Sub
 
 Public Sub Uninstall(szPlugin As String)
@@ -156,5 +156,5 @@ Dim X As Long
   EndMsg
   Exit Sub
     
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsPlugins.Uninstall"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":clsPlugins.Uninstall"
 End Sub

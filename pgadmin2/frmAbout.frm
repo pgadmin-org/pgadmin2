@@ -133,7 +133,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmAbout.cmdOK_Click()", etFull
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmAbout.cmdOK_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAbout.cmdOK_Click"
 End Sub
 
 Private Sub Form_Load()
@@ -144,5 +144,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmAbout.Form_Load()", etFullDe
   lblVersion.Caption = "Version " & App.Major & "." & App.Minor & " Build " & App.Revision
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmAbout.Form_Load"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAbout.Form_Load"
 End Sub

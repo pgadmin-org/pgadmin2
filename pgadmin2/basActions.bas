@@ -31,7 +31,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Vacuum(" & bAnalyse 
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "basActions.Vacuum"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basActions.Vacuum"
 End Sub
 
 Public Sub Drop()
@@ -263,5 +263,5 @@ Dim szPath() As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "basActions.Drop"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basActions.Drop"
 End Sub

@@ -103,13 +103,13 @@ Begin VB.Form frmFunction
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":138E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(4)"
-      Tab(1).Control(1)=   "lblProperties(5)"
-      Tab(1).Control(2)=   "cboProperties(2)"
+      Tab(1).Control(0)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdAdd"
-      Tab(1).Control(6)=   "cmdRemove"
+      Tab(1).Control(4)=   "cboProperties(2)"
+      Tab(1).Control(5)=   "lblProperties(5)"
+      Tab(1).Control(6)=   "lblProperties(4)"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":13AA
@@ -398,7 +398,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdRemove_Click()",
   lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.cmdRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.cmdRemove_Click"
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -416,7 +416,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdAdd_Click()", et
   End Select
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.cmdAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.cmdAdd_Click"
 End Sub
 
 Private Sub cmdCancel_Click()
@@ -426,7 +426,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdCancel_Click()",
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -493,7 +493,7 @@ Dim vEntity As Variant
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional oFunction As pgFunction)
@@ -574,7 +574,7 @@ Dim vArgument As Variant
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -584,7 +584,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.hbxProperties_Chang
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.hbxProperties_Change"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -597,7 +597,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.chkProperties_Click
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmFunction.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.chkProperties_Click"
 End Sub
 
 

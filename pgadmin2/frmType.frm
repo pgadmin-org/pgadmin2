@@ -78,23 +78,23 @@ Begin VB.Form frmType
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(13)"
-      Tab(1).Control(1)=   "lblProperties(12)"
-      Tab(1).Control(2)=   "lblProperties(11)"
-      Tab(1).Control(3)=   "lblProperties(10)"
-      Tab(1).Control(4)=   "lblProperties(9)"
-      Tab(1).Control(5)=   "lblProperties(8)"
-      Tab(1).Control(6)=   "lblProperties(6)"
-      Tab(1).Control(7)=   "lblProperties(7)"
+      Tab(1).Control(0)=   "txtProperties(6)"
+      Tab(1).Control(1)=   "txtProperties(5)"
+      Tab(1).Control(2)=   "txtProperties(4)"
+      Tab(1).Control(3)=   "chkProperties(0)"
+      Tab(1).Control(4)=   "cboProperties(2)"
+      Tab(1).Control(5)=   "cboProperties(3)"
+      Tab(1).Control(6)=   "cboProperties(4)"
+      Tab(1).Control(7)=   "cboProperties(5)"
       Tab(1).Control(8)=   "cboProperties(6)"
-      Tab(1).Control(9)=   "cboProperties(5)"
-      Tab(1).Control(10)=   "cboProperties(4)"
-      Tab(1).Control(11)=   "cboProperties(3)"
-      Tab(1).Control(12)=   "cboProperties(2)"
-      Tab(1).Control(13)=   "chkProperties(0)"
-      Tab(1).Control(14)=   "txtProperties(4)"
-      Tab(1).Control(15)=   "txtProperties(5)"
-      Tab(1).Control(16)=   "txtProperties(6)"
+      Tab(1).Control(9)=   "lblProperties(7)"
+      Tab(1).Control(10)=   "lblProperties(6)"
+      Tab(1).Control(11)=   "lblProperties(8)"
+      Tab(1).Control(12)=   "lblProperties(9)"
+      Tab(1).Control(13)=   "lblProperties(10)"
+      Tab(1).Control(14)=   "lblProperties(11)"
+      Tab(1).Control(15)=   "lblProperties(12)"
+      Tab(1).Control(16)=   "lblProperties(13)"
       Tab(1).ControlCount=   17
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -509,7 +509,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.cmdCancel_Click()", etF
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmType.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmType.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -576,7 +576,7 @@ Dim szReceiveFunction As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmType.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmType.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional oType As pgType)
@@ -662,7 +662,7 @@ Dim vArgument As Variant
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmType.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmType.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -672,7 +672,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.hbxProperties_Change(" 
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmType.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmType.hbxProperties_Change"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -684,7 +684,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.chkProperties_Click(" &
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmType.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmType.chkProperties_Click"
 End Sub
 
 

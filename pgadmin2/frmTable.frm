@@ -71,43 +71,43 @@ Begin VB.Form frmTable
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdColRemove"
+      Tab(1).Control(0)=   "lvProperties(0)"
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(2)=   "cmdColRemove"
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":0182
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblProperties(5)"
-      Tab(2).Control(1)=   "lvProperties(1)"
-      Tab(2).Control(2)=   "hbxCheck(0)"
-      Tab(2).Control(3)=   "cmdChkRemove"
-      Tab(2).Control(4)=   "cmdChkAdd"
-      Tab(2).Control(5)=   "txtCheck(0)"
+      Tab(2).Control(0)=   "txtCheck(0)"
+      Tab(2).Control(1)=   "cmdChkAdd"
+      Tab(2).Control(2)=   "cmdChkRemove"
+      Tab(2).Control(3)=   "hbxCheck(0)"
+      Tab(2).Control(4)=   "lvProperties(1)"
+      Tab(2).Control(5)=   "lblProperties(5)"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":019E
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdFkyRemove"
+      Tab(3).Control(0)=   "lvProperties(2)"
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "lvProperties(2)"
+      Tab(3).Control(2)=   "cmdFkyRemove"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":01BA
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblProperties(6)"
-      Tab(4).Control(1)=   "lvProperties(3)"
+      Tab(4).Control(0)=   "cboInheritedTables(0)"
+      Tab(4).Control(1)=   "cmdInhRemove"
       Tab(4).Control(2)=   "cmdInhAdd"
-      Tab(4).Control(3)=   "cmdInhRemove"
-      Tab(4).Control(4)=   "cboInheritedTables(0)"
+      Tab(4).Control(3)=   "lvProperties(3)"
+      Tab(4).Control(4)=   "lblProperties(6)"
       Tab(4).ControlCount=   5
       TabCaption(5)   =   "&Security"
       TabPicture(5)   =   "frmTable.frx":01D6
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lvProperties(4)"
-      Tab(5).Control(1)=   "cmdAdd"
-      Tab(5).Control(2)=   "fraAdd"
-      Tab(5).Control(3)=   "cmdRemove"
+      Tab(5).Control(0)=   "cmdRemove"
+      Tab(5).Control(1)=   "fraAdd"
+      Tab(5).Control(2)=   "cmdAdd"
+      Tab(5).Control(3)=   "lvProperties(4)"
       Tab(5).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
@@ -748,7 +748,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdCancel_Click()", et
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdCancel_Click"
 End Sub
 
 Private Sub cmdChkAdd_Click()
@@ -787,7 +787,7 @@ Dim objItem As ListItem
   
   Exit Sub
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdChkAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdChkAdd_Click"
 End Sub
 
 Private Sub cmdChkRemove_Click()
@@ -811,7 +811,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdChkRemove_Click()",
   
   Exit Sub
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdChkRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdChkRemove_Click"
 End Sub
 
 Private Sub cmdColAdd_Click()
@@ -828,7 +828,7 @@ Dim objColumnForm As New frmColumn
   End If
   objColumnForm.Show
 
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdColAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdColAdd_Click"
 End Sub
 
 Private Sub cmdColRemove_Click()
@@ -852,7 +852,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdColRemove_Click()",
   
   Exit Sub
 
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdColRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdColRemove_Click"
 End Sub
 
 Private Sub cmdFkyAdd_Click()
@@ -867,7 +867,7 @@ Dim objForeignKeyForm As New frmForeignKey
   
   Exit Sub
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdFkyAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdFkyAdd_Click"
 End Sub
 
 Private Sub cmdFkyRemove_Click()
@@ -891,7 +891,7 @@ Dim szTable As String
 
   Exit Sub
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdFkyRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdFkyRemove_Click"
 End Sub
 
 Private Sub cmdInhAdd_Click()
@@ -920,7 +920,7 @@ Dim objItem As ListItem
   
   Exit Sub
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdInhAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdInhAdd_Click"
 End Sub
 
 Private Sub cmdInhRemove_Click()
@@ -939,7 +939,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdInhRemove_Click()",
 
   Exit Sub
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdInhRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdInhRemove_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -1133,7 +1133,7 @@ Dim szInherits As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Table As pgTable)
@@ -1296,7 +1296,7 @@ Dim szAccess() As String
   lvProperties(4).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.Initialise"
 End Sub
 
 Private Sub cmdRemove_Click()
@@ -1308,7 +1308,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdRemove_Click()", et
   lvProperties(4).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdRemove_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdRemove_Click"
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -1345,7 +1345,7 @@ Dim objItem As ListItem
   lvProperties(4).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cmdAdd_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdAdd_Click"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -1355,7 +1355,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.hbxProperties_Change("
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.hbxProperties_Change"
 End Sub
 
 Private Sub lvProperties_ItemClick(Index As Integer, ByVal Item As MSComctlLib.ListItem)
@@ -1381,7 +1381,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.lvProperties_ItemClick
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.lvProperties_ItemClick"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.lvProperties_ItemClick"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
@@ -1391,7 +1391,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.txtProperties_Change("
   txtProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.txtProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.txtProperties_Change"
 End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
@@ -1413,7 +1413,7 @@ Dim X As Integer
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.chkPrivilege_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.chkPrivilege_Click"
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
@@ -1423,5 +1423,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cboProperties_Click(" 
   cboProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmTable.cboProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cboProperties_Click"
 End Sub

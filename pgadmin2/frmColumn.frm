@@ -358,7 +358,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cmdCancel_Click()", e
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmColumn.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -453,7 +453,7 @@ Dim szOldName As String
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmColumn.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, szMD As String, Optional Column As pgColumn, Optional frmCF As Form, Optional bNoPKey As Boolean)
@@ -525,7 +525,7 @@ Dim objType As pgType
   hbxProperties(0).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmColumn.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -535,7 +535,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.hbxProperties_Change(
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmColumn.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.hbxProperties_Change"
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
@@ -545,7 +545,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.txtProperties_Change(
   txtProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmColumn.txtProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.txtProperties_Change"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -563,7 +563,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.chkProperties_Click("
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmColumn.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.chkProperties_Click"
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
@@ -597,5 +597,5 @@ Dim objColumn As pgColumn
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmColumn.cboProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.cboProperties_Click"
 End Sub

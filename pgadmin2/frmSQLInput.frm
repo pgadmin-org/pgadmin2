@@ -161,7 +161,7 @@ Dim szQuery As String
   Exit Sub
 Err_Handler:
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.cmdExecute_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdExecute_Click"
 End Sub
 
 Private Sub cmdExplain_Click()
@@ -178,7 +178,7 @@ Dim objQueryPlanForm As New frmSQLExplain
   objQueryPlanForm.Show
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.cmdExplain_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdExplain_Click"
 End Sub
 
 Private Sub cmdLoad_Click()
@@ -220,7 +220,7 @@ Err_Handler:
     frmMain.svr.LogEvent "Load Query operation cancelled.", etMiniDebug
     Exit Sub
   End If
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.cmdLoad_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdLoad_Click"
 End Sub
 
 Private Sub cmdSave_Click()
@@ -256,7 +256,7 @@ Err_Handler:
     frmMain.svr.LogEvent "Save Query operation cancelled.", etMiniDebug
     Exit Sub
   End If
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.cmdSave_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdSave_Click"
 End Sub
 
 Private Sub cmdSQLWizard_Click()
@@ -271,7 +271,7 @@ Dim objSQLWizardForm As New frmSQLWizard
   objSQLWizardForm.Show
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.cmdSQLWizard_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdSQLWizard_Click"
 End Sub
 
 Private Sub Form_Load()
@@ -304,7 +304,7 @@ Dim szExporter As String
   Me.Width = 6705
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.Form_Load"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.Form_Load"
 End Sub
 
 Private Sub Form_Resize()
@@ -332,7 +332,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Resize()", etF
   End If
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.Form_Resize"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.Form_Resize"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -344,7 +344,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Unload()", etF
   End If
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.Form_Unload"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.Form_Unload"
 End Sub
 
 Private Sub txtSQL_Change()
@@ -355,7 +355,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.txtSQL_Change()", e
   bDirty = True
 
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.txtSQL_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.txtSQL_Change"
 End Sub
 
 Private Function GetFilename() As String
@@ -368,6 +368,6 @@ Dim szParts() As String
   If UBound(szParts) >= 0 Then GetFilename = szParts(UBound(szParts))
 
   Exit Function
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmSQLInput.GetFilename"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.GetFilename"
 End Function
 

@@ -293,7 +293,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.cmdCancel_Click()", etF
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmRule.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmRule.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -353,7 +353,7 @@ Dim objItem As ListItem
 Err_Handler:
   If Err.Number = 35606 Then Resume Next
   EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmRule.cmdOK_Click"
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmRule.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Rule As pgRule)
@@ -417,7 +417,7 @@ Dim vArgument As Variant
   hbxProperties(2).Tag = "N"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmRule.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmRule.Initialise"
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
@@ -427,7 +427,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.hbxProperties_Change(" 
   hbxProperties(Index).Tag = "Y"
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmRule.hbxProperties_Change"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmRule.hbxProperties_Change"
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
@@ -439,7 +439,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.chkProperties_Click(" &
   End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmRule.chkProperties_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmRule.chkProperties_Click"
 End Sub
 
 

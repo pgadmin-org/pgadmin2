@@ -273,7 +273,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmServer.cmdCancel_Click()", e
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmServer.cmdCancel_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmServer.cmdCancel_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -283,7 +283,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmServer.cmdOK_Click()", etFul
   Unload Me
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmServer.cmdOK_Click"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmServer.cmdOK_Click"
 End Sub
 
 Public Sub Initialise(obj As pgServer)
@@ -304,5 +304,5 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmServer.Initialise(" & QUOTE 
   hbxProperties(0).Text = objServer.ConnectionString
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmServer.Initialise"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmServer.Initialise"
 End Sub
