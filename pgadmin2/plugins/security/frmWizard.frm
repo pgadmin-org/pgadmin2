@@ -110,69 +110,128 @@ Begin VB.Form frmWizard
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "lvDatabases"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).ControlCount=   2
+      Tab(0).Control(2)=   "cmdDatabaseNone"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "cmdDatabaseAll"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).ControlCount=   4
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":3567
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvObjects"
+      Tab(1).Control(0)=   "lblInfo(1)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lblInfo(1)"
+      Tab(1).Control(1)=   "lvObjects"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).ControlCount=   2
+      Tab(1).Control(2)=   "cmdObjectNone"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "cmdObjectAll"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).ControlCount=   4
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":3583
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvEntities"
+      Tab(2).Control(0)=   "lblInfo(2)"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lblInfo(2)"
+      Tab(2).Control(1)=   "lvEntities"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).ControlCount=   2
+      Tab(2).Control(2)=   "cmdEntityNone"
+      Tab(2).Control(2).Enabled=   0   'False
+      Tab(2).Control(3)=   "cmdEntityAll"
+      Tab(2).Control(3).Enabled=   0   'False
+      Tab(2).ControlCount=   4
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":359F
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "picContainer(0)"
+      Tab(3).Control(0)=   "lblInfo(3)"
       Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "lblInfo(3)"
+      Tab(3).Control(1)=   "picContainer(0)"
       Tab(3).Control(1).Enabled=   0   'False
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":35BB
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "picContainer(1)"
-      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "lblInfo(6)"
-      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":35D7
       Tab(5).ControlEnabled=   0   'False
       Tab(5).Control(0)=   "chkPermission(7)"
-      Tab(5).Control(0).Enabled=   0   'False
       Tab(5).Control(1)=   "chkPermission(6)"
-      Tab(5).Control(1).Enabled=   0   'False
       Tab(5).Control(2)=   "chkPermission(3)"
-      Tab(5).Control(2).Enabled=   0   'False
       Tab(5).Control(3)=   "chkPermission(5)"
-      Tab(5).Control(3).Enabled=   0   'False
       Tab(5).Control(4)=   "chkPermission(4)"
-      Tab(5).Control(4).Enabled=   0   'False
       Tab(5).Control(5)=   "chkPermission(2)"
-      Tab(5).Control(5).Enabled=   0   'False
       Tab(5).Control(6)=   "chkPermission(1)"
-      Tab(5).Control(6).Enabled=   0   'False
       Tab(5).Control(7)=   "chkPermission(0)"
-      Tab(5).Control(7).Enabled=   0   'False
       Tab(5).Control(8)=   "lblInfo(7)"
-      Tab(5).Control(8).Enabled=   0   'False
       Tab(5).ControlCount=   9
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":35F3
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "lblInfo(5)"
-      Tab(6).Control(0).Enabled=   0   'False
-      Tab(6).Control(1)=   "lblInfo(4)"
-      Tab(6).Control(1).Enabled=   0   'False
+      Tab(6).Control(0)=   "lblInfo(4)"
+      Tab(6).Control(1)=   "lblInfo(5)"
       Tab(6).ControlCount=   2
+      Begin VB.CommandButton cmdEntityAll 
+         Height          =   555
+         Left            =   -68655
+         Picture         =   "frmWizard.frx":360F
+         Style           =   1  'Graphical
+         TabIndex        =   35
+         ToolTipText     =   "Select all users and groups"
+         Top             =   1800
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdEntityNone 
+         Height          =   555
+         Left            =   -68655
+         Picture         =   "frmWizard.frx":3ED9
+         Style           =   1  'Graphical
+         TabIndex        =   34
+         ToolTipText     =   "Deselect all users and groups"
+         Top             =   2430
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdObjectAll 
+         Height          =   555
+         Left            =   -68655
+         Picture         =   "frmWizard.frx":47A3
+         Style           =   1  'Graphical
+         TabIndex        =   33
+         ToolTipText     =   "Select all objects"
+         Top             =   1800
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdObjectNone 
+         Height          =   555
+         Left            =   -68655
+         Picture         =   "frmWizard.frx":506D
+         Style           =   1  'Graphical
+         TabIndex        =   32
+         ToolTipText     =   "Deselect all objects"
+         Top             =   2430
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdDatabaseAll 
+         Height          =   555
+         Left            =   6345
+         Picture         =   "frmWizard.frx":5937
+         Style           =   1  'Graphical
+         TabIndex        =   31
+         ToolTipText     =   "Select all databases"
+         Top             =   1800
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdDatabaseNone 
+         Height          =   555
+         Left            =   6345
+         Picture         =   "frmWizard.frx":6201
+         Style           =   1  'Graphical
+         TabIndex        =   30
+         ToolTipText     =   "Deselect all databases"
+         Top             =   2430
+         Width           =   555
+      End
       Begin VB.CheckBox chkPermission 
          Caption         =   "&Trigger"
          Height          =   195
@@ -310,8 +369,8 @@ Begin VB.Form frmWizard
          Left            =   135
          TabIndex        =   0
          Top             =   1170
-         Width           =   6720
-         _ExtentX        =   11853
+         Width           =   6135
+         _ExtentX        =   10821
          _ExtentY        =   4313
          View            =   3
          LabelEdit       =   1
@@ -336,7 +395,7 @@ Begin VB.Form frmWizard
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             SubItemIndex    =   1
             Text            =   "Comment"
-            Object.Width           =   7939
+            Object.Width           =   6705
          EndProperty
       End
       Begin MSComctlLib.ListView lvObjects 
@@ -344,8 +403,8 @@ Begin VB.Form frmWizard
          Left            =   -74865
          TabIndex        =   3
          Top             =   1170
-         Width           =   6720
-         _ExtentX        =   11853
+         Width           =   6135
+         _ExtentX        =   10821
          _ExtentY        =   4313
          View            =   3
          LabelEdit       =   1
@@ -374,7 +433,7 @@ Begin VB.Form frmWizard
          BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             SubItemIndex    =   2
             Text            =   "ACL"
-            Object.Width           =   6174
+            Object.Width           =   4764
          EndProperty
       End
       Begin MSComctlLib.ListView lvEntities 
@@ -382,8 +441,8 @@ Begin VB.Form frmWizard
          Left            =   -74865
          TabIndex        =   4
          Top             =   1170
-         Width           =   6720
-         _ExtentX        =   11853
+         Width           =   6135
+         _ExtentX        =   10821
          _ExtentY        =   4313
          View            =   3
          LabelEdit       =   1
@@ -402,7 +461,7 @@ Begin VB.Form frmWizard
          NumItems        =   1
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             Text            =   "User or Group Name"
-            Object.Width           =   11290
+            Object.Width           =   10232
          EndProperty
       End
       Begin VB.Label lblInfo 
@@ -502,6 +561,90 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim bButtonPress As Boolean
 Dim bProgramPress As Boolean
+
+Private Sub cmdDatabaseAll_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdDatabaseAll_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  For Each objItem In lvDatabases.ListItems
+    objItem.Checked = True
+  Next objItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdDatabaseAll_Click"
+End Sub
+
+Private Sub cmdDatabaseNone_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdDatabaseNone_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  For Each objItem In lvDatabases.ListItems
+    objItem.Checked = False
+  Next objItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdDatabaseNone_Click"
+End Sub
+
+Private Sub cmdObjectAll_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdObjectAll_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  For Each objItem In lvObjects.ListItems
+    objItem.Checked = True
+  Next objItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdObjectAll_Click"
+End Sub
+
+Private Sub cmdObjectNone_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdObjectNone_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  For Each objItem In lvObjects.ListItems
+    objItem.Checked = False
+  Next objItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdObjectNone_Click"
+End Sub
+
+Private Sub cmdEntityAll_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdEntityAll_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  For Each objItem In lvEntities.ListItems
+    objItem.Checked = True
+  Next objItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdEntityAll_Click"
+End Sub
+
+Private Sub cmdEntityNone_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdEntityNone_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  For Each objItem In lvEntities.ListItems
+    objItem.Checked = False
+  Next objItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdEntityNone_Click"
+End Sub
 
 Private Sub chkPermission_Click(Index As Integer)
 On Error GoTo Err_Handler
@@ -784,7 +927,7 @@ Dim objItem As ListItem
   
   StartMsg "Examining Server..."
   For Each objDatabase In svr.Databases
-    If Not objDatabase.SystemObject Then
+    If ((Not objDatabase.SystemObject) And (objDatabase.Status <> statInaccessible)) Then
       Set objItem = lvDatabases.ListItems.Add(, , objDatabase.Identifier, "database", "database")
       objItem.SubItems(1) = Replace(objDatabase.Comment, vbCrLf, " ")
     End If

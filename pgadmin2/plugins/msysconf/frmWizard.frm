@@ -87,45 +87,58 @@ Begin VB.Form frmWizard
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "lvDatabases"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).ControlCount=   2
+      Tab(0).Control(2)=   "cmdDatabaseNone"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "cmdDatabaseAll"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).ControlCount=   4
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":18C2
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "optPasswordCaching(1)"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "optPasswordCaching(0)"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "lblInfo(1)"
-      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).ControlCount=   3
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":18DE
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "udPopulationDelay"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "txtPopulationDelay"
-      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "lblInfo(2)"
-      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18FA
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "txtPopulationSize"
-      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "udPopulationSize"
-      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "lblInfo(3)"
-      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":1916
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "lblInfo(5)"
-      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "lblInfo(4)"
-      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
+      Begin VB.CommandButton cmdDatabaseAll 
+         Height          =   555
+         Left            =   6345
+         Picture         =   "frmWizard.frx":1932
+         Style           =   1  'Graphical
+         TabIndex        =   19
+         ToolTipText     =   "Select all databases"
+         Top             =   1755
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdDatabaseNone 
+         Height          =   555
+         Left            =   6345
+         Picture         =   "frmWizard.frx":21FC
+         Style           =   1  'Graphical
+         TabIndex        =   18
+         ToolTipText     =   "Deselect all databases"
+         Top             =   2430
+         Width           =   555
+      End
       Begin VB.TextBox txtPopulationSize 
          Height          =   285
          Left            =   -72345
@@ -147,7 +160,7 @@ Begin VB.Form frmWizard
          Value           =   10
          AutoBuddy       =   -1  'True
          BuddyControl    =   "txtPopulationDelay"
-         BuddyDispid     =   196618
+         BuddyDispid     =   196613
          OrigLeft        =   3645
          OrigTop         =   2205
          OrigRight       =   3840
@@ -192,8 +205,8 @@ Begin VB.Form frmWizard
          Left            =   135
          TabIndex        =   0
          Top             =   1170
-         Width           =   6720
-         _ExtentX        =   11853
+         Width           =   6135
+         _ExtentX        =   10821
          _ExtentY        =   4313
          View            =   3
          LabelEdit       =   1
@@ -213,7 +226,7 @@ Begin VB.Form frmWizard
          NumItems        =   5
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             Text            =   "Database"
-            Object.Width           =   3175
+            Object.Width           =   2117
          EndProperty
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             SubItemIndex    =   1
@@ -247,7 +260,7 @@ Begin VB.Form frmWizard
          _Version        =   393216
          Value           =   100
          BuddyControl    =   "txtPopulationSize"
-         BuddyDispid     =   196620
+         BuddyDispid     =   196612
          OrigLeft        =   3645
          OrigTop         =   2205
          OrigRight       =   3840
@@ -281,7 +294,7 @@ Begin VB.Form frmWizard
          Width           =   3645
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":1932
+         Caption         =   $"frmWizard.frx":2AC6
          Height          =   825
          Index           =   3
          Left            =   -74820
@@ -290,7 +303,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":19FF
+         Caption         =   $"frmWizard.frx":2B93
          Height          =   825
          Index           =   2
          Left            =   -74820
@@ -299,7 +312,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":1B28
+         Caption         =   $"frmWizard.frx":2CBC
          Height          =   735
          Index           =   1
          Left            =   -74820
@@ -308,7 +321,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":1BE2
+         Caption         =   $"frmWizard.frx":2D76
          Height          =   735
          Index           =   0
          Left            =   180
@@ -339,6 +352,34 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim bButtonPress As Boolean
 Dim bProgramPress As Boolean
+
+Private Sub cmdDatabaseAll_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdDatabaseAll_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  For Each objItem In lvDatabases.ListItems
+    objItem.Checked = True
+  Next objItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdDatabaseAll_Click"
+End Sub
+
+Private Sub cmdDatabaseNone_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdDatabaseNone_Click()", etFullDebug
+
+Dim objItem As ListItem
+
+  For Each objItem In lvDatabases.ListItems
+    objItem.Checked = False
+  Next objItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdDatabaseNone_Click"
+End Sub
 
 Private Sub cmdNext_Click()
 On Error GoTo Err_Handler
