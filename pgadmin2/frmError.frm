@@ -3,16 +3,16 @@ Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmError 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Error"
-   ClientHeight    =   5805
+   ClientHeight    =   5796
    ClientLeft      =   2880
-   ClientTop       =   3150
-   ClientWidth     =   7425
+   ClientTop       =   3156
+   ClientWidth     =   7428
    Icon            =   "frmError.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5805
-   ScaleWidth      =   7425
+   ScaleHeight     =   5796
+   ScaleWidth      =   7428
    Begin VB.CheckBox chkAutoStart 
       Caption         =   "&Auto Start Application on exit"
       Height          =   195
@@ -36,11 +36,11 @@ Begin VB.Form frmError
       TabIndex        =   10
       Top             =   3195
       Width           =   6045
-      _ExtentX        =   10663
-      _ExtentY        =   4471
+      _ExtentX        =   10668
+      _ExtentY        =   4466
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Size            =   7.8
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -55,11 +55,11 @@ Begin VB.Form frmError
       TabIndex        =   3
       Top             =   948
       Width           =   7308
-      _ExtentX        =   12885
-      _ExtentY        =   2275
+      _ExtentX        =   12891
+      _ExtentY        =   2265
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Size            =   7.8
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -72,8 +72,8 @@ Begin VB.Form frmError
       BackColor       =   &H00808080&
       Height          =   2535
       Left            =   45
-      ScaleHeight     =   2475
-      ScaleWidth      =   1185
+      ScaleHeight     =   2484
+      ScaleWidth      =   1200
       TabIndex        =   13
       Top             =   3210
       Width           =   1245
@@ -166,11 +166,11 @@ Begin VB.Form frmError
       Width           =   1095
    End
    Begin VB.Image imgErr 
-      Height          =   480
+      Height          =   384
       Left            =   6720
       Picture         =   "frmError.frx":0442
       Top             =   240
-      Width           =   480
+      Width           =   384
    End
    Begin VB.Label lblException 
       AutoSize        =   -1  'True
@@ -178,7 +178,7 @@ Begin VB.Form frmError
       Caption         =   "Error Handler"
       BeginProperty Font 
          Name            =   "Tahoma"
-         Size            =   8.25
+         Size            =   8.4
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False

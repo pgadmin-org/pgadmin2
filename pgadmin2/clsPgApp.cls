@@ -1100,9 +1100,6 @@ Public Function ConstByName(szName As String)
     case LCase("QUOTE")
       ConstByName=QUOTE
 
-    case LCase("DEFAULT_AUTOHIGHLIGHT")
-      ConstByName=DEFAULT_AUTOHIGHLIGHT
-
   End Select
 End Function
 

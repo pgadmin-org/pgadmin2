@@ -6,8 +6,8 @@ Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
    ClientHeight    =   6660
-   ClientLeft      =   2052
-   ClientTop       =   1956
+   ClientLeft      =   3120
+   ClientTop       =   1668
    ClientWidth     =   9684
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"

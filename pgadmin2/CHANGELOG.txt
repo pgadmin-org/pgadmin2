@@ -9,6 +9,7 @@ Add drop object using cancel key [Frank Lupo].
 Add function node on trigger [Frank Lupo].
 Fix AutoSizeColumnLv if element of listview is zero [Frank Lupo].
 Fix clone CloneFunction [Frank Lupo].
+Move highlight words to Keywords.txt and use for quoting as well [Frank Lupo].
 
 
 1.5.60

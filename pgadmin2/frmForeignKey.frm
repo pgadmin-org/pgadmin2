@@ -1,17 +1,17 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmForeignKey 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Foreign Key"
-   ClientHeight    =   6870
+   ClientHeight    =   6864
    ClientLeft      =   2940
-   ClientTop       =   1890
+   ClientTop       =   1896
    ClientWidth     =   5520
    Icon            =   "frmForeignKey.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6870
+   ScaleHeight     =   6864
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -42,50 +42,57 @@ Begin VB.Form frmForeignKey
       _Version        =   393216
       Style           =   1
       Tabs            =   2
-      Tab             =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
       TabPicture(0)   =   "frmForeignKey.frx":06C2
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(0)"
+      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "lblProperties(1)"
+      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "lblProperties(3)"
+      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "lblProperties(2)"
+      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "lblProperties(4)"
+      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "lblProperties(6)"
+      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "lblProperties(5)"
+      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).Control(7)=   "cboProperties(4)"
+      Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "cboProperties(3)"
+      Tab(0).Control(8).Enabled=   0   'False
       Tab(0).Control(9)=   "cboProperties(2)"
+      Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "cboProperties(1)"
+      Tab(0).Control(10).Enabled=   0   'False
       Tab(0).Control(11)=   "cboProperties(0)"
+      Tab(0).Control(11).Enabled=   0   'False
       Tab(0).Control(12)=   "txtProperties(1)"
+      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).Control(13)=   "txtProperties(0)"
+      Tab(0).Control(13).Enabled=   0   'False
       Tab(0).Control(14)=   "chkProperties(0)"
+      Tab(0).Control(14).Enabled=   0   'False
       Tab(0).ControlCount=   15
       TabCaption(1)   =   "&Relationships"
       TabPicture(1)   =   "frmForeignKey.frx":06DE
-      Tab(1).ControlEnabled=   -1  'True
-      Tab(1).Control(0)=   "lblProperties(7)"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lblProperties(8)"
-      Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cboProperties(6)"
-      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "cmdAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "cmdRemove"
-      Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "cmdAdd"
-      Tab(1).Control(6).Enabled=   0   'False
+      Tab(1).Control(4)=   "cboProperties(6)"
+      Tab(1).Control(5)=   "lblProperties(8)"
+      Tab(1).Control(6)=   "lblProperties(7)"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
          Enabled         =   0   'False
          Height          =   330
-         Left            =   315
+         Left            =   -74685
          TabIndex        =   13
          ToolTipText     =   "Add the defined relationship."
          Top             =   1575
@@ -95,7 +102,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "&Remove"
          Enabled         =   0   'False
          Height          =   330
-         Left            =   315
+         Left            =   -74685
          TabIndex        =   14
          ToolTipText     =   "Remove the selected relationship."
          Top             =   1980
@@ -106,7 +113,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "Deferrable?"
          Height          =   195
          Index           =   0
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   7
          ToolTipText     =   "This controls whether the constraint can be deferred to the end of the transaction."
          Top             =   3105
@@ -116,7 +123,7 @@ Begin VB.Form frmForeignKey
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   0
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   1
          ToolTipText     =   "The name of the foreign key."
@@ -127,7 +134,7 @@ Begin VB.Form frmForeignKey
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   1
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   2
          ToolTipText     =   "The foreign keys OID (Object ID) in the PostgreSQL Database."
@@ -135,15 +142,15 @@ Begin VB.Form frmForeignKey
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   -73065
+         Left            =   1932
          TabIndex        =   3
          ToolTipText     =   "The table that the foreign key will be part of."
          Top             =   1440
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -151,15 +158,15 @@ Begin VB.Form frmForeignKey
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   -73065
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "The table referenced by the foreign key."
-         Top             =   1845
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1848
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -167,15 +174,15 @@ Begin VB.Form frmForeignKey
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   2
-         Left            =   -73065
+         Left            =   1932
          TabIndex        =   5
          ToolTipText     =   "The action to take when a referenced row in the referenced table is being deleted."
-         Top             =   2250
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2256
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -183,15 +190,15 @@ Begin VB.Form frmForeignKey
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   3
-         Left            =   -73065
+         Left            =   1932
          TabIndex        =   6
          ToolTipText     =   "The action to take when a referenced column in the referenced table is being updated to a new value."
-         Top             =   2655
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2652
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -199,15 +206,15 @@ Begin VB.Form frmForeignKey
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   4
-         Left            =   -73065
+         Left            =   1932
          TabIndex        =   8
          ToolTipText     =   $"frmForeignKey.frx":06FA
-         Top             =   3465
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   3468
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -217,13 +224,13 @@ Begin VB.Form frmForeignKey
       Begin MSComctlLib.ListView lvProperties 
          Height          =   4515
          Index           =   0
-         Left            =   1935
+         Left            =   -73065
          TabIndex        =   15
          ToolTipText     =   "Lists the relationships in the foreign key."
          Top             =   1575
          Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   7964
+         _ExtentX        =   5990
+         _ExtentY        =   7959
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -248,15 +255,15 @@ Begin VB.Form frmForeignKey
          EndProperty
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   5
-         Left            =   1935
+         Left            =   -73068
          TabIndex        =   11
          ToolTipText     =   "Select a column in the local table."
-         Top             =   630
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   636
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -264,15 +271,15 @@ Begin VB.Form frmForeignKey
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   6
-         Left            =   1935
+         Left            =   -73068
          TabIndex        =   12
          ToolTipText     =   "Select the column to be referenced in the referenced table."
          Top             =   1080
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -284,7 +291,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "Local column"
          Height          =   195
          Index           =   8
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   24
          Top             =   720
          Width           =   945
@@ -294,7 +301,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "Referenced column"
          Height          =   195
          Index           =   7
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   23
          Top             =   1170
          Width           =   1395
@@ -304,7 +311,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "Initially"
          Height          =   195
          Index           =   5
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   22
          Top             =   3510
          Width           =   465
@@ -314,7 +321,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "On update"
          Height          =   195
          Index           =   6
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   21
          Top             =   2700
          Width           =   750
@@ -324,7 +331,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "On delete"
          Height          =   195
          Index           =   4
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   20
          Top             =   2295
          Width           =   690
@@ -334,7 +341,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "Referenced table"
          Height          =   195
          Index           =   2
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   19
          Top             =   1890
          Width           =   1230
@@ -344,7 +351,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "Table"
          Height          =   195
          Index           =   3
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   18
          Top             =   1530
          Width           =   405
@@ -354,7 +361,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "OID"
          Height          =   195
          Index           =   1
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   17
          Top             =   1125
          Width           =   285
@@ -364,7 +371,7 @@ Begin VB.Form frmForeignKey
          Caption         =   "Name"
          Height          =   195
          Index           =   0
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   16
          Top             =   720
          Width           =   420
@@ -373,8 +380,8 @@ Begin VB.Form frmForeignKey
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6345
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16

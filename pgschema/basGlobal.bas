@@ -87,22 +87,35 @@ On Error Resume Next
 
 Dim X As Integer
 Dim iVal As Integer
+Dim bFound As Boolean
 
   'Replace double quotes
   szData = Replace(szData, QUOTE, QUOTE & QUOTE)
 
-  If IsNumeric(szData) Then
-    szData = QUOTE & szData & QUOTE
-  Else
-    For X = 1 To Len(szData)
-      iVal = Asc(Mid(szData, X, 1))
-      If Not ((iVal >= 48) And (iVal <= 57)) And _
-         Not ((iVal >= 97) And (iVal <= 122)) And _
-         Not (iVal = 95) Then
-        szData = QUOTE & szData & QUOTE
-        Exit For
-      End If
-    Next X
+  'verify KeyWord Reserved
+  bFound = False
+  For X = 1 To objServer.KeyWordReserved.Count
+    If LCase(objServer.KeyWordReserved(X)) = LCase(szData) Then
+      szData = QUOTE & szData & QUOTE
+      bFound = True
+      Exit For
+    End If
+  Next
+  
+  If Not bFound Then
+    If IsNumeric(szData) Then
+      szData = QUOTE & szData & QUOTE
+    Else
+      For X = 1 To Len(szData)
+        iVal = Asc(Mid(szData, X, 1))
+        If Not ((iVal >= 48) And (iVal <= 57)) And _
+           Not ((iVal >= 97) And (iVal <= 122)) And _
+           Not (iVal = 95) Then
+          szData = QUOTE & szData & QUOTE
+          Exit For
+        End If
+      Next X
+    End If
   End If
 
   fmtID = szData

@@ -1,20 +1,20 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmOptions 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Options"
-   ClientHeight    =   6885
-   ClientLeft      =   2565
+   ClientHeight    =   6888
+   ClientLeft      =   2568
    ClientTop       =   1500
    ClientWidth     =   5520
    Icon            =   "frmOptions.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6888
    ScaleWidth      =   5520
    StartUpPosition =   1  'CenterOwner
    Begin MSComDlg.CommonDialog cdlg 
@@ -62,26 +62,26 @@ Begin VB.Form frmOptions
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lstExporters"
-      Tab(2).Control(1)=   "Frame1"
-      Tab(2).Control(2)=   "cmdExpInstall"
-      Tab(2).Control(3)=   "cmdExpUninstall"
+      Tab(2).Control(0)=   "cmdExpUninstall"
+      Tab(2).Control(1)=   "cmdExpInstall"
+      Tab(2).Control(2)=   "Frame1"
+      Tab(2).Control(3)=   "lstExporters"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdPlgUninstall"
-      Tab(3).Control(1)=   "cmdPlgInstall"
-      Tab(3).Control(2)=   "Frame2"
-      Tab(3).Control(3)=   "lstPlugins"
+      Tab(3).Control(0)=   "lstPlugins"
+      Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(2)=   "cmdPlgInstall"
+      Tab(3).Control(3)=   "cmdPlgUninstall"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame6"
-      Tab(4).Control(1)=   "Frame5"
-      Tab(4).Control(2)=   "Frame4"
-      Tab(4).Control(3)=   "Frame3"
+      Tab(4).Control(0)=   "Frame3"
+      Tab(4).Control(1)=   "Frame4"
+      Tab(4).Control(2)=   "Frame5"
+      Tab(4).Control(3)=   "Frame6"
       Tab(4).ControlCount=   4
       Begin VB.Frame Frame8 
          Caption         =   "Font"
@@ -125,6 +125,15 @@ Begin VB.Form frmOptions
          TabIndex        =   50
          Top             =   2025
          Width           =   5010
+         Begin VB.CommandButton cmdDefault 
+            Caption         =   "Default"
+            Height          =   345
+            Left            =   2880
+            TabIndex        =   63
+            ToolTipText     =   "Restore default words."
+            Top             =   720
+            Width           =   945
+         End
          Begin VB.CheckBox chkItalic 
             Caption         =   "Italic"
             Height          =   285
@@ -186,8 +195,8 @@ Begin VB.Form frmOptions
             ToolTipText     =   "Displays the Text Formatting rules."
             Top             =   1170
             Width           =   4785
-            _ExtentX        =   8440
-            _ExtentY        =   4789
+            _ExtentX        =   8446
+            _ExtentY        =   4784
             View            =   3
             LabelEdit       =   1
             LabelWrap       =   -1  'True
@@ -334,12 +343,12 @@ Begin VB.Form frmOptions
             TabIndex        =   31
             Top             =   900
             Width           =   5055
-            _ExtentX        =   8916
-            _ExtentY        =   1667
+            _ExtentX        =   8911
+            _ExtentY        =   1672
             BackColor       =   -2147483633
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
-               Size            =   8.25
+               Size            =   7.8
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -371,7 +380,7 @@ Begin VB.Form frmOptions
          End
       End
       Begin VB.ListBox lstPlugins 
-         Height          =   3375
+         Height          =   3312
          ItemData        =   "frmOptions.frx":0C8F
          Left            =   -74910
          List            =   "frmOptions.frx":0C91
@@ -380,7 +389,7 @@ Begin VB.Form frmOptions
          Width           =   5235
       End
       Begin VB.ListBox lstExporters 
-         Height          =   3375
+         Height          =   3312
          ItemData        =   "frmOptions.frx":0C93
          Left            =   -74910
          List            =   "frmOptions.frx":0C95
@@ -401,12 +410,12 @@ Begin VB.Form frmOptions
             TabIndex        =   23
             Top             =   900
             Width           =   5055
-            _ExtentX        =   8916
-            _ExtentY        =   1667
+            _ExtentX        =   8911
+            _ExtentY        =   1672
             BackColor       =   -2147483633
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
-               Size            =   8.25
+               Size            =   7.8
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -608,7 +617,7 @@ Begin VB.Form frmOptions
       Index           =   3
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5685
+      ScaleWidth      =   5688
       TabIndex        =   14
       TabStop         =   0   'False
       Top             =   480
@@ -628,7 +637,7 @@ Begin VB.Form frmOptions
       Index           =   2
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5685
+      ScaleWidth      =   5688
       TabIndex        =   13
       TabStop         =   0   'False
       Top             =   480
@@ -648,7 +657,7 @@ Begin VB.Form frmOptions
       Index           =   1
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5685
+      ScaleWidth      =   5688
       TabIndex        =   12
       TabStop         =   0   'False
       Top             =   480
@@ -675,7 +684,7 @@ Begin VB.Form frmOptions
       Caption         =   "OK"
       Default         =   -1  'True
       Height          =   375
-      Left            =   3285
+      Left            =   3312
       TabIndex        =   10
       Top             =   6480
       Width           =   1095
@@ -779,6 +788,18 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdCancel_Click()", 
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdCancel_Click"
+End Sub
+
+Private Sub cmdDefault_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdDefault_Click()", etFullDebug
+
+  'load default
+  If MsgBox("Are you sure you wish to restore default word?", vbQuestion + vbYesNo, "Restore default Word") = vbNo Then Exit Sub
+  LoadWord szDefaultAutoHighlight
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.cmdDefault_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -911,10 +932,6 @@ Private Sub Form_Load()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.Form_Load()", etFullDebug
 
-Dim iLoop As Integer
-Dim itmX As ListItem
-Dim szStrings() As String
-Dim szValues() As String
 Dim szFont() As String
 
   PatchForm Me
@@ -956,32 +973,8 @@ Dim szFont() As String
   If cdlg.FontBold Then txtFont.Text = txtFont.Text & ", bold"
   If cdlg.FontItalic Then txtFont.Text = txtFont.Text & ", italic"
     
-  'Sort out the Word List
-  txtWord.ForeColor = RGB(0, 0, 0)
-  lvWords.ColumnHeaders.Add , , "Word", (lvWords.Width / 11) * 5
-  lvWords.ColumnHeaders.Add , , "Colour", (lvWords.Width / 11) * 3
-  lvWords.ColumnHeaders.Add , , "B", (lvWords.Width / 11)
-  lvWords.ColumnHeaders.Add , , "I", (lvWords.Width / 11)
-  
-  'Load the text colours into the grid.
-  lvWords.ListItems.Clear
-  szStrings = Split(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "AutoHighlight", DEFAULT_AUTOHIGHLIGHT), ";")
-  For iLoop = 0 To UBound(szStrings) - 1
-    szValues = Split(szStrings(iLoop), "|")
-    Set itmX = lvWords.ListItems.Add(, , szValues(0))
-    itmX.ForeColor = szValues(3)
-    itmX.SubItems(1) = szValues(3)
-    If szValues(2) = "1" Then
-      itmX.SubItems(3) = "Y"
-    Else
-      itmX.SubItems(3) = "N"
-    End If
-    If szValues(1) = "1" Then
-      itmX.SubItems(2) = "Y"
-    Else
-      itmX.SubItems(2) = "N"
-    End If
-  Next iLoop
+  'load the Word List
+  LoadWord RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "AutoHighlight", szDefaultAutoHighlight)
 
   'Master DB
   txtMasterDB.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", "template1")
@@ -1180,3 +1173,42 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.tabOptions_Click(" &
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.tabOptions_Click"
 End Sub
 
+Private Sub LoadWord(Words As String)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.LoadWord(" & Words & ")", etFullDebug
+
+Dim szStrings() As String
+Dim szValues() As String
+Dim itmX As ListItem
+Dim iLoop As Integer
+
+  'Sort out the Word List
+  txtWord.ForeColor = RGB(0, 0, 0)
+  lvWords.ColumnHeaders.Add , , "Word", (lvWords.Width / 11) * 5
+  lvWords.ColumnHeaders.Add , , "Colour", (lvWords.Width / 11) * 3
+  lvWords.ColumnHeaders.Add , , "B", (lvWords.Width / 11)
+  lvWords.ColumnHeaders.Add , , "I", (lvWords.Width / 11)
+  
+  'Load the text colours into the grid.
+  lvWords.ListItems.Clear
+  szStrings = Split(Words, ";")
+  For iLoop = 0 To UBound(szStrings) - 1
+    szValues = Split(szStrings(iLoop), "|")
+    Set itmX = lvWords.ListItems.Add(, , szValues(0))
+    itmX.ForeColor = szValues(3)
+    itmX.SubItems(1) = szValues(3)
+    If szValues(2) = "1" Then
+      itmX.SubItems(3) = "Y"
+    Else
+      itmX.SubItems(3) = "N"
+    End If
+    If szValues(1) = "1" Then
+      itmX.SubItems(2) = "Y"
+    Else
+      itmX.SubItems(2) = "N"
+    End If
+  Next iLoop
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOptions.LoadWord"
+End Sub

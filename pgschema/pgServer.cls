@@ -20,6 +20,10 @@ Option Explicit
 'pgAdmin II application
 Public pgApp As Object
 
+'Key Word Reserved for escape name object
+Public KeyWordReserved As New Collection
+Attribute KeyWordReserved.VB_VarDescription = "Key Word Reserved for escape name"
+
 'Error Handler Stuff
 Dim lErrorIndex As Long
 Dim pgErrors As New Collection

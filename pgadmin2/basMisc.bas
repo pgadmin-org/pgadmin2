@@ -130,8 +130,6 @@ Dim objFont As New StdFont
   frmMain.Height = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Height", "7000"))
   frmMain.Resize Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Vertical Splitter", "3500")), Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Horizontal Splitter", "5000"))
   frmMain.Caption = App.Title & " v" & App.Major & "." & App.Minor & " Build " & App.Revision
-
-
   'Build the connection menu
   BuildConnectionMenu
   
@@ -139,8 +137,12 @@ Dim objFont As New StdFont
   BuildPluginsMenu
   
   'Get the AutoHighlight colours
-  ctx.AutoHighlight = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "AutoHighlight", DEFAULT_AUTOHIGHLIGHT)
+  LoadAutoHighlight
+  ctx.AutoHighlight = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "AutoHighlight", szDefaultAutoHighlight)
   frmMain.txtDefinition.Wordlist = ctx.AutoHighlight
+  
+  'add KeyWord Reserved to schema
+  AddKeyWordReserved
   
   'Get the Font
   szFont = Split(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Font", "MS Sans Serif|8|False|False"), "|")
@@ -199,6 +201,25 @@ Dim objFont As New StdFont
   InitVarDb
   InitClone
    
+End Sub
+
+'Add KeyWord Reserved to schema
+Private Sub AddKeyWordReserved()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.AddKeyWordReserved()", etFullDebug
+
+Dim ii As Integer
+Dim vData, vData1
+  
+  Set frmMain.svr.KeyWordReserved = New Collection
+  vData = Split(ctx.AutoHighlight, ";")
+  For ii = 0 To UBound(vData) - 1
+    vData1 = Split(vData(ii), "|")
+    frmMain.svr.KeyWordReserved.Add vData1(0), vData1(0)
+  Next
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.AddKeyWordReserved"
 End Sub
 
 Public Function GetID() As String
@@ -265,6 +286,7 @@ Dim X As Integer
   For Each objPlugin In plg
     If Not ((frmMain.svr.ConnectionString = "") And (objPlugin.PluginType = 1)) Then
       frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description & "..."
+Dim szErr As String
       frmMain.mnuPluginsPlg(X).Visible = True
       X = X + 1
       frmMain.mnuPluginsPlg(0).Visible = False
@@ -288,13 +310,15 @@ Public Sub LogError(lError As Long, szError As String, szRoutine As String)
 Dim objErrorForm As New frmError
 Dim bShowFormErr As Boolean
 Dim vData
+Dim szErr As String
   
-  frmMain.svr.LogEvent "Error in " & szRoutine & ": " & lError & " - " & szError, etErrors
+  szErr = Replace(szError, vbLf, vbCrLf)
+  frmMain.svr.LogEvent "Error in " & szRoutine & ": " & lError & " - " & szErr, etErrors
 
   'find error in ignore error
   bShowFormErr = True
   For Each vData In ColIgnoreError
-    If vData = szRoutine & "_" & lError & "_" & szError Then
+    If vData = szRoutine & "_" & lError & "_" & szErr Then
       bShowFormErr = False
       Exit For
     End If
@@ -302,7 +326,7 @@ Dim vData
 
   If bShowFormErr Then
     Load objErrorForm
-    objErrorForm.Initialise lError, szError, szRoutine
+    objErrorForm.Initialise lError, szErr, szRoutine
     objErrorForm.Show vbModal
   End If
   
@@ -332,6 +356,7 @@ Dim szMsg As String
    
   szMsg = "Done" & szErr & " - " & Fix((Timer - sTimer) * 100) / 100 & " Secs."
   If InStr(1, frmMain.sb.Panels("info").Text, "Done") = 0 Then
+Dim bFound As Boolean
     frmMain.svr.LogEvent szMsg, etMiniDebug
     frmMain.sb.Panels("timer").Text = Fix((Timer - sTimer) * 100) / 100 & " Secs."
     frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & " Done" & szErr & "." 'szMsg '" Done."
@@ -357,22 +382,33 @@ On Error Resume Next
 
 Dim X As Integer
 Dim iVal As Integer
+Dim bFound As Boolean
 
   'Replace double quotes
   szData = Replace(szData, QUOTE, QUOTE & QUOTE)
 
-  If IsNumeric(szData) Then
-    szData = QUOTE & szData & QUOTE
-  Else
-    For X = 1 To Len(szData)
-      iVal = Asc(Mid(szData, X, 1))
-      If Not ((iVal >= 48) And (iVal <= 57)) And _
-         Not ((iVal >= 97) And (iVal <= 122)) And _
-         Not (iVal = 95) Then
-        szData = QUOTE & szData & QUOTE
-        Exit For
-      End If
-    Next X
+  'verify KeyWord Reserved
+  For X = 1 To frmMain.svr.KeyWordReserved.Count
+    If LCase(frmMain.svr.KeyWordReserved(X)) = LCase(szData) Then
+      bFound = True
+      Exit For
+    End If
+  Next
+
+  If Not bFound Then
+    If IsNumeric(szData) Then
+      szData = QUOTE & szData & QUOTE
+    Else
+      For X = 1 To Len(szData)
+        iVal = Asc(Mid(szData, X, 1))
+        If Not ((iVal >= 48) And (iVal <= 57)) And _
+           Not ((iVal >= 97) And (iVal <= 122)) And _
+           Not (iVal = 95) Then
+          szData = QUOTE & szData & QUOTE
+          Exit For
+        End If
+      Next X
+    End If
   End If
 
   fmtID = szData
@@ -654,3 +690,21 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.NameImageByObjectType("
   Exit Function
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.NameImageByObjectType"
 End Function
+
+Private Sub LoadAutoHighlight()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.LoadAutoHighlight()", etFullDebug
+
+Dim iFile As Integer
+Dim vData
+
+  szDefaultAutoHighlight = ""
+  iFile = FreeFile
+  Open App.Path & "\KeyWords.txt" For Input As #iFile
+  vData = Split(Input(LOF(iFile), #iFile), vbCrLf)
+  Close #iFile
+  szDefaultAutoHighlight = Join(vData, ";")
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.LoadAutoHighlight"
+End Sub
