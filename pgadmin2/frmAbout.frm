@@ -61,7 +61,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub picLogo_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmAbout.picLogo_Click()", etFullDebug
 
   Unload Me
@@ -71,7 +71,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Load()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmAbout.Form_Load()", etFullDebug
 
   lblVersion.Caption = "Version " & App.Major & "." & App.Minor & "." & App.Revision

@@ -115,7 +115,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdConnect_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.cmdConnect_Click()", etFullDebug
 
 Dim szOriConns(11) As String
@@ -216,7 +216,7 @@ Err_Handler:
 End Sub
 
 Public Sub Load_Defaults(Optional Connection As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.Load_Defaults(" & Connection & ")", etFullDebug
 
 Dim szConnection() As String

@@ -7,6 +7,9 @@ Attribute VB_Name = "basGlobal"
 
 Option Explicit
 
+'Running Environment
+Global inIDE As Boolean
+
 'Support email address
 Global Const SUPPORT_EMAIL = "pgadmin-support@postgresql.org"
 

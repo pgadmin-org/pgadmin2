@@ -78,17 +78,17 @@ Begin VB.Form frmType
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(11)"
-      Tab(1).Control(1)=   "lblProperties(10)"
-      Tab(1).Control(2)=   "lblProperties(9)"
-      Tab(1).Control(3)=   "lblProperties(6)"
-      Tab(1).Control(4)=   "lblProperties(7)"
+      Tab(1).Control(0)=   "txtProperties(5)"
+      Tab(1).Control(1)=   "txtProperties(4)"
+      Tab(1).Control(2)=   "chkProperties(0)"
+      Tab(1).Control(3)=   "cboProperties(2)"
+      Tab(1).Control(4)=   "cboProperties(3)"
       Tab(1).Control(5)=   "cboProperties(4)"
-      Tab(1).Control(6)=   "cboProperties(3)"
-      Tab(1).Control(7)=   "cboProperties(2)"
-      Tab(1).Control(8)=   "chkProperties(0)"
-      Tab(1).Control(9)=   "txtProperties(4)"
-      Tab(1).Control(10)=   "txtProperties(5)"
+      Tab(1).Control(6)=   "lblProperties(7)"
+      Tab(1).Control(7)=   "lblProperties(6)"
+      Tab(1).Control(8)=   "lblProperties(9)"
+      Tab(1).Control(9)=   "lblProperties(10)"
+      Tab(1).Control(10)=   "lblProperties(11)"
       Tab(1).ControlCount=   11
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -425,7 +425,7 @@ Dim szNamespace As String
 Dim objType As pgType
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -435,7 +435,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -494,7 +494,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional oType As pgType)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -641,7 +641,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -651,7 +651,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmType.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objType Is Nothing) Then

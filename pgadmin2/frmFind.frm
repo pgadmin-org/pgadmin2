@@ -478,7 +478,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Public Sub Initialise()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.Initialise()", etFullDebug
   
 Dim objDatabase As pgDatabase
@@ -539,7 +539,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cboDatabase_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.cboSchema_Click()", etFullDebug
   
 Dim objNamespace As pgNamespace
@@ -555,7 +555,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkAdvOpt_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.chkAdvOpt_Click()", etFullDebug
   
   If chkAdvOpt.Value = 0 Then
@@ -577,7 +577,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdFind_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.cmdFind_Click()", etFullDebug
 
 Dim szName As String
@@ -802,7 +802,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lvResult_DblClick()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.lv_DblClick()", etFullDebug
 
 Dim objDatabase As pgDatabase
@@ -886,7 +886,7 @@ End Sub
 
 
 Private Sub lvColResult_ItemCheck(ByVal Item As MSComctlLib.ListItem)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.lvColResult_ItemCheck(" & Item.Text & ")", etFullDebug
 
   If Item.Key = "NAM" Then

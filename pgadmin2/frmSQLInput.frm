@@ -121,7 +121,7 @@ Dim szDatabase As String
 Const MAXCMDSQL As Integer = 50
 
 Private Sub cmdExecute_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExecute_Click()", etFullDebug
 
 Dim rsQuery As New Recordset
@@ -167,7 +167,7 @@ Err_Handler:
 End Sub
 
 Private Sub cmdExplain_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExplain_Click()", etFullDebug
 
 Dim objQueryPlanForm As New frmSQLExplain
@@ -184,7 +184,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdLoad_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdLoad_Click()", etFullDebug
 
 Dim szLine As String
@@ -230,7 +230,7 @@ Err_Handler:
 End Sub
 
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_KeyUp(" & KeyCode & ", " & Shift & ")", etFullDebug
 
   Select Case KeyCode
@@ -243,7 +243,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdSave_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
 
 Dim fNum As Integer
@@ -282,7 +282,7 @@ Err_Handler:
 End Sub
 
 Private Sub cmdSQLWizard_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
 
 Dim objSQLWizardForm As New frmSQLWizard
@@ -297,7 +297,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Load()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
 
 Dim X As Integer
@@ -331,7 +331,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Resize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Resize()", etFullDebug
 
   If Me.WindowState <> 1 And Me.ScaleHeight > 0 Then
@@ -359,7 +359,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Unload()", etFullDebug
 
   If bDirty = True Then
@@ -377,7 +377,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtSQL_Change()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.txtSQL_Change()", etFullDebug
 
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")*"
@@ -388,7 +388,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Function GetFilename() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.GetFilename()", etFullDebug
 
 Dim szParts() As String
@@ -402,7 +402,7 @@ End Function
 
 'Load next/previous command sql
 Private Sub mnuLoadCmd_Click(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.mnuLoadCmd_Click(" & Index & ")", etFullDebug
 
 Dim szCmdSql() As String
@@ -469,7 +469,7 @@ End Sub
 
 'Store command sql
 Private Sub StoreCmdSql(szCommandSql As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.StoreCmdSql(" & QUOTE & szCommandSql & QUOTE & ")", etFullDebug
 
 Dim ii As Integer

@@ -59,7 +59,7 @@ Dim X As Long
 End Sub
 
 Private Sub Form_Load()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Load()", etFullDebug
   
   PatchForm Me
@@ -72,9 +72,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Load()", etFullDebu
   
   'Set the form topmost if required
   If UCase(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Log Window", "Always On Top", "Y")) = "Y" Then
-    SetTopMostWindow Me.hWnd, True
+    SetTopMostWindow Me.hwnd, True
   Else
-    SetTopMostWindow Me.hWnd, False
+    SetTopMostWindow Me.hwnd, False
   End If
   
   Exit Sub
@@ -82,7 +82,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Resize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 'Don't log this as if the user is resizing this window, they probably don't want to see resize messages!
 
   txtLog.Width = Me.ScaleWidth
@@ -93,7 +93,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Unload(" & Cancel & ")", etFullDebug
 
   'Stop writing Log Messages

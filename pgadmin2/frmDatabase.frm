@@ -142,23 +142,23 @@ Begin VB.Form frmDatabase
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmDatabase.frx":4578
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1"
-      Tab(1).Control(1)=   "Label2"
-      Tab(1).Control(2)=   "lvProperties(0)"
-      Tab(1).Control(3)=   "cmdRemoveVar"
+      Tab(1).Control(0)=   "cboVarValue"
+      Tab(1).Control(1)=   "cmdCurrVal"
+      Tab(1).Control(2)=   "cboVarName"
+      Tab(1).Control(3)=   "txtVarValue"
       Tab(1).Control(4)=   "cmdAddVar"
-      Tab(1).Control(5)=   "txtVarValue"
-      Tab(1).Control(6)=   "cboVarName"
-      Tab(1).Control(7)=   "cmdCurrVal"
-      Tab(1).Control(8)=   "cboVarValue"
+      Tab(1).Control(5)=   "cmdRemoveVar"
+      Tab(1).Control(6)=   "lvProperties(0)"
+      Tab(1).Control(7)=   "Label2"
+      Tab(1).Control(8)=   "Label1"
       Tab(1).ControlCount=   9
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmDatabase.frx":4594
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdRemove"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "fraAdd"
-      Tab(2).Control(3)=   "lvProperties(1)"
+      Tab(2).Control(0)=   "lvProperties(1)"
+      Tab(2).Control(1)=   "fraAdd"
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(3)=   "cmdRemove"
       Tab(2).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboVarValue 
          Height          =   330
@@ -576,7 +576,7 @@ Dim szVarDropList As String
 Const PrefKey = "KEY_"
 
 Private Sub cboVarName_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cboVarName_Click()", etFullDebug
 
 Dim objVardb As VarDb
@@ -617,7 +617,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -627,7 +627,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdCurrVal_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.CmdCurrVal_Click()", etFullDebug
 
 Dim rsQuery As New Recordset
@@ -645,7 +645,7 @@ Err_Handler:
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -747,7 +747,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(Optional Database As pgDatabase)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFullDebug
 
 Dim X As Integer
@@ -912,7 +912,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdRemove_Click()", etFullDebug
 
   If lvProperties(1).SelectedItem Is Nothing Then Exit Sub
@@ -924,7 +924,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String
@@ -955,7 +955,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub LoadVars()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.LoadVars()", etFullDebug
 
 Dim objItem As ListItem
@@ -985,7 +985,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemoveVar_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdRemoveVar_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then
@@ -1015,7 +1015,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAddVar_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdChkAdd_Click()", etFullDebug
 
 Dim objItem As ListItem
@@ -1081,7 +1081,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -1091,7 +1091,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lvProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_Click(" & Index & ")", etFullDebug
 
 Dim objVardb As VarDb
@@ -1141,7 +1141,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -1151,7 +1151,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, y As Single)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & X & "," & y & ")", etFullDebug
 
   If Button = vbRightButton Then
@@ -1166,7 +1166,7 @@ End Sub
 
 'copy var setting database
 Private Sub mnuModifyCopyVar_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.mnuModifyCopyVar_Click()", etFullDebug
 
 Dim objLv As ListItem
@@ -1182,7 +1182,7 @@ End Sub
 
 'paste var setting database
 Private Sub mnuModifyPasteVar_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.mnuModifyPasteVar_Click()", etFullDebug
 
 Dim vData

@@ -30,7 +30,7 @@ Private VariableDb() As VarDb
 
 'Initalization
 Public Sub InitVarDb()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basVarDb.InitVarDb()", etFullDebug
 
 Dim ColTmp As Collection
@@ -216,7 +216,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 'Add var db to Collection
 Private Sub AddVarDb(szName As String, TypeVar As TypeVarDb, Optional CastValue As Collection = Nothing)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basVarDb.AddVarDb(" & szName & "," & TypeVar & ")", etFullDebug
 
 Dim iNumEl As Integer
@@ -234,7 +234,7 @@ End Sub
 
 'return the definition var db from Collection
 Public Function GetVarDb(szName As String) As VarDb
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basVarDb.GetVarDb(" & szName & ")", etFullDebug
 Dim ii As Integer
 Dim DummyVarDb As VarDb
@@ -258,7 +258,7 @@ End Function
 
 'return the image name of value
 Public Function GetImageFromVal(szValue As String, TypeVar As TypeVarDb) As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basVarDb.GetImageFromValCast(" & szValue & "," & TypeVar & ")", etFullDebug
 
 Dim szTemp As String

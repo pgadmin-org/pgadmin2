@@ -8,7 +8,7 @@ Attribute VB_Name = "basActions"
 Option Explicit
 
 Public Sub Vacuum(bAnalyse As Boolean)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Vacuum(" & bAnalyse & ")", etFullDebug
   
   'If a table is selected then Vacuum it alone, otherwise vacuum the entire database. We don't do columns
@@ -35,7 +35,7 @@ Err_Handler:
 End Sub
 
 Public Sub Drop()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Drop()", etFullDebug
  
 Dim objItem As ListItem

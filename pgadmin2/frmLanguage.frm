@@ -99,13 +99,13 @@ Begin VB.Form frmLanguage
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmLanguage.frx":15FE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(0)=   "lvProperties(0)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(1)=   "cmdRemove"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
@@ -331,7 +331,7 @@ Dim szUsers() As String
 Dim objLanguage As pgLanguage
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -341,7 +341,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -424,7 +424,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Language As pgLanguage)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -555,7 +555,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -565,7 +565,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objLanguage Is Nothing) Then
@@ -577,7 +577,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
@@ -589,7 +589,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String

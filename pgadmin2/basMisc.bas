@@ -9,10 +9,22 @@ Option Explicit
 
 Public Sub Main()
 
+Dim szFilename As String
+Dim lCount As Long
 Dim sStart As Single
 Dim szFrequency As String
 Dim szFont() As String
 Dim objFont As New StdFont
+  
+  'Where are we running?
+  szFilename = String(255, 0)
+  lCount = GetModuleFileName(App.hInstance, szFilename, 255)
+  szFilename = Left(szFilename, lCount)
+  If UCase(Right(szFilename, 7)) = "VB6.EXE" Then
+    inIDE = True
+  Else
+    inIDE = False
+  End If
   
   'Show the splash screen
   Load frmSplash
@@ -26,7 +38,7 @@ Dim objFont As New StdFont
   
   'Create the Server Object
   Set frmMain.svr = New pgServer
-  Set frmMain.svr.pgApp = New clspgApp
+  Set frmMain.svr.pgApp = New clsPgApp
  
   'Setup the logging and log the startup. Set DontLogErrors to prevent pgSchema errors
   'being logged internally in pgSchema, as they will go through the error traps here.
@@ -189,7 +201,8 @@ Dim objFont As New StdFont
 End Sub
 
 Public Function GetID() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+
 'Don't log, accessed *all* the time.
 
 Static lID As Long
@@ -201,7 +214,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
 
 Public Function SetTopMostWindow(hwnd As Long, Topmost As Boolean) As Long
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.SetTopMostWindow(" & hwnd & ", " & Topmost & ")", etFullDebug
 
   If Topmost = True Then 'Make the window topmost
@@ -215,7 +228,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
  
 Public Sub BuildConnectionMenu()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildConnectionMenu()", etFullDebug
 
 Dim X As Integer
@@ -232,7 +245,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub BuildPluginsMenu()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildPluginsMenu()", etFullDebug
 
 Dim objPlugin As pgPlugin
@@ -377,7 +390,7 @@ End Function
 
 'Parse an ACL and return | delimited User/Access lists
 Public Sub ParseACL(ByVal szACL As String, ByRef szUserlist As String, ByRef szAccesslist As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.ParseACL(" & QUOTE & szACL & QUOTE & ", " & QUOTE & szUserlist & QUOTE & ", " & QUOTE & szAccesslist & QUOTE & ")", etFullDebug
 
 Dim szEntries() As String
@@ -467,7 +480,7 @@ End Sub
 
 'Format a typename
 Public Function fmtTypeName(objType As pgType) As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.fmtTypeName(" & objType.FormattedID & ")", etFullDebug
 
 Dim szTemp As String
@@ -493,7 +506,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
 
 Function MakeISODate(vDate As Variant) As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.MakeISODate(" & vDate & ")", etFullDebug
 
   'If we can't figure it out, just return a string
@@ -509,7 +522,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
 
 Function MakeISOTimestamp(vTimestamp As Variant) As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.MakeISOTimestamp(" & vTimestamp & ")", etFullDebug
 
   'If we can't figure it out, just return a string
@@ -525,7 +538,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
 
 Public Sub AutoSizeColumnLv(lv As ListView)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.AutoSizeColumnLv(" & lv.Name & ")", etFullDebug
 Dim ii As Integer
 Dim szKey As String

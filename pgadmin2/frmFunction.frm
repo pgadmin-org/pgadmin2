@@ -133,13 +133,13 @@ Begin VB.Form frmFunction
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":2CC0
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(4)"
-      Tab(1).Control(1)=   "lblProperties(5)"
-      Tab(1).Control(2)=   "cboProperties(2)"
+      Tab(1).Control(0)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdAdd"
-      Tab(1).Control(6)=   "cmdRemove"
+      Tab(1).Control(4)=   "cboProperties(2)"
+      Tab(1).Control(5)=   "lblProperties(5)"
+      Tab(1).Control(6)=   "lblProperties(4)"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":2CDC
@@ -149,10 +149,10 @@ Begin VB.Form frmFunction
       TabCaption(3)   =   "&Security"
       TabPicture(3)   =   "frmFunction.frx":2CF8
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdRemovePrivilege"
-      Tab(3).Control(1)=   "cmdAddPrivilege"
-      Tab(3).Control(2)=   "fraAdd"
-      Tab(3).Control(3)=   "lvProperties(1)"
+      Tab(3).Control(0)=   "lvProperties(1)"
+      Tab(3).Control(1)=   "fraAdd"
+      Tab(3).Control(2)=   "cmdAddPrivilege"
+      Tab(3).Control(3)=   "cmdRemovePrivilege"
       Tab(3).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -579,7 +579,7 @@ Dim szUsers() As String
 Dim objFunction As pgFunction
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
@@ -590,7 +590,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdAdd_Click()", etFullDebug
 
   If cboProperties(2).Text = "" Then Exit Sub
@@ -610,7 +610,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -620,7 +620,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -724,7 +724,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional oFunction As pgFunction)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -925,7 +925,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -935,7 +935,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objFunction Is Nothing) Then
@@ -954,7 +954,7 @@ End Sub
 
 
 Private Sub cmdRemovePrivilege_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdRemovePrivilege_Click()", etFullDebug
 
   If lvProperties(1).SelectedItem Is Nothing Then Exit Sub
@@ -966,7 +966,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAddPrivilege_Click()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdAddPrivilege_Click()", etFullDebug
 
 Dim szAccess As String

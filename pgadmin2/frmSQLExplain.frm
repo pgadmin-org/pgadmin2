@@ -69,7 +69,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Load()", etFullDebug
 
   Me.Width = 5790
@@ -84,7 +84,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Resize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Resize()", etFullDebug
 
   txtQuery.Minimise
@@ -104,7 +104,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub Explain(szSQL As String, szDatabase As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLExplain.Form_Resize()", etFullDebug
 
 Dim lEnv As Long
@@ -161,7 +161,7 @@ Dim rsPlan As New Recordset
     End If
   
     szConnect = "DRIVER=" & frmMain.svr.DriverName & ";DATABASE=" & szDatabase & ";UID=" & ctx.Username & ";PWD=" & ctx.Password & ";SERVER=" & frmMain.svr.Server & ";PORT=" & frmMain.svr.Port
-    lRet = SQLDriverConnect(lDBC, Me.hWnd, szConnect, Len(szConnect), szResult, Len(szResult), iSize, 1)
+    lRet = SQLDriverConnect(lDBC, Me.hwnd, szConnect, Len(szConnect), szResult, Len(szResult), iSize, 1)
     If lRet <> SQL_SUCCESS Then
       frmMain.svr.LogEvent "Could not establish connection to ODBC driver! Error: " & lRet, etMiniDebug
       MsgBox "Could not establish connection to ODBC driver!" & vbCrLf & "Error: " & lRet, vbCritical, "Error"

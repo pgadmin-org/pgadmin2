@@ -9,7 +9,7 @@ Option Explicit
 
 'Patch form
 Public Sub PatchForm(objForm As Form)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchForm(" & objForm.Name & ")", etFullDebug
 
   PatchFormFont objForm
@@ -21,7 +21,7 @@ End Sub
 
 'Patch font of component form
 Private Sub PatchFormFont(objForm As Form)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormFont(" & objForm.Name & ")", etFullDebug
 
 Dim objCtrl As Control
@@ -46,7 +46,7 @@ End Sub
 
 'Patch ToolTip of component form
 Private Sub PatchFormToolTip(objForm As Form)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormToolTip(" & objForm.Name & ")", etFullDebug
 
 Dim objToolTip As New clsToolTip
