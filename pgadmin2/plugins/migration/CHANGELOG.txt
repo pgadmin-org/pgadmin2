@@ -1,6 +1,7 @@
 1.3.??
 ------
 
+Correctly clear CREATE SEQUENCE sql. [John McCawley]
 Check the Migration type in a more sensible way. [John McCawley]
 
 
