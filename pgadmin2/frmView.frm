@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmView 
    BorderStyle     =   1  'Fixed Single
@@ -73,16 +73,16 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdLoad"
-      Tab(1).Control(1)=   "hbxProperties(1)"
+      Tab(1).Control(0)=   "hbxProperties(1)"
+      Tab(1).Control(1)=   "cmdLoad"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fraAdd"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "cmdRemove"
-      Tab(2).Control(3)=   "lvProperties(0)"
+      Tab(2).Control(0)=   "lvProperties(0)"
+      Tab(2).Control(1)=   "cmdRemove"
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(3)=   "fraAdd"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -601,7 +601,7 @@ Dim szAccess() As String
   hbxProperties(1).Wordlist = ctx.AutoHighlight
     
   For Each objUser In frmMain.svr.Users
-    cboProperties(0).ComboItems.Add , objUser.Name, objUser.Name, "user"
+    cboProperties(0).ComboItems.Add , "U~" & objUser.Name, objUser.Name, "user"
   Next objUser
   
   'ACLs are different in 7.2+ and have 2 extra privileges
@@ -623,7 +623,7 @@ Dim szAccess() As String
     hbxProperties(1).BackColor = &H80000005
     hbxProperties(1).Locked = False
     
-    cboProperties(0).ComboItems(ctx.Username).Selected = True
+    cboProperties(0).ComboItems("U~" & ctx.Username).Selected = True
         
     'Redim the userlist so it doesn't cause an error later.
     ReDim szUsers(0)

@@ -4,6 +4,7 @@
 Don't shutdown on error when incorrectly setting a column default.
 Don't get hung up on errors in the comment cache.
 Reference OID columns as rs.Fields("oid") not rs!oid to get around an MDAC/case mangling bug in some locales.
+Allow the use of numeric only usernames.
 
 1.3.82
 ------

@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -685,7 +685,7 @@ Dim szAccess() As String
   End If
   
   For Each objUser In frmMain.svr.Users
-    cboProperties(0).ComboItems.Add , objUser.Name, objUser.Name, "user"
+    cboProperties(0).ComboItems.Add , "U~" & objUser.Name, objUser.Name, "user"
   Next objUser
   
   If Sequence Is Nothing Then
@@ -711,7 +711,7 @@ Dim szAccess() As String
     txtProperties(5).Text = "1"
     txtProperties(6).Text = "1"
     txtProperties(7).Text = "1"
-    cboProperties(0).ComboItems(ctx.Username).Selected = True
+    cboProperties(0).ComboItems("U~" & ctx.Username).Selected = True
     
     'Redim the userlist so it doesn't cause an error later.
     ReDim szUsers(0)
