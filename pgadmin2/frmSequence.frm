@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSequence 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Sequence"
@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -592,7 +592,15 @@ Dim vEntity As Variant
   If lvProperties(0).Tag = "Y" Then
     'Revoke all from existing entries
     For Each vEntity In szUsers
-      If vEntity <> "" Then frmMain.svr.Databases(szDatabase).Sequences(txtProperties(0).Text).Revoke vEntity, aclAll
+      If vEntity <> "" Then
+        If vEntity = "PUBLIC" Then
+          frmMain.svr.Databases(szDatabase).Sequences(txtProperties(0).Text).Revoke vEntity, aclAll
+        ElseIf Left(vEntity, 6) = "GROUP " Then
+          frmMain.svr.Databases(szDatabase).Sequences(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
+        Else
+          frmMain.svr.Databases(szDatabase).Sequences(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
+        End If
+      End If
     Next vEntity
     
     'Now Grant the new permissions

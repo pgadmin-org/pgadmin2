@@ -370,14 +370,13 @@ Dim szTemp As String
     
     End If
 
-    If szName <> "All" And szAccess <> "None" Then 'Don't include REVOKE ALL
-      szUserlist = szUserlist & szName & "|"
-      szAccesslist = szAccesslist & szAccess & "|"
-    End If
+    szUserlist = szUserlist & szName & "|"
+    szAccesslist = szAccesslist & szAccess & "|"
+    
   Next szEntry
   
-  szUserlist = Left(szUserlist, Len(szUserlist) - 1)
-  szAccesslist = Left(szAccesslist, Len(szAccesslist) - 1)
+  If Len(szUserlist) > 1 Then szUserlist = Left(szUserlist, Len(szUserlist) - 1)
+  If Len(szAccesslist) > 1 Then szAccesslist = Left(szAccesslist, Len(szAccesslist) - 1)
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.ParseACL"

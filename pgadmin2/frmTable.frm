@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTable 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Table"
@@ -107,13 +107,9 @@ Begin VB.Form frmTable
       TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
       Tab(5).Control(0)=   "cmdRemove"
-      Tab(5).Control(0).Enabled=   0   'False
       Tab(5).Control(1)=   "fraAdd"
-      Tab(5).Control(1).Enabled=   0   'False
       Tab(5).Control(2)=   "cmdAdd"
-      Tab(5).Control(2).Enabled=   0   'False
       Tab(5).Control(3)=   "lvProperties(4)"
-      Tab(5).Control(3).Enabled=   0   'False
       Tab(5).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -1146,7 +1142,15 @@ Dim szInherits As String
   If lvProperties(4).Tag = "Y" Then
     'Revoke all from existing entries
     For Each vEntity In szUsers
-      If vEntity <> "" Then frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Revoke vEntity, aclAll
+      If vEntity <> "" Then
+        If vEntity = "PUBLIC" Then
+          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Revoke vEntity, aclAll
+        ElseIf Left(vEntity, 6) = "GROUP " Then
+          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
+        Else
+          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
+        End If
+      End If
     Next vEntity
     
     'Now Grant the new permissions
