@@ -1249,56 +1249,56 @@ Dim objFindForm As New frmFind
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsFindObject_Click"
 End Sub
 
-Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub tv_DragDrop(Source As Control, x As Single, y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize tv.Left + X, splHorizontal.Top
+    Resize tv.Left + x, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, tv.Top + Y
+    Resize splVertical.Left, tv.Top + y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_DragDrop"
 End Sub
 
-Private Sub prop_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub prop_DragDrop(Source As Control, x As Single, y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize prop.Left + X, splHorizontal.Top
+    Resize prop.Left + x, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, prop.Top + Y
+    Resize splVertical.Left, prop.Top + y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.prop_DragDrop"
 End Sub
 
-Private Sub lv_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub lv_DragDrop(Source As Control, x As Single, y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize lv.Left + prop.Left + X, splHorizontal.Top
+    Resize lv.Left + prop.Left + x, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, lv.Top + prop.Top + Y
+    Resize splVertical.Left, lv.Top + prop.Top + y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DragDrop"
 End Sub
 
-Private Sub sv_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub sv_DragDrop(Source As Control, x As Single, y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize sv.Left + prop.Left + X, splHorizontal.Top
+    Resize sv.Left + prop.Left + x, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, sv.Top + prop.Top + Y
+    Resize splVertical.Left, sv.Top + prop.Top + y
   End If
   
   Exit Sub
@@ -1319,14 +1319,14 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tv_KeyDown(" & KeyCode & "," & 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_KeyDown"
 End Sub
 
-Private Sub txtDefinition_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub txtDefinition_DragDrop(Source As Control, x As Single, y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & x & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
-    Resize txtDefinition.Left + X, splHorizontal.Top
+    Resize txtDefinition.Left + x, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, txtDefinition.Top + Y
+    Resize splVertical.Left, txtDefinition.Top + y
   End If
     
   Exit Sub
@@ -1343,9 +1343,9 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DblClick()", etFullDebug
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DblClick"
 End Sub
 
-Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lv_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & x & ", " & y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
   
@@ -1433,9 +1433,9 @@ Dim objNode As Node
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewSystemObjects_Click"
 End Sub
 
-Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub tv_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & x & ", " & y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
 
@@ -1919,19 +1919,19 @@ Private Sub mnuPopupSQL_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupSQL_Click()", etFullDebug
   
-Dim Y As Integer
-Dim X As Integer
+Dim y As Integer
+Dim x As Integer
 
-  Y = 1
-  For X = 0 To Forms.Count - 1
-    If Forms(X).Name = "frmSQLInput" Then
-      Y = Val(Forms(X).Tag) + 1
+  y = 1
+  For x = 0 To Forms.Count - 1
+    If Forms(x).Name = "frmSQLInput" Then
+      y = Val(Forms(x).Tag) + 1
     End If
   Next
   Dim objSQLInputForm As New frmSQLInput
   Load objSQLInputForm
-  objSQLInputForm.Tag = Y
-  objSQLInputForm.Caption = "SQL " & Y & ": " & ctx.CurrentDB & " ()"
+  objSQLInputForm.Tag = y
+  objSQLInputForm.Caption = "SQL " & y & ": " & ctx.CurrentDB & " ()"
   objSQLInputForm.Show
   
   Exit Sub
@@ -1944,34 +1944,29 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupViewData_Click()", etFu
   
 Dim objOutputForm As New frmSQLOutput
 Dim rsQuery As New Recordset
-Dim iMsgBoxResult As VbMsgBoxResult
-Dim iLimit As Long
-Dim szLimit As String
-Dim szTemp As String
+Dim szSql As String
 
   'count row
   StartMsg "Counting Records..."
   Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT count(*) AS count FROM " & ctx.CurrentObject.FormattedID)
   EndMsg
   
+  szSql = "SELECT * FROM " & ctx.CurrentObject.FormattedID
+  
   'verify limit output
-  szLimit = ""
-  iLimit = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", "1000"))
   If Not rsQuery.EOF Then
-    If rsQuery!Count > iLimit Then
-      iMsgBoxResult = MsgBox("The query will return " & rsQuery!Count & " rows. Do you wish to LIMIT the output?", vbApplicationModal + vbYesNoCancel + vbQuestion, "Row limit")
-      If iMsgBoxResult = vbCancel Then
-        Exit Sub
-      ElseIf iMsgBoxResult = vbYes Then
-        iLimit = Val(InputBox("Enter a row limit" & vbCrLf & "The table or view contains " & rsQuery!Count & " row(s)", "Row limit", iLimit))
-        szLimit = " LIMIT " & iLimit
-        RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", regString, iLimit
-      End If
+    If rsQuery!Count > ctx.MaxRecordViewData Then
+      Select Case MsgBox("The query will return " & rsQuery!Count & " rows. Do you wish to LIMIT the output on " & ctx.MaxRecordViewData & " rows ?", vbApplicationModal + vbYesNoCancel + vbQuestion, "Row limit")
+        Case vbCancel
+          Exit Sub
+        Case vbYes
+          szSql = szSql & " LIMIT " & ctx.MaxRecordViewData
+      End Select
     End If
   End If
 
   StartMsg "Executing SQL Query..."
-  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT * FROM " & ctx.CurrentObject.FormattedID & szLimit)
+  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute(szSql)
   Load objOutputForm
   objOutputForm.Display rsQuery, ctx.CurrentDB, "(" & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.FormattedID & ")"
   objOutputForm.Show
@@ -3452,17 +3447,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & QUOTE & Node.Fu
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSQL As String
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
     Else
-      szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
+      szSql = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Sequence", 2000
     sv.ColumnHeaders.Add , , "Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
@@ -3610,17 +3605,17 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & QUOTE & Node.FullP
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSQL As String
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
+      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables where schemaname='" & ctx.CurrentNS & "' ORDER BY relname"
     Else
-      szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
+      szSql = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Table", 2000
     sv.ColumnHeaders.Add , , "Tuples Inserted", 2000
     sv.ColumnHeaders.Add , , "Tuples Updated", 2000
@@ -3818,27 +3813,27 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumns(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
-Dim col As pgColumn
+Dim Col As pgColumn
 
   If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
-     If Not (col.SystemObject And Not ctx.IncludeSys) Then Set col.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL-" & GetID, col.Identifier, "column")
-    Next col
+    For Each Col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
+     If Not (Col.SystemObject And Not ctx.IncludeSys) Then Set Col.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL-" & GetID, Col.Identifier, "column")
+    Next Col
     Node.Text = "Columns (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Column"
   lv.ColumnHeaders.Add , , "Type"
   lv.ColumnHeaders.Add , , "Comment"
-  For Each col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
-    If Not (col.SystemObject And Not ctx.IncludeSys) Then
-      Set lvItem = lv.ListItems.Add(, "COL-" & GetID, col.Identifier, "column", "column")
-      lvItem.SubItems(1) = col.DataType
-      lvItem.SubItems(2) = Replace(col.Comment, vbCrLf, " ")
+  For Each Col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
+    If Not (Col.SystemObject And Not ctx.IncludeSys) Then
+      Set lvItem = lv.ListItems.Add(, "COL-" & GetID, Col.Identifier, "column", "column")
+      lvItem.SubItems(1) = Col.DataType
+      lvItem.SubItems(2) = Replace(Col.Comment, vbCrLf, " ")
     End If
-  Next col
+  Next Col
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvColumns"
@@ -3903,18 +3898,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.Ful
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSQL As String
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
-      szSQL = szSQL & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and schemaname='" & ctx.CurrentNS & "'"
+      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats "
+      szSql = szSql & "WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "' and schemaname='" & ctx.CurrentNS & "'"
     Else
-      szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
+      szSql = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Statistic"
     sv.ColumnHeaders.Add , , "Value"
   
@@ -4138,18 +4133,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & QUOTE & Node.Full
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
-Dim szSQL As String
+Dim szSql As String
 
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     If ctx.dbVer >= 7.3 Then
-      szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
-      szSQL = szSQL & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
+      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes "
+      szSql = szSql & "WHERE relname = '" & Node.Parent.Text & "' and schemaname='" & ctx.CurrentNS & "' ORDER BY indexrelname"
     Else
-      szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
+      szSql = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
     End If
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSql)
     sv.ColumnHeaders.Add , , "Index", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
@@ -5448,7 +5443,7 @@ Private Sub ShowLocks(ObjectType As String)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.ShowLocks(" & QUOTE & ObjectType & QUOTE & ")", etFullDebug
 
-Dim szSQL As String
+Dim szSql As String
 Dim szSqlLocks As String
 Dim rsLocks As New Recordset
 Dim rs As Recordset
@@ -5481,8 +5476,8 @@ Dim iColumn As Integer
   
   While Not rsLocks.EOF
     szUser = ""
-    szSQL = "select usename from pg_stat_activity where procpid=" & rsLocks!pid
-    Set rs = svr.Databases(svr.MasterDB).Execute(szSQL)
+    szSql = "select usename from pg_stat_activity where procpid=" & rsLocks!pid
+    Set rs = svr.Databases(svr.MasterDB).Execute(szSql)
     If Not rs.EOF Then szUser = rs!usename & ""
     
     'filter user
@@ -5492,8 +5487,8 @@ Dim iColumn As Integer
     
     szDatabase = ""
     If VarType(rsLocks!Database) <> vbNull Then
-      szSQL = "SELECT datname FROM pg_database where oid=" & rsLocks!Database
-      Set rs = svr.Databases(svr.MasterDB).Execute(szSQL)
+      szSql = "SELECT datname FROM pg_database where oid=" & rsLocks!Database
+      Set rs = svr.Databases(svr.MasterDB).Execute(szSql)
       szDatabase = rs!datname & ""
     End If
     
@@ -5501,9 +5496,9 @@ Dim iColumn As Integer
     szRelation = ""
     szImg = "property"
     If VarType(rsLocks!relation) <> vbNull Then
-      szSQL = "SELECT (SELECT n.nspname FROM pg_namespace n WHERE n.oid=c.relnamespace) as namespace, c.relname, c.relkind"
-      szSQL = szSQL & " from pg_class c where oid=" & rsLocks!relation
-      Set rs = svr.Databases(szDatabase).Execute(szSQL)
+      szSql = "SELECT (SELECT n.nspname FROM pg_namespace n WHERE n.oid=c.relnamespace) as namespace, c.relname, c.relkind"
+      szSql = szSql & " from pg_class c where oid=" & rsLocks!relation
+      Set rs = svr.Databases(szDatabase).Execute(szSql)
       If Not rs.EOF Then
         szNamespace = rs!Namespace & ""
         szRelation = rs!relname & ""
