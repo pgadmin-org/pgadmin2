@@ -180,6 +180,7 @@ Dim szSchema As String
 Dim szWhere As String
 Dim iUnique As Integer
 Dim bUpdateable As Boolean
+Dim bBuiltEditBox As Boolean
 
 Private Sub cmdAdd_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
@@ -268,17 +269,25 @@ Dim bFlag As Boolean
   
   'WHERE Clase
   If iUnique > 0 Then
-    If txtField(iUnique - 1).Tag <> "Y" Then
+    If bBuiltEditBox Then
+      If txtField(iUnique - 1).Tag <> "Y" Then
+        If iUnique = 1 Then
+          szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
+        Else
+          szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
+        End If
+      Else
+        If (szCriteria <> "") Or (szWhere <> "") Then
+          szFullCriteria = " WHERE " & szCriteria
+          If (szCriteria <> "") And (szWhere <> "") Then szFullCriteria = szFullCriteria & " AND "
+          If szWhere <> "" Then szFullCriteria = szFullCriteria & szWhere
+        End If
+      End If
+    Else
       If iUnique = 1 Then
         szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
       Else
         szFullCriteria = " WHERE " & fmtID(lvData.ColumnHeaders(iUnique).Text) & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
-      End If
-    Else
-      If (szCriteria <> "") Or (szWhere <> "") Then
-        szFullCriteria = " WHERE " & szCriteria
-        If (szCriteria <> "") And (szWhere <> "") Then szFullCriteria = szFullCriteria & " AND "
-        If szWhere <> "" Then szFullCriteria = szFullCriteria & szWhere
       End If
     End If
   Else
@@ -372,7 +381,8 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdSave_Click()
-If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+'If inIDE Then: On Error GoTo 0: Else:
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdSave_Click()", etFullDebug
 
 Dim szQuery As String
