@@ -325,13 +325,17 @@ Dim szFakeViewName As String
 Dim szSQL As String
 
   'Create a fake view for testing purpose
-  szFakeViewName = "tmp_" & Format(Now, "yymmdd_hhnnss")
+  If objVersion.VersionNum >= 7.3 Then
+     szFakeViewName = fmtID(szNamespace) & "." & fmtID("tmp_" & Format(Now, "yymmdd_hhnnss"))
+  Else
+     szFakeViewName = fmtID("tmp_" & Format(Now, "yymmdd_hhnnss"))
+  End If
   objServer.Databases(Database).Execute iSQL(szFakeViewName, vData)
     
   If objVersion.VersionNum >= 7.3 Then
     'If we are here, then drop view and rename fake view
     szSQL = "DROP VIEW " & FormattedID & ";" & vbCrLf
-    szSQL = szSQL & "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szFakeViewName) & " RENAME TO " & fmtID(szName) & ";"
+    szSQL = szSQL & "ALTER TABLE " & szFakeViewName & " RENAME TO " & fmtID(szName) & ";"
     objServer.Databases(Database).Execute szSQL
     
     'Select oid and definition back from the DB...
@@ -339,7 +343,7 @@ Dim szSQL As String
   Else
     'If we are here, then drop view and rename fake view
     szSQL = "DROP VIEW " & FormattedID & ";" & vbCrLf
-    szSQL = szSQL & "ALTER TABLE " & fmtID(szFakeViewName) & " RENAME TO " & fmtID(szName) & ";"
+    szSQL = szSQL & "ALTER TABLE " & szFakeViewName & " RENAME TO " & FormattedID & ";"
     objServer.Databases(Database).Execute szSQL
     
     'Select oid and definition back from the DB...
@@ -540,13 +544,13 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get iSQL(" & QUO
 Dim szSQL As String
     
     'Set default values
-    If szViewName = "" Then szViewName = szName
+    If szViewName = "" Then szViewName = FormattedID
     If szViewDefinition = "" Then szViewDefinition = szDefinition
     
-    szSQL = "-- View: " & FormattedID & vbCrLf & _
-            "CREATE VIEW " & FormattedID & " AS " & szViewDefinition & vbCrLf
-    If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL)
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON VIEW " & FormattedID & " IS '" & Comment & "';" & vbCrLf
+    szSQL = "-- View: " & szViewName & vbCrLf & _
+            "CREATE VIEW " & szViewName & " AS " & szViewDefinition & vbCrLf
+    If szACL <> "" Then szSQL = szSQL & ParseACL(szViewName, szACL)
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON VIEW " & szViewName & " IS '" & Comment & "';" & vbCrLf
 
     iSQL = szSQL
 

@@ -5,6 +5,7 @@ Allow dropping of Rules correctly with PostgreSQL < 7.3.
 Quote referenced columns in foreign keys correctly.
 Corrected Refresh button tooltip in data viewer.
 Allow Data Editor to set dates/timestamps to null when value is cleared.
+Fixed a bug in the View update code.
 
 1.4.2
 -----

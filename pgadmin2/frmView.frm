@@ -503,6 +503,10 @@ Dim szOldName As String
     objNode.Text = "Views (" & objNode.Children & ")"
     
   Else
+    If hbxProperties(1).Tag = "Y" Then
+      If MsgBox("Updating view definitions will break other views or functions that refer the updated one. Are you sure you want to continue?", vbExclamation + vbYesNo, "Warning") = vbNo Then Exit Sub
+    End If
+    
     StartMsg "Updating View..."
     
     'Update the viewname if required
@@ -643,8 +647,10 @@ Dim szAccess() As String
       txtProperties(0).BackColor = &H80000005
       txtProperties(0).Locked = False
       cboProperties(0).BackColor = &H80000005
-      hbxProperties(1).BackColor = &H80000005
-      hbxProperties(1).Locked = False
+    '  If ctx.dbVer >= 7.3 Then
+        hbxProperties(1).BackColor = &H80000005
+        hbxProperties(1).Locked = False
+    '  End If
     End If
     
     Me.Caption = "View: " & objView.Identifier
