@@ -55,6 +55,7 @@ Quote sequence names properly when using setval.
 Treat all objects named pgadmin_* as system objects.
 Fixed a bug in the Operator Cache which also cached the left & right types.
 Allow addition & removal of NOT NULL constraints on columns with PostgreSQL 7.3+.
+Check the ODBC driver version correctly for EXPLAIN.
 
 1.2.0 Stable
 ------------

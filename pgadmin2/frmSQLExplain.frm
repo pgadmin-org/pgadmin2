@@ -176,15 +176,19 @@ Dim rsPlan As New Recordset
        MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
        GoTo Cleanup
     Else
-      If Val(Mid(szResult, 4, 2)) < 1 Then
-        frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
-        MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
-        GoTo Cleanup
-      Else
-        If Val(Mid(szResult, 7, 4)) < 6 Then
+      If Val(Mid(szResult, 1, 2)) = 7 Then
+        If Val(Mid(szResult, 4, 2)) < 1 Then
           frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
           MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
           GoTo Cleanup
+        Else
+          If Val(Mid(szResult, 4, 2)) = 1 Then
+            If Val(Mid(szResult, 7, 4)) < 6 Then
+              frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
+              MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
+              GoTo Cleanup
+            End If
+          End If
         End If
       End If
     End If
