@@ -199,6 +199,8 @@ Dim szTemp As String
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.RightTypeSortOperator = szTemp
   objNewMember.OperatorFunction = szOperatorFunction
+  If szRestrictFunction = "-" Then szRestrictFunction = ""
+  If szJoinFunction = "-" Then szJoinFunction = ""
   objNewMember.RestrictFunction = szRestrictFunction
   objNewMember.JoinFunction = szJoinFunction
   Set objNewMember.Connection = cnDatabase

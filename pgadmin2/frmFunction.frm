@@ -555,12 +555,12 @@ Dim vArgument As Variant
         cboProperties(2).ComboItems.Add , , fmtID(objDomain.Name), "domain"
       Next objDomain
       For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
-        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type"
-        If Left(objType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , fmtID(objType.Name), "type"
+        cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type"
+        cboProperties(2).ComboItems.Add , , fmtTypeName(objType), "type"
       Next objType
       For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Tables
-        cboProperties(1).ComboItems.Add , , fmtID(objTable.Name), "table"
-        cboProperties(2).ComboItems.Add , , fmtID(objTable.Name), "table"
+        cboProperties(1).ComboItems.Add , , fmtTypeName(objTable), "table"
+        cboProperties(2).ComboItems.Add , , fmtTypeName(objTable), "table"
       Next objTable
       'Now load the rest
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
@@ -570,8 +570,8 @@ Dim vArgument As Variant
             cboProperties(2).ComboItems.Add , , objDomain.FormattedID, "domain"
           Next objDomain
           For Each objType In objNamespace.Types
-            If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type"
-            If Left(objType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objType.FormattedID, "type"
+            cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type"
+            cboProperties(2).ComboItems.Add , , fmtTypeName(objType), "type"
           Next objType
           For Each objTable In objNamespace.Tables
             cboProperties(1).ComboItems.Add , , objTable.FormattedID, "table"
@@ -585,8 +585,8 @@ Dim vArgument As Variant
         cboProperties(2).ComboItems.Add , , objDomain.FormattedID, "domain"
       Next objDomain
       For Each objType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
-        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type"
-        If Left(objType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objType.FormattedID, "type"
+        cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type"
+        cboProperties(2).ComboItems.Add , , fmtTypeName(objType), "type"
       Next objType
       For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
         cboProperties(1).ComboItems.Add , , objTable.FormattedID, "table"

@@ -62,6 +62,7 @@ Only quote identifiers when required.
 Allow addition and removal of Primary Keys with PostgreSQL 7.3+.
 Allow renaming of Triggers in PostgreSQL 7.3+
 Added support for configuration of user & database config variables with PostgreSQL 7.3+
+Added support for Array datatypes.
 
 1.2.0 Stable
 ------------

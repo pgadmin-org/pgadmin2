@@ -699,7 +699,7 @@ Dim bHaveObj As Boolean
     If Not objColumn.SystemObject Then
       bHaveObj = True
       szSQL = szSQL & "  " & fmtID(objColumn.Name)   'Name
-      szSQL = szSQL & " " & objColumn.DataType 'Type
+      szSQL = szSQL & " " & fmtTypeID(objColumn.DataType) 'Type
       
       'Get the length of fixed, definable columns
       If objColumn.DataType = "char" Or _

@@ -111,19 +111,19 @@ Dim rs As New Recordset
     objServer.iLogEvent "Populating Type cache (database: " & szName & ")...", etMiniDebug
     Set szTypeCache = New Collection
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL("SELECT t.oid, n.nspname, t.typname FROM pg_type t, pg_namespace n WHERE n.oid = t.typnamespace", cnDatabase)
+      Set rs = objServer.ExecSQL("SELECT t.oid, n.nspname, CASE WHEN (t.typlen = -1 AND t.typelem != 0) THEN (SELECT at.typname FROM pg_type at WHERE at.oid = t.typelem) || '[]' ELSE t.typname END AS typname FROM pg_type t, pg_namespace n WHERE n.oid = t.typnamespace", cnDatabase)
       While Not rs.EOF
         If rs!nspname & "" = "pg_catalog" Then
-          szTypeCache.Add fmtID(rs!typname & ""), "T" & rs!OID
+          szTypeCache.Add fmtTypeID(rs!typname & ""), "T" & rs!OID
         Else
-          szTypeCache.Add fmtID(rs!nspname & "") & "." & fmtID(rs!typname & ""), "T" & rs!OID
+          szTypeCache.Add fmtTypeID(rs!nspname & "") & "." & fmtID(rs!typname & ""), "T" & rs!OID
         End If
         rs.MoveNext
       Wend
     Else
       Set rs = objServer.ExecSQL("SELECT oid, typname FROM pg_type", cnDatabase)
       While Not rs.EOF
-        szTypeCache.Add fmtID(rs!typname & ""), "T" & rs!OID
+        szTypeCache.Add fmtTypeID(rs!typname & ""), "T" & rs!OID
         rs.MoveNext
       Wend
     End If

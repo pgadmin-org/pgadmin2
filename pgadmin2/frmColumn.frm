@@ -494,7 +494,7 @@ Dim objNamespace As pgNamespace
           cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain", "domain"
         Next objDomain
         For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
-          If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type", "type"
+          cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type", "type"
         Next objType
         'Now add other items
         For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
@@ -503,7 +503,7 @@ Dim objNamespace As pgNamespace
               cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain", "domain"
             Next objDomain
             For Each objType In objNamespace.Types
-              If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type", "type"
+              cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type", "type"
             Next objType
           End If
         Next objNamespace
@@ -512,7 +512,7 @@ Dim objNamespace As pgNamespace
           cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain", "domain"
         Next objDomain
         For Each objType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
-          If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type", "type"
+          cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type", "type"
         Next objType
       End If
     

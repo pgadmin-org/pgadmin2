@@ -643,8 +643,8 @@ Dim vArgument As Variant
         cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain"
       Next objDomain
       For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
-        If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , fmtID(objType.Name), "type"
-        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type"
+        cboProperties(0).ComboItems.Add , , fmtTypeName(objType), "type"
+        cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type"
       Next objType
       For Each objTempOperator In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Operators
         cboProperties(4).ComboItems.Add , , objTempOperator.Name, "operator"
@@ -660,8 +660,8 @@ Dim vArgument As Variant
             cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain"
           Next objDomain
           For Each objType In objNamespace.Types
-            If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , objType.FormattedID, "type"
-            If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type"
+            cboProperties(0).ComboItems.Add , , fmtTypeName(objType), "type"
+            cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type"
           Next objType
           For Each objTempOperator In objNamespace.Operators
             cboProperties(4).ComboItems.Add , , objTempOperator.FormattedID, "operator"
@@ -677,8 +677,8 @@ Dim vArgument As Variant
         cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain"
       Next objDomain
       For Each objType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
-        If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , fmtID(objType.Name), "type"
-        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type"
+        cboProperties(0).ComboItems.Add , , fmtTypeName(objType), "type"
+        cboProperties(1).ComboItems.Add , , fmtTypeName(objType), "type"
       Next objType
       For Each objTempOperator In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Operators
         cboProperties(4).ComboItems.Add , , objTempOperator.Name, "operator"

@@ -78,17 +78,28 @@ Begin VB.Form frmType
       TabCaption(1)   =   "P&roperties 2"
       TabPicture(1)   =   "frmType.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "txtProperties(5)"
-      Tab(1).Control(1)=   "txtProperties(4)"
-      Tab(1).Control(2)=   "chkProperties(0)"
-      Tab(1).Control(3)=   "cboProperties(2)"
-      Tab(1).Control(4)=   "cboProperties(3)"
+      Tab(1).Control(0)=   "lblProperties(11)"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "lblProperties(10)"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "lblProperties(9)"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "lblProperties(6)"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "lblProperties(7)"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "cboProperties(4)"
-      Tab(1).Control(6)=   "lblProperties(7)"
-      Tab(1).Control(7)=   "lblProperties(6)"
-      Tab(1).Control(8)=   "lblProperties(9)"
-      Tab(1).Control(9)=   "lblProperties(10)"
-      Tab(1).Control(10)=   "lblProperties(11)"
+      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(6)=   "cboProperties(3)"
+      Tab(1).Control(6).Enabled=   0   'False
+      Tab(1).Control(7)=   "cboProperties(2)"
+      Tab(1).Control(7).Enabled=   0   'False
+      Tab(1).Control(8)=   "chkProperties(0)"
+      Tab(1).Control(8).Enabled=   0   'False
+      Tab(1).Control(9)=   "txtProperties(4)"
+      Tab(1).Control(9).Enabled=   0   'False
+      Tab(1).Control(10)=   "txtProperties(5)"
+      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).ControlCount=   11
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -543,7 +554,7 @@ Dim vArgument As Variant
         End If
       Next objFunction
       For Each objTempType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
-        If Left(objTempType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , fmtID(objTempType.Name), "type"
+        If ((objTempType.InternalLength <> -1) Or (objTempType.Element = "")) Then cboProperties(2).ComboItems.Add , , fmtID(objTempType.Name), "type"
       Next objTempType
       'Now load the rest
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
@@ -566,7 +577,7 @@ Dim vArgument As Variant
             End If
           Next objFunction
           For Each objTempType In objNamespace.Types
-            If Left(objTempType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objTempType.FormattedID, "type"
+            If ((objTempType.InternalLength <> -1) Or (objTempType.Element = "")) Then cboProperties(2).ComboItems.Add , , objTempType.FormattedID, "type"
           Next objTempType
         End If
       Next objNamespace
@@ -589,7 +600,7 @@ Dim vArgument As Variant
         End If
       Next objFunction
       For Each objTempType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
-        If Left(objTempType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objTempType.FormattedID, "type"
+        If ((objTempType.InternalLength <> -1) Or (objTempType.Element = "")) Then cboProperties(2).ComboItems.Add , , objTempType.FormattedID, "type"
       Next objTempType
     End If
     

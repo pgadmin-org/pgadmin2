@@ -452,3 +452,29 @@ Dim szTemp As String
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.ParseACL"
 End Sub
 
+'Format a typename
+Public Function fmtTypeName(objType As pgType) As String
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.fmtTypeName(" & objType.FormattedID & ")", etFullDebug
+
+Dim szTemp As String
+
+  If frmMain.svr.dbVersion.VersionNum >= 7.3 And objType.Namespace <> "pg_catalog" Then
+    If objType.Element <> "" And objType.InternalLength = -1 Then 'Array Type
+      szTemp = fmtID(objType.Namespace) & "." & fmtID(objType.Element) & "[]"
+    Else
+      szTemp = fmtID(objType.Namespace) & "." & fmtID(objType.Name)
+    End If
+  Else
+    If objType.Element <> "" And objType.InternalLength = -1 Then 'Array Type
+      szTemp = fmtID(objType.Element) & "[]"
+    Else
+      szTemp = fmtID(objType.Name)
+    End If
+  End If
+  
+  fmtTypeName = szTemp
+  
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.ParseACL"
+End Function

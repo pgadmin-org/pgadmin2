@@ -165,8 +165,14 @@ End Property
 'The current Schema (Namespace)
 Public Property Let CurrentNS(ByVal szData As String)
   szCurrentNS = szData
-  If szData <> "" Then
+  
+  If szData = "" Then
+    frmMain.sb.Panels("currentns").Text = "Schema: None"
+  Else
     frmMain.sb.Panels("currentns").Text = "Schema: " & szData
+  End If
+  
+  If (szData <> "") And (szData <> "pg_catalog") And (szData <> "pg_toast") And (Left(szData, 8) <> "pg_temp_") Then
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = True
     If frmMain.svr.dbVersion.VersionNum >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = True
@@ -190,7 +196,6 @@ Public Property Let CurrentNS(ByVal szData As String)
     frmMain.mnuPopupCreateType.Enabled = True
     frmMain.mnuPopupCreateView.Enabled = True
   Else
-    frmMain.sb.Panels("currentns").Text = "Schema: None"
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = False

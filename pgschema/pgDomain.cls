@@ -413,7 +413,7 @@ Dim szSQL As String
   If szDefault <> "" Then szSQL = szSQL & " DEFAULT " & szDefault
   If bNotNull Then szSQL = szSQL & " NOT NULL"
   
-  szSQL = szSQL & vbCrLf
+  szSQL = szSQL & ";" & vbCrLf
           
   If Comment <> "" Then szSQL = szSQL & "COMMENT ON DOMAIN " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     

@@ -36,8 +36,8 @@ Public Const SQL_GET_RULES7_3 = "SELECT oid, rulename, pg_get_ruledef(oid) as de
 Public Const SQL_GET_TRIGGERS = "SELECT t.oid, tgname, proname, tgargs, tgtype FROM pg_trigger t, pg_proc p WHERE t.tgfoid = p.oid AND tgisconstraint = FALSE"
 Public Const SQL_GET_TABLES7_1 = "SELECT oid, relname, pg_get_userbyid(relowner) as tableowner, relacl FROM pg_class WHERE ((relkind = 'r') OR (relkind = 's'))"
 Public Const SQL_GET_TABLES7_2 = "SELECT oid, relname, pg_get_userbyid(relowner) as tableowner, relacl, relhasoids FROM pg_class WHERE ((relkind = 'r') OR (relkind = 's'))"
-Public Const SQL_GET_COLUMNS7_1 = "SELECT a.oid, a.attname, a.attnum, t.typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname AND indisprimary IS NOT NULL ORDER BY indisprimary DESC LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
-Public Const SQL_GET_COLUMNS7_2 = "SELECT 0::oid AS oid, a.attname, a.attnum, t.typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname  AND indisprimary IS NOT NULL ORDER BY indisprimary DESC LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
+Public Const SQL_GET_COLUMNS7_1 = "SELECT a.oid, a.attname, a.attnum, CASE WHEN (t.typlen = -1 AND t.typelem != 0) THEN (SELECT at.typname FROM pg_type at WHERE at.oid = t.typelem) || '[]' ELSE t.typname END AS typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname  AND indisprimary IS NOT NULL ORDER BY indisprimary DESC LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
+Public Const SQL_GET_COLUMNS7_2 = "SELECT 0::oid AS oid, a.attname, a.attnum, CASE WHEN (t.typlen = -1 AND t.typelem != 0) THEN (SELECT at.typname FROM pg_type at WHERE at.oid = t.typelem) || '[]' ELSE t.typname END AS typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname  AND indisprimary IS NOT NULL ORDER BY indisprimary DESC LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
 Public Const SQL_GET_INDEXES = "SELECT i.oid, i.relname, x.indisunique, x.indisprimary, pg_get_indexdef(i.oid) AS definition FROM pg_index x, pg_class i WHERE i.oid = x.indexrelid"
 Public Const SQL_GET_INDEX_COLUMNS = "SELECT attname FROM pg_attribute"
 Public Const SQL_GET_CHECKS = "SELECT rcname, rcsrc FROM pg_relcheck WHERE NOT EXISTS (SELECT * FROM pg_relcheck AS c, pg_inherits AS i WHERE i.inhrelid = pg_relcheck.rcrelid AND (c.rcname = pg_relcheck.rcname OR (c.rcname[0] = '$' AND pg_relcheck.rcname[0] = '$')) AND c.rcsrc = pg_relcheck.rcsrc AND  c.rcrelid = i.inhparent)"
@@ -83,7 +83,39 @@ Dim iVal As Integer
 
   'Replace double quotes
   szData = Replace(szData, QUOTE, QUOTE & QUOTE)
-    
+
+  For X = 1 To Len(szData)
+    iVal = Asc(Mid(szData, X, 1))
+    If Not ((iVal >= 48) And (iVal <= 57)) And _
+       Not ((iVal >= 97) And (iVal <= 122)) And _
+       Not (iVal = 95) Then
+      szData = QUOTE & szData & QUOTE
+      Exit For
+    End If
+  Next X
+
+  fmtID = szData
+
+End Function
+
+Public Function fmtTypeID(ByVal szData As String) As String
+On Error Resume Next
+
+Dim iLen As Integer
+Dim bArray As Boolean
+Dim X As Integer
+Dim iVal As Integer
+
+  'Replace double quotes
+  szData = Replace(szData, QUOTE, QUOTE & QUOTE)
+  
+  'Dirty hack - if the last 2 chars are [], then this is probably an array specifier
+  'so get rid of it.
+  If Right(szData, 2) = "[]" Then
+    bArray = True
+    szData = Left(szData, Len(szData) - 2)
+  End If
+  
   For X = 1 To Len(szData)
     iVal = Asc(Mid(szData, X, 1))
     If Not ((iVal >= 48) And (iVal <= 57)) And _
@@ -94,7 +126,11 @@ Dim iVal As Integer
     End If
   Next X
   
-  fmtID = szData
+  If bArray Then
+    fmtTypeID = szData & "[]"
+  Else
+    fmtTypeID = szData
+  End If
 
 End Function
 

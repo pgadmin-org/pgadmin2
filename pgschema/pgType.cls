@@ -492,11 +492,18 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get SQL()", etFullDebug
 Dim szSQL As String
   
-  szSQL = "-- Type: " & FormattedID & vbCrLf & _
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "-- Type: " & fmtID(szNamespace) & "." & fmtID(szName) & vbCrLf & _
           "CREATE TYPE " & FormattedID & "(" & _
           "INPUT = " & szInputFunction & ", " & _
           "OUTPUT = " & szOutputFunction
-
+  Else
+    szSQL = "-- Type: " & fmtID(szName) & vbCrLf & _
+          "CREATE TYPE " & FormattedID & "(" & _
+          "INPUT = " & szInputFunction & ", " & _
+          "OUTPUT = " & szOutputFunction
+  End If
+  
   If lInternalLength = 0 Then
     szSQL = szSQL & ", INTERNALLENGTH = VARIABLE"
   Else

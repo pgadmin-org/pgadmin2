@@ -401,19 +401,19 @@ Dim vArgument As Variant
     If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
       'Add pg_catalog items first, unqualified
       For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
-        If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , fmtID(objType.Name), "type", "type"
+        cboProperties(0).ComboItems.Add , , fmtTypeName(objType), "type", "type"
       Next objType
       'Now add other items
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
         If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
           For Each objType In objNamespace.Types
-            If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , objType.FormattedID, "type", "type"
+            cboProperties(0).ComboItems.Add , , fmtTypeName(objType), "type", "type"
           Next objType
         End If
       Next objNamespace
     Else
       For Each objType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
-        If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , objType.FormattedID, "type", "type"
+        cboProperties(0).ComboItems.Add , , fmtTypeName(objType), "type", "type"
       Next objType
     End If
 
