@@ -2,6 +2,7 @@
 ------
 
 Fixed a bug in the row identification code in the Edit Grid when deleting records.
+Added a Cancel option to the Save SQL Query? prompt.
 
 
 1.1.66

@@ -338,7 +338,13 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Unload()", etFullDebug
 
   If bDirty = True Then
-    If MsgBox("This query has been edited - do you wish to save it?", vbQuestion + vbYesNo, "Save Query") = vbYes Then cmdSave_Click
+    Select Case MsgBox("This query has been edited - do you wish to save it?", vbQuestion + vbYesNoCancel, "Save Query")
+      Case vbYes
+        cmdSave_Click
+      Case vbCancel
+        Cancel = 1
+        Exit Sub
+    End Select
   End If
 
   Exit Sub
