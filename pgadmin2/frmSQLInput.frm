@@ -1,11 +1,11 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLInput 
    Caption         =   "SQL"
    ClientHeight    =   3204
-   ClientLeft      =   5076
-   ClientTop       =   2952
+   ClientLeft      =   3828
+   ClientTop       =   2388
    ClientWidth     =   7236
    Icon            =   "frmSQLInput.frx":0000
    LinkTopic       =   "Form1"
@@ -129,17 +129,20 @@ Dim szBits() As String
 Dim vBit As Variant
 Dim szSQL As String
 
-  If Len(txtSql.Text) < 5 Then Exit Sub
+  If Len(txtSQL.Text) < 5 Then Exit Sub
   
-  If txtSql.SelLength > 5 Then
-    szSQL = Mid(txtSql.Text, txtSql.SelStart + 1, txtSql.SelLength)
+  If txtSQL.SelLength > 5 Then
+    szSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
   Else
-    szSQL = txtSql.Text
+    szSQL = txtSQL.Text
   End If
   
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
   
   StartMsg "Executing SQL Query..."
+  
+  'change CRLF -> LF
+  szSQL = Replace(szSQL, vbCrLf, vbLf)
   Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szSQL, , , qryUser)
   If rsQuery.Fields.Count > 0 Then
     Select Case cboExporters.Text
@@ -173,10 +176,10 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExplain_Click()"
 Dim objQueryPlanForm As New frmSQLExplain
 
   'Check for blank query
-  If txtSql.Text = "" Then Exit Sub
+  If txtSQL.Text = "" Then Exit Sub
 
   Load objQueryPlanForm
-  objQueryPlanForm.Explain txtSql.Text, szDatabase
+  objQueryPlanForm.Explain txtSQL.Text, szDatabase
   objQueryPlanForm.Show
 
   Exit Sub
@@ -205,7 +208,7 @@ Dim fNum As Integer
   End With
   
   If cdlg.FileName = "" Then Exit Sub
-  txtSql.Text = ""
+  txtSQL.Text = ""
   fNum = FreeFile
   frmMain.svr.LogEvent "Loading " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Input As #fNum
@@ -216,7 +219,7 @@ Dim fNum As Integer
   If Len(szFile) > 2 Then szFile = Left(szFile, Len(szFile) - 2)
   
   Close #fNum
-  txtSql.Text = szFile
+  txtSQL.Text = szFile
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
 
@@ -280,7 +283,7 @@ Dim fNum As Integer
   fNum = FreeFile
   frmMain.svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Output As #fNum
-  Print #fNum, txtSql.Text
+  Print #fNum, txtSQL.Text
   Close #fNum
   Me.Caption = "SQL " & Me.Tag & ": " & szDatabase & " (" & GetFilename & ")"
   bDirty = False
@@ -332,8 +335,8 @@ Dim szExporter As String
     End If
   Next X
   
-  Set txtSql.Font = ctx.Font
-  txtSql.Wordlist = ctx.AutoHighlight
+  Set txtSQL.Font = ctx.Font
+  txtSQL.Wordlist = ctx.AutoHighlight
   szDatabase = ctx.CurrentDB
   bDirty = False
   Me.Height = 3600
@@ -353,8 +356,8 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Resize()", etF
       If Me.Height < 3600 Then Me.Height = 3600
     End If
     
-    txtSql.Width = Me.ScaleWidth
-    txtSql.Height = Me.ScaleHeight - cmdExecute.Height - 50
+    txtSQL.Width = Me.ScaleWidth
+    txtSQL.Height = Me.ScaleHeight - cmdExecute.Height - 50
     cmdExecute.Top = Me.ScaleHeight - cmdExecute.Height
     cmdExplain.Top = cmdExecute.Top
     cmdLoad.Top = cmdExecute.Top
@@ -437,7 +440,7 @@ Dim szTemp As String
   If iCmdSql < 0 Then Exit Sub
   ReDim Preserve szCmdSql(iCmdSql) As String
   
-  If Len(txtSql.Text) = 0 Then
+  If Len(txtSQL.Text) = 0 Then
     If Index = 1 Then
       'next
       szTemp = szCmdSql(0)
@@ -447,7 +450,7 @@ Dim szTemp As String
   Else
     szTemp = ""
     For ii = 0 To UBound(szCmdSql)
-      If szCmdSql(ii) = txtSql.Text Then
+      If szCmdSql(ii) = txtSQL.Text Then
         If Index = 1 Then
           'next
           If ii < UBound(szCmdSql) Then
@@ -474,7 +477,7 @@ Dim szTemp As String
       End If
     End If
   End If
-  txtSql.Text = szTemp
+  txtSQL.Text = szTemp
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.mnuLoadCmd_Click"
