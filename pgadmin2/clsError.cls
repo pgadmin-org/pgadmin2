@@ -61,53 +61,44 @@ End Property
 Public Function GetInfo(TIE As TypeInfoError) As String
 On Error Resume Next
 Dim szTemp As String
-Dim szSep As String
-
-  szSep = String(60, "-")
   
   If TIE = TIE_SYSTEM Then
     'System. info
-    szTemp = "System Information" & vbCrLf
-    szTemp = szTemp & szSep & vbCrLf
+    szTemp = "-- System Information --" & vbCrLf & vbCrLf
     szTemp = szTemp & "Platform: " & vbTab & vbTab & WinName & vbCrLf
     szTemp = szTemp & "Version: " & vbTab & vbTab & WinVer & vbCrLf
     szTemp = szTemp & "Build: " & vbTab & vbTab & WinBuild & " " & WinInfo & vbCrLf
     
   ElseIf TIE = TIE_APPLICATION Then
     'app. info
-    szTemp = "Application Information" & vbCrLf
-    szTemp = szTemp & szSep & vbCrLf
+    szTemp = "-- Application Information --" & vbCrLf & vbCrLf
     
-    'PgAdmin2
+    'pgAdmin2
     szTemp = szTemp & "Name: " & vbTab & vbTab & App.Title & vbCrLf
     szTemp = szTemp & "Version: " & vbTab & vbTab & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf
-    szTemp = szTemp & "Descripton: " & vbTab & App.Comments & vbCrLf
+    szTemp = szTemp & "Descripton: " & vbTab & App.Comments & vbCrLf & vbCrLf
     
-    'PgSchema
-    szTemp = szTemp & szSep & vbCrLf
+    'pgSchema
     szTemp = szTemp & "Name: " & vbTab & vbTab & "pgSchema" & vbCrLf
     szTemp = szTemp & "Version: " & vbTab & vbTab & frmMain.svr.Version.Major & "." & frmMain.svr.Version.Minor & "." & frmMain.svr.Version.Revision & vbCrLf
     szTemp = szTemp & "Descripton: " & vbTab & frmMain.svr.Version.Description & vbCrLf
     
   ElseIf TIE = TIE_DATABASE Then
     'Database
-    szTemp = "Database Information" & vbCrLf
-    szTemp = szTemp & szSep & vbCrLf
+    szTemp = "-- Database Information --" & vbCrLf & vbCrLf
     szTemp = szTemp & "Version: " & vbTab & vbTab & frmMain.svr.dbVersion.Major & "." & frmMain.svr.dbVersion.Minor & "." & frmMain.svr.dbVersion.Revision & vbCrLf
     szTemp = szTemp & "Descripton: " & vbTab & frmMain.svr.dbVersion.Description & vbCrLf
     
   ElseIf TIE = TIE_DRIVER_ODBC Then
     'DriverVersion
-    szTemp = "Driver Information" & vbCrLf
-    szTemp = szTemp & szSep & vbCrLf
+    szTemp = "-- Driver Information --" & vbCrLf & vbCrLf
     szTemp = szTemp & "Name: " & vbTab & vbTab & frmMain.svr.DriverName & vbCrLf
     szTemp = szTemp & "Version: " & vbTab & vbTab & frmMain.svr.DriverVersion.Major & "." & frmMain.svr.DriverVersion.Minor & "." & frmMain.svr.DriverVersion.Revision & vbCrLf
     szTemp = szTemp & "Descripton: " & vbTab & frmMain.svr.DriverVersion.Description & vbCrLf
     
   ElseIf TIE = TIE_ERROR Then
     'Error. info
-    szTemp = "Error Information" & vbCrLf
-    szTemp = szTemp & szSep & vbCrLf
+    szTemp = "-- Error Information --" & vbCrLf & vbCrLf
     szTemp = szTemp & "Description: " & vbTab & szDesError & vbCrLf
     szTemp = szTemp & "Number: " & vbTab & vbTab & lNumError & vbCrLf
     szTemp = szTemp & "Routine: " & vbTab & vbTab & szRoutineError & vbCrLf
