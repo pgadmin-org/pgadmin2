@@ -248,7 +248,10 @@ Dim fNum As Integer
     Exit Sub
   End If
   If Dir(cdlg.FileName) <> "" Then
-    If MsgBox("File exists - overwrite?", vbYesNo + vbQuestion, "Overwrite File") = vbNo Then cmdSave_Click
+    If MsgBox("File exists - overwrite?", vbYesNo + vbQuestion, "Overwrite File") = vbNo Then
+      cmdSave_Click
+      Exit Sub
+    End If
   End If
   fNum = FreeFile
   frmMain.svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug

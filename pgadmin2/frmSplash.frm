@@ -7,6 +7,15 @@ Begin VB.Form frmSplash
    ClientWidth     =   5250
    ClipControls    =   0   'False
    ControlBox      =   0   'False
+   BeginProperty Font 
+      Name            =   "MS Sans Serif"
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
    Icon            =   "frmSplash.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form2"
@@ -33,7 +42,7 @@ Begin VB.Form frmSplash
          Caption         =   "Version"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   8,25
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -41,11 +50,11 @@ Begin VB.Form frmSplash
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000000&
-         Height          =   240
+         Height          =   195
          Left            =   135
          TabIndex        =   1
          Top             =   2310
-         Width           =   810
+         Width           =   645
       End
    End
 End
