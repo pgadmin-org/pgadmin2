@@ -111,10 +111,10 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
 
 'External Add
-Public Function Add(ByVal Name As String, Optional ByVal Path As String, Optional ServerEncoding As String, Optional ByVal Comment As String) As pgDatabase
+Public Function Add(ByVal Name As String, Optional ByVal Template As String, Optional ByVal Path As String, Optional ServerEncoding As String, Optional ByVal Comment As String) As pgDatabase
 Attribute Add.VB_Description = "Add a new database object."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Path & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Template & QUOTE & ", " & QUOTE & Path & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim rsComment As New Recordset
@@ -128,7 +128,11 @@ Dim szSQL As String
   'Generate the SQL query to create the new object and execute
   szSQL = "CREATE DATABASE " & fmtID(Name) & " WITH"
   If Path <> "" Then szSQL = szSQL & " LOCATION = '" & dbSZ(Path) & "'"
-  szSQL = szSQL & " TEMPLATE = template0"
+  If Template <> "" Then
+    szSQL = szSQL & " TEMPLATE = " & Template
+  Else
+    szSQL = szSQL & " TEMPLATE = template0"
+  End If
   If ServerEncoding <> "" Then szSQL = szSQL & " ENCODING = '" & dbSZ(ServerEncoding) & "'"
   objServer.ExecSQL szSQL, objServer.Connection
   
