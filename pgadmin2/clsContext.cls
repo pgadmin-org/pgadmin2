@@ -138,12 +138,12 @@ Public Property Let CurrentDB(ByVal szData As String)
   If szData <> "" Then
     frmMain.sb.Panels("currentdb").Text = "Database: " & szData
     frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = True
-    frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = True
     frmMain.tb.Buttons("sql").Enabled = True
     frmMain.tb.Buttons("vacuum").Enabled = True
     frmMain.mnuFileSaveDBSchema.Enabled = True
     frmMain.mnuPopupCreateLanguage.Enabled = True
-    frmMain.mnuPopupCreateNamespace.Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateNamespace.Enabled = True
     frmMain.mnuPopupSQL.Enabled = True
     frmMain.mnuPopupVacuum.Enabled = True
   Else

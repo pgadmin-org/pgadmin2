@@ -368,7 +368,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -615,12 +615,24 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.chkProperties_Click(" & Index & ")", etFullDebug
 
   If ctx.dbVer < 7.3 Then
-    chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
-    chkProperties(1).Value = Bool2Bin(objColumn.PrimaryKey)
+    If Not (objColumn Is Nothing) Then
+      chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
+      chkProperties(1).Value = Bool2Bin(objColumn.PrimaryKey)
+    Else
+      If szMode = "TA" Then
+        If Not (frmCallingForm.objTable Is Nothing) Then
+          chkProperties(0).Value = 0
+          chkProperties(1).Value = 0
+        End If
+      Else
+        chkProperties(0).Value = 0
+        chkProperties(1).Value = 0
+      End If
+    End If
   Else
     If Index = 0 Then chkProperties(0).Tag = "Y"
     If Index = 1 Then chkProperties(1).Tag = "Y"

@@ -785,7 +785,7 @@ Dim szDatabase As String
 Dim szNamespace As String
 Dim szDropCheckList As String
 Dim szUsers() As String
-Dim objTable As pgTable
+Public objTable As pgTable
 
 Private Sub cmdCancel_Click()
 On Error GoTo Err_Handler
@@ -1106,8 +1106,9 @@ Dim X As Integer
           Else
             szDataType = objItem.SubItems(2) & "(" & objItem.SubItems(3) & ")"
           End If
-          If objItem.SubItems(5) = "Yes" Then szDataType = szDataType & " NOT NULL"
           Set objNewColumn = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Add(objItem.Text, szDataType, objItem.SubItems(4), objItem.SubItems(7))
+          If objItem.SubItems(5) = "Yes" Then objNewColumn.NotNull = True
+          If objItem.SubItems(6) = "Yes" Then objNewColumn.PrimaryKey = True
           Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Tag
           Set objNewColumn.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "COL-" & GetID, objItem.Text, "column")
           objNode.Text = "Columns (" & objNode.Children & ")"

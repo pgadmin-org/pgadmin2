@@ -1422,7 +1422,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupConnect_Click()", etFul
   If InStr(1, Command, "-wine") <> 0 Then
     frmConnect.Show
   Else
-    frmConnect.Show vbModal, Me
+If ctx.dbVer >= 7.3 Then frmConnect.Show vbModal, Me
   End If
   
   Exit Sub
