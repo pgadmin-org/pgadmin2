@@ -3,6 +3,9 @@
 
 Only set font for output-displaying controls.
 Add Hot Key in SQLOutput 
+add Show Users For Privileges
+add Ask Delete Object Database
+add description connection
 
 1.6.0
 -----
