@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Database Publishing Wizard"
@@ -36,47 +36,47 @@ Begin VB.Form frmWizard
             Key             =   "view"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":0B7E
+            Picture         =   "frmWizard.frx":10F6
             Key             =   "function"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":1118
+            Picture         =   "frmWizard.frx":1690
             Key             =   "index"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":16B2
+            Picture         =   "frmWizard.frx":1C2A
             Key             =   "language"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":1C4C
+            Picture         =   "frmWizard.frx":22FC
             Key             =   "rule"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":1DA6
+            Picture         =   "frmWizard.frx":29CE
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":2340
+            Picture         =   "frmWizard.frx":30A0
             Key             =   "table"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":249A
+            Picture         =   "frmWizard.frx":3772
             Key             =   "trigger"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":2A34
+            Picture         =   "frmWizard.frx":3E44
             Key             =   "type"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":2FCE
+            Picture         =   "frmWizard.frx":4516
             Key             =   "aggregate"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":3128
+            Picture         =   "frmWizard.frx":4BE8
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":36C2
+            Picture         =   "frmWizard.frx":52BA
             Key             =   "server"
          EndProperty
       EndProperty
@@ -85,7 +85,7 @@ Begin VB.Form frmWizard
       BorderStyle     =   0  'None
       Height          =   4335
       Left            =   0
-      Picture         =   "frmWizard.frx":381C
+      Picture         =   "frmWizard.frx":5414
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
@@ -128,7 +128,7 @@ Begin VB.Form frmWizard
       TabHeight       =   176
       ShowFocusRect   =   0   'False
       TabCaption(0)   =   " "
-      TabPicture(0)   =   "frmWizard.frx":48EB
+      TabPicture(0)   =   "frmWizard.frx":64E3
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblInfo(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -136,71 +136,71 @@ Begin VB.Form frmWizard
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).ControlCount=   2
       TabCaption(1)   =   " "
-      TabPicture(1)   =   "frmWizard.frx":4907
+      TabPicture(1)   =   "frmWizard.frx":64FF
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdObjectAll"
+      Tab(1).Control(0)=   "lblInfo(1)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdObjectNone"
+      Tab(1).Control(1)=   "lvObjects"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "lvObjects"
+      Tab(1).Control(2)=   "cmdObjectNone"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lblInfo(1)"
+      Tab(1).Control(3)=   "cmdObjectAll"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       TabCaption(2)   =   " "
-      TabPicture(2)   =   "frmWizard.frx":4923
+      TabPicture(2)   =   "frmWizard.frx":651B
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Picture1"
+      Tab(2).Control(0)=   "lblInfo(2)"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lblInfo(2)"
+      Tab(2).Control(1)=   "Picture1"
       Tab(2).Control(1).Enabled=   0   'False
       Tab(2).ControlCount=   2
       TabCaption(3)   =   " "
-      TabPicture(3)   =   "frmWizard.frx":493F
+      TabPicture(3)   =   "frmWizard.frx":6537
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Picture2"
+      Tab(3).Control(0)=   "lblInfo(4)"
       Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "lblInfo(4)"
+      Tab(3).Control(1)=   "Picture2"
       Tab(3).Control(1).Enabled=   0   'False
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
-      TabPicture(4)   =   "frmWizard.frx":495B
+      TabPicture(4)   =   "frmWizard.frx":6553
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "txtHost"
+      Tab(4).Control(0)=   "Label1(4)"
       Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "txtPort"
+      Tab(4).Control(1)=   "Label1(3)"
       Tab(4).Control(1).Enabled=   0   'False
-      Tab(4).Control(2)=   "txtDatabase"
+      Tab(4).Control(2)=   "Label1(2)"
       Tab(4).Control(2).Enabled=   0   'False
-      Tab(4).Control(3)=   "txtPassword"
+      Tab(4).Control(3)=   "Label1(1)"
       Tab(4).Control(3).Enabled=   0   'False
-      Tab(4).Control(4)=   "txtUsername"
+      Tab(4).Control(4)=   "Label1(0)"
       Tab(4).Control(4).Enabled=   0   'False
-      Tab(4).Control(5)=   "cmdRemove"
+      Tab(4).Control(5)=   "lblInfo(3)"
       Tab(4).Control(5).Enabled=   0   'False
-      Tab(4).Control(6)=   "cmdAdd"
+      Tab(4).Control(6)=   "lvServers"
       Tab(4).Control(6).Enabled=   0   'False
-      Tab(4).Control(7)=   "lvServers"
+      Tab(4).Control(7)=   "cmdAdd"
       Tab(4).Control(7).Enabled=   0   'False
-      Tab(4).Control(8)=   "lblInfo(3)"
+      Tab(4).Control(8)=   "cmdRemove"
       Tab(4).Control(8).Enabled=   0   'False
-      Tab(4).Control(9)=   "Label1(0)"
+      Tab(4).Control(9)=   "txtUsername"
       Tab(4).Control(9).Enabled=   0   'False
-      Tab(4).Control(10)=   "Label1(1)"
+      Tab(4).Control(10)=   "txtPassword"
       Tab(4).Control(10).Enabled=   0   'False
-      Tab(4).Control(11)=   "Label1(2)"
+      Tab(4).Control(11)=   "txtDatabase"
       Tab(4).Control(11).Enabled=   0   'False
-      Tab(4).Control(12)=   "Label1(3)"
+      Tab(4).Control(12)=   "txtPort"
       Tab(4).Control(12).Enabled=   0   'False
-      Tab(4).Control(13)=   "Label1(4)"
+      Tab(4).Control(13)=   "txtHost"
       Tab(4).Control(13).Enabled=   0   'False
       Tab(4).ControlCount=   14
       TabCaption(5)   =   " "
-      TabPicture(5)   =   "frmWizard.frx":4977
+      TabPicture(5)   =   "frmWizard.frx":656F
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "fraStatus"
+      Tab(5).Control(0)=   "lblInfo(5)"
       Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "lblInfo(5)"
+      Tab(5).Control(1)=   "fraStatus"
       Tab(5).Control(1).Enabled=   0   'False
       Tab(5).ControlCount=   2
       Begin VB.Frame fraStatus 
@@ -309,7 +309,7 @@ Begin VB.Form frmWizard
       Begin VB.CommandButton cmdObjectAll 
          Height          =   555
          Left            =   -68655
-         Picture         =   "frmWizard.frx":4993
+         Picture         =   "frmWizard.frx":658B
          Style           =   1  'Graphical
          TabIndex        =   5
          ToolTipText     =   "Select all objects."
@@ -319,7 +319,7 @@ Begin VB.Form frmWizard
       Begin VB.CommandButton cmdObjectNone 
          Height          =   555
          Left            =   -68655
-         Picture         =   "frmWizard.frx":525D
+         Picture         =   "frmWizard.frx":6E55
          Style           =   1  'Graphical
          TabIndex        =   6
          ToolTipText     =   "Deselect all objects."
@@ -499,7 +499,7 @@ Begin VB.Form frmWizard
          End
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":5B27
+         Caption         =   $"frmWizard.frx":771F
          Height          =   825
          Index           =   5
          Left            =   -74820
@@ -517,7 +517,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":5BD4
+         Caption         =   $"frmWizard.frx":77CC
          Height          =   825
          Index           =   3
          Left            =   -74820
@@ -576,7 +576,7 @@ Begin VB.Form frmWizard
          Width           =   690
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":5D28
+         Caption         =   $"frmWizard.frx":7920
          Height          =   735
          Index           =   2
          Left            =   -74820
@@ -1029,6 +1029,10 @@ svr.LogEvent "Entering " & App.Title & ":frmWizard.cmdPrevious_Click()", etFullD
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdPrevious_Click"
+End Sub
+
+Private Sub fraStatus_DragDrop(Source As Control, X As Single, Y As Single)
+
 End Sub
 
 Private Sub tabWizard_Click(PreviousTab As Integer)
