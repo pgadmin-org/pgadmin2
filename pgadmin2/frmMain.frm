@@ -2905,6 +2905,12 @@ Dim vData As Variant
     End If
     Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Volatility", "property", "property")
     lvItem.SubItems(1) = ctx.CurrentObject.Volatility
+      Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Security Definer?", "property", "property")
+    If ctx.CurrentObject.SecDef Then
+      lvItem.SubItems(1) = "Yes"
+    Else
+      lvItem.SubItems(1) = "No"
+    End If
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Strict?", "property", "property")
   If ctx.CurrentObject.Strict Then

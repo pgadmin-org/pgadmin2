@@ -146,7 +146,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
-Private Function iAdd(dOID As Double, szName As String, szOwner As String, dReturns As Double, szSource As String, dLanguage As Double, bCachable As Boolean, bStrict As Boolean, szArgumentList As String, Optional szACL As String, Optional szVolatility As String, Optional bRetSet As Boolean) As pgFunction
+Private Function iAdd(dOID As Double, szName As String, szOwner As String, dReturns As Double, szSource As String, dLanguage As Double, bCachable As Boolean, bStrict As Boolean, szArgumentList As String, Optional szACL As String, Optional szVolatility As String, Optional bRetSet As Boolean, Optional bSecDef As Boolean) As pgFunction
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & dReturns & ", " & QUOTE & szSource & QUOTE & ", " & dLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szVolatility & QUOTE & ", " & bRetSet & ")", etFullDebug
 
@@ -183,6 +183,7 @@ Dim X As Long
   objNewMember.ACL = szACL
   If objVersion.VersionNum >= 7.3 Then
     objNewMember.RetSet = bRetSet
+    objNewMember.SecDef = bSecDef
     Select Case UCase(szVolatility)
       Case "I"
         objNewMember.Volatility = "Immutable"
@@ -215,10 +216,10 @@ Err_Handler:
 End Function
 
 'External Add
-Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String, Optional Volatility As String) As pgFunction
+Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String, Optional Volatility As String, Optional SecurityDefiner As Boolean) As pgFunction
 Attribute Add.VB_Description = "Add a new function."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ", " & QUOTE & Volatility & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ", " & QUOTE & Volatility & QUOTE & ", " & SecurityDefiner & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -242,6 +243,7 @@ Dim objFunction As pgFunction
   If objVersion.VersionNum >= 7.3 Then
     If Volatility <> "" Then szSQL = szSQL & " " & UCase(Volatility)
     If Strict Then szSQL = szSQL & " STRICT"
+    If SecurityDefiner Then szSQL = szSQL & " SECURITY DEFINER"
   Else
     If Cachable Or Strict Or (Volatility <> "") Then szSQL = szSQL & " WITH ("
     If Cachable Then szSQL = szSQL & "ISCACHABLE, "
@@ -291,7 +293,7 @@ Dim objFunction As pgFunction
         szArgs = rs!proargtypes & ""
       End If
       If objVersion.VersionNum >= 7.3 Then
-        Set objFunction = iAdd(rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proretset))
+        Set objFunction = iAdd(rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proretset), ToBool(rs!prosecdef))
       ElseIf objVersion.VersionNum >= 7.1 Then
         Set objFunction = iAdd(rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs)
       Else
@@ -432,7 +434,7 @@ Dim szArgs As String
         szArgs = rs!proargtypes & ""
       End If
       If objVersion.VersionNum >= 7.3 Then
-        iAdd rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proretset)
+        iAdd rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proretset), ToBool(rs!prosecdef)
       ElseIf objVersion.VersionNum >= 7.1 Then
         iAdd rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs
       Else

@@ -39,6 +39,7 @@ Private vTag As Variant
 Private szACL As String
 Private szVolatility As String
 Private bRetSet As Boolean
+Private bSecDef As Boolean
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
@@ -472,6 +473,27 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get RetSet()
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
+'Set/Return SecDef?
+Friend Property Let SecDef(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let SecDef(" & vData & ")", etFullDebug
+
+  bSecDef = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+Public Property Get SecDef() As Boolean
+Attribute SecDef.VB_Description = "Returns a value indicating whether the function is a security definer."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SecDef()", etFullDebug
+
+  SecDef = bSecDef
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+
 'Set/Return the Volatility
 Friend Property Let Volatility(ByVal vData As String)
 On Error GoTo Err_Handler
@@ -672,6 +694,7 @@ Dim X As Long
   If objVersion.VersionNum >= 7.3 Then
     If szVolatility <> "" Then szSQL = szSQL & " " & UCase(szVolatility)
     If bStrict Then szSQL = szSQL & " STRICT"
+    If bSecDef Then szSQL = szSQL & " SECURITY DEFINER"
   Else
     If bCachable Or bStrict Or (szVolatility <> "") Then szSQL = szSQL & " WITH ("
     If bCachable Then szSQL = szSQL & "ISCACHABLE, "
