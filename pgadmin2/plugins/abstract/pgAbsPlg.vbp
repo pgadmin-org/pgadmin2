@@ -1,6 +1,6 @@
 Type=OleDll
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\WINNT\System32\stdole2.tlb#OLE Automation
-Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\..\..\Program Files\Common Files\System\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
+Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\..\..\Program Files\Common Files\system\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
 Reference=*\G{AF58EC56-9E12-45F2-96F9-8D6082DA967E}#1.0#0#..\..\..\binaries\pgSchema.dll#PostgreSQL Schema Objects
 Class=pgPlugin; pgPlugin.cls
 Startup="(None)"
@@ -17,7 +17,7 @@ CompatibleEXE32="..\..\..\binaries\pgAbsPlg.dll"
 VersionCompatible32="1"
 MajorVer=1
 MinorVer=3
-RevisionVer=21
+RevisionVer=22
 AutoIncrementVer=1
 ServerSupportFiles=0
 DllBaseAddress=&H33540000
