@@ -134,10 +134,11 @@ Dim rsPlan As New Recordset
   'Query plans are returned as resultsets in 7.3+
   If ctx.dbVer >= 7.3 Then
     Set rsPlan = frmMain.svr.Databases(szDatabase).Execute("EXPLAIN " & szSQL)
-    If Not rsPlan.EOF Then
-      txtPlan.Text = rsPlan.Fields(0).Value & ""
-      txtPlan.ColourText
-    End If
+    While Not rsPlan.EOF
+      txtPlan.Text = txtPlan.Text & rsPlan.Fields(0).Value & vbCrLf
+      rsPlan.MoveNext
+    Wend
+    txtPlan.ColourText
     If rsPlan.State <> adStateClosed Then rsPlan.Close
     Set rsPlan = Nothing
     
