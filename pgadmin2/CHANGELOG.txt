@@ -26,7 +26,9 @@ Views can now be renamed.
 Fixed a bug in the trigger reverse engineering that prepended the execution conditions of previous triggers to the current.
 Added an option to enable or disable Auto Row Counts.
 Added Rows property to View objects.
-Set default database encoding to "SQL_ASCII"
+Set default database encoding to "SQL_ASCII".
+Quote function definition when needed.
+Allow pseudo modification of triggers with PostgreSQL 7.2+
 
 1.2.0 Stable
 ------------
