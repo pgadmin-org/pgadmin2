@@ -119,25 +119,12 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExecute_Click()"
 Dim rsQuery As New Recordset
 Dim szBits() As String
 Dim vBit As Variant
-Dim szQuery As String
 
   If Len(txtSQL.Text) < 5 Then Exit Sub
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
   
-  'Tidy the query
-  'First, take out any lines that start with -- (comments).
-  szBits = Split(txtSQL.Text, vbCrLf)
-  For Each vBit In szBits
-    If Left(vBit, 2) <> "--" Then szQuery = szQuery & vBit & " "
-  Next vBit
-
-  'Remove indents
-  While InStr(1, szQuery, "  ") > 0
-    szQuery = Replace(szQuery, "  ", " ")
-  Wend
-  
   StartMsg "Executing SQL Query..."
-  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szQuery)
+  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(txtSQL.Text)
   If rsQuery.Fields.Count > 0 Then
     Select Case cboExporters.Text
       Case "Screen"
