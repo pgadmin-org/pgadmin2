@@ -4,6 +4,7 @@
 Create objects in the correct schema.
 Allow long FKey names in PostgreSQL 7.3+
 Added option for per-table commits [John Wells]
+Allow migration of serial columns from SQL Server < 7.0 [Brage Førland]
 
 1.4.12
 ------
