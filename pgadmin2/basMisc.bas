@@ -185,13 +185,14 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub BuildPluginsMenu()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildPluginsMenu()", etFullDebug
 
 Dim objPlugin As pgPlugin
 Dim X As Integer
 
   'Clear the menu
+  frmMain.mnuPlugins.Visible = False
   frmMain.mnuPluginsPlg(0).Visible = True
   For X = 1 To 20
     frmMain.mnuPluginsPlg(X).Caption = "Plugin" & X
@@ -201,17 +202,21 @@ Dim X As Integer
   'Load new plugins
   X = 1
   For Each objPlugin In plg
-    frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description & "..."
-    frmMain.mnuPluginsPlg(X).Visible = True
-    X = X + 1
-    frmMain.mnuPluginsPlg(0).Visible = False
+    If Not ((frmMain.svr.ConnectionString = "") And (objPlugin.PluginType = 1)) Then
+      frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description & "..."
+      frmMain.mnuPluginsPlg(X).Visible = True
+      X = X + 1
+      frmMain.mnuPluginsPlg(0).Visible = False
     
-    'Bomb out if there's more than 20 Plugins
-    If X > 20 Then
-      MsgBox App.Title & " currently only supports a maximum of 20 plugins loaded at the same time. Please email the Support mailing list listed in the Helpfile and let the developers know that you've exceeded this limit.", vbExclamation, "Error"
-      Exit Sub
+      'Bomb out if there's more than 20 Plugins
+      If X > 20 Then
+        MsgBox App.Title & " currently only supports a maximum of 20 plugins loaded at the same time. Please email the Support mailing list listed in the Helpfile and let the developers know that you've exceeded this limit.", vbExclamation, "Error"
+        Exit Sub
+      End If
     End If
   Next objPlugin
+  frmMain.mnuPluginsPlg(0).Visible = False
+  If X > 1 Then frmMain.mnuPlugins.Visible = True
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildPluginsMenu"

@@ -43,9 +43,16 @@ Private Property Get pgPlugin_Version() As String
   pgPlugin_Version = App.Major & "." & App.Minor & "." & App.Revision
 End Property
 
+'The Plugin type can currently be either 1 or 2.
+'A type 1 plugin will only be shown by pgAdmin when logged on to a server.
+'A type 2 plugin is always available to the user in pgAdmin
+Private Property Get pgPlugin_PluginType() As Long
+  pgPlugin_PluginType = 1
+End Property
+
 'The pgPlugin_Export subroutine is called to do the actual job. The sub is
 'passed a reference to the main pgSchema object.
-Private Sub pgPlugin_Execute(objSchema As Variant, objStatusBar As Variant)
+Private Sub pgPlugin_Execute(objStatusBar As Variant, objSchema As Variant)
 
   'Abort if we're already running
   If bRunning = True Then Exit Sub

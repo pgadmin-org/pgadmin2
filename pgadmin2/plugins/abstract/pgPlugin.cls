@@ -29,6 +29,10 @@ Public Property Get Author() As String
 
 End Property
 
-Public Sub Execute(objSchema As Variant, objStatusBar As Variant)
+Public Property Get PluginType() As Long
+
+End Property
+
+Public Sub Execute(objStatusBar As Variant, objSchema As Variant)
 
 End Sub

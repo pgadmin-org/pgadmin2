@@ -6,7 +6,7 @@ Begin VB.Form frmMain
    Caption         =   "Progeny"
    ClientHeight    =   6675
    ClientLeft      =   165
-   ClientTop       =   735
+   ClientTop       =   765
    ClientWidth     =   9675
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
@@ -491,9 +491,8 @@ Begin VB.Form frmMain
    End
    Begin VB.Menu mnuPlugins 
       Caption         =   "&Plugins"
-      Visible         =   0   'False
       Begin VB.Menu mnuPluginsPlg 
-         Caption         =   "No Plugins are currently installed!"
+         Caption         =   "You should never see this!"
          Index           =   0
       End
       Begin VB.Menu mnuPluginsPlg 
@@ -877,7 +876,7 @@ Dim szPlugin As String
   If Index = 0 Then Exit Sub
   szPlugin = Left(mnuPluginsPlg(Index).Caption, Len(mnuPluginsPlg(Index).Caption) - 3)
   svr.LogEvent "Executing Plugin: " & plg(szPlugin).Description & " v" & plg(szPlugin).Version, etMiniDebug
-  plg(szPlugin).Execute svr, sb
+  plg(szPlugin).Execute sb, svr
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPluginsPlg_Click"

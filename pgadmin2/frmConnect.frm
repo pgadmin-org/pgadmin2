@@ -115,7 +115,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdConnect_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.cmdConnect_Click()", etFullDebug
 
 Dim szOriConns(11) As String
@@ -176,7 +176,6 @@ Dim objNode As Node
   frmMain.mnuPopupCreateGroup.Visible = True
   frmMain.mnuPopupCreateUser.Visible = True
   frmMain.mnuPopupProperties.Visible = True
-  frmMain.mnuPlugins.Visible = True
   
   'Enable buttons on the toolbar
   frmMain.tb.Buttons("refresh").Visible = True
@@ -187,6 +186,9 @@ Dim objNode As Node
   frmMain.tb.Buttons("create").ButtonMenus("user").Visible = True
   frmMain.tb.Buttons("properties").Visible = True
  
+  'Rebuild the Plugins Menu
+  BuildPluginsMenu
+  
   'Start populating the treeview.
   frmMain.tv.Nodes.Clear
   frmMain.lv.ListItems.Clear
