@@ -17,46 +17,47 @@ Attribute VB_Exposed = False
 '
 ' clsPgApp.cls - class export application function/form
 
-Public frmAbout As pgAdmin2.frmAbout                        'frmAbout.frm
-Public frmAggregate As pgAdmin2.frmAggregate                'frmAggregate.frm
-Public frmCast As pgAdmin2.frmCast                          'frmCast.frm
-Public frmClone As pgAdmin2.frmClone                        'frmClone.frm
-Public frmColumn As pgAdmin2.frmColumn                      'frmColumn.frm
-Public frmConnect As pgAdmin2.frmConnect                    'frmConnect.frm
-Public frmConversion As pgAdmin2.frmConversion              'frmConversion.frm
-Public frmDatabase As pgAdmin2.frmDatabase                  'frmDatabase.frm
-Public frmDomain As pgAdmin2.frmDomain                      'frmDomain.frm
-Public frmDummy As pgAdmin2.frmDummy                        'frmDummy.frm
-Public frmError As pgAdmin2.frmError                        'frmError.frm
-Public frmFind As pgAdmin2.frmFind                          'frmFind.frm
-Public frmForeignKey As pgAdmin2.frmForeignKey              'frmForeignKey.frm
-Public frmFunction As pgAdmin2.frmFunction                  'frmFunction.frm
-Public frmGroup As pgAdmin2.frmGroup                        'frmGroup.frm
-Public frmImportColumn As pgAdmin2.frmImportColumn          'frmImportColumn.frm
-Public frmIndex As pgAdmin2.frmIndex                        'frmIndex.frm
-Public frmLanguage As pgAdmin2.frmLanguage                  'frmLanguage.frm
-Public frmLog As pgAdmin2.frmLog                            'frmLog.frm
-Public frmMain As pgAdmin2.frmMain                          'frmMain.frm
-Public frmNamespace As pgAdmin2.frmNamespace                'frmNamespace.frm
-Public frmOperator As pgAdmin2.frmOperator                  'frmOperator.frm
-Public frmOptions As pgAdmin2.frmOptions                    'frmOptions.frm
-Public frmPassword As pgAdmin2.frmPassword                  'frmPassword.frm
-Public frmRecordLog As pgAdmin2.frmRecordLog                'frmRecordLog.frm
-Public frmRule As pgAdmin2.frmRule                          'frmRule.frm
-Public frmSequence As pgAdmin2.frmSequence                  'frmSequence.frm
-Public frmServer As pgAdmin2.frmServer                      'frmServer.frm
-Public frmSplash As pgAdmin2.frmSplash                      'frmSplash.frm
-Public frmSQLExplain As pgAdmin2.frmSQLExplain              'frmSQLExplain.frm
-Public frmSQLInput As pgAdmin2.frmSQLInput                  'frmSQLInput.frm
-Public frmSQLOutput As pgAdmin2.frmSQLOutput                'frmSQLOutput.frm
-Public frmSQLWizard As pgAdmin2.frmSQLWizard                'frmSQLWizard.frm
-Public frmTable As pgAdmin2.frmTable                        'frmTable.frm
-Public frmTip As pgAdmin2.frmTip                            'frmTip.frm
-Public frmTrigger As pgAdmin2.frmTrigger                    'frmTrigger.frm
-Public frmType As pgAdmin2.frmType                          'frmType.frm
-Public frmUpgradeWizard As pgAdmin2.frmUpgradeWizard        'frmUpgradeWizard.frm
-Public frmUser As pgAdmin2.frmUser                          'frmUser.frm
-Public frmView As pgAdmin2.frmView                          'frmView.frm
+Public frmAbout As pgAdmin2.frmAbout                                            'frmAbout.frm
+Public frmAggregate As pgAdmin2.frmAggregate                                    'frmAggregate.frm
+Public frmCast As pgAdmin2.frmCast                                              'frmCast.frm
+Public frmClone As pgAdmin2.frmClone                                            'frmClone.frm
+Public frmColumn As pgAdmin2.frmColumn                                          'frmColumn.frm
+Public frmConnect As pgAdmin2.frmConnect                                        'frmConnect.frm
+Public frmConversion As pgAdmin2.frmConversion                                  'frmConversion.frm
+Public frmDatabase As pgAdmin2.frmDatabase                                      'frmDatabase.frm
+Public frmDomain As pgAdmin2.frmDomain                                          'frmDomain.frm
+Public frmDummy As pgAdmin2.frmDummy                                            'frmDummy.frm
+Public frmError As pgAdmin2.frmError                                            'frmError.frm
+Public frmFind As pgAdmin2.frmFind                                              'frmFind.frm
+Public frmForeignKey As pgAdmin2.frmForeignKey                                  'frmForeignKey.frm
+Public frmFunction As pgAdmin2.frmFunction                                      'frmFunction.frm
+Public frmGroup As pgAdmin2.frmGroup                                            'frmGroup.frm
+Public frmImportColumn As pgAdmin2.frmImportColumn                              'frmImportColumn.frm
+Public frmIndex As pgAdmin2.frmIndex                                            'frmIndex.frm
+Public frmLanguage As pgAdmin2.frmLanguage                                      'frmLanguage.frm
+Public frmLog As pgAdmin2.frmLog                                                'frmLog.frm
+Public frmMain As pgAdmin2.frmMain                                              'frmMain.frm
+Public frmNamespace As pgAdmin2.frmNamespace                                    'frmNamespace.frm
+Public frmOperator As pgAdmin2.frmOperator                                      'frmOperator.frm
+Public frmOptions As pgAdmin2.frmOptions                                        'frmOptions.frm
+Public frmPassword As pgAdmin2.frmPassword                                      'frmPassword.frm
+Public frmRecordLog As pgAdmin2.frmRecordLog                                    'frmRecordLog.frm
+Public frmRule As pgAdmin2.frmRule                                              'frmRule.frm
+Public frmSequence As pgAdmin2.frmSequence                                      'frmSequence.frm
+Public frmServer As pgAdmin2.frmServer                                          'frmServer.frm
+Public frmSplash As pgAdmin2.frmSplash                                          'frmSplash.frm
+Public frmSQLExplain As pgAdmin2.frmSQLExplain                                  'frmSQLExplain.frm
+Public frmSQLInput As pgAdmin2.frmSQLInput                                      'frmSQLInput.frm
+Public frmSQLOutput As pgAdmin2.frmSQLOutput                                    'frmSQLOutput.frm
+Public frmSQLWizard As pgAdmin2.frmSQLWizard                                    'frmSQLWizard.frm
+Public frmTable As pgAdmin2.frmTable                                            'frmTable.frm
+Public frmTip As pgAdmin2.frmTip                                                'frmTip.frm
+Public frmTrigger As pgAdmin2.frmTrigger                                        'frmTrigger.frm
+Public frmType As pgAdmin2.frmType                                              'frmType.frm
+Public frmUpgradeWizard As pgAdmin2.frmUpgradeWizard                            'frmUpgradeWizard.frm
+Public frmUser As pgAdmin2.frmUser                                              'frmUser.frm
+Public frmView As pgAdmin2.frmView                                              'frmView.frm
+Public frmVisualQueryBuilder As pgAdmin2.frmVisualQueryBuilder                  'frmVisualQueryBuilder.frm
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''
 'Module: basActions
@@ -236,9 +237,18 @@ Public Sub AutoSizeColumnLv(lv As ListView)
   Call basMisc.AutoSizeColumnLv(lv)
 End Sub
 
+Public Sub AutoSizeColumnFGrid(Grd As MSFlexGrid)
+  Call basMisc.AutoSizeColumnFGrid(Grd)
+End Sub
+
 Public Function NameImageByObjectType(ObjectType As String) As String
   NameImageByObjectType = basMisc.NameImageByObjectType(ObjectType)
 End Function
+
+'load user/group privileges
+Public Sub LoadUGACL(cboUGACL As ImageCombo)
+  Call basMisc.LoadUGACL(cboUGACL)
+End Sub
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''
 'Module: basPatch
