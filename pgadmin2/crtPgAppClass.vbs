@@ -95,7 +95,7 @@ vOutFunctionValid=array("Byte","Boolean","Integer","Long","Single","Double","Cur
 						szTemp=trim(mid(vData(ii),len(KeyForm)+1))
 						szTemp="Public " & szTemp & " As pgAdmin2." & szTemp 
 						'add file name
-						szTemp=sztemp & space(60-len(sztemp)) & "'" & f1.name
+						szTemp=sztemp & space(80-len(sztemp)) & "'" & f1.name
 						szDataForm=szDataForm & szTemp & vbcrlf
 						exit for
 					end if
