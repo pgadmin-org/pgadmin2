@@ -6,6 +6,9 @@ Add Hot Key in SQLOutput
 add Show Users For Privileges
 add Ask Delete Object Database
 add description connection
+add Max number of record for view data. 
+add Max number of sql command to memorize (Query). 
+add new visual query builder
 
 1.6.0
 -----
