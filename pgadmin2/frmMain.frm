@@ -25,7 +25,7 @@ Begin VB.Form frmMain
       Left            =   3825
       TabIndex        =   4
       ToolTipText     =   "Displays the SQL Definition of the currently selected object."
-      Top             =   4680
+      Top             =   4545
       Width           =   5820
       _ExtentX        =   10266
       _ExtentY        =   2884
@@ -489,21 +489,21 @@ Begin VB.Form frmMain
       ImageList       =   "il"
       Appearance      =   1
    End
-   Begin VB.Image splHorizontal 
-      DragMode        =   1  'Automatic
-      Height          =   50
-      Left            =   3735
-      MousePointer    =   7  'Size N S
-      Top             =   4320
-      Width           =   5760
-   End
    Begin VB.Image splVertical 
       DragMode        =   1  'Automatic
       Height          =   5550
-      Left            =   3510
+      Left            =   3600
       MousePointer    =   9  'Size W E
-      Top             =   630
-      Width           =   50
+      Top             =   585
+      Width           =   45
+   End
+   Begin VB.Image splHorizontal 
+      DragMode        =   1  'Automatic
+      Height          =   45
+      Left            =   3780
+      MousePointer    =   7  'Size N S
+      Top             =   4320
+      Width           =   5760
    End
    Begin VB.Menu mnuFile 
       Caption         =   "&File"
