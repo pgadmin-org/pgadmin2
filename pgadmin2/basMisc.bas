@@ -249,16 +249,20 @@ Public Sub StartMsg(ByVal szMsg As String)
   
 End Sub
 
-Public Sub EndMsg()
+Public Sub EndMsg(Optional ByVal szErr As String)
 'Logging code, so no internal logging...
 
 Dim szMsg As String
-
-  szMsg = "Done - " & Fix((Timer - sTimer) * 100) / 100 & " Secs."
-  If Right(frmMain.sb.Panels("info").Text, 5) <> "Done." Then
+   
+  szMsg = "Done" & szErr & " - " & Fix((Timer - sTimer) * 100) / 100 & " Secs."
+  If InStr(1, frmMain.sb.Panels("info").Text, " Done") = 0 Then
     frmMain.svr.LogEvent szMsg, etMiniDebug
     frmMain.sb.Panels("timer").Text = Fix((Timer - sTimer) * 100) / 100 & " Secs."
-    frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & " Done."
+    If szErr = "" Then
+      frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & " Done."
+    Else
+      frmMain.sb.Panels("info").Text = frmMain.sb.Panels("info").Text & " Done: " & szErr & "."
+    End If
     frmMain.sb.Refresh
   End If
   Screen.MousePointer = vbDefault

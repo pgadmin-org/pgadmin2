@@ -19,6 +19,7 @@ REVOKE privileges from groups correctly.
 Allow creation of tables with no columns, just inherits.
 Don't include inherited columns & checks in table definitions.
 Fixed a bug in the Import Wizard data parser.
+Fix mouse pointer and allow display of errors when timer is stopped (Mark A. Taff).
 
 1.2.0 Stable
 ------------
