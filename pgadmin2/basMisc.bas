@@ -413,8 +413,9 @@ Dim bFound As Boolean
   szData = Replace(szData, QUOTE, QUOTE & QUOTE)
 
   'verify KeyWord Reserved
-  For X = 1 To frmMain.svr.KeyWordReserved.Count
-    If LCase(frmMain.svr.KeyWordReserved(X)) = LCase(szData) Then
+  For x = 1 To frmMain.svr.KeyWordReserved.Count
+    If LCase(frmMain.svr.KeyWordReserved(x)) = LCase(szData) Then
+      szData = QUOTE & szData & QUOTE
       bFound = True
       Exit For
     End If
