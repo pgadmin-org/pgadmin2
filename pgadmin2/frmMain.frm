@@ -901,6 +901,14 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.imgSplitter_MouseUp(" & Button 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.imgSplitter_MouseUp"
 End Sub
 
+Private Sub lv_DblClick()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DblClick()", etFullDebug
+  mnuPopupProperties_Click
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DblClick"
+End Sub
+
 Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
@@ -1945,8 +1953,18 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = svr.Port
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Username", "property", "property")
   lvItem.SubItems(1) = svr.Username
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Last system OID", "property", "property")
+  lvItem.SubItems(1) = svr.LastSystemOID
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ODBC driver", "property", "property")
+  lvItem.SubItems(1) = svr.DriverName
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ODBC driver version", "property", "property")
+  lvItem.SubItems(1) = svr.DriverVersion.Major & "." & svr.DriverVersion.Minor & "." & svr.DriverVersion.Revision
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "PostgreSQL version", "property", "property")
+  lvItem.SubItems(1) = svr.dbVersion.Major & "." & svr.dbVersion.Minor & "." & svr.dbVersion.Revision
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "DBMS", "property", "property")
   lvItem.SubItems(1) = svr.dbVersion.Description
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Connection string", "property", "property")
+  lvItem.SubItems(1) = svr.ConnectionString
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvServer"
