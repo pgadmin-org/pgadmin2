@@ -12,6 +12,7 @@ Switch on Commlog/Mylog when loglevel is high enough.
 Added SSH Tunneling HOWTO from Fred Yanowski.
 Fixed the Highlightbox control so it doesn't strip braces {} from text.
 Added support for PostgreSQL 7.2 style ACLs (seperated Update/Delete, added References & Trigger) in the Security Wizard.
+Support 64Bit sequences properly on PostgreSQL 7.2+
 
 1.1.72
 ------

@@ -24,10 +24,10 @@ Private szIdentifier As String
 Private bSystemObject As String
 Private szOwner As String
 Private szACL As String
-Private lIncrement As Long
-Private lMaximum As Long
-Private lMinimum As Long
-Private lCache As Long
+Private szIncrement As String
+Private szMaximum As String
+Private szMinimum As String
+Private szCache As String
 Private bCycled As Boolean
 Private cnDatabase As Connection
 Private dTimeStamp As Date
@@ -240,7 +240,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the LastValue (Always get the latest value)
-Public Property Let LastValue(ByVal vData As Long)
+Public Property Let LastValue(ByVal vData As Variant)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let LastValue(" & vData & ")", etFullDebug
 
@@ -250,7 +250,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let LastValu
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get LastValue() As Long
+Public Property Get LastValue() As Variant
 Attribute LastValue.VB_Description = "Returns the Sequence's Last value."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get LastValue()", etFullDebug
@@ -261,7 +261,7 @@ Dim szSQL As String
   szSQL = "SELECT last_value FROM " & QUOTE & szName & QUOTE
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
-    LastValue = rs!last_value
+    LastValue = rs!last_value & ""
   Else
     LastValue = 0
   End If
@@ -277,84 +277,84 @@ Err_Handler:
 End Property
 
 'Set/Return the Increment
-Friend Property Let Increment(ByVal vData As Long)
+Friend Property Let Increment(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Increment(" & vData & ")", etFullDebug
 
-  lIncrement = vData
+  szIncrement = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get Increment() As Long
+Public Property Get Increment() As String
 Attribute Increment.VB_Description = "Returns the Sequence's Increment value."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Increment()", etFullDebug
 
-  Increment = lIncrement
+  Increment = szIncrement
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Maximum
-Friend Property Let Maximum(ByVal vData As Long)
+Friend Property Let Maximum(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Maximum(" & vData & ")", etFullDebug
 
-  lMaximum = vData
+  szMaximum = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get Maximum() As Long
+Public Property Get Maximum() As String
 Attribute Maximum.VB_Description = "Returns the Sequence's Maximum value."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Maximum()", etFullDebug
 
-  Maximum = lMaximum
+  Maximum = szMaximum
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Minimum
-Friend Property Let Minimum(ByVal vData As Long)
+Friend Property Let Minimum(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Minimum(" & vData & ")", etFullDebug
 
-  lMinimum = vData
+  szMinimum = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get Minimum() As Long
+Public Property Get Minimum() As String
 Attribute Minimum.VB_Description = "Returns the Sequence's Minimum value."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Minimum()", etFullDebug
 
-  Minimum = lMinimum
+  Minimum = szMinimum
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Cache
-Friend Property Let Cache(ByVal vData As Long)
+Friend Property Let Cache(ByVal vData As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Cache(" & vData & ")", etFullDebug
 
-  lCache = vData
+  szCache = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get Cache() As Long
+Public Property Get Cache() As String
 Attribute Cache.VB_Description = "Returns the Sequence's Cache value."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Cache()", etFullDebug
 
-  Cache = lCache
+  Cache = szCache
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -521,10 +521,10 @@ Dim szSQL As String
   
   szSQL = "-- Sequence: " & szName & vbCrLf & _
           "CREATE SEQUENCE " & QUOTE & szName & QUOTE & " " & _
-          "INCREMENT " & lIncrement & " " & _
-          "MINVALUE " & lMinimum & " " & _
-          "MAXVALUE " & lMaximum & " " & _
-          "CACHE " & lCache
+          "INCREMENT " & szIncrement & " " & _
+          "MINVALUE " & szMinimum & " " & _
+          "MAXVALUE " & szMaximum & " " & _
+          "CACHE " & szCache
           
   If bCycled Then szSQL = szSQL & " CYCLE"
   szSQL = szSQL & ";" & vbCrLf

@@ -153,7 +153,7 @@ Err_Handler:
 End Sub
 
 'External Add
-Public Function Add(ByVal Name As String, Optional ByVal Increment As Long, Optional ByVal Minimum As Long, Optional ByVal Maximum As Long, Optional ByVal Start As Long, Optional ByVal Cache As Long, Optional ByVal Cycled As Boolean, Optional ByVal Comment As String) As pgSequence
+Public Function Add(ByVal Name As String, Optional ByVal Increment As Variant, Optional ByVal Minimum As Variant, Optional ByVal Maximum As Variant, Optional ByVal Start As Variant, Optional ByVal Cache As Variant, Optional ByVal Cycled As Boolean, Optional ByVal Comment As String) As pgSequence
 Attribute Add.VB_Description = "Add a new Sequence."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Add(" & QUOTE & Name & QUOTE & ", " & Increment & ", " & Minimum & ", " & Maximum & ", " & Start & ", " & Cache & ", " & Cycled & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
@@ -162,24 +162,18 @@ Dim rs As New Recordset
 Dim objNewMember As pgSequence
 Dim szSQL As String
   
-  'Setup Default values
-  If Increment = 0 Then Increment = 1
-  If Increment > 0 Then
-    If Minimum = 0 Then Minimum = 1
-    If Maximum = 0 Then Maximum = 2147483647
-    If Start = 0 Then Start = Minimum
-  Else
-    If Minimum = 0 Then Minimum = -2147483647
-    If Maximum = 0 Then Maximum = -1
-    If Start = 0 Then Start = Maximum
-  End If
-  If Cache = 0 Then Cache = 1
-  
   'Create a new object
   Set objNewMember = New pgSequence
 
   'Generate the SQL query to create the new object and execute
-  szSQL = "CREATE SEQUENCE " & QUOTE & Name & QUOTE & " INCREMENT " & Increment & " MINVALUE " & Minimum & " MAXVALUE " & Maximum & " START " & Start & " CACHE " & Cache
+  szSQL = "CREATE SEQUENCE " & QUOTE & Name & QUOTE
+  
+  'Increment
+  If Increment <> "" Then szSQL = szSQL & " INCREMENT " & Increment
+  If Minimum <> "" Then szSQL = szSQL & " MINVALUE " & Minimum
+  If Maximum <> "" Then szSQL = szSQL & " MAXVALUE " & Maximum
+  If Start <> "" Then szSQL = szSQL & " START " & Start
+  If Cache <> "" Then szSQL = szSQL & " CACHE " & Cache
   If Cycled = True Then szSQL = szSQL & " CYCLE"
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then

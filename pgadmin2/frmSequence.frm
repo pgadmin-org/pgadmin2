@@ -564,47 +564,13 @@ Dim vEntity As Variant
       Exit Sub
     End If
   End If
-  If (Val(txtProperties(3).Text) < -2147483647) Or (Val(txtProperties(3).Text) > 2147483647) Then
-    MsgBox "The sequence's last value must be between -2147483647 and 2147483647!", vbExclamation, "Error"
-    tabProperties.Tab = 0
-    txtProperties(3).SetFocus
-    Exit Sub
-  End If
-    
+  
+  'NOTE: Don't attempt to verify the sequence values - they're dependant on the architecture of the server OS
+  '      so we'll just let PostgreSQL report any errors.
+   
   If bNew Then
-    If Val(txtProperties(4) < -2147483647) Or Val(txtProperties(4) > 2147483647) Then
-      MsgBox "The sequence's minimum value must be between -2147483647 and 2147483647!", vbExclamation, "Error"
-      tabProperties.Tab = 0
-      txtProperties(4).SetFocus
-      Exit Sub
-    End If
-    If Val(txtProperties(5) < -2147483647) Or Val(txtProperties(5) > 2147483647) Then
-      MsgBox "The sequence's maximum value must be between -2147483647 and 2147483647!", vbExclamation, "Error"
-      tabProperties.Tab = 0
-      txtProperties(5).SetFocus
-      Exit Sub
-    End If
-    If Val(txtProperties(6) < -2147483647) Or Val(txtProperties(6) > 2147483647) Then
-      MsgBox "The sequence's start value must be between -2147483647 and 2147483647!", vbExclamation, "Error"
-      tabProperties.Tab = 0
-      txtProperties(6).SetFocus
-      Exit Sub
-    End If
-    If Val(txtProperties(7) < 1) Or Val(txtProperties(7) > 2147483647) Then
-      MsgBox "The sequence's increment value must be between -2147483647 and 2147483647!", vbExclamation, "Error"
-      tabProperties.Tab = 0
-      txtProperties(7).SetFocus
-      Exit Sub
-    End If
-      If Val(txtProperties(8) < 1) Or Val(txtProperties(8) > 2147483647) Then
-      MsgBox "The sequence's cache value must be between 1 and 2147483647!", vbExclamation, "Error"
-      tabProperties.Tab = 0
-      txtProperties(8).SetFocus
-      Exit Sub
-    End If
-      
     StartMsg "Creating Sequence..."
-    frmMain.svr.Databases(szDatabase).Sequences.Add txtProperties(0).Text, Val(txtProperties(7).Text), Val(txtProperties(4).Text), Val(txtProperties(5).Text), Val(txtProperties(6).Text), Val(txtProperties(8).Text), Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text
+    frmMain.svr.Databases(szDatabase).Sequences.Add txtProperties(0).Text, txtProperties(7).Text, txtProperties(4).Text, txtProperties(5).Text, txtProperties(6).Text, txtProperties(8).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text
     
     'Add a new node and update the text on the parent
     For Each objNode In frmMain.tv.Nodes
@@ -618,7 +584,7 @@ Dim vEntity As Variant
     
   Else
     StartMsg "Updating Sequence..."
-    If txtProperties(3).Tag = "Y" Then objSequence.LastValue = Val(txtProperties(3).Text)
+    If txtProperties(3).Tag = "Y" Then objSequence.LastValue = txtProperties(3).Text
     If hbxProperties(0).Tag = "Y" Then objSequence.Comment = hbxProperties(0).Text
   End If
   
@@ -700,7 +666,11 @@ Dim szAccess() As String
     
     'Set some defaults
     txtProperties(4).Text = "1"
-    txtProperties(5).Text = "2147483647"
+    If frmMain.svr.dbVersion.VersionNum < 7.2 Then
+      txtProperties(5).Text = "2147483647"
+    Else
+      txtProperties(5).Text = "9223372036854775807"
+    End If
     txtProperties(6).Text = "1"
     txtProperties(7).Text = "1"
     txtProperties(8).Text = "1"
