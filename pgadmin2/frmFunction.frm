@@ -6,15 +6,14 @@ Begin VB.Form frmFunction
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Function"
    ClientHeight    =   6876
-   ClientLeft      =   48
-   ClientTop       =   336
+   ClientLeft      =   4740
+   ClientTop       =   816
    ClientWidth     =   5520
    Icon            =   "frmFunction.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    ScaleHeight     =   6876
    ScaleWidth      =   5520
-   StartUpPosition =   3  'Windows Default
    Begin MSComctlLib.ImageList il 
       Left            =   45
       Top             =   6300
@@ -133,13 +132,13 @@ Begin VB.Form frmFunction
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":2CC0
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdRemove"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lblProperties(4)"
+      Tab(1).Control(1)=   "lblProperties(5)"
+      Tab(1).Control(2)=   "cboProperties(2)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "cboProperties(2)"
-      Tab(1).Control(5)=   "lblProperties(5)"
-      Tab(1).Control(6)=   "lblProperties(4)"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cmdAdd"
+      Tab(1).Control(6)=   "cmdRemove"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":2CDC
@@ -149,10 +148,10 @@ Begin VB.Form frmFunction
       TabCaption(3)   =   "&Security"
       TabPicture(3)   =   "frmFunction.frx":2CF8
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lvProperties(1)"
-      Tab(3).Control(1)=   "fraAdd"
-      Tab(3).Control(2)=   "cmdAddPrivilege"
-      Tab(3).Control(3)=   "cmdRemovePrivilege"
+      Tab(3).Control(0)=   "cmdRemovePrivilege"
+      Tab(3).Control(1)=   "cmdAddPrivilege"
+      Tab(3).Control(2)=   "fraAdd"
+      Tab(3).Control(3)=   "lvProperties(1)"
       Tab(3).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -631,6 +630,7 @@ Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
 Dim szIdentifier As String
+Dim szSource As String
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -664,10 +664,11 @@ Dim szIdentifier As String
   Next objItem
   If Len(szArguments) > 2 Then szArguments = Left(szArguments, Len(szArguments) - 2)
   szIdentifier = fmtID(txtProperties(0).Text) & "(" & szArguments & ")"
-  
+
+  szSource = Replace(hbxProperties(1).Text, vbCrLf, vbLf)
   If bNew Then
     StartMsg "Creating Function..."
-    Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(txtProperties(0).Text, szArguments, cboProperties(1).Text, hbxProperties(1).Text, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text, cboProperties(3).Text, Bin2Bool(chkProperties(3).Value), Bin2Bool(chkProperties(2).Value))
+    Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(txtProperties(0).Text, szArguments, cboProperties(1).Text, szSource, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text, cboProperties(3).Text, Bin2Bool(chkProperties(3).Value), Bin2Bool(chkProperties(2).Value))
     
     'Add a new node and update the text on the parent
     On Error Resume Next
@@ -679,7 +680,7 @@ Dim szIdentifier As String
   Else
     StartMsg "Updating Function..."
     If hbxProperties(0).Tag = "Y" Then objFunction.Comment = hbxProperties(0).Text
-    If hbxProperties(1).Tag = "Y" Then objFunction.Source = hbxProperties(1).Text
+    If hbxProperties(1).Tag = "Y" Then objFunction.Source = szSource
   End If
   
   'Set the ACL on the Database as required
