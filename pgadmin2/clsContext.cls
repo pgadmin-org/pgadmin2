@@ -140,12 +140,14 @@ Public Property Let CurrentDB(ByVal szData As String)
     If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("cast").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = True
+    frmMain.tb.Buttons("resetstatistics").Enabled = True
     frmMain.tb.Buttons("sql").Enabled = True
     frmMain.tb.Buttons("vacuum").Enabled = True
     frmMain.mnuFileSaveDBSchema.Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateCast.Enabled = True
     frmMain.mnuPopupCreateLanguage.Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateNamespace.Enabled = True
+    If ctx.dbVer >= 7.2 Then frmMain.mnuPopupResetStatistics.Enabled = True
     frmMain.mnuPopupSQL.Enabled = True
     frmMain.mnuPopupVacuum.Enabled = True
   Else
@@ -153,12 +155,14 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("cast").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = False
+    frmMain.tb.Buttons("resetstatistics").Enabled = False
     frmMain.tb.Buttons("sql").Enabled = False
     frmMain.tb.Buttons("vacuum").Enabled = False
     frmMain.mnuFileSaveDBSchema.Enabled = False
     frmMain.mnuPopupCreateCast.Enabled = False
     frmMain.mnuPopupCreateLanguage.Enabled = False
     frmMain.mnuPopupCreateNamespace.Enabled = False
+    If ctx.dbVer >= 7.2 Then frmMain.mnuPopupResetStatistics.Enabled = False
     frmMain.mnuPopupSQL.Enabled = False
     frmMain.mnuPopupVacuum.Enabled = False
   End If

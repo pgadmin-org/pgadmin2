@@ -54,7 +54,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   10
+         NumListImages   =   11
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":0A02
             Key             =   "connect"
@@ -95,6 +95,10 @@ Begin VB.Form frmMain
             Picture         =   "frmMain.frx":6E74
             Key             =   "stop"
          EndProperty
+         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":774E
+            Key             =   "statistics"
+         EndProperty
       EndProperty
    End
    Begin MSComctlLib.Toolbar tb 
@@ -113,7 +117,7 @@ Begin VB.Form frmMain
       ImageList       =   "ilTB"
       _Version        =   393216
       BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-         NumButtons      =   13
+         NumButtons      =   14
          BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Key             =   "connect"
             Description     =   "Connect"
@@ -250,19 +254,25 @@ Begin VB.Form frmMain
          EndProperty
          BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
+            Key             =   "resetstatistics"
+            Object.ToolTipText     =   "Reset Database Statistics"
+            ImageKey        =   "statistics"
+         EndProperty
+         BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+            Enabled         =   0   'False
             Key             =   "sql"
             Description     =   "SQL"
             Object.ToolTipText     =   "Execute arbitrary SQL queries."
             ImageKey        =   "sql"
          EndProperty
-         BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "viewdata"
             Description     =   "View Data"
             Object.ToolTipText     =   "View the data in the selected table/view"
             ImageKey        =   "viewdata"
          EndProperty
-         BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button11 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "vacuum"
             Description     =   "Vacuum"
@@ -281,17 +291,17 @@ Begin VB.Form frmMain
                EndProperty
             EndProperty
          EndProperty
-         BeginProperty Button11 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button12 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Key             =   "sep4"
             Style           =   3
          EndProperty
-         BeginProperty Button12 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button13 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Key             =   "record"
             Description     =   "Record Log"
             Object.ToolTipText     =   "Record a query log."
             ImageKey        =   "record"
          EndProperty
-         BeginProperty Button13 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button14 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "stop"
             Description     =   "Stop Recording"
@@ -371,115 +381,115 @@ Begin VB.Form frmMain
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   28
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":774E
+            Picture         =   "frmMain.frx":8320
             Key             =   "aggregate"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":7E20
+            Picture         =   "frmMain.frx":89F2
             Key             =   "check"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":84F2
+            Picture         =   "frmMain.frx":90C4
             Key             =   "column"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8BC4
+            Picture         =   "frmMain.frx":9796
             Key             =   "function"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9296
+            Picture         =   "frmMain.frx":9E68
             Key             =   "group"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9968
+            Picture         =   "frmMain.frx":A53A
             Key             =   "index"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9F02
+            Picture         =   "frmMain.frx":AAD4
             Key             =   "indexcolumn"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A5D4
+            Picture         =   "frmMain.frx":B1A6
             Key             =   "foreignkey"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":ACA6
+            Picture         =   "frmMain.frx":B878
             Key             =   "language"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B378
+            Picture         =   "frmMain.frx":BF4A
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":BA4A
+            Picture         =   "frmMain.frx":C61C
             Key             =   "property"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":BFE4
+            Picture         =   "frmMain.frx":CBB6
             Key             =   "relationship"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C13E
+            Picture         =   "frmMain.frx":CD10
             Key             =   "rule"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C810
+            Picture         =   "frmMain.frx":D3E2
             Key             =   "server"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C96A
+            Picture         =   "frmMain.frx":D53C
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D03C
+            Picture         =   "frmMain.frx":DC0E
             Key             =   "table"
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D70E
+            Picture         =   "frmMain.frx":E2E0
             Key             =   "trigger"
          EndProperty
          BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":DDE0
+            Picture         =   "frmMain.frx":E9B2
             Key             =   "type"
          EndProperty
          BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":E4B2
+            Picture         =   "frmMain.frx":F084
             Key             =   "user"
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":E60C
+            Picture         =   "frmMain.frx":F1DE
             Key             =   "view"
          EndProperty
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":ECDE
+            Picture         =   "frmMain.frx":F8B0
             Key             =   "hiproperty"
          EndProperty
          BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F278
+            Picture         =   "frmMain.frx":FE4A
             Key             =   "database"
          EndProperty
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F3D2
+            Picture         =   "frmMain.frx":FFA4
             Key             =   "closeddatabase"
          EndProperty
          BeginProperty ListImage24 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F52C
+            Picture         =   "frmMain.frx":100FE
             Key             =   "baddatabase"
          EndProperty
          BeginProperty ListImage25 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F686
+            Picture         =   "frmMain.frx":10258
             Key             =   "statistics"
          EndProperty
          BeginProperty ListImage26 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":10258
+            Picture         =   "frmMain.frx":10E2A
             Key             =   "domain"
          EndProperty
          BeginProperty ListImage27 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":1092A
+            Picture         =   "frmMain.frx":114FC
             Key             =   "namespace"
          EndProperty
          BeginProperty ListImage28 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":114FC
+            Picture         =   "frmMain.frx":120CE
             Key             =   "cast"
          EndProperty
       EndProperty
@@ -513,13 +523,13 @@ Begin VB.Form frmMain
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmMain.frx":120CE
+      TabPicture(0)   =   "frmMain.frx":12CA0
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lv"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).ControlCount=   1
       TabCaption(1)   =   "&Statistics"
-      TabPicture(1)   =   "frmMain.frx":120EA
+      TabPicture(1)   =   "frmMain.frx":12CBC
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "sv"
       Tab(1).ControlCount=   1
@@ -871,6 +881,9 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuPopupSep2 
          Caption         =   "-"
       End
+      Begin VB.Menu mnuPopupResetStatistics 
+         Caption         =   "R&eset Database Statistics"
+      End
       Begin VB.Menu mnuPopupSQL 
          Caption         =   "&SQL..."
          Enabled         =   0   'False
@@ -1063,70 +1076,70 @@ Dim objFindForm As New frmFind
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsFindObject_Click"
 End Sub
 
-Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub tv_DragDrop(Source As Control, X As Single, y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize tv.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, tv.Top + Y
+    Resize splVertical.Left, tv.Top + y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tv_DragDrop"
 End Sub
 
-Private Sub prop_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub prop_DragDrop(Source As Control, X As Single, y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, prop.Top + Y
+    Resize splVertical.Left, prop.Top + y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.prop_DragDrop"
 End Sub
 
-Private Sub lv_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub lv_DragDrop(Source As Control, X As Single, y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize lv.Left + prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, lv.Top + prop.Top + Y
+    Resize splVertical.Left, lv.Top + prop.Top + y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DragDrop"
 End Sub
 
-Private Sub sv_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub sv_DragDrop(Source As Control, X As Single, y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize sv.Left + prop.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, sv.Top + prop.Top + Y
+    Resize splVertical.Left, sv.Top + prop.Top + y
   End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.sv_DragDrop"
 End Sub
 
-Private Sub txtDefinition_DragDrop(Source As Control, X As Single, Y As Single)
+Private Sub txtDefinition_DragDrop(Source As Control, X As Single, y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & X & ", " & y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
     Resize txtDefinition.Left + X, splHorizontal.Top
   ElseIf Source.Name = "splHorizontal" Then
-    Resize splVertical.Left, txtDefinition.Top + Y
+    Resize splVertical.Left, txtDefinition.Top + y
   End If
     
   Exit Sub
@@ -1143,9 +1156,9 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DblClick()", etFullDebug
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_DblClick"
 End Sub
 
-Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
   
@@ -1233,9 +1246,9 @@ Dim objNode As Node
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuViewSystemObjects_Click"
 End Sub
 
-Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, y As Single)
 On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
 
@@ -1529,6 +1542,22 @@ Dim objNode As Node
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupRefresh_Click"
 End Sub
 
+Private Sub mnuPopupResetStatistics_Click()
+On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupResetStat_Click()", etFullDebug
+
+  'reset statistic
+  If MsgBox("Are you sure you wish to reset the database statistics?", vbApplicationModal + vbYesNo + vbQuestion) = vbYes Then
+    svr.Databases(ctx.CurrentDB).Execute "SELECT pg_stat_reset()"
+  End If
+  
+  'Reset the stats etc.
+  tv_NodeClick tv.SelectedItem
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupResetStatistics_Click"
+End Sub
+
 Private Sub mnuPopupDrop_Click()
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupDrop_Click()", etFullDebug
@@ -1676,19 +1705,19 @@ Private Sub mnuPopupSQL_Click()
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupSQL_Click()", etFullDebug
   
-Dim Y As Integer
+Dim y As Integer
 Dim X As Integer
 
-  Y = 1
+  y = 1
   For X = 0 To Forms.Count - 1
     If Forms(X).Name = "frmSQLInput" Then
-      Y = Val(Forms(X).Tag) + 1
+      y = Val(Forms(X).Tag) + 1
     End If
   Next
   Dim objSQLInputForm As New frmSQLInput
   Load objSQLInputForm
-  objSQLInputForm.Tag = Y
-  objSQLInputForm.Caption = "SQL " & Y & ": " & ctx.CurrentDB & " ()"
+  objSQLInputForm.Tag = y
+  objSQLInputForm.Caption = "SQL " & y & ": " & ctx.CurrentDB & " ()"
   objSQLInputForm.Show
   
   Exit Sub
@@ -1746,6 +1775,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")"
       mnuPopupDrop_Click
     Case "properties"
       mnuPopupProperties_Click
+    Case "resetstatistics"
+      mnuPopupResetStatistics_Click
     Case "sql"
       mnuPopupSQL_Click
     Case "viewdata"

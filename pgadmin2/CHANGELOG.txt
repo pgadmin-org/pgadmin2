@@ -16,6 +16,7 @@ New custom error dialogue [Frank Lupo].
 Added MS Access Exporter [Frank Lupo].
 Added a pg_hba.conf editor plugin [Frank Lupo, Mark Yeatman].
 Additional User/Database variable handling code including combo boxes for known options [Frank Lupo].
+Added an option to reset statistics [Frank Lupo].
 
 1.4.12
 ------
