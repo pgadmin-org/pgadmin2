@@ -195,7 +195,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let LastValue(" & vData & ")", etFullDebug
 
   'Use setval to set the last value
-  objServer.ExecSQL "SELECT setval('" & szName & "', " & vData & ")", cnDatabase
+  objServer.ExecSQL "SELECT setval('" & dbSZ(szName) & "', " & vData & ")", cnDatabase
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -208,7 +208,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get LastValu
 Dim rs As New Recordset
 Dim szSQL As String
   
-  szSQL = "SELECT last_value FROM " & QUOTE & dbSZ(szName) & QUOTE
+  szSQL = "SELECT last_value FROM " & QUOTE & szName & QUOTE
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     LastValue = rs!last_value
@@ -382,7 +382,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & " ON " & QUOTE & dbSZ(szName) & QUOTE & " TO " & dbSZ(UserOrGroup)
+  szSQL = szSQL & " ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -429,7 +429,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & " ON " & QUOTE & dbSZ(szName) & QUOTE & " FROM " & dbSZ(UserOrGroup)
+  szSQL = szSQL & " ON " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
