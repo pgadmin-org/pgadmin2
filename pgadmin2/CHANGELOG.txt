@@ -8,6 +8,7 @@ Allow Data Editor to set dates/timestamps to null when value is cleared.
 Fixed a bug in the View update code.
 Fixed a bug in Explain Plan with PostgreSQL 7.3.
 Fixed a bug in the SQL query parser that failed to handle table/view names containing spaces correctly.
+Added support for multiple foreign keys on one table with the same name.
 
 1.4.2
 -----

@@ -180,6 +180,7 @@ Dim szArgArray() As String
 Dim szLocalColumns As String
 Dim szReferencedColumns As String
 Dim X As Long
+Dim lKeyNum As Long
 
   'Create a new object
   Set objNewMember = New pgForeignKey
@@ -216,11 +217,22 @@ Dim X As Long
     objNewMember.Initially = "Immediate"
   End If
 
+  'Note, FKeys may have dup names, so we must make the identifiers unique.
+  lKeyNum = 2
   If szName = "" Or szName = "<unnamed>" Then
     objNewMember.Identifier = "Unamed Foreign Key - " & dOID & " -> " & szArgArray(2)
+    While Exists(objNewMember.Identifier)
+      objNewMember.Identifier = "Unamed Foreign Key - " & dOID & " -> " & szArgArray(2) & " #" & lKeyNum
+      lKeyNum = lKeyNum + 1
+    Wend
   Else
     objNewMember.Identifier = szName & " -> " & szArgArray(2)
+    While Exists(objNewMember.Identifier)
+      objNewMember.Identifier = szName & " -> " & szArgArray(2) & " #" & lKeyNum
+      lKeyNum = lKeyNum + 1
+    Wend
   End If
+  
   Set objNewMember.Connection = cnDatabase
   mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
