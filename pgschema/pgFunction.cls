@@ -272,13 +272,13 @@ Dim rs As New Recordset
   
   'Set the source
   szSource = vData
-  objServer.Databases(Database).Execute SQL(True, True)
+  objServer.Databases(Database).Execute SQL(True)
     
   'Select the prosrc back from the DB...
   Set rs = objServer.ExecSQL("SELECT prosrc FROM pg_proc WHERE oid = " & lOID, cnDatabase)
   If Not rs.EOF Then szSource = rs!prosrc & ""
   
-  'Cleanup the source code
+  'Clean code
   szSource = Replace(szSource, "\", "\\")
   szSource = Replace(szSource, "'", "''")
   
@@ -433,7 +433,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Argument
 Err_Handler:  objServer.iLogError Err
 End Property
 
-Public Property Get SQL(Optional OrReplace As Boolean = False, Optional bQuote As Boolean = False) As String
+Public Property Get SQL(Optional OrReplace As Boolean = False) As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SQL(" & OrReplace & ")", etFullDebug
@@ -463,12 +463,6 @@ Dim X As Long
     szSQL = szSQL & "CREATE OR REPLACE FUNCTION " & QUOTE & szName & QUOTE & szArgs
   Else
     szSQL = szSQL & "CREATE FUNCTION " & QUOTE & szName & QUOTE & szArgs
-  End If
-  
-  If bQuote Then
-    szSource = Replace(szSource, "\", "\\")
-    szSource = Replace(szSource, "'", "\'")
-    szSource = Replace(szSource, QUOTE, "\" & QUOTE)
   End If
   
   szSQL = szSQL & " RETURNS " & QUOTE & szReturns & QUOTE & _
