@@ -1,5 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmDatabase 
    BorderStyle     =   1  'Fixed Single
@@ -14,6 +15,24 @@ Begin VB.Form frmDatabase
    ScaleHeight     =   6885
    ScaleWidth      =   5520
    StartUpPosition =   3  'Windows Default
+   Begin MSComctlLib.ImageList il 
+      Left            =   90
+      Top             =   6210
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      BackColor       =   -2147483643
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   12632256
+      _Version        =   393216
+      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+         NumListImages   =   1
+         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":014A
+            Key             =   "encoding"
+         EndProperty
+      EndProperty
+   End
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
       Default         =   -1  'True
@@ -45,7 +64,7 @@ Begin VB.Form frmDatabase
       Tabs            =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmDatabase.frx":014A
+      TabPicture(0)   =   "frmDatabase.frx":0A24
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(4)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -67,19 +86,24 @@ Begin VB.Form frmDatabase
       Tab(0).Control(8).Enabled=   0   'False
       Tab(0).Control(9)=   "txtProperties(3)"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "txtProperties(4)"
+      Tab(0).Control(10)=   "cboProperties(0)"
       Tab(0).Control(10).Enabled=   0   'False
       Tab(0).ControlCount=   11
-      Begin VB.TextBox txtProperties 
-         BackColor       =   &H8000000F&
-         Height          =   285
-         Index           =   4
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   330
+         Index           =   0
          Left            =   1935
-         Locked          =   -1  'True
-         TabIndex        =   5
-         ToolTipText     =   "An alternate filesystem location in which to store the new database, specified as a string literal."
-         Top             =   2295
+         TabIndex        =   4
+         ToolTipText     =   "Select or enter the encoding scheme to use."
+         Top             =   1890
          Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
       End
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -87,9 +111,9 @@ Begin VB.Form frmDatabase
          Index           =   3
          Left            =   1935
          Locked          =   -1  'True
-         TabIndex        =   4
-         ToolTipText     =   $"frmDatabase.frx":0166
-         Top             =   1890
+         TabIndex        =   5
+         ToolTipText     =   "An alternate filesystem location in which to store the new database, specified as a string literal."
+         Top             =   2295
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -239,7 +263,7 @@ Dim objNode As Node
   
   If bNew Then
     StartMsg "Creating Database..."
-    frmMain.svr.Databases.Add txtProperties(0).Text, txtProperties(4).Text, txtProperties(3).Text, hbxProperties(0).Text
+    frmMain.svr.Databases.Add txtProperties(0).Text, txtProperties(3).Text, cboProperties(0).Text, hbxProperties(0).Text
     
     'Add a new node and update the text on the parent
     For Each objNode In frmMain.tv.Nodes
@@ -272,6 +296,7 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFullDebug
 
 Dim X As Integer
+Dim objItem As ComboItem
   
   If Database Is Nothing Then
   
@@ -279,13 +304,30 @@ Dim X As Integer
     bNew = True
     Me.Caption = "Create Database"
     
+    'Load the Encoding Schemes
+    cboProperties(0).ComboItems.Add , , "SQL_ASCII", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "EUC_JP", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "EUC_CN", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "EUC_KR", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "EUC_TW", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "UNICODE", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "MULE_INTERNAL", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN1", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN2", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN3", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN4", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "LATIN5", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "KOI8", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "WIN", "encoding", "encoding"
+    cboProperties(0).ComboItems.Add , , "ALT", "encoding", "encoding"
+   
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
     txtProperties(0).Locked = False
+    cboProperties(0).BackColor = &H80000005
+    cboProperties(0).Locked = False
     txtProperties(3).BackColor = &H80000005
     txtProperties(3).Locked = False
-    txtProperties(4).BackColor = &H80000005
-    txtProperties(4).Locked = False
     
   Else
   
@@ -296,13 +338,14 @@ Dim X As Integer
     txtProperties(0).Text = objDatabase.Name
     txtProperties(1).Text = objDatabase.OID
     txtProperties(2).Text = objDatabase.Owner
-    txtProperties(3).Text = objDatabase.Encoding
-    txtProperties(4).Text = objDatabase.Path
+    Set objItem = cboProperties(0).ComboItems.Add(, , objDatabase.EncodingName, "encoding", "encoding")
+    objItem.Selected = True
+    txtProperties(3).Text = objDatabase.Path
     hbxProperties(0).Text = objDatabase.Comment
   End If
   
   'Reset the Tags
-  For X = 0 To 4
+  For X = 0 To 3
     txtProperties(X).Tag = "N"
   Next X
   hbxProperties(0).Tag = "N"
