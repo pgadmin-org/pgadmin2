@@ -344,7 +344,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -459,7 +459,7 @@ Dim objItem As ComboItem
     
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.Formattedid, "table"
+      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.FormattedID, "table"
     Next objTable
     
     Set objItem = cboProperties(1).ComboItems.Add(, , "BEFORE", "trigger")
@@ -471,19 +471,19 @@ Dim objItem As ComboItem
     If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
       'First load pg_catalog items, unqualified
       For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
-        If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , Mid(objFunction.Formattedid, 12), "function"
+        If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , Mid(objFunction.FormattedID, 12), "function"
       Next objFunction
       'Now load the rest
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
         If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
           For Each objFunction In objNamespace.Functions
-            If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , objFunction.Formattedid, "function"
+            If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , objFunction.FormattedID, "function"
           Next objFunction
         End If
       Next objNamespace
     Else
       For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions
-        If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , objFunction.Formattedid, "function"
+        If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , objFunction.FormattedID, "function"
       Next objFunction
     End If
     

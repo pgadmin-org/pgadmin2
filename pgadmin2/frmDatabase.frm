@@ -103,21 +103,21 @@ Begin VB.Form frmDatabase
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmDatabase.frx":13C6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1"
-      Tab(1).Control(1)=   "Label2"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "txtVarValue"
+      Tab(1).Control(1)=   "txtVarName"
+      Tab(1).Control(2)=   "cmdAddVar"
       Tab(1).Control(3)=   "cmdRemoveVar"
-      Tab(1).Control(4)=   "cmdAddVar"
-      Tab(1).Control(5)=   "txtVarName"
-      Tab(1).Control(6)=   "txtVarValue"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "Label2"
+      Tab(1).Control(6)=   "Label1"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmDatabase.frx":13E2
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(1)"
-      Tab(2).Control(1)=   "fraAdd"
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(3)=   "cmdRemove"
+      Tab(2).Control(0)=   "cmdRemove"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "fraAdd"
+      Tab(2).Control(3)=   "lvProperties(1)"
       Tab(2).ControlCount=   4
       Begin VB.CommandButton cmdRemove 
          Caption         =   "&Remove"
@@ -577,7 +577,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(Optional Database As pgDatabase)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFullDebug
 
 Dim X As Integer

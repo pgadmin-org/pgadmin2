@@ -102,10 +102,10 @@ Begin VB.Form frmLanguage
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmLanguage.frx":15FE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "cmdAdd"
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "cmdRemove"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -361,7 +361,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
