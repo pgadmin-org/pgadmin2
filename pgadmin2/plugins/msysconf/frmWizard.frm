@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "MSysConf Wizard"
@@ -91,39 +91,39 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":18C2
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "optPasswordCaching(1)"
+      Tab(1).Control(0)=   "lblInfo(1)"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "optPasswordCaching(0)"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "lblInfo(1)"
+      Tab(1).Control(2)=   "optPasswordCaching(1)"
       Tab(1).Control(2).Enabled=   0   'False
       Tab(1).ControlCount=   3
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":18DE
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "udPopulationDelay"
+      Tab(2).Control(0)=   "lblInfo(2)"
       Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "txtPopulationDelay"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "lblInfo(2)"
+      Tab(2).Control(2)=   "udPopulationDelay"
       Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18FA
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "txtPopulationSize"
+      Tab(3).Control(0)=   "lblInfo(3)"
       Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "udPopulationSize"
       Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "lblInfo(3)"
+      Tab(3).Control(2)=   "txtPopulationSize"
       Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":1916
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblInfo(5)"
+      Tab(4).Control(0)=   "lblInfo(4)"
       Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "lblInfo(4)"
+      Tab(4).Control(1)=   "lblInfo(5)"
       Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
       Begin VB.TextBox txtPopulationSize 
@@ -491,22 +491,34 @@ Dim rs As New Recordset
   
   StartMsg "Examining Server..."
   For Each objDatabase In svr.Databases
-    If Not objDatabase.SystemObject Then
+    If ((Not objDatabase.SystemObject) And (objDatabase.Status <> statInaccessible)) Then
       Set objItem = lvDatabases.ListItems.Add(, , objDatabase.Identifier, "database", "database")
       objItem.SubItems(1) = "No"
       For Each objTable In objDatabase.Tables
         If objTable.Identifier = "msysconf" Then
           objItem.SubItems(1) = "Yes"
           Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 101")
-          If rs!nvalue & "" = "1" Then
-            objItem.SubItems(2) = "Yes"
+          If Not rs.EOF Then
+            If rs!nvalue & "" = "1" Then
+              objItem.SubItems(2) = "Yes"
+            Else
+              objItem.SubItems(2) = "No"
+            End If
           Else
-            objItem.SubItems(2) = "No"
+            objItem.SubItems(2) = "Not Set"
           End If
           Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 102")
-          objItem.SubItems(3) = rs!nvalue & ""
+          If Not rs.EOF Then
+            objItem.SubItems(3) = rs!nvalue & ""
+          Else
+            objItem.SubItems(3) = "Not Set"
+          End If
           Set rs = objDatabase.Execute("SELECT nvalue FROM msysconf WHERE config = 103")
-          objItem.SubItems(4) = rs!nvalue & ""
+          If Not rs.EOF Then
+            objItem.SubItems(4) = rs!nvalue & ""
+          Else
+            objItem.SubItems(4) = "Not Set"
+          End If
           Exit For
         End If
       Next objTable
