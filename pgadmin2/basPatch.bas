@@ -31,12 +31,11 @@ Dim objCtrl As Control
     If TypeOf objCtrl Is ComboBox Or _
        TypeOf objCtrl Is TextBox Or _
        TypeOf objCtrl Is ListBox Or _
-       TypeOf objCtrl Is CheckBox Or _
        TypeOf objCtrl Is ListView Or _
        TypeOf objCtrl Is TreeView Or _
        TypeOf objCtrl Is HBX Or _
-       TypeOf objCtrl Is ImageCombo Or _
-       TypeOf objCtrl Is OptionButton Then
+       TypeOf objCtrl Is TBX Or _
+       TypeOf objCtrl Is ImageCombo Then
       objCtrl.Font = ctx.Font
     End If
   Next

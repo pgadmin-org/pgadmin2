@@ -1,20 +1,20 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmOptions 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Options"
-   ClientHeight    =   6888
-   ClientLeft      =   2568
+   ClientHeight    =   6885
+   ClientLeft      =   2565
    ClientTop       =   1500
    ClientWidth     =   5520
    Icon            =   "frmOptions.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6888
+   ScaleHeight     =   6885
    ScaleWidth      =   5520
    Begin MSComDlg.CommonDialog cdlg 
       Left            =   0
@@ -55,32 +55,36 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "&Text"
       TabPicture(1)   =   "frmOptions.frx":0A1E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame8"
-      Tab(1).Control(1)=   "Frame7"
+      Tab(1).Control(0)=   "Frame7"
+      Tab(1).Control(1)=   "Frame8"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lstExporters"
-      Tab(2).Control(1)=   "Frame1"
-      Tab(2).Control(2)=   "cmdExpInstall"
-      Tab(2).Control(3)=   "cmdExpUninstall"
+      Tab(2).Control(0)=   "cmdExpUninstall"
+      Tab(2).Control(1)=   "cmdExpInstall"
+      Tab(2).Control(2)=   "Frame1"
+      Tab(2).Control(3)=   "lstExporters"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdPlgUninstall"
-      Tab(3).Control(1)=   "cmdPlgInstall"
-      Tab(3).Control(2)=   "Frame2"
-      Tab(3).Control(3)=   "lstPlugins"
+      Tab(3).Control(0)=   "lstPlugins"
+      Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(2)=   "cmdPlgInstall"
+      Tab(3).Control(3)=   "cmdPlgUninstall"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame6"
-      Tab(4).Control(1)=   "Frame5"
-      Tab(4).Control(2)=   "Frame4"
-      Tab(4).Control(3)=   "Frame3"
+      Tab(4).Control(0)=   "Frame3"
+      Tab(4).Control(0).Enabled=   0   'False
+      Tab(4).Control(1)=   "Frame4"
+      Tab(4).Control(1).Enabled=   0   'False
+      Tab(4).Control(2)=   "Frame5"
+      Tab(4).Control(2).Enabled=   0   'False
+      Tab(4).Control(3)=   "Frame6"
+      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).ControlCount=   4
       Begin VB.Frame Frame8 
          Caption         =   "Font"
@@ -194,8 +198,8 @@ Begin VB.Form frmOptions
             ToolTipText     =   "Displays the Text Formatting rules."
             Top             =   1170
             Width           =   4785
-            _ExtentX        =   8446
-            _ExtentY        =   4784
+            _ExtentX        =   8440
+            _ExtentY        =   4789
             View            =   3
             LabelEdit       =   1
             LabelWrap       =   -1  'True
@@ -342,12 +346,12 @@ Begin VB.Form frmOptions
             TabIndex        =   31
             Top             =   900
             Width           =   5055
-            _ExtentX        =   8911
-            _ExtentY        =   1672
+            _ExtentX        =   8916
+            _ExtentY        =   1667
             BackColor       =   -2147483633
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
-               Size            =   7.8
+               Size            =   8.25
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -379,7 +383,7 @@ Begin VB.Form frmOptions
          End
       End
       Begin VB.ListBox lstPlugins 
-         Height          =   3312
+         Height          =   3180
          ItemData        =   "frmOptions.frx":0C8F
          Left            =   -74910
          List            =   "frmOptions.frx":0C91
@@ -388,7 +392,7 @@ Begin VB.Form frmOptions
          Width           =   5235
       End
       Begin VB.ListBox lstExporters 
-         Height          =   3312
+         Height          =   3180
          ItemData        =   "frmOptions.frx":0C93
          Left            =   -74910
          List            =   "frmOptions.frx":0C95
@@ -409,12 +413,12 @@ Begin VB.Form frmOptions
             TabIndex        =   23
             Top             =   900
             Width           =   5055
-            _ExtentX        =   8911
-            _ExtentY        =   1672
+            _ExtentX        =   8916
+            _ExtentY        =   1667
             BackColor       =   -2147483633
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
-               Size            =   7.8
+               Size            =   8.25
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -616,7 +620,7 @@ Begin VB.Form frmOptions
       Index           =   3
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5688
+      ScaleWidth      =   5685
       TabIndex        =   14
       TabStop         =   0   'False
       Top             =   480
@@ -636,7 +640,7 @@ Begin VB.Form frmOptions
       Index           =   2
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5688
+      ScaleWidth      =   5685
       TabIndex        =   13
       TabStop         =   0   'False
       Top             =   480
@@ -656,7 +660,7 @@ Begin VB.Form frmOptions
       Index           =   1
       Left            =   -20000
       ScaleHeight     =   3780
-      ScaleWidth      =   5688
+      ScaleWidth      =   5685
       TabIndex        =   12
       TabStop         =   0   'False
       Top             =   480
