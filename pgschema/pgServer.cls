@@ -179,10 +179,13 @@ Public Sub LogEvent(ByVal szMessage As String, ByVal etType As ErrorType)
 Attribute LogEvent.VB_Description = "Log an event to the libraries logging system."
 Dim fNum As Integer
 Dim vError As Variant
+Static bHaveWarned As Boolean
 
   RaiseEvent EventLog(etType, szMessage)
   If lLogging >= etType Then
     fNum = FreeFile
+    
+    On Error GoTo Err_Handler
     Open szLogfile For Append As #fNum
     
     'If an error has occured, make it a bit more obvious and log extra info as well
@@ -219,6 +222,18 @@ Dim vError As Variant
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - " & szMessage
     End If
     Close #fNum
+    
+  End If
+  Exit Sub
+  
+Err_Handler:
+  If Err.Number = 76 Then
+    If bHaveWarned = False Then
+      MsgBox "The logfile could not be opened. Please check the logging settings.", vbExclamation, "Error"
+      bHaveWarned = True
+    End If
+  Else
+    Resume Next
   End If
 End Sub
 

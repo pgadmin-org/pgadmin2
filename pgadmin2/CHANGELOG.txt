@@ -1,3 +1,9 @@
+1.5.xx
+------
+
+Behave nicely if the logfile cannot be opened.
+
+
 1.5.60
 ------
 
