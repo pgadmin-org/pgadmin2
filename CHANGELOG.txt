@@ -1,5 +1,5 @@
-1.5.xx
-------
+1.6.0
+-----
 
 Behave nicely if the logfile cannot be opened.
 Correctly delete records in some circumstances when they haven't been editted first and the primary key is not the first column.
