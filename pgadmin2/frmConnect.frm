@@ -115,7 +115,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdConnect_Click()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.cmdConnect_Click()", etFullDebug
 
 Dim szOriConns(11) As String

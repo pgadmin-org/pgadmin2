@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmUpgradeWizard 
    Caption         =   "Upgrade Wizard"
    ClientHeight    =   4320
@@ -113,8 +113,10 @@ Begin VB.Form frmUpgradeWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmUpgradeWizard.frx":39B2
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvVersions"
-      Tab(1).Control(1)=   "Label1(2)"
+      Tab(1).Control(0)=   "Label1(2)"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "lvVersions"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       Begin MSComctlLib.ListView lvVersions 
          Height          =   2400
@@ -185,7 +187,7 @@ Begin VB.Form frmUpgradeWizard
       End
       Begin VB.Label Label1 
          Caption         =   $"frmUpgradeWizard.frx":39FA
-         Height          =   645
+         Height          =   780
          Index           =   2
          Left            =   -74820
          TabIndex        =   11
@@ -210,7 +212,7 @@ Begin VB.Form frmUpgradeWizard
          Width           =   6630
       End
       Begin VB.Label Label1 
-         Caption         =   $"frmUpgradeWizard.frx":3A93
+         Caption         =   $"frmUpgradeWizard.frx":3B0F
          Height          =   645
          Index           =   0
          Left            =   180
