@@ -453,11 +453,11 @@ End Property
 Public Property Get Rows() As Long
 Attribute Rows.VB_Description = "Returns the number of rows in the table."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Comment()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rows()", etFullDebug
 
 Dim rs As New Recordset
 
-  Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & dbSZ(szName) & QUOTE, cnDatabase)
+  Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & szName & QUOTE, cnDatabase)
   If Not rs.EOF Then Rows = rs!Rows
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing

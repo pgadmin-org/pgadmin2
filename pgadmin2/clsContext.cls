@@ -32,6 +32,7 @@ Dim bIncludeSys As Boolean
 Dim szAutoHighlight As String
 Dim objCurrentObject As Object
 Dim szCurrentDB As String
+Dim bAutoRowCount As Boolean
 
 'The connected server name
 Public Property Let Server(ByVal szData As String)
@@ -228,4 +229,12 @@ Public Property Let CurrentDB(ByVal szData As String)
 End Property
 Public Property Get CurrentDB() As String
   CurrentDB = szCurrentDB
+End Property
+
+'Auto row Count
+Public Property Let AutoRowCount(ByVal bData As Boolean)
+  bAutoRowCount = bData
+End Property
+Public Property Get AutoRowCount() As Boolean
+  AutoRowCount = bAutoRowCount
 End Property

@@ -24,6 +24,8 @@ Fixed a bug in the query parser in the SQL output grid.
 Allow pseudo modification of views with PostgreSQL 7.2+
 Views can now be renamed.
 Fixed a bug in the trigger reverse engineering that prepended the execution conditions of previous triggers to the current.
+Added an option to enable or disable Auto Row Counts.
+Added Rows property to View objects.
 
 1.2.0 Stable
 ------------

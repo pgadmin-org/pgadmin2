@@ -351,6 +351,23 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Comment()", 
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Get the row count
+Public Property Get Rows() As Long
+Attribute Rows.VB_Description = "Returns the number of rows represented in the view."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Rows()", etFullDebug
+
+Dim rs As New Recordset
+
+  Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & szName & QUOTE, cnDatabase)
+  If Not rs.EOF Then Rows = rs!Rows
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+ 
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Grant Permissions
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Grant.VB_Description = "Grant privileges on the View."
