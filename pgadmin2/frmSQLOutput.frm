@@ -671,7 +671,7 @@ On Error Resume Next
 End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer
@@ -821,13 +821,7 @@ Dim szSchemas() As String
       szTemp = szTemp & Mid(szQuery, X, 1)
     End If
   Next X
-      
-  'szTemp = Replace(Mid(szQuery, iStart, iEnd - iStart), vbTab, " ")
-
-  'szTemp = Replace(szTemp, vbCrLf, " ")
-  'While InStr(1, szTemp, "  ")
-  '  szTemp = Replace(szTemp, "  ", " ")
-  'Wend
+  szTemp = Replace(szTemp, vbCrLf, " ")
   
   'Split the FROM clause by space. We can then iterate through each element of
   'the array to figure out whether we have more than one table. The following

@@ -12,6 +12,8 @@ Added support for multiple foreign keys on one table with the same name.
 Allow View Data of tables/views in schemas with quoted names.
 Retrieve new function details correctly after creation in PostgreSQL 7.3.
 Fix issues in SQL generation for Triggers, Indexes and Rules when Schemas are applicable.
+Allow quoted schema/table names to work correctly in the SQL wizard.
+Updated PostgreSQL docs to 7.3.
 
 1.4.2
 -----

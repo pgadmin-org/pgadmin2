@@ -1039,6 +1039,8 @@ Dim objItem As ComboItem
     End If
   Next Y
   If szSchema = "" Then szSchema = "public"
+  If Left(szSchema, 1) = QUOTE And Right(szSchema, 1) = QUOTE Then szSchema = Mid(szSchema, 2, Len(szSchema) - 2)
+  If Left(szTable, 1) = QUOTE And Right(szTable, 1) = QUOTE Then szTable = Mid(szTable, 2, Len(szTable) - 2)
     
   'Add columns from the primary table to list1
   For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(szSchema).Tables(szTable).Columns
@@ -1112,6 +1114,8 @@ Dim objItem As ListItem
       End If
     Next Y
     If szSchema = "" Then szSchema = "public"
+    If Left(szSchema, 1) = QUOTE And Right(szSchema, 1) = QUOTE Then szSchema = Mid(szSchema, 2, Len(szSchema) - 2)
+    If Left(szTable, 1) = QUOTE And Right(szTable, 1) = QUOTE Then szTable = Mid(szTable, 2, Len(szTable) - 2)
   
     'Add the columns
     For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(szSchema).Tables(szTable).Columns
