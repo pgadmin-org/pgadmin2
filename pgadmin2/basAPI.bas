@@ -8,9 +8,9 @@ Attribute VB_Name = "basAPI"
 Option Explicit
 
 'API Declarations
-Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 Public Declare Function GetDesktopWindow Lib "user32" () As Long
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Declare Function RegOpenKey Lib "advapi32.dll" Alias "RegOpenKeyA" (ByVal hKey As Long, ByVal lpSubKey As String, phkResult As Long) As Long
 Public Declare Function RegOpenKeyEx Lib "advapi32.dll" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, phkResult As Long) As Long
 Public Declare Function RegQueryValueEx Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, lpType As Long, ByVal lpData As String, lpcbData As Long) As Long
@@ -31,7 +31,7 @@ Public Declare Function SQLAllocStmt Lib "odbc32.dll" (ByVal hdbc As Long, phstm
 Public Declare Function SQLFreeConnect Lib "odbc32.dll" (ByVal hdbc As Long) As Integer
 Public Declare Function SQLFreeEnv Lib "odbc32.dll" (ByVal henv As Long) As Integer
 Public Declare Function SQLDisconnect Lib "odbc32.dll" (ByVal hdbc As Long) As Integer
-Public Declare Function SQLDriverConnect Lib "odbc32.dll" (ByVal hdbc As Long, ByVal hwnd As Long, ByVal szCSIn As String, ByVal cbCSIn As Integer, ByVal szCSOut As String, ByVal cbCSMax As Integer, cbCSOut As Integer, ByVal fDrvrComp As Integer) As Integer
+Public Declare Function SQLDriverConnect Lib "odbc32.dll" (ByVal hdbc As Long, ByVal hWnd As Long, ByVal szCSIn As String, ByVal cbCSIn As Integer, ByVal szCSOut As String, ByVal cbCSMax As Integer, cbCSOut As Integer, ByVal fDrvrComp As Integer) As Integer
 Public Declare Function SQLGetInfo Lib "odbc32.dll" (ByVal hdbc As Long, ByVal fInfoType As Integer, ByRef rgbInfoValue As Any, ByVal cbInfoMax As Integer, cbInfoOut As Integer) As Integer
 Public Declare Function SQLGetInfoString Lib "odbc32.dll" Alias "SQLGetInfo" (ByVal hdbc As Long, ByVal fInfoType As Integer, ByVal rgbInfoValue As String, ByVal cbInfoMax As Integer, cbInfoOut As Integer) As Integer
 Public Declare Function SQLError Lib "odbc32.dll" (ByVal henv As Long, ByVal hdbc As Long, ByVal hstmt As Long, ByVal szSqlState As String, pfNativeError As Long, ByVal szErrorMsg As String, ByVal cbErrorMsgMax As Integer, pcbErrorMsg As Integer) As Integer
@@ -46,7 +46,8 @@ Public Declare Function InternetReadFile Lib "wininet.dll" (ByVal hFile As Long,
 Public Declare Function InternetCloseHandle Lib "wininet.dll" (ByVal hInet As Long) As Integer
 Public Declare Function InternetQueryOption Lib "wininet.dll" Alias "InternetQueryOptionA" (ByVal hInternet As Long, ByVal lOption As Long, ByRef sBuffer As Any, ByRef lBufferLength As Long) As Integer
 Public Declare Function HttpAddRequestHeaders Lib "wininet.dll" Alias "HttpAddRequestHeadersA" (ByVal hHttpRequest As Long, ByVal sHeaders As String, ByVal lHeadersLength As Long, ByVal lModifiers As Long) As Integer
-Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
 
 'Constants
 Public Const SWP_NOMOVE = 2
@@ -319,3 +320,17 @@ Public Const LVSCW_AUTOSIZE As Long = -1
 Public Const LVSCW_AUTOSIZE_USEHEADER As Long = -2 'Note: On last column, its width fills remaining width
                                                    'of list-view according to Micro$oft. This does not
                                                    'appear to be the case when I do it.
+
+'Windows
+Private Const VER_PLATFORM_WIN32s = 0
+Private Const VER_PLATFORM_WIN32_WINDOWS = 1
+Private Const VER_PLATFORM_WIN32_NT = 2
+
+Private Type OSVERSIONINFO
+  dwOSVersionInfoSize As Long
+  dwMajorVersion As Long
+  dwMinorVersion As Long
+  dwBuildNumber As Long
+  dwPlatformId As Long
+  szCSDVersion As String * 128
+End Type

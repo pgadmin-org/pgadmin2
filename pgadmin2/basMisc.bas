@@ -199,14 +199,14 @@ Static lID As Long
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.GetID"
 End Function
 
-Public Function SetTopMostWindow(hwnd As Long, Topmost As Boolean) As Long
+Public Function SetTopMostWindow(hWnd As Long, Topmost As Boolean) As Long
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.SetTopMostWindow(" & hwnd & ", " & Topmost & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.SetTopMostWindow(" & hWnd & ", " & Topmost & ")", etFullDebug
 
   If Topmost = True Then 'Make the window topmost
-    SetTopMostWindow = SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, FLAGS)
+    SetTopMostWindow = SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, FLAGS)
   Else
-    SetTopMostWindow = SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, FLAGS)
+    SetTopMostWindow = SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, FLAGS)
   End If
   
   Exit Function
@@ -535,11 +535,11 @@ Dim objItem As ListItem
 
         'frank_lupo add new element title in listview
         Set objItem = .ListItems.Add(1, szKey, .ColumnHeaders(1).Text & "  ")
-        SendMessage .hwnd, LVM_SETCOLUMNWIDTH, 0, LVSCW_AUTOSIZE
+        SendMessage .hWnd, LVM_SETCOLUMNWIDTH, 0, LVSCW_AUTOSIZE
 
         For ii = 1 To .ColumnHeaders.Count - 1
             objItem.SubItems(ii) = .ColumnHeaders(ii + 1).Text & "  "
-            SendMessage .hwnd, LVM_SETCOLUMNWIDTH, ii, LVSCW_AUTOSIZE
+            SendMessage .hWnd, LVM_SETCOLUMNWIDTH, ii, LVSCW_AUTOSIZE
         Next
 
         'frank_lupo drop element title in listview

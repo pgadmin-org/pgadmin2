@@ -1,0 +1,21 @@
+<ERROR>Could not connect to the server
+Check each of the following possible causes of this error: 
+- The server or port specified is incorrect.
+
+- The client workstation cannot establish a network connection to the server. Try using 'ping' on the workstation to check the network.
+
+- The server is not listening on a TCP/IP port. Make sure that the postmaster was started with the -i option, or that tcpip_socket = true is set in $PGDATA/postgresql.conf.
+<ERROR>ERROR:  DROP DATABASE: database
+This is a known bug in the pgSchema library which has proven impossible to fix so far! To work around this, exit pgAdmin and execute the SQL statement
+
+DROP DATABASE dbname;
+
+in a psql session. If anyone can fix the bug, that would also be a great help :-)
+<ERROR>FATAL:  No pg_hba.conf entry for host
+Your workstation has not been given permission to access the Master Connection Database Either:
+
+add a suitable entry to $PGDATA/pg_hba.conf to allow access to the database, 
+
+or, if that is not possible, 
+
+specify a different Master Connection Database for pgAdmin to use. This can be set on the 'PostgreSQL' tab under the 'Tools' -> 'Options' menu option in the main pgAdmin window.

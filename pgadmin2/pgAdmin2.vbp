@@ -55,6 +55,7 @@ Form=frmFind.frm
 Form=frmCast.frm
 Form=frmError.frm
 Module=basVarDb; basVarDb.bas
+Class=clsError; clsError.cls
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""
