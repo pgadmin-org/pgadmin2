@@ -21,7 +21,7 @@ Begin VB.Form frmSplash
       BackStyle       =   0  'Transparent
       Caption         =   "Copyright"
       ForeColor       =   &H00FFC0FF&
-      Height          =   375
+      Height          =   465
       Left            =   90
       TabIndex        =   1
       Top             =   3240
