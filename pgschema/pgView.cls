@@ -440,7 +440,7 @@ End Sub
 Public Property Get SQL(Optional PseudoAlter As Boolean) As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL(" & PseudoAlter & ")", etFullDebug
 Dim szSQL As String
   
   szSQL = "-- View: " & szName & vbCrLf
