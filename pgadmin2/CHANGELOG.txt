@@ -34,6 +34,8 @@ Improved warnings about dropping objects that are not up to date in the Revision
 Added AllowConnections property to database objects, display it in pgAdmin, and check it before attempting to connect to a database.
 Invalidate Caches before refreshing hierarchy in pgSchema.
 Standardised db name access method throughout pgSchema's classes, and added caching.
+Added support for renaming Sequences & Indexes.
+Committing a table now also commits sub objects.
 
 1.2.0 Stable
 ------------
