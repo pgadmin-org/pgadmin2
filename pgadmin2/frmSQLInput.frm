@@ -137,23 +137,21 @@ Dim szQuery As String
   Wend
   
   StartMsg "Executing SQL Query..."
-  If UCase(Mid(LTrim(szQuery), 1, 6)) = "SELECT" Then
+  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szQuery)
+  If rsQuery.Fields.Count > 0 Then
     Select Case cboExporters.Text
       Case "Screen"
         Dim objOutputForm As New frmSQLOutput
-        Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szQuery)
         Load objOutputForm
         objOutputForm.Display rsQuery, szDatabase, Me.Tag
         objOutputForm.Show
         EndMsg
       Case Else
-        Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szQuery)
         EndMsg
         frmMain.svr.LogEvent "Running Exporter: " & exp(cboExporters.Text).Description & " v" & exp(cboExporters.Text).Version, etMiniDebug
         exp(cboExporters.Text).Export rsQuery
     End Select
   Else
-    frmMain.svr.Databases(szDatabase).Execute (szQuery)
     EndMsg
     MsgBox "Query Executed OK!", vbInformation
   End If
