@@ -90,9 +90,9 @@ Begin VB.Form frmTable
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":019E
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lvProperties(2)"
+      Tab(3).Control(0)=   "cmdFkyRemove"
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "cmdFkyRemove"
+      Tab(3).Control(2)=   "lvProperties(2)"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":01BA

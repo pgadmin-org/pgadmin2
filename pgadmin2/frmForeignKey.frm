@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmForeignKey 
    BorderStyle     =   1  'Fixed Single
@@ -81,13 +81,13 @@ Begin VB.Form frmForeignKey
       TabCaption(1)   =   "&Relationships"
       TabPicture(1)   =   "frmForeignKey.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(7)"
-      Tab(1).Control(1)=   "lblProperties(8)"
-      Tab(1).Control(2)=   "cboProperties(6)"
+      Tab(1).Control(0)=   "cmdAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdRemove"
-      Tab(1).Control(6)=   "cmdAdd"
+      Tab(1).Control(4)=   "cboProperties(6)"
+      Tab(1).Control(5)=   "lblProperties(8)"
+      Tab(1).Control(6)=   "lblProperties(7)"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -667,6 +667,8 @@ Dim objColumn As pgColumn
 
   If objForeignKey Is Nothing Then
     If Index = 1 Then
+      cboProperties(6).ComboItems.Clear
+      lvProperties(0).ListItems.Clear
       For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(cboProperties(1).Text).Columns
         If Not objColumn.SystemObject Then cboProperties(6).ComboItems.Add , , objColumn.Name, "column", "column"
       Next objColumn
