@@ -7,9 +7,6 @@ Attribute VB_Name = "basGlobal"
 
 Option Explicit
 
-'Maximum rows to return from a View Table
-Global Const ROW_LIMIT As Integer = 50
-
 'Support email address
 Global Const SUPPORT_EMAIL = "pgadmin-support@postgresql.org"
 
