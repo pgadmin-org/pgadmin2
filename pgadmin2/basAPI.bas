@@ -8,9 +8,9 @@ Attribute VB_Name = "basAPI"
 Option Explicit
 
 'API Declarations
-Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 Public Declare Function GetDesktopWindow Lib "user32" () As Long
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Declare Function RegOpenKey Lib "advapi32.dll" Alias "RegOpenKeyA" (ByVal hKey As Long, ByVal lpSubKey As String, phkResult As Long) As Long
 Public Declare Function RegOpenKeyEx Lib "advapi32.dll" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, phkResult As Long) As Long
 Public Declare Function RegQueryValueEx Lib "advapi32.dll" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, lpType As Long, ByVal lpData As String, lpcbData As Long) As Long
@@ -23,7 +23,7 @@ Public Declare Function RegFlushKey Lib "advapi32.dll" (ByVal hKey As Long) As L
 Public Declare Function RegEnumKey Lib "advapi32.dll" Alias "RegEnumKeyA" (ByVal hKey As Long, ByVal dwIndex As Long, ByVal lpName As String, ByVal cbName As Long) As Long
 Public Declare Function RegDeleteKey Lib "advapi32.dll" Alias "RegDeleteKeyA" (ByVal hKey As Long, ByVal lpSubKey As String) As Long
 Public Declare Function RegDeleteValue Lib "advapi32.dll" Alias "RegDeleteValueA" (ByVal hKey As Long, ByVal lpValueName As String) As Long
-Public Declare Function SQLConfigDataSource Lib "ODBCCP32.DLL" (ByVal hwndParent As Long, ByVal fRequest As Long, ByVal lpszDriver As String, ByVal lpszAttributes As String) As Long
+Public Declare Function SQLConfigDataSource Lib "ODBCCP32.DLL" (ByVal hWndParent As Long, ByVal fRequest As Long, ByVal lpszDriver As String, ByVal lpszAttributes As String) As Long
 Public Declare Function SQLDataSources Lib "odbc32.dll" (ByVal henv As Long, ByVal fDirection As Integer, ByVal szDSN As String, ByVal cbDSNMax As Integer, pcbDSN As Integer, ByVal szDescription As String, ByVal cbDescriptionMax As Integer, pcbDescription As Integer) As Integer
 Public Declare Function SQLAllocConnect Lib "odbc32.dll" (ByVal henv As Long, phdbc As Long) As Integer
 Public Declare Function SQLAllocEnv Lib "odbc32.dll" (phenv As Long) As Integer
@@ -31,7 +31,7 @@ Public Declare Function SQLAllocStmt Lib "odbc32.dll" (ByVal hdbc As Long, phstm
 Public Declare Function SQLFreeConnect Lib "odbc32.dll" (ByVal hdbc As Long) As Integer
 Public Declare Function SQLFreeEnv Lib "odbc32.dll" (ByVal henv As Long) As Integer
 Public Declare Function SQLDisconnect Lib "odbc32.dll" (ByVal hdbc As Long) As Integer
-Public Declare Function SQLDriverConnect Lib "odbc32.dll" (ByVal hdbc As Long, ByVal hWnd As Long, ByVal szCSIn As String, ByVal cbCSIn As Integer, ByVal szCSOut As String, ByVal cbCSMax As Integer, cbCSOut As Integer, ByVal fDrvrComp As Integer) As Integer
+Public Declare Function SQLDriverConnect Lib "odbc32.dll" (ByVal hdbc As Long, ByVal hwnd As Long, ByVal szCSIn As String, ByVal cbCSIn As Integer, ByVal szCSOut As String, ByVal cbCSMax As Integer, cbCSOut As Integer, ByVal fDrvrComp As Integer) As Integer
 Public Declare Function SQLGetInfo Lib "odbc32.dll" (ByVal hdbc As Long, ByVal fInfoType As Integer, ByRef rgbInfoValue As Any, ByVal cbInfoMax As Integer, cbInfoOut As Integer) As Integer
 Public Declare Function SQLGetInfoString Lib "odbc32.dll" Alias "SQLGetInfo" (ByVal hdbc As Long, ByVal fInfoType As Integer, ByVal rgbInfoValue As String, ByVal cbInfoMax As Integer, cbInfoOut As Integer) As Integer
 Public Declare Function SQLError Lib "odbc32.dll" (ByVal henv As Long, ByVal hdbc As Long, ByVal hstmt As Long, ByVal szSqlState As String, pfNativeError As Long, ByVal szErrorMsg As String, ByVal cbErrorMsgMax As Integer, pcbErrorMsg As Integer) As Integer
@@ -46,13 +46,29 @@ Public Declare Function InternetReadFile Lib "wininet.dll" (ByVal hFile As Long,
 Public Declare Function InternetCloseHandle Lib "wininet.dll" (ByVal hInet As Long) As Integer
 Public Declare Function InternetQueryOption Lib "wininet.dll" Alias "InternetQueryOptionA" (ByVal hInternet As Long, ByVal lOption As Long, ByRef sBuffer As Any, ByRef lBufferLength As Long) As Integer
 Public Declare Function HttpAddRequestHeaders Lib "wininet.dll" Alias "HttpAddRequestHeadersA" (ByVal hHttpRequest As Long, ByVal sHeaders As String, ByVal lHeadersLength As Long, ByVal lModifiers As Long) As Integer
-Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 Public Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
+Public Declare Function CreateWindowEx Lib "user32" Alias "CreateWindowExA" (ByVal dwExStyle As Long, ByVal lpClassName As String, ByVal lpWindowName As String, ByVal dwStyle As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hWndParent As Long, ByVal hMenu As Long, ByVal hInstance As Long, lpParam As Any) As Long
+Public Declare Function GetClientRect Lib "user32" (ByVal hwnd As Long, lpRect As RECT) As Long
+Public Declare Function DestroyWindow Lib "user32" (ByVal hwnd As Long) As Long
 
 'Constants
 Public Const SWP_NOMOVE = 2
 Public Const SWP_NOSIZE = 1
+Public Const SWP_NOACTIVATE = &H10
 Public Const FLAGS = SWP_NOMOVE Or SWP_NOSIZE
+Public Const CW_USEDEFAULT = &H80000000
+Public Const WM_USER = &H400
+Public Const TTF_CENTERTIP = &H2
+Public Const TTF_SUBCLASS = &H10
+Public Const TTM_ADDTOOLA = (WM_USER + 4)
+Public Const TTM_GETTEXTA = (WM_USER + 11)
+Public Const TTM_SETMAXTIPWIDTH = (WM_USER + 24)
+Public Const TTM_SETTIPBKCOLOR = (WM_USER + 19)
+Public Const TTM_SETTIPTEXTCOLOR = (WM_USER + 20)
+Public Const TTM_UPDATETIPTEXTA = (WM_USER + 12)
+Public Const TTS_ALWAYSTIP = &H1
+Public Const TTS_BALLOON = &H40
 Public Const HWND_TOPMOST = -1
 Public Const HWND_NOTOPMOST = -2
 Public Const READ_CONTROL = &H20000
@@ -333,4 +349,23 @@ Public Type OSVERSIONINFO
   dwBuildNumber As Long
   dwPlatformId As Long
   szCSDVersion As String * 128
+End Type
+
+'Drawing
+Public Type RECT
+   Left As Long
+   Top As Long
+   Right As Long
+   Bottom As Long
+End Type
+
+Public Type TOOLINFO
+   cbSize As Long
+   uFlags As Long
+   hwnd As Long
+   uid As Long
+   RECT As RECT
+   hinst As Long
+   lpszText As String
+   lParam As Long
 End Type

@@ -57,6 +57,7 @@ Form=frmError.frm
 Module=basVarDb; basVarDb.bas
 Class=clsError; clsError.cls
 Module=basPatch; basPatch.bas
+Class=clsToolTip; clsToolTip.cls
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""
