@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
@@ -343,7 +343,7 @@ Begin VB.Form frmMain
          NumPanels       =   5
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   5638
+            Object.Width           =   5611
             MinWidth        =   2
             Text            =   "Ready"
             TextSave        =   "Ready"
@@ -543,6 +543,8 @@ Begin VB.Form frmMain
       _Version        =   393216
       TabOrientation  =   1
       Style           =   1
+      Tabs            =   4
+      TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
       TabPicture(0)   =   "frmMain.frx":14D0C
@@ -555,12 +557,16 @@ Begin VB.Form frmMain
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "sv"
       Tab(1).ControlCount=   1
-      TabCaption(2)   =   "Depend"
+      TabCaption(2)   =   "&Dependencies"
       TabPicture(2)   =   "frmMain.frx":14D44
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "tvDep"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).ControlCount=   1
+      TabCaption(3)   =   "&Locks"
+      TabPicture(3)   =   "frmMain.frx":14D60
+      Tab(3).ControlEnabled=   0   'False
+      Tab(3).Control(0)=   "lvLock"
+      Tab(3).ControlCount=   1
       Begin MSComctlLib.ListView lv 
          Height          =   2655
          Left            =   45
@@ -622,6 +628,29 @@ Begin VB.Form frmMain
          Style           =   7
          ImageList       =   "il"
          Appearance      =   1
+      End
+      Begin MSComctlLib.ListView lvLock 
+         Height          =   2655
+         Left            =   -74955
+         TabIndex        =   8
+         Top             =   45
+         Width           =   5940
+         _ExtentX        =   10478
+         _ExtentY        =   4683
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         Icons           =   "il"
+         SmallIcons      =   "il"
+         ColHdrIcons     =   "il"
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         NumItems        =   0
       End
    End
    Begin VB.Image splVertical 
@@ -1098,10 +1127,10 @@ Dim siWidth As Single
   lv.Height = prop.Height - 450
   sv.Width = prop.Width - 45
   sv.Height = prop.Height - 450
-  
-  'treeview depend
   tvDep.Width = prop.Width - 45
   tvDep.Height = prop.Height - 450
+  lvLock.Width = prop.Width - 45
+  lvLock.Height = prop.Height - 450
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Resize"
@@ -4547,6 +4576,7 @@ Dim vData As Variant
       tvServer Node
       If ctx.dbVer >= 7.2 Then svServer Node
       tvDepend Node
+      lvLocks Node
 
     Case "DAT+" 'Databases
       ctx.CurrentDB = ""
@@ -4554,6 +4584,7 @@ Dim vData As Variant
       tvDatabases Node
       If ctx.dbVer >= 7.2 Then svDatabases Node
       tvDepend Node
+      lvLocks Node
         
     Case "DAT-" 'Database
       ctx.CurrentDB = Node.Text
@@ -4562,6 +4593,7 @@ Dim vData As Variant
       tvDatabase Node
       If ctx.dbVer >= 7.2 Then svDatabase Node
       tvDepend Node
+      lvLocks Node
       
     Case "GRP+" 'Groups
       ctx.CurrentDB = ""
@@ -4569,6 +4601,7 @@ Dim vData As Variant
       tvGroups Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "GRP-" 'Group
       ctx.CurrentDB = ""
@@ -4577,6 +4610,7 @@ Dim vData As Variant
       tvGroup Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "USR+" 'Users
       ctx.CurrentDB = ""
@@ -4584,6 +4618,7 @@ Dim vData As Variant
       tvUsers Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
 
     Case "USR-" 'User
       ctx.CurrentDB = ""
@@ -4592,6 +4627,7 @@ Dim vData As Variant
       tvUser Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "CST+" 'Casts
       ctx.CurrentDB = Node.Parent.Text
@@ -4599,6 +4635,7 @@ Dim vData As Variant
       tvCasts Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
     
     Case "CST-" 'Cast
       ctx.CurrentDB = Node.Parent.Parent.Text
@@ -4607,6 +4644,7 @@ Dim vData As Variant
       tvCast Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "LNG+" 'Languages
       ctx.CurrentDB = Node.Parent.Text
@@ -4614,6 +4652,7 @@ Dim vData As Variant
       tvLanguages Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
 
     Case "LNG-" 'Language
       ctx.CurrentDB = Node.Parent.Parent.Text
@@ -4622,6 +4661,7 @@ Dim vData As Variant
       tvLanguage Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "NSP+" 'Namespaces
       ctx.CurrentDB = Node.Parent.Text
@@ -4629,6 +4669,7 @@ Dim vData As Variant
       tvNamespaces Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
 
     Case "NSP-" 'Namespaces
       ctx.CurrentDB = Node.Parent.Parent.Text
@@ -4637,6 +4678,7 @@ Dim vData As Variant
       tvNamespace Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "AGG+" 'Aggregates
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4644,6 +4686,7 @@ Dim vData As Variant
       tvAggregates Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "AGG-" 'Aggregate
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4652,6 +4695,7 @@ Dim vData As Variant
       tvAggregate Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "DOM+" 'Domains
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4659,6 +4703,7 @@ Dim vData As Variant
       tvDomains Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "DOM-" 'Domain
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4667,6 +4712,7 @@ Dim vData As Variant
       tvDomain Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "CNV+" 'Conversion
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4674,6 +4720,7 @@ Dim vData As Variant
       tvConversions Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "CNV-" 'Conversion
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4682,6 +4729,7 @@ Dim vData As Variant
       tvConversion Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "FNC+" 'Functions
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4689,6 +4737,7 @@ Dim vData As Variant
       tvFunctions Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "FNC-" 'Function
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4697,6 +4746,7 @@ Dim vData As Variant
       tvFunction Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "OPR+" 'Operators
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4704,6 +4754,7 @@ Dim vData As Variant
       tvOperators Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "OPR-" 'Operator
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4712,6 +4763,7 @@ Dim vData As Variant
       tvOperator Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "SEQ+" 'Sequences
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4719,6 +4771,7 @@ Dim vData As Variant
       tvSequences Node
       If ctx.dbVer >= 7.2 Then svSequences Node
       tvDepend Node
+      lvLocks Node
 
     Case "SEQ-" 'Sequence
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4727,6 +4780,7 @@ Dim vData As Variant
       tvSequence Node
       If ctx.dbVer >= 7.2 Then svSequence Node
       tvDepend Node
+      lvLocks Node
       
     Case "TBL+" 'Tables
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4734,6 +4788,7 @@ Dim vData As Variant
       tvTables Node
       If ctx.dbVer >= 7.2 Then svTables Node
       tvDepend Node
+      lvLocks Node
       
     Case "TBL-" 'Table
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4742,6 +4797,7 @@ Dim vData As Variant
       tvTable Node
       If ctx.dbVer >= 7.2 Then svTable Node
       tvDepend Node
+      lvLocks Node
       
     Case "CHK+" 'Checks
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
@@ -4749,6 +4805,7 @@ Dim vData As Variant
       tvChecks Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "CHK-" 'Check
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4757,6 +4814,7 @@ Dim vData As Variant
       tvCheck Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
     
     Case "COL+" 'Columns
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
@@ -4764,6 +4822,7 @@ Dim vData As Variant
       tvColumns Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "COL-" 'Column
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4772,6 +4831,7 @@ Dim vData As Variant
       tvColumn Node
       If ctx.dbVer >= 7.2 Then svColumn Node
       tvDepend Node
+      lvLocks Node
       
     Case "FKY+" 'Foreign Keys
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
@@ -4779,6 +4839,7 @@ Dim vData As Variant
       tvForeignKeys Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "FKY-" 'Foreign Key
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4787,6 +4848,7 @@ Dim vData As Variant
       tvForeignKey Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "REL+" 'Relationships
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4794,6 +4856,7 @@ Dim vData As Variant
       tvRelationships Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "IND+" 'Indexes
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
@@ -4801,6 +4864,7 @@ Dim vData As Variant
       tvIndexes Node
       If ctx.dbVer >= 7.2 Then svIndexes Node
       tvDepend Node
+      lvLocks Node
       
     Case "IND-" 'Index
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4809,6 +4873,7 @@ Dim vData As Variant
       tvIndex Node
       If ctx.dbVer >= 7.2 Then svIndex Node
       tvDepend Node
+      lvLocks Node
 
     Case "RUL+" 'Rules
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
@@ -4816,6 +4881,7 @@ Dim vData As Variant
       tvRules Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
   
     Case "RUL-" 'Rule
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4829,6 +4895,7 @@ Dim vData As Variant
       tvRule Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "TRG+" 'Triggers
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
@@ -4836,6 +4903,7 @@ Dim vData As Variant
       tvTriggers Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "TRG-" 'Trigger
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
@@ -4844,6 +4912,7 @@ Dim vData As Variant
       tvTrigger Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "TYP+" 'Types
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4851,6 +4920,7 @@ Dim vData As Variant
       tvTypes Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
 
     Case "TYP-" 'Type
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4859,6 +4929,7 @@ Dim vData As Variant
       tvType Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "VIE+" 'Views
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
@@ -4866,6 +4937,7 @@ Dim vData As Variant
       tvViews Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
       
     Case "VIE-" 'View
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
@@ -4874,6 +4946,7 @@ Dim vData As Variant
       tvView Node
       If ctx.dbVer >= 7.2 Then ClearStats
       tvDepend Node
+      lvLocks Node
     
   End Select
     
@@ -5074,6 +5147,27 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ColumnClick(" & QUOT
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lv_ColumnClick"
 End Sub
 
+Private Sub lvLock_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.lvLock_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
+
+  lvLock.Sorted = True
+  'Sort by the select column. If we already are, then switch the direction.
+  If lvLock.SortKey = (ColumnHeader.Index - 1) Then
+    If lvLock.SortOrder = lvwAscending Then
+      lvLock.SortOrder = lvwDescending
+    Else
+      lvLock.SortOrder = lvwAscending
+    End If
+  Else
+    lvLock.SortOrder = lvwAscending
+    lvLock.SortKey = (ColumnHeader.Index - 1)
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.lvLock_ColumnClick"
+End Sub
+
 Private Sub sv_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.sv_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
@@ -5102,7 +5196,11 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.prop_Click(" & PreviousTab & ")
   If prop.Tab = 2 Then
     'refresh depending
     'Simulate a node click to refresh the ListDomain
-    tv_NodeClick tv.SelectedItem
+    If Not tv.SelectedItem Is Nothing Then tv_NodeClick tv.SelectedItem
+  ElseIf prop.Tab = 3 Then
+    'refresh lock
+    'Simulate a node click to refresh the ListDomain
+    If Not tv.SelectedItem Is Nothing Then tv_NodeClick tv.SelectedItem
   End If
 
   Exit Sub
@@ -5119,26 +5217,19 @@ Dim objDep
 Dim szKey As String
 
   ' Depending.
+  tvDep.Nodes.Clear
   If prop.Tab <> 2 Then
-    tvDep.Nodes.Clear
-    tvDep.Nodes.Add , , "DEP-" & GetID, "Depending not visualized.", "property", "property"
+    tvDep.Nodes.Add , , "DEP-" & GetID, "Dependencies are not applicable to the selected object.", "property", "property"
     Exit Sub
   ElseIf Len(ctx.CurrentDB) = 0 Then
-    tvDep.Nodes.Clear
-    tvDep.Nodes.Add , , "DEP-" & GetID, "Depending are only available in this.", "property", "property"
+    tvDep.Nodes.Add , , "DEP-" & GetID, "Dependencies are not applicable to the selected object.", "property", "property"
     Exit Sub
   ElseIf ctx.dbVer < 7.3 Then
-    tvDep.Nodes.Clear
-    tvDep.Nodes.Add , , "DEP-" & GetID, "Depending are only available with PostgreSQL 7.3 or higher.", "property", "property"
+    tvDep.Nodes.Add , , "DEP-" & GetID, "Dependencies are only available with PostgreSQL 7.3 or higher.", "property", "property"
     Exit Sub
   End If
-      
-  tvDep.Nodes.Clear
+  
   Select Case Left(Node.Key, 4)
-    Case "SVR-", "DAT+", "DAT-", "GRP+", "GRP-", "USR+", "USR-"
-      tvDep.Nodes.Clear
-      tvDep.Nodes.Add , , "DEP-" & GetID, "Depending are only available in this.", "property", "property"
-      
     Case "CST-", "LNG-", "NSP-", "AGG-", "DOM-", "CNV-", "FNC-", "OPR-", "SEQ-", "TBL-", "TYP-", "VIE-"
       AddDepRef ctx.CurrentObject
     
@@ -5192,10 +5283,6 @@ Dim szKey As String
         AddDepRef objTmp
       Next
     
-    Case "CHK+", "CHK-", "COL+", "COL-", "FKY+", "FKY-", "REL+", "IND+", "IND-", "RUL+", "RUL-", "TRG+", "TRG-"
-      tvDep.Nodes.Clear
-      tvDep.Nodes.Add , , "DEP-" & GetID, "Depending are only available in this.", "property", "property"
-      
     Case "TYP+" 'Types
       For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Types
         AddDepRef objTmp
@@ -5205,6 +5292,9 @@ Dim szKey As String
       For Each objTmp In svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Views
         AddDepRef objTmp
       Next
+    
+    Case Else
+      tvDep.Nodes.Add , , "DEP-" & GetID, "Dependencies are not applicable to the selected object.", "property", "property"
       
   End Select
   
@@ -5212,6 +5302,7 @@ Dim szKey As String
 Err_Handler: LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDepend"
 End Sub
 
+'add depend and reference
 Private Sub AddDepRef(CurrentObj)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.AddDepRef(" & QUOTE & CurrentObj.ObjectType & QUOTE & ")", etFullDebug
@@ -5229,7 +5320,7 @@ Dim szImg As String
   'add depend
   If CurrentObj.Dependent.Count > 0 Then
     szKey1 = "DEP-" & GetID
-    tvDep.Nodes.Add szKey, tvwChild, szKey1, "Depend", "property", "property"
+    tvDep.Nodes.Add szKey, tvwChild, szKey1, "Dependent Upon", "property", "property"
     For Each objDep In CurrentObj.Dependent
       
       szIdentifier = objDep.Identifier
@@ -5246,7 +5337,7 @@ Dim szImg As String
   'add reference
   If CurrentObj.Referenced.Count > 0 Then
     szKey1 = "REF-" & GetID
-    tvDep.Nodes.Add szKey, tvwChild, szKey1, "Reference", "property", "property"
+    tvDep.Nodes.Add szKey, tvwChild, szKey1, "Dependencies", "property", "property"
     For Each objDep In CurrentObj.Referenced
       
       szIdentifier = objDep.Identifier
@@ -5263,3 +5354,157 @@ Dim szImg As String
   Exit Sub
 Err_Handler: LogError Err.Number, Err.Description, App.Title & ":frmMain.AddDepRef"
 End Sub
+
+'show lock object database
+Private Sub lvLocks(ByVal Node As MSComctlLib.Node)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.lvLocks(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+ 
+  ' Lock.
+  lvLock.ColumnHeaders.Clear
+  lvLock.ListItems.Clear
+  If prop.Tab <> 3 Then
+    lvLock.ColumnHeaders.Add , , "Locks", lvLock.Width
+    lvLock.ListItems.Add , , "Locks are not applicable to the selected object.", "property", "property"
+    Exit Sub
+  ElseIf ctx.dbVer < 7.3 Then
+    lvLock.ColumnHeaders.Add , , "Locks", lvLock.Width
+    lvLock.ListItems.Add , , "Locks are only available with PostgreSQL 7.3 or higher.", "property", "property"
+    Exit Sub
+  End If
+  
+  Select Case Left(Node.Key, 4)
+    Case "SVR-", "USR+", "USR-", "DAT+", "DAT-", "NSP+", "NSP-"
+      ShowLocks Left(Node.Key, 4)
+    
+    Case Else
+      lvLock.ColumnHeaders.Add , , "Locks", lvLock.Width
+      lvLock.ListItems.Add , , "Locks are not applicable to the selected object.", "property", "property"
+    
+  End Select
+  Exit Sub
+
+Err_Handler:
+  EndMsg
+  LogError Err.Number, Err.Description, App.Title & ":frmMain.lvLocks"
+End Sub
+
+Private Sub ShowLocks(ObjectType As String)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.ShowLocks(" & QUOTE & ObjectType & QUOTE & ")", etFullDebug
+
+Dim szSQL As String
+Dim szSqlLocks As String
+Dim rsLocks As New Recordset
+Dim rs As Recordset
+Dim lvItem As ListItem
+Dim szImg As String
+Dim szUser As String
+Dim szDatabase As String
+Dim szNamespace As String
+Dim szRelation As String
+Dim iColumn As Integer
+
+  If ObjectType <> "DAT-" And Left(ObjectType, 3) <> "NSP" Then lvLock.ColumnHeaders.Add , , "Database", 1500
+  If ObjectType <> "NSP-" Then lvLock.ColumnHeaders.Add , , "Schema Name", 1500
+  lvLock.ColumnHeaders.Add , , "Object Name", 1500
+  If ObjectType <> "USR-" Then lvLock.ColumnHeaders.Add , , "User", 1500
+  lvLock.ColumnHeaders.Add , , "Pid", 1500
+  lvLock.ColumnHeaders.Add , , "Lock Mode", 2000
+
+  StartMsg "Examining Locks..."
+  
+  szSqlLocks = "SELECT relation , database, transaction, pid, Mode, granted FROM pg_locks WHERE database IS NOT NULL"
+  If ObjectType = "DAT-" Then
+    'specify database
+    szSqlLocks = szSqlLocks & " AND database=" & ctx.CurrentObject.Oid
+  ElseIf Left(ObjectType, 3) = "NSP" Then
+    'specify database for name space
+    szSqlLocks = szSqlLocks & " AND database=" & svr.Databases(ctx.CurrentDB).Oid
+  End If
+  Set rsLocks = svr.Databases(svr.MasterDB).Execute(szSqlLocks & " ORDER BY pid")
+  
+  While Not rsLocks.EOF
+    szUser = ""
+    szSQL = "select usename from pg_stat_activity where procpid=" & rsLocks!pid
+    Set rs = svr.Databases(svr.MasterDB).Execute(szSQL)
+    If Not rs.EOF Then szUser = rs!usename & ""
+    
+    'filter user
+    If ObjectType = "USR-" Then
+      If ctx.CurrentObject.Name <> szUser Then GoTo NextLock
+    End If
+    
+    szDatabase = ""
+    If VarType(rsLocks!Database) <> vbNull Then
+      szSQL = "SELECT datname FROM pg_database where oid=" & rsLocks!Database
+      Set rs = svr.Databases(svr.MasterDB).Execute(szSQL)
+      szDatabase = rs!datname & ""
+    End If
+    
+    szNamespace = ""
+    szRelation = ""
+    szImg = "property"
+    If VarType(rsLocks!relation) <> vbNull Then
+      szSQL = "SELECT (SELECT n.nspname FROM pg_namespace n WHERE n.oid=c.relnamespace) as namespace, c.relname, c.relkind"
+      szSQL = szSQL & " from pg_class c where oid=" & rsLocks!relation
+      Set rs = svr.Databases(szDatabase).Execute(szSQL)
+      If Not rs.EOF Then
+        szNamespace = rs!Namespace & ""
+        szRelation = rs!relname & ""
+
+        Select Case rs!relkind
+          Case "r"
+            szImg = "table"
+          Case "i"
+            szImg = "index"
+          Case "S"
+            szImg = "sequence"
+          Case "v"
+            szImg = "view"
+        End Select
+      End If
+    End If
+    
+    'filter name space
+    If ObjectType = "NSP-" Then
+      If ctx.CurrentObject.Name <> szNamespace Then GoTo NextLock
+    End If
+    
+    If ObjectType <> "DAT-" And Left(ObjectType, 3) <> "NSP" Then
+      Set lvItem = lvLock.ListItems.Add(, , szDatabase)
+      lvItem.SubItems(1) = szNamespace
+      lvItem.SubItems(2) = szRelation
+      iColumn = 3
+    ElseIf ObjectType = "NSP-" Then
+      Set lvItem = lvLock.ListItems.Add(, , szRelation)
+      iColumn = 1
+    Else
+      Set lvItem = lvLock.ListItems.Add(, , szNamespace)
+      lvItem.SubItems(1) = szRelation
+      iColumn = 2
+    End If
+    
+    If ObjectType <> "USR-" Then lvItem.SubItems(iColumn) = szUser: iColumn = iColumn + 1
+    lvItem.SubItems(iColumn) = rsLocks!pid: iColumn = iColumn + 1
+    lvItem.SubItems(iColumn) = rsLocks!Mode: iColumn = iColumn + 1
+    lvItem.SmallIcon = szImg
+    lvItem.Icon = szImg
+
+NextLock:
+    rsLocks.MoveNext
+  Wend
+  
+  If rsLocks.State <> adStateClosed Then rsLocks.Close
+  Set rsLocks = Nothing
+  
+  AutoSizeColumnLv lvLock
+  EndMsg
+  Exit Sub
+
+Err_Handler:
+  EndMsg
+  Set rsLocks = Nothing
+  LogError Err.Number, Err.Description, App.Title & ":frmMain.ShowLocks"
+End Sub
+
