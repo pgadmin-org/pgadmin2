@@ -675,7 +675,6 @@ Begin VB.Form frmMain
          Begin VB.Menu mnuPopupCreateDatabase 
             Caption         =   "&Database..."
             Enabled         =   0   'False
-            Visible         =   0   'False
          End
          Begin VB.Menu mnuPopupCreateFunction 
             Caption         =   "&Function..."
@@ -1888,7 +1887,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Path", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Text).Path
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Encoding", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Text).Encoding
+  lvItem.SubItems(1) = svr.Databases(Node.Text).EncodingName
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Database?", "property", "property")
   If svr.Databases(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
