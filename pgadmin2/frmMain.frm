@@ -847,7 +847,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Resize()", etFullDebug
   txtDefinition.Minimise
   If Me.Width < 8000 Then Me.Width = 8000
   If Me.Height < 6000 Then Me.Height = 6000
-  SizeControls RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Splitter Position", "2680")
+  SizeControls RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Splitter Position", "3500")
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Form_Resize"
