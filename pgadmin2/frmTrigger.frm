@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTrigger 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Trigger"
@@ -33,6 +33,36 @@ Begin VB.Form frmTrigger
       Top             =   6480
       Width           =   1095
    End
+   Begin MSComctlLib.ImageList il 
+      Left            =   0
+      Top             =   6300
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      BackColor       =   -2147483643
+      ImageWidth      =   16
+      ImageHeight     =   16
+      MaskColor       =   12632256
+      _Version        =   393216
+      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+         NumListImages   =   4
+         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmTrigger.frx":06C2
+            Key             =   "table"
+         EndProperty
+         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmTrigger.frx":081C
+            Key             =   "function"
+         EndProperty
+         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmTrigger.frx":0DB6
+            Key             =   "trigger"
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmTrigger.frx":1350
+            Key             =   "event"
+         EndProperty
+      EndProperty
+   End
    Begin TabDlg.SSTab tabProperties 
       Height          =   6360
       Left            =   45
@@ -46,7 +76,7 @@ Begin VB.Form frmTrigger
       Tabs            =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmTrigger.frx":06C2
+      TabPicture(0)   =   "frmTrigger.frx":1C2A
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(4)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -287,36 +317,6 @@ Begin VB.Form frmTrigger
          Width           =   660
       End
    End
-   Begin MSComctlLib.ImageList il 
-      Left            =   0
-      Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      BackColor       =   -2147483643
-      ImageWidth      =   16
-      ImageHeight     =   16
-      MaskColor       =   12632256
-      _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   4
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTrigger.frx":06DE
-            Key             =   "table"
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTrigger.frx":0838
-            Key             =   "function"
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTrigger.frx":0DD2
-            Key             =   "trigger"
-         EndProperty
-         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmTrigger.frx":136C
-            Key             =   "event"
-         EndProperty
-      EndProperty
-   End
 End
 Attribute VB_Name = "frmTrigger"
 Attribute VB_GlobalNameSpace = False
@@ -373,21 +373,21 @@ Dim szEvent As String
     Exit Sub
   End If
   
-  If bNew Then
-    
-    StartMsg "Creating Trigger..."
-    
-    If chkProperties(0).Value = 1 Then szEvent = szEvent & "INSERT OR "
+  If chkProperties(0).Value = 1 Then szEvent = szEvent & "INSERT OR "
     If chkProperties(1).Value = 1 Then szEvent = szEvent & "UPDATE OR "
     If chkProperties(2).Value = 1 Then szEvent = szEvent & "DELETE OR "
     If Len(szEvent) > 4 Then
       szEvent = Left(szEvent, Len(szEvent) - 4)
-    Else
+   Else
       MsgBox "You must select at least one event!", vbExclamation, "Error"
       tabProperties.Tab = 0
       chkProperties(0).SetFocus
       Exit Sub
-    End If
+  End If
+    
+  If bNew Then
+    StartMsg "Creating Trigger..."
+   
     frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Add txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text
     
     'Add a new node and update the text on the parent
@@ -403,6 +403,9 @@ Dim szEvent As String
   Else
     StartMsg "Updating Trigger..."
     If hbxProperties(0).Tag = "Y" Then objTrigger.Comment = hbxProperties(0).Text
+    If (cboProperties(0).Tag = "Y") Or (cboProperties(1).Tag = "Y") Or (cboProperties(3).Tag = "y") Then
+        objTrigger.Alter txtProperties(0).Text, cboProperties(1).Text, szEvent, cboProperties(0).Text, cboProperties(2).Text, cboProperties(3).Text, hbxProperties(0).Text
+    End If
   End If
   
   'Simulate a node click to refresh the ListTrigger
@@ -429,24 +432,27 @@ Dim objItem As ComboItem
   
   szDatabase = szDB
   
+   'Load the combos
+    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
+      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , objTable.Name, objTable.Name, "table"
+    Next objTable
+    
+    Set objItem = cboProperties(1).ComboItems.Add(, "Before", "BEFORE", "trigger")
+    objItem.Selected = True
+    cboProperties(1).ComboItems.Add , "After", "AFTER", "trigger"
+    
+    Set objItem = cboProperties(2).ComboItems.Add(, "ROW", "ROW", "trigger")
+    objItem.Selected = True
+    
+    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
+      If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , objFunction.Name & "()", objFunction.Name & "()", "function"
+    Next objFunction
+    
   If Trigger Is Nothing Then
   
     'Create a new Trigger
     bNew = True
     Me.Caption = "Create Trigger"
-    
-    'Load the combos
-    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.Identifier, "table"
-    Next objTable
-    Set objItem = cboProperties(1).ComboItems.Add(, , "BEFORE", "trigger")
-    objItem.Selected = True
-    cboProperties(1).ComboItems.Add , , "AFTER", "trigger"
-    Set objItem = cboProperties(2).ComboItems.Add(, , "ROW", "trigger")
-    objItem.Selected = True
-    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
-      If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , , objFunction.Identifier, "function"
-    Next objFunction
 
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -465,24 +471,35 @@ Dim objItem As ComboItem
     'Display/Edit the specified Trigger.
     Set objTrigger = Trigger
     bNew = False
-
     Me.Caption = "Trigger: " & objTrigger.Identifier
+    
+    
     txtProperties(0).Text = objTrigger.Name
     txtProperties(1).Text = objTrigger.OID
-    Set objItem = cboProperties(0).ComboItems.Add(, , objTrigger.Table, "table")
-    objItem.Selected = True
-    Set objItem = cboProperties(1).ComboItems.Add(, , objTrigger.Executes, "trigger")
-    objItem.Selected = True
-    Set objItem = cboProperties(2).ComboItems.Add(, , objTrigger.ForEach, "trigger")
-    objItem.Selected = True
-    Set objItem = cboProperties(3).ComboItems.Add(, , objTrigger.TriggerFunction, "trigger")
-    objItem.Selected = True
+    
+    cboProperties(0).ComboItems(objTrigger.Table).Selected = True
+    cboProperties(1).ComboItems(objTrigger.Executes).Selected = True
+    cboProperties(3).ComboItems(objTrigger.TriggerFunction).Selected = True
+        
     SetChecks objTrigger.TriggerEvent
     hbxProperties(0).Text = objTrigger.Comment
+    
+    'Unlock the edittable fields
+    txtProperties(0).BackColor = &H80000005
+    txtProperties(0).Locked = False
+    
+    cboProperties(0).BackColor = &H80000005
+    cboProperties(1).BackColor = &H80000005
+    cboProperties(2).BackColor = &H80000005
+    cboProperties(3).BackColor = &H80000005
+    
   End If
   
   'Reset the Tags
   hbxProperties(0).Tag = "N"
+  cboProperties(0).Tag = "N"
+  cboProperties(1).Tag = "N"
+  cboProperties(3).Tag = "N"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.Initialise"
@@ -532,4 +549,14 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.chkProperties_Click(
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.chkProperties_Click"
+End Sub
+
+Private Sub cboProperties_Click(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cboProperties_Click(" & Index & ")", etFullDebug
+
+  cboProperties(Index).Tag = "Y"
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.cboProperties_Click"
 End Sub
