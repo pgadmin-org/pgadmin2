@@ -5,6 +5,7 @@ Don't reformat SQL queries as that can corrupt PL scripts.
 Clear Relationships/Referenced Columns when selecting a new Referenced Table when defining a Foreign Key.
 Correctly escape single quotes & backslashes in function code.
 Print function source nicely in the properties listview.
+Set MAX_VARCHAR_LENGTH to 64Kb so we don't truncate long functions etc.
 
 1.1.72
 ------

@@ -205,7 +205,7 @@ Dim szVersion() As String
   Set colGroups = Nothing
   
   'Open the connection
-  szConnect = "DRIVER=PostgreSQL;SERVER=" & szServer & ";PORT=" & lPort & ";UID=" & szUsername & ";PWD=" & szPassword & ";DATABASE=" & szMasterDB
+  szConnect = "DRIVER=PostgreSQL;SERVER=" & szServer & ";PORT=" & lPort & ";UID=" & szUsername & ";PWD=" & szPassword & ";DATABASE=" & szMasterDB & ";MAX_LONG_VARCHAR=65536"
   If bShowPassword Then
     objServer.iLogEvent "Opening cnPostgreSQL: " & szConnect, etMiniDebug
   Else
