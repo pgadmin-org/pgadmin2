@@ -362,7 +362,7 @@ On Error GoTo Err_Handler
     End If
      
     If (bSQLComment = True) Then
-        szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+        szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szSQLTriggerName & QUOTE & " ON " & QUOTE & szSQLTriggerTable & QUOTE & " IS '" & szSQLTriggerComment & "';" & vbCrLf
     End If
     
     SQL = szSQL
@@ -425,7 +425,10 @@ Dim rs As New Recordset
 
   objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Sub Alter(" & szNewTriggerName & ", " & szNewTriggerExecutes & ", " & szNewTriggerEvent & ", " & szNewTriggerTable & ", " & szNewTriggerForEach & ", " & szNewTriggerFunction & ", " & szNewTriggerComment & ")", etFullDebug
   
-  szSQL = SQL(True, True, True, szNewTriggerName, szNewTriggerTable, szNewTriggerExecutes, szNewTriggerEvent, szNewTriggerForEach, szNewTriggerFunction, szNewTriggerComment)
+  szSQL = SQL(True, False, False)
+  objServer.ExecSQL szSQL, cnDatabase
+
+  szSQL = SQL(False, True, True, szNewTriggerName, szNewTriggerTable, szNewTriggerExecutes, szNewTriggerEvent, szNewTriggerForEach, szNewTriggerFunction, szNewTriggerComment)
   objServer.ExecSQL szSQL, cnDatabase
 
   'Select oid back from the DB...

@@ -401,7 +401,10 @@ Dim szEvent As String
     StartMsg "Updating Trigger..."
     If hbxProperties(0).Tag = "Y" Then objTrigger.Comment = hbxProperties(0).Text
     If (cboProperties(0).Tag = "Y") Or (cboProperties(1).Tag = "Y") Or (cboProperties(3).Tag = "y") Then
-        objTrigger.Alter txtProperties(0).Text, cboProperties(1).Text, szEvent, cboProperties(0).Text, cboProperties(2).Text, cboProperties(3).Text, hbxProperties(0).Text
+      objTrigger.Alter txtProperties(0).Text, cboProperties(1).Text, szEvent, cboProperties(0).Text, cboProperties(2).Text, cboProperties(3).Text, hbxProperties(0).Text
+      
+      frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
+      
     End If
   End If
   
