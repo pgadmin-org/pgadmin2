@@ -22,7 +22,7 @@ Private colIndexedColumns As IndexedColumns
 
 'Properties
 Private szTable As String
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As Boolean
@@ -30,8 +30,8 @@ Private bUnique As Boolean
 Private bPrimary As Boolean
 Private szDefinition As String
 Private cnDatabase As Connection
-Private lTableOID As Long
-Private lNamespaceOID As Long
+Private dTableOID As Double
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -85,21 +85,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -138,11 +138,11 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set the TableOID for internal use.
-Friend Property Let TableOID(ByVal vData As Long)
+Friend Property Let TableOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property let TableOID(" & vData & ")", etFullDebug
 
-  lTableOID = vData
+  dTableOID = vData
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -180,7 +180,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get IndexedC
     
     'Pass the connection to the class
     Set colIndexedColumns.Connection = cnDatabase
-    colIndexedColumns.Initialize lOID
+    colIndexedColumns.Initialize dOID
   End If
   Set IndexedColumns = colIndexedColumns
     
@@ -204,21 +204,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Index OID."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -432,7 +432,7 @@ Attribute Comment.VB_Description = "Sets/Returns the Index comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgIndex.Property Get Comment()", etFullDebug
 
-  Comment = objServer.Databases(Database).LookupComment(lOID)
+  Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

@@ -20,7 +20,7 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -59,21 +59,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -146,31 +146,31 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szOwner As String, szInputFunction As String, szOutputFunction As String, lInternalLength As Long, szDefault As String, lElement As Long, szDelimiter As String, bPassedByValue As Boolean, szAlignment As String, szStorage As String) As pgType
+Private Function iAdd(dOID As Double, szName As String, szOwner As String, szInputFunction As String, szOutputFunction As String, lInternalLength As Long, szDefault As String, dElement As Double, szDelimiter As String, bPassedByValue As Boolean, szAlignment As String, szStorage As String) As pgType
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & lElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & dElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgType
 Dim szTemp As String
 
   'Create a new object
   Set objNewMember = New pgType
-  If lOID <= objServer.LastSystemOID Or Left(szName, 1) = "_" Or Left(szName, 8) = "pgadmin_" Then
+  If dOID <= objServer.LastSystemOID Or Left(szName, 1) = "_" Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
   objNewMember.InputFunction = szInputFunction
   objNewMember.OutputFunction = szOutputFunction
   objNewMember.InternalLength = lInternalLength
   objNewMember.Default = szDefault
-  szTemp = objServer.Databases(Database).LookupType(lElement)
+  szTemp = objServer.Databases(Database).LookupType(dElement)
   If szTemp = "opaque" Then szTemp = ""
   objNewMember.Element = szTemp
   objNewMember.Delimiter = szDelimiter
@@ -243,7 +243,7 @@ Dim objType As pgType
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objVersion.VersionNum >= 7.3 Then
-    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typname = '" & Name & "' AND typnamespace = " & lNamespaceOID, cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typname = '" & Name & "' AND typnamespace = " & dNamespaceOID, cnDatabase)
   Else
     Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " AND typname = '" & Name & "'", cnDatabase)
   End If
@@ -389,7 +389,7 @@ Dim rs As New Recordset
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typnamespace = " & lNamespaceOID & " ORDER BY typname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typnamespace = " & dNamespaceOID & " ORDER BY typname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " ORDER BY typname", cnDatabase)
     End If

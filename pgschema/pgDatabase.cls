@@ -23,13 +23,12 @@ Private colNamespaces As Namespaces
 Private colDatabaseVars As DatabaseVars
 
 'Properties
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As Boolean
 Private szPath As String
 Private szOwner As String
-Private lServerEncoding As Long
 Private szServerEncoding As String
 Private lStatus As dbStatus
 Private bAllowConnections As Boolean
@@ -99,9 +98,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillTypeCache()", etF
 Err_Handler: objServer.iLogError Err
 End Sub
 
-Friend Function LookupType(lOID As Long) As String
+Friend Function LookupType(dOID As Double) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupType(" & lOID & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupType(" & dOID & ")", etFullDebug
 Dim rs As New Recordset
 
   'Connect if required
@@ -133,11 +132,11 @@ Dim rs As New Recordset
     objServer.iLogEvent "Completed populating Type cache (database: " & szName & ").", etMiniDebug
   End If
   
-  If lOID = 0 Then
+  If dOID = 0 Then
     LookupType = "opaque"
   Else
     On Error Resume Next
-    LookupType = szTypeCache("T" & lOID)
+    LookupType = szTypeCache("T" & dOID)
     On Error GoTo Err_Handler
   End If
  
@@ -159,9 +158,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillLanguageCache()",
 Err_Handler: objServer.iLogError Err
 End Sub
 
-Friend Function LookupLanguage(lOID As Long) As String
+Friend Function LookupLanguage(dOID As Double) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupLanguage(" & lOID & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupLanguage(" & dOID & ")", etFullDebug
 Dim rs As New Recordset
 
   'Connect if required
@@ -182,7 +181,7 @@ Dim rs As New Recordset
   End If
   
   On Error Resume Next
-  LookupLanguage = szLanguageCache("L" & lOID)
+  LookupLanguage = szLanguageCache("L" & dOID)
   On Error GoTo Err_Handler
 
   Exit Function
@@ -203,9 +202,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillOperatorCache()",
 Err_Handler: objServer.iLogError Err
 End Sub
 
-Friend Function LookupOperator(lOID As Long) As String
+Friend Function LookupOperator(dOID As Double) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupOperator(" & lOID & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupOperator(" & dOID & ")", etFullDebug
 Dim rs As New Recordset
 
   'Connect if required
@@ -243,7 +242,7 @@ Dim rs As New Recordset
   End If
   
   On Error Resume Next
-  LookupOperator = Mid(szOperatorCache("O" & lOID), 2)
+  LookupOperator = Mid(szOperatorCache("O" & dOID), 2)
   On Error GoTo Err_Handler
 
   Exit Function
@@ -264,9 +263,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillCommentCache()", 
 Err_Handler: objServer.iLogError Err
 End Sub
 
-Friend Function LookupComment(lOID As Long, Optional lSubID As Long) As String
+Friend Function LookupComment(dOID As Double, Optional lSubID As Double) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupComment(" & lOID & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupComment(" & dOID & ")", etFullDebug
 Dim rs As New Recordset
 Dim arrTmp As Variant
 Dim X As Long
@@ -299,7 +298,7 @@ Dim X As Long
   End If
   
   On Error Resume Next
-  LookupComment = szCommentCache("C" & lOID & "S" & lSubID)
+  LookupComment = szCommentCache("C" & dOID & "S" & lSubID)
   On Error GoTo Err_Handler
 
   Exit Function
@@ -385,21 +384,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the OID of the Database."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -569,7 +568,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Comment(
   If objServer.DeferConnection And lStatus <> statOpen Then
     Comment = ""
   Else
-    Comment = LookupComment(lOID)
+    Comment = LookupComment(dOID)
   End If
     
   Exit Property
@@ -795,7 +794,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & lOID
+  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!datacl & ""
@@ -844,7 +843,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & lOID
+  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!datacl & ""

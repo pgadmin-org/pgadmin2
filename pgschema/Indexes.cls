@@ -20,9 +20,9 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lTableOID As Long
+Private dTableOID As Double
 Private szTable As String
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -61,21 +61,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -148,11 +148,11 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set the TableOID for internal use.
-Friend Property Let TableOID(ByVal vData As Long)
+Friend Property Let TableOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property let TableOID(" & vData & ")", etFullDebug
 
-  lTableOID = vData
+  dTableOID = vData
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -170,23 +170,23 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, bUnique As Boolean, bPrimary As Boolean, szDefinition As String) As pgIndex
+Private Function iAdd(dOID As Double, szName As String, bUnique As Boolean, bPrimary As Boolean, szDefinition As String) As pgIndex
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Indexes.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bUnique & ", " & bPrimary & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & bUnique & ", " & bPrimary & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgIndex
 
   'Create a new object
   Set objNewMember = New pgIndex
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.iName = szName
   objNewMember.Table = szTable
   objNewMember.Unique = bUnique
   objNewMember.Primary = bPrimary
   objNewMember.Definition = szDefinition
   objNewMember.Identifier = szName
-  objNewMember.TableOID = lTableOID
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.TableOID = dTableOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
   Set objNewMember.Connection = cnDatabase
   
@@ -245,7 +245,7 @@ Dim objIndex As pgIndex
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_INDEXES & " AND relname = '" & Name & "' AND relnamespace = " & lNamespaceOID
+    szSQL = SQL_GET_INDEXES & " AND relname = '" & Name & "' AND relnamespace = " & dNamespaceOID
   Else
     szSQL = SQL_GET_INDEXES & " AND relname = '" & Name & "'"
   End If
@@ -402,7 +402,7 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_INDEXES & " AND indrelid = " & lTableOID & " ORDER BY relname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_INDEXES & " AND indrelid = " & dTableOID & " ORDER BY relname", cnDatabase)
     While Not rs.EOF
       iAdd rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & ""
       rs.MoveNext

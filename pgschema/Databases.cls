@@ -75,21 +75,21 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, szServerEncoding As String, bAllowConn As Boolean, Optional szDatabaseVarList As String, Optional szACL As String)
+Private Function iAdd(dOID As Double, szName As String, szPath As String, szOwner As String, szServerEncoding As String, bAllowConn As Boolean, Optional szDatabaseVarList As String, Optional szACL As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & szServerEncoding & ", " & bAllowConn & ", " & QUOTE & szDatabaseVarList & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & szServerEncoding & ", " & bAllowConn & ", " & QUOTE & szDatabaseVarList & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgDatabase
 
   'Create a new object
   Set objNewMember = New pgDatabase
-  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
+  If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.Name = szName
 
   objNewMember.Path = szPath

@@ -19,7 +19,7 @@ Option Explicit
 
 'Properties
 Private bSystemObject As Boolean
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private szOwner As String
@@ -30,7 +30,7 @@ Private szFinalFunction As String
 Private szFinalType As String
 Private szInitialCondition As String
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -92,21 +92,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -160,21 +160,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Aggregate OID."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -423,7 +423,7 @@ Attribute Comment.VB_Description = "Sets/Returns the Aggregate comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Comment()", etFullDebug
   
-  Comment = objServer.Databases(Database).LookupComment(lOID)
+  Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

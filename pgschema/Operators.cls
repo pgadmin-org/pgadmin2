@@ -20,7 +20,7 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -59,21 +59,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -146,9 +146,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szOwner As String, szKind As String, bHashJoins As Boolean, lLeftOperandType As Long, lRightOperandType As Long, lResultType As Long, lCommutator As Long, lNegator As Long, lLeftTypeSortOperator As Long, lRightTypeSortOperator As Long, szOperatorFunction As String, szRestrictFunction As String, szJoinFunction As String) As pgOperator
+Private Function iAdd(dOID As Double, szName As String, szOwner As String, szKind As String, bHashJoins As Boolean, dLeftOperandType As Double, dRightOperandType As Double, dResultType As Double, dCommutator As Double, dNegator As Double, dLeftTypeSortOperator As Double, dRightTypeSortOperator As Double, szOperatorFunction As String, szRestrictFunction As String, szJoinFunction As String) As pgOperator
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Operators.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szKind & QUOTE & ", " & bHashJoins & ", " & lLeftOperandType & ", " & lRightOperandType & ", " & lResultType & ", " & lCommutator & ", " & lNegator & ", " & lLeftTypeSortOperator & ", " & lRightTypeSortOperator & ", " & QUOTE & szOperatorFunction & QUOTE & ", " & QUOTE & szRestrictFunction & QUOTE & ", " & QUOTE & szJoinFunction & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szKind & QUOTE & ", " & bHashJoins & ", " & dLeftOperandType & ", " & dRightOperandType & ", " & dResultType & ", " & dCommutator & ", " & dNegator & ", " & dLeftTypeSortOperator & ", " & dRightTypeSortOperator & ", " & QUOTE & szOperatorFunction & QUOTE & ", " & QUOTE & szRestrictFunction & QUOTE & ", " & QUOTE & szJoinFunction & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgOperator
 Dim rs As New Recordset
@@ -159,16 +159,16 @@ Dim szTemp As String
 
   'Create a new object
   Set objNewMember = New pgOperator
-  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
+  If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
   
   Select Case UCase(szKind)
@@ -181,21 +181,21 @@ Dim szTemp As String
   End Select
 
   objNewMember.HashJoins = bHashJoins
-  szLOT = objServer.Databases(Database).LookupType(lLeftOperandType)
+  szLOT = objServer.Databases(Database).LookupType(dLeftOperandType)
   If szLOT = "opaque" Then szLOT = "NONE"
   objNewMember.LeftOperandType = szLOT
-  szROT = objServer.Databases(Database).LookupType(lRightOperandType)
+  szROT = objServer.Databases(Database).LookupType(dRightOperandType)
   If szROT = "opaque" Then szROT = "NONE"
   objNewMember.RightOperandType = szROT
-  szTemp = objServer.Databases(Database).LookupType(lResultType)
+  szTemp = objServer.Databases(Database).LookupType(dResultType)
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.ResultType = szTemp
-  objNewMember.Commutator = objServer.Databases(Database).LookupOperator(lCommutator)
-  objNewMember.Negator = objServer.Databases(Database).LookupOperator(lNegator)
-  szTemp = objServer.Databases(Database).LookupOperator(lLeftTypeSortOperator)
+  objNewMember.Commutator = objServer.Databases(Database).LookupOperator(dCommutator)
+  objNewMember.Negator = objServer.Databases(Database).LookupOperator(dNegator)
+  szTemp = objServer.Databases(Database).LookupOperator(dLeftTypeSortOperator)
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.LeftTypeSortOperator = szTemp
-  szTemp = objServer.Databases(Database).LookupOperator(lRightTypeSortOperator)
+  szTemp = objServer.Databases(Database).LookupOperator(dRightTypeSortOperator)
   If szTemp = "opaque" Then szTemp = "NONE"
   objNewMember.RightTypeSortOperator = szTemp
   objNewMember.OperatorFunction = szOperatorFunction
@@ -264,7 +264,7 @@ Dim objOperator As pgOperator
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "' AND oprnamespace = " & lNamespaceOID
+    szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "' AND oprnamespace = " & dNamespaceOID
   Else
     szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "'"
   End If
@@ -396,7 +396,7 @@ Dim rs As New Recordset
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " WHERE oprnamespace = " & lNamespaceOID & " ORDER BY oprname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " WHERE oprnamespace = " & dNamespaceOID & " ORDER BY oprname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " ORDER BY oprname", cnDatabase)
     End If

@@ -21,9 +21,9 @@ Option Explicit
 Dim colRelationships As Relationships
 
 'Properties
-Private lTableOID As Long
+Private dTableOID As Double
 Private szTable As String
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As Boolean
@@ -35,7 +35,7 @@ Private szOnUpdate As String
 Private bDeferrable As Boolean
 Private szInitially As String
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -85,21 +85,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -138,11 +138,11 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set the TableOID for internal use.
-Friend Property Let TableOID(ByVal vData As Long)
+Friend Property Let TableOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let TableOID(" & vData & ")", etFullDebug
 
-  lTableOID = vData
+  dTableOID = vData
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -202,21 +202,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Foreign Key OID."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgForeignKey.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -370,7 +370,7 @@ Dim szSQL As String
 Dim rs As New Recordset
 
   If bCached = False Then
-    szSQL = "SELECT proname FROM pg_proc p, pg_trigger t, pg_class c WHERE p.oid = t.tgfoid AND (t.tgconstrrelid = " & lTableOID & " OR t.tgconstrrelid = 0) AND t.tgtype = 9 AND t.tgrelid = c.oid AND c.relname = '" & szReferencedTable & "'"
+    szSQL = "SELECT proname FROM pg_proc p, pg_trigger t, pg_class c WHERE p.oid = t.tgfoid AND (t.tgconstrrelid = " & dTableOID & " OR t.tgconstrrelid = 0) AND t.tgtype = 9 AND t.tgrelid = c.oid AND c.relname = '" & szReferencedTable & "'"
     Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     If Not rs.EOF Then
       Select Case rs!proname
@@ -411,7 +411,7 @@ Dim szSQL As String
 Dim rs As New Recordset
 
   If bCached = False Then
-    szSQL = "SELECT proname FROM pg_proc p, pg_trigger t, pg_class c WHERE p.oid = t.tgfoid AND (t.tgconstrrelid = " & lTableOID & " OR t.tgconstrrelid = 0) AND t.tgtype = 17 AND t.tgrelid = c.oid AND c.relname = '" & szReferencedTable & "'"
+    szSQL = "SELECT proname FROM pg_proc p, pg_trigger t, pg_class c WHERE p.oid = t.tgfoid AND (t.tgconstrrelid = " & dTableOID & " OR t.tgconstrrelid = 0) AND t.tgtype = 17 AND t.tgrelid = c.oid AND c.relname = '" & szReferencedTable & "'"
     Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     If Not rs.EOF Then
       Select Case rs!proname

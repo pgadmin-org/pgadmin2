@@ -18,7 +18,7 @@ Attribute VB_Exposed = True
 Option Explicit
 
 'Properties
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As Boolean
@@ -102,21 +102,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Language OID."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -277,7 +277,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let iComment
 
 Dim szSQL As String
 
-  szSQL = "UPDATE pg_language SET lancompiler = '" & dbSZ(vData) & "' WHERE oid = " & lOID
+  szSQL = "UPDATE pg_language SET lancompiler = '" & dbSZ(vData) & "' WHERE oid = " & dOID
   objServer.ExecSQL szSQL, cnDatabase
   szComment = vData
     
@@ -347,7 +347,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & lOID
+  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!lanacl & ""
@@ -395,7 +395,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & lOID
+  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!lanacl & ""

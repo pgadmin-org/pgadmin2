@@ -96,7 +96,7 @@ Private szServer As String
 Private lPort As Long
 Private szUsername As String
 Private szPassword As String
-Private lLastSystemOID As Long
+Private lLastSystemOID As Double
 Private bIncludeSys As Boolean
 Private bDontLogErrors As Boolean
 Private bShowPassword As Boolean
@@ -513,7 +513,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Return the Last System OID
-Public Property Get LastSystemOID() As Long
+Public Property Get LastSystemOID() As Double
 Attribute LastSystemOID.VB_Description = "Returns the last OID used by the Database System."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get LastSystemOID()", etFullDebug

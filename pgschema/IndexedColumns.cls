@@ -20,7 +20,7 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -59,21 +59,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Let NamespaceOID(" & vData & ")", etFullDebug
   
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -177,16 +177,16 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Initialise the collection if possible
-Friend Sub Initialize(lTableOID As Long)
+Friend Sub Initialize(dTableOID As Double)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Initialize(" & QUOTE & lTableOID & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Initialize(" & QUOTE & dTableOID & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 
   'Create a new collection
   Set mCol = New Collection
   
-  Set rs = objServer.ExecSQL(SQL_GET_INDEX_COLUMNS & " WHERE attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
+  Set rs = objServer.ExecSQL(SQL_GET_INDEX_COLUMNS & " WHERE attrelid = " & dTableOID & " ORDER BY attnum", cnDatabase)
   While Not rs.EOF
     iAdd rs!attname & ""
     rs.MoveNext

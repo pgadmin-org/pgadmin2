@@ -20,9 +20,9 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lTableOID As Long
+Private dTableOID As Double
 Private szTable As String
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -61,21 +61,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -148,11 +148,11 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set the TableOID for internal use.
-Friend Property Let TableOID(ByVal vData As Long)
+Friend Property Let TableOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property let TableOID(" & vData & ")", etFullDebug
 
-  lTableOID = vData
+  dTableOID = vData
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -170,9 +170,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String, ByVal lStatistics As Long) As pgColumn
+Private Function iAdd(dOID As Double, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String, ByVal lStatistics As Long) As pgColumn
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Columns.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ", " & lStatistics & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ", " & lStatistics & ")", etFullDebug
 
 Dim objNewMember As pgColumn
 Dim szHex As String
@@ -193,13 +193,13 @@ Dim bDefaults As Boolean
   End If
   objNewMember.iName = szName
   objNewMember.Table = szTable
-  objNewMember.TableOID = lTableOID
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.TableOID = dTableOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
   
   'Only have an OID pre 7.2
   If objServer.dbVersion.VersionNum < 7.2 Then
-    objNewMember.OID = lOID
+    objNewMember.OID = dOID
   End If
   
   objNewMember.Position = lPosition
@@ -301,9 +301,9 @@ Dim lStatistics As String
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objServer.dbVersion.VersionNum < 7.2 Then
-    szSQL = SQL_GET_COLUMNS7_1 & " AND attrelid = " & lTableOID & " AND attname = '" & dbSZ(Name) & "'"
+    szSQL = SQL_GET_COLUMNS7_1 & " AND attrelid = " & dTableOID & " AND attname = '" & dbSZ(Name) & "'"
   Else
-    szSQL = SQL_GET_COLUMNS7_2 & " AND attrelid = " & lTableOID & " AND attname = '" & dbSZ(Name) & "'"
+    szSQL = SQL_GET_COLUMNS7_2 & " AND attrelid = " & dTableOID & " AND attname = '" & dbSZ(Name) & "'"
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
@@ -436,9 +436,9 @@ Dim lStatistics As Long
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objServer.dbVersion.VersionNum < 7.2 Then
-      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_1 & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_1 & " AND attrelid = " & dTableOID & " ORDER BY attnum", cnDatabase)
     Else
-      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_2 & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_2 & " AND attrelid = " & dTableOID & " ORDER BY attnum", cnDatabase)
     End If
     While Not rs.EOF
       If objServer.dbVersion.VersionNum >= 7.2 Then

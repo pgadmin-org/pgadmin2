@@ -27,7 +27,7 @@ Private colInheritedTables As InheritedTables
 Private colForeignKeys As ForeignKeys
 
 'Properties
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As String
@@ -35,7 +35,7 @@ Private szOwner As String
 Private szACL As String
 Private bHasOIDs As Boolean
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -89,21 +89,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -153,10 +153,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ForeignK
     
     'Pass the connection to the class
     Set colForeignKeys.Connection = cnDatabase
-    colForeignKeys.TableOID = lOID
+    colForeignKeys.TableOID = dOID
     colForeignKeys.Table = szName
     colForeignKeys.Namespace = szNamespace
-    colForeignKeys.NamespaceOID = lNamespaceOID
+    colForeignKeys.NamespaceOID = dNamespaceOID
     colForeignKeys.Initialize
   End If
   Set ForeignKeys = colForeignKeys
@@ -177,8 +177,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Inherite
     'Pass the connection to the class
     Set colInheritedTables.Connection = cnDatabase
     colInheritedTables.Namespace = szNamespace
-    colInheritedTables.NamespaceOID = lNamespaceOID
-    colInheritedTables.Initialize lOID
+    colInheritedTables.NamespaceOID = dNamespaceOID
+    colInheritedTables.Initialize dOID
   End If
   Set InheritedTables = colInheritedTables
     
@@ -197,10 +197,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Columns()",
     
     'Pass the connection & oid to the class
     Set colColumns.Connection = cnDatabase
-    colColumns.TableOID = lOID
+    colColumns.TableOID = dOID
     colColumns.Table = szName
     colColumns.Namespace = szNamespace
-    colColumns.NamespaceOID = lNamespaceOID
+    colColumns.NamespaceOID = dNamespaceOID
     colColumns.Initialize
   End If
   Set Columns = colColumns
@@ -220,10 +220,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Checks()", 
 
     'Pass the connection to the class
     Set colChecks.Connection = cnDatabase
-    colChecks.TableOID = lOID
+    colChecks.TableOID = dOID
     colChecks.Table = szName
     colChecks.Namespace = szNamespace
-    colChecks.NamespaceOID = lNamespaceOID
+    colChecks.NamespaceOID = dNamespaceOID
     colChecks.Initialize
   End If
   Set Checks = colChecks
@@ -243,10 +243,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Indexes()",
 
     'Pass the connection to the class
     Set colIndexes.Connection = cnDatabase
-    colIndexes.TableOID = lOID
+    colIndexes.TableOID = dOID
     colIndexes.Table = szName
     colIndexes.Namespace = szNamespace
-    colIndexes.NamespaceOID = lNamespaceOID
+    colIndexes.NamespaceOID = dNamespaceOID
     colIndexes.Initialize
   End If
   Set Indexes = colIndexes
@@ -266,10 +266,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Triggers()"
     
     'Pass the connection & oid to the class
     Set colTriggers.Connection = cnDatabase
-    colTriggers.TableOID = lOID
+    colTriggers.TableOID = dOID
     colTriggers.Table = szName
     colTriggers.Namespace = szNamespace
-    colTriggers.NamespaceOID = lNamespaceOID
+    colTriggers.NamespaceOID = dNamespaceOID
     colTriggers.Initialize
   End If
   Set Triggers = colTriggers
@@ -289,10 +289,10 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rules()", e
 
     'Pass the connection to the class
     Set colRules.Connection = cnDatabase
-    colRules.TableOID = lOID
+    colRules.TableOID = dOID
     colRules.Table = szName
     colRules.Namespace = szNamespace
-    colRules.NamespaceOID = lNamespaceOID
+    colRules.NamespaceOID = dNamespaceOID
     colRules.Initialize
   End If
   Set Rules = colRules
@@ -317,21 +317,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Table OID."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -511,14 +511,14 @@ Attribute Comment.VB_Description = "Sets/Returns the Table comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Comment()", etFullDebug
 
-  Comment = objServer.Databases(Database).LookupComment(lOID)
+  Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
 'Get the row count
-Public Property Get Rows() As Long
+Public Property Get Rows() As Double
 Attribute Rows.VB_Description = "Returns the number of rows in the table."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rows()", etFullDebug
@@ -593,7 +593,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & lOID
+  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!relacl & ""
@@ -644,7 +644,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & lOID
+  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!relacl & ""

@@ -24,9 +24,9 @@ Private colUserVars As UserVars
 Private szName As String
 Private szIdentifier As String
 Private lID As Long
-Private bCreateDatabases As Long
-Private bSuperuser As Long
-Private bUpdateCatalogues As Long
+Private bCreateDatabases As Boolean
+Private bSuperuser As Boolean
+Private bUpdateCatalogues As Boolean
 Private dAccountExpires As Date
 Private vTag As Variant
 Private szUserVarList As String

@@ -20,9 +20,9 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lTableOID As Long
+Private dTableOID As Double
 Private szTable As String
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -61,21 +61,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -148,11 +148,11 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set the TableOID for internal use.
-Friend Property Let TableOID(ByVal vData As Long)
+Friend Property Let TableOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property let TableOID(" & vData & ")", etFullDebug
 
-  lTableOID = vData
+  dTableOID = vData
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -181,7 +181,7 @@ Dim objNewMember As pgCheck
   objNewMember.Name = szName
   objNewMember.SystemObject = False
   objNewMember.Table = szTable
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
   objNewMember.Definition = szDefinition
   If szName <> "" Then
@@ -217,7 +217,7 @@ Dim szSQL As String
   objServer.ExecSQL szSQL, cnDatabase
     
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_CHECKS & " AND rcrelid = " & lTableOID & " AND rcname = '" & dbSZ(Name) & "'"
+  szSQL = SQL_GET_CHECKS & " AND rcrelid = " & dTableOID & " AND rcname = '" & dbSZ(Name) & "'"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
@@ -335,7 +335,7 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_CHECKS & " AND rcrelid = " & lTableOID & " ORDER BY rcname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_CHECKS & " AND rcrelid = " & dTableOID & " ORDER BY rcname", cnDatabase)
     While Not rs.EOF
       iAdd rs!rcname & "", rs!rcsrc & ""
       rs.MoveNext

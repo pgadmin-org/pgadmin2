@@ -20,9 +20,9 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lTableOID As Long
+Private dTableOID As Double
 Private szTable As String
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -61,21 +61,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -148,11 +148,11 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set the TableOID for internal use.
-Friend Property Let TableOID(ByVal vData As Long)
+Friend Property Let TableOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let TableOID(" & vData & ")", etFullDebug
 
-  lTableOID = vData
+  dTableOID = vData
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -170,9 +170,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, lNArgs As Long, szArgs As String, bDeferrable As Boolean, bInitially As String) As pgForeignKey
+Private Function iAdd(dOID As Double, szName As String, lNArgs As Long, szArgs As String, bDeferrable As Boolean, bInitially As String) As pgForeignKey
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lNArgs & ", " & QUOTE & szArgs & QUOTE & ", " & bDeferrable & ", " & bInitially & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & lNArgs & ", " & QUOTE & szArgs & QUOTE & ", " & bDeferrable & ", " & bInitially & ")", etFullDebug
 
 Dim objNewMember As pgForeignKey
 Dim szArgString As String
@@ -183,17 +183,17 @@ Dim X As Long
 
   'Create a new object
   Set objNewMember = New pgForeignKey
-  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
+  If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
-  objNewMember.TableOID = lTableOID
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.TableOID = dTableOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
 
   If lNArgs >= 6 Then
@@ -217,7 +217,7 @@ Dim X As Long
   End If
 
   If szName = "" Or szName = "<unnamed>" Then
-    objNewMember.Identifier = "Unamed Foreign Key - " & lOID & " -> " & szArgArray(2)
+    objNewMember.Identifier = "Unamed Foreign Key - " & dOID & " -> " & szArgArray(2)
   Else
     objNewMember.Identifier = szName & " -> " & szArgArray(2)
   End If
@@ -311,7 +311,7 @@ Dim szArgs As String
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_FOREIGN_KEYS & " AND tgrelid = " & lTableOID & " ORDER BY tgconstrname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_FOREIGN_KEYS & " AND tgrelid = " & dTableOID & " ORDER BY tgconstrname", cnDatabase)
     While Not rs.EOF
       szArgs = ""
       For X = 0 To rs.Fields("tgargs").ActualSize - 1

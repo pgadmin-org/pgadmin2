@@ -20,7 +20,7 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -59,21 +59,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -146,9 +146,9 @@ Err_Handler: objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szOwner As String, lInputType As Long, szStateFunction As String, lStateType As Long, szFinalFunction As String, lFinalType As Long, szInitialCondition As String) As pgAggregate
+Private Function iAdd(dOID As Double, szName As String, szOwner As String, dInputType As Double, szStateFunction As String, dStateType As Double, szFinalFunction As String, dFinalType As Double, szInitialCondition As String) As pgAggregate
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Aggregates.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & lStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & lFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & dInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & dStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & dFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgAggregate
 Dim rs As New Recordset
@@ -156,24 +156,24 @@ Dim szSQL As String
 
   'Create a new object
   Set objNewMember = New pgAggregate
-  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
+  If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
   
   'Get the cached Type name. If an error occurs it means the
   'OID specified doesn't exist.
   On Error Resume Next
-  objNewMember.InputType = objServer.Databases(Database).LookupType(lInputType)
-  objNewMember.StateType = objServer.Databases(Database).LookupType(lStateType)
-  objNewMember.FinalType = objServer.Databases(Database).LookupType(lFinalType)
+  objNewMember.InputType = objServer.Databases(Database).LookupType(dInputType)
+  objNewMember.StateType = objServer.Databases(Database).LookupType(dStateType)
+  objNewMember.FinalType = objServer.Databases(Database).LookupType(dFinalType)
   On Error GoTo Err_Handler
 
   objNewMember.StateFunction = szStateFunction
@@ -220,13 +220,13 @@ Dim objAggregate As pgAggregate
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If InputType = "ANY" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc WHERE pg_proc.oid = pg_aggregate.aggfnoid AND aggname = '" & Name & "' AND aggbasetype = 0 AND aggnamespace = " & lNamespaceOID
+      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc WHERE pg_proc.oid = pg_aggregate.aggfnoid AND aggname = '" & Name & "' AND aggbasetype = 0 AND aggnamespace = " & dNamespaceOID
     Else
       szSQL = "SELECT pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate WHERE aggname = '" & dbSZ(Name) & "' AND aggbasetype = 0"
     End If
   Else
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc, pg_type WHERE pg_proc.oid = pg_aggregate.aggfnoid AND proargtypes[0] = pg_type.oid AND aggname = '" & Name & "' AND typname = '" & InputType & "' AND aggnamespace = " & lNamespaceOID
+      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc, pg_type WHERE pg_proc.oid = pg_aggregate.aggfnoid AND proargtypes[0] = pg_type.oid AND aggname = '" & Name & "' AND typname = '" & InputType & "' AND aggnamespace = " & dNamespaceOID
     Else
       szSQL = "SELECT pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate, pg_type WHERE aggbasetype = pg_type.oid AND aggname = '" & Name & "' AND typname = '" & InputType & "'"
     End If
@@ -374,7 +374,7 @@ Dim rs As New Recordset
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_3 & " AND pronamespace = " & lNamespaceOID & " ORDER BY aggname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_3 & " AND pronamespace = " & dNamespaceOID & " ORDER BY aggname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_1 & " ORDER BY aggname", cnDatabase)
     End If

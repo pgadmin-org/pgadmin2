@@ -102,9 +102,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String)
+Private Sub iAdd(dOID As Double, szName As String, szOwner As String, szACL As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Namespaces.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Namespaces.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgNamespace
 Dim szSQL As String
@@ -112,13 +112,13 @@ Dim rs As New Recordset
 
   'Create a new object
   Set objNewMember = New pgNamespace
-  If ((lOID <> 0) And (lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_")) Then
+  If ((dOID <> 0) And (dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_")) Then
     If Not objServer.IncludeSys Then Exit Sub
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
   objNewMember.ACL = szACL

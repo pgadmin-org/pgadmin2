@@ -20,9 +20,9 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lTableOID As Long
+Private dTableOID As Double
 Private szTable As String
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -61,21 +61,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -148,11 +148,11 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set the TableOID for internal use.
-Friend Property Let TableOID(ByVal vData As Long)
+Friend Property Let TableOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property let TableOID(" & vData & ")", etFullDebug
 
-  lTableOID = vData
+  dTableOID = vData
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -170,24 +170,24 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szDefinition As String) As pgRule
+Private Function iAdd(dOID As Double, szName As String, szDefinition As String) As pgRule
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Rules.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgRule
 
   'Create a new object
   Set objNewMember = New pgRule
-  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
+  If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
   objNewMember.Definition = szDefinition
   objNewMember.Identifier = szName
@@ -363,9 +363,9 @@ Dim rs As New Recordset
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_RULES7_3 & " WHERE ev_class = " & lTableOID & " ORDER BY rulename", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_RULES7_3 & " WHERE ev_class = " & dTableOID & " ORDER BY rulename", cnDatabase)
     Else
-      Set rs = objServer.ExecSQL(SQL_GET_RULES7_1 & " WHERE ev_class = " & lTableOID & " ORDER BY rulename", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_RULES7_1 & " WHERE ev_class = " & dTableOID & " ORDER BY rulename", cnDatabase)
     End If
     While Not rs.EOF
       iAdd rs!OID, rs!rulename & "", rs!Definition & ""

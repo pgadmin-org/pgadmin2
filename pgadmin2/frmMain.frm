@@ -2267,7 +2267,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvDatabase(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2312,11 +2312,13 @@ Dim szTemp As String
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Server Encoding", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ServerEncoding
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Variables", "property", "property")
-  For Each objVar In ctx.CurrentObject.DatabaseVars
-    szTemp = szTemp & "{" & objVar.Name & " = " & objVar.Value & "}, "
-  Next objVar
-  If Len(szTemp) > 2 Then szTemp = Mid(szTemp, 1, Len(szTemp) - 2)
-  lvItem.SubItems(1) = szTemp
+  If ctx.CurrentObject.Status = statOpen Then
+    For Each objVar In ctx.CurrentObject.DatabaseVars
+      szTemp = szTemp & "{" & objVar.Name & " = " & objVar.Value & "}, "
+    Next objVar
+    If Len(szTemp) > 2 Then szTemp = Mid(szTemp, 1, Len(szTemp) - 2)
+    lvItem.SubItems(1) = szTemp
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Allow Connections?", "property", "property")
   If ctx.CurrentObject.AllowConnections Then
     lvItem.SubItems(1) = "Yes"
@@ -2341,7 +2343,8 @@ Dim szTemp As String
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+  
+  If txtDefinition.Visible And (ctx.CurrentObject.Status = statOpen) Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDatabase"
@@ -4086,7 +4089,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem

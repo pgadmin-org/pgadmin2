@@ -102,9 +102,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String, Optional szACL As String, Optional lValidator As Long)
+Private Sub iAdd(dOID As Double, szName As String, bTrusted As Boolean, dHandler As Double, szComment As String, Optional szACL As String, Optional dValidator As Double)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & lValidator & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & dHandler & ", " & QUOTE & szComment & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & dValidator & ")", etFullDebug
 
 Dim objNewMember As pgLanguage
 Dim rs As New Recordset
@@ -112,21 +112,21 @@ Dim szSQL As String
 
   'Create a new object
   Set objNewMember = New pgLanguage
-  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
+  If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Sub
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.Name = szName
   objNewMember.Trusted = bTrusted
   
   'Get the Handler
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & lHandler
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dHandler
   Else
-    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE oid = " & lHandler
+    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE oid = " & dHandler
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
@@ -136,7 +136,7 @@ Dim szSQL As String
 
   'Get the Validator
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & lValidator
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dValidator
     Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     If Not rs.EOF Then
       objNewMember.Validator = fmtID(rs!proname & "")

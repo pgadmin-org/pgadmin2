@@ -20,7 +20,7 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -59,21 +59,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -146,9 +146,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String, bHasOIDs As Boolean)
+Private Sub iAdd(dOID As Double, szName As String, szOwner As String, szACL As String, bHasOIDs As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & bHasOIDs & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & bHasOIDs & ")", etFullDebug
 
 Dim objNewMember As pgTable
 Dim szSQL As String
@@ -156,15 +156,15 @@ Dim rs As New Recordset
 
   'Create a new object
   Set objNewMember = New pgTable
-  If lOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
+  If dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_" Then
     If Not objServer.IncludeSys Then Exit Sub
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
+  objNewMember.OID = dOID
   objNewMember.iName = szName
-  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace
   objNewMember.iOwner = szOwner
   objNewMember.ACL = szACL
@@ -223,7 +223,7 @@ Dim szSQL As String
 
   'Generate and execute the SQL to retrieve *all* properties of the new object
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & Name & "' AND relnamespace = " & lNamespaceOID
+    szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & Name & "' AND relnamespace = " & dNamespaceOID
   ElseIf objServer.dbVersion.VersionNum = 7.2 Then
     szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & Name & "'"
   Else
@@ -374,7 +374,7 @@ Dim rs As New Recordset
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " AND relnamespace = " & lNamespaceOID & " ORDER BY relname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " AND relnamespace = " & dNamespaceOID & " ORDER BY relname", cnDatabase)
     ElseIf objServer.dbVersion.VersionNum = 7.2 Then
       Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " ORDER BY relname", cnDatabase)
     Else

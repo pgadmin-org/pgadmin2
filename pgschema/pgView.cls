@@ -18,7 +18,7 @@ Attribute VB_Exposed = True
 Option Explicit
 
 'Properties
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As Boolean
@@ -26,7 +26,7 @@ Private szOwner As String
 Private szACL As String
 Private szDefinition As String
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 
@@ -80,21 +80,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -149,21 +149,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the View OID."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -335,7 +335,7 @@ Dim szSQL As String
     objServer.Databases(Database).Execute szSQL
     
     'Select oid and definition back from the DB...
-    szSQL = SQL_GET_VIEWS7_3 & " AND relname = '" & szName & "' AND relnamespace = " & lNamespaceOID & ";"
+    szSQL = SQL_GET_VIEWS7_3 & " AND relname = '" & szName & "' AND relnamespace = " & dNamespaceOID & ";"
   Else
     'If we are here, then drop view and rename fake view
     szSQL = "DROP VIEW " & FormattedID & ";" & vbCrLf
@@ -348,7 +348,7 @@ Dim szSQL As String
   
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
-    lOID = rs!OID & ""
+    dOID = rs!OID & ""
     szDefinition = rs!Definition & ""
   End If
   If rs.State <> adStateClosed Then rs.Close
@@ -403,7 +403,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Comment()", etFullDebug
 
   If (szName <> "") Then
-    Comment = objServer.Databases(Database).LookupComment(lOID)
+    Comment = objServer.Databases(Database).LookupComment(dOID)
   Else
     Comment = ""
   End If
@@ -413,7 +413,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Get the row count
-Public Property Get Rows() As Long
+Public Property Get Rows() As Double
 Attribute Rows.VB_Description = "Returns the number of rows represented in the view."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Rows()", etFullDebug
@@ -464,7 +464,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & lOID
+  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!relacl & ""
@@ -515,7 +515,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & lOID
+  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!relacl & ""

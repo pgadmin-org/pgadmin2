@@ -19,8 +19,8 @@ Option Explicit
 
 'Properties
 Private szTable As String
-Private lTableOID As Long
-Private lOID As Long
+Private dTableOID As Double
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As Boolean
@@ -32,7 +32,7 @@ Private bNotNull As Boolean
 Private bPrimaryKey As Boolean
 Private szDefault As String
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 Private lStatistics As Long
@@ -83,21 +83,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -172,32 +172,32 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set the Table OID
-Friend Property Let TableOID(ByVal vData As Long)
+Friend Property Let TableOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let TableOID(" & vData & ")", etFullDebug
 
-  lTableOID = vData
+  dTableOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the column OID (PostgreSQL 7.1 or lower)."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -611,9 +611,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Comment()"
   'In 7.1, comments were stored in pg_description against the column OID.
   'In 7.2+, use the table OID with a SubID of the Column Position
   If objServer.dbVersion.VersionNum < 7.2 Then
-    Comment = objServer.Databases(Database).LookupComment(lOID)
+    Comment = objServer.Databases(Database).LookupComment(dOID)
   Else
-    Comment = objServer.Databases(Database).LookupComment(lTableOID, lPosition)
+    Comment = objServer.Databases(Database).LookupComment(dTableOID, CDbl(lPosition))
   End If
     
   Exit Property

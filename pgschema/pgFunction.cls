@@ -21,7 +21,7 @@ Option Explicit
 Private colArguments As Arguments
 
 'Properties
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As Boolean
@@ -33,7 +33,7 @@ Private bCachable As Boolean
 Private bStrict As Boolean
 Private szArgumentList As String
 Private cnDatabase As Connection
-Private lNamespaceOID As Long
+Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 Private szACL As String
@@ -111,21 +111,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the Namespace OID
-Friend Property Let NamespaceOID(ByVal vData As Long)
+Friend Property Let NamespaceOID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  lNamespaceOID = vData
+  dNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get NamespaceOID() As Long
+Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get NamespaceOID()", etFullDebug
 
-  NamespaceOID = lNamespaceOID
+  NamespaceOID = dNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -198,21 +198,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Type OID."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -353,7 +353,7 @@ Dim rs As New Recordset
   objServer.Databases(Database).Execute SQL(True)
     
   'Select the prosrc back from the DB...
-  Set rs = objServer.ExecSQL("SELECT prosrc FROM pg_proc WHERE oid = " & lOID, cnDatabase)
+  Set rs = objServer.ExecSQL("SELECT prosrc FROM pg_proc WHERE oid = " & dOID, cnDatabase)
   If Not rs.EOF Then szSource = rs!prosrc & ""
   
   'Clean code
@@ -535,7 +535,7 @@ Attribute Comment.VB_Description = "Sets/Returns the Type comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Comment()", etFullDebug
 
-  Comment = objServer.Databases(Database).LookupComment(lOID)
+  Comment = objServer.Databases(Database).LookupComment(dOID)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -605,7 +605,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & lOID
+  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!proacl & ""
@@ -653,7 +653,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & lOID
+  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!proacl & ""

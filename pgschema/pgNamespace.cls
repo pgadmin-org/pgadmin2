@@ -28,7 +28,7 @@ Private colTables As Tables
 Private colDomains As Domains
 
 'Properties
-Private lOID As Long
+Private dOID As Double
 Private szName As String
 Private szIdentifier As String
 Private bSystemObject As Boolean
@@ -120,7 +120,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Aggregat
     'Pass the connection to the class
     Set colAggregates.Connection = cnDatabase
     colAggregates.Namespace = szName
-    colAggregates.NamespaceOID = lOID
+    colAggregates.NamespaceOID = dOID
     colAggregates.Initialize
   End If
   Set Aggregates = colAggregates
@@ -141,7 +141,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Tables()
     'Pass the connection to the class
     Set colTables.Connection = cnDatabase
     colTables.Namespace = szName
-    colTables.NamespaceOID = lOID
+    colTables.NamespaceOID = dOID
     colTables.Initialize
   End If
   Set Tables = colTables
@@ -162,7 +162,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Operator
     'Pass the connection to the class
     Set colOperators.Connection = cnDatabase
     colOperators.Namespace = szName
-    colOperators.NamespaceOID = lOID
+    colOperators.NamespaceOID = dOID
     colOperators.Initialize
   End If
   Set Operators = colOperators
@@ -183,7 +183,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Function
     'Pass the connection to the class
     Set colFunctions.Connection = cnDatabase
     colFunctions.Namespace = szName
-    colFunctions.NamespaceOID = lOID
+    colFunctions.NamespaceOID = dOID
     colFunctions.Initialize
   End If
   Set Functions = colFunctions
@@ -204,7 +204,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Types()"
     'Pass the connection to the class
     Set colTypes.Connection = cnDatabase
     colTypes.Namespace = szName
-    colTypes.NamespaceOID = lOID
+    colTypes.NamespaceOID = dOID
     colTypes.Initialize
   End If
   Set Types = colTypes
@@ -225,7 +225,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Views()"
     'Pass the connection to the class
     Set colViews.Connection = cnDatabase
     colViews.Namespace = szName
-    colViews.NamespaceOID = lOID
+    colViews.NamespaceOID = dOID
     colViews.Initialize
   End If
   Set Views = colViews
@@ -246,7 +246,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Sequence
     'Pass the connection to the class
     Set colSequences.Connection = cnDatabase
     colSequences.Namespace = szName
-    colSequences.NamespaceOID = lOID
+    colSequences.NamespaceOID = dOID
     colSequences.Initialize
   End If
   Set Sequences = colSequences
@@ -267,7 +267,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Domains(
     'Pass the connection to the class
     Set colDomains.Connection = cnDatabase
     colDomains.Namespace = szName
-    colDomains.NamespaceOID = lOID
+    colDomains.NamespaceOID = dOID
     colDomains.Initialize
   End If
   Set Domains = colDomains
@@ -277,21 +277,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
+Friend Property Let OID(ByVal vData As Double)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let OID(" & vData & ")", etFullDebug
 
-  lOID = vData
+  dOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get OID() As Long
+Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Namespace OID."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get OID()", etFullDebug
 
-  OID = lOID
+  OID = dOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -439,7 +439,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get Comment()", etFullDebug
 
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    Comment = objServer.Databases(Database).LookupComment(lOID)
+    Comment = objServer.Databases(Database).LookupComment(dOID)
   Else
     Comment = "This is a dummy schema for backwards compatibility with PostgreSQL 7.2 & below."
   End If
@@ -480,7 +480,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & lOID
+  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!nspacl & ""
@@ -529,7 +529,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & lOID
+  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & dOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!nspacl & ""
