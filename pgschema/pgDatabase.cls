@@ -762,9 +762,9 @@ Err_Handler:
   objServer.iLogError Err
 End Property
 
-Friend Sub LogRevision(szType As String, szIdentifier As String, lobjoid As Long, szDefinition As String, szComment As String, rlAction As rcLogType)
+Friend Sub LogRevision(szType As String, szIdentifier As String, lObjOID As Long, szDefinition As String, szComment As String, rlAction As rcLogType, Optional szParentTable As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LogRevision(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & lOID & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ", " & rlAction & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LogRevision(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & lOID & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ", " & rlAction & ", " & QUOTE & szParentTable & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 Dim szAction As String
@@ -783,7 +783,7 @@ Dim szAction As String
     Case rcDelete
       szAction = "D"
   End Select
-  szSQL = "INSERT INTO pgadmin_rclog(rc_action, rc_type, rc_identifier, rc_oid, rc_version, rc_definition, rc_comment) VALUES ('" & szAction & "', '" & szType & "', '" & szIdentifier & "', " & lobjoid & ", (SELECT CASE WHEN max(rc_version) IS NULL THEN 0 ELSE max(rc_version) +1::int4 END from pgadmin_rclog WHERE rc_type = '" & szType & "' AND rc_identifier = '" & szIdentifier & "'), '" & szDefinition & "', '" & szComment & "');"
+  szSQL = "INSERT INTO pgadmin_rclog(rc_action, rc_type, rc_identifier, rc_oid, rc_table, rc_version, rc_definition, rc_comment) VALUES ('" & szAction & "', '" & szType & "', '" & szIdentifier & "', " & lObjOID & ", '" & dbSZ(szParentTable) & "', (SELECT CASE WHEN max(rc_version) IS NULL THEN 0 ELSE max(rc_version) +1::int4 END from pgadmin_rclog WHERE rc_type = '" & szType & "' AND rc_identifier = '" & szIdentifier & "'), '" & szDefinition & "', '" & szComment & "');"
   objServer.ExecSQL szSQL, cnDatabase
   
   Exit Sub

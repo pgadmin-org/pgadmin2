@@ -44,9 +44,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(szType As String, szIdentifier As String, dTimeStamp As Date, szUser As String, szAction As String, lOID As Long, lVersion As Long, szDefinition As String, szComment As String)
+Private Sub iAdd(szType As String, szIdentifier As String, szTable As String, dTimeStamp As Date, szUser As String, szAction As String, lOID As Long, lVersion As Long, szDefinition As String, szComment As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Graveyard.iAdd(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & QUOTE & dTimeStamp & QUOTE & ", " & QUOTE & szUser & QUOTE & ", " & QUOTE & szAction & QUOTE & ", " & lOID & ", " & lVersion & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Graveyard.iAdd(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & QUOTE & szTable & QUOTE & ", " & QUOTE & dTimeStamp & QUOTE & ", " & QUOTE & szUser & QUOTE & ", " & QUOTE & szAction & QUOTE & ", " & lOID & ", " & lVersion & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
 
 Dim objNewMember As rcItem
 
@@ -54,6 +54,7 @@ Dim objNewMember As rcItem
   Set objNewMember = New rcItem
   objNewMember.ObjectType = szType
   objNewMember.Identifier = szIdentifier
+  objNewMember.ParentTable = szTable
   objNewMember.TimeStamp = dTimeStamp
   objNewMember.User = szUser
   objNewMember.Action = szAction
@@ -128,30 +129,41 @@ objServer.iLogEvent "Entering " & App.Title & ":Graveyard.Restore()", etFullDebu
   'Restore the object
   objServer.Databases(Database).Execute mCol(Index).Definition
   
-  'Now refresh the relevant bit of the object model
+  'Now refresh the relevant bit of the object model, and log the restore.
   Select Case mCol(Index).ObjectType
     Case "Aggregate"
       objServer.Databases(Database).Aggregates.Refresh
+      objServer.Databases(Database).Aggregates(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Function"
       objServer.Databases(Database).Functions.Refresh
+      objServer.Databases(Database).Functions(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Index"
-      objServer.Databases(Database).Tables.Refresh
+      objServer.Databases(Database).Tables(mCol(Index).ParentTable).Indexes.Refresh
+      objServer.Databases(Database).Tables(mCol(Index).ParentTable).Indexes(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Language"
       objServer.Databases(Database).Languages.Refresh
+      objServer.Databases(Database).Languages(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Operator"
       objServer.Databases(Database).Operators.Refresh
+      objServer.Databases(Database).Operators(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Rule"
-      objServer.Databases(Database).Tables.Refresh
+      objServer.Databases(Database).Tables(mCol(Index).ParentTable).Rules.Refresh
+      objServer.Databases(Database).Tables(mCol(Index).ParentTable).Rules(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Sequence"
       objServer.Databases(Database).Sequences.Refresh
+      objServer.Databases(Database).Sequences(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Table"
       objServer.Databases(Database).Tables.Refresh
+      objServer.Databases(Database).Tables(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Trigger"
-      objServer.Databases(Database).Tables.Refresh
+      objServer.Databases(Database).Tables(mCol(Index).ParentTable).Triggers.Refresh
+      objServer.Databases(Database).Tables(mCol(Index).ParentTable).Triggers(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "Type"
       objServer.Databases(Database).Types.Refresh
+      objServer.Databases(Database).Types(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
     Case "View"
       objServer.Databases(Database).Views.Refresh
+      objServer.Databases(Database).Views(mCol(Index).Identifier).Commit rcAdd, "Object restored from Revision Log (Version " & mCol(Index).Version & ")."
   End Select
   
   'Now remove the Graveyard object
@@ -194,7 +206,7 @@ Dim objTable As pgTable
     
     While Not rs.EOF
       If rs!rc_action = "D" Then 'Just add an delete items
-        iAdd rs!rc_type & "", rs!rc_identifier & "", rs!rc_timestamp, rs!rc_user & "", rs!rc_action & "", rs!rc_oid, rs!rc_version, rs!rc_definition & "", rs!rc_comment & ""
+        iAdd rs!rc_type & "", rs!rc_identifier & "", rs!rc_table & "", rs!rc_timestamp, rs!rc_user & "", rs!rc_action & "", rs!rc_oid, rs!rc_version, rs!rc_definition & "", rs!rc_comment & ""
       Else 'Check that the item doesn't exist and more.
         bExists = False
         Select Case rs!rc_type & ""
@@ -214,27 +226,16 @@ Dim objTable As pgTable
             bExists = objServer.Databases(szDatabase).Types.Exists(rs!rc_identifier & "")
           Case "View"
             bExists = objServer.Databases(szDatabase).Views.Exists(rs!rc_identifier & "")
-          
-          'Indexes, Rules and Triggers are harder as they are sub parts of a table...
           Case "Index"
-            For Each objTable In objServer.Databases(szDatabase).Tables
-              bExists = objTable.Indexes.Exists(rs!rc_identifier & "")
-              If bExists = True Then Exit For
-            Next objTable
+            bExists = objServer.Databases(szDatabase).Tables(rs!rc_table & "").Indexes.Exists(rs!rc_identifier & "")
           Case "Rule"
-            For Each objTable In objServer.Databases(szDatabase).Tables
-              bExists = objTable.Rules.Exists(rs!rc_identifier & "")
-              If bExists = True Then Exit For
-            Next objTable
+            bExists = objServer.Databases(szDatabase).Tables(rs!rc_table & "").Rules.Exists(rs!rc_identifier & "")
           Case "Trigger"
-            For Each objTable In objServer.Databases(szDatabase).Tables
-              bExists = objTable.Triggers.Exists(rs!rc_identifier & "")
-              If bExists = True Then Exit For
-            Next objTable
+            bExists = objServer.Databases(szDatabase).Tables(rs!rc_table & "").Triggers.Exists(rs!rc_identifier & "")
         End Select
         
         'Add the item if we couldn't find it
-        If Not bExists Then iAdd rs!rc_type & "", rs!rc_identifier & "", rs!rc_timestamp, rs!rc_user & "", rs!rc_action & "", rs!rc_oid, rs!rc_version, rs!rc_definition & "", rs!rc_comment & ""
+        If Not bExists Then iAdd rs!rc_type & "", rs!rc_identifier & "", rs!rc_table & "", rs!rc_timestamp, rs!rc_user & "", rs!rc_action & "", rs!rc_oid, rs!rc_version, rs!rc_definition & "", rs!rc_comment & ""
       End If
       rs.MoveNext
     Wend

@@ -18,6 +18,7 @@ Attribute VB_Exposed = True
 Option Explicit
 
 'Properties
+Private szParentTable As String
 Private szObjectType As String
 Private szIdentifier As String
 Private dTimeStamp As Date
@@ -27,6 +28,26 @@ Private lOID As Long
 Private lVersion As Long
 Private szDefinition As String
 Private szComment As String
+
+'Set/Return the ParentTable
+Friend Property Let ParentTable(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":rcItem.Property Let ParentTable(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szParentTable = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get ParentTable() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":rcItem.Property Get ParentTable()", etFullDebug
+
+  ParentTable = szParentTable
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Set/Return the ObjectType
 Friend Property Let ObjectType(ByVal vData As String)

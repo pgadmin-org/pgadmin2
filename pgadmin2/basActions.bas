@@ -60,7 +60,6 @@ Dim szPath() As String
   
   Select Case ctx.CurrentObject.ObjectType
     Case "User"
-
       szType = "USR-"
       frmMain.svr.Users.Remove ctx.CurrentObject.Identifier
 

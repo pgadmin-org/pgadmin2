@@ -536,7 +536,7 @@ Attribute Commit.VB_Description = "Commit object changes."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
 
-  objServer.Databases(Database).LogRevision ObjectType, Identifier, OID, SQL, UpdateComment, UpdateType
+  objServer.Databases(Database).LogRevision ObjectType, Identifier, OID, SQL(True), UpdateComment, UpdateType
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err
@@ -559,7 +559,7 @@ Dim rs As New Recordset
   If rs.EOF Then
     RCStatus = rcNotInRC
   Else
-    If SQL = rs!rc_definition & "" Then
+    If SQL(True) = rs!rc_definition & "" Then
       RCStatus = rcUpToDate
     Else
       If rs!rc_timestamp > dTimeStamp Then

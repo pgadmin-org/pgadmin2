@@ -58,9 +58,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(szType As String, szIdentifier As String, dTimeStamp As Date, szUser As String, szAction As String, lOID As Long, lVersion As Long, szDefinition As String, szComment As String)
+Private Sub iAdd(szType As String, szIdentifier As String, szTable As String, dTimeStamp As Date, szUser As String, szAction As String, lOID As Long, lVersion As Long, szDefinition As String, szComment As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":History.iAdd(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & QUOTE & dTimeStamp & QUOTE & ", " & QUOTE & szUser & QUOTE & ", " & QUOTE & szAction & QUOTE & ", " & lOID & ", " & lVersion & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":History.iAdd(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & QUOTE & szTable & QUOTE & ", " & QUOTE & dTimeStamp & QUOTE & ", " & QUOTE & szUser & QUOTE & ", " & QUOTE & szAction & QUOTE & ", " & lOID & ", " & lVersion & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
 
 Dim objNewMember As rcItem
 
@@ -68,6 +68,7 @@ Dim objNewMember As rcItem
   Set objNewMember = New rcItem
   objNewMember.ObjectType = szType
   objNewMember.Identifier = szIdentifier
+  objNewMember.ParentTable = szTable
   objNewMember.TimeStamp = dTimeStamp
   objNewMember.User = szUser
   objNewMember.Action = szAction
@@ -152,7 +153,7 @@ Dim szSQL As String
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     While Not rs.EOF
-      iAdd rs!rc_type & "", rs!rc_identifier & "", rs!rc_timestamp, rs!rc_user & "", rs!rc_action & "", rs!rc_oid, rs!rc_version, rs!rc_definition & "", rs!rc_comment & ""
+      iAdd rs!rc_type & "", rs!rc_identifier & "", rs!rc_table & "", rs!rc_timestamp, rs!rc_user & "", rs!rc_action & "", rs!rc_oid, rs!rc_version, rs!rc_definition & "", rs!rc_comment & ""
       rs.MoveNext
     Wend
   End If
