@@ -162,7 +162,7 @@ Dim rs As New Recordset
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = dOID
+  objNewMember.Oid = dOID
   objNewMember.iName = szName
   objNewMember.NamespaceOID = dNamespaceOID
   objNewMember.Namespace = szNamespace

@@ -283,7 +283,7 @@ Dim szSQL As String
   Else
     szSQL = "ALTER TABLE " & fmtID(szTable) & " DROP CONSTRAINT " & mCol(ULEncode(Key)).FormattedID & " RESTRICT"
   End If
-  objServer.ExecSQL szSQL, objServer.Connection
+  objServer.ExecSQL szSQL, cnDatabase
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.

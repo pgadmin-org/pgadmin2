@@ -6,8 +6,8 @@ Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
    ClientHeight    =   6672
-   ClientLeft      =   3720
-   ClientTop       =   2076
+   ClientLeft      =   2052
+   ClientTop       =   1944
    ClientWidth     =   9672
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
@@ -3460,10 +3460,12 @@ Dim szSQL As String
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
   
     While Not rsStat.EOF
-      If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
-        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
-        lvItem.SubItems(1) = rsStat!blks_read & ""
-        lvItem.SubItems(2) = rsStat!blks_hit & ""
+      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences.Exists(rsStat!relname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+          lvItem.SubItems(1) = rsStat!blks_read & ""
+          lvItem.SubItems(2) = rsStat!blks_hit & ""
+        End If
       End If
       rsStat.MoveNext
     Wend
@@ -3617,11 +3619,13 @@ Dim szSQL As String
     sv.ColumnHeaders.Add , , "Tuples Deleted", 2000
   
     While Not rsStat.EOF
-      If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
-        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
-        lvItem.SubItems(1) = rsStat!n_tup_ins & ""
-        lvItem.SubItems(2) = rsStat!n_tup_upd & ""
-        lvItem.SubItems(3) = rsStat!n_tup_del & ""
+      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables.Exists(rsStat!relname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+          lvItem.SubItems(1) = rsStat!n_tup_ins & ""
+          lvItem.SubItems(2) = rsStat!n_tup_upd & ""
+          lvItem.SubItems(3) = rsStat!n_tup_del & ""
+        End If
       End If
       rsStat.MoveNext
     Wend
@@ -4143,10 +4147,12 @@ Dim szSQL As String
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
   
     While Not rsStat.EOF
-      If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
-        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
-        lvItem.SubItems(1) = rsStat!idx_blks_read & ""
-        lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
+      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes.Exists(rsStat!indexrelname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
+          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
+          lvItem.SubItems(1) = rsStat!idx_blks_read & ""
+          lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
+        End If
       End If
       rsStat.MoveNext
     Wend

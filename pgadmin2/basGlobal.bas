@@ -38,4 +38,6 @@ Global Const DEFAULT_AUTOHIGHLIGHT = "ALTER|0|0|16711680;COMMENT|0|0|16711680;CR
                                      "ON|0|0|32768;OR|0|0|32768;ORDER|0|0|32768;THEN|0|0|32768;USING|0|0|32768;WHEN|0|0|32768;WHERE|0|0|32768;"
                                      
 
+'error to ignore
+Global ColIgnoreError As New Collection
 

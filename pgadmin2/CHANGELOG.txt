@@ -30,6 +30,7 @@ Added support for rules on views [Frank Lupo].
 Added support for dependency checking [Frank Lupo].
 Fixed date handling in the Excel exporter.
 Added support for Set Returning Functions [Frank Lupo].
+Allow addition and removal of Foreign Keys post table creation [Frank Lupo]
 
 1.4.12
 ------

@@ -5,14 +5,14 @@ Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTable 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Table"
-   ClientHeight    =   6885
-   ClientLeft      =   4995
-   ClientTop       =   2490
+   ClientHeight    =   6876
+   ClientLeft      =   4992
+   ClientTop       =   2496
    ClientWidth     =   5520
    Icon            =   "frmTable.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -73,13 +73,9 @@ Begin VB.Form frmTable
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "cmdColRemove"
-      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "cmdImport"
-      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
@@ -137,15 +133,15 @@ Begin VB.Form frmTable
          Width           =   1995
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   43
          ToolTipText     =   "The tables owner."
          Top             =   1440
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -153,14 +149,14 @@ Begin VB.Form frmTable
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboInheritedTables 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   22
-         Top             =   5850
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   5856
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -246,7 +242,7 @@ Begin VB.Form frmTable
       Begin VB.CommandButton cmdColAdd 
          Caption         =   "&Add"
          Height          =   375
-         Left            =   -74865
+         Left            =   -74880
          TabIndex        =   9
          ToolTipText     =   "Add a new column."
          Top             =   5805
@@ -259,7 +255,7 @@ Begin VB.Form frmTable
          TabIndex        =   8
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
+         _ExtentX        =   9165
          _ExtentY        =   9313
          View            =   3
          LabelEdit       =   1
@@ -442,14 +438,14 @@ Begin VB.Form frmTable
             Width           =   1590
          End
          Begin MSComctlLib.ImageCombo cboEntities 
-            Height          =   330
+            Height          =   300
             Left            =   1260
             TabIndex        =   26
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
-            Top             =   315
-            Width           =   3705
-            _ExtentX        =   6535
-            _ExtentY        =   582
+            Top             =   312
+            Width           =   3708
+            _ExtentX        =   6541
+            _ExtentY        =   529
             _Version        =   393216
             ForeColor       =   -2147483640
             BackColor       =   -2147483643
@@ -484,8 +480,8 @@ Begin VB.Form frmTable
          ToolTipText     =   "The access control list for the view."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   5980
+         _ExtentX        =   9165
+         _ExtentY        =   5990
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -517,11 +513,11 @@ Begin VB.Form frmTable
          ToolTipText     =   "Comments about the table."
          Top             =   2700
          Width           =   5190
-         _ExtentX        =   9155
+         _ExtentX        =   9165
          _ExtentY        =   6138
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -537,8 +533,8 @@ Begin VB.Form frmTable
          TabIndex        =   16
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   9234
+         _ExtentX        =   9165
+         _ExtentY        =   9229
          View            =   3
          LabelEdit       =   1
          Sorted          =   -1  'True
@@ -600,8 +596,8 @@ Begin VB.Form frmTable
          TabIndex        =   19
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   8440
+         _ExtentX        =   9165
+         _ExtentY        =   8446
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -628,11 +624,11 @@ Begin VB.Form frmTable
          ToolTipText     =   "The check definition."
          Top             =   5355
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   1535
+         _ExtentX        =   9165
+         _ExtentY        =   1545
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -648,8 +644,8 @@ Begin VB.Form frmTable
          TabIndex        =   11
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   6853
+         _ExtentX        =   9165
+         _ExtentY        =   6858
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -736,8 +732,8 @@ Begin VB.Form frmTable
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -798,6 +794,7 @@ Dim szDatabase As String
 Dim szNamespace As String
 Dim szDropCheckList As String
 Dim szDropColumnList As String
+Dim szDropForeignKeyList As String
 Dim szUsers() As String
 Public objTable As pgTable
 
@@ -965,6 +962,9 @@ Dim szTable As String
     Exit Sub
   End If
   
+  If Not objTable Is Nothing Then
+    szDropForeignKeyList = szDropForeignKeyList & lvProperties(2).SelectedItem.Text & "!|!"
+  End If
   lvProperties(2).ListItems.Remove lvProperties(2).SelectedItem.Index
 
   Exit Sub
@@ -1043,6 +1043,7 @@ Dim objItem As ListItem
 Dim objNewTable As pgTable
 Dim objNewColumn As pgColumn
 Dim objNewCheck As pgCheck
+Dim objNewForeignKey As pgForeignKey
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
@@ -1053,6 +1054,7 @@ Dim szPrimaryKeys As String
 Dim szChecks As String
 Dim szDropChecks() As String
 Dim szDropColumns() As String
+Dim szDropForeignKeys() As String
 Dim szForeignKeys As String
 Dim szInherits As String
 Dim X As Integer
@@ -1150,9 +1152,11 @@ Dim bFlag As Boolean
           Set objNewColumn = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Add(objItem.Text, szDataType, objItem.SubItems(4), objItem.SubItems(7))
           If objItem.SubItems(5) = "Yes" Then objNewColumn.NotNull = True
           If objItem.SubItems(6) = "Yes" Then objNewColumn.PrimaryKey = True
-          Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Tag
-          Set objNewColumn.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "COL-" & GetID, objItem.Text, "column")
-          objNode.Text = "Columns (" & objNode.Children & ")"
+          If Len(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Tag) > 0 Then
+            Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Tag
+            Set objNewColumn.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "COL-" & GetID, objItem.Text, "column")
+            objNode.Text = "Columns (" & objNode.Children & ")"
+          End If
         End If
       Next objItem
     End If
@@ -1162,16 +1166,18 @@ Dim bFlag As Boolean
       szDropColumns = Split(szDropColumnList, "!|!")
       For X = 0 To UBound(szDropColumns)
         If szDropColumns(X) <> "" Then
-          If IsObject(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns(szDropColumns(X)).Tag) Then
-            Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns(szDropColumns(X)).Tag
-            bFlag = True
-          Else
-            bFlag = False
-          End If
-          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Remove szDropColumns(X)
-          If bFlag Then
-            objNode.Parent.Text = "Columns (" & objNode.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
+          If frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Exists(szDropColumns(X)) Then
+            If IsObject(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns(szDropColumns(X)).Tag) Then
+              Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns(szDropColumns(X)).Tag
+              bFlag = True
+            Else
+              bFlag = False
+            End If
+            frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Remove szDropColumns(X)
+            If bFlag Then
+              objNode.Parent.Text = "Columns (" & objNode.Children - 1 & ")"
+              frmMain.tv.Nodes.Remove objNode.Index
+            End If
           End If
         End If
       Next X
@@ -1182,9 +1188,11 @@ Dim bFlag As Boolean
       For Each objItem In lvProperties(1).ListItems
         If objItem.Tag <> "ORIG" Then
           Set objNewCheck = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Add(objItem.Text, objItem.SubItems(1))
-          Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Tag
-          Set objNewCheck.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "CHK-" & GetID, objItem.Text, "check")
-          objNode.Text = "Checks (" & objNode.Children & ")"
+          If Len(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Tag) > 0 Then
+            Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Tag
+            Set objNewCheck.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "CHK-" & GetID, objItem.Text, "check")
+            objNode.Text = "Checks (" & objNode.Children & ")"
+          End If
         End If
       Next objItem
     End If
@@ -1194,16 +1202,61 @@ Dim bFlag As Boolean
       szDropChecks = Split(szDropCheckList, "!|!")
       For X = 0 To UBound(szDropChecks)
         If szDropChecks(X) <> "" Then
-          If IsObject(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks(szDropColumns(X)).Tag) Then
-            Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks(szDropColumns(X)).Tag
-            bFlag = True
-          Else
-            bFlag = False
+          If frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Exists(szDropChecks(X)) Then
+            If IsObject(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks(szDropChecks(X)).Tag) Then
+              Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks(szDropChecks(X)).Tag
+              bFlag = True
+            Else
+              bFlag = False
+            End If
+            frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Remove szDropChecks(X)
+            If bFlag Then
+              objNode.Parent.Text = "Checks (" & objNode.Children - 1 & ")"
+              frmMain.tv.Nodes.Remove objNode.Index
+            End If
           End If
-          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Remove szDropColumns(X)
-          If bFlag Then
-            objNode.Parent.Text = "Checks (" & objNode.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
+        End If
+      Next X
+    End If
+    
+    'Add new Foreign Keys
+    If lvProperties(2).Tag = "Y" Then
+      For Each objItem In lvProperties(2).ListItems
+        If objItem.Tag <> "ORIG" Then
+          szForeignKeys = " FOREIGN KEY (" & objItem.SubItems(2) & ") "
+          szForeignKeys = szForeignKeys & "REFERENCES " & objItem.SubItems(1) & " (" & objItem.SubItems(3) & ")"
+          szForeignKeys = szForeignKeys & " ON DELETE " & UCase(objItem.SubItems(4))
+          szForeignKeys = szForeignKeys & " ON UPDATE " & UCase(objItem.SubItems(5))
+          If objItem.SubItems(6) = "Yes" Then szForeignKeys = szForeignKeys & " DEFERRABLE"
+          szForeignKeys = szForeignKeys & " INITIALLY " & UCase(objItem.SubItems(7))
+          
+          Set objNewForeignKey = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys.Add(objItem.Text, szForeignKeys)
+          If Len(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys.Tag) > 0 Then
+            Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys.Tag
+            Set objNewForeignKey.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "FKY-" & GetID, objItem.Text, "foreignkey")
+            objNode.Text = "Foreign Keys (" & objNode.Children & ")"
+          End If
+        End If
+      Next objItem
+    End If
+    
+    'Drop any old ForeignKey
+    If Len(szDropForeignKeyList) > 3 Then
+      szDropForeignKeys = Split(szDropForeignKeyList, "!|!")
+      For X = 0 To UBound(szDropForeignKeys)
+        If szDropForeignKeys(X) <> "" Then
+          If frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys.Exists(szDropForeignKeys(X)) Then
+            If IsObject(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys(szDropForeignKeys(X)).Tag) Then
+              Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys(szDropForeignKeys(X)).Tag
+              bFlag = True
+            Else
+              bFlag = False
+            End If
+            frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys.Remove szDropForeignKeys(X)
+            If bFlag Then
+              objNode.Parent.Text = "Foreign Keys (" & objNode.Children - 1 & ")"
+              frmMain.tv.Nodes.Remove objNode.Index
+            End If
           End If
         End If
       Next X
@@ -1360,9 +1413,15 @@ Dim szAccess() As String
     'Allow DROP CHECK for 7.2+
     If ctx.dbVer >= 7.2 Then cmdChkRemove.Enabled = True
     
+    If ctx.dbVer >= 7.3 Then
+      cmdFkyAdd.Enabled = True
+      cmdFkyRemove.Enabled = True
+      lvProperties(2).BackColor = &H80000005
+    End If
+    
     Me.Caption = "Table: " & objTable.Identifier
     txtProperties(0).Text = objTable.Name
-    txtProperties(1).Text = objTable.OID
+    txtProperties(1).Text = objTable.Oid
     If objTable.SystemObject Then
       cboProperties(0).ComboItems.Clear
       cboProperties(0).ComboItems.Add , "U~" & objTable.Owner, objTable.Owner, "user", "user"
@@ -1405,7 +1464,8 @@ Dim szAccess() As String
     Next objCheck
     
     For Each objForeignKey In objTable.ForeignKeys
-      Set objItem = lvProperties(2).ListItems.Add(, , objForeignKey.Name, "foreignkey", "foreignkey")
+'      Set objItem = lvProperties(2).ListItems.Add(, , objForeignKey.Name, "foreignkey", "foreignkey")
+      Set objItem = lvProperties(2).ListItems.Add(, , objForeignKey.Identifier, "foreignkey", "foreignkey")
       objItem.SubItems(1) = objForeignKey.ReferencedTable
       For Each objRelationship In objForeignKey.Relationships
         objItem.SubItems(2) = objItem.SubItems(2) & objRelationship.LocalColumn & ", "
@@ -1421,6 +1481,7 @@ Dim szAccess() As String
         objItem.SubItems(6) = "No"
       End If
       objItem.SubItems(7) = objForeignKey.Initially
+      objItem.Tag = "ORIG"
     Next objForeignKey
     
     For Each vInheritedTable In objTable.InheritedTables

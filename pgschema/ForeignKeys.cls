@@ -190,7 +190,7 @@ Dim lKeyNum As Long
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = dOID
+  objNewMember.Oid = dOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
   objNewMember.TableOID = dTableOID
@@ -240,6 +240,71 @@ Dim lKeyNum As Long
   Exit Function
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Function
+
+Public Function Add(ByVal Name As String, ByVal Definition As String) As pgForeignKey
+Attribute Add.VB_Description = "Add a new Foreign Keys."
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Add(" & QUOTE & Name & QUOTE & "," & QUOTE & Definition & QUOTE & ")", etFullDebug
+
+Dim rs As New Recordset
+Dim szSQL As String
+Dim X As Long
+Dim szArgs As String
+  
+  'Generate the szSQL query to create the new object and execute
+  If objVersion.VersionNum < 7.3 Then Exit Function
+  
+  szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable)
+  szSQL = szSQL & " ADD CONSTRAINT " & fmtID(Name)
+  szSQL = szSQL & Definition
+  objServer.ExecSQL szSQL, cnDatabase
+    
+  'Generate and execute the szSQL to retrieve *all* properties of the new object
+  Set rs = objServer.ExecSQL(SQL_GET_FOREIGN_KEYS & " AND tgrelid = " & dTableOID & "::oid AND tgconstrname = '" & dbSZ(Name) & "'", cnDatabase)
+  If Not rs.EOF Then
+    szArgs = ""
+    For X = 0 To rs.Fields("tgargs").ActualSize - 1
+      szArgs = szArgs & Chr(rs!tgargs(X))
+    Next X
+    Set Add = iAdd(rs.Fields("oid"), rs!tgconstrname & "", rs!tgnargs & "", szArgs, ToBool(rs!tgdeferrable), ToBool(rs!tginitdeferred))
+  End If
+
+  'Cleanup
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  Exit Function
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err.Number, Err.Description
+  
+End Function
+
+'Remove the specified Item
+Public Sub Remove(ByVal Key As String)
+Attribute Remove.VB_Description = "Remove the specified Foreign Keys object."
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
+
+Dim szSQL As String
+
+  If objVersion.VersionNum < 7.3 Then Exit Sub
+  
+  'Generate/Execute SQL to drop the ForeignKeys.
+  szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " DROP CONSTRAINT " & mCol(ULEncode(Key)).FormattedID & " RESTRICT"
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  'If we get this far, then we can't have errored,
+  'so remove the object from the collection.
+  mCol.Remove ULEncode(Key)
+    
+  Exit Sub
+Err_Handler:
+  'Error 5 is thrown if the item is not in the collection...
+  If Err.Number = 5 Then Exit Sub
+  objServer.iLogError Err.Number, Err.Description
+End Sub
 
 'Return the specified Item
 Public Property Get Item(Key As String) As pgForeignKey

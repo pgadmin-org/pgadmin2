@@ -4,8 +4,8 @@ Begin VB.Form frmError
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Error"
    ClientHeight    =   5796
-   ClientLeft      =   4440
-   ClientTop       =   4212
+   ClientLeft      =   2880
+   ClientTop       =   3156
    ClientWidth     =   7428
    Icon            =   "frmError.frx":0000
    LinkTopic       =   "Form1"
@@ -13,6 +13,23 @@ Begin VB.Form frmError
    MinButton       =   0   'False
    ScaleHeight     =   5796
    ScaleWidth      =   7428
+   Begin VB.CheckBox chkAutoStart 
+      Caption         =   "&Auto Start Application on exit"
+      Height          =   195
+      Left            =   120
+      TabIndex        =   15
+      Top             =   2280
+      Value           =   1  'Checked
+      Width           =   2415
+   End
+   Begin VB.CheckBox chkIgnoreError 
+      Caption         =   "&Ignore this error (in this routine) until application is restarted"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   14
+      Top             =   2520
+      Width           =   4455
+   End
    Begin HighlightBox.TBX txtMore 
       Height          =   2535
       Left            =   1305
@@ -33,13 +50,13 @@ Begin VB.Form frmError
       Locked          =   -1  'True
    End
    Begin HighlightBox.TBX txtErr 
-      Height          =   1770
-      Left            =   45
+      Height          =   1296
+      Left            =   48
       TabIndex        =   3
-      Top             =   945
-      Width           =   7305
+      Top             =   948
+      Width           =   7308
       _ExtentX        =   12891
-      _ExtentY        =   3112
+      _ExtentY        =   2286
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   7.8
@@ -259,6 +276,10 @@ Dim szTemp As String
 End Sub
 
 Private Sub cmdOK_Click()
+  'verify is execute a auto start application
+  If chkAutoStart.Value = 1 Then
+    Shell App.Path & "\" & App.EXEName & " " & Command, vbNormalFocus
+  End If
   End
 End Sub
 
@@ -290,6 +311,13 @@ Dim szSep As String
 End Sub
 
 Private Sub cmdContinue_Click()
+  'store error in ingore error
+  If chkIgnoreError.Value = vbChecked Then
+    With objError
+      ColIgnoreError.Add .Routine & "_" & .Number & "_" & .Description
+    End With
+  End If
+  
   Unload Me
 End Sub
 

@@ -286,12 +286,25 @@ End Sub
 Public Sub LogError(lError As Long, szError As String, szRoutine As String)
 'No logging here, if anythings going wrong then we want the real error
 Dim objErrorForm As New frmError
+Dim bShowFormErr As Boolean
+Dim vData
   
   frmMain.svr.LogEvent "Error in " & szRoutine & ": " & lError & " - " & szError, etErrors
 
-  Load objErrorForm
-  objErrorForm.Initialise lError, szError, szRoutine
-  objErrorForm.Show vbModal
+  'find error in ignore error
+  bShowFormErr = True
+  For Each vData In ColIgnoreError
+    If vData = szRoutine & "_" & lError & "_" & szError Then
+      bShowFormErr = False
+      Exit For
+    End If
+  Next
+
+  If bShowFormErr Then
+    Load objErrorForm
+    objErrorForm.Initialise lError, szError, szRoutine
+    objErrorForm.Show vbModal
+  End If
   
   'If we are between StartMsg/EndMsg, call EndMsg with errors
   If Screen.MousePointer = vbHourglass Then
@@ -299,7 +312,6 @@ Dim objErrorForm As New frmError
   Else
     frmMain.sb.Panels("info").Text = "An error has occured."
   End If
-  
 End Sub
 
 Public Sub StartMsg(ByVal szMsg As String)
