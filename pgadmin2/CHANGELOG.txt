@@ -4,7 +4,8 @@
 Added new graphics. 
 Fixed a bug where an error was generated when clicking a Foreign Key 'Relationships' node in the treeview. 
 Fixed a bug in the row identification code in the Edit Grid. 
-Perform a Machine based install rather than user based if possible. 
+Perform a Machine based install rather than user based if possible.
+Added PostgreSQL 7.1.3 Documents to the CHM helpfile.
 
 
 1.1.59
