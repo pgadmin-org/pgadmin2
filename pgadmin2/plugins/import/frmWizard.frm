@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Import Wizard"
@@ -44,7 +44,7 @@ Begin VB.Form frmWizard
             Key             =   "table"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":0B7E
+            Picture         =   "frmWizard.frx":10F6
             Key             =   "column"
          EndProperty
       EndProperty
@@ -53,7 +53,7 @@ Begin VB.Form frmWizard
       BorderStyle     =   0  'None
       Height          =   4335
       Left            =   0
-      Picture         =   "frmWizard.frx":1118
+      Picture         =   "frmWizard.frx":17C8
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
@@ -97,7 +97,7 @@ Begin VB.Form frmWizard
       TabHeight       =   176
       ShowFocusRect   =   0   'False
       TabCaption(0)   =   " "
-      TabPicture(0)   =   "frmWizard.frx":1D55
+      TabPicture(0)   =   "frmWizard.frx":2405
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblInfo(0)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -105,59 +105,59 @@ Begin VB.Form frmWizard
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).ControlCount=   2
       TabCaption(1)   =   " "
-      TabPicture(1)   =   "frmWizard.frx":1D71
+      TabPicture(1)   =   "frmWizard.frx":2421
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblInfo(1)"
-      Tab(1).Control(1)=   "lvTables"
+      Tab(1).Control(0)=   "lvTables"
+      Tab(1).Control(1)=   "lblInfo(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
-      TabPicture(2)   =   "frmWizard.frx":1D8D
+      TabPicture(2)   =   "frmWizard.frx":243D
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
-      Tab(2).Control(1)=   "lvColumns"
-      Tab(2).Control(2)=   "cmdColumnUp"
-      Tab(2).Control(3)=   "cmdColumnDown"
-      Tab(2).Control(4)=   "cmdColumnAll"
-      Tab(2).Control(5)=   "cmdColumnNone"
+      Tab(2).Control(0)=   "cmdColumnNone"
+      Tab(2).Control(1)=   "cmdColumnAll"
+      Tab(2).Control(2)=   "cmdColumnDown"
+      Tab(2).Control(3)=   "cmdColumnUp"
+      Tab(2).Control(4)=   "lvColumns"
+      Tab(2).Control(5)=   "lblInfo(2)"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   " "
-      TabPicture(3)   =   "frmWizard.frx":1DA9
+      TabPicture(3)   =   "frmWizard.frx":2459
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblInfo(3)"
-      Tab(3).Control(1)=   "Label1"
+      Tab(3).Control(0)=   "cmdBrowse"
+      Tab(3).Control(1)=   "txtFile"
       Tab(3).Control(2)=   "txtSample"
-      Tab(3).Control(3)=   "txtFile"
-      Tab(3).Control(4)=   "cmdBrowse"
+      Tab(3).Control(3)=   "Label1"
+      Tab(3).Control(4)=   "lblInfo(3)"
       Tab(3).ControlCount=   5
       TabCaption(4)   =   " "
-      TabPicture(4)   =   "frmWizard.frx":1DC5
+      TabPicture(4)   =   "frmWizard.frx":2475
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblInfo(6)"
-      Tab(4).Control(1)=   "Label2"
-      Tab(4).Control(2)=   "Label3"
-      Tab(4).Control(3)=   "Label4"
-      Tab(4).Control(4)=   "Label5"
-      Tab(4).Control(5)=   "txtDelimiter"
-      Tab(4).Control(6)=   "txtQuote"
-      Tab(4).Control(7)=   "txtAsciiDelimiter"
-      Tab(4).Control(8)=   "txtAsciiQuote"
-      Tab(4).Control(9)=   "chkTrailing"
+      Tab(4).Control(0)=   "chkTrailing"
+      Tab(4).Control(1)=   "txtAsciiQuote"
+      Tab(4).Control(2)=   "txtAsciiDelimiter"
+      Tab(4).Control(3)=   "txtQuote"
+      Tab(4).Control(4)=   "txtDelimiter"
+      Tab(4).Control(5)=   "Label5"
+      Tab(4).Control(6)=   "Label4"
+      Tab(4).Control(7)=   "Label3"
+      Tab(4).Control(8)=   "Label2"
+      Tab(4).Control(9)=   "lblInfo(6)"
       Tab(4).ControlCount=   10
       TabCaption(5)   =   " "
-      TabPicture(5)   =   "frmWizard.frx":1DE1
+      TabPicture(5)   =   "frmWizard.frx":2491
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lblInfo(7)"
-      Tab(5).Control(1)=   "lvSubstitutions"
-      Tab(5).Control(2)=   "txtSubFind"
-      Tab(5).Control(3)=   "txtSubReplace"
-      Tab(5).Control(4)=   "cmdSubAdd"
-      Tab(5).Control(5)=   "cmdSubRemove"
+      Tab(5).Control(0)=   "cmdSubRemove"
+      Tab(5).Control(1)=   "cmdSubAdd"
+      Tab(5).Control(2)=   "txtSubReplace"
+      Tab(5).Control(3)=   "txtSubFind"
+      Tab(5).Control(4)=   "lvSubstitutions"
+      Tab(5).Control(5)=   "lblInfo(7)"
       Tab(5).ControlCount=   6
       TabCaption(6)   =   " "
-      TabPicture(6)   =   "frmWizard.frx":1DFD
+      TabPicture(6)   =   "frmWizard.frx":24AD
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "lblInfo(4)"
-      Tab(6).Control(1)=   "picStatus"
+      Tab(6).Control(0)=   "picStatus"
+      Tab(6).Control(1)=   "lblInfo(4)"
       Tab(6).ControlCount=   2
       Begin VB.PictureBox picStatus 
          Height          =   2445
@@ -259,7 +259,7 @@ Begin VB.Form frmWizard
       Begin VB.CommandButton cmdColumnNone 
          Height          =   555
          Left            =   -68655
-         Picture         =   "frmWizard.frx":1E19
+         Picture         =   "frmWizard.frx":24C9
          Style           =   1  'Graphical
          TabIndex        =   31
          ToolTipText     =   "Deselect all columns"
@@ -269,7 +269,7 @@ Begin VB.Form frmWizard
       Begin VB.CommandButton cmdColumnAll 
          Height          =   555
          Left            =   -68655
-         Picture         =   "frmWizard.frx":26E3
+         Picture         =   "frmWizard.frx":2D93
          Style           =   1  'Graphical
          TabIndex        =   30
          ToolTipText     =   "Select all columns"
@@ -279,7 +279,7 @@ Begin VB.Form frmWizard
       Begin VB.CommandButton cmdColumnDown 
          Height          =   555
          Left            =   -68655
-         Picture         =   "frmWizard.frx":2FAD
+         Picture         =   "frmWizard.frx":365D
          Style           =   1  'Graphical
          TabIndex        =   29
          ToolTipText     =   "Move the selected column down."
@@ -289,7 +289,7 @@ Begin VB.Form frmWizard
       Begin VB.CommandButton cmdColumnUp 
          Height          =   555
          Left            =   -68655
-         Picture         =   "frmWizard.frx":3877
+         Picture         =   "frmWizard.frx":3F27
          Style           =   1  'Graphical
          TabIndex        =   28
          ToolTipText     =   "Move the selected column up."
@@ -536,7 +536,7 @@ Begin VB.Form frmWizard
          Width           =   780
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":4141
+         Caption         =   $"frmWizard.frx":47F1
          Height          =   825
          Index           =   4
          Left            =   -74820
@@ -545,7 +545,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":41D7
+         Caption         =   $"frmWizard.frx":4887
          Height          =   825
          Index           =   7
          Left            =   -74820
@@ -554,7 +554,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":4310
+         Caption         =   $"frmWizard.frx":49C0
          Height          =   825
          Index           =   6
          Left            =   -74820
@@ -563,7 +563,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":4440
+         Caption         =   $"frmWizard.frx":4AF0
          Height          =   825
          Index           =   3
          Left            =   -74820
@@ -572,7 +572,7 @@ Begin VB.Form frmWizard
          Width           =   6630
       End
       Begin VB.Label lblInfo 
-         Caption         =   $"frmWizard.frx":4581
+         Caption         =   $"frmWizard.frx":4C31
          Height          =   825
          Index           =   2
          Left            =   -74820
