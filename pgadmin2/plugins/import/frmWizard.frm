@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
@@ -107,57 +107,57 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":1D71
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvTables"
-      Tab(1).Control(1)=   "lblInfo(1)"
+      Tab(1).Control(0)=   "lblInfo(1)"
+      Tab(1).Control(1)=   "lvTables"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":1D8D
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdColumnNone"
-      Tab(2).Control(1)=   "cmdColumnAll"
-      Tab(2).Control(2)=   "cmdColumnDown"
-      Tab(2).Control(3)=   "cmdColumnUp"
-      Tab(2).Control(4)=   "lvColumns"
-      Tab(2).Control(5)=   "lblInfo(2)"
+      Tab(2).Control(0)=   "lblInfo(2)"
+      Tab(2).Control(1)=   "lvColumns"
+      Tab(2).Control(2)=   "cmdColumnUp"
+      Tab(2).Control(3)=   "cmdColumnDown"
+      Tab(2).Control(4)=   "cmdColumnAll"
+      Tab(2).Control(5)=   "cmdColumnNone"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":1DA9
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdBrowse"
-      Tab(3).Control(1)=   "txtFile"
+      Tab(3).Control(0)=   "lblInfo(3)"
+      Tab(3).Control(1)=   "Label1"
       Tab(3).Control(2)=   "txtSample"
-      Tab(3).Control(3)=   "Label1"
-      Tab(3).Control(4)=   "lblInfo(3)"
+      Tab(3).Control(3)=   "txtFile"
+      Tab(3).Control(4)=   "cmdBrowse"
       Tab(3).ControlCount=   5
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":1DC5
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "chkTrailing"
-      Tab(4).Control(1)=   "txtAsciiQuote"
-      Tab(4).Control(2)=   "txtAsciiDelimiter"
-      Tab(4).Control(3)=   "txtQuote"
-      Tab(4).Control(4)=   "txtDelimiter"
-      Tab(4).Control(5)=   "Label5"
-      Tab(4).Control(6)=   "Label4"
-      Tab(4).Control(7)=   "Label3"
-      Tab(4).Control(8)=   "Label2"
-      Tab(4).Control(9)=   "lblInfo(6)"
+      Tab(4).Control(0)=   "lblInfo(6)"
+      Tab(4).Control(1)=   "Label2"
+      Tab(4).Control(2)=   "Label3"
+      Tab(4).Control(3)=   "Label4"
+      Tab(4).Control(4)=   "Label5"
+      Tab(4).Control(5)=   "txtDelimiter"
+      Tab(4).Control(6)=   "txtQuote"
+      Tab(4).Control(7)=   "txtAsciiDelimiter"
+      Tab(4).Control(8)=   "txtAsciiQuote"
+      Tab(4).Control(9)=   "chkTrailing"
       Tab(4).ControlCount=   10
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":1DE1
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "cmdSubRemove"
-      Tab(5).Control(1)=   "cmdSubAdd"
-      Tab(5).Control(2)=   "txtSubReplace"
-      Tab(5).Control(3)=   "txtSubFind"
-      Tab(5).Control(4)=   "lvSubstitutions"
-      Tab(5).Control(5)=   "lblInfo(7)"
+      Tab(5).Control(0)=   "lblInfo(7)"
+      Tab(5).Control(1)=   "lvSubstitutions"
+      Tab(5).Control(2)=   "txtSubFind"
+      Tab(5).Control(3)=   "txtSubReplace"
+      Tab(5).Control(4)=   "cmdSubAdd"
+      Tab(5).Control(5)=   "cmdSubRemove"
       Tab(5).ControlCount=   6
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":1DFD
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "picStatus"
-      Tab(6).Control(1)=   "lblInfo(4)"
+      Tab(6).Control(0)=   "lblInfo(4)"
+      Tab(6).Control(1)=   "picStatus"
       Tab(6).ControlCount=   2
       Begin VB.PictureBox picStatus 
          Height          =   2445
@@ -424,7 +424,7 @@ Begin VB.Form frmWizard
          Appearance      =   1
          NumItems        =   2
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Text            =   "Database"
+            Text            =   "Table"
             Object.Width           =   3528
          EndProperty
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
@@ -457,7 +457,7 @@ Begin VB.Form frmWizard
          Appearance      =   1
          NumItems        =   2
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Text            =   "Database"
+            Text            =   "Column"
             Object.Width           =   3528
          EndProperty
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
@@ -919,8 +919,7 @@ Dim bInQuote As Boolean
         lContCount = lContCount + 1
         pbStatus.Value = pbStatus.Value + Len(szRawData) + 2
         
-        'If we're already in quotes then we must have just had a CRLF
-        'We'll add vbCrLf as it will get converted to \n later
+        'If we're already in quotes then we must have just had a CrLf so...
         If bInQuote Then szData(lCol) = szData(lCol) & vbCrLf
         
         'Bail out if things look odd
@@ -1016,6 +1015,7 @@ Reset:
       lblRecords.Caption = lTuple
       lblRecords.Refresh
     Wend
+  Close #fNum
   EndMsg
   
   If lErrors > 0 Then
@@ -1044,6 +1044,7 @@ Err_Handler:
     Resume Next
   End If
   If Err.Number <> 0 Then
+    Close #fNum
     EndMsg
     LogError Err.Number, Err.Description, App.Title & ":frmWizard.cmdOK_Click"
   End If
