@@ -137,6 +137,7 @@ Dim szSQL As String
   szSQL = "ALTER TABLE " & QUOTE & dbSZ(szName) & QUOTE & " RENAME TO " & QUOTE & dbSZ(vData) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData
+  Identifier = vData
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -256,10 +257,10 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Definition(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
-'Dim szDefinitionOld As String
+Dim szDefinitionOld As String
   
   'Save old definition
-  'szDefinitionOld = szDefinition
+  szDefinitionOld = szDefinition
   
   'Set the source
   szDefinition = vData
@@ -269,6 +270,11 @@ Dim rs As New Recordset
   Set rs = objServer.ExecSQL("SELECT definition FROM pg_views WHERE viewname = '" & szName & "'", cnDatabase)
   If Not rs.EOF Then szDefinition = rs!Definition & ""
   If Not SystemObject Then Commit rcUpdate, "Updated view definition."
+   
+  'Select oid back from the DB...
+  Set rs = objServer.ExecSQL("SELECT relfilenode FROM pg_class WHERE relname = '" & szName & "'", cnDatabase)
+  If Not rs.EOF Then lOID = rs!relfilenode & ""
+  If Not SystemObject Then Commit rcUpdate, "Updated view OID."
   
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
@@ -277,11 +283,25 @@ Dim rs As New Recordset
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  objServer.iLogError Err
   
-  ' In case of any error, apply old definition
-  'szDefinition = szDefinitionOld
-  'objServer.Databases(Database).Execute SQL(True)
+    ' In case of any error, apply old definition
+  szDefinition = szDefinitionOld
+  objServer.Databases(Database).Execute SQL(True)
+  
+    'Select the prosrc back from the DB...
+  Set rs = objServer.ExecSQL("SELECT definition FROM pg_views WHERE viewname = '" & szName & "'", cnDatabase)
+  If Not rs.EOF Then szDefinition = rs!Definition & ""
+  If Not SystemObject Then Commit rcUpdate, "Updated view definition."
+   
+  'Select oid back from the DB...
+  Set rs = objServer.ExecSQL("SELECT relfilenode FROM pg_class WHERE relname = '" & szName & "'", cnDatabase)
+  If Not rs.EOF Then lOID = rs!relfilenode & ""
+  If Not SystemObject Then Commit rcUpdate, "Updated view OID."
+  
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  
+  objServer.iLogError Err
 End Property
 
 Friend Property Let iDefinition(ByVal vData As String)
