@@ -1,9 +1,10 @@
 VERSION 5.00
 Begin VB.Form frmTip 
+   BorderStyle     =   1  'Fixed Single
    Caption         =   "Tip of the Day"
    ClientHeight    =   3285
-   ClientLeft      =   2370
-   ClientTop       =   2400
+   ClientLeft      =   2355
+   ClientTop       =   2385
    ClientWidth     =   5190
    Icon            =   "frmTip.frx":0000
    LinkTopic       =   "Form1"
