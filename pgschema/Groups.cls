@@ -148,7 +148,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Groups.Remove(" & QUOTE & Key & 
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the Group.
-  szSQL = "DROP GROUP " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
+  szSQL = "DROP GROUP " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
   objServer.ExecSQL szSQL, objServer.Connection
   
   'If we get this far, then we can't have errored,

@@ -168,15 +168,33 @@ Dim szTemp As String
     Else
     
       'Either grant ALL or individual privileges
-      If szAccess = "arwR" Then
-        szAccess = "ALL"
+      'Note that in 7.2+, Delete has been seperated from Update, and References/Trigger
+      'have been added.
+      If objServer.dbVersion.VersionNum >= 7.2 Then
+        If szAccess = "arwdRxt" Then
+          szAccess = "ALL"
+        Else
+          szTemp = ""
+          If InStr(1, szAccess, "a") <> 0 Then szTemp = szTemp & "INSERT, "
+          If InStr(1, szAccess, "r") <> 0 Then szTemp = szTemp & "SELECT, "
+          If InStr(1, szAccess, "w") <> 0 Then szTemp = szTemp & "UPDATE, "
+          If InStr(1, szAccess, "d") <> 0 Then szTemp = szTemp & "DELETE, "
+          If InStr(1, szAccess, "R") <> 0 Then szTemp = szTemp & "RULE, "
+          If InStr(1, szAccess, "x") <> 0 Then szTemp = szTemp & "REFERENCES, "
+          If InStr(1, szAccess, "t") <> 0 Then szTemp = szTemp & "TRIGGER, "
+          szAccess = Left(szTemp, Len(szTemp) - 2)
+        End If
       Else
-        szTemp = ""
-        If InStr(1, szAccess, "r") <> 0 Then szTemp = szTemp & "SELECT, "
-        If InStr(1, szAccess, "w") <> 0 Then szTemp = szTemp & "UPDATE, DELETE, "
-        If InStr(1, szAccess, "a") <> 0 Then szTemp = szTemp & "INSERT, "
-        If InStr(1, szAccess, "R") <> 0 Then szTemp = szTemp & "RULE, "
-        szAccess = Left(szTemp, Len(szTemp) - 2)
+        If szAccess = "arwR" Then
+          szAccess = "ALL"
+        Else
+          szTemp = ""
+          If InStr(1, szAccess, "a") <> 0 Then szTemp = szTemp & "INSERT, "
+          If InStr(1, szAccess, "r") <> 0 Then szTemp = szTemp & "SELECT, "
+          If InStr(1, szAccess, "w") <> 0 Then szTemp = szTemp & "UPDATE, DELETE, "
+          If InStr(1, szAccess, "R") <> 0 Then szTemp = szTemp & "RULE, "
+          szAccess = Left(szTemp, Len(szTemp) - 2)
+        End If
       End If
       
       szSQL = szSQL & "GRANT " & szAccess & " ON " & QUOTE & szObject & QUOTE & " TO " & szName & ";" & vbCrLf

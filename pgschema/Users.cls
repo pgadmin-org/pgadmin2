@@ -180,7 +180,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Users.Remove(" & QUOTE & Key & Q
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the User.
-  szSQL = "DROP USER " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
+  szSQL = "DROP USER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
   objServer.ExecSQL szSQL, objServer.Connection
   
   'If we get this far, then we can't have errored,

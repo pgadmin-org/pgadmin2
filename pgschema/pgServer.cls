@@ -49,12 +49,14 @@ Public Enum ErrorType
 End Enum
 
 Public Enum aclPrivileges
-  aclAll = &H1
-  aclSelect = &H2
-  aclInsert = &H4
-  aclUpdate = &H8
-  aclDelete = &H10
-  aclRule = &H20
+  aclAll = 1
+  aclSelect = 2
+  aclInsert = 4
+  aclUpdate = 8
+  aclDelete = 16
+  aclRule = 32
+  aclReferences = 64
+  aclTrigger = 128
 End Enum
 
 Public Enum dbStatus

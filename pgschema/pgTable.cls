@@ -506,6 +506,10 @@ Dim rs As New Recordset
     If (Privilege And aclUpdate) = aclUpdate Then szSQL = szSQL & "UPDATE, "
     If (Privilege And aclDelete) = aclDelete Then szSQL = szSQL & "DELETE, "
     If (Privilege And aclRule) = aclRule Then szSQL = szSQL & "RULE, "
+    If objServer.dbVersion.VersionNum >= 7.2 Then
+      If (Privilege And aclReferences) = aclReferences Then szSQL = szSQL & "REFERENCES, "
+      If (Privilege And aclTrigger) = aclTrigger Then szSQL = szSQL & "TRIGGER, "
+    End If
     If Right(szSQL, 2) = ", " Then
       szSQL = Left(szSQL, Len(szSQL) - 2) & " "
     Else
@@ -555,6 +559,10 @@ Dim rs As New Recordset
     If (Privilege And aclUpdate) = aclUpdate Then szSQL = szSQL & "UPDATE, "
     If (Privilege And aclDelete) = aclDelete Then szSQL = szSQL & "DELETE, "
     If (Privilege And aclRule) = aclRule Then szSQL = szSQL & "RULE, "
+    If objServer.dbVersion.VersionNum >= 7.2 Then
+      If (Privilege And aclReferences) = aclReferences Then szSQL = szSQL & "REFERENCES, "
+      If (Privilege And aclTrigger) = aclTrigger Then szSQL = szSQL & "TRIGGER, "
+    End If
     If Right(szSQL, 2) = ", " Then
       szSQL = Left(szSQL, Len(szSQL) - 2) & " "
     Else
