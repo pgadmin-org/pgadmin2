@@ -208,8 +208,6 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Private Const MailSupport = "pgadmin-support@postgresql.org"
-
 Dim objError As clsError
 
 Public Sub Initialise(lError As Long, szError As String, szRoutine As String)
@@ -278,14 +276,17 @@ Dim szSep As String
   szTemp = szTemp & objError.GetInfo(TIE_ERROR) & String(60, "*") & vbCrLf
   szTemp = szTemp & "Insert your comment:" & vbCrLf
 
-  szMail = "mailto:" & MailSupport & "?subject=Error Message&body=" & szTemp
+  szMail = "mailto:" & SUPPORT_EMAIL & "?subject=Error Message&body=" & szTemp
   szMail = Replace(szMail, " ", "%20")
+  szMail = Replace(szMail, vbTab, "%0" & Hex(9))
+  szMail = Replace(szMail, QUOTE, "%" & Hex(34))
   szMail = Replace(szMail, Chr(10), "%0" & Hex(10))
   szMail = Replace(szMail, Chr(13), "%0" & Hex(13))
   szMail = Replace(szMail, Chr(32), "%0" & Hex(32))
   szMail = Replace(szMail, Chr(59), "%0" & Hex(59))
   
   'open shell
+  MsgBox szMail
   ShellExecute hwnd, "open", szMail, vbNullString, vbNullString, SW_SHOW
 End Sub
 

@@ -1729,25 +1729,41 @@ On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupViewData_Click()", etFullDebug
   
 Dim objOutputForm As New frmSQLOutput
-Dim szQuery As String
 Dim rsQuery As New Recordset
+Dim iMsgBoxResult As VbMsgBoxResult
+Dim iLimit As Long
+Dim szLimit As String
+Dim szTemp As String
 
+  'count row
   StartMsg "Counting Records..."
   Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT count(*) AS count FROM " & ctx.CurrentObject.FormattedID)
   EndMsg
   
+  'verify limit output
+  szLimit = ""
+  iLimit = Val(RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", "1000"))
   If Not rsQuery.EOF Then
-    If rsQuery!Count > 5000 Then If MsgBox("This " & ctx.CurrentObject.ObjectType & " contains " & rsQuery!Count & " records which may take some time to load." & vbCrLf & "Do you wish to continue?", vbQuestion + vbYesNo, "Continue?") = vbNo Then Exit Sub
+    If rsQuery!Count > iLimit Then
+      iMsgBoxResult = MsgBox("The query will return " & rsQuery!Count & " rows. Do you wish to LIMIT the output?", vbApplicationModal + vbYesNoCancel + vbQuestion, "Row limit")
+      If iMsgBoxResult = vbCancel Then
+        Exit Sub
+      ElseIf iMsgBoxResult = vbYes Then
+        iLimit = Val(InputBox("Enter a row limit" & vbCrLf & "The table or view contains " & rsQuery!Count & " row(s)", "Row limit", iLimit))
+        szLimit = " LIMIT " & iLimit
+        RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Row Limit", regString, iLimit
+      End If
+    End If
   End If
-  
-  StartMsg "Executing SQL Query..."
 
-  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT * FROM " & ctx.CurrentObject.FormattedID)
+  StartMsg "Executing SQL Query..."
+  Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT * FROM " & ctx.CurrentObject.FormattedID & szLimit)
   Load objOutputForm
   objOutputForm.Display rsQuery, ctx.CurrentDB, "(" & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.FormattedID & ")"
   objOutputForm.Show
-  
+
   EndMsg
+  
   Exit Sub
   
 Err_Handler:
