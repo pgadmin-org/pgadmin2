@@ -2296,13 +2296,15 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Blocks Hit", 1500
   
     While Not rsStat.EOF
-      If Not (svr.Databases(rsStat!datname).SystemObject And Not ctx.IncludeSys) Then
-        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!datname & "", "statistics", "statistics")
-        lvItem.SubItems(1) = rsStat!numbackends & ""
-        lvItem.SubItems(2) = rsStat!xact_commit & ""
-        lvItem.SubItems(3) = rsStat!xact_rollback & ""
-        lvItem.SubItems(4) = rsStat!blks_read & ""
-        lvItem.SubItems(5) = rsStat!blks_hit & ""
+      If svr.Databases.Exists(rsStat!datname) Then
+        If Not (svr.Databases(rsStat!datname).SystemObject And Not ctx.IncludeSys) Then
+          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!datname & "", "statistics", "statistics")
+          lvItem.SubItems(1) = rsStat!numbackends & ""
+          lvItem.SubItems(2) = rsStat!xact_commit & ""
+          lvItem.SubItems(3) = rsStat!xact_rollback & ""
+          lvItem.SubItems(4) = rsStat!blks_read & ""
+          lvItem.SubItems(5) = rsStat!blks_hit & ""
+        End If
       End If
       rsStat.MoveNext
     Wend
@@ -3140,10 +3142,12 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
   
     While Not rsStat.EOF
-      If Not (svr.Databases(ctx.CurrentDB).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
-        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
-        lvItem.SubItems(1) = rsStat!blks_read & ""
-        lvItem.SubItems(2) = rsStat!blks_hit & ""
+      If svr.Databases(ctx.CurrentDB).Sequences.Exists(rsStat!relname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+          lvItem.SubItems(1) = rsStat!blks_read & ""
+          lvItem.SubItems(2) = rsStat!blks_hit & ""
+        End If
       End If
       rsStat.MoveNext
     Wend
@@ -3314,11 +3318,13 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Tuples Deleted", 2000
   
     While Not rsStat.EOF
-      If Not (svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
-        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
-        lvItem.SubItems(1) = rsStat!n_tup_ins & ""
-        lvItem.SubItems(2) = rsStat!n_tup_upd & ""
-        lvItem.SubItems(3) = rsStat!n_tup_del & ""
+      If svr.Databases(ctx.CurrentDB).Tables.Exists(rsStat!relname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
+          lvItem.SubItems(1) = rsStat!n_tup_ins & ""
+          lvItem.SubItems(2) = rsStat!n_tup_upd & ""
+          lvItem.SubItems(3) = rsStat!n_tup_del & ""
+        End If
       End If
       rsStat.MoveNext
     Wend
@@ -3780,10 +3786,12 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
   
     While Not rsStat.EOF
-      If Not (svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
-        Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
-        lvItem.SubItems(1) = rsStat!idx_blks_read & ""
-        lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
+      If svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).Indexes.Exists(rsStat!indexrelname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
+          Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
+          lvItem.SubItems(1) = rsStat!idx_blks_read & ""
+          lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
+        End If
       End If
       rsStat.MoveNext
     Wend
