@@ -639,6 +639,7 @@ Attribute Status.VB_Description = "Returns the database connection status."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Status()", etFullDebug
   
+  dbConnect
   Status = lStatus
     
   Exit Property
