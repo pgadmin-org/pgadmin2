@@ -127,7 +127,7 @@ Dim X As Long
   'Cleanup the source code
   szSource = Replace(szSource, "\", "\\")
   szSource = Replace(szSource, "'", "''")
-  objNewMember.Source = szSource
+  objNewMember.iSource = szSource
   
   objNewMember.Language = objServer.Databases(szDB).LookupLanguage(lLanguage)
   objNewMember.Cachable = bCachable
