@@ -2,18 +2,18 @@ VERSION 5.00
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Begin VB.UserControl RelationObj 
    BorderStyle     =   1  'Fixed Single
-   ClientHeight    =   3444
+   ClientHeight    =   3420
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   4476
+   ClientWidth     =   4416
    ControlContainer=   -1  'True
-   ScaleHeight     =   3444
-   ScaleWidth      =   4476
+   ScaleHeight     =   3420
+   ScaleWidth      =   4416
    Begin VB.HScrollBar HScroll 
       Height          =   252
       Left            =   0
       TabIndex        =   0
-      Top             =   3180
+      Top             =   3120
       Width           =   4032
    End
    Begin VB.VScrollBar VScroll 
@@ -22,6 +22,31 @@ Begin VB.UserControl RelationObj
       TabIndex        =   1
       Top             =   0
       Width           =   252
+   End
+   Begin VB.PictureBox picColor 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00000000&
+      ForeColor       =   &H80000008&
+      Height          =   72
+      Left            =   120
+      ScaleHeight     =   48
+      ScaleWidth      =   228
+      TabIndex        =   5
+      Top             =   3000
+      Visible         =   0   'False
+      Width           =   252
+   End
+   Begin MSFlexGridLib.MSFlexGrid FGridCompose 
+      Height          =   552
+      Left            =   1200
+      TabIndex        =   4
+      Top             =   2520
+      Visible         =   0   'False
+      Width           =   2712
+      _ExtentX        =   4784
+      _ExtentY        =   974
+      _Version        =   393216
+      Appearance      =   0
    End
    Begin VB.Frame fraRelation 
       Caption         =   "Title"
@@ -36,23 +61,11 @@ Begin VB.UserControl RelationObj
    Begin VB.ListBox lstDataRelation 
       Height          =   1968
       Index           =   0
-      Left            =   1908
+      Left            =   1920
       TabIndex        =   2
-      Top             =   420
+      Top             =   480
       Visible         =   0   'False
       Width           =   1392
-   End
-   Begin MSFlexGridLib.MSFlexGrid FGridCompose 
-      Height          =   612
-      Left            =   1200
-      TabIndex        =   4
-      Top             =   2520
-      Visible         =   0   'False
-      Width           =   2712
-      _ExtentX        =   4784
-      _ExtentY        =   1080
-      _Version        =   393216
-      Appearance      =   0
    End
    Begin VB.Image imgDrag 
       Height          =   204
@@ -76,14 +89,6 @@ Begin VB.UserControl RelationObj
       Top             =   2808
       Visible         =   0   'False
       Width           =   252
-   End
-   Begin VB.Image imgNorm 
-      Height          =   60
-      Left            =   120
-      Picture         =   "RelationObj.ctx":0000
-      Top             =   3000
-      Visible         =   0   'False
-      Width           =   192
    End
    Begin VB.Menu mnuActionGrid 
       Caption         =   "ActionGrid"
@@ -177,9 +182,9 @@ Event MenuActionGridCompose(Index As Integer, Col As Integer)
 Event RemoveRelation(Name As String, Tag As String)
 Event RenameRelation(OldName As String, NewName As String)
 Event Click()
-Event MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-Event MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
-Event MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Event MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Event MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 
 Public Property Let MenuActionGridEnable(bData As Boolean)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
@@ -210,31 +215,41 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.Property Get MenuAc
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.MenuActionGrid"
 End Property
 
-Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fraRelation_DragDrop(Index As Integer, Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_MouseMove(" & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.fraRelation_DragDrop(" & Index & "," & QUOTE & Source.Name & QUOTE & "," & X & "," & Y & ")", etFullDebug
   
-  RaiseEvent MouseMove(Button, Shift, x, y)
+  UserControl_DragDrop Source, fraRelation(Index).Left + X, fraRelation(Index).Top + Y
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.fraRelation_DragDrop"
+End Sub
+
+Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_MouseMove(" & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
+  
+  RaiseEvent MouseMove(Button, Shift, X, Y)
   Exit Sub
 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.UserControl_MouseMove"
 End Sub
 
-Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_MouseUp(" & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_MouseUp(" & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
   
-  RaiseEvent MouseUp(Button, Shift, x, y)
+  RaiseEvent MouseUp(Button, Shift, X, Y)
   Exit Sub
 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.UserControl_MouseUp"
 End Sub
 
-Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_MouseDown(" & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_MouseDown(" & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
   
-  RaiseEvent MouseDown(Button, Shift, x, y)
+  RaiseEvent MouseDown(Button, Shift, X, Y)
   Exit Sub
 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.UserControl_MouseDown"
@@ -250,9 +265,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_Click()
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.UserControl_Click"
 End Sub
 
-Private Sub FGridCompose_DragDrop(Source As Control, x As Single, y As Single)
+Private Sub FGridCompose_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.FGridCompose_DragDrop(" & QUOTE & Source.Name & QUOTE & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.FGridCompose_DragDrop(" & QUOTE & Source.Name & QUOTE & "," & X & "," & Y & ")", etFullDebug
 
 Dim iCol As Integer
 Dim dColWidth As Double
@@ -262,7 +277,7 @@ Dim dColWidth As Double
     dColWidth = 0
     For iCol = 0 To FGridCompose.Cols - 1
       dColWidth = dColWidth + FGridCompose.ColWidth(iCol)
-      If dColWidth >= x Then Exit For
+      If dColWidth >= X Then Exit For
     Next
     RaiseEvent AddElementInGridCompose(iCol, DataRelation(iCurDragNumber).Name, DataRelation(iCurDragNumber).Tag, lstDataRelation(iCurDragNumber).Text)
   End If
@@ -271,19 +286,19 @@ Dim dColWidth As Double
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.FGridCompose_DragDrop"
 End Sub
 
-Private Sub UserControl_DragDrop(Source As Control, x As Single, y As Single)
+Private Sub UserControl_DragDrop(Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_DragDrop(" & QUOTE & Source.Name & QUOTE & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_DragDrop(" & QUOTE & Source.Name & QUOTE & "," & X & "," & Y & ")", etFullDebug
   
   If szDragItem = "fraRelation" Then
     With fraRelation(iCurDragNumber)
-      .Top = y
+      .Top = Y
       
       If .Top + fraRelation(iCurDragNumber).Height > HScroll.Top Then
         .Top = HScroll.Top - fraRelation(iCurDragNumber).Height - 10
       End If
       
-      .Left = x - sOldX
+      .Left = X - sOldX
       If .Left + fraRelation(iCurDragNumber).Width > VScroll.Left Then
         .Left = VScroll.Left - fraRelation(iCurDragNumber).Width - 10
       End If
@@ -300,14 +315,14 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_DragDro
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.UserControl_DragDrop"
 End Sub
 
-Private Sub UserControl_GotFocus()
+Public Sub Refresh()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.UserControl_Initialize()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.Refresh()", etFullDebug
 
-  DrawLines
+  DrawJoins
   Exit Sub
 
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.UserControl_Initialize"
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.Refresh"
 End Sub
 
 Private Sub UserControl_Initialize()
@@ -416,14 +431,14 @@ LoopName:
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.AddElement"
 End Sub
 
-Private Sub fraRelation_MouseDown(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fraRelation_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.fraRelation_MouseDown(" & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.fraRelation_MouseDown(" & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
   
   If Button = vbLeftButton Then
     iCurDragNumber = Index
     szDragItem = fraRelation(Index).Name
-    sOldX = x
+    sOldX = X
     sOldY = fraRelation(Index).Top
     fraRelation(Index).Drag vbBeginDrag
   End If
@@ -535,22 +550,24 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
  
-Private Sub lstDataRelation_DragDrop(Index As Integer, Source As Control, x As Single, y As Single)
+Private Sub lstDataRelation_DragDrop(Index As Integer, Source As Control, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_DragDrop(" & Index & "," & QUOTE & Source.Name & QUOTE & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_DragDrop(" & Index & "," & QUOTE & Source.Name & QUOTE & "," & X & "," & Y & ")", etFullDebug
 
 Dim iJoinNum As Integer
 Dim bJoin1 As Boolean
 Dim bJoin2 As Boolean
   
-  If szDragItem = "imgDrag" And Index <> iCurDragNumber Then
-    If sOldX > x + lstDataRelation(Index).Left Then
-      x = lstDataRelation(Index).Left + lstDataRelation(Index).Width
+  If szDragItem = "fraRelation" Then
+    UserControl_DragDrop Source, lstDataRelation(Index).Left + X, lstDataRelation(Index).Top + Y
+  ElseIf szDragItem = "imgDrag" And Index <> iCurDragNumber Then
+    If sOldX > X + lstDataRelation(Index).Left Then
+      X = lstDataRelation(Index).Left + lstDataRelation(Index).Width
       sOldX = sOldX - lstDataRelation(iCurDragNumber).Width - 252
     Else
-      x = lstDataRelation(Index).Left - 252
+      X = lstDataRelation(Index).Left - 252
     End If
-    y = y + lstDataRelation(Index).Top - 100
+    Y = Y + lstDataRelation(Index).Top - 100
 
     'verify if join exists
     For iJoinNum = 0 To UBound(JoinRelation)
@@ -582,8 +599,8 @@ Dim bJoin2 As Boolean
         .ColumnIndex = lstDataRelation(.Index).ListIndex
         .RectRelation.Left = lstDataRelation(.Index).Left
         .RectRelation.Top = lstDataRelation(.Index).Top
-        .RectImage.Left = x
-        .RectImage.Top = y
+        .RectImage.Left = X
+        .RectImage.Top = Y
         .InitailRectImage = .RectImage
       End With
       
@@ -601,14 +618,14 @@ Dim bJoin2 As Boolean
     'set image join
     Load ImgJoin1(iJoinNum)
     With ImgJoin1(iJoinNum)
-      .Picture = imgNorm.Picture
+      .Picture = picColor.Image
       .Visible = True
       .ZOrder
     End With
     
     Load ImgJoin2(iJoinNum)
     With ImgJoin2(iJoinNum)
-      .Picture = imgNorm.Picture
+      .Picture = picColor.Image
       .Visible = True
       .ZOrder
     End With
@@ -621,14 +638,14 @@ Dim bJoin2 As Boolean
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.lstDataRelation_DragDrop"
 End Sub
 
-Private Sub lstDataRelation_DragOver(Index As Integer, Source As Control, x As Single, y As Single, State As Integer)
+Private Sub lstDataRelation_DragOver(Index As Integer, Source As Control, X As Single, Y As Single, State As Integer)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_DragOver(" & Index & "," & QUOTE & Source.Name & QUOTE & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_DragOver(" & Index & "," & QUOTE & Source.Name & QUOTE & "," & X & "," & Y & ")", etFullDebug
 
 Dim iPos As Integer
   
   If Index <> iCurDragNumber Then
-    iPos = Fix(((y + 240) / 210)) - 1 + lstDataRelation(Index).TopIndex
+    iPos = Fix(((Y + 240) / 210)) - 1 + lstDataRelation(Index).TopIndex
     If iPos < lstDataRelation(Index).ListCount Then lstDataRelation(Index).ListIndex = iPos
   End If
   Exit Sub
@@ -636,18 +653,18 @@ Dim iPos As Integer
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.lstDataRelation_DragOver"
 End Sub
 
-Private Sub lstDataRelation_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstDataRelation_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_MouseMove(" & Index & "," & Button & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_MouseMove(" & Index & "," & Button & "," & X & "," & Y & ")", etFullDebug
   
   If Button = vbLeftButton Then
     szDragItem = "imgDrag"
     iCurDragNumber = Index
-    sOldY = y + lstDataRelation(Index).Top
+    sOldY = Y + lstDataRelation(Index).Top
     sOldX = lstDataRelation(Index).Left + lstDataRelation(Index).Width
     With imgDrag
       .Top = sOldY - .Height / 2
-      .Left = lstDataRelation(Index).Left + x - .Width / 2
+      .Left = lstDataRelation(Index).Left + X - .Width / 2
       .Drag vbBeginDrag
       .Visible = True
     End With
@@ -657,13 +674,13 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_Mou
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.lstDataRelation_MouseMove"
 End Sub
 
-Private Sub lstDataRelation_MouseUp(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstDataRelation_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_MouseUp(" & Index & "," & Button & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.lstDataRelation_MouseUp(" & Index & "," & Button & "," & X & "," & Y & ")", etFullDebug
   
   iCurDragNumber = -1
-  
   Exit Sub
+
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.lstDataRelation_MouseUp"
 End Sub
 
@@ -824,16 +841,16 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.TextWidth(" & QUOTE
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.TextWidth"
 End Function
 
-Private Sub FGridCompose_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub FGridCompose_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.FGridCompose_MouseUp(" & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.FGridCompose_MouseUp(" & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
 Dim ii As Integer
 Dim iCol As Integer
 
   If Button = vbRightButton Then
     iCol = 0
     For ii = 0 To FGridCompose.Cols - 1
-      If x <= FGridCompose.ColPos(ii) Then
+      If X <= FGridCompose.ColPos(ii) Then
         iCol = ii - 1
         Exit For
       End If
@@ -859,9 +876,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.mnuActionGridAction
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.mnuActionGridAction_Click"
 End Sub
 
-Private Sub ImgJoin1_MouseUp(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub ImgJoin1_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.ImgJoin1_MouseUp(" & Index & "," & Button & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.ImgJoin1_MouseUp(" & Index & "," & Button & "," & X & "," & Y & ")", etFullDebug
 
   If Button = vbRightButton Then
     iJoinIndexAction = Index
@@ -872,9 +889,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.ImgJoin1_MouseUp(" 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.ImgJoin1_MouseUp"
 End Sub
 
-Private Sub ImgJoin2_MouseUp(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub ImgJoin2_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.ImgJoin2_MouseUp(" & Index & "," & Button & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.ImgJoin2_MouseUp(" & Index & "," & Button & "," & X & "," & Y & ")", etFullDebug
 
   If Button = vbRightButton Then
     iJoinIndexAction = Index
@@ -899,9 +916,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.mnuActionJoinDelete
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":RelationObj.mnuActionJoinDelete_Click"
 End Sub
 
-Private Sub fraRelation_MouseUp(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub fraRelation_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.fraRelation_MouseUp(" & Index & "," & Button & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":RelationObj.fraRelation_MouseUp(" & Index & "," & Button & "," & X & "," & Y & ")", etFullDebug
 
   If Button = vbRightButton Then
     iRelationIndexAction = Index
