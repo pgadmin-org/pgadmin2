@@ -135,14 +135,14 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExecute_Click()"
 Dim rsQuery As New Recordset
 Dim szBits() As String
 Dim vBit As Variant
-Dim szSql As String
+Dim szSQL As String
 
   If Len(txtSQL.Text) < 5 Then Exit Sub
   
   If txtSQL.SelLength > 5 Then
-    szSql = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
+    szSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
   Else
-    szSql = txtSQL.Text
+    szSQL = txtSQL.Text
   End If
   
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
@@ -150,8 +150,8 @@ Dim szSql As String
   StartMsg "Executing SQL Query..."
   
   'change CRLF -> LF
-  szSql = Replace(szSql, vbCrLf, vbLf)
-  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szSql, , , qryUser)
+  szSQL = Replace(szSQL, vbCrLf, vbLf)
+  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szSQL, , , qryUser)
   If rsQuery.Fields.Count > 0 Then
     Select Case cboExporters.Text
       Case "Screen"
@@ -169,7 +169,7 @@ Dim szSql As String
     EndMsg
     MsgBox "Query Executed OK!", vbInformation
   End If
-  StoreCmdSql szSql
+  StoreCmdSql szSQL
 
   Exit Sub
 Err_Handler:
@@ -246,14 +246,19 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdVQB_Click()", et
 
 Dim objVQBForm As New frmVisualQueryBuilder
 
+  StartMsg "Visual Query Builder in progress..."
+  
   Load objVQBForm
   objVQBForm.Tag = Me.hwnd
   objVQBForm.Caption = "Visual Query Builder " & Me.Tag & ": " & szDatabase
   objVQBForm.Initialise szDatabase, Me
   objVQBForm.Show
-
+  EndMsg
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdVQB_Click"
+
+Err_Handler:
+  EndMsg
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdVQB_Click"
 End Sub
 
 Private Sub txtSql_KeyUp(KeyCode As Integer, Shift As Integer)
@@ -340,7 +345,7 @@ Private Sub Form_Load()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
 
-Dim x As Integer
+Dim X As Integer
 Dim objExporter As pgExporter
 Dim szExporter As String
 
@@ -352,12 +357,12 @@ Dim szExporter As String
   Next objExporter
 
   szExporter = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", "Screen")
-  For x = 0 To cboExporters.ListCount - 1
-    If cboExporters.List(x) = szExporter Then
-      cboExporters.ListIndex = x
+  For X = 0 To cboExporters.ListCount - 1
+    If cboExporters.List(X) = szExporter Then
+      cboExporters.ListIndex = X
       Exit For
     End If
-  Next x
+  Next X
   
   Set txtSQL.Font = ctx.Font
   txtSQL.Wordlist = ctx.AutoHighlight
