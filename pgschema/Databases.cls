@@ -40,16 +40,16 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, lEncoding As Long, szEncoding As String)
+Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, lEncoding As Long, szEncoding As String, bAllowConn As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lEncoding & ", " & szEncoding & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lEncoding & ", " & szEncoding & ", " & bAllowConn & ")", etFullDebug
 
 Dim objNewMember As pgDatabase
 
   'Create a new object
   Set objNewMember = New pgDatabase
   If lOID <= objServer.LastSystemOID Then
-    If Not objServer.IncludeSys Then Exit Sub
+    If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
@@ -61,15 +61,16 @@ Dim objNewMember As pgDatabase
   objNewMember.Owner = szOwner
   objNewMember.Encoding = lEncoding
   objNewMember.EncodingName = szEncoding
+  objNewMember.AllowConnections = bAllowConn
   objNewMember.Identifier = szName
   
   'Add the Database
   mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
-  Set objNewMember = Nothing
+  Set iAdd = objNewMember
   
-  Exit Sub
+  Exit Function
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Function
 
 'External Add
 Public Function Add(ByVal Name As String, Optional ByVal Path As String, Optional Encoding As String, Optional ByVal Comment As String) As pgDatabase
@@ -99,26 +100,8 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    objNewMember.OID = rs!OID
-    objNewMember.Name = rs!datname & ""
-    objNewMember.Path = rs!datpath & ""
-
-    'Get the user info for the user object
-    szSQL = SQL_GET_USERS & " WHERE usename = '" & dbSZ(rs!datowner & "") & "'"
-    Set rsUser = objServer.ExecSQL(szSQL, objServer.Connection)
-    If Not rsUser.EOF Then
-      objNewMember.Owner = rsUser!usename & ""
-    End If
-   
-    objNewMember.Encoding = rs!Encoding
-    objNewMember.EncodingName = rs!EncodingName
-    objNewMember.Identifier = Name
-    
-    'Set the Comment using the new object. This will ensure that the comment
-    'is created in the new database
+    Set objNewMember = iAdd(rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!Encoding, rs!EncodingName, ToBool(rs!datallowconn))
     If Comment <> "" Then objNewMember.Comment = Comment
-    
-    mCol.Add objNewMember, ULEncode(Name)
   End If
   
   'Return the object created
@@ -250,7 +233,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " ORDER BY datname", objServer.Connection)
     While Not rs.EOF
-      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!Encoding, rs!EncodingName
+      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!Encoding, rs!EncodingName, ToBool(rs!datallowconn)
       rs.MoveNext
     Wend
   End If

@@ -31,6 +31,7 @@ Quote function definition when needed.
 Allow pseudo modification of triggers with PostgreSQL 7.2+
 Fixed a bug that prepended a carriage return when loading SQL queries from file.
 Improved warnings about dropping objects that are not up to date in the Revision Control System.
+Added AllowConnections property to database objects, display it in pgAdmin, and check it before attempting to connect to a database.
 
 1.2.0 Stable
 ------------

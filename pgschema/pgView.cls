@@ -349,7 +349,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Rows()", etF
 
 Dim rs As New Recordset
 
-  Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & szName & QUOTE, cnDatabase)
+  Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & Replace(szName, QUOTE, QUOTE & QUOTE) & QUOTE, cnDatabase)
   If Not rs.EOF Then Rows = rs!Rows
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing

@@ -39,6 +39,7 @@ Private lEncoding As Long
 Private szEncoding As String
 Private lStatus As dbStatus
 Private bRevisionControl As Boolean
+Private bAllowConnections As Boolean
 Private cnDatabase As New Connection
 
 Private szTypeCache As Collection
@@ -781,6 +782,26 @@ Err_Handler:
   objServer.iLogError Err
 End Property
 
+'Set/Return AllowConnections
+Friend Property Let AllowConnections(ByVal vData As Boolean)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let AllowConnections(" & vData & ")", etFullDebug
+
+  bAllowConnections = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get AllowConnections() As Boolean
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get AllowConnections()", etFullDebug
+
+  AllowConnections = bAllowConnections
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 Friend Sub LogRevision(szType As String, szIdentifier As String, lObjOID As Long, szDefinition As String, szComment As String, rlAction As rcLogType, Optional szParentTable As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LogRevision(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & lOID & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ", " & rlAction & ", " & QUOTE & szParentTable & QUOTE & ")", etFullDebug
@@ -877,6 +898,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.dbConnect()", etFullD
 
 Dim szConnect As String
 
+  'Don't connect if AllowConnections is False
+  If Not bAllowConnections Then
+    lStatus = statInaccessible
+    Exit Function
+  End If
+  
   'Open the connection if required
   If cnDatabase.State <> adStateOpen Then
     szConnect = Replace(objServer.Connection.ConnectionString, ";DATABASE=" & objServer.MasterDB, ";DATABASE=" & szName)

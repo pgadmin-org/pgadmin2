@@ -867,7 +867,7 @@ Public WithEvents svr As pgServer
 Attribute svr.VB_VarHelpID = -1
 
 Private Sub Form_Resize()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Resize()", etFullDebug
 
   If Me.WindowState <> 1 Then
@@ -880,7 +880,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub Resize(VPos As Single, HPos As Single)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.Resize(" & HPos & ", " & VPos & ")", etFullDebug
 
 Dim siTop As Single
@@ -2103,6 +2103,12 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Path
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Encoding", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.EncodingName
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Allow Connections?", "property", "property")
+  If ctx.CurrentObject.AllowConnections Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Accessible?", "property", "property")
   If ctx.CurrentObject.Status <> statInaccessible Then
     lvItem.SubItems(1) = "Yes"
