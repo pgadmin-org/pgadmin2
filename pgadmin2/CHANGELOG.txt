@@ -2,6 +2,8 @@
 ------
 
 Behave nicely if the logfile cannot be opened.
+Correctly delete records in some circumstances when they haven't been editted first and the primary key is not the first column.
+Fix a bug in the Access Exporter that caused a crash when there was only 1 record to export.
 
 
 1.5.60
