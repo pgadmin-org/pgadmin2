@@ -13,22 +13,6 @@ Begin VB.Form frmMain
    ScaleHeight     =   6675
    ScaleWidth      =   9675
    StartUpPosition =   3  'Windows Default
-   Begin MSComctlLib.Toolbar ib 
-      Align           =   2  'Align Bottom
-      Height          =   630
-      Left            =   0
-      TabIndex        =   5
-      Top             =   5760
-      Width           =   9675
-      _ExtentX        =   17066
-      _ExtentY        =   1111
-      ButtonWidth     =   609
-      ButtonHeight    =   953
-      AllowCustomize  =   0   'False
-      Appearance      =   1
-      TextAlignment   =   1
-      _Version        =   393216
-   End
    Begin MSComDlg.CommonDialog cdlg 
       Left            =   8550
       Top             =   90
@@ -869,8 +853,8 @@ Dim siHeight As Single
 Dim siWidth As Single
 
   'Check the form size
-  If Me.Height < 3500 Then Me.Height = 3500
-  If Me.Width < 4000 Then Me.Width = 4000
+  If Me.Height < 4500 Then Me.Height = 4500
+  If Me.Width < 5000 Then Me.Width = 5000
   
   'Size to the form
   If tb.Visible Then
@@ -880,7 +864,7 @@ Dim siWidth As Single
   End If
   siLeft = 0
   If sb.Visible Then
-    siHeight = Me.ScaleHeight - sb.Height - ib.Height
+    siHeight = Me.ScaleHeight - sb.Height
   Else
     siHeight = Me.ScaleHeight
   End If
