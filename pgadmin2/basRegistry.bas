@@ -9,7 +9,7 @@ Option Explicit
 
 Public Function RegRead(ByVal Hive As RegHives, ByVal Section As String, ByVal Key As String, Optional Default As Variant) As String
 On Error Resume Next
-frmMain.svr.LogEvent "Entering basRegistry.RegRead(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & QUOTE & Key & QUOTE & ", " & QUOTE & Default & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering basRegistry.RegRead(" & Hive & ", " & QUOTE & Section & QUOTE & ", " & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim lResult As Long
 Dim lKeyValue As Long

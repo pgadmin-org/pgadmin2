@@ -124,7 +124,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "clsP
 End Sub
 
 Public Sub Uninstall(szPlugin As String)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering clsPlugins.Uninstall(" & QUOTE & szPlugin & QUOTE & ")", etFullDebug
 
 Dim lHdc As Long
