@@ -112,7 +112,7 @@ Dim rs As New Recordset
 
   'Create a new object
   Set objNewMember = New pgNamespace
-  If ((dOID <> 0) And (dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_")) Then
+  If ((szName <> "public") And (dOID <= objServer.LastSystemOID Or Left(szName, 8) = "pgadmin_")) Then
     If Not objServer.IncludeSys Then Exit Sub
     objNewMember.SystemObject = True
   Else
