@@ -177,7 +177,7 @@ Dim objFunction As pgFunction
   If Cachable Or Strict Then szSQL = szSQL & " WITH ("
   If Cachable Then szSQL = szSQL & "ISCACHABLE, "
   '7.1+ options
-  If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
+  If objVersion.VersionNum >= 7.1 Then
     If Strict Then szSQL = szSQL & "ISSTRICT, "
   End If
   If Right(szSQL, 2) = ", " Then szSQL = Left(szSQL, Len(szSQL) - 2) & ")"
@@ -204,7 +204,7 @@ Dim objFunction As pgFunction
       End If
     Next fFunc
     If bFlag = False Then
-      If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
+      If objVersion.VersionNum >= 7.1 Then
         Set objFunction = iAdd(rs!ts, rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, rs!proisstrict, rs!proargtypes & "")
       Else
         Set objFunction = iAdd(rs!ts, rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, False, rs!proargtypes & "")
@@ -343,7 +343,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_FUNCTIONS & " ORDER BY proname", cnDatabase)
     While Not rs.EOF
-      If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
+      If objVersion.VersionNum >= 7.1 Then
         iAdd rs!ts, rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, rs!proargtypes & ""
       Else
         iAdd rs!ts, rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, rs!proargtypes & ""

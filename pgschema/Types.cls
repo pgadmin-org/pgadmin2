@@ -190,7 +190,7 @@ Dim objType As pgType
   If ReceiveFunction <> "" Then szSQL = szSQL & ", RECEIVE = " & QUOTE & ReceiveFunction & QUOTE
   '7.1+ support ALIGN & STORAGE
   If PassedByValue = True Then szSQL = szSQL & ", PASSEDBYVALUE"
-  If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
+  If objVersion.VersionNum >= 7.1 Then
     If Alignment <> "" Then szSQL = szSQL & ", ALIGNMENT = " & QUOTE & Alignment & QUOTE
     If Storage <> "" Then szSQL = szSQL & ", STORAGE = " & QUOTE & Storage & QUOTE
   End If
@@ -199,9 +199,9 @@ Dim objType As pgType
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objVersion.VersionNum >= 7.3 Then
-    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " AND typname = '" & dbSZ(Name) & "'", cnDatabase)
-  Else
     Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typname = '" & dbSZ(Name) & "'", cnDatabase)
+  Else
+    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " AND typname = '" & dbSZ(Name) & "'", cnDatabase)
   End If
     
   If Comment <> "" Then
@@ -211,7 +211,7 @@ Dim objType As pgType
   End If
   
   If Not rs.EOF Then
-    If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
+    If objVersion.VersionNum >= 7.1 Then
       Set objType = iAdd(rs!ts, rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
     Else
       Set objType = iAdd(rs!ts, rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", "")
@@ -343,9 +343,9 @@ Dim rs As New Recordset
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " ORDER BY typname", cnDatabase)
-    Else
       Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " ORDER BY typname", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " ORDER BY typname", cnDatabase)
     End If
     While Not rs.EOF
       If objVersion.VersionNum >= 7.1 Then
