@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Security Wizard"
@@ -36,23 +36,23 @@ Begin VB.Form frmWizard
             Key             =   "group"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":0FBE
+            Picture         =   "frmWizard.frx":10F6
             Key             =   "public"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":1118
+            Picture         =   "frmWizard.frx":1250
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":16B2
+            Picture         =   "frmWizard.frx":1922
             Key             =   "table"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":180C
+            Picture         =   "frmWizard.frx":1FF4
             Key             =   "user"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmWizard.frx":1DA6
+            Picture         =   "frmWizard.frx":214E
             Key             =   "view"
          EndProperty
       EndProperty
@@ -61,7 +61,7 @@ Begin VB.Form frmWizard
       BorderStyle     =   0  'None
       Height          =   4335
       Left            =   0
-      Picture         =   "frmWizard.frx":1F00
+      Picture         =   "frmWizard.frx":2820
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
@@ -100,59 +100,79 @@ Begin VB.Form frmWizard
       _ExtentY        =   6773
       _Version        =   393216
       Tabs            =   7
+      Tab             =   6
       TabsPerRow      =   7
       TabHeight       =   176
       ShowFocusRect   =   0   'False
       TabCaption(0)   =   " "
-      TabPicture(0)   =   "frmWizard.frx":2C2B
-      Tab(0).ControlEnabled=   -1  'True
+      TabPicture(0)   =   "frmWizard.frx":354B
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "lblInfo(0)"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "lvDatabases"
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).ControlCount=   2
       TabCaption(1)   =   " "
-      TabPicture(1)   =   "frmWizard.frx":2C47
+      TabPicture(1)   =   "frmWizard.frx":3567
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lblInfo(1)"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "lvObjects"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
-      TabPicture(2)   =   "frmWizard.frx":2C63
+      TabPicture(2)   =   "frmWizard.frx":3583
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvEntities"
-      Tab(2).Control(1)=   "lblInfo(2)"
+      Tab(2).Control(0)=   "lblInfo(2)"
+      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).Control(1)=   "lvEntities"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).ControlCount=   2
       TabCaption(3)   =   " "
-      TabPicture(3)   =   "frmWizard.frx":2C7F
+      TabPicture(3)   =   "frmWizard.frx":359F
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "picContainer(0)"
-      Tab(3).Control(1)=   "lblInfo(3)"
+      Tab(3).Control(0)=   "lblInfo(3)"
+      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).Control(1)=   "picContainer(0)"
+      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
-      TabPicture(4)   =   "frmWizard.frx":2C9B
+      TabPicture(4)   =   "frmWizard.frx":35BB
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "picContainer(1)"
-      Tab(4).Control(1)=   "lblInfo(6)"
+      Tab(4).Control(0)=   "lblInfo(6)"
+      Tab(4).Control(0).Enabled=   0   'False
+      Tab(4).Control(1)=   "picContainer(1)"
+      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
       TabCaption(5)   =   " "
-      TabPicture(5)   =   "frmWizard.frx":2CB7
+      TabPicture(5)   =   "frmWizard.frx":35D7
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "chkPermission(7)"
-      Tab(5).Control(1)=   "chkPermission(6)"
-      Tab(5).Control(2)=   "chkPermission(3)"
-      Tab(5).Control(3)=   "chkPermission(5)"
+      Tab(5).Control(0)=   "lblInfo(7)"
+      Tab(5).Control(0).Enabled=   0   'False
+      Tab(5).Control(1)=   "chkPermission(0)"
+      Tab(5).Control(1).Enabled=   0   'False
+      Tab(5).Control(2)=   "chkPermission(1)"
+      Tab(5).Control(2).Enabled=   0   'False
+      Tab(5).Control(3)=   "chkPermission(2)"
+      Tab(5).Control(3).Enabled=   0   'False
       Tab(5).Control(4)=   "chkPermission(4)"
-      Tab(5).Control(5)=   "chkPermission(2)"
-      Tab(5).Control(6)=   "chkPermission(1)"
-      Tab(5).Control(7)=   "chkPermission(0)"
-      Tab(5).Control(8)=   "lblInfo(7)"
+      Tab(5).Control(4).Enabled=   0   'False
+      Tab(5).Control(5)=   "chkPermission(5)"
+      Tab(5).Control(5).Enabled=   0   'False
+      Tab(5).Control(6)=   "chkPermission(3)"
+      Tab(5).Control(6).Enabled=   0   'False
+      Tab(5).Control(7)=   "chkPermission(6)"
+      Tab(5).Control(7).Enabled=   0   'False
+      Tab(5).Control(8)=   "chkPermission(7)"
+      Tab(5).Control(8).Enabled=   0   'False
       Tab(5).ControlCount=   9
       TabCaption(6)   =   " "
-      TabPicture(6)   =   "frmWizard.frx":2CD3
-      Tab(6).ControlEnabled=   0   'False
+      TabPicture(6)   =   "frmWizard.frx":35F3
+      Tab(6).ControlEnabled=   -1  'True
       Tab(6).Control(0)=   "lblInfo(5)"
+      Tab(6).Control(0).Enabled=   0   'False
       Tab(6).Control(1)=   "lblInfo(4)"
+      Tab(6).Control(1).Enabled=   0   'False
       Tab(6).ControlCount=   2
       Begin VB.CheckBox chkPermission 
          Caption         =   "&Trigger"
@@ -288,7 +308,7 @@ Begin VB.Form frmWizard
       End
       Begin MSComctlLib.ListView lvDatabases 
          Height          =   2445
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   0
          Top             =   1170
          Width           =   6720
@@ -409,7 +429,7 @@ Begin VB.Form frmWizard
          Caption         =   "All the information required has now been collected."
          Height          =   195
          Index           =   4
-         Left            =   -73515
+         Left            =   1485
          TabIndex        =   22
          Top             =   1305
          Width           =   3645
@@ -419,7 +439,7 @@ Begin VB.Form frmWizard
          Caption         =   "Click the OK button to apply your settings, or use the previous button to change them."
          Height          =   195
          Index           =   5
-         Left            =   -74550
+         Left            =   450
          TabIndex        =   21
          Top             =   2115
          Width           =   6045
@@ -455,7 +475,7 @@ Begin VB.Form frmWizard
          Caption         =   "Select the databases containing the objects for which you wish to batch update the Access Control Lists (ACLs)."
          Height          =   735
          Index           =   0
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   17
          Top             =   270
          Width           =   6630
