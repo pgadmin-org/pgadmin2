@@ -51,41 +51,43 @@ Begin VB.Form frmView
       _ExtentY        =   11218
       _Version        =   393216
       Style           =   1
-      Tab             =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
       TabPicture(0)   =   "frmView.frx":06C2
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(0)"
+      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "lblProperties(1)"
+      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "lblProperties(2)"
+      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "hbxProperties(0)"
+      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "txtProperties(2)"
+      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "txtProperties(1)"
+      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "txtProperties(0)"
+      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "hbxProperties(1)"
-      Tab(1).Control(1)=   "cmdLoad"
+      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(1)=   "hbxProperties(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
-      Tab(2).ControlEnabled=   -1  'True
-      Tab(2).Control(0)=   "lvProperties(0)"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "cmdRemove"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "fraAdd"
-      Tab(2).Control(3).Enabled=   0   'False
+      Tab(2).ControlEnabled=   0   'False
+      Tab(2).Control(0)=   "fraAdd"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "cmdRemove"
+      Tab(2).Control(3)=   "lvProperties(0)"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
          Height          =   1815
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   15
          Top             =   4410
          Width           =   5190
@@ -198,7 +200,7 @@ Begin VB.Form frmView
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
          Height          =   375
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   9
          ToolTipText     =   "Add the defined entry."
          Top             =   3915
@@ -207,7 +209,7 @@ Begin VB.Form frmView
       Begin VB.CommandButton cmdRemove 
          Caption         =   "&Remove"
          Height          =   375
-         Left            =   1485
+         Left            =   -73515
          TabIndex        =   10
          ToolTipText     =   "Remove the selected entry."
          Top             =   3915
@@ -216,7 +218,7 @@ Begin VB.Form frmView
       Begin MSComctlLib.ListView lvProperties 
          Height          =   3390
          Index           =   0
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   8
          ToolTipText     =   "The access control list for the view."
          Top             =   450
@@ -259,7 +261,7 @@ Begin VB.Form frmView
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   0
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   1
          ToolTipText     =   "The name of the view."
@@ -270,7 +272,7 @@ Begin VB.Form frmView
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   1
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   2
          ToolTipText     =   "The views OID (Object ID) in the PostgreSQL Database."
@@ -281,7 +283,7 @@ Begin VB.Form frmView
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   2
-         Left            =   -73065
+         Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   3
          ToolTipText     =   "The views owner."
@@ -291,7 +293,7 @@ Begin VB.Form frmView
       Begin HighlightBox.HBX hbxProperties 
          Height          =   4245
          Index           =   0
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   4
          ToolTipText     =   "Comments about the view."
          Top             =   1935
@@ -337,7 +339,7 @@ Begin VB.Form frmView
          Caption         =   "Owner"
          Height          =   195
          Index           =   2
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   13
          Top             =   1530
          Width           =   465
@@ -347,7 +349,7 @@ Begin VB.Form frmView
          Caption         =   "OID"
          Height          =   195
          Index           =   1
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   12
          Top             =   1125
          Width           =   285
@@ -357,7 +359,7 @@ Begin VB.Form frmView
          Caption         =   "Name"
          Height          =   195
          Index           =   0
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   11
          Top             =   720
          Width           =   420

@@ -547,5 +547,3 @@ Err_Handler:
   Set rs = Nothing
   objServer.iLogError Err
 End Property
-
-
