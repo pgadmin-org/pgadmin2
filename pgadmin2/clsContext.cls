@@ -172,7 +172,6 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("trigger").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = False
-    frmMain.tb.Buttons("drop").Enabled = False
     frmMain.tb.Buttons("sql").Enabled = False
     frmMain.tb.Buttons("vacuum").Enabled = False
     frmMain.mnuFileSaveDBSchema.Enabled = False

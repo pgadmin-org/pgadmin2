@@ -1951,8 +1951,6 @@ Dim vData As Variant
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = svr.Groups(Node.Text).Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Groups(Node.Text).OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Group ID", "property", "property")
   lvItem.SubItems(1) = svr.Groups(Node.Text).ID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Member Count", "property", "property")
@@ -2524,20 +2522,18 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvChecks(" & QUOTE & Node.FullP
 Dim lvItem As ListItem
 Dim chk As pgCheck
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks.Count Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
     For Each chk In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks
-      If Not (chk.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "CHK-" & GetID, chk.Identifier, "check"
+      tv.Nodes.Add Node.Key, tvwChild, "CHK-" & GetID, chk.Identifier, "check"
     Next chk
     Node.Text = "Checks (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Check", lv.Width
   For Each chk In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks
-    If Not (chk.SystemObject And Not ctx.IncludeSys) Then
-      Set lvItem = lv.ListItems.Add(, "CHK-" & GetID, chk.Identifier, "check", "check")
-    End If
+    Set lvItem = lv.ListItems.Add(, "CHK-" & GetID, chk.Identifier, "check", "check")
   Next chk
   
   Exit Sub
@@ -2554,16 +2550,8 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text).Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text).OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text).Definition
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Check?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text).SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvCheck"
@@ -2610,8 +2598,6 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Position", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Position
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Data Type", "property", "property")
@@ -2643,7 +2629,7 @@ Dim lvItem As ListItem
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Comment
+  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Comment, vbCrLf, " ")
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvColumn"
@@ -3287,7 +3273,6 @@ Dim vData As Variant
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvNodeClick"
 End Sub
 
-
 Private Sub lv_ItemClick(ByVal Item As MSComctlLib.ListItem)
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
@@ -3352,8 +3337,8 @@ Dim szPath() As String
     Case "CHK-" 'Check
       Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).Checks(Item.Text)
       ctx.CurrentDB = szPath(2)
-      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
-
+      If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(ctx.CurrentDB).Tables(ctx.CurrentObject.Table).SQL
+      
     Case "COL-" 'Column
       Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).Columns(Item.Text)
       ctx.CurrentDB = szPath(2)
@@ -3362,7 +3347,7 @@ Dim szPath() As String
     Case "FKY-" 'Foreign Key
       Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).ForeignKeys(Item.Text)
       ctx.CurrentDB = szPath(2)
-      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+      If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(ctx.CurrentDB).Tables(ctx.CurrentObject.Table).SQL
       
     Case "IND-" 'Index
       Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).Indexes(Item.Text)

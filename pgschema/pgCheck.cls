@@ -19,10 +19,8 @@ Option Explicit
 
 'Properties
 Private szTable As String
-Private lOID As Long
 Private szName As String
 Private szIdentifier As String
-Private bSystemObject As Boolean
 Private szDefinition As String
 Private cnDatabase As Connection
 
@@ -64,27 +62,6 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Table()", e
 
   Table = szTable
     
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
-'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let OID(" & vData & ")", etFullDebug
-
-  lOID = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get OID() As Long
-Attribute OID.VB_Description = "Returns the Check OID."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get OID()", etFullDebug
-
-  OID = lOID
-  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
@@ -138,26 +115,6 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get ObjectType(
 
   ObjectType = "Check"
     
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
-'Set/Return a boolean indicating whether this is a System Object
-Friend Property Let SystemObject(ByVal vData As Boolean)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let SystemObject(" & vData & ")", etFullDebug
-
-  bSystemObject = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get SystemObject() As Boolean
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get SystemObject()", etFullDebug
-
-  SystemObject = bSystemObject
-  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property

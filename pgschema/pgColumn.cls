@@ -19,6 +19,7 @@ Option Explicit
 
 'Properties
 Private szTable As String
+Private lTableOID As Long
 Private lOID As Long
 Private szName As String
 Private szIdentifier As String
@@ -54,27 +55,6 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Database()
 Err_Handler:  objServer.iLogError Err
 End Property
 
-'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let OID(" & vData & ")", etFullDebug
-
-  lOID = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get OID() As Long
-Attribute OID.VB_Description = "Returns the Column OID."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get OID()", etFullDebug
-
-  OID = lOID
-  
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
 'Set/Return the Table
 Friend Property Let Table(ByVal vData As String)
 On Error GoTo Err_Handler
@@ -91,6 +71,37 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Table()", 
 
   Table = szTable
     
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set the Table OID
+Friend Property Let TableOID(ByVal vData As Long)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let TableOID(" & vData & ")", etFullDebug
+
+  lTableOID = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the OID
+Friend Property Let OID(ByVal vData As Long)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let OID(" & vData & ")", etFullDebug
+
+  lOID = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get OID() As Long
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get OID()", etFullDebug
+
+  OID = lOID
+  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
@@ -363,7 +374,13 @@ Attribute Comment.VB_Description = "Sets/Returns the Column comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Comment()", etFullDebug
 
-  Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+  'In 7.1, comments were stored in pg_description against the column OID.
+  'In 7.2+, use the table OID with a SubID of the Column Position
+  If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+    Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+  Else
+    Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lTableOID, lPosition)
+  End If
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

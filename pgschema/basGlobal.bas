@@ -16,11 +16,10 @@ Public Const VER_PLATFORM_WIN32_WINDOWS = 1
 Public Const VER_PLATFORM_WIN32_NT = 2
 
 'SQL constants
-Public Const SQL_GET_COMMENT = "SELECT description FROM pg_description WHERE objoid = "
 Public Const SQL_GET_DATABASES = "SELECT oid, *, pg_encoding_to_char(encoding) AS encodingname, pg_get_userbyid(datdba) AS datowner FROM pg_database"
 Public Const SQL_GET_LANGUAGES = "SELECT oid, * FROM pg_language"
 Public Const SQL_GET_USERS = "SELECT * FROM pg_user"
-Public Const SQL_GET_GROUPS = "SELECT oid, * FROM pg_group"
+Public Const SQL_GET_GROUPS = "SELECT * FROM pg_group"
 Public Const SQL_GET_SEQUENCES = "SELECT oid, relname, pg_get_userbyid(relowner) AS seqowner, relacl FROM pg_class WHERE relkind = 'S'"
 Public Const SQL_GET_VIEWS = "SELECT c.oid, c.relname, pg_get_userbyid(c.relowner) AS viewowner, c.relacl, pg_get_viewdef(c.relname) AS definition FROM pg_class c WHERE ((c.relhasrules AND (EXISTS (SELECT r.rulename FROM pg_rewrite r WHERE ((r.ev_class = c.oid) AND (bpchar(r.ev_type) = '1'::bpchar))))) OR (c.relkind = 'v'::" & QUOTE & "char" & QUOTE & "))"
 Public Const SQL_GET_TYPES = "SELECT oid, *, pg_get_userbyid(typowner) as typeowner FROM pg_type WHERE typrelid = 0"
@@ -29,10 +28,11 @@ Public Const SQL_GET_OPERATORS = "SELECT oid, *, pg_get_userbyid(oprowner) as op
 Public Const SQL_GET_RULES = "SELECT oid, rulename, pg_get_ruledef(rulename) as definition FROM pg_rewrite"
 Public Const SQL_GET_TRIGGERS = "SELECT t.oid, tgname, proname, tgargs, tgtype FROM pg_trigger t, pg_proc p WHERE t.tgfoid = p.oid AND tgisconstraint = FALSE"
 Public Const SQL_GET_TABLES = "SELECT oid, relname, pg_get_userbyid(relowner) as tableowner, relacl FROM pg_class WHERE ((relkind = 'r') OR (relkind = 's'))"
-Public Const SQL_GET_COLUMNS = "SELECT a.oid, a.attname, a.attnum, t.typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
+Public Const SQL_GET_COLUMNS7_1 = "SELECT a.oid, a.attname, a.attnum, t.typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
+Public Const SQL_GET_COLUMNS7_2 = "SELECT 0::oid AS oid, a.attname, a.attnum, t.typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
 Public Const SQL_GET_INDEXES = "SELECT i.oid, i.relname, x.indisunique, x.indisprimary, pg_get_indexdef(i.oid) AS definition FROM pg_index x, pg_class i WHERE i.oid = x.indexrelid"
 Public Const SQL_GET_INDEX_COLUMNS = "SELECT attname FROM pg_attribute"
-Public Const SQL_GET_CHECKS = "SELECT oid, rcname, rcsrc FROM pg_relcheck"
+Public Const SQL_GET_CHECKS = "SELECT rcname, rcsrc FROM pg_relcheck"
 Public Const SQL_GET_INHERITED_TABLES = "SELECT c.relname FROM pg_class c, pg_inherits i WHERE c.oid = i.inhparent"
 Public Const SQL_GET_AGGREGATES = "SELECT oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate"
 Public Const SQL_GET_FOREIGN_KEYS = "SELECT oid, tgrelid, tgconstrname, tgnargs, tgargs, tgdeferrable, tginitdeferred FROM pg_trigger WHERE tgisconstraint = TRUE AND tgtype = 21"
@@ -103,6 +103,17 @@ Dim szOutput As String
 
   ULEncode = szOutput
 
+End Function
+
+'Get a unique ID
+Public Function GetUniqueID() As Long
+On Error Resume Next
+
+Static LastUniqueID As Long
+
+  LastUniqueID = LastUniqueID + 1
+  GetUniqueID = LastUniqueID
+  
 End Function
 
 'Return the Database from a connection string

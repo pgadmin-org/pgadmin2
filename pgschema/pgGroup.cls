@@ -21,7 +21,6 @@ Option Explicit
 Private colMembers As Members
 
 'Properties
-Private lOID As Long
 Private szName As String
 Private szIdentifier As String
 Private lID As Long
@@ -42,27 +41,6 @@ Dim szConnect As String
   End If
   Set Members = colMembers
     
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
-'Set/Return the OID
-Friend Property Let OID(ByVal vData As Long)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let OID(" & vData & ")", etFullDebug
-
-  lOID = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get OID() As Long
-Attribute OID.VB_Description = "Returns the Group OID."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get OID()", etFullDebug
-
-  OID = lOID
-  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property

@@ -21,15 +21,14 @@ Option Explicit
 Private mCol As Collection
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, lID As Long, szMemberList As String)
+Private Sub iAdd(szName As String, lID As Long, szMemberList As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Groups.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lID & ", " & QUOTE & szMemberList & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.iAdd(" & QUOTE & szName & QUOTE & ", " & lID & ", " & QUOTE & szMemberList & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgGroup
 
   'Create a new object
   Set objNewMember = New pgGroup
-  objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.ID = lID
   objNewMember.MemberList = szMemberList
@@ -70,7 +69,6 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    objNewMember.OID = rs!OID
     objNewMember.Name = rs!groname & ""
     objNewMember.ID = rs!grosysid
     objNewMember.MemberList = rs!grolist & ""
@@ -184,7 +182,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_GROUPS & " ORDER BY groname", objServer.Connection)
     While Not rs.EOF
-      iAdd rs!OID, rs!groname & "", rs!grosysid, rs!grolist & ""
+      iAdd rs!groname & "", rs!grosysid, rs!grolist & ""
       rs.MoveNext
     Wend
   End If

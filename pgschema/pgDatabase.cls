@@ -187,7 +187,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillCommentCache()", 
 Err_Handler: objServer.iLogError Err
 End Sub
 
-Friend Function LookupComment(lOID As Long) As String
+Friend Function LookupComment(lOID As Long, Optional lSubID As Long) As String
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupComment(" & lOID & ")", etFullDebug
 Dim rs As New Recordset
@@ -198,9 +198,15 @@ Dim rs As New Recordset
   'Build the Comment Cache
   If szCommentCache Is Nothing Then
     Set szCommentCache = New Collection
+    
+    '7.2+ Uses OID + SubID for some comments.
     Set rs = objServer.ExecSQL("SELECT * FROM pg_description", cnDatabase)
     While Not rs.EOF
-      szCommentCache.Add rs!Description & "", "C" & rs!objoid
+      If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+        szCommentCache.Add rs!Description & "", "C" & rs!objoid & "S0"
+      Else
+        szCommentCache.Add rs!Description & "", "C" & rs!objoid & "S" & rs!objsubid
+      End If
       rs.MoveNext
     Wend
     If rs.State <> adStateClosed Then rs.Close
@@ -208,7 +214,7 @@ Dim rs As New Recordset
   End If
   
   On Error Resume Next
-  LookupComment = szCommentCache("C" & lOID)
+  LookupComment = szCommentCache("C" & lOID & "S" & lSubID)
   On Error GoTo Err_Handler
 
   Exit Function

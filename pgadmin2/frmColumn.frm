@@ -20,7 +20,7 @@ Begin VB.Form frmColumn
       Default         =   -1  'True
       Height          =   375
       Left            =   3285
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   6480
       Width           =   1095
    End
@@ -29,7 +29,7 @@ Begin VB.Form frmColumn
       Caption         =   "Cancel"
       Height          =   375
       Left            =   4410
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   6480
       Width           =   1095
    End
@@ -50,61 +50,57 @@ Begin VB.Form frmColumn
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(0)"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "lblProperties(1)"
+      Tab(0).Control(1)=   "lblProperties(3)"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "lblProperties(3)"
+      Tab(0).Control(2)=   "lblProperties(2)"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "lblProperties(2)"
+      Tab(0).Control(3)=   "lblProperties(4)"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "lblProperties(4)"
+      Tab(0).Control(4)=   "lblProperties(5)"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "lblProperties(5)"
+      Tab(0).Control(5)=   "lblProperties(6)"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "lblProperties(6)"
+      Tab(0).Control(6)=   "lblProperties(7)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "lblProperties(7)"
+      Tab(0).Control(7)=   "cboProperties(1)"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cboProperties(1)"
+      Tab(0).Control(8)=   "cboProperties(0)"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "cboProperties(0)"
+      Tab(0).Control(9)=   "hbxProperties(0)"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "hbxProperties(0)"
+      Tab(0).Control(10)=   "txtProperties(0)"
       Tab(0).Control(10).Enabled=   0   'False
       Tab(0).Control(11)=   "txtProperties(1)"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "txtProperties(0)"
+      Tab(0).Control(12)=   "txtProperties(2)"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "txtProperties(2)"
+      Tab(0).Control(13)=   "txtProperties(3)"
       Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "txtProperties(3)"
+      Tab(0).Control(14)=   "chkProperties(0)"
       Tab(0).Control(14).Enabled=   0   'False
       Tab(0).Control(15)=   "txtProperties(4)"
       Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).Control(16)=   "chkProperties(0)"
+      Tab(0).Control(16)=   "chkProperties(1)"
       Tab(0).Control(16).Enabled=   0   'False
-      Tab(0).Control(17)=   "txtProperties(5)"
-      Tab(0).Control(17).Enabled=   0   'False
-      Tab(0).Control(18)=   "chkProperties(1)"
-      Tab(0).Control(18).Enabled=   0   'False
-      Tab(0).ControlCount=   19
+      Tab(0).ControlCount=   17
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
          Caption         =   "Primary key?"
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   10
+         TabIndex        =   9
          ToolTipText     =   "Is this column a primary key?"
-         Top             =   4185
+         Top             =   3915
          Width           =   1995
       End
       Begin VB.TextBox txtProperties 
          Height          =   285
-         Index           =   5
+         Index           =   4
          Left            =   1935
-         TabIndex        =   8
+         TabIndex        =   7
          ToolTipText     =   "A default value for the column. This may be a literal value, user function or niladic function."
-         Top             =   3465
+         Top             =   3105
          Width           =   3390
       End
       Begin VB.CheckBox chkProperties 
@@ -113,21 +109,10 @@ Begin VB.Form frmColumn
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   9
+         TabIndex        =   8
          ToolTipText     =   "Should null values be restricted in this column?"
-         Top             =   3870
+         Top             =   3555
          Width           =   1995
-      End
-      Begin VB.TextBox txtProperties 
-         BackColor       =   &H8000000F&
-         Height          =   285
-         Index           =   4
-         Left            =   1935
-         Locked          =   -1  'True
-         TabIndex        =   7
-         ToolTipText     =   "The numeric scale of the column (applicable to numeric columns only)."
-         Top             =   3060
-         Width           =   3390
       End
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -136,8 +121,8 @@ Begin VB.Form frmColumn
          Left            =   1935
          Locked          =   -1  'True
          TabIndex        =   6
-         ToolTipText     =   "The defined length of the column."
-         Top             =   2655
+         ToolTipText     =   "The numeric scale of the column (applicable to numeric columns only)."
+         Top             =   2700
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -146,9 +131,20 @@ Begin VB.Form frmColumn
          Index           =   2
          Left            =   1935
          Locked          =   -1  'True
-         TabIndex        =   4
+         TabIndex        =   5
+         ToolTipText     =   "The defined length of the column."
+         Top             =   2295
+         Width           =   3390
+      End
+      Begin VB.TextBox txtProperties 
+         BackColor       =   &H8000000F&
+         Height          =   285
+         Index           =   1
+         Left            =   1935
+         Locked          =   -1  'True
+         TabIndex        =   3
          ToolTipText     =   "The ordinal position of the column in the table."
-         Top             =   1845
+         Top             =   1485
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -160,27 +156,17 @@ Begin VB.Form frmColumn
          Top             =   675
          Width           =   3390
       End
-      Begin VB.TextBox txtProperties 
-         BackColor       =   &H8000000F&
-         Height          =   285
-         Index           =   1
-         Left            =   1935
-         Locked          =   -1  'True
-         TabIndex        =   2
-         ToolTipText     =   "The columns OID (Object ID) in the PostgreSQL Database."
-         Top             =   1080
-         Width           =   3390
-      End
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   1680
+         Height          =   1950
          Index           =   0
          Left            =   135
-         TabIndex        =   11
+         TabIndex        =   10
          ToolTipText     =   "Comments about the column."
-         Top             =   4500
+         Top             =   4230
          Width           =   5190
          _ExtentX        =   9155
-         _ExtentY        =   2963
+         _ExtentY        =   3440
+         BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -190,15 +176,16 @@ Begin VB.Form frmColumn
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         Locked          =   -1  'True
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
          Index           =   0
          Left            =   1935
-         TabIndex        =   3
+         TabIndex        =   2
          ToolTipText     =   "The table that the column will be part of."
-         Top             =   1440
+         Top             =   1080
          Width           =   3390
          _ExtentX        =   5980
          _ExtentY        =   582
@@ -212,9 +199,9 @@ Begin VB.Form frmColumn
          Height          =   330
          Index           =   1
          Left            =   1935
-         TabIndex        =   5
+         TabIndex        =   4
          ToolTipText     =   "The data type of the column."
-         Top             =   2205
+         Top             =   1845
          Width           =   3390
          _ExtentX        =   5980
          _ExtentY        =   582
@@ -230,8 +217,8 @@ Begin VB.Form frmColumn
          Height          =   195
          Index           =   7
          Left            =   135
-         TabIndex        =   21
-         Top             =   3510
+         TabIndex        =   19
+         Top             =   3150
          Width           =   945
       End
       Begin VB.Label lblProperties 
@@ -240,8 +227,8 @@ Begin VB.Form frmColumn
          Height          =   195
          Index           =   6
          Left            =   135
-         TabIndex        =   20
-         Top             =   2700
+         TabIndex        =   18
+         Top             =   2340
          Width           =   495
       End
       Begin VB.Label lblProperties 
@@ -250,8 +237,8 @@ Begin VB.Form frmColumn
          Height          =   195
          Index           =   5
          Left            =   135
-         TabIndex        =   19
-         Top             =   3105
+         TabIndex        =   17
+         Top             =   2745
          Width           =   1275
       End
       Begin VB.Label lblProperties 
@@ -260,8 +247,8 @@ Begin VB.Form frmColumn
          Height          =   195
          Index           =   4
          Left            =   135
-         TabIndex        =   18
-         Top             =   2295
+         TabIndex        =   16
+         Top             =   1935
          Width           =   690
       End
       Begin VB.Label lblProperties 
@@ -270,8 +257,8 @@ Begin VB.Form frmColumn
          Height          =   195
          Index           =   2
          Left            =   135
-         TabIndex        =   17
-         Top             =   1890
+         TabIndex        =   15
+         Top             =   1530
          Width           =   1080
       End
       Begin VB.Label lblProperties 
@@ -280,19 +267,9 @@ Begin VB.Form frmColumn
          Height          =   195
          Index           =   3
          Left            =   135
-         TabIndex        =   16
-         Top             =   1530
+         TabIndex        =   14
+         Top             =   1170
          Width           =   405
-      End
-      Begin VB.Label lblProperties 
-         AutoSize        =   -1  'True
-         Caption         =   "OID"
-         Height          =   195
-         Index           =   1
-         Left            =   135
-         TabIndex        =   15
-         Top             =   1125
-         Width           =   285
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
@@ -300,7 +277,7 @@ Begin VB.Form frmColumn
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   720
          Width           =   420
       End
@@ -407,11 +384,11 @@ Dim szOldName As String
       Else
         Set objItem = frmCallingForm.lvProperties(0).ListItems.Add(, , txtProperties(0).Text, "column", "column")
       End If
-      objItem.SubItems(1) = txtProperties(2).Text
+      objItem.SubItems(1) = txtProperties(1).Text
       objItem.SubItems(2) = cboProperties(1).Text
-      If Not txtProperties(3).Locked Then objItem.SubItems(3) = Val(txtProperties(3).Text)
-      If Not txtProperties(4).Locked Then objItem.SubItems(3) = Val(txtProperties(3).Text) & ", " & Val(txtProperties(4).Text)
-      objItem.SubItems(4) = txtProperties(5).Text
+      If Not txtProperties(2).Locked Then objItem.SubItems(3) = Val(txtProperties(2).Text)
+      If Not txtProperties(3).Locked Then objItem.SubItems(3) = Val(txtProperties(2).Text) & ", " & Val(txtProperties(3).Text)
+      objItem.SubItems(4) = txtProperties(4).Text
       If chkProperties(0).Value = 1 Then
         objItem.SubItems(5) = "Yes"
       Else
@@ -441,7 +418,7 @@ Dim szOldName As String
           End If
         Next objNode
       End If
-      If txtProperties(5).Tag = "Y" Then objColumn.Default = txtProperties(5).Text
+      If txtProperties(4).Tag = "Y" Then objColumn.Default = txtProperties(4).Text
       If hbxProperties(0).Tag = "Y" Then objColumn.Comment = hbxProperties(0).Text
       
       'Simulate a node click to refresh the ListColumn (only do this when updating a column).
@@ -486,6 +463,8 @@ Dim objType As pgType
       txtProperties(0).BackColor = &H80000005
       txtProperties(0).Locked = False
       cboProperties(1).BackColor = &H80000005
+      hbxProperties(0).Locked = False
+      hbxProperties(0).BackColor = &H80000005
       Set objItem = cboProperties(0).ComboItems.Add(, , frmCallingForm.txtProperties(0).Text, "table", "table")
       objItem.Selected = True
       txtProperties(2).Text = frmCallingForm.lvProperties(0).ListItems.Count + 1
@@ -503,15 +482,14 @@ Dim objType As pgType
     
       Me.Caption = "Column: " & objColumn.Identifier
       txtProperties(0).Text = objColumn.Name
-      txtProperties(1).Text = objColumn.OID
-      txtProperties(2).Text = objColumn.Position
+      txtProperties(1).Text = objColumn.Position
       If objColumn.Length = 0 Then
-        txtProperties(3).Text = "Variable"
+        txtProperties(2).Text = "Variable"
       Else
-        txtProperties(3).Text = objColumn.Length
+        txtProperties(2).Text = objColumn.Length
       End If
-      If objColumn.DataType = "numeric" Then txtProperties(4).Text = objColumn.NumericScale
-      txtProperties(5).Text = objColumn.Default
+      If objColumn.DataType = "numeric" Then txtProperties(3).Text = objColumn.NumericScale
+      txtProperties(4).Text = objColumn.Default
       Set objItem = cboProperties(0).ComboItems.Add(, , objColumn.Table, "table")
       objItem.Selected = True
       Set objItem = cboProperties(1).ComboItems.Add(, , objColumn.DataType, "type")
@@ -519,11 +497,15 @@ Dim objType As pgType
       chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
       chkProperties(1).Value = Bool2Bin(objColumn.PrimaryKey)
       hbxProperties(0).Text = objColumn.Comment
+      If objColumn.Position > 0 Then
+        hbxProperties(0).Locked = False
+        hbxProperties(0).BackColor = &H80000005
+      End If
   End Select
 
   'Reset the Tags
   txtProperties(0).Tag = "N"
-  txtProperties(5).Tag = "N"
+  txtProperties(4).Tag = "N"
   hbxProperties(0).Tag = "N"
   
   Exit Sub
@@ -577,24 +559,24 @@ Dim objColumn As pgColumn
   If ((Index = 1) And (szMode = "TA")) Then
      
     'Lock first
+    txtProperties(2).BackColor = &H8000000F
+    txtProperties(2).Locked = True
     txtProperties(3).BackColor = &H8000000F
     txtProperties(3).Locked = True
-    txtProperties(4).BackColor = &H8000000F
-    txtProperties(4).Locked = True
     
     'Now unlock based on the data type
     Select Case cboProperties(1).Text
       Case "numeric"
+        txtProperties(2).BackColor = &H80000005
+        txtProperties(2).Locked = False
         txtProperties(3).BackColor = &H80000005
         txtProperties(3).Locked = False
-        txtProperties(4).BackColor = &H80000005
-        txtProperties(4).Locked = False
       Case "char"
-        txtProperties(3).BackColor = &H80000005
-        txtProperties(3).Locked = False
+        txtProperties(2).BackColor = &H80000005
+        txtProperties(2).Locked = False
       Case "varchar"
-        txtProperties(3).BackColor = &H80000005
-        txtProperties(3).Locked = False
+        txtProperties(2).BackColor = &H80000005
+        txtProperties(2).Locked = False
     End Select
   End If
   

@@ -58,28 +58,21 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szDefinition As String) As pgCheck
+Private Function iAdd(szName As String, szDefinition As String) As pgCheck
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Checks.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Checks.iAdd(" & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgCheck
 
   'Create a new object
   Set objNewMember = New pgCheck
-  If lOID <= objServer.LastSystemOID Then
-    If Not objServer.IncludeSys Then Exit Function
-    objNewMember.SystemObject = True
-  Else
-    objNewMember.SystemObject = False
-  End If
-  objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
   objNewMember.Definition = szDefinition
   If szName <> "" Then
     objNewMember.Identifier = szName
   Else
-    objNewMember.Identifier = "Unamed Check - " & lOID
+    objNewMember.Identifier = "Unamed Check - " & GetUniqueID
   End If
   Set objNewMember.Connection = cnDatabase
   mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
@@ -109,7 +102,7 @@ Dim szSQL As String
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set Add = iAdd(rs!OID, rs!rcname & "", rs!rcsrc & "")
+    Set Add = iAdd(rs!rcname & "", rs!rcsrc & "")
   End If
   
   'Cleanup
@@ -138,24 +131,14 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Return the Item count
-Public Property Get Count(Optional IgnoreSys As Boolean) As Long
+Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Checks on the current Table."
 Attribute Count.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Count()", etFullDebug
 
-Dim objCheck As pgCheck
-Dim lCount As Long
-
-  If IgnoreSys Then
-    For Each objCheck In mCol
-      If Not objCheck.SystemObject Then lCount = lCount + 1
-    Next objCheck
-    Count = lCount
-  Else
     Count = mCol.Count
-  End If
-  
+
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
@@ -200,7 +183,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_CHECKS & " WHERE rcrelid = " & lTableOID & " ORDER BY rcname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!rcname & "", rs!rcsrc & ""
+      iAdd rs!rcname & "", rs!rcsrc & ""
       rs.MoveNext
     Wend
   End If

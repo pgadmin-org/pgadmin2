@@ -73,9 +73,15 @@ Dim szHex As String
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = lOID
   objNewMember.iName = szName
   objNewMember.Table = szTable
+  objNewMember.TableOID = lTableOID
+  
+  'Only have an OID pre 7.2
+  If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+    objNewMember.OID = lOID
+  End If
+  
   objNewMember.Position = lPosition
   objNewMember.DataType = szDataType
   If szDataType = "numeric" Then
@@ -124,7 +130,11 @@ Dim szSQL As String
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_COLUMNS & " AND attrelid = " & lTableOID & " AND attname = '" & dbSZ(Name) & "'"
+  If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+    szSQL = SQL_GET_COLUMNS7_1 & " AND attrelid = " & lTableOID & " AND attname = '" & dbSZ(Name) & "'"
+  Else
+    szSQL = SQL_GET_COLUMNS7_2 & " AND attrelid = " & lTableOID & " AND attname = '" & dbSZ(Name) & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
@@ -233,7 +243,11 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_COLUMNS & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
+    If Val(objServer.dbVersion.Major & "." & objServer.dbVersion.Minor) < 7.2 Then
+      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_1 & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_2 & " AND attrelid = " & lTableOID & " ORDER BY attnum", cnDatabase)
+    End If
     While Not rs.EOF
       iAdd rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & ""
       rs.MoveNext
