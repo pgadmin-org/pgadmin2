@@ -93,13 +93,12 @@ Begin VB.Form frmDatabase
       Tab(0).ControlCount=   12
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
-         Caption         =   "Revision Logging"
-         Enabled         =   0   'False
+         Caption         =   "Revision Control"
          Height          =   195
          Index           =   0
          Left            =   90
          TabIndex        =   6
-         ToolTipText     =   "Is Revision Logging enabled for this database? Once enabled, it can only be switched off by the database owner."
+         ToolTipText     =   "Is Revision Control enabled for this database? Once enabled, it can only be switched off by the database owner."
          Top             =   2745
          Width           =   2040
       End
@@ -295,9 +294,9 @@ Dim objNode As Node
     If hbxProperties(0).Tag = "Y" Then objDatabase.Comment = hbxProperties(0).Text
   End If
   
-  'Enable/Disable Revision Logging
+  'Enable/Disable Revision Control
   If chkProperties(0).Tag = "Y" Then
-    frmMain.svr.Databases(txtProperties(0).Text).RevisionLogging = Bin2Bool(chkProperties(0).Value)
+    frmMain.svr.Databases(txtProperties(0).Text).RevisionControl = Bin2Bool(chkProperties(0).Value)
   End If
   
   'Simulate a node click to refresh the ListView
@@ -350,7 +349,6 @@ Dim objItem As ComboItem
     cboProperties(0).Locked = False
     txtProperties(3).BackColor = &H80000005
     txtProperties(3).Locked = False
-    chkProperties(0).Enabled = False
     hbxProperties(0).BackColor = &H80000005
     hbxProperties(0).Locked = False
     
@@ -361,7 +359,6 @@ Dim objItem As ComboItem
     bNew = False
     Me.Caption = "Database: " & objDatabase.Identifier
     If objDatabase.Status <> statInaccessible Then
-      chkProperties(0).Enabled = True
       hbxProperties(0).BackColor = &H80000005
       hbxProperties(0).Locked = False
     End If
@@ -372,7 +369,11 @@ Dim objItem As ComboItem
     objItem.Selected = True
     txtProperties(3).Text = objDatabase.Path
     bSetting = True
-    chkProperties(0).Value = Bool2Bin(objDatabase.RevisionLogging)
+    If objDatabase.Status = statInaccessible Then
+      chkProperties(0).Value = 0
+    Else
+      chkProperties(0).Value = Bool2Bin(objDatabase.RevisionControl)
+    End If
     bSetting = False
     hbxProperties(0).Text = objDatabase.Comment
   End If
@@ -414,20 +415,28 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.chkProperties_Click
 
 Dim bOrigSetting As Boolean
 
+  'if RC is greyed then the DB must be inaccessible.
+  If Not (objDatabase Is Nothing) Then
+    If objDatabase.Status = statInaccessible Then
+      chkProperties(0).Value = 0
+      Exit Sub
+    End If
+  End If
+  
   If Not bSetting Then
     bOrigSetting = bSetting
     If Not (objDatabase Is Nothing) Then
-      If (objDatabase.RevisionLogging) And (objDatabase.Owner <> ctx.Username) Then
-        MsgBox "Only the database owner can switch off Revision Logging.", vbExclamation, "Error"
+      If (objDatabase.RevisionControl) And (objDatabase.Owner <> ctx.Username) Then
+        MsgBox "Only the database owner can switch off Revision Control.", vbExclamation, "Error"
         bSetting = True
-        chkProperties(0).Value = Bool2Bin(objDatabase.RevisionLogging)
+        chkProperties(0).Value = Bool2Bin(objDatabase.RevisionControl)
         bSetting = bOrigSetting
         Exit Sub
       End If
-      If (objDatabase.RevisionLogging) And (objDatabase.Owner = ctx.Username) Then
-        If MsgBox("Switching of Revision Logging will delete the log table and all the Revision data it contains. Are you sure you wish to continue?", vbQuestion + vbYesNo, "Warning") = vbNo Then
+      If (objDatabase.RevisionControl) And (objDatabase.Owner = ctx.Username) Then
+        If MsgBox("Switching off Revision Control will delete the log table and all the Revision data it contains. Are you sure you wish to continue?", vbQuestion + vbYesNo, "Warning") = vbNo Then
           bSetting = True
-          chkProperties(0).Value = Bool2Bin(objDatabase.RevisionLogging)
+          chkProperties(0).Value = Bool2Bin(objDatabase.RevisionControl)
           bSetting = bOrigSetting
           Exit Sub
         End If

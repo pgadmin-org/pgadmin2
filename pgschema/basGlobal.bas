@@ -17,31 +17,31 @@ Public Const VER_PLATFORM_WIN32_NT = 2
 
 'SQL constants
 Public Const SQL_GET_DATABASES = "SELECT oid, *, pg_encoding_to_char(encoding) AS encodingname, pg_get_userbyid(datdba) AS datowner FROM pg_database"
-Public Const SQL_GET_LANGUAGES = "SELECT oid, * FROM pg_language"
+Public Const SQL_GET_LANGUAGES = "SELECT now() AS ts, oid, * FROM pg_language"
 Public Const SQL_GET_USERS = "SELECT * FROM pg_user"
 Public Const SQL_GET_GROUPS = "SELECT * FROM pg_group"
-Public Const SQL_GET_SEQUENCES = "SELECT oid, relname, pg_get_userbyid(relowner) AS seqowner, relacl FROM pg_class WHERE relkind = 'S'"
-Public Const SQL_GET_VIEWS = "SELECT c.oid, c.relname, pg_get_userbyid(c.relowner) AS viewowner, c.relacl, pg_get_viewdef(c.relname) AS definition FROM pg_class c WHERE ((c.relhasrules AND (EXISTS (SELECT r.rulename FROM pg_rewrite r WHERE ((r.ev_class = c.oid) AND (bpchar(r.ev_type) = '1'::bpchar))))) OR (c.relkind = 'v'::" & QUOTE & "char" & QUOTE & "))"
-Public Const SQL_GET_TYPES = "SELECT oid, *, pg_get_userbyid(typowner) as typeowner FROM pg_type WHERE typrelid = 0"
-Public Const SQL_GET_FUNCTIONS = "SELECT oid, *, pg_get_userbyid(proowner) as funcowner FROM pg_proc"
-Public Const SQL_GET_OPERATORS = "SELECT oid, *, pg_get_userbyid(oprowner) as opowner FROM pg_operator"
-Public Const SQL_GET_RULES = "SELECT oid, rulename, pg_get_ruledef(rulename) as definition FROM pg_rewrite"
-Public Const SQL_GET_TRIGGERS = "SELECT t.oid, tgname, proname, tgargs, tgtype FROM pg_trigger t, pg_proc p WHERE t.tgfoid = p.oid AND tgisconstraint = FALSE"
-Public Const SQL_GET_TABLES7_1 = "SELECT oid, relname, pg_get_userbyid(relowner) as tableowner, relacl FROM pg_class WHERE ((relkind = 'r') OR (relkind = 's'))"
-Public Const SQL_GET_TABLES7_2 = "SELECT oid, relname, pg_get_userbyid(relowner) as tableowner, relacl, relhasoids FROM pg_class WHERE ((relkind = 'r') OR (relkind = 's'))"
+Public Const SQL_GET_SEQUENCES = "SELECT now() AS ts, oid, relname, pg_get_userbyid(relowner) AS seqowner, relacl FROM pg_class WHERE relkind = 'S'"
+Public Const SQL_GET_VIEWS = "SELECT now() AS ts, c.oid, c.relname, pg_get_userbyid(c.relowner) AS viewowner, c.relacl, pg_get_viewdef(c.relname) AS definition FROM pg_class c WHERE ((c.relhasrules AND (EXISTS (SELECT r.rulename FROM pg_rewrite r WHERE ((r.ev_class = c.oid) AND (bpchar(r.ev_type) = '1'::bpchar))))) OR (c.relkind = 'v'::" & QUOTE & "char" & QUOTE & "))"
+Public Const SQL_GET_TYPES = "SELECT now() AS ts, oid, *, pg_get_userbyid(typowner) as typeowner FROM pg_type WHERE typrelid = 0"
+Public Const SQL_GET_FUNCTIONS = "SELECT now() AS ts, oid, *, pg_get_userbyid(proowner) as funcowner FROM pg_proc"
+Public Const SQL_GET_OPERATORS = "SELECT now() AS ts, oid, *, pg_get_userbyid(oprowner) as opowner FROM pg_operator"
+Public Const SQL_GET_RULES = "SELECT now() AS ts, oid, rulename, pg_get_ruledef(rulename) as definition FROM pg_rewrite"
+Public Const SQL_GET_TRIGGERS = "SELECT now() AS ts, t.oid, tgname, proname, tgargs, tgtype FROM pg_trigger t, pg_proc p WHERE t.tgfoid = p.oid AND tgisconstraint = FALSE"
+Public Const SQL_GET_TABLES7_1 = "SELECT now() AS ts, oid, relname, pg_get_userbyid(relowner) as tableowner, relacl FROM pg_class WHERE ((relkind = 'r') OR (relkind = 's'))"
+Public Const SQL_GET_TABLES7_2 = "SELECT now() AS ts, oid, relname, pg_get_userbyid(relowner) as tableowner, relacl, relhasoids FROM pg_class WHERE ((relkind = 'r') OR (relkind = 's'))"
 Public Const SQL_GET_COLUMNS7_1 = "SELECT a.oid, a.attname, a.attnum, t.typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
 Public Const SQL_GET_COLUMNS7_2 = "SELECT 0::oid AS oid, a.attname, a.attnum, t.typname, CASE WHEN ((a.attlen = -1) AND ((a.atttypmod)::int4 = (-1)::int4)) THEN (0)::int4 ELSE CASE WHEN a.attlen = -1 THEN CASE WHEN ((t.typname = 'bpchar') OR (t.typname = 'char') OR (t.typname = 'varchar')) THEN (a.atttypmod -4)::int4 ELSE (a.atttypmod)::int4 END ELSE (a.attlen)::int4 END END AS length, a.attnotnull, (SELECT adsrc FROM pg_attrdef d WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum) AS default, (SELECT indisprimary FROM pg_index i, pg_class ic, pg_attribute ia  WHERE i.indrelid = a.attrelid AND i.indexrelid = ic.oid AND ic.oid = ia.attrelid AND ia.attname = a.attname LIMIT 1) AS primarykey FROM pg_attribute a, pg_type t WHERE a.atttypid = t.oid"
-Public Const SQL_GET_INDEXES = "SELECT i.oid, i.relname, x.indisunique, x.indisprimary, pg_get_indexdef(i.oid) AS definition FROM pg_index x, pg_class i WHERE i.oid = x.indexrelid"
+Public Const SQL_GET_INDEXES = "SELECT now() AS ts, i.oid, i.relname, x.indisunique, x.indisprimary, pg_get_indexdef(i.oid) AS definition FROM pg_index x, pg_class i WHERE i.oid = x.indexrelid"
 Public Const SQL_GET_INDEX_COLUMNS = "SELECT attname FROM pg_attribute"
 Public Const SQL_GET_CHECKS = "SELECT rcname, rcsrc FROM pg_relcheck"
 Public Const SQL_GET_INHERITED_TABLES = "SELECT c.relname FROM pg_class c, pg_inherits i WHERE c.oid = i.inhparent"
-Public Const SQL_GET_AGGREGATES = "SELECT oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate"
+Public Const SQL_GET_AGGREGATES = "SELECT now() AS ts, oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate"
 Public Const SQL_GET_FOREIGN_KEYS = "SELECT oid, tgrelid, tgconstrname, tgnargs, tgargs, tgdeferrable, tginitdeferred FROM pg_trigger WHERE tgisconstraint = TRUE AND tgtype = 21"
 
-'SQL related to Revision Logging.
+'SQL related to Revision Control.
 'Note that the object OID is also logged to help create objects in dependency order when building scripts.
-Public Const SQL_CREATE_REVLOG = "CREATE TABLE pgadmin_revlog(rev_timestamp timestamp DEFAULT now(), rev_user name DEFAULT current_user, rev_action varchar(1), rev_type varchar(32), rev_identifier varchar(256), rev_oid oid, rev_version int4, rev_definition text, rev_comment text); GRANT SELECT, INSERT ON pgadmin_revlog TO PUBLIC; COMMENT ON TABLE pgadmin_revlog IS 'pgAdmin II Revision Log';"
-Public Const SQL_DROP_REVLOG = "DROP TABLE pgadmin_revlog;"
+Public Const SQL_CREATE_REVLOG = "CREATE TABLE pgadmin_rclog(rc_timestamp timestamp DEFAULT now(), rc_user name DEFAULT current_user, rc_action varchar(1), rc_type varchar(32), rc_identifier varchar(256), rc_oid oid, rc_version int4, rc_definition text, rc_comment text); GRANT SELECT, INSERT ON pgadmin_rclog TO PUBLIC; COMMENT ON TABLE pgadmin_rclog IS 'pgAdmin II Revision Log';"
+Public Const SQL_DROP_REVLOG = "DROP TABLE pgadmin_rclog;"
 
 'Type Declarations
 Public Type OSVERSIONINFO

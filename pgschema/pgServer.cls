@@ -63,10 +63,18 @@ Public Enum dbStatus
   statInaccessible = 2
 End Enum
 
-Public Enum rlLogType
-  rlAdd = 0
-  rlUpdate = 1
-  rlDelete = 2
+Public Enum rcLogType
+  rcAdd = 0
+  rcUpdate = 1
+  rcDelete = 2
+End Enum
+
+Public Enum rcStat
+  rcNotApplicable = 0
+  rcUpToDate = 1
+  rcOutOfDate = 2
+  rcNeedsRefresh = 3
+  rcNotInRC = 4
 End Enum
 
 'Collections

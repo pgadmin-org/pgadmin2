@@ -45,9 +45,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String, szDefinition As String)
+Private Sub iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, szACL As String, szDefinition As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Views.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Views.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgView
 Dim szSQL As String
@@ -61,6 +61,7 @@ Dim rs As New Recordset
   Else
     objNewMember.SystemObject = False
   End If
+  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
@@ -104,11 +105,11 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    iAdd rs!OID, rs!relname & "", rs!viewowner & "", rs!relacl & "", rs!Definition & ""
+    iAdd rs!ts, rs!OID, rs!relname & "", rs!viewowner & "", rs!relacl & "", rs!Definition & ""
   End If
   
   'Return the object created
-  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rlAdd, "Created object."
+  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rcAdd, "Created object."
   Set Add = mCol(ULEncode(Name))
   
   'Cleanup
@@ -169,7 +170,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Language.
   szSQL = "DROP VIEW " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -209,7 +210,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_VIEWS & " ORDER BY relname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!relname & "", rs!viewowner, rs!relacl & "", rs!Definition & ""
+      iAdd rs!ts, rs!OID, rs!relname & "", rs!viewowner, rs!relacl & "", rs!Definition & ""
       rs.MoveNext
     Wend
   End If

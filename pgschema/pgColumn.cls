@@ -348,7 +348,7 @@ Dim szSQL As String
   End If
   objServer.ExecSQL szSQL, cnDatabase
   szDefault = vData
-  If Not SystemObject Then objServer.Databases(Database).Tables(Table).Commit rlUpdate, "Updated column default value."
+  If Not SystemObject Then objServer.Databases(Database).Tables(Table).Commit rcUpdate, "Updated column default value."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -373,7 +373,7 @@ Dim szSQL As String
   szSQL = "COMMENT ON COLUMN " & QUOTE & szTable & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
-  If Not SystemObject Then objServer.Databases(Database).Tables(Table).Commit rlUpdate, "Updated object comment."
+  If Not SystemObject Then objServer.Databases(Database).Tables(Table).Commit rcUpdate, "Updated object comment."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

@@ -26,6 +26,27 @@ Private bTrusted As Boolean
 Private szHandler As String
 Private szComment As String
 Private cnDatabase As Connection
+Private dTimeStamp As Date
+
+'Set/Return the TimeStamp
+Friend Property Let TimeStamp(ByVal vData As Date)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let TimeStamp(" & vData & ")", etFullDebug
+
+  dTimeStamp = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get TimeStamp() As Date
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get TimeStamp()", etFullDebug
+
+  TimeStamp = dTimeStamp
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
@@ -208,7 +229,7 @@ Dim szSQL As String
   szSQL = "UPDATE pg_language SET lancompiler = '" & dbSZ(vData) & "' WHERE oid = " & lOID
   objServer.ExecSQL szSQL, cnDatabase
   szComment = vData
-  If Not SystemObject Then Commit rlUpdate, "Updated object comment."
+  If Not SystemObject Then Commit rcUpdate, "Updated object comment."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -246,7 +267,7 @@ Dim szMember As Variant
 Err_Handler:  objServer.iLogError Err
 End Property
 
-Public Sub Commit(UpdateType As rlLogType, UpdateComment As String)
+Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
 Attribute Commit.VB_Description = "Commit object changes."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
@@ -256,4 +277,41 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Commit(" & UpdateType
   Exit Sub
 Err_Handler:  objServer.iLogError Err
 End Sub
+
+Public Property Get RCStatus() As rcStat
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.RCStatus()", etFullDebug
+
+Dim szSQL As String
+Dim rs As New Recordset
+
+  If Not objServer.Databases(Database).RevisionControl Then
+    RCStatus = rcNotApplicable
+    Exit Property
+  End If
+  
+  szSQL = "SELECT rc_timestamp, rc_definition FROM pgadmin_rclog WHERE rc_type = '" & dbSZ(ObjectType) & "' AND rc_identifier = '" & dbSZ(szIdentifier) & "' ORDER BY rc_version DESC LIMIT 1"
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+  If rs.EOF Then
+    RCStatus = rcNotInRC
+  Else
+    If SQL = rs!rc_definition & "" Then
+      RCStatus = rcUpToDate
+    Else
+      If rs!rc_timestamp > dTimeStamp Then
+        RCStatus = rcNeedsRefresh
+      Else
+        RCStatus = rcOutOfDate
+      End If
+    End If
+  End If
+  
+  Set rs = Nothing
+  
+  Exit Property
+Err_Handler:
+  Set rs = Nothing
+  objServer.iLogError Err
+End Property
+
 

@@ -70,14 +70,15 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, bUnique As Boolean, bPrimary As Boolean, szDefinition As String) As pgIndex
+Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, bUnique As Boolean, bPrimary As Boolean, szDefinition As String) As pgIndex
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Indexes.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bUnique & ", " & bPrimary & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & bUnique & ", " & bPrimary & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgIndex
 
   'Create a new object
   Set objNewMember = New pgIndex
+  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
@@ -138,10 +139,10 @@ Dim objIndex As pgIndex
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objIndex = iAdd(rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & "")
+    Set objIndex = iAdd(rs!ts, rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & "")
   End If
   
-  If Not objIndex.SystemObject Then objIndex.Commit rlAdd, "Created object."
+  If Not objIndex.SystemObject Then objIndex.Commit rcAdd, "Created object."
   Set Add = objIndex
   
   'Cleanup
@@ -203,7 +204,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Rule.
   szSQL = "DROP INDEX " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -256,7 +257,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_INDEXES & " AND indrelid = " & lTableOID & " ORDER BY relname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & ""
+      iAdd rs!ts, rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & ""
       rs.MoveNext
     Wend
   End If

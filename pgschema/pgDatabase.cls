@@ -37,7 +37,7 @@ Private szOwner As String
 Private lEncoding As Long
 Private szEncoding As String
 Private lStatus As dbStatus
-Private bRevisionLogging As Boolean
+Private bRevisionControl As Boolean
 Private cnDatabase As New Connection
 
 Private szTypeCache As Collection
@@ -624,82 +624,82 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Database Revision Logging
-Public Property Let RevisionLogging(ByVal vData As Boolean)
-Attribute RevisionLogging.VB_Description = "Sets/Returns whether or not Revision Logging is active."
+Public Property Let RevisionControl(ByVal vData As Boolean)
+Attribute RevisionControl.VB_Description = "Sets/Returns whether or not Revision Logging is active."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let RevisionLogging(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let RevisionControl(" & vData & ")", etFullDebug
 
 Dim vObject As Variant
 Dim vChildObject As Variant
 
   If dbConnect = False Then Exit Property
   If vData Then
-    If Not RevisionLogging Then
-      bRevisionLogging = True
+    If Not RevisionControl Then
+      bRevisionControl = True
       objServer.ExecSQL SQL_CREATE_REVLOG, cnDatabase
-      objServer.ExecSQL "ALTER TABLE pgadmin_revlog OWNER TO " & QUOTE & Owner & QUOTE, cnDatabase
+      objServer.ExecSQL "ALTER TABLE pgadmin_rclog OWNER TO " & QUOTE & Owner & QUOTE, cnDatabase
       
       'Log the current database
       'Aggregates
       For Each vObject In Aggregates
-        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+        If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
       Next vObject
     
       'Functions
       For Each vObject In Functions
-        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+        If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
       Next vObject
     
       'Languages
       For Each vObject In Languages
-        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+        If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
       Next vObject
     
       'Operators
       For Each vObject In Operators
-        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+        If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
       Next vObject
     
       'Sequences
       For Each vObject In Sequences
-        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+        If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
       Next vObject
     
       'Tables
       For Each vObject In Tables
         If Not vObject.SystemObject Then
-          vObject.Commit rlAdd, "Revision logging enabled."
+          vObject.Commit rcAdd, "Revision logging enabled."
         
           'Indexes
           For Each vChildObject In vObject.Indexes
-            If Not vChildObject.SystemObject Then vChildObject.Commit rlAdd, "Revision logging enabled."
+            If Not vChildObject.SystemObject Then vChildObject.Commit rcAdd, "Revision logging enabled."
           Next vChildObject
           
           'Rules
           For Each vChildObject In vObject.Rules
-            If Not vChildObject.SystemObject Then vChildObject.Commit rlAdd, "Revision logging enabled."
+            If Not vChildObject.SystemObject Then vChildObject.Commit rcAdd, "Revision logging enabled."
           Next vChildObject
          
           'Triggers
           For Each vChildObject In vObject.Triggers
-            If Not vChildObject.SystemObject Then vChildObject.Commit rlAdd, "Revision logging enabled."
+            If Not vChildObject.SystemObject Then vChildObject.Commit rcAdd, "Revision logging enabled."
           Next vChildObject
         End If
       Next vObject
     
       'Types
       For Each vObject In Types
-        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+        If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
       Next vObject
     
       'Views
       For Each vObject In Views
-        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+        If Not vObject.SystemObject Then vObject.Commit rcAdd, "Revision logging enabled."
       Next vObject
     End If
   Else
-    If RevisionLogging Then
-      bRevisionLogging = False
+    If RevisionControl Then
+      bRevisionControl = False
       objServer.ExecSQL SQL_DROP_REVLOG, cnDatabase
     End If
   End If
@@ -711,9 +711,9 @@ Dim vChildObject As Variant
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get RevisionLogging() As Boolean
+Public Property Get RevisionControl() As Boolean
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get RevisionLogging()", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get RevisionControl()", etFullDebug
 
 Static bCached As Boolean
 Dim szSQL As String
@@ -721,16 +721,16 @@ Dim rs As New Recordset
 
   If dbConnect = False Then Exit Property
   If Not bCached Then
-    szSQL = "SELECT * FROM pg_class WHERE relname = 'pgadmin_revlog'"
+    szSQL = "SELECT * FROM pg_class WHERE relname = 'pgadmin_rclog'"
     Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     If rs.EOF Then
-      bRevisionLogging = False
+      bRevisionControl = False
     Else
-      bRevisionLogging = True
+      bRevisionControl = True
     End If
   End If
   
-  RevisionLogging = bRevisionLogging
+  RevisionControl = bRevisionControl
   bCached = True
   Set rs = Nothing
     
@@ -740,7 +740,7 @@ Err_Handler:
   objServer.iLogError Err
 End Property
 
-Friend Sub LogRevision(szType As String, szIdentifier As String, lobjoid As Long, szDefinition As String, szComment As String, rlAction As rlLogType)
+Friend Sub LogRevision(szType As String, szIdentifier As String, lobjoid As Long, szDefinition As String, szComment As String, rlAction As rcLogType)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LogRevision(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & lOID & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ", " & rlAction & ")", etFullDebug
 
@@ -748,20 +748,20 @@ Dim szSQL As String
 Dim szAction As String
 
   If dbConnect = False Then Exit Sub
-  If Not RevisionLogging Then Exit Sub
+  If Not RevisionControl Then Exit Sub
   szType = dbSZ(szType)
   szIdentifier = dbSZ(szIdentifier)
   szDefinition = dbSZ(szDefinition)
   szComment = dbSZ(szComment)
   Select Case rlAction
-    Case rlAdd
+    Case rcAdd
       szAction = "A"
-    Case rlUpdate
+    Case rcUpdate
       szAction = "U"
-    Case rlDelete
+    Case rcDelete
       szAction = "D"
   End Select
-  szSQL = "INSERT INTO pgadmin_revlog(rev_action, rev_type, rev_identifier, rev_oid, rev_version, rev_definition, rev_comment) VALUES ('" & szAction & "', '" & szType & "', '" & szIdentifier & "', " & lobjoid & ", (SELECT CASE WHEN max(rev_version) IS NULL THEN 0 ELSE max(rev_version) +1::int4 END from pgadmin_revlog WHERE rev_type = '" & szType & "' AND rev_identifier = '" & szIdentifier & "'), '" & szDefinition & "', '" & szComment & "');"
+  szSQL = "INSERT INTO pgadmin_rclog(rc_action, rc_type, rc_identifier, rc_oid, rc_version, rc_definition, rc_comment) VALUES ('" & szAction & "', '" & szType & "', '" & szIdentifier & "', " & lobjoid & ", (SELECT CASE WHEN max(rc_version) IS NULL THEN 0 ELSE max(rc_version) +1::int4 END from pgadmin_rclog WHERE rc_type = '" & szType & "' AND rc_identifier = '" & szIdentifier & "'), '" & szDefinition & "', '" & szComment & "');"
   objServer.ExecSQL szSQL, cnDatabase
   
   Exit Sub

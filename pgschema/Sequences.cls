@@ -45,9 +45,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String)
+Private Sub iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, szACL As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Sequences.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgSequence
 Dim szSQL As String
@@ -61,6 +61,7 @@ Dim rs As New Recordset
   Else
     objNewMember.SystemObject = False
   End If
+  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
@@ -138,10 +139,10 @@ Dim szSQL As String
   szSQL = SQL_GET_SEQUENCES & " AND relname = '" & dbSZ(Name) & "'"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
-    iAdd rs!OID, rs!relname & "", rs!seqowner & "", rs!relacl & ""
+    iAdd rs!ts, rs!OID, rs!relname & "", rs!seqowner & "", rs!relacl & ""
   End If
   
-  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rlAdd, "Created object."
+  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rcAdd, "Created object."
   Set Add = mCol(ULEncode(Name))
   
   'Cleanup
@@ -203,7 +204,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Sequence.
   szSQL = "DROP SEQUENCE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -256,7 +257,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_SEQUENCES & " ORDER BY relname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!relname & "", rs!seqowner & "", rs!relacl & ""
+      iAdd rs!ts, rs!OID, rs!relname & "", rs!seqowner & "", rs!relacl & ""
       rs.MoveNext
     Wend
   End If

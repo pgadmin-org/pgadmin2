@@ -45,9 +45,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String, bHasOIDs As Boolean)
+Private Sub iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, szACL As String, bHasOIDs As Boolean)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & bHasOIDs & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & bHasOIDs & ")", etFullDebug
 
 Dim objNewMember As pgTable
 Dim szSQL As String
@@ -61,6 +61,7 @@ Dim rs As New Recordset
   Else
     objNewMember.SystemObject = False
   End If
+  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.iName = szName
   objNewMember.iOwner = szOwner
@@ -121,13 +122,13 @@ Dim szSQL As String
   'Create a new member of the collection
   If Not rs.EOF Then
     If objServer.dbVersion.VersionNum >= 7.2 Then
-      iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
+      iAdd rs!ts, rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
     Else
-      iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
+      iAdd rs!ts, rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
     End If
   End If
   
-  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rlAdd, "Created object."
+  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rcAdd, "Created object."
   Set Add = mCol(ULEncode(Name))
   
   'Cleanup
@@ -150,13 +151,13 @@ objServer.iLogEvent "Entering " & App.Title & ":Tables.Rename(" & QUOTE & OldNam
 
   Dim objTable As New pgTable
     
-  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rlDelete, "Deleted object (prior to rename)."
+  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rcDelete, "Deleted object (prior to rename)."
   Set objTable = mCol(ULEncode(OldName))
   objTable.Name = NewName
   objTable.Identifier = NewName
   mCol.Add objTable, ULEncode(NewName), ULEncode(OldName)
   mCol.Remove ULEncode(OldName)
-  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rlAdd, "Created object (following rename)."
+  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rcAdd, "Created object (following rename)."
   
   Exit Sub
 Err_Handler:
@@ -211,7 +212,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Language.
   szSQL = "DROP TABLE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -256,9 +257,9 @@ Dim rs As New Recordset
     End If
       While Not rs.EOF
         If objServer.dbVersion.VersionNum >= 7.2 Then
-          iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
+          iAdd rs!ts, rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
         Else
-          iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
+          iAdd rs!ts, rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
         End If
       rs.MoveNext
     Wend

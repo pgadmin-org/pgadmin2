@@ -70,9 +70,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szDefinition As String) As pgRule
+Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szDefinition As String) As pgRule
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Rules.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Rules.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgRule
 
@@ -84,6 +84,7 @@ Dim objNewMember As pgRule
   Else
     objNewMember.SystemObject = False
   End If
+  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
@@ -128,10 +129,10 @@ Dim objRule As pgRule
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objRule = iAdd(rs!OID, rs!rulename & "", rs!Definition & "")
+    Set objRule = iAdd(rs!ts, rs!OID, rs!rulename & "", rs!Definition & "")
   End If
   
-  If Not objRule.SystemObject Then objRule.Commit rlAdd, "Created object."
+  If Not objRule.SystemObject Then objRule.Commit rcAdd, "Created object."
   Set Add = objRule
   
   'Cleanup
@@ -193,7 +194,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Rule.
   szSQL = "DROP RULE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -247,7 +248,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_RULES & " WHERE ev_class = " & lTableOID & " ORDER BY rulename", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!rulename & "", rs!Definition & ""
+      iAdd rs!ts, rs!OID, rs!rulename & "", rs!Definition & ""
       rs.MoveNext
     Wend
   End If

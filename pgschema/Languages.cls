@@ -46,9 +46,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String)
+Private Sub iAdd(dTimeStamp As Date, lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgLanguage
 Dim rs As New Recordset
@@ -62,6 +62,7 @@ Dim szSQL As String
   Else
     objNewMember.SystemObject = False
   End If
+  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Trusted = bTrusted
@@ -119,6 +120,7 @@ Dim objLanguage As pgLanguage
   
   'Create a new member of the collection
   If Not rs.EOF Then
+    objNewMember.TimeStamp = rs!ts
     objNewMember.OID = rs!OID
     objNewMember.Name = rs!lanname & ""
     objNewMember.Trusted = ToBool(rs!lanpltrusted)
@@ -135,7 +137,7 @@ Dim objLanguage As pgLanguage
   'Invalidate the Language Cache...
   objServer.Databases(szDB).KillLanguageCache
   
-  If Not objLanguage.SystemObject Then objLanguage.Commit rlAdd, "Created object."
+  If Not objLanguage.SystemObject Then objLanguage.Commit rcAdd, "Created object."
   Set Add = objLanguage
   
   'Cleanup
@@ -198,7 +200,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Language.
   szSQL = "DROP PROCEDURAL LANGUAGE '" & dbSZ(mCol(ULEncode(Key)).Name) & "'"
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -257,7 +259,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES & " ORDER BY lanname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
+      iAdd rs!ts, rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
       rs.MoveNext
     Wend
   End If

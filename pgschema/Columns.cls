@@ -154,7 +154,7 @@ Dim objColumn As pgColumn
     Set objColumn = iAdd(rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "")
   End If
   
-  objServer.Databases(Database).Tables(szTable).Commit rlUpdate, "Added column."
+  objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Added column."
   Set Add = objColumn
   
   'Cleanup
@@ -181,7 +181,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldNa
   objColumn.Identifier = NewName
   mCol.Add objColumn, ULEncode(NewName), ULEncode(OldName)
   mCol.Remove ULEncode(OldName)
-  objServer.Databases(Database).Tables(szTable).Commit rlUpdate, "Renamed column."
+  objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Renamed column."
   
   Exit Sub
 Err_Handler: objServer.iLogError Err

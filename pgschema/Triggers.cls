@@ -70,9 +70,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szTriggerFunction As String, szExecutes As String, szTriggerEvent As String, szForEach As String) As pgTrigger
+Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szTriggerFunction As String, szExecutes As String, szTriggerEvent As String, szForEach As String) As pgTrigger
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Triggers.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szTriggerFunction & QUOTE & ", " & QUOTE & szExecutes & QUOTE & ", " & QUOTE & szTriggerEvent & QUOTE & ", " & QUOTE & szForEach & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szTriggerFunction & QUOTE & ", " & QUOTE & szExecutes & QUOTE & ", " & QUOTE & szTriggerEvent & QUOTE & ", " & QUOTE & szForEach & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgTrigger
 
@@ -84,6 +84,7 @@ Dim objNewMember As pgTrigger
   Else
     objNewMember.SystemObject = False
   End If
+  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
@@ -151,10 +152,10 @@ Dim objTrigger As pgTrigger
     If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "Update OR "
     If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-    Set objTrigger = iAdd(rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
+    Set objTrigger = iAdd(rs!ts, rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
   End If
   
-  If Not objTrigger.SystemObject Then objTrigger.Commit rlAdd, "Created object."
+  If Not objTrigger.SystemObject Then objTrigger.Commit rcAdd, "Created object."
   Set Add = objTrigger
   
   'Cleanup
@@ -215,7 +216,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Trigger.
   szSQL = "DROP TRIGGER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & mCol(ULEncode(Key)).Table & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -291,7 +292,7 @@ Dim szEvent As String
       If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "Update OR "
       If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-      iAdd rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach
+      iAdd rs!ts, rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach
       rs.MoveNext
     Wend
   End If

@@ -46,9 +46,9 @@ Err_Handler: objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szOwner As String, lInputType As Long, szStateFunction As String, lStateType As Long, szFinalFunction As String, lFinalType As Long, szInitialCondition As String) As pgAggregate
+Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, lInputType As Long, szStateFunction As String, lStateType As Long, szFinalFunction As String, lFinalType As Long, szInitialCondition As String) As pgAggregate
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Aggregates.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & lStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & lFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & lStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & lFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgAggregate
 Dim rs As New Recordset
@@ -62,6 +62,7 @@ Dim szSQL As String
   Else
     objNewMember.SystemObject = False
   End If
+  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
@@ -121,10 +122,10 @@ Dim objAggregate As pgAggregate
   End If
   
   If Not rs.EOF Then
-    Set objAggregate = iAdd(rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & "")
+    Set objAggregate = iAdd(rs!ts, rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & "")
   End If
   
-  If Not objAggregate.SystemObject Then objAggregate.Commit rlAdd, "Created object."
+  If Not objAggregate.SystemObject Then objAggregate.Commit rcAdd, "Created object."
   Set Add = objAggregate
   
   'Cleanup
@@ -189,7 +190,7 @@ Dim szSQL As String
     szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " " & QUOTE & mCol(ULEncode(Key)).InputType & QUOTE
   End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -245,7 +246,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES & " ORDER BY aggname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & ""
+      iAdd rs!ts, rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & ""
       rs.MoveNext
     Wend
   End If
