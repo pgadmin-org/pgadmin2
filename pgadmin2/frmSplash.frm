@@ -33,7 +33,7 @@ Begin VB.Form frmSplash
          Caption         =   "Version"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8,25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False

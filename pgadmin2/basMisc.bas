@@ -214,14 +214,14 @@ Public Sub BuildConnectionMenu()
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildConnectionMenu()", etFullDebug
 
-Dim X As Integer
+Dim x As Integer
 Dim szConnection As String
   frmMain.tb.Buttons(1).ButtonMenus.Clear
-  For X = 1 To 10
-    szConnection = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & X, "")
+  For x = 1 To 10
+    szConnection = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Connections", "Connection " & x, "")
     szConnection = Replace(Replace(szConnection, "|", "@", 1, 1), "|", ":", 1, 1)
-    If szConnection <> "" Then frmMain.tb.Buttons("connect").ButtonMenus.Add X, X & "|" & szConnection, szConnection
-  Next X
+    If szConnection <> "" Then frmMain.tb.Buttons("connect").ButtonMenus.Add x, x & "|" & szConnection, szConnection
+  Next x
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildConnectionMenu"
@@ -232,34 +232,34 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildPluginsMenu()", etFullDebug
 
 Dim objPlugin As pgPlugin
-Dim X As Integer
+Dim x As Integer
 
   'Clear the menu
   frmMain.mnuPlugins.Visible = False
   frmMain.mnuPluginsPlg(0).Visible = True
-  For X = 1 To 20
-    frmMain.mnuPluginsPlg(X).Caption = "Plugin" & X
-    frmMain.mnuPluginsPlg(X).Visible = False
-  Next X
+  For x = 1 To 20
+    frmMain.mnuPluginsPlg(x).Caption = "Plugin" & x
+    frmMain.mnuPluginsPlg(x).Visible = False
+  Next x
   
   'Load new plugins
-  X = 1
+  x = 1
   For Each objPlugin In plg
     If Not ((frmMain.svr.ConnectionString = "") And (objPlugin.PluginType = 1)) Then
-      frmMain.mnuPluginsPlg(X).Caption = objPlugin.Description & "..."
-      frmMain.mnuPluginsPlg(X).Visible = True
-      X = X + 1
+      frmMain.mnuPluginsPlg(x).Caption = objPlugin.Description & "..."
+      frmMain.mnuPluginsPlg(x).Visible = True
+      x = x + 1
       frmMain.mnuPluginsPlg(0).Visible = False
     
       'Bomb out if there's more than 20 Plugins
-      If X > 20 Then
+      If x > 20 Then
         MsgBox App.Title & " currently only supports a maximum of 20 plugins loaded at the same time. Please email the Support mailing list listed in the Helpfile and let the developers know that you've exceeded this limit.", vbExclamation, "Error"
         Exit Sub
       End If
     End If
   Next objPlugin
   frmMain.mnuPluginsPlg(0).Visible = False
-  If X > 1 Then frmMain.mnuPlugins.Visible = True
+  If x > 1 Then frmMain.mnuPlugins.Visible = True
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.BuildPluginsMenu"
@@ -321,7 +321,7 @@ End Function
 Public Function fmtID(ByVal szData As String) As String
 On Error Resume Next
 
-Dim X As Integer
+Dim x As Integer
 Dim iVal As Integer
 
   'Replace double quotes
@@ -330,15 +330,15 @@ Dim iVal As Integer
   If IsNumeric(szData) Then
     szData = QUOTE & szData & QUOTE
   Else
-    For X = 1 To Len(szData)
-      iVal = Asc(Mid(szData, X, 1))
+    For x = 1 To Len(szData)
+      iVal = Asc(Mid(szData, x, 1))
       If Not ((iVal >= 48) And (iVal <= 57)) And _
          Not ((iVal >= 97) And (iVal <= 122)) And _
          Not (iVal = 95) Then
         szData = QUOTE & szData & QUOTE
         Exit For
       End If
-    Next X
+    Next x
   End If
 
   fmtID = szData
@@ -497,4 +497,36 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.FixWidth(" & lWidth & "
   
   Exit Function
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.FixWidth"
+End Function
+
+Function MakeISODate(vDate As Variant) As String
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.MakeISODate(" & vDate & ")", etFullDebug
+
+  'If we can't figure it out, just return a string
+  If Not IsDate(vDate) Then
+    MakeISODate = CStr(vDate)
+    Exit Function
+  End If
+  
+  MakeISODate = Year(vDate) & "-" & Month(vDate) & "-" & Day(vDate)
+  
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.MakeISODate"
+End Function
+
+Function MakeISOTimestamp(vTimestamp As Variant) As String
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.MakeISOTimestamp(" & vTimestamp & ")", etFullDebug
+
+  'If we can't figure it out, just return a string
+  If Not IsDate(vTimestamp) Then
+    MakeISOTimestamp = CStr(vTimestamp)
+    Exit Function
+  End If
+  
+  MakeISOTimestamp = Year(vTimestamp) & "-" & Month(vTimestamp) & "-" & Day(vTimestamp) & " " & Hour(vTimestamp) & ":" & Minute(vTimestamp) & ":" & Second(vTimestamp)
+  
+  Exit Function
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basMisc.MakeISOTimestamp"
 End Function
