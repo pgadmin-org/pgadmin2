@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmClone 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Copy Object"
@@ -23,7 +23,7 @@ Begin VB.Form frmClone
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   23
+         NumListImages   =   24
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmClone.frx":0000
             Key             =   "aggregate"
@@ -115,6 +115,10 @@ Begin VB.Form frmClone
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmClone.frx":8834
             Key             =   "cast"
+         EndProperty
+         BeginProperty ListImage24 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmClone.frx":9406
+            Key             =   "conversion"
          EndProperty
       EndProperty
    End
@@ -239,7 +243,7 @@ Dim vData
     
   'verify if name Exists
   Select Case ObjDbClone.ObjectType
-    Case "Domain", "Table", "View", "Function", "Aggregate", "Operator", "Type"
+    Case "Domain", "Table", "View", "Function", "Aggregate", "Operator", "Type", "Conversion"
       Set objTmp = CallByName(frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS), ObjDbClone.ObjectType & "s", VbGet)
     
     Case "Group", "User"
@@ -266,6 +270,14 @@ Dim vData
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TYP-" & GetID, txtNewName.Text, "type")
       objNode.Text = "Types (" & objNode.Children & ")"
     
+    Case "Conversion"
+      Set objTmp = CloneConversion(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
+    
+      'Add a new node and update the text on the parent
+      Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Conversions.Tag
+      Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "CNV-" & GetID, txtNewName.Text, "conversion")
+      objNode.Text = "Conversions (" & objNode.Children & ")"
+
     Case "Cast"
       Set objTmp = CloneCast(ctx.CurrentDB)
     

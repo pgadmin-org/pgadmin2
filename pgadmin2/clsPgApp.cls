@@ -145,6 +145,11 @@ Public Function CloneGroup(szNewName As String) 'As pgGroup
 '  CloneGroup = basClone.CloneGroup(szNewName)
 End Function
 
+'clone conversion
+Public Function CloneConversion(szNewName As String, szDatabase As String, szNamespace As String) 'As pgConversion
+'  CloneConversion = basClone.CloneConversion(szNewName,szDatabase,szNamespace)
+End Function
+
 'clone view
 Public Function CloneView(szNewName As String, szDatabase As String, szNamespace As String) 'As pgView
 '  CloneView = basClone.CloneView(szNewName,szDatabase,szNamespace)

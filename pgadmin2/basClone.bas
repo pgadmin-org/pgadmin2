@@ -26,7 +26,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.CopyObjDb", etFullDebu
 
   'vetify type object
   Select Case ctx.CurrentObject.ObjectType
-    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type"
+    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type", "Conversion"
       Set ObjDbClone = ctx.CurrentObject
       frmMain.mnuEditPaste.Enabled = True
       frmMain.mnuPopupPaste.Enabled = True
@@ -236,6 +236,21 @@ Dim objNewGroup As pgGroup
   Exit Function
   
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basClone.CloneGroup"
+End Function
+
+'clone conversion
+Public Function CloneConversion(szNewName As String, szDatabase As String, szNamespace As String) As pgConversion
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.CloneConversion(" & QUOTE & szNewName & QUOTE & "," & QUOTE & szDatabase & QUOTE & "," & QUOTE & szNamespace & QUOTE & ")", etFullDebug
+
+Dim objNewConversion As pgConversion
+
+  Set objNewConversion = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Conversions.Add(szNewName, False, ObjDbClone.ForEncoding, ObjDbClone.ToEncoding, ObjDbClone.Proc)
+  
+  Set CloneConversion = objNewConversion
+  Exit Function
+  
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basClone.CloneConversion"
 End Function
 
 'clone view

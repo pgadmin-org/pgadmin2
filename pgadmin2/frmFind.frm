@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmFind 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Find Object"
@@ -320,7 +320,7 @@ Begin VB.Form frmFind
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   29
+         NumListImages   =   30
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmFind.frx":1CFA
             Key             =   "aggregate"
@@ -436,6 +436,10 @@ Begin VB.Form frmFind
          BeginProperty ListImage29 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmFind.frx":BC02
             Key             =   "cast"
+         EndProperty
+         BeginProperty ListImage30 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmFind.frx":C7D4
+            Key             =   "conversion"
          EndProperty
       EndProperty
    End
@@ -583,7 +587,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.cmdFind_Click()", etFul
 
 Dim szName As String
 Dim szComment As String
-Dim szSql As String
+Dim szSQL As String
 Dim iLenName As Integer
 Dim iLenComment As Integer
 Dim iLenSql As Integer
@@ -609,7 +613,7 @@ Dim bSreachOwner As Boolean
   'find object
   szName = txtName.Text:  iLenName = Len(szName)
   szComment = txtComment.Text:   iLenComment = Len(szComment)
-  szSql = txtSql.Text:  iLenSql = Len(szSql)
+  szSQL = txtSql.Text:  iLenSql = Len(szSQL)
   
   Set objDatabase = frmMain.svr.Databases(cboDatabase.SelectedItem.Text)
   szSearchFor = cboSearchFor.SelectedItem.Key
@@ -715,13 +719,13 @@ Dim bSreachOwner As Boolean
             bFoundSql = False
             Select Case szSearchFor
               Case "WWR"
-                bFoundSql = objTmp.SQL = szSql
+                bFoundSql = objTmp.SQL = szSQL
               Case "BGN"
-                bFoundSql = Left(objTmp.SQL, iLenSql) = szSql
+                bFoundSql = Left(objTmp.SQL, iLenSql) = szSQL
               Case "END"
-                bFoundSql = Right(objTmp.SQL, iLenSql) = szSql
+                bFoundSql = Right(objTmp.SQL, iLenSql) = szSQL
               Case "SBR"
-                bFoundSql = InStr(objTmp.SQL, szSql) > 0
+                bFoundSql = InStr(objTmp.SQL, szSQL) > 0
             End Select
           End If
        

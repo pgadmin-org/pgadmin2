@@ -370,3 +370,4 @@ Public Type TOOLINFO
    lpszText As String
    lParam As Long
 End Type
+

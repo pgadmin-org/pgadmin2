@@ -128,7 +128,7 @@ On Error Resume Next
   End If
   
   Select Case vData.ObjectType
-    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type"
+    Case "Domain", "Table", "View", "Group", "User", "Function", "Aggregate", "Operator", "Cast", "Type", "Conversion"
       frmMain.mnuEditCopy.Enabled = True
       frmMain.mnuPopupCopy.Enabled = True
     Case Else
