@@ -73,6 +73,7 @@ Private lLastSystemOID As Long
 Private bIncludeSys As Boolean
 Private bDontLogErrors As Boolean
 Private bShowPassword As Boolean
+Private objDriverVersion As Version
 
 'Error Log
 'If an application is logging it's errors through the mechanism here, then any errors
@@ -201,6 +202,13 @@ Dim szVersion() As String
   If UBound(szVersion) >= 0 Then objVersion.Major = Val(szVersion(0))
   If UBound(szVersion) >= 1 Then objVersion.Minor = Val(szVersion(1))
   If UBound(szVersion) >= 2 Then objVersion.Revision = Val(szVersion(2))
+  
+  'Get the Driver Version
+  szVersion = Split(cnPostgreSQL.Properties("Driver Version"), ".")
+  If UBound(szVersion) >= 0 Then objDriverVersion.Major = Val(szVersion(0))
+  If UBound(szVersion) >= 1 Then objDriverVersion.Minor = Val(szVersion(1))
+  If UBound(szVersion) >= 2 Then objDriverVersion.Revision = Val(szVersion(2))
+  objDriverVersion.Description = Mid(cnPostgreSQL.Properties("DBMS Version"), 12)
   
   Exit Function
 Err_Handler:
@@ -364,6 +372,17 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get LastSystemOID()", etFullDebug
 
   LastSystemOID = lLastSystemOID
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Return the Driver Version
+Public Property Get DriverVersion() As Version
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DriverVersion()", etFullDebug
+
+  DriverVersion = objDriverVersion
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
