@@ -52,7 +52,7 @@ Begin VB.Form frmSQLOutput
          Height          =   330
          Left            =   2610
          TabIndex        =   13
-         ToolTipText     =   "Delete the selected record."
+         ToolTipText     =   "Refresh the query results."
          Top             =   45
          Width           =   825
       End
@@ -438,11 +438,23 @@ Dim rsCount As New Recordset
       If txtField(X).Tag = "Y" Then
         Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
           Case adDate
-            szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISODate(txtField(X).Text) & "', "
+            If txtField(X).Text = "" Then
+              szValues = szValues & fmtID(lblField(X).Caption) & " = NULL, "
+            Else
+              szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISODate(txtField(X).Text) & "', "
+            End If
           Case adDBDate
-            szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISODate(txtField(X).Text) & "', "
+            If txtField(X).Text = "" Then
+              szValues = szValues & fmtID(lblField(X).Caption) & " = NULL, "
+            Else
+              szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISODate(txtField(X).Text) & "', "
+            End If
           Case adDBTimeStamp
-            szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISOTimestamp(txtField(X).Text) & "', "
+            If txtField(X).Text = "" Then
+              szValues = szValues & fmtID(lblField(X).Caption) & " = NULL, "
+            Else
+              szValues = szValues & fmtID(lblField(X).Caption) & " = '" & MakeISOTimestamp(txtField(X).Text) & "', "
+            End If
           Case Else
             szValues = szValues & fmtID(lblField(X).Caption) & " = '" & dbSZ(txtField(X).Text) & "', "
         End Select
