@@ -31,9 +31,9 @@ Dim szTableName As String
   End If
 
   If TypeDR = EDR_Depend Then
-    szSQL = "SELECT refclassid, refobjid , refobjsubid, deptype FROM pg_depend WHERE refclassid>0 AND objid=" & Oid & " ORDER BY refclassid"
+    szSQL = "SELECT DISTINCT ON (refclassid, refobjid) refclassid, refobjid, refobjsubid, deptype FROM pg_depend WHERE refclassid > 0 AND objid = " & Oid & " ORDER BY refclassid"
   ElseIf TypeDR = EDR_Reference Then
-    szSQL = "SELECT classid, objid, objsubid, deptype FROM pg_depend WHERE classid > 0 AND refobjid=" & Oid & " ORDER BY classid"
+    szSQL = "SELECT DISTINCT ON (classid, objid) classid, objid, objsubid, deptype FROM pg_depend WHERE classid > 0 AND refobjid = " & Oid & " ORDER BY classid"
   End If
   Set rsDep = objServer.ExecSQL(szSQL, cnDatabase)
   While Not rsDep.EOF
@@ -45,13 +45,12 @@ Dim szTableName As String
     szTableName = rs!relname
        
     Select Case szTableName
-'pg_opclass
       
-      Case "pg_attrdef"   'default value
-        szSQL = "SELECT c.relname,c.oid,(select attname FROM pg_attribute WHERE attnum=a.adnum AND attrelid=c.oid) as attname FROM pg_class c, pg_attrdef a WHERE a.adrelid=c.oid AND a.oid=" & dOID
-        Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-        Set objTmp = GetObjectTypePgClass(rs!Oid, cnDatabase, Database)
-        colDep.Add objTmp(rs!relname).Columns(rs!attname)
+''      Case "pg_attrdef"   'default value
+''        szSQL = "SELECT c.relname,c.oid,(select attname FROM pg_attribute WHERE attnum=a.adnum AND attrelid=c.oid) as attname FROM pg_class c, pg_attrdef a WHERE a.adrelid=c.oid AND a.oid=" & dOID
+''        Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+''        Set objTmp = GetObjectTypePgClass(rs!Oid, cnDatabase, Database)
+''        colDep.Add objTmp(rs!relname).Columns(rs!attname)
       
       Case "pg_trigger"   'trigger
         szSQL = "SELECT c.relname,c.oid FROM pg_class c, pg_trigger t WHERE t.tgrelid=c.oid AND t.oid=" & dOID
