@@ -73,16 +73,16 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "hbxProperties(1)"
-      Tab(1).Control(1)=   "cmdLoad"
+      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(1)=   "hbxProperties(1)"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(0)"
-      Tab(2).Control(1)=   "cmdRemove"
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(3)=   "fraAdd"
+      Tab(2).Control(0)=   "fraAdd"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "cmdRemove"
+      Tab(2).Control(3)=   "lvProperties(0)"
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -504,7 +504,7 @@ Dim szOldName As String
     
   Else
     If hbxProperties(1).Tag = "Y" Then
-      If MsgBox("Updating view definitions will break other views or functions that refer the updated one. Are you sure you want to continue?", vbExclamation + vbYesNo, "Warning") = vbNo Then Exit Sub
+      If MsgBox("Updating view definitions may break views, functions, rules or other objects that refer to this one. Are you sure you want to continue?", vbExclamation + vbYesNo, "Warning") = vbNo Then Exit Sub
     End If
     
     StartMsg "Updating View..."

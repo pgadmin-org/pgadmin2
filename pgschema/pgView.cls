@@ -358,6 +358,9 @@ Dim szSQL As String
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   
+  'Reset the comment cache
+  objServer.Databases(Database).KillCommentCache
+  
   Exit Property
   
 Err_Handler:

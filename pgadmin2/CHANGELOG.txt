@@ -1,3 +1,8 @@
+1.4.??
+------
+
+Refresh comment cache after editting views.
+
 1.4.12
 ------
 
