@@ -44,6 +44,7 @@ End Property
 
 'Get the Database Name
 Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Database()", etFullDebug
 
@@ -106,6 +107,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Identifi
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Identifier()", etFullDebug
@@ -118,6 +120,7 @@ End Property
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get ObjectType()", etFullDebug
 
@@ -138,6 +141,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let SystemOb
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
+Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get SystemObject()", etFullDebug
 
@@ -341,7 +345,8 @@ Dim szSQL As String
   szSQL = "COMMENT ON SEQUENCE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
-    
+  If Not SystemObject Then Commit rlUpdate, "Updated object comment."
+  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
@@ -392,6 +397,8 @@ Dim rs As New Recordset
     szACL = rs!relacl & ""
   End If
   
+  If Not SystemObject Then Commit rlUpdate, "Updated object ACL."
+  
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
@@ -439,6 +446,8 @@ Dim rs As New Recordset
     szACL = rs!relacl & ""
   End If
   
+  If Not SystemObject Then Commit rlUpdate, "Updated object ACL."
+  
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
@@ -451,6 +460,7 @@ Err_Handler:
 End Sub
 
 Public Property Get SQL(Optional Reset As Boolean) As String
+Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get SQL()", etFullDebug
 Dim szSQL As String
@@ -474,3 +484,15 @@ Dim szSQL As String
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Public Sub Commit(UpdateType As rlLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit object changes."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+  objServer.Databases(Database).LogRevision ObjectType, Identifier, SQL, UpdateComment, UpdateType
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
+

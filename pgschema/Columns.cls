@@ -24,6 +24,18 @@ Private cnDatabase As Connection
 Dim lTableOID As Long
 Dim szTable As String
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -112,6 +124,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Add(" & QUOTE & Name & Q
 
 Dim rs As New Recordset
 Dim szSQL As String
+Dim objColumn As pgColumn
   
   'Generate the szSQL query to create the new object and execute
   szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE
@@ -138,8 +151,11 @@ Dim szSQL As String
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set Add = iAdd(rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "")
+    Set objColumn = iAdd(rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "")
   End If
+  
+  objServer.Databases(Database).Tables(szTable).Commit rlUpdate, "Added column."
+  Set Add = objColumn
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -154,6 +170,7 @@ End Function
 
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
+Attribute Rename.VB_Description = "Rename the specified column."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
@@ -164,6 +181,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldNa
   objColumn.Identifier = NewName
   mCol.Add objColumn, ULEncode(NewName), ULEncode(OldName)
   mCol.Remove ULEncode(OldName)
+  objServer.Databases(Database).Tables(szTable).Commit rlUpdate, "Renamed column."
   
   Exit Sub
 Err_Handler: objServer.iLogError Err

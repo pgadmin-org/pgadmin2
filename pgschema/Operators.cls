@@ -22,6 +22,18 @@ Private mCol As Collection
 Private cnDatabase As Connection
 Private szDB As String
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -112,6 +124,7 @@ Dim rs As New Recordset
 Dim szSQL As String
 Dim szLOT As String
 Dim szROT As String
+Dim objOperator As pgOperator
   
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE OPERATOR " & Name
@@ -144,11 +157,14 @@ Dim szROT As String
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set Add = iAdd(rs!OID, rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & "")
+    Set objOperator = iAdd(rs!OID, rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & "")
   End If
     
   'Invalidate the Operator Cache...
   objServer.Databases(szDB).KillOperatorCache
+  
+  If Not objOperator.SystemObject Then objOperator.Commit rlAdd, "Created object."
+  Set Add = objOperator
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -216,6 +232,7 @@ Dim szLOT As String
   'Generate/Execute SQL to drop the Operator.
   szSQL = "DROP OPERATOR " & mCol(ULEncode(Key)).Name & "(" & szLOT & ", " & szROT & ")"
   objServer.ExecSQL szSQL, cnDatabase
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlAdd, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -300,6 +317,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
+Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String

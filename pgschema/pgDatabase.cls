@@ -37,6 +37,7 @@ Private szOwner As String
 Private lEncoding As Long
 Private szEncoding As String
 Private lStatus As dbStatus
+Private bRevisionLogging As Boolean
 Private cnDatabase As New Connection
 
 Private szTypeCache As Collection
@@ -227,6 +228,7 @@ End Function
 
 'Return the Aggregates Collection
 Public Property Get Aggregates() As Aggregates
+Attribute Aggregates.VB_Description = "Returns the Aggregates collection."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Aggregates()", etFullDebug
 
@@ -386,6 +388,7 @@ End Property
 
 'Return the ADO Connection String
 Public Property Get ConnectionString() As String
+Attribute ConnectionString.VB_Description = "Returns the database connection string."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ConnectionString()", etFullDebug
 
@@ -452,6 +455,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Identifi
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Identifier()", etFullDebug
@@ -464,6 +468,7 @@ End Property
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ObjectType()", etFullDebug
 
@@ -484,6 +489,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let SystemOb
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
+Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get SystemObject()", etFullDebug
 
@@ -586,7 +592,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Comment(
 Dim szSQL As String
 
   'Connect if required
-  dbConnect
+  If dbConnect = False Then Exit Property
   
   szSQL = "COMMENT ON DATABASE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
@@ -607,6 +613,7 @@ End Property
 
 'Get the Database Status
 Public Property Get Status() As dbStatus
+Attribute Status.VB_Description = "Returns the database connection status."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Status()", etFullDebug
   
@@ -615,6 +622,151 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Status()
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+
+'Database Revision Logging
+Public Property Let RevisionLogging(ByVal vData As Boolean)
+Attribute RevisionLogging.VB_Description = "Sets/Returns whether or not Revision Logging is active."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let RevisionLogging(" & vData & ")", etFullDebug
+
+Dim vObject As Variant
+Dim vChildObject As Variant
+
+  If dbConnect = False Then Exit Property
+  If vData Then
+    If Not RevisionLogging Then
+      objServer.ExecSQL SQL_CREATE_REVLOG, cnDatabase
+      objServer.ExecSQL "ALTER TABLE pgadmin_revlog OWNER TO " & QUOTE & Owner & QUOTE, cnDatabase
+      
+      'Log the current database
+      'Aggregates
+      For Each vObject In Aggregates
+        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+      Next vObject
+    
+      'Functions
+      For Each vObject In Functions
+        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+      Next vObject
+    
+      'Languages
+      For Each vObject In Languages
+        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+      Next vObject
+    
+      'Operators
+      For Each vObject In Operators
+        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+      Next vObject
+    
+      'Sequences
+      For Each vObject In Sequences
+        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+      Next vObject
+    
+      'Tables
+      For Each vObject In Tables
+        If Not vObject.SystemObject Then
+          vObject.Commit rlAdd, "Revision logging enabled."
+        
+          'Indexes
+          For Each vChildObject In vObject.Indexes
+            If Not vChildObject.SystemObject Then vChildObject.Commit rlAdd, "Revision logging enabled."
+          Next vChildObject
+          
+          'Rules
+          For Each vChildObject In vObject.Rules
+            If Not vChildObject.SystemObject Then vChildObject.Commit rlAdd, "Revision logging enabled."
+          Next vChildObject
+         
+          'Triggers
+          For Each vChildObject In vObject.Triggers
+            If Not vChildObject.SystemObject Then vChildObject.Commit rlAdd, "Revision logging enabled."
+          Next vChildObject
+        End If
+      Next vObject
+    
+      'Types
+      For Each vObject In Types
+        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+      Next vObject
+    
+      'Views
+      For Each vObject In Views
+        If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
+      Next vObject
+      bRevisionLogging = True
+    End If
+  Else
+    If RevisionLogging Then
+      objServer.ExecSQL SQL_DROP_REVLOG, cnDatabase
+      bRevisionLogging = False
+    End If
+  End If
+  
+  'Kill the tables collection and comment cache
+  Set colTables = Nothing
+  KillCommentCache
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get RevisionLogging() As Boolean
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get RevisionLogging()", etFullDebug
+
+Static bCached As Boolean
+Dim szSQL As String
+Dim rs As New Recordset
+
+  If dbConnect = False Then Exit Property
+  If Not bCached Then
+    szSQL = "SELECT * FROM pg_class WHERE relname = 'pgadmin_revlog'"
+    Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+    If rs.EOF Then
+      bRevisionLogging = False
+    Else
+      bRevisionLogging = True
+    End If
+  End If
+  
+  RevisionLogging = bRevisionLogging
+  bCached = True
+  Set rs = Nothing
+    
+  Exit Property
+Err_Handler:
+  Set rs = Nothing
+  objServer.iLogError Err
+End Property
+
+Friend Sub LogRevision(szType As String, szIdentifier As String, szDefinition As String, szComment As String, rlAction As rlLogType)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LogRevision(" & QUOTE & szType & QUOTE & ", " & QUOTE & szIdentifier & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ", " & QUOTE & szComment & QUOTE & ", " & rlAction & ")", etFullDebug
+
+Dim szSQL As String
+Dim szAction As String
+
+  If dbConnect = False Then Exit Sub
+  If Not RevisionLogging Then Exit Sub
+  szType = dbSZ(szType)
+  szIdentifier = dbSZ(szIdentifier)
+  szDefinition = dbSZ(szDefinition)
+  szComment = dbSZ(szComment)
+  Select Case rlAction
+    Case rlAdd
+      szAction = "A"
+    Case rlUpdate
+      szAction = "U"
+    Case rlDelete
+      szAction = "D"
+  End Select
+  szSQL = "INSERT INTO pgadmin_revlog(rev_action, rev_type, rev_identifier, rev_version, rev_definition, rev_comment) VALUES ('" & szAction & "', '" & szType & "', '" & szIdentifier & "', (SELECT CASE WHEN max(rev_version) IS NULL THEN 0 ELSE max(rev_version) +1::int4 END from pgadmin_revlog WHERE rev_type = '" & szType & "' AND rev_identifier = '" & szIdentifier & "'), '" & szDefinition & "', '" & szComment & "');"
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
@@ -735,6 +887,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL() As String
+Attribute SQL.VB_Description = "Returns the objects reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.SQL()", etFullDebug
 Dim szSQL As String
@@ -755,6 +908,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 Public Property Get Schema(Optional ResetSequences As Boolean) As String
+Attribute Schema.VB_Description = "Retunrs the database schema a an SQL script."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.Schema(" & ResetSequences & ")", etFullDebug
 Dim szSQL As String

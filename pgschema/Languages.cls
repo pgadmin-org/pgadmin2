@@ -22,6 +22,18 @@ Private mCol As Collection
 Private cnDatabase As Connection
 Private szDB As String
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -88,6 +100,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Languages.Add(" & QUOTE & Name &
 Dim rs As New Recordset
 Dim objNewMember As pgLanguage
 Dim szSQL As String
+Dim objLanguage As pgLanguage
   
   'Create a new object
   Set objNewMember = New pgLanguage
@@ -117,10 +130,13 @@ Dim szSQL As String
   End If
   
   'Return the object created
-  Set Add = objNewMember
+  Set objLanguage = objNewMember
   
   'Invalidate the Language Cache...
   objServer.Databases(szDB).KillLanguageCache
+  
+  If Not objLanguage.SystemObject Then objLanguage.Commit rlAdd, "Created object."
+  Set Add = objLanguage
   
   'Cleanup
   Set objNewMember = Nothing
@@ -182,6 +198,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Language.
   szSQL = "DROP PROCEDURAL LANGUAGE '" & dbSZ(mCol(ULEncode(Key)).Name) & "'"
   objServer.ExecSQL szSQL, cnDatabase
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -266,6 +283,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
+Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String

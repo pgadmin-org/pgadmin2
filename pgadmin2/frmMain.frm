@@ -1908,6 +1908,12 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Logging?", "property", "property")
+  If svr.Databases(Node.Text).RevisionLogging Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Database?", "property", "property")
   If svr.Databases(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"

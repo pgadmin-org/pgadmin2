@@ -40,6 +40,7 @@ End Property
 
 'Get the Database Name
 Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Database()", etFullDebug
 
@@ -102,6 +103,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Identifi
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Identifier()", etFullDebug
@@ -114,6 +116,7 @@ End Property
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get ObjectType()", etFullDebug
 
@@ -134,6 +137,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let SystemOb
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
+Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get SystemObject()", etFullDebug
 
@@ -204,6 +208,7 @@ Dim szSQL As String
   szSQL = "UPDATE pg_language SET lancompiler = '" & dbSZ(vData) & "' WHERE oid = " & lOID
   objServer.ExecSQL szSQL, cnDatabase
   szComment = vData
+  If Not SystemObject Then Commit rlUpdate, "Updated object comment."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -220,6 +225,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 Public Property Get SQL() As String
+Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get SQL()", etFullDebug
 Dim szSQL As String
@@ -239,4 +245,15 @@ Dim szMember As Variant
   Exit Sub
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Public Sub Commit(UpdateType As rlLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit object changes."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+  objServer.Databases(Database).LogRevision ObjectType, Identifier, SQL, UpdateComment, UpdateType
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
 

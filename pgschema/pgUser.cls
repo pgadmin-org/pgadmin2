@@ -58,6 +58,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Identifier("
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get Identifier()", etFullDebug
@@ -70,6 +71,7 @@ End Property
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get ObjectType()", etFullDebug
 
@@ -253,6 +255,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 Public Property Get SQL() As String
+Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgUser.SQL()", etFullDebug
 Dim szSQL As String

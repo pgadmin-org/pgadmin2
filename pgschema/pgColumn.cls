@@ -46,6 +46,7 @@ End Property
 
 'Get the Database Name
 Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Database()", etFullDebug
 
@@ -66,6 +67,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Table(" & 
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Table() As String
+Attribute Table.VB_Description = "Returns the parent table name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Table()", etFullDebug
 
@@ -97,6 +99,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let OID(" & vD
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get OID() As Long
+Attribute OID.VB_Description = "Returns the column OID (PostgreSQL 7.1 or lower)."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get OID()", etFullDebug
 
@@ -118,7 +121,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Friend Property Let Name(ByVal vData As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Name(" & vData & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Name(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
@@ -151,6 +154,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Identifier
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Identifier()", etFullDebug
@@ -163,6 +167,7 @@ End Property
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get ObjectType()", etFullDebug
 
@@ -183,6 +188,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let SystemObje
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
+Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get SystemObject()", etFullDebug
 
@@ -245,6 +251,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let NumericSca
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get NumericScale() As Long
+Attribute NumericScale.VB_Description = "Returns the numeric scale for numeric columns."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get NumericScale()", etFullDebug
 
@@ -341,6 +348,7 @@ Dim szSQL As String
   End If
   objServer.ExecSQL szSQL, cnDatabase
   szDefault = vData
+  If Not SystemObject Then objServer.Databases(Database).Tables(Table).Commit rlUpdate, "Updated column default value."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -364,7 +372,8 @@ Dim szSQL As String
 
   szSQL = "COMMENT ON COLUMN " & QUOTE & szTable & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
-  objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+  objServer.Databases(Database).KillCommentCache
+  If Not SystemObject Then objServer.Databases(Database).Tables(Table).Commit rlUpdate, "Updated object comment."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err

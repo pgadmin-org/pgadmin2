@@ -21,6 +21,18 @@ Option Explicit
 Private mCol As Collection
 Private cnDatabase As Connection
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler

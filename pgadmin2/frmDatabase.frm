@@ -38,7 +38,7 @@ Begin VB.Form frmDatabase
       Default         =   -1  'True
       Height          =   375
       Left            =   3285
-      TabIndex        =   7
+      TabIndex        =   8
       Top             =   6480
       Width           =   1095
    End
@@ -47,7 +47,7 @@ Begin VB.Form frmDatabase
       Caption         =   "Cancel"
       Height          =   375
       Left            =   4410
-      TabIndex        =   8
+      TabIndex        =   9
       Top             =   6480
       Width           =   1095
    End
@@ -88,7 +88,21 @@ Begin VB.Form frmDatabase
       Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "cboProperties(0)"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).ControlCount=   11
+      Tab(0).Control(11)=   "chkProperties(0)"
+      Tab(0).Control(11).Enabled=   0   'False
+      Tab(0).ControlCount=   12
+      Begin VB.CheckBox chkProperties 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Revision Logging"
+         Enabled         =   0   'False
+         Height          =   195
+         Index           =   0
+         Left            =   90
+         TabIndex        =   6
+         ToolTipText     =   "Is Revision Logging enabled for this database? Once enabled, it can only be switched off by the database owner."
+         Top             =   2745
+         Width           =   2040
+      End
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
          Index           =   0
@@ -150,15 +164,15 @@ Begin VB.Form frmDatabase
          Width           =   3390
       End
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   3255
+         Height          =   2895
          Index           =   0
          Left            =   135
-         TabIndex        =   6
+         TabIndex        =   7
          ToolTipText     =   "Comments about the database."
-         Top             =   2745
+         Top             =   3105
          Width           =   5190
          _ExtentX        =   9155
-         _ExtentY        =   5741
+         _ExtentY        =   5106
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -178,7 +192,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   720
          Width           =   420
       End
@@ -188,7 +202,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   12
+         TabIndex        =   13
          Top             =   1125
          Width           =   285
       End
@@ -198,7 +212,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   2
          Left            =   135
-         TabIndex        =   11
+         TabIndex        =   12
          Top             =   1530
          Width           =   465
       End
@@ -208,7 +222,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   3
          Left            =   135
-         TabIndex        =   10
+         TabIndex        =   11
          Top             =   1935
          Width           =   675
       End
@@ -218,7 +232,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   4
          Left            =   135
-         TabIndex        =   9
+         TabIndex        =   10
          Top             =   2340
          Width           =   330
       End
@@ -238,6 +252,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim bNew As Boolean
+Dim bSetting As Boolean
 Dim objDatabase As pgDatabase
 
 Private Sub cmdCancel_Click()
@@ -278,6 +293,11 @@ Dim objNode As Node
   Else
     StartMsg "Updating Database..."
     If hbxProperties(0).Tag = "Y" Then objDatabase.Comment = hbxProperties(0).Text
+  End If
+  
+  'Enable/Disable Revision Logging
+  If chkProperties(0).Tag = "Y" Then
+    frmMain.svr.Databases(txtProperties(0).Text).RevisionLogging = Bin2Bool(chkProperties(0).Value)
   End If
   
   'Simulate a node click to refresh the ListView
@@ -330,6 +350,7 @@ Dim objItem As ComboItem
     cboProperties(0).Locked = False
     txtProperties(3).BackColor = &H80000005
     txtProperties(3).Locked = False
+    chkProperties(0).Enabled = False
     hbxProperties(0).BackColor = &H80000005
     hbxProperties(0).Locked = False
     
@@ -340,6 +361,7 @@ Dim objItem As ComboItem
     bNew = False
     Me.Caption = "Database: " & objDatabase.Identifier
     If objDatabase.Status <> statInaccessible Then
+      chkProperties(0).Enabled = True
       hbxProperties(0).BackColor = &H80000005
       hbxProperties(0).Locked = False
     End If
@@ -349,6 +371,9 @@ Dim objItem As ComboItem
     Set objItem = cboProperties(0).ComboItems.Add(, , objDatabase.EncodingName, "encoding", "encoding")
     objItem.Selected = True
     txtProperties(3).Text = objDatabase.Path
+    bSetting = True
+    chkProperties(0).Value = Bool2Bin(objDatabase.RevisionLogging)
+    bSetting = False
     hbxProperties(0).Text = objDatabase.Comment
   End If
   
@@ -356,6 +381,7 @@ Dim objItem As ComboItem
   For X = 0 To 3
     txtProperties(X).Tag = "N"
   Next X
+  chkProperties(0).Tag = "N"
   hbxProperties(0).Tag = "N"
   
   Exit Sub
@@ -380,4 +406,36 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.txtProperties_Chang
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.txtProperties_Change"
+End Sub
+
+Private Sub chkProperties_Click(Index As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.chkProperties_Click(" & Index & ")", etFullDebug
+
+Dim bOrigSetting As Boolean
+
+  If Not bSetting Then
+    bOrigSetting = bSetting
+    If Not (objDatabase Is Nothing) Then
+      If (objDatabase.RevisionLogging) And (objDatabase.Owner <> ctx.Username) Then
+        MsgBox "Only the database owner can switch off Revision Logging.", vbExclamation, "Error"
+        bSetting = True
+        chkProperties(0).Value = Bool2Bin(objDatabase.RevisionLogging)
+        bSetting = bOrigSetting
+        Exit Sub
+      End If
+      If (objDatabase.RevisionLogging) And (objDatabase.Owner = ctx.Username) Then
+        If MsgBox("Switching of Revision Logging will delete the log table and all the Revision data it contains. Are you sure you wish to continue?", vbQuestion + vbYesNo, "Warning") = vbNo Then
+          bSetting = True
+          chkProperties(0).Value = Bool2Bin(objDatabase.RevisionLogging)
+          bSetting = bOrigSetting
+          Exit Sub
+        End If
+      End If
+    End If
+    chkProperties(0).Tag = "Y"
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmUser.chkProperties_Click"
 End Sub

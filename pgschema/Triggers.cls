@@ -24,6 +24,18 @@ Private cnDatabase As Connection
 Dim lTableOID As Long
 Dim szTable As String
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -99,6 +111,7 @@ Dim szSQL As String
 Dim szExecutes As String
 Dim szForEach As String
 Dim szEvent As String
+Dim objTrigger As pgTrigger
   
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE TRIGGER " & QUOTE & Name & QUOTE
@@ -138,8 +151,11 @@ Dim szEvent As String
     If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "Update OR "
     If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-    Set Add = iAdd(rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
+    Set objTrigger = iAdd(rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
   End If
+  
+  If Not objTrigger.SystemObject Then objTrigger.Commit rlAdd, "Created object."
+  Set Add = objTrigger
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -199,6 +215,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Trigger.
   szSQL = "DROP TRIGGER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & mCol(ULEncode(Key)).Table & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -300,6 +317,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
+Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String

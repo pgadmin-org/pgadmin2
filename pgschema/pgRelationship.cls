@@ -36,6 +36,7 @@ End Property
 
 'Get the Database Name
 Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Database()", etFullDebug
 
@@ -56,6 +57,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Let Iden
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get Identifier()", etFullDebug
@@ -68,6 +70,7 @@ End Property
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgRelationship.Property Get ObjectType()", etFullDebug
 

@@ -21,6 +21,18 @@ Option Explicit
 Private mCol As Collection
 Private cnDatabase As Connection
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -43,7 +55,7 @@ Dim rs As New Recordset
 
   'Create a new object
   Set objNewMember = New pgTable
-  If lOID <= objServer.LastSystemOID Then
+  If (lOID <= objServer.LastSystemOID) Or (Left(szName, 8) = "pgadmin_") Then
     If Not objServer.IncludeSys Then Exit Sub
     objNewMember.SystemObject = True
   Else
@@ -115,7 +127,7 @@ Dim szSQL As String
     End If
   End If
   
-  'Return the object created
+  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rlAdd, "Created object."
   Set Add = mCol(ULEncode(Name))
   
   'Cleanup
@@ -132,16 +144,19 @@ End Function
 
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
+Attribute Rename.VB_Description = "Rename the specified table."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objTable As New pgTable
-  
+    
+  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rlDelete, "Deleted object (prior to rename)."
   Set objTable = mCol(ULEncode(OldName))
   objTable.Name = NewName
   objTable.Identifier = NewName
   mCol.Add objTable, ULEncode(NewName), ULEncode(OldName)
   mCol.Remove ULEncode(OldName)
+  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rlAdd, "Created object (following rename)."
   
   Exit Sub
 Err_Handler:
@@ -196,6 +211,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Language.
   szSQL = "DROP TABLE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -282,6 +298,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
+Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String

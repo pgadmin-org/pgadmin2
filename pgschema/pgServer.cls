@@ -36,7 +36,7 @@ End Type
 Public Enum LogLevel
   llNone = 0
   llErrors = 1
-  llsql = 2
+  llSQL = 2
   llMiniDebug = 3
   llFullDebug = 4
 End Enum
@@ -61,6 +61,12 @@ Public Enum dbStatus
   statClosed = 0
   statOpen = 1
   statInaccessible = 2
+End Enum
+
+Public Enum rlLogType
+  rlAdd = 0
+  rlUpdate = 1
+  rlDelete = 2
 End Enum
 
 'Collections
@@ -307,6 +313,7 @@ End Sub
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get ObjectType()", etFullDebug
 
@@ -318,6 +325,7 @@ End Property
 
 'Return the Identifier
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Identifier()", etFullDebug
@@ -363,6 +371,7 @@ End Property
 
 'Return the ODBC Driver Name
 Public Property Get DriverName() As String
+Attribute DriverName.VB_Description = "Returns the ODBC driver name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DriverName()", etFullDebug
 
@@ -390,6 +399,7 @@ End Property
 
 'Return the Driver Version
 Public Property Get DriverVersion() As Version
+Attribute DriverVersion.VB_Description = "Returns the ODBC driver version."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get DriverVersion()", etFullDebug
 
@@ -471,6 +481,7 @@ End Property
 
 'Set/Return ShowPassword
 Public Property Let ShowPassword(ByVal vData As Boolean)
+Attribute ShowPassword.VB_Description = "Sets/Returns whether passwords should be included in logfiles."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let ShowPassword(" & vData & ")", etFullDebug
 
@@ -609,6 +620,7 @@ End Property
 
 'Set/Return the MasterDB
 Public Property Let MasterDB(ByVal vData As String)
+Attribute MasterDB.VB_Description = "Sets/Returns the name of the master connection database."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let MasterDB(" & QUOTE & vData & QUOTE & ")", etFullDebug
 

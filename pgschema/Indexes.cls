@@ -24,6 +24,18 @@ Private cnDatabase As Connection
 Dim lTableOID As Long
 Dim szTable As String
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -100,6 +112,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Indexes.Add(" & QUOTE & Name & Q
 
 Dim rs As New Recordset
 Dim szSQL As String
+Dim objIndex As pgIndex
   
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE"
@@ -125,8 +138,11 @@ Dim szSQL As String
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set Add = iAdd(rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & "")
+    Set objIndex = iAdd(rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & "")
   End If
+  
+  If Not objIndex.SystemObject Then objIndex.Commit rlAdd, "Created object."
+  Set Add = objIndex
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -187,6 +203,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Rule.
   szSQL = "DROP INDEX " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -265,6 +282,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
+Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String

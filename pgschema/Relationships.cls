@@ -23,6 +23,18 @@ Private cnDatabase As Connection
 Dim szLocCols As String
 Dim szRefCols As String
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -95,6 +107,7 @@ End Property
 
 'Refresh the collection
 Public Sub Refresh()
+Attribute Refresh.VB_Description = "Refrsh the collection."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Relationships.Refresh()", etFullDebug
 

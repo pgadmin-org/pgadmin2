@@ -44,6 +44,11 @@ Dim szType As String
 Dim szIdentifier As String
 Dim szPath() As String
 
+  If ctx.CurrentObject.SystemObject Then
+    MsgBox "You cannot drop system objects!", vbExclamation, "Error"
+    Exit Sub
+  End If
+  
   If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
   StartMsg "Dropping " & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.Identifier
         

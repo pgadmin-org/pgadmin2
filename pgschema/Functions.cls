@@ -22,6 +22,18 @@ Private mCol As Collection
 Private cnDatabase As Connection
 Private szDB As String
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -93,6 +105,7 @@ Dim rs As New Recordset
 Dim szSQL As String
 Dim fFunc As pgFunction
 Dim bFlag As Boolean
+Dim objFunction As pgFunction
 
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE FUNCTION " & QUOTE & Name & QUOTE
@@ -131,13 +144,16 @@ Dim bFlag As Boolean
     Next fFunc
     If bFlag = False Then
       If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
-        Set Add = iAdd(rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, rs!proisstrict, rs!proargtypes & "")
+        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, rs!proisstrict, rs!proargtypes & "")
       Else
-        Set Add = iAdd(rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, False, rs!proargtypes & "")
+        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, False, rs!proargtypes & "")
       End If
     End If
     rs.MoveNext
   Wend
+  
+  If Not objFunction.SystemObject Then objFunction.Commit rlAdd, "Created object."
+  Set Add = objFunction
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -207,6 +223,7 @@ Dim vArg As Variant
   'Generate/Execute SQL to drop the Language.
   szSQL = "DROP FUNCTION " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE & szArgs
   objServer.ExecSQL szSQL, cnDatabase
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -292,6 +309,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
+Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String

@@ -44,6 +44,7 @@ End Property
 
 'Get the Database Name
 Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Database()", etFullDebug
 
@@ -106,6 +107,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Identif
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object Identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Identifier()", etFullDebug
@@ -118,6 +120,7 @@ End Property
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get ObjectType()", etFullDebug
 
@@ -296,14 +299,19 @@ End Property
 
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
-  szSQL = "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " " & QUOTE & szInputType & QUOTE & " IS '" & dbSZ(vData) & "'"
+  If szInputType = "opaque" Then
+    szSQL = "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " * IS '" & dbSZ(vData) & "'"
+  Else
+    szSQL = "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " " & QUOTE & szInputType & QUOTE & " IS '" & dbSZ(vData) & "'"
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+  objServer.Databases(Database).KillCommentCache
+  If Not SystemObject Then Commit rlUpdate, "Updated object comment."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -313,13 +321,14 @@ Attribute Comment.VB_Description = "Sets/Returns the Aggregate comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Comment()", etFullDebug
   
-  Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+  Comment = objServer.Databases(Database).LookupComment(lOID)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
 Public Property Get SQL() As String
+Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get SQL()", etFullDebug
 Dim szSQL As String
@@ -340,11 +349,28 @@ Dim szSQL As String
   If szInitialCondition <> "" Then szSQL = szSQL & ", INITCOND = '" & szInitialCondition & "'"
   szSQL = szSQL & ");" & vbCrLf
           
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " " & QUOTE & dbSZ(szInputType) & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+  If Comment <> "" Then
+    If szInputType = "opaque" Then
+      szSQL = szSQL & "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " * IS '" & dbSZ(Comment) & "';" & vbCrLf
+    Else
+      szSQL = szSQL & "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " " & QUOTE & dbSZ(szInputType) & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+    End If
+  End If
     
   SQL = szSQL
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err
 End Property
+
+Public Sub Commit(UpdateType As rlLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit changes."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+  objServer.Databases(Database).LogRevision ObjectType, Identifier, SQL, UpdateComment, UpdateType
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
 

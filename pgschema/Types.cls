@@ -22,6 +22,18 @@ Private mCol As Collection
 Private cnDatabase As Connection
 Private szDB As String
 
+'Get the Database Name
+Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Database()", etFullDebug
+
+  Database = GetDatabase(cnDatabase.ConnectionString)
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
 On Error GoTo Err_Handler
@@ -107,6 +119,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & QUOTE & Name & QU
 
 Dim rs As New Recordset
 Dim szSQL As String
+Dim objType As pgType
 
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE TYPE " & QUOTE & dbSZ(Name) & QUOTE
@@ -140,14 +153,17 @@ Dim szSQL As String
   
   If Not rs.EOF Then
     If objVersion.Major >= 7 And objVersion.Minor >= 1 Then
-      Set Add = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
+      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
     Else
-      Set Add = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", "")
+      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", "")
     End If
   End If
   
   'Invalidate the Type Cache...
   objServer.Databases(szDB).KillTypeCache
+  
+  If Not objType.SystemObject Then objType.Commit rlAdd, "Created object."
+  Set Add = objType
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -207,6 +223,7 @@ Dim szSQL As String
   'Generate/Execute SQL to drop the Language.
   szSQL = "DROP TYPE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
+  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rlDelete, "Deleted object."
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
@@ -295,6 +312,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
+Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String

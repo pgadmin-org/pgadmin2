@@ -158,6 +158,7 @@ End Property
 
 'Refresh the collection
 Public Sub Refresh()
+Attribute Refresh.VB_Description = "Refreesh the collection."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Refresh()", etFullDebug
 
@@ -208,6 +209,7 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 Public Property Get SQL() As String
+Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get SQL()", etFullDebug
 Dim szSQL As String

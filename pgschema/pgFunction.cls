@@ -66,6 +66,7 @@ End Property
 
 'Get the Database Name
 Public Property Get Database() As String
+Attribute Database.VB_Description = "Returns the parent database name."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Database()", etFullDebug
 
@@ -128,6 +129,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Identifi
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Identifier() As String
+Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Identifier()", etFullDebug
@@ -140,6 +142,7 @@ End Property
 
 'Return the Object Type
 Public Property Get ObjectType() As String
+Attribute ObjectType.VB_Description = "Returns the object type."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get ObjectType()", etFullDebug
 
@@ -160,6 +163,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let SystemOb
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
+Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SystemObject()", etFullDebug
 
@@ -323,7 +327,8 @@ Dim X As Long
 
   szSQL = "COMMENT ON FUNCTION " & QUOTE & szName & QUOTE & szArgs & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
-  objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
+  objServer.Databases(Database).KillCommentCache
+  If Not SystemObject Then Commit rlUpdate, "Updated object comment."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -333,7 +338,7 @@ Attribute Comment.VB_Description = "Sets/Returns the Type comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Comment()", etFullDebug
 
-  Comment = objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).LookupComment(lOID)
+  Comment = objServer.Databases(Database).LookupComment(lOID)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -352,6 +357,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 Public Property Get SQL() As String
+Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get SQL()", etFullDebug
 Dim szSQL As String
@@ -394,4 +400,14 @@ Dim X As Long
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Public Sub Commit(UpdateType As rlLogType, UpdateComment As String)
+Attribute Commit.VB_Description = "Commit object changes."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
+
+  objServer.Databases(Database).LogRevision ObjectType, Identifier, SQL, UpdateComment, UpdateType
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub
 

@@ -467,7 +467,7 @@ Dim objType As pgType
       hbxProperties(0).BackColor = &H80000005
       Set objItem = cboProperties(0).ComboItems.Add(, , frmCallingForm.txtProperties(0).Text, "table", "table")
       objItem.Selected = True
-      txtProperties(2).Text = frmCallingForm.lvProperties(0).ListItems.Count + 1
+      txtProperties(1).Text = frmCallingForm.lvProperties(0).ListItems.Count + 1
       
       'Populate the Types combo
       cboProperties(1).ComboItems.Add , , "serial", "sequence", "sequence"
