@@ -29,7 +29,7 @@ Private vTag As Variant
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -38,7 +38,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Let Tag(" &
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -47,7 +47,7 @@ objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Set Tag(" &
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -62,7 +62,7 @@ End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
   dNamespaceOID = vData
@@ -72,7 +72,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = dNamespaceOID
@@ -83,7 +83,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -93,7 +93,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Retruns the name of the parent Namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -105,7 +105,7 @@ End Property
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objForeignKey As pgForeignKey
@@ -124,7 +124,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -138,7 +138,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -149,7 +149,7 @@ End Property
 
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let TableOID(" & vData & ")", etFullDebug
 
   dTableOID = vData
@@ -160,7 +160,7 @@ End Property
 
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
@@ -171,7 +171,7 @@ End Property
 
 'Internal Add
 Private Function iAdd(dOID As Double, szName As String, lNArgs As Long, szArgs As String, bDeferrable As Boolean, bInitially As Boolean) As pgForeignKey
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & lNArgs & ", " & QUOTE & szArgs & QUOTE & ", " & bDeferrable & ", " & bInitially & ")", etFullDebug
 
 Dim objNewMember As pgForeignKey
@@ -245,7 +245,7 @@ End Function
 Public Property Get Item(Key As String) As pgForeignKey
 Attribute Item.VB_Description = "Returns a Foreign Key object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -258,7 +258,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Foreign Keys on the current Table."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objForeignKey As pgForeignKey
@@ -281,7 +281,7 @@ End Property
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -293,7 +293,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Foreign Keys."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -311,7 +311,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -345,7 +345,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ForeignKeys.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing

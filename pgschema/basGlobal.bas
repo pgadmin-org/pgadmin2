@@ -8,6 +8,7 @@ Option Explicit
 'Global Variables
 Public objVersion As Version
 Public objServer As pgServer
+Public inIDE As Boolean
 
 'Constants
 Public Const QUOTE = """"
@@ -61,7 +62,8 @@ Public Type OSVERSIONINFO
   szCSDVersion As String * 128
 End Type
 
-Private Declare Function GetVersionEx Lib "Kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
+Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" (lpVersionInformation As OSVERSIONINFO) As Long
+Public Declare Function GetModuleFileName Lib "kernel32" Alias "GetModuleFileNameA" (ByVal hModule As Long, ByVal lpFileName As String, ByVal nSize As Long) As Long
 
 ' NOTE: Some functions/subs here don't have logging or error handling
 ' for speed etc.
@@ -208,7 +210,7 @@ End Function
 
 'Parse an ACL and return GRANT/REVOKE Statements
 Public Function ParseACL(ByVal szObject As String, ByVal szACL As String, Optional iType As aclType = aclClass) As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":ParseACL(" & QUOTE & szObject & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim szEntries() As String

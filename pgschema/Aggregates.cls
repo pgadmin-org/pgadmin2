@@ -26,7 +26,7 @@ Private vTag As Variant
 
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -35,7 +35,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Let Tag(" & 
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -45,7 +45,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -60,7 +60,7 @@ End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
   dNamespaceOID = vData
@@ -70,7 +70,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = dNamespaceOID
@@ -81,7 +81,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -91,7 +91,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -103,7 +103,7 @@ End Property
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objAggregate As pgAggregate
@@ -122,7 +122,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -136,7 +136,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -147,7 +147,7 @@ End Property
 
 'Internal Add
 Private Function iAdd(dOID As Double, szName As String, szOwner As String, dInputType As Double, szStateFunction As String, dStateType As Double, szFinalFunction As String, dFinalType As Double, szInitialCondition As String) As pgAggregate
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & dInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & dStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & dFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgAggregate
@@ -174,7 +174,7 @@ Dim szSQL As String
   objNewMember.InputType = objServer.Databases(Database).LookupType(dInputType)
   objNewMember.StateType = objServer.Databases(Database).LookupType(dStateType)
   objNewMember.FinalType = objServer.Databases(Database).LookupType(dFinalType)
-  On Error GoTo Err_Handler
+  If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 
   objNewMember.StateFunction = szStateFunction
   objNewMember.FinalFunction = szFinalFunction
@@ -196,7 +196,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal InputType As String, ByVal StateFunction As String, ByVal StateType As String, Optional ByVal FinalFunction As String, Optional ByVal InitialCondition As String, Optional ByVal Comment As String) As pgAggregate
 Attribute Add.VB_Description = "Add a new Aggregate."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputType & QUOTE & ", " & QUOTE & StateFunction & QUOTE & ", " & QUOTE & StateType & QUOTE & ", " & QUOTE & FinalFunction & QUOTE & ", " & QUOTE & InitialCondition & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -273,7 +273,7 @@ End Function
 Public Property Get Item(Key As String) As pgAggregate
 Attribute Item.VB_Description = "Returns a Aggregate object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -286,7 +286,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Aggregates in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objAggregate As pgAggregate
@@ -308,7 +308,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Aggregate."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -333,7 +333,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -345,7 +345,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Aggregates."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -363,7 +363,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -396,7 +396,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -407,7 +407,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objAggregate As pgAggregate

@@ -32,7 +32,7 @@ Private vTag As Variant
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get FormattedID()", etFullDebug
  
   If objVersion.VersionNum >= 7.3 Then
@@ -48,7 +48,7 @@ End Property
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -57,7 +57,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Tag(" & vDat
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -66,7 +66,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Set Tag(" & vDat
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -81,7 +81,7 @@ End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
   dNamespaceOID = vData
@@ -91,7 +91,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = dNamespaceOID
@@ -102,7 +102,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -112,7 +112,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -124,7 +124,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -136,7 +136,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -150,7 +150,7 @@ End Property
 
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let OID(" & vData & ")", etFullDebug
 
   dOID = vData
@@ -160,7 +160,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the View OID."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get OID()", etFullDebug
 
   OID = dOID
@@ -170,7 +170,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Friend Property Let iName(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let iName(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -180,7 +180,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Friend Property Let Name(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Name(" & vData & ")", etFullDebug
 Dim szSQL As String
    
@@ -195,7 +195,7 @@ End Property
 
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the View name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Name()", etFullDebug
 
   Name = szName
@@ -206,7 +206,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -217,7 +217,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -229,7 +229,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get ObjectType()", etFullDebug
 
   ObjectType = "View"
@@ -240,7 +240,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -250,7 +250,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -261,7 +261,7 @@ End Property
 
 'Set/Return the Owner
 Friend Property Let iOwner(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let iOwner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
@@ -270,7 +270,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let iOwner(" & Q
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Let Owner(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -285,7 +285,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Sets/Returns the View Owner."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Owner()", etFullDebug
 
   Owner = szOwner
@@ -296,7 +296,7 @@ End Property
 
 'Set/Return the ACL
 Friend Property Let ACL(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szACL = vData
@@ -306,7 +306,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ACL() As String
 Attribute ACL.VB_Description = "Returns the View ACL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get ACL()", etFullDebug
 
   ACL = szACL
@@ -317,7 +317,7 @@ End Property
 
 'Set/Return the View definition
 Public Property Let Definition(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Definition(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -370,7 +370,7 @@ objServer.iLogError Err.Number, Err.Description
 End Property
 
 Friend Property Let iDefinition(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgViews.Property Let iDefinition(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szDefinition = vData
@@ -381,7 +381,7 @@ End Property
 
 Public Property Get Definition() As String
 Attribute Definition.VB_Description = "Returns the View definition."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Definition()", etFullDebug
 
   Definition = szDefinition
@@ -392,7 +392,7 @@ End Property
 
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
@@ -406,7 +406,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the View comment."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Comment()", etFullDebug
 
   If (szName <> "") Then
@@ -422,7 +422,7 @@ End Property
 'Get the row count
 Public Property Get Rows() As Double
 Attribute Rows.VB_Description = "Returns the number of rows represented in the view."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Rows()", etFullDebug
 
 Dim rs As New Recordset
@@ -440,7 +440,7 @@ End Property
 'Grant Permissions
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Grant.VB_Description = "Grant privileges on the View."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -491,7 +491,7 @@ End Sub
 'Revoke Permissions
 Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Revoke.VB_Description = "Revoke privileges from the View."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -541,7 +541,7 @@ End Sub
 
 Public Property Get iSQL(Optional szViewName As String, Optional szViewDefinition As String) As String
 Attribute iSQL.VB_Description = "Returns the object's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get iSQL(" & QUOTE & szViewName & QUOTE & ", " & QUOTE & szViewDefinition & QUOTE & ")", etFullDebug
  
 Dim szSQL As String
@@ -563,7 +563,7 @@ End Property
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL()", etFullDebug
  
     SQL = iSQL

@@ -27,7 +27,7 @@ Private vTag As Variant
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -36,7 +36,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Let Tag(" & v
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -45,7 +45,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Set Tag(" & v
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -60,7 +60,7 @@ End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
   dNamespaceOID = vData
@@ -70,7 +70,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = dNamespaceOID
@@ -81,7 +81,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -91,7 +91,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -103,7 +103,7 @@ End Property
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objSequence As pgSequence
@@ -122,7 +122,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -136,7 +136,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -147,7 +147,7 @@ End Property
 
 'Internal Add
 Private Sub iAdd(dOID As Double, szName As String, szOwner As String, szACL As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgSequence
@@ -176,7 +176,7 @@ Dim rs As New Recordset
   End If
   On Error Resume Next
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-  On Error GoTo Err_Handler
+  If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
   If rs.State = adStateOpen Then
     If Not rs.EOF Then
       objNewMember.Maximum = rs!max_value
@@ -208,7 +208,7 @@ End Sub
 'External Add
 Public Function Add(ByVal Name As String, Optional ByVal Increment As Variant, Optional ByVal Minimum As Variant, Optional ByVal Maximum As Variant, Optional ByVal Start As Variant, Optional ByVal Cache As Variant, Optional ByVal Cycled As Boolean, Optional ByVal Comment As String) As pgSequence
 Attribute Add.VB_Description = "Add a new Sequence."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Add(" & QUOTE & Name & QUOTE & ", " & Increment & ", " & Minimum & ", " & Maximum & ", " & Start & ", " & Cache & ", " & Cycled & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -270,7 +270,7 @@ End Function
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
 Attribute Rename.VB_Description = "Rename the specified sequence."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objSequence As New pgSequence
@@ -290,7 +290,7 @@ End Sub
 Public Property Get Item(Key As String) As pgSequence
 Attribute Item.VB_Description = "Returns a Sequence object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -303,7 +303,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Sequences in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objSequence As pgSequence
@@ -325,7 +325,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Sequence."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -349,7 +349,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -361,7 +361,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Sequences."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -379,7 +379,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -411,7 +411,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -422,7 +422,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean, Optional Reset As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get SQL(" & IncludeSystem & ", " & Reset & ")", etFullDebug
 Dim szSQL As String
 Dim objSequence As pgSequence

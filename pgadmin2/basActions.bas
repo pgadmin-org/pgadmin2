@@ -34,6 +34,43 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basActions.Vacuum"
 End Sub
 
+Public Sub Reindex()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Reindex()", etFullDebug
+
+  Select Case ctx.CurrentObject.ObjectType
+    Case "Table"
+      If MsgBox("Are you sure you wish to reindex the table: " & ctx.CurrentObject.Identifier & "?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
+      StartMsg "Reindexing " & ctx.CurrentObject.Identifier & " in database: " & ctx.CurrentDB & "..."
+      ctx.CurrentObject.Reindex
+      EndMsg
+      MsgBox "The table '" & ctx.CurrentObject.Identifier & "' in database '" & ctx.CurrentDB & "' has been reindexed.", vbInformation
+    Case "Index"
+      If MsgBox("Are you sure you wish to rebuild the index: " & ctx.CurrentObject.Identifier & "?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
+      StartMsg "Rebuilding " & ctx.CurrentObject.Identifier & " in database: " & ctx.CurrentDB & "..."
+      ctx.CurrentObject.Reindex
+      EndMsg
+      MsgBox "The index '" & ctx.CurrentObject.Identifier & "' in database '" & ctx.CurrentDB & "' has been rebuilt.", vbInformation
+    Case Else
+      If MsgBox("Are you sure you wish to reindex the database: " & ctx.CurrentDB & "?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
+      If MsgBox("Do you want to force the reindex operation?", vbQuestion + vbYesNo) = vbNo Then
+        StartMsg "Reindexing " & ctx.CurrentDB & "..."
+        frmMain.svr.Databases(ctx.CurrentDB).Reindex False
+      Else
+        StartMsg "Reindexing " & ctx.CurrentDB & " (forced)..."
+        frmMain.svr.Databases(ctx.CurrentDB).Reindex True
+      End If
+      EndMsg
+      MsgBox "The database '" & ctx.CurrentDB & "' has been reindexed", vbInformation
+  End Select
+  
+  Exit Sub
+Err_Handler:
+  EndMsg
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basActions.Reindex"
+End Sub
+
+
 Public Sub Drop()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Drop()", etFullDebug

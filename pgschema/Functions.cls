@@ -27,7 +27,7 @@ Private vTag As Variant
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -36,7 +36,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Let Tag(" & v
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -45,7 +45,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Set Tag(" & v
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -60,7 +60,7 @@ End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
   dNamespaceOID = vData
@@ -70,7 +70,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get NamespaceOID() As Double
 Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = dNamespaceOID
@@ -81,7 +81,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -91,7 +91,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Namespace() As String
 Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -103,7 +103,7 @@ End Property
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objFunction As pgFunction
@@ -122,7 +122,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -136,7 +136,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -147,7 +147,7 @@ End Property
 
 'Internal Add
 Private Function iAdd(dOID As Double, szName As String, szOwner As String, dReturns As Double, szSource As String, dLanguage As Double, bCachable As Boolean, bStrict As Boolean, szArgumentList As String, Optional szACL As String, Optional szVolatility As String, Optional bRetSet As Boolean, Optional bSecDef As Boolean) As pgFunction
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & dReturns & ", " & QUOTE & szSource & QUOTE & ", " & dLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szVolatility & QUOTE & ", " & bRetSet & ")", etFullDebug
 
 Dim objNewMember As pgFunction
@@ -218,7 +218,7 @@ End Function
 'External Add
 Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String, Optional Volatility As String, Optional SecurityDefiner As Boolean) As pgFunction
 Attribute Add.VB_Description = "Add a new function."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ", " & QUOTE & Volatility & QUOTE & ", " & SecurityDefiner & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -321,7 +321,7 @@ End Function
 Public Property Get Item(Key As String) As pgFunction
 Attribute Item.VB_Description = "Returns a Type object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -334,7 +334,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Functions in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objFunction As pgFunction
@@ -356,7 +356,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Function."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -380,7 +380,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -392,7 +392,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Functions."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Refresh()", etFullDebug
 
 
@@ -410,7 +410,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -455,7 +455,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -466,7 +466,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objFunction As pgFunction

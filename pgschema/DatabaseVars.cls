@@ -26,7 +26,7 @@ Private vTag As Variant
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -37,7 +37,7 @@ End Property
 
 'Get the Database Name
 Public Property Get Database() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -52,7 +52,7 @@ End Property
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -61,7 +61,7 @@ objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Let Tag(" 
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -70,7 +70,7 @@ objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Set Tag(" 
 Err_Handler: objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -85,7 +85,7 @@ End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objVar As pgVar
@@ -103,7 +103,7 @@ End Function
 
 'Internal Add
 Friend Sub iAdd(szName As String, szValue)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.iAdd(" & QUOTE & szName & QUOTE & ")", etFullDebug
   
 Dim objVar As New pgVar
@@ -122,7 +122,7 @@ End Sub
 'External Add/Update
 Public Sub AddOrUpdate(ByVal Name As String, ByVal Value As String)
 Attribute AddOrUpdate.VB_Description = "Add a new Database Variable."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.AddOrUpdate(" & QUOTE & Name & QUOTE & ", " & QUOTE & Value & QUOTE & ")", etFullDebug
 
 Dim objVar As pgVar
@@ -153,7 +153,7 @@ End Sub
 Public Property Get Item(Key As String) As pgVar
 Attribute Item.VB_Description = "Returns a variable object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -166,7 +166,7 @@ End Property
 Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the variable objects."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Get Count()", etFullDebug
 
   Count = mCol.Count
@@ -178,7 +178,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified variable."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -207,7 +207,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -218,7 +218,7 @@ End Property
 
 'Refresh the collection
 Public Sub Refresh()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Refresh()", etFullDebug
 
 Dim szSQL As String
@@ -242,7 +242,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize(Optional szVarList As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Initialize(" & QUOTE & szVarList & QUOTE & ")", etFullDebug
 
 Dim szDatabaseVars() As String
@@ -296,7 +296,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing

@@ -25,7 +25,7 @@ Private vTag As Variant
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -34,7 +34,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Let Tag(" & vData
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -43,7 +43,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Set Tag(" & vData
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -59,7 +59,7 @@ End Property
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objCast As pgCast
@@ -78,7 +78,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -92,7 +92,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -103,7 +103,7 @@ End Property
 
 'Internal Add
 Private Function iAdd(ByVal dOID As Double, ByVal szSource As String, ByVal szTarget As String, ByVal szFunc As String, ByVal szContext)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.iAdd(" & dOID & ", " & QUOTE & szSource & QUOTE & ", " & QUOTE & szTarget & QUOTE & ", " & QUOTE & szFunc & QUOTE & ", " & QUOTE & szContext & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgCast
@@ -152,7 +152,7 @@ End Function
 'External Add
 Public Function Add(ByVal szSource As String, ByVal szTarget As String, ByVal szFunct As String, ByVal szContext As String) As pgCast
 Attribute Add.VB_Description = "Add a new Cast."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Add(" & QUOTE & szSource & QUOTE & ", " & QUOTE & szTarget & QUOTE & ", " & QUOTE & szFunct & QUOTE & ", " & QUOTE & szContext & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -211,7 +211,7 @@ End Function
 Public Property Get Item(Key As String) As pgCast
 Attribute Item.VB_Description = "Returns a Cast object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -224,7 +224,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Casts in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objCast As pgCast
@@ -246,7 +246,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Cast."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -271,7 +271,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -283,7 +283,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Casts."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -301,7 +301,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -329,7 +329,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -340,7 +340,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Casts.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objCast As pgCast

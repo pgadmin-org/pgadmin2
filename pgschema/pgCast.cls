@@ -31,7 +31,7 @@ Private vTag As Variant
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get FormattedID()", etFullDebug
 
   FormattedID = fmtID(szName)
@@ -43,7 +43,7 @@ End Property
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -52,7 +52,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Tag(" & vDat
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -61,7 +61,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Set Tag(" & vDat
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -76,7 +76,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -88,7 +88,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -102,7 +102,7 @@ End Property
 
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let OID(" & vData & ")", etFullDebug
 
   dOID = vData
@@ -112,7 +112,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Cast OID."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get OID()", etFullDebug
 
   OID = dOID
@@ -123,7 +123,7 @@ End Property
 
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -133,7 +133,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Cast name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get Name()", etFullDebug
 
   Name = szName
@@ -144,7 +144,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -155,7 +155,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -167,7 +167,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Cast"
@@ -178,7 +178,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -188,7 +188,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -199,7 +199,7 @@ End Property
 
 'Set/Return Source?
 Friend Property Let Source(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Source(" & vData & ")", etFullDebug
 
   szSource = vData
@@ -209,7 +209,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Source() As String
 Attribute Source.VB_Description = "Returns a value indicating whether the Cast is trusted."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get Source()", etFullDebug
 
   Source = szSource
@@ -220,7 +220,7 @@ End Property
 
 'Set/Return Target?
 Friend Property Let Target(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Target(" & vData & ")", etFullDebug
 
   szTarget = vData
@@ -229,7 +229,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Target(" & v
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Target() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get Target()", etFullDebug
 
   Target = szTarget
@@ -240,7 +240,7 @@ End Property
 
 'Set/Return Funct?
 Friend Property Let Funct(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Funct(" & vData & ")", etFullDebug
 
   szFunct = vData
@@ -249,7 +249,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Funct(" & vD
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Funct() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get Funct()", etFullDebug
 
   Funct = szFunct
@@ -260,7 +260,7 @@ End Property
 
 'Set/Return Context?
 Friend Property Let Context(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Context(" & vData & ")", etFullDebug
 
   szContext = vData
@@ -269,7 +269,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Let Context(" & 
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Context() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get Context()", etFullDebug
 
   Context = szContext
@@ -280,7 +280,7 @@ End Property
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCast.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim szMember As Variant

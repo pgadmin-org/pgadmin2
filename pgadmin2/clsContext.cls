@@ -142,6 +142,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = True
     frmMain.tb.Buttons("resetstatistics").Enabled = True
     frmMain.tb.Buttons("sql").Enabled = True
+    frmMain.tb.Buttons("reindex").Enabled = True
     frmMain.tb.Buttons("vacuum").Enabled = True
     frmMain.mnuFileSaveDBSchema.Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateCast.Enabled = True
@@ -149,6 +150,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateNamespace.Enabled = True
     If ctx.dbVer >= 7.2 Then frmMain.mnuPopupResetStatistics.Enabled = True
     frmMain.mnuPopupSQL.Enabled = True
+    frmMain.mnuPopupReindex.Enabled = True
     frmMain.mnuPopupVacuum.Enabled = True
   Else
     frmMain.sb.Panels("currentdb").Text = "Database: None"
@@ -157,6 +159,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = False
     frmMain.tb.Buttons("resetstatistics").Enabled = False
     frmMain.tb.Buttons("sql").Enabled = False
+    frmMain.tb.Buttons("reindex").Enabled = False
     frmMain.tb.Buttons("vacuum").Enabled = False
     frmMain.mnuFileSaveDBSchema.Enabled = False
     frmMain.mnuPopupCreateCast.Enabled = False
@@ -164,6 +167,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.mnuPopupCreateNamespace.Enabled = False
     If ctx.dbVer >= 7.2 Then frmMain.mnuPopupResetStatistics.Enabled = False
     frmMain.mnuPopupSQL.Enabled = False
+    frmMain.mnuPopupReindex.Enabled = False
     frmMain.mnuPopupVacuum.Enabled = False
   End If
 End Property

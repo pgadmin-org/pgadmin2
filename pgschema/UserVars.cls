@@ -26,7 +26,7 @@ Private vTag As Variant
 
 'Set the User
 Friend Property Let User(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Let User(" & vData & ")", etFullDebug
 
   szUser = vData
@@ -38,7 +38,7 @@ End Property
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -47,7 +47,7 @@ objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Let Tag(" & vD
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -56,7 +56,7 @@ objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Set Tag(" & vD
 Err_Handler: objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -72,7 +72,7 @@ End Property
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objVar As pgVar
@@ -90,7 +90,7 @@ End Function
 
 'Internal Add
 Friend Sub iAdd(szName As String, szValue)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.iAdd(" & QUOTE & szName & QUOTE & ")", etFullDebug
   
 Dim objVar As New pgVar
@@ -109,7 +109,7 @@ End Sub
 'External Add/Update
 Public Sub AddOrUpdate(ByVal Name As String, ByVal Value As String)
 Attribute AddOrUpdate.VB_Description = "Add/Update a User Variable."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.AddOrUpdate(" & QUOTE & Name & QUOTE & ", " & QUOTE & Value & QUOTE & ")", etFullDebug
 
 Dim objVar As pgVar
@@ -140,7 +140,7 @@ End Sub
 Public Property Get Item(Key As String) As pgVar
 Attribute Item.VB_Description = "Returns a User Variable object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -153,7 +153,7 @@ End Property
 Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the User Variable  objects."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Get Count()", etFullDebug
 
   Count = mCol.Count
@@ -165,7 +165,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified User Variable."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -194,7 +194,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -205,7 +205,7 @@ End Property
 
 'Refresh the collection
 Public Sub Refresh()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Refresh()", etFullDebug
 
 Dim szSQL As String
@@ -229,7 +229,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize(Optional szVarList As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Initialize(" & QUOTE & szVarList & QUOTE & ")", etFullDebug
 
 Dim szUserVars() As String
@@ -283,7 +283,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":UserVars.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing

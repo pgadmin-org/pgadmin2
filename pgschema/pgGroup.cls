@@ -29,7 +29,7 @@ Private vTag As Variant
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get FormattedID()", etFullDebug
 
   FormattedID = fmtID(szName)
@@ -41,7 +41,7 @@ End Property
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -50,7 +50,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Tag(" & vDa
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -59,7 +59,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Set Tag(" & vDa
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -75,7 +75,7 @@ End Property
 'Return the Member Users Collection
 Public Property Get Members() As Members
 Attribute Members.VB_Description = "Returns a collection of Users in the Group."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Members()", etFullDebug
 
 Dim szConnect As String
@@ -93,7 +93,7 @@ End Property
 
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -103,7 +103,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Group name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Name()", etFullDebug
 
   Name = szName
@@ -114,7 +114,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -125,7 +125,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the group identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -137,7 +137,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Group"
@@ -148,7 +148,7 @@ End Property
 
 'Set/Return ID
 Friend Property Let ID(ByVal vData As Long)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let ID(" & vData & ")", etFullDebug
 
   lID = vData
@@ -158,7 +158,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ID() As Long
 Attribute ID.VB_Description = "Returns the Group ID."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get ID()", etFullDebug
 
   ID = lID
@@ -169,7 +169,7 @@ End Property
 
 'Set/Return the Members (Internal only)
 Friend Property Let MemberList(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let MemberList(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szMemberList = vData
@@ -178,7 +178,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let MemberList(
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Get MemberList() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get MemberList()", etFullDebug
 
   MemberList = szMemberList
@@ -189,7 +189,7 @@ End Property
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the objects reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgGroup.SQL()", etFullDebug
 Dim szSQL As String
 Dim szMember As Variant

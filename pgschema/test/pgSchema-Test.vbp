@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
-Reference=*\G{A6F1DFBE-87C8-4007-88AA-A534C384E170}#20.0#0#..\..\binaries\pgSchema.dll#PostgreSQL Schema Objects
+Reference=*\G{A6F1DFBE-87C8-4007-88AA-A534C384E170}#20.2#0#..\..\binaries\pgSchema.dll#PostgreSQL Schema Objects
 Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; mscomctl.ocx
 Form=frmMain.frm
 Startup="frmMain"

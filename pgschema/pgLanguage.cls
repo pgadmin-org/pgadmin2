@@ -31,7 +31,7 @@ Private szACL As String
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get FormattedID()", etFullDebug
 
   FormattedID = fmtID(szName)
@@ -43,7 +43,7 @@ End Property
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -52,7 +52,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Tag(" & 
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -61,7 +61,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Set Tag(" & 
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -76,7 +76,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -88,7 +88,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -102,7 +102,7 @@ End Property
 
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let OID(" & vData & ")", etFullDebug
 
   dOID = vData
@@ -112,7 +112,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the Language OID."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get OID()", etFullDebug
 
   OID = dOID
@@ -123,7 +123,7 @@ End Property
 
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -133,7 +133,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Language name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Name()", etFullDebug
 
   Name = szName
@@ -144,7 +144,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -155,7 +155,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -167,7 +167,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Language"
@@ -178,7 +178,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -188,7 +188,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -199,7 +199,7 @@ End Property
 
 'Set/Return Trusted?
 Friend Property Let Trusted(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Trusted(" & vData & ")", etFullDebug
 
   bTrusted = vData
@@ -209,7 +209,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Trusted() As Boolean
 Attribute Trusted.VB_Description = "Returns a value indicating whether the Language is trusted."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Trusted()", etFullDebug
 
   Trusted = bTrusted
@@ -220,7 +220,7 @@ End Property
 
 'Set/Return the Handler
 Friend Property Let Handler(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Handler(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szHandler = vData
@@ -230,7 +230,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Handler() As String
 Attribute Handler.VB_Description = "Returns the Language handler."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Handler()", etFullDebug
 
   Handler = szHandler
@@ -241,7 +241,7 @@ End Property
 
 'Set/Return the Validator
 Friend Property Let Validator(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Validator(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szValidator = vData
@@ -251,7 +251,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Validator() As String
 Attribute Validator.VB_Description = "Returns the name of a function used for function validation."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Validator()", etFullDebug
 
   Validator = szValidator
@@ -262,7 +262,7 @@ End Property
 
 'Set/Return the ACL
 Friend Property Let ACL(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szACL = vData
@@ -272,7 +272,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ACL() As String
 Attribute ACL.VB_Description = "Returns the Access Control List for the object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get ACL()", etFullDebug
 
   ACL = szACL
@@ -284,7 +284,7 @@ End Property
 'Grant Permissions
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Grant.VB_Description = "Grant permissions on the object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -332,7 +332,7 @@ End Sub
 'Revoke Permissions
 Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Revoke.VB_Description = "Revoke permissions from the object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -379,7 +379,7 @@ End Sub
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim szMember As Variant

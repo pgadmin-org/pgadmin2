@@ -61,6 +61,11 @@ Public Sub Vacuum(bAnalyse As Boolean)
   Call basActions.Vacuum(bAnalyse)
 End Sub
 
+Public Sub Reindex()
+  Call basActions.Reindex()
+
+End Sub
+
 Public Sub Drop()
   Call basActions.Drop()
 

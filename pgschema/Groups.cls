@@ -24,7 +24,7 @@ Private vTag As Variant
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -33,7 +33,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Let Tag(" & vDat
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -42,7 +42,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Set Tag(" & vDat
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -58,7 +58,7 @@ End Property
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objGroup As pgGroup
@@ -76,7 +76,7 @@ End Function
 
 'Internal Add
 Private Sub iAdd(szName As String, lID As Long, szMemberList As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.iAdd(" & QUOTE & szName & QUOTE & ", " & lID & ", " & QUOTE & szMemberList & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgGroup
@@ -101,7 +101,7 @@ End Sub
 'External Add
 Public Function Add(ByVal Name As String, Optional ByVal ID As Long) As pgGroup
 Attribute Add.VB_Description = "Add a new user group."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Add(" & QUOTE & Name & QUOTE & ", " & ID & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -152,7 +152,7 @@ End Function
 Public Property Get Item(Key As String) As pgGroup
 Attribute Item.VB_Description = "Returns a Group item."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -165,7 +165,7 @@ End Property
 Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Groups on the current server."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get Count()", etFullDebug
 
   Count = mCol.Count
@@ -177,7 +177,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Group."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -201,7 +201,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -213,7 +213,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refreesh the collection."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
@@ -225,7 +225,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -253,7 +253,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -264,7 +264,7 @@ End Sub
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim objGroup As pgGroup

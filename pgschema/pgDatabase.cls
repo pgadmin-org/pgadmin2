@@ -45,7 +45,7 @@ Private vTag As Variant
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get FormattedID()", etFullDebug
 
   FormattedID = fmtID(szName)
@@ -57,7 +57,7 @@ End Property
 'Set/Return the Tag
 Public Property Let Tag(ByVal vData As Variant)
 Attribute Tag.VB_Description = "Set/Returns a variant for any use."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
@@ -66,7 +66,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Tag(" & 
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Set Tag(ByVal vData As Variant)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Set Tag(" & vData & ")", etFullDebug
 
   Set vTag = vData
@@ -75,7 +75,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Set Tag(" & 
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Tag() As Variant
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Tag()", etFullDebug
 
   If IsObject(vTag) Then
@@ -89,7 +89,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 Friend Sub KillTypeCache()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillTypeCache()", etFullDebug
 
   objServer.iLogEvent "Invalidating Type cache (database: " & szName & ")...", etMiniDebug
@@ -100,7 +100,7 @@ Err_Handler: objServer.iLogError Err.Number, Err.Description
 End Sub
 
 Friend Function LookupType(dOID As Double) As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupType(" & dOID & ")", etFullDebug
 Dim rs As New Recordset
 
@@ -138,7 +138,7 @@ Dim rs As New Recordset
   Else
     On Error Resume Next
     LookupType = szTypeCache("T" & dOID)
-    On Error GoTo Err_Handler
+    If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
   End If
  
   Exit Function
@@ -149,7 +149,7 @@ Err_Handler:
 End Function
 
 Friend Sub KillLanguageCache()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillLanguageCache()", etFullDebug
 
   objServer.iLogEvent "Invalidating Language cache (database: " & szName & ")...", etMiniDebug
@@ -160,7 +160,7 @@ Err_Handler: objServer.iLogError Err.Number, Err.Description
 End Sub
 
 Friend Function LookupLanguage(dOID As Double) As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupLanguage(" & dOID & ")", etFullDebug
 Dim rs As New Recordset
 
@@ -183,7 +183,7 @@ Dim rs As New Recordset
   
   On Error Resume Next
   LookupLanguage = szLanguageCache("L" & dOID)
-  On Error GoTo Err_Handler
+  If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 
   Exit Function
 Err_Handler:
@@ -193,7 +193,7 @@ Err_Handler:
 End Function
 
 Friend Sub KillOperatorCache()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillOperatorCache()", etFullDebug
 
   objServer.iLogEvent "Populating Operator cache (database: " & szName & ")...", etMiniDebug
@@ -204,7 +204,7 @@ Err_Handler: objServer.iLogError Err.Number, Err.Description
 End Sub
 
 Friend Function LookupOperator(dOID As Double) As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupOperator(" & dOID & ")", etFullDebug
 Dim rs As New Recordset
 
@@ -244,7 +244,7 @@ Dim rs As New Recordset
   
   On Error Resume Next
   LookupOperator = Mid(szOperatorCache("O" & dOID), 2)
-  On Error GoTo Err_Handler
+  If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 
   Exit Function
 Err_Handler:
@@ -254,7 +254,7 @@ Err_Handler:
 End Function
 
 Friend Sub KillCommentCache()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.KillCommentCache()", etFullDebug
 
   objServer.iLogEvent "Invalidating Comment cache (database: " & szName & ")...", etMiniDebug
@@ -306,7 +306,7 @@ End Function
 'Return the Languages Collection
 Public Property Get Languages() As Languages
 Attribute Languages.VB_Description = "Returns a collection of pgLanguage objects."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Languages()", etFullDebug
 
   If colLanguages Is Nothing Then
@@ -326,7 +326,7 @@ End Property
 'Return the Namespaces Collection
 Public Property Get Namespaces() As Namespaces
 Attribute Namespaces.VB_Description = "Returns a collection of pgNamespace objects."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Namespaces()", etFullDebug
 
   If colNamespaces Is Nothing Then
@@ -345,7 +345,7 @@ End Property
 
 'Return the Casts Collection
 Public Property Get Casts() As Casts
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Casts()", etFullDebug
 
   If colCasts Is Nothing Then
@@ -364,7 +364,7 @@ End Property
 
 'Return the DatabaseVars Collection
 Public Property Get DatabaseVars() As DatabaseVars
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get DatabaseVars()", etFullDebug
 
   If colDatabaseVars Is Nothing Then
@@ -384,7 +384,7 @@ End Property
 'Return the ADO Connection String
 Public Property Get ConnectionString() As String
 Attribute ConnectionString.VB_Description = "Returns the database connection string."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ConnectionString()", etFullDebug
 
   If cnDatabase.State <> adStateOpen Then
@@ -399,7 +399,7 @@ End Property
 
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Double)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let OID(" & vData & ")", etFullDebug
 
   dOID = vData
@@ -409,7 +409,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get OID() As Double
 Attribute OID.VB_Description = "Returns the OID of the Database."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get OID()", etFullDebug
 
   OID = dOID
@@ -420,7 +420,7 @@ End Property
 
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -430,7 +430,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Database Name."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Name()", etFullDebug
 
   Name = szName
@@ -441,7 +441,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -452,7 +452,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -464,7 +464,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Database"
@@ -475,7 +475,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -485,7 +485,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -496,7 +496,7 @@ End Property
 
 'Set/Return the Path
 Friend Property Let Path(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Path(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szPath = vData
@@ -506,7 +506,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Path() As String
 Attribute Path.VB_Description = "Returns the Database path."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Path()", etFullDebug
 
   Path = szPath
@@ -517,7 +517,7 @@ End Property
 
 'Set/Return the Owner
 Friend Property Let Owner(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
@@ -527,7 +527,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Returns the Database owner."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()", etFullDebug
 
   Owner = szOwner
@@ -538,7 +538,7 @@ End Property
 
 'Set/Return the Database Server Encoding
 Friend Property Let ServerEncoding(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let ServerEncoding(" & vData & ")", etFullDebug
 
   szServerEncoding = vData
@@ -548,7 +548,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ServerEncoding() As String
 Attribute ServerEncoding.VB_Description = "Returns the name of the encoding scheme."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ServerEncoding()", etFullDebug
 
   ServerEncoding = szServerEncoding
@@ -560,7 +560,7 @@ End Property
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
 Attribute Comment.VB_Description = "Sets/Returns the Database comment."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Comment(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -576,7 +576,7 @@ Dim szSQL As String
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get Comment() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Comment()", etFullDebug
   
   If objServer.DeferConnection And lStatus <> statOpen Then
@@ -592,7 +592,7 @@ End Property
 'Get the Database Status
 Public Property Get Status() As dbStatus
 Attribute Status.VB_Description = "Returns the database connection status."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Status()", etFullDebug
 
   Status = lStatus
@@ -603,7 +603,7 @@ End Property
 
 'Set/Return AllowConnections
 Friend Property Let AllowConnections(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let AllowConnections(" & vData & ")", etFullDebug
 
   bAllowConnections = vData
@@ -613,7 +613,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get AllowConnections() As Boolean
 Attribute AllowConnections.VB_Description = "Returns a value indicating whether this database is currently allowing connections to be made to it."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get AllowConnections()", etFullDebug
 
   AllowConnections = bAllowConnections
@@ -624,7 +624,7 @@ End Property
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Class_Terminate()", etFullDebug
 
   Set colLanguages = Nothing
@@ -649,7 +649,7 @@ End Sub
 'Execute a statement
 Public Function Execute(ByVal szSQL As String, Optional ByVal RecordsAffected As Long, Optional ByVal Options As Long = -1, Optional QryType As QueryType = 1) As Recordset
 Attribute Execute.VB_Description = "Execute an SQL query on the Database."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Execute(" & QUOTE & szSQL & QUOTE & ", " & RecordsAffected & ", " & Options & ", " & QryType & ")", etFullDebug
 
   dbConnect
@@ -662,7 +662,7 @@ End Function
 'Vacuum the Database
 Public Sub Vacuum(Optional ByVal Analyse As Boolean, Optional ByVal Table As String, Optional ByVal Columns As String)
 Attribute Vacuum.VB_Description = "Vacuum the Database."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Vacuum(" & Analyse & ", " & QUOTE & Table & QUOTE & ", " & QUOTE & Columns & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -680,7 +680,7 @@ End Sub
 
 'Set/Return the DatabaseVarList
 Friend Property Let DatabaseVarList(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let DatabaseVarList(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szDatabaseVarList = vData
@@ -689,7 +689,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let DatabaseVar
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Friend Property Get DatabaseVarList() As String
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get DatabaseVarList()", etFullDebug
 
   DatabaseVarList = szDatabaseVarList
@@ -701,7 +701,7 @@ End Property
 'Connect to the Database
 Public Function dbConnect() As Boolean
 Attribute dbConnect.VB_Description = "Open a connection to the database."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.dbConnect()", etFullDebug
 
 Dim szConnect As String
@@ -735,7 +735,7 @@ End Function
 'Close the Database Connection
 Public Sub dbDisconnect()
 Attribute dbDisconnect.VB_Description = "Disconnect from the database."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Sub dbDisconnect()", etFullDebug
 
   If objServer.ShowPassword Then
@@ -756,9 +756,26 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Sub dbDisconnect()", 
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Sub
 
+'Reindex rebuild corrupted indexes
+Public Sub Reindex(Optional ByVal Force As Boolean)
+Attribute Reindex.VB_Description = "Reindex the database"
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Reindex(" & Force & ")", etFullDebug
+
+Dim szSQL As String
+
+  dbConnect
+  szSQL = "REINDEX DATABASE " & FormattedID
+  If Force Then szSQL = szSQL & " FORCE"
+  objServer.ExecSQL szSQL, cnDatabase
+  
+  Exit Sub
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Sub
+
 'Set/Return the ACL
 Friend Property Let ACL(ByVal vData As String)
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szACL = vData
@@ -768,7 +785,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 Public Property Get ACL() As String
 Attribute ACL.VB_Description = "Returns the objects Access Control List."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ACL()", etFullDebug
 
   ACL = szACL
@@ -780,7 +797,7 @@ End Property
 'Grant Permissions
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Grant.VB_Description = "Grant permissions on the object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -829,7 +846,7 @@ End Sub
 'Revoke Permissions
 Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Revoke.VB_Description = "Revoke permissions from the object."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -877,7 +894,7 @@ End Sub
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the objects reverse engineered SQL."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.SQL()", etFullDebug
 
 Dim szSQL As String
@@ -909,7 +926,7 @@ End Property
 
 Public Property Get Schema(Optional ResetSequences As Boolean) As String
 Attribute Schema.VB_Description = "Returns the SQL representing the entire database."
-On Error GoTo Err_Handler
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.Schema(" & ResetSequences & ")", etFullDebug
 Dim szSQL As String
 Dim vObject As Variant
