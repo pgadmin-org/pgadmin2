@@ -22,10 +22,32 @@ Private mCol As Collection
 Private cnDatabase As Connection
 Private lNamespaceOID As Long
 Private szNamespace As String
+Private vTag As Variant
+
+'Set/Return the Tag
+Friend Property Let Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let Tag(" & vData & ")", etFullDebug
+
+  vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Tag() As Variant
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Tag()", etFullDebug
+
+  Tag = vTag
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
   lNamespaceOID = vData
@@ -34,7 +56,8 @@ objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let NamespaceOID(
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get NamespaceOID() As Long
-'On Error Goto Err_Handler
+Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = lNamespaceOID
@@ -45,7 +68,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -54,7 +77,8 @@ objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let Namespace(" &
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Namespace() As String
-'On Error Goto Err_Handler
+Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -66,7 +90,7 @@ End Property
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objType As pgType
@@ -85,7 +109,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -99,7 +123,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -110,7 +134,7 @@ End Property
 
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, szOwner As String, szInputFunction As String, szOutputFunction As String, lInternalLength As Long, lExternalLength As Long, szDefault As String, lElement As Long, szDelimiter As String, szSendFunction As String, szReceiveFunction As String, bPassedByValue As Boolean, szAlignment As String, szStorage As String) As pgType
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & lExternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & lElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & QUOTE & szSendFunction & QUOTE & ", " & QUOTE & szReceiveFunction & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgType
@@ -179,7 +203,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal InputFunction As String, ByVal OutputFunction As String, ByVal InternalLength As Long, Optional ByVal ExternalLength As Long, Optional ByVal Default As String, Optional ByVal Element As String, Optional ByVal Delimiter As String, Optional ByVal SendFunction As String, Optional ByVal ReceiveFunction As String, Optional ByVal PassedByValue As Boolean, Optional ByVal Alignment As String, Optional ByVal Storage As String, Optional ByVal Comment As String)
 Attribute Add.VB_Description = "Add a new Type."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputFunction & QUOTE & ", " & QUOTE & OutputFunction & QUOTE & ", " & InternalLength & ", " & ExternalLength & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Element & QUOTE & ", " & QUOTE & Delimiter & QUOTE & ", " & QUOTE & SendFunction & QUOTE & ", " & QUOTE & ReceiveFunction & QUOTE & ", " & PassedByValue & ", " & QUOTE & Alignment & QUOTE & ", " & QUOTE & Storage & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -255,7 +279,7 @@ End Function
 Public Property Get Item(Key As String) As pgType
 Attribute Item.VB_Description = "Returns a Type object."
 Attribute Item.VB_UserMemId = 0
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -268,7 +292,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Types in the current database."
 Attribute Count.VB_MemberFlags = "200"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objType As pgType
@@ -290,7 +314,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Type."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -321,7 +345,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -333,7 +357,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Types."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -351,7 +375,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -387,7 +411,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -398,7 +422,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objType As pgType

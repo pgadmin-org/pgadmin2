@@ -19,11 +19,33 @@ Option Explicit
 
 'Collections
 Private mCol As Collection
+Private vTag As Variant
+
+'Set/Return the Tag
+Friend Property Let Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Let Tag(" & vData & ")", etFullDebug
+
+  vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Tag() As Variant
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Tag()", etFullDebug
+
+  Tag = vTag
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objDatabase As pgDatabase
@@ -41,7 +63,7 @@ End Function
 
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, szServerEncoding As String, bAllowConn As Boolean)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & szServerEncoding & ", " & bAllowConn & ")", etFullDebug
 
 Dim objNewMember As pgDatabase
@@ -74,7 +96,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, Optional ByVal Path As String, Optional ServerEncoding As String, Optional ByVal Comment As String) As pgDatabase
 Attribute Add.VB_Description = "Add a new database object."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Path & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -125,7 +147,7 @@ End Function
 Public Property Get Item(Key As String) As pgDatabase
 Attribute Item.VB_Description = "Returns  a database object."
 Attribute Item.VB_UserMemId = 0
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -138,7 +160,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of Database objects."
 Attribute Count.VB_MemberFlags = "200"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objDatabase As pgDatabase
@@ -160,7 +182,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Database object."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -195,7 +217,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -207,7 +229,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Databases."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
@@ -219,7 +241,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Initialize()", etFullDebug
 
 Dim szSQL As String
@@ -248,7 +270,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -259,7 +281,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objDatabase As pgDatabase

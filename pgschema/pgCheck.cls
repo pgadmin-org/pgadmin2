@@ -26,10 +26,32 @@ Private szDefinition As String
 Private cnDatabase As Connection
 Private lNamespaceOID As Long
 Private szNamespace As String
+Private vTag As Variant
+
+'Set/Return the Tag
+Friend Property Let Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let Tag(" & vData & ")", etFullDebug
+
+  vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Tag() As Variant
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Tag()", etFullDebug
+
+  Tag = vTag
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
   lNamespaceOID = vData
@@ -38,7 +60,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let NamespaceOI
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get NamespaceOID() As Long
-'On Error Goto Err_Handler
+Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = lNamespaceOID
@@ -49,7 +72,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -58,7 +81,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let Namespace("
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Namespace() As String
-'On Error Goto Err_Handler
+Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -69,7 +93,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -81,7 +105,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -95,7 +119,7 @@ End Property
 
 'Set/Return the Table
 Friend Property Let Table(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
@@ -105,7 +129,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Table() As String
 Attribute Table.VB_Description = "Returns the parent table name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Table()", etFullDebug
 
   Table = szTable
@@ -116,7 +140,7 @@ End Property
 
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -126,7 +150,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Check name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Name()", etFullDebug
 
   Name = szName
@@ -137,7 +161,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -148,7 +172,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -160,7 +184,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Check"
@@ -171,7 +195,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -181,7 +205,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -192,7 +216,7 @@ End Property
 
 'Set/Return the Definition
 Friend Property Let Definition(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Let Definition(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szDefinition = vData
@@ -202,7 +226,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Definition() As String
 Attribute Definition.VB_Description = "Returns the Check Definition."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgCheck.Property Get Definition()", etFullDebug
 
   Definition = szDefinition

@@ -22,10 +22,32 @@ Private mCol As Collection
 Private cnDatabase As Connection
 Private lNamespaceOID As Long
 Private szNamespace As String
+Private vTag As Variant
+
+'Set/Return the Tag
+Friend Property Let Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Let Tag(" & vData & ")", etFullDebug
+
+  vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Tag() As Variant
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get Tag()", etFullDebug
+
+  Tag = vTag
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Let NamespaceOID(" & vData & ")", etFullDebug
   
   lNamespaceOID = vData
@@ -34,7 +56,8 @@ objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Let Name
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get NamespaceOID() As Long
-'On Error Goto Err_Handler
+Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = lNamespaceOID
@@ -45,7 +68,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -54,7 +77,8 @@ objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Let Name
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Namespace() As String
-'On Error Goto Err_Handler
+Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -66,7 +90,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -80,7 +104,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -91,7 +115,7 @@ End Property
 
 'Internal Add
 Private Sub iAdd(szColumn As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.iAdd(" & QUOTE & szColumn & QUOTE & ")", etFullDebug
 
   mCol.Add szColumn
@@ -104,7 +128,7 @@ End Sub
 Public Property Get Item(Index As Long) As String
 Attribute Item.VB_Description = "Returns a Column Name."
 Attribute Item.VB_UserMemId = 0
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get Item(" & Index & ")", etFullDebug
 
   Item = mCol(Index)
@@ -117,7 +141,7 @@ End Property
 Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Indexed Columns in the current Index."
 Attribute Count.VB_MemberFlags = "200"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get Count()", etFullDebug
 
   Count = mCol.Count
@@ -130,7 +154,7 @@ End Property
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -141,7 +165,7 @@ End Property
 
 'Initialise the collection if possible
 Friend Sub Initialize(lTableOID As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Initialize(" & QUOTE & lTableOID & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -166,7 +190,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":IndexedColumns.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing

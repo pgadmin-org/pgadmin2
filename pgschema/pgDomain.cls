@@ -31,10 +31,32 @@ Private bNotNull As Boolean
 Private cnDatabase As Connection
 Private lNamespaceOID As Long
 Private szNamespace As String
+Private vTag As Variant
+
+'Set/Return the Tag
+Friend Property Let Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Tag(" & vData & ")", etFullDebug
+
+  vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Tag() As Variant
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Tag()", etFullDebug
+
+  Tag = vTag
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Set/Return the Namespace OID
 Friend Property Let NamespaceOID(ByVal vData As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
   lNamespaceOID = vData
@@ -43,7 +65,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let NamespaceO
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get NamespaceOID() As Long
-'On Error Goto Err_Handler
+Attribute NamespaceOID.VB_Description = "Returns the OID of the parent Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get NamespaceOID()", etFullDebug
 
   NamespaceOID = lNamespaceOID
@@ -54,7 +77,7 @@ End Property
 
 'Set/Return the Namespace Name
 Friend Property Let Namespace(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Namespace(" & vData & ")", etFullDebug
 
   szNamespace = vData
@@ -63,7 +86,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Namespace(
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Namespace() As String
-'On Error Goto Err_Handler
+Attribute Namespace.VB_Description = "Returns the name of the parent Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Namespace()", etFullDebug
 
   Namespace = szNamespace
@@ -74,7 +98,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -86,7 +110,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -100,7 +124,7 @@ End Property
 
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
@@ -110,7 +134,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Type OID."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get OID()", etFullDebug
 
   OID = lOID
@@ -121,7 +145,7 @@ End Property
 
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -131,7 +155,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Type name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Name()", etFullDebug
 
   Name = szName
@@ -142,7 +166,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -153,7 +177,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the onject identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -165,7 +189,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Domain"
@@ -176,7 +200,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -186,7 +210,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -197,7 +221,7 @@ End Property
 
 'Set/Return the Owner
 Friend Property Let Owner(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
@@ -207,7 +231,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Returns the Type's owner."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()", etFullDebug
 
   Owner = szOwner
@@ -218,7 +242,7 @@ End Property
 
 'Set/Return the Base Type
 Friend Property Let BaseType(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let BaseType(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szBaseType = vData
@@ -228,7 +252,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get BaseType() As String
 Attribute BaseType.VB_Description = "Returns the Base Type used by the Domain."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get BaseType()", etFullDebug
 
   BaseType = szBaseType
@@ -239,7 +263,7 @@ End Property
 
 'Set/Return the Length
 Friend Property Let Length(ByVal vData As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Length(" & vData & ")", etFullDebug
 
   lLength = vData
@@ -249,7 +273,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Length() As Long
 Attribute Length.VB_Description = "Returns the Length of the Domain or 0 if not applicable."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Length()", etFullDebug
 
   Length = lLength
@@ -260,7 +284,7 @@ End Property
 
 'Set/Return the NumericScale
 Friend Property Let NumericScale(ByVal vData As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let NumericScale(" & vData & ")", etFullDebug
 
   lNumericScale = vData
@@ -270,7 +294,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get NumericScale() As Long
 Attribute NumericScale.VB_Description = "Returns the Numeric Scale of the Domain or 0 if not applicable."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get NumericScale()", etFullDebug
 
   NumericScale = lNumericScale
@@ -281,7 +305,7 @@ End Property
 
 'Set/Return the Default
 Friend Property Let Default(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Default(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szDefault = vData
@@ -291,7 +315,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Default() As String
 Attribute Default.VB_Description = "Returns the Default value for the Domain."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Default()", etFullDebug
 
   Default = szDefault
@@ -302,7 +326,7 @@ End Property
 
 'Set/Return NotNull?
 Friend Property Let NotNull(ByVal vData As Boolean)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let NotNull(" & vData & ")", etFullDebug
 
   bNotNull = vData
@@ -312,7 +336,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get NotNull() As Boolean
 Attribute NotNull.VB_Description = "Returns a value indicating whether the Domain will disallow NULL values."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get NotNull()", etFullDebug
 
   NotNull = bNotNull
@@ -323,7 +347,7 @@ End Property
 
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
@@ -341,7 +365,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Type comment."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Comment()", etFullDebug
 
   Comment = objServer.Databases(Database).LookupComment(lOID)
@@ -352,7 +376,7 @@ End Property
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get SQL()", etFullDebug
 Dim szSQL As String
   

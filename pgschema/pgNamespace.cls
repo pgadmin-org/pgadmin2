@@ -35,10 +35,32 @@ Private bSystemObject As Boolean
 Private szOwner As String
 Private szACL As String
 Private cnDatabase As Connection
+Private vTag As Variant
+
+'Set/Return the Tag
+Friend Property Let Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let Tag(" & vData & ")", etFullDebug
+
+  vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Tag() As Variant
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get Tag()", etFullDebug
+
+  Tag = vTag
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -50,7 +72,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -64,7 +86,8 @@ End Property
 
 'Return the Aggregates Collection
 Public Property Get Aggregates() As Aggregates
-'On Error Goto Err_Handler
+Attribute Aggregates.VB_Description = "Returns a collection of pgAggregate objects."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Aggregates()", etFullDebug
 
   If colAggregates Is Nothing Then
@@ -84,7 +107,8 @@ End Property
 
 'Return the Tables Collection
 Public Property Get Tables() As Tables
-'On Error Goto Err_Handler
+Attribute Tables.VB_Description = "Returns a a collection of pgTable objects."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Tables()", etFullDebug
 
   If colTables Is Nothing Then
@@ -104,7 +128,8 @@ End Property
 
 'Return the Operators Collection
 Public Property Get Operators() As Operators
-'On Error Goto Err_Handler
+Attribute Operators.VB_Description = "Returns a collection of pgOperator objects."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Operators()", etFullDebug
 
   If colOperators Is Nothing Then
@@ -124,7 +149,8 @@ End Property
 
 'Return the Functions Collection
 Public Property Get Functions() As Functions
-'On Error Goto Err_Handler
+Attribute Functions.VB_Description = "Returns a collection of pgFunction objects."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Functions()", etFullDebug
 
   If colFunctions Is Nothing Then
@@ -144,7 +170,8 @@ End Property
 
 'Return the Types Collection
 Public Property Get Types() As Types
-'On Error Goto Err_Handler
+Attribute Types.VB_Description = "Returns a collection of pgType objects."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Types()", etFullDebug
 
   If colTypes Is Nothing Then
@@ -164,7 +191,8 @@ End Property
 
 'Return the Views Collection
 Public Property Get Views() As Views
-'On Error Goto Err_Handler
+Attribute Views.VB_Description = "Returns a collection of pgView objects."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Views()", etFullDebug
 
   If colViews Is Nothing Then
@@ -184,7 +212,8 @@ End Property
 
 'Return the Sequences Collection
 Public Property Get Sequences() As Sequences
-'On Error Goto Err_Handler
+Attribute Sequences.VB_Description = "Returns a collection of pgSequence objects."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Sequences()", etFullDebug
 
   If colSequences Is Nothing Then
@@ -204,7 +233,8 @@ End Property
 
 'Return the Domains Collection
 Public Property Get Domains() As Domains
-'On Error Goto Err_Handler
+Attribute Domains.VB_Description = "Returns a collection of pgDomain objects."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Domains()", etFullDebug
 
   If colDomains Is Nothing Then
@@ -224,7 +254,7 @@ End Property
 
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
@@ -234,7 +264,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Namespace OID."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get OID()", etFullDebug
 
   OID = lOID
@@ -244,7 +274,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 Friend Property Let Name(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -254,7 +284,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Namespace name."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get Name()", etFullDebug
 
   Name = szName
@@ -265,7 +295,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -276,7 +306,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -288,7 +318,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Schema"
@@ -299,7 +329,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -309,7 +339,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -320,7 +350,7 @@ End Property
 
 'Set/Return the Owner
 Friend Property Let Owner(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Owner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
@@ -330,7 +360,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Returns the Namespace Owner."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()", etFullDebug
 
   Owner = szOwner
@@ -341,7 +371,7 @@ End Property
 
 'Set/Return the ACL
 Friend Property Let ACL(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szACL = vData
@@ -351,7 +381,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get ACL() As String
 Attribute ACL.VB_Description = "Returns the Namespace ACL."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get ACL()", etFullDebug
 
   ACL = szACL
@@ -362,7 +392,7 @@ End Property
 
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
@@ -381,7 +411,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Namespace comment."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get Comment()", etFullDebug
 
   If objServer.dbVersion.VersionNum >= 7.3 Then
@@ -397,7 +427,7 @@ End Property
 'Grant Permissions
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Grant.VB_Description = "Grant privileges on the Namespace."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -405,7 +435,7 @@ Dim rs As New Recordset
   
   If objServer.dbVersion.VersionNum < 7.3 Then
     Err.Raise 5432007, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
-    Exit Property
+    Exit Sub
   End If
   
   'Generate and execute the Grant Query
@@ -422,14 +452,14 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & " ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
+  szSQL = szSQL & "ON SCHEMA " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & lOID
+  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & lOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
-    szACL = rs!relacl & ""
+    szACL = rs!nspacl & ""
   End If
   
   'Cleanup
@@ -446,7 +476,7 @@ End Sub
 'Revoke Permissions
 Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Revoke.VB_Description = "Revoke privileges from the Namespace."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -471,14 +501,14 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & " ON " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
+  szSQL = szSQL & "ON SCHEMA " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & lOID
+  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & lOID
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
-    szACL = rs!relacl & ""
+    szACL = rs!nspacl & ""
   End If
   
   'Cleanup
@@ -494,7 +524,7 @@ End Sub
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get SQL()", etFullDebug
  
 Dim szSQL As String
@@ -511,7 +541,8 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 Public Property Get Schema(Optional ResetSequences As Boolean) As String
-'On Error Goto Err_Handler
+Attribute Schema.VB_Description = "Returns the reverse engineered SQL for all the objects within this Namespace."
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.Schema(" & ResetSequences & ")", etFullDebug
 Dim szSQL As String
 Dim vObject As Variant
@@ -657,7 +688,7 @@ End Property
 
 'Cleanup
 Private Sub Class_Terminate()
-'On Error Goto Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Class_Terminate()", etFullDebug
 
   Set colAggregates = Nothing
