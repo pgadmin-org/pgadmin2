@@ -42,7 +42,7 @@ Begin VB.Form frmWizard
       ScaleHeight     =   289
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   31
-      TabIndex        =   3
+      TabIndex        =   8
       Top             =   0
       Width           =   465
    End
@@ -60,7 +60,7 @@ Begin VB.Form frmWizard
       Default         =   -1  'True
       Height          =   330
       Left            =   6480
-      TabIndex        =   0
+      TabIndex        =   1
       ToolTipText     =   "Return SQL and exit."
       Top             =   3960
       Visible         =   0   'False
@@ -69,7 +69,7 @@ Begin VB.Form frmWizard
    Begin TabDlg.SSTab tabWizard 
       Height          =   3840
       Left            =   495
-      TabIndex        =   1
+      TabIndex        =   7
       TabStop         =   0   'False
       Top             =   45
       Width           =   6990
@@ -102,27 +102,35 @@ Begin VB.Form frmWizard
       TabPicture(2)   =   "frmWizard.frx":18DE
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "lblInfo(2)"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "txtPopulationDelay"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "udPopulationDelay"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18FA
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "lblInfo(3)"
+      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "udPopulationSize"
+      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "txtPopulationSize"
+      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":1916
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "lblInfo(4)"
+      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "lblInfo(5)"
+      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
       Begin VB.TextBox txtPopulationSize 
          Height          =   285
          Left            =   -72345
          Locked          =   -1  'True
-         TabIndex        =   14
+         TabIndex        =   15
          Text            =   "100"
          Top             =   2115
          Width           =   1020
@@ -130,7 +138,7 @@ Begin VB.Form frmWizard
       Begin MSComCtl2.UpDown udPopulationDelay 
          Height          =   285
          Left            =   -71310
-         TabIndex        =   12
+         TabIndex        =   5
          Top             =   2115
          Width           =   195
          _ExtentX        =   344
@@ -155,7 +163,7 @@ Begin VB.Form frmWizard
          Height          =   285
          Left            =   -72345
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   13
          Text            =   "10"
          Top             =   2115
          Width           =   1005
@@ -165,7 +173,7 @@ Begin VB.Form frmWizard
          Height          =   240
          Index           =   1
          Left            =   -73515
-         TabIndex        =   9
+         TabIndex        =   4
          Top             =   2475
          Width           =   3570
       End
@@ -174,7 +182,7 @@ Begin VB.Form frmWizard
          Height          =   240
          Index           =   0
          Left            =   -73515
-         TabIndex        =   8
+         TabIndex        =   3
          Top             =   1710
          Value           =   -1  'True
          Width           =   3750
@@ -182,7 +190,7 @@ Begin VB.Form frmWizard
       Begin MSComctlLib.ListView lvDatabases 
          Height          =   2445
          Left            =   135
-         TabIndex        =   5
+         TabIndex        =   0
          Top             =   1170
          Width           =   6720
          _ExtentX        =   11853
@@ -231,7 +239,7 @@ Begin VB.Form frmWizard
       Begin MSComCtl2.UpDown udPopulationSize 
          Height          =   285
          Left            =   -71310
-         TabIndex        =   15
+         TabIndex        =   6
          Top             =   2115
          Width           =   195
          _ExtentX        =   344
@@ -277,7 +285,7 @@ Begin VB.Form frmWizard
          Height          =   825
          Index           =   3
          Left            =   -74820
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   270
          Width           =   6630
       End
@@ -286,7 +294,7 @@ Begin VB.Form frmWizard
          Height          =   825
          Index           =   2
          Left            =   -74820
-         TabIndex        =   10
+         TabIndex        =   12
          Top             =   270
          Width           =   6630
       End
@@ -295,7 +303,7 @@ Begin VB.Form frmWizard
          Height          =   735
          Index           =   1
          Left            =   -74820
-         TabIndex        =   7
+         TabIndex        =   11
          Top             =   270
          Width           =   6630
       End
@@ -304,7 +312,7 @@ Begin VB.Form frmWizard
          Height          =   735
          Index           =   0
          Left            =   180
-         TabIndex        =   6
+         TabIndex        =   10
          Top             =   270
          Width           =   6630
       End
@@ -313,7 +321,7 @@ Begin VB.Form frmWizard
       Caption         =   "&Next"
       Height          =   330
       Left            =   6480
-      TabIndex        =   4
+      TabIndex        =   9
       ToolTipText     =   "Move forward a stage"
       Top             =   3960
       Width           =   960
