@@ -45,11 +45,11 @@ Begin VB.Form frmExport
       TabCaption(1)   =   "&Substitution Map"
       TabPicture(1)   =   "frmExport.frx":0326
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdDelete"
-      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(0)=   "lvSubMap"
+      Tab(1).Control(1)=   "txtSearch"
       Tab(1).Control(2)=   "txtReplace"
-      Tab(1).Control(3)=   "txtSearch"
-      Tab(1).Control(4)=   "lvSubMap"
+      Tab(1).Control(3)=   "cmdAdd"
+      Tab(1).Control(4)=   "cmdDelete"
       Tab(1).ControlCount=   5
       Begin VB.CommandButton cmdDelete 
          Caption         =   "&Delete Substitution"
@@ -355,31 +355,31 @@ Dim X As Integer
   End If
   szFilename = txtFileName.Text
   If optDelimiter(0).Value = True Then
-    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Delimiter Type", ValString, "0"
+    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Delimiter Type", regString, "0"
   Else
-    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Delimiter Type", ValString, "1"
+    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Delimiter Type", regString, "1"
   End If
-  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Delimiter Character", ValString, txtDelimChar.Text
-  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Delimiter ASCII", ValString, txtDelimAscii.Text
+  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Delimiter Character", regString, txtDelimChar.Text
+  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Delimiter ASCII", regString, txtDelimAscii.Text
   If chkTrailing.Value = 0 Then
-    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Trailing Delimiter", ValString, "0"
+    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Trailing Delimiter", regString, "0"
   Else
-    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Trailing Delimiter", ValString, "1"
+    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Trailing Delimiter", regString, "1"
   End If
   If optQuote(0).Value = True Then
-    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote Type", ValString, "0"
+    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote Type", regString, "0"
   ElseIf optQuote(1).Value = True Then
-    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote Type", ValString, "1"
+    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote Type", regString, "1"
   Else
-    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote Type", ValString, "2"
+    RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote Type", regString, "2"
   End If
-  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote Character", ValString, txtQuoteChar.Text
-  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote ASCII", ValString, txtQuoteAscii.Text
-  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Entries", ValString, lvSubMap.ListItems.Count
+  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote Character", regString, txtQuoteChar.Text
+  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote ASCII", regString, txtQuoteAscii.Text
+  RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Entries", regString, lvSubMap.ListItems.Count
   If lvSubMap.ListItems.Count > 0 Then
     For X = 1 To lvSubMap.ListItems.Count
-      RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Search - " & X, ValString, lvSubMap.ListItems(X).Text
-      RegWrite HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Replace - " & X, ValString, lvSubMap.ListItems(X).SubItems(1)
+      RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Search - " & X, regString, lvSubMap.ListItems(X).Text
+      RegWrite HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Replace - " & X, regString, lvSubMap.ListItems(X).SubItems(1)
     Next
   End If
   Me.Hide
@@ -390,34 +390,34 @@ Private Sub Form_Load()
 On Error Resume Next
 Dim X As Integer
 Dim itmX As ListItem
-  If RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Delimiter Type", "0") = "0" Then
+  If RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Delimiter Type", "0") = "0" Then
     optDelimiter(0).Value = True
   Else
     optDelimiter(1).Value = True
   End If
-  txtDelimChar.Text = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Delimiter Character", ",")
-  txtDelimAscii.Text = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Delimiter ASCII", "44")
-  If RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Trailing Delimiter", "0") = "0" Then
+  txtDelimChar.Text = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Delimiter Character", ",")
+  txtDelimAscii.Text = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Delimiter ASCII", "44")
+  If RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Trailing Delimiter", "0") = "0" Then
     chkTrailing.Value = 0
   Else
     chkTrailing.Value = 1
   End If
-  If RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote Type", "0") = "0" Then
+  If RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote Type", "0") = "0" Then
     optQuote(0).Value = True
-  ElseIf RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote Type", "0") = "1" Then
+  ElseIf RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote Type", "0") = "1" Then
     optQuote(1).Value = True
   Else
     optQuote(2).Value = True
   End If
-  txtQuoteChar.Text = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote Character", Chr(34))
-  txtQuoteAscii.Text = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter", "Quote ASCII", "34")
+  txtQuoteChar.Text = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote Character", Chr(34))
+  txtQuoteAscii.Text = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter", "Quote ASCII", "34")
   lvSubMap.ListItems.Clear
   lvSubMap.ColumnHeaders.Add , , "Search for:", lvSubMap.Width / 2
   lvSubMap.ColumnHeaders.Add , , "Replace with:", lvSubMap.Width / 2
-  If Val(RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Entries", "0")) > 0 Then
-    For X = 1 To Val(RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Entries", "0"))
-      Set itmX = lvSubMap.ListItems.Add(, RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Search - " & X, ""), RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Search - " & X, ""))
-      itmX.SubItems(1) = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Replace - " & X, "")
+  If Val(RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter II\Substitution Map", "Entries", "0")) > 0 Then
+    For X = 1 To Val(RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Entries", "0"))
+      Set itmX = lvSubMap.ListItems.Add(, RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Search - " & X, ""), RegRead(HKEY_CURRENT_USER, "Software\pgAdmin\ASCII Exporter\Substitution Map", "Search - " & X, ""))
+      itmX.SubItems(1) = RegRead(HKEY_CURRENT_USER, "Software\pgAdmin II\ASCII Exporter\Substitution Map", "Replace - " & X, "")
     Next
   End If
   

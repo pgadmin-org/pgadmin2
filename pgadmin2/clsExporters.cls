@@ -43,7 +43,7 @@ Dim X As Long
   Set mCol = New Collection
   szExporter = RegGetSubkey(HKEY_CLASSES_ROOT, "", X)
   Do Until szExporter = ""
-    If InStr(1, szExporter, "pgAdmin_Exporter") Then
+    If InStr(1, szExporter, "pgAdmin2_Exporter") Then
       Set objExporter = CreateObject(szExporter)
       frmMain.svr.LogEvent "Loading Exporter: " & szExporter & " (" & objExporter.Description & " v" & objExporter.Version & ")", etMiniDebug
       mCol.Add objExporter, objExporter.Description
@@ -139,7 +139,7 @@ Dim X As Long
   
   szKey = RegGetSubkey(HKEY_CLASSES_ROOT, "", X)
   Do Until szKey = ""
-    If InStr(1, szKey, "pgAdmin_Exporter") Then
+    If InStr(1, szKey, "pgAdmin2_Exporter") Then
       Set objExporter = CreateObject(szKey)
       If objExporter.Description = szExporter Then
         szClassID = RegRead(HKEY_CLASSES_ROOT, szKey & "\Clsid", "")

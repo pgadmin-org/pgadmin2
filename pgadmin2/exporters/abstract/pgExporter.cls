@@ -29,6 +29,6 @@ Public Property Get Author() As String
 
 End Property
 
-Public Sub Export(rsData As Variant, Optional szConfig As String)
+Public Sub Export(rsData As Variant)
 
 End Sub
