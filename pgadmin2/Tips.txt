@@ -1,3 +1,4 @@
+pgAdmin2 offers unique features to modify and rename views in PostgreSQL 7.2+.
 PostgreSQL's performance can be improved by VACUUMing your databases reguarly.
 PostgreSQL's official birthday is the 8th July. The PostgreSQL project was born in 1996.
 The first prototype for the original pgAdmin project was called pgManager and was written for PostgreSQL 6.3.2.
