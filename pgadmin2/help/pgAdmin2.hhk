@@ -14,6 +14,11 @@
 		<param name="Local" value="html\developerinfo\bugs.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Binary">
+		<param name="Name" value="Migrate binary data from SQL Server?">
+		<param name="Local" value="html\howtos\sqlbinary.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Build">
 		<param name="Local" value="html\developerinfo\release.html">
 		</OBJECT>

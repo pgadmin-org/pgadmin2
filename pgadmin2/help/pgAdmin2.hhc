@@ -98,6 +98,11 @@
 				<param name="Name" value="Use MD5 Encrypted Passwords?">
 				<param name="Local" value="html\howtos\md5passwords.html">
 				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Migrate binary data from SQL Server?">
+				<param name="Local" value="html\howtos\sqlbinary.html">
+				<param name="ImageNumber" value="9">
+				</OBJECT>
 		</UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Useful Links">

@@ -54,7 +54,7 @@ IF @len IS NULL
 SET @i = 1
 SET @octal = ''
 
-WHILE @i <= @len
+WHILE @i &lt;= @len
   BEGIN 
     SELECT @int = substring(@vbin, @i, 1)
     SET @p64 = FLOOR(@int/64) 
