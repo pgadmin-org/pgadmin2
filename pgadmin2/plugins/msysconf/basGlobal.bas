@@ -7,3 +7,9 @@ Option Explicit
 
 'The global Server object
 Global svr As pgServer
+
+'Reference to the pgAdmin Status Bar
+Global sb As StatusBar
+
+'Msg Timer start value.
+Global sTimer As Single

@@ -45,15 +45,15 @@ End Property
 
 'The pgPlugin_Export subroutine is called to do the actual job. The sub is
 'passed a reference to the main pgSchema object.
-Private Sub pgPlugin_Execute(objSchema As Variant)
+Private Sub pgPlugin_Execute(objSchema As Variant, objStatusBar As Variant)
 
-  'Reference the Server object
+  'Reference the Server/Status Bar object
   Set svr = objSchema
-  
-svr.LogEvent "MSysConf Wizard Executing...", etMiniDebug
+  Set sb = objStatusBar
 
   'Display the Wizard
   Load frmWizard
+  frmWizard.Initialise
   frmWizard.Show
   
 End Sub
