@@ -4,30 +4,39 @@ Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLInput 
    Caption         =   "SQL"
    ClientHeight    =   3204
-   ClientLeft      =   3828
-   ClientTop       =   2388
+   ClientLeft      =   2868
+   ClientTop       =   2448
    ClientWidth     =   7236
    Icon            =   "frmSQLInput.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   3204
    ScaleWidth      =   7236
+   Begin VB.CommandButton cmdVQB 
+      Caption         =   "&VQB"
+      Height          =   330
+      Left            =   1980
+      TabIndex        =   7
+      ToolTipText     =   "Run the Visual Query Builder."
+      Top             =   2835
+      Width           =   636
+   End
    Begin VB.ComboBox cboExporters 
-      Height          =   315
+      Height          =   288
       Left            =   4500
       Style           =   2  'Dropdown List
       TabIndex        =   6
       ToolTipText     =   "Select the query target."
       Top             =   2843
-      Width           =   2715
+      Width           =   2712
    End
    Begin VB.CommandButton cmdExplain 
       Caption         =   "E&xplain"
       Height          =   330
-      Left            =   2565
+      Left            =   2640
       TabIndex        =   4
       ToolTipText     =   "Execute the SQL query to the selected output option."
       Top             =   2835
-      Width           =   810
+      Width           =   696
    End
    Begin HighlightBox.HBX txtSQL 
       Height          =   2805
@@ -52,11 +61,11 @@ Begin VB.Form frmSQLInput
    Begin VB.CommandButton cmdSQLWizard 
       Caption         =   "&Wizard"
       Height          =   330
-      Left            =   1710
+      Left            =   1320
       TabIndex        =   3
       ToolTipText     =   "Run the SQL Wizard."
       Top             =   2835
-      Width           =   810
+      Width           =   636
    End
    Begin VB.CommandButton cmdLoad 
       Caption         =   "&Load"
@@ -65,25 +74,25 @@ Begin VB.Form frmSQLInput
       TabIndex        =   1
       ToolTipText     =   "Load a query."
       Top             =   2835
-      Width           =   810
+      Width           =   636
    End
    Begin VB.CommandButton cmdSave 
       Caption         =   "&Save"
       Height          =   330
-      Left            =   855
+      Left            =   660
       TabIndex        =   2
       ToolTipText     =   "Save the current query."
       Top             =   2835
-      Width           =   795
+      Width           =   636
    End
    Begin VB.CommandButton cmdExecute 
       Caption         =   "&Execute to:"
       Height          =   330
-      Left            =   3420
+      Left            =   3360
       TabIndex        =   5
       ToolTipText     =   "Execute the SQL query to the selected output option."
       Top             =   2835
-      Width           =   1035
+      Width           =   1092
    End
    Begin MSComDlg.CommonDialog cdlg 
       Left            =   0
@@ -118,7 +127,6 @@ Option Explicit
 
 Dim bDirty As Boolean
 Dim szDatabase As String
-Const MAXCMDSQL As Integer = 50
 
 Private Sub cmdExecute_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
@@ -127,14 +135,14 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExecute_Click()"
 Dim rsQuery As New Recordset
 Dim szBits() As String
 Dim vBit As Variant
-Dim szSQL As String
+Dim szSql As String
 
   If Len(txtSQL.Text) < 5 Then Exit Sub
   
   If txtSQL.SelLength > 5 Then
-    szSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
+    szSql = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
   Else
-    szSQL = txtSQL.Text
+    szSql = txtSQL.Text
   End If
   
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
@@ -142,8 +150,8 @@ Dim szSQL As String
   StartMsg "Executing SQL Query..."
   
   'change CRLF -> LF
-  szSQL = Replace(szSQL, vbCrLf, vbLf)
-  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szSQL, , , qryUser)
+  szSql = Replace(szSql, vbCrLf, vbLf)
+  Set rsQuery = frmMain.svr.Databases(szDatabase).Execute(szSql, , , qryUser)
   If rsQuery.Fields.Count > 0 Then
     Select Case cboExporters.Text
       Case "Screen"
@@ -161,7 +169,7 @@ Dim szSQL As String
     EndMsg
     MsgBox "Query Executed OK!", vbInformation
   End If
-  StoreCmdSql szSQL
+  StoreCmdSql szSql
 
   Exit Sub
 Err_Handler:
@@ -232,6 +240,22 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdLoad_Click"
 End Sub
 
+Private Sub cmdVQB_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdVQB_Click()", etFullDebug
+
+Dim objVQBForm As New frmVisualQueryBuilder
+
+  Load objVQBForm
+  objVQBForm.Tag = Me.hwnd
+  objVQBForm.Caption = "Visual Query Builder " & Me.Tag & ": " & szDatabase
+  objVQBForm.Initialise szDatabase, Me
+  objVQBForm.Show
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdVQB_Click"
+End Sub
+
 Private Sub txtSql_KeyUp(KeyCode As Integer, Shift As Integer)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.txtSql_KeyUp(" & KeyCode & ", " & Shift & ")", etFullDebug
@@ -299,7 +323,7 @@ End Sub
 
 Private Sub cmdSQLWizard_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSQLWizard_Click()", etFullDebug
 
 Dim objSQLWizardForm As New frmSQLWizard
   Load objSQLWizardForm
@@ -316,7 +340,7 @@ Private Sub Form_Load()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", etFullDebug
 
-Dim X As Integer
+Dim x As Integer
 Dim objExporter As pgExporter
 Dim szExporter As String
 
@@ -328,12 +352,12 @@ Dim szExporter As String
   Next objExporter
 
   szExporter = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", "Screen")
-  For X = 0 To cboExporters.ListCount - 1
-    If cboExporters.List(X) = szExporter Then
-      cboExporters.ListIndex = X
+  For x = 0 To cboExporters.ListCount - 1
+    If cboExporters.List(x) = szExporter Then
+      cboExporters.ListIndex = x
       Exit For
     End If
-  Next X
+  Next x
   
   Set txtSQL.Font = ctx.Font
   txtSQL.Wordlist = ctx.AutoHighlight
@@ -363,6 +387,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Resize()", etF
     cmdLoad.Top = cmdExecute.Top
     cmdSave.Top = cmdExecute.Top
     cmdSQLWizard.Top = cmdExecute.Top
+    cmdVQB.Top = cmdSQLWizard.Top
     cboExporters.Top = cmdExecute.Top - ((cmdExecute.Height - cboExporters.Height) / 2)
     cboExporters.Left = Me.ScaleWidth - cboExporters.Width
     cmdExecute.Left = cboExporters.Left - cmdExecute.Width - 50
@@ -426,11 +451,11 @@ Dim ii As Integer
 Dim iCmdSql As Integer
 Dim szTemp As String
 
-  ReDim szCmdSql(MAXCMDSQL) As String
+  ReDim szCmdSql(ctx.MaxNumberSqlQuery) As String
   iCmdSql = -1
   
   'load data
-  For ii = 0 To MAXCMDSQL
+  For ii = 0 To ctx.MaxNumberSqlQuery
     szTemp = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Command SQL", "CmdSQL" & ii, "")
     If Len(Trim(szTemp)) > 0 Then
       iCmdSql = iCmdSql + 1
@@ -493,7 +518,7 @@ Dim szTemp As String
 Dim iPosFree As Integer
   
   iPosFree = -1
-  For ii = 0 To MAXCMDSQL
+  For ii = 0 To ctx.MaxNumberSqlQuery
     szTemp = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Command SQL", "CmdSQL" & ii, "")
     If Len(Trim(szTemp)) = 0 And iPosFree = -1 Then
       iPosFree = ii
