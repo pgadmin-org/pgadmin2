@@ -643,7 +643,7 @@ Dim objRelationship As pgRelationship
       
       'Populate the local columns combo
       For Each objLItem In frmCallingForm.lvProperties(0).ListItems
-        cboProperties(5).ComboItems.Add , , objLItem.Text, "column", "column"
+        cboProperties(5).ComboItems.Add , , fmtID(objLItem.Text), "column", "column"
       Next objLItem
       
     Case "MP"
@@ -698,7 +698,7 @@ Dim objColumn As pgColumn
       cboProperties(6).ComboItems.Clear
       lvProperties(0).ListItems.Clear
       For Each objColumn In cboProperties(1).SelectedItem.Tag.Columns
-        If Not objColumn.SystemObject Then cboProperties(6).ComboItems.Add , , objColumn.Name, "column", "column"
+        If Not objColumn.SystemObject Then cboProperties(6).ComboItems.Add , , objColumn.FormattedID, "column", "column"
       Next objColumn
     End If
   End If
