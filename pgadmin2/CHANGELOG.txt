@@ -2,6 +2,8 @@
 ------
 
 Refresh comment cache after editting views.
+Decode trigger procedure parameters correctly.
+
 
 1.4.12
 ------

@@ -218,6 +218,8 @@ Dim szSQL As String
 Dim szExecutes As String
 Dim szForEach As String
 Dim szEvent As String
+Dim szArgs As String
+Dim X As Integer
 Dim objTrigger As pgTrigger
   
   'Generate the szSQL query to create the new object and execute
@@ -247,6 +249,21 @@ Dim objTrigger As pgTrigger
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
+  
+    'Args
+    szArgs = "'"
+    For X = 0 To (rs!tgargs.ActualSize - 1)
+      If rs!tgargs(X) = 0 Then
+        If X = (rs!tgargs.ActualSize - 1) Then
+          szArgs = szArgs & "'"
+        Else
+          szArgs = szArgs & "', '"
+        End If
+      Else
+        szArgs = szArgs & Chr(rs!tgargs(X))
+      End If
+    Next X
+      
     'Executes
     If (rs!tgtype And 2) = 2 Then
       szExecutes = "BEFORE"
@@ -266,7 +283,7 @@ Dim objTrigger As pgTrigger
     If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "UPDATE OR "
     If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-    Set objTrigger = iAdd(rs.Fields("oid"), rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
+    Set objTrigger = iAdd(rs.Fields("oid"), rs!tgname & "", rs!proname & "(" & szArgs & ")", szExecutes, szEvent, szForEach)
   End If
   
   Set Add = objTrigger
@@ -405,6 +422,8 @@ Dim rs As New Recordset
 Dim szExecutes As String
 Dim szForEach As String
 Dim szEvent As String
+Dim szArgs As String
+Dim X As Integer
 
   'Create a new collection
   Set mCol = New Collection
@@ -414,6 +433,20 @@ Dim szEvent As String
     Set rs = objServer.ExecSQL(SQL_GET_TRIGGERS & " AND tgrelid = " & dTableOID & "::oid ORDER BY tgname", cnDatabase)
     While Not rs.EOF
     
+      'Args
+      szArgs = "'"
+      For X = 0 To (rs!tgargs.ActualSize - 1)
+        If rs!tgargs(X) = 0 Then
+          If X = (rs!tgargs.ActualSize - 1) Then
+            szArgs = szArgs & "'"
+          Else
+            szArgs = szArgs & "', '"
+          End If
+        Else
+          szArgs = szArgs & Chr(rs!tgargs(X))
+        End If
+      Next X
+      
       'Executes
       If (rs!tgtype And 2) = 2 Then
         szExecutes = "BEFORE"
@@ -434,7 +467,7 @@ Dim szEvent As String
       If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "UPDATE OR "
       If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-      iAdd rs.Fields("oid"), rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach
+      iAdd rs.Fields("oid"), rs!tgname & "", rs!proname & "(" & szArgs & ")", szExecutes, szEvent, szForEach
       rs.MoveNext
     Wend
   End If
