@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmForeignKey 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Foreign Key"
@@ -534,10 +534,9 @@ Dim szOldName As String
     Case "MP"
       'we can't update foreign keys...
       
+      'Simulate a node click to refresh the List
+      frmMain.tv_NodeClick frmMain.tv.SelectedItem
   End Select
-  
-  'Simulate a node click to refresh the ListForeignKey
-  frmMain.tv_NodeClick frmMain.tv.SelectedItem
     
   EndMsg
   Unload Me

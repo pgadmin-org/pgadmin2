@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HIGHLI~1.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmColumn 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Column"
@@ -443,10 +443,10 @@ Dim szOldName As String
       End If
       If txtProperties(5).Tag = "Y" Then objColumn.Default = txtProperties(5).Text
       If hbxProperties(0).Tag = "Y" Then objColumn.Comment = hbxProperties(0).Text
+      
+      'Simulate a node click to refresh the ListColumn (only do this when updating a column).
+      frmMain.tv_NodeClick frmMain.tv.SelectedItem
   End Select
-  
-  'Simulate a node click to refresh the ListColumn
-  frmMain.tv_NodeClick frmMain.tv.SelectedItem
     
   EndMsg
   Unload Me

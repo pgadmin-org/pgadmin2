@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTable 
    BorderStyle     =   1  'Fixed Single
@@ -1001,21 +1001,20 @@ Dim szInherits As String
     'Add Foreign Keys
     For Each objItem In lvProperties(2).ListItems
       szForeignKeys = szForeignKeys & "CONSTRAINT " & QUOTE & objItem.Text & QUOTE & " FOREIGN KEY (" & objItem.SubItems(2) & ") "
-      szForeignKeys = szForeignKeys & "REFERENCES " & QUOTE & objItem.SubItems(1) & QUOTE & " (" & objItem.SubItems(3) & ") "
+      szForeignKeys = szForeignKeys & "REFERENCES " & QUOTE & objItem.SubItems(1) & QUOTE & " (" & objItem.SubItems(3) & ")"
       szForeignKeys = szForeignKeys & " ON DELETE " & UCase(objItem.SubItems(4))
       szForeignKeys = szForeignKeys & " ON UPDATE " & UCase(objItem.SubItems(5))
       If objItem.SubItems(6) = "Yes" Then szForeignKeys = szForeignKeys & " DEFERRABLE"
-      szForeignKeys = szForeignKeys & " INITIALLY " & UCase(objItem.SubItems(7))
+      szForeignKeys = szForeignKeys & " INITIALLY " & UCase(objItem.SubItems(7)) & ", "
     Next objItem
+    If Len(szForeignKeys) > 2 Then szForeignKeys = Left(szForeignKeys, Len(szForeignKeys) - 2)
     
     'Add Inherits
-    If lvProperties(3).ListItems.Count > 0 Then
-      For Each objItem In lvProperties(3).ListItems
-        szInherits = szInherits & QUOTE & objItem.Text & QUOTE & ", "
-      Next objItem
-      If Len(szInherits) > 2 Then szInherits = Left(szInherits, Len(szInherits) - 2)
-    End If
-    
+    For Each objItem In lvProperties(3).ListItems
+      szInherits = szInherits & QUOTE & objItem.Text & QUOTE & ", "
+    Next objItem
+    If Len(szInherits) > 2 Then szInherits = Left(szInherits, Len(szInherits) - 2)
+     
     frmMain.svr.Databases(szDatabase).Tables.Add txtProperties(0).Text, szColumns, szPrimaryKeys, szChecks, szForeignKeys, szInherits, hbxProperties(0).Text
     
     'Add any comments for the columns.
