@@ -31,7 +31,10 @@
   As far as I can tell, this is a bug in ADO that occurs in frmSQLOutput:RefreshData at the line<br><br>
   <i>Select Case rsSQL.Fields(X).Type</i><br><br>
   Reasons for this error are completely unknown as it is almost certainly a Microsoft bug.
-  &nbsp;</li>
+  &nbsp;<br>
+&nbsp;</li>
+  <li>The Publishing Wizard should drop objects in reverse order otherwise it 
+  will fail with inherited tables.</li>
 </ul>
 
 </body>
