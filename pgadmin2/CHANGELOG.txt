@@ -11,6 +11,7 @@ Fix AutoSizeColumnLv if element of listview is zero [Frank Lupo].
 Fix clone CloneFunction [Frank Lupo].
 Move highlight words to Keywords.txt and use for quoting as well [Frank Lupo].
 Set default schema to public in edit grid [Frank Lupo].
+Don't allow reseting of statistics with PostgreSQL < 7.3 [Frank Lupo].
 
 
 1.5.60

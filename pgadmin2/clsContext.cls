@@ -157,7 +157,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateCast.Enabled = True
     frmMain.mnuPopupCreateLanguage.Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.mnuPopupCreateNamespace.Enabled = True
-    If ctx.dbVer >= 7.2 Then frmMain.mnuPopupResetStatistics.Enabled = True
+    If ctx.dbVer >= 7.3 Then frmMain.mnuPopupResetStatistics.Enabled = True
     frmMain.mnuPopupSQL.Enabled = True
     frmMain.mnuPopupReindex.Enabled = True
     frmMain.mnuPopupVacuum.Enabled = True
@@ -174,7 +174,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.mnuPopupCreateCast.Enabled = False
     frmMain.mnuPopupCreateLanguage.Enabled = False
     frmMain.mnuPopupCreateNamespace.Enabled = False
-    If ctx.dbVer >= 7.2 Then frmMain.mnuPopupResetStatistics.Enabled = False
+    If ctx.dbVer >= 7.3 Then frmMain.mnuPopupResetStatistics.Enabled = False
     frmMain.mnuPopupSQL.Enabled = False
     frmMain.mnuPopupReindex.Enabled = False
     frmMain.mnuPopupVacuum.Enabled = False
