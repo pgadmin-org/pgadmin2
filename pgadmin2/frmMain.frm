@@ -489,6 +489,114 @@ Begin VB.Form frmMain
          Caption         =   "E&xit"
       End
    End
+   Begin VB.Menu mnuPlugins 
+      Caption         =   "&Plugins"
+      Visible         =   0   'False
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "No Plugins are currently installed!"
+         Index           =   0
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin1"
+         Index           =   1
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin2"
+         Index           =   2
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin3"
+         Index           =   3
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin4"
+         Index           =   4
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin5"
+         Index           =   5
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin6"
+         Index           =   6
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin7"
+         Index           =   7
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin8"
+         Index           =   8
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin9"
+         Index           =   9
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin10"
+         Index           =   10
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin11"
+         Index           =   11
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin12"
+         Index           =   12
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin13"
+         Index           =   13
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin14"
+         Index           =   14
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin15"
+         Index           =   15
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin16"
+         Index           =   16
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin17"
+         Index           =   17
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin18"
+         Index           =   18
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin19"
+         Index           =   19
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuPluginsPlg 
+         Caption         =   "Plugin20"
+         Index           =   20
+         Visible         =   0   'False
+      End
+   End
    Begin VB.Menu mnuTools 
       Caption         =   "&Tools"
       Begin VB.Menu mnuToolsOptions 
@@ -657,6 +765,7 @@ Attribute svr.VB_VarHelpID = -1
 'Indicates whether we are moving
 Dim bMoving As Boolean
 
+
 Private Sub Form_Resize()
 On Error GoTo Err_Handler
 svr.LogEvent "Entering frmMain.Form_Resize()", etFullDebug
@@ -737,6 +846,18 @@ svr.LogEvent "Entering frmMain.mnuHelpContents_Click()", etFullDebug
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuHelpContents_Click"
+End Sub
+
+Private Sub mnuPluginsPlg_Click(Index As Integer)
+On Error GoTo Err_Handler
+svr.LogEvent "Entering frmMain.mnuPluginsPlg_Click(" & Index & ")", etFullDebug
+
+  If Index = 0 Then Exit Sub
+  svr.LogEvent "Executing Plugin: " & plg(mnuPluginsPlg(Index).Caption).Description & " v" & plg(mnuPluginsPlg(Index).Caption).Version, etMiniDebug
+  plg(mnuPluginsPlg(Index).Caption).Execute svr
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, "frmMain.mnuPluginsPlg_Click"
 End Sub
 
 Private Sub mnuViewSystemObjects_Click()

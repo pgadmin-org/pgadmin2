@@ -176,6 +176,7 @@ Dim objNode As Node
   frmMain.mnuPopupCreateGroup.Visible = True
   frmMain.mnuPopupCreateUser.Visible = True
   frmMain.mnuPopupProperties.Visible = True
+  frmMain.mnuPlugins.Visible = True
   
   'Enable buttons on the toolbar
   frmMain.tb.Buttons("refresh").Visible = True

@@ -16,6 +16,9 @@ Global ctx As New clsContext
 'Global Exporters Class
 Global exp As New clsExporters
 
+'Global Plugins Class
+Global plg As New clsPlugins
+
 'Msg Timer start value.
 Global sTimer As Single
 
