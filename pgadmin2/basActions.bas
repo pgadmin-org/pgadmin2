@@ -220,7 +220,7 @@ Dim szPath() As String
     
     Case "Trigger"
       szType = "TRG-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables(ctx.CurrentObject.Table).Indexes.Remove ctx.CurrentObject.Identifier
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables(ctx.CurrentObject.Table).Triggers.Remove ctx.CurrentObject.Identifier
       
       'Delete any matching tree nodes
       For Each objNode In frmMain.tv.Nodes
