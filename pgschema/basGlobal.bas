@@ -1,6 +1,6 @@
 Attribute VB_Name = "basGlobal"
 ' pgSchema - PostgreSQL Schema Objects
-' Copyright (C) 2001, The pgAdmin Development Team
+' Copyright (C) 2001, 2002, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit

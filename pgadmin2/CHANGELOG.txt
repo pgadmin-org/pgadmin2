@@ -13,6 +13,11 @@ Migration: Fix for correct registry read for type mappings. [Artur Maslag]
 Migration: HandleDates/Times a little more sanely.
 Set Unknowns As LongVarChar when connecting to allow ACLs > 255 characters.
 Migration: Prompt for extra login details on the source database if required.
+Added features list to help.
+Added bugs and to-do lists to help menu (missing for some reason).
+Added release procedure to help.
+Fixed a typo in the licence.
+Updated Copyright notices to include 2002.
 
 1.1.76
 ------

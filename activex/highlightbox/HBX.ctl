@@ -19,6 +19,7 @@ Begin VB.UserControl HBX
       _ExtentY        =   661
       _Version        =   393217
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ScrollBars      =   3
       Appearance      =   0
       AutoVerbMenu    =   -1  'True
@@ -64,7 +65,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Attribute VB_Ext_KEY = "PropPageWizardRun" ,"Yes"
 ' HBX - Auto Highlighting Expanding text box
-' Copyright (C) 2001, The pgAdmin Development Team
+' Copyright (C) 2001, 2002, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Connection Debugging Tools"
@@ -81,14 +81,14 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " ODBC Connect"
       TabPicture(1)   =   "frmWizard.frx":2706
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cboDatasource"
-      Tab(1).Control(1)=   "cmdConnect"
-      Tab(1).Control(2)=   "txtUID"
-      Tab(1).Control(3)=   "txtPWD"
-      Tab(1).Control(4)=   "lvDetails"
-      Tab(1).Control(5)=   "Label1(7)"
-      Tab(1).Control(6)=   "Label1(6)"
-      Tab(1).Control(7)=   "Label1(5)"
+      Tab(1).Control(0)=   "Label1(5)"
+      Tab(1).Control(1)=   "Label1(6)"
+      Tab(1).Control(2)=   "Label1(7)"
+      Tab(1).Control(3)=   "lvDetails"
+      Tab(1).Control(4)=   "txtPWD"
+      Tab(1).Control(5)=   "txtUID"
+      Tab(1).Control(6)=   "cmdConnect"
+      Tab(1).Control(7)=   "cboDatasource"
       Tab(1).ControlCount=   8
       Begin MSComctlLib.ImageCombo cboDatasource 
          Height          =   330
@@ -393,7 +393,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, The pgAdmin Development Team
+' Copyright (C) 2001, 2002, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit

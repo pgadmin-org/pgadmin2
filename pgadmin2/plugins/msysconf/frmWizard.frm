@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
@@ -91,39 +91,39 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":18C2
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblInfo(1)"
+      Tab(1).Control(0)=   "optPasswordCaching(1)"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "optPasswordCaching(0)"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "optPasswordCaching(1)"
+      Tab(1).Control(2)=   "lblInfo(1)"
       Tab(1).Control(2).Enabled=   0   'False
       Tab(1).ControlCount=   3
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":18DE
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
+      Tab(2).Control(0)=   "udPopulationDelay"
       Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "txtPopulationDelay"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "udPopulationDelay"
+      Tab(2).Control(2)=   "lblInfo(2)"
       Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18FA
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblInfo(3)"
+      Tab(3).Control(0)=   "txtPopulationSize"
       Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "udPopulationSize"
       Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "txtPopulationSize"
+      Tab(3).Control(2)=   "lblInfo(3)"
       Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":1916
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblInfo(4)"
+      Tab(4).Control(0)=   "lblInfo(5)"
       Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "lblInfo(5)"
+      Tab(4).Control(1)=   "lblInfo(4)"
       Tab(4).Control(1).Enabled=   0   'False
       Tab(4).ControlCount=   2
       Begin VB.TextBox txtPopulationSize 
@@ -333,7 +333,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, The pgAdmin Development Team
+' Copyright (C) 2001, 2002, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit

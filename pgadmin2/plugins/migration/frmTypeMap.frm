@@ -708,7 +708,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II Migration Wizard
 ' This code is based on code from the original pgAdmin Project
-' Copyright (C) 1998 - 2001, Dave Page & others
+' Copyright (C) 1998 - 2002, Dave Page & others
 
 ' This program is free software; you can redistribute it and/or
 ' modify it under the terms of the GNU General Public License

@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmExport 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "ASCII Data Export"
@@ -45,11 +45,11 @@ Begin VB.Form frmExport
       TabCaption(1)   =   "&Substitution Map"
       TabPicture(1)   =   "frmExport.frx":0326
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdDelete"
-      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(0)=   "lvSubMap"
+      Tab(1).Control(1)=   "txtSearch"
       Tab(1).Control(2)=   "txtReplace"
-      Tab(1).Control(3)=   "txtSearch"
-      Tab(1).Control(4)=   "lvSubMap"
+      Tab(1).Control(3)=   "cmdAdd"
+      Tab(1).Control(4)=   "cmdDelete"
       Tab(1).ControlCount=   5
       Begin VB.CommandButton cmdDelete 
          Caption         =   "&Delete Substitution"
@@ -269,7 +269,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, The pgAdmin Development Team
+' Copyright (C) 2001, 2002, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit

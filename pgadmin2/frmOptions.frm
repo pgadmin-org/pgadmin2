@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
@@ -56,36 +56,36 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "&Auto Highlight"
       TabPicture(1)   =   "frmOptions.frx":0A1E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label2"
-      Tab(1).Control(1)=   "lvWords"
-      Tab(1).Control(2)=   "chkItalic"
-      Tab(1).Control(3)=   "chkBold"
-      Tab(1).Control(4)=   "cmdColour"
-      Tab(1).Control(5)=   "cmdAdd"
-      Tab(1).Control(6)=   "txtWord"
-      Tab(1).Control(7)=   "cmdRemove"
+      Tab(1).Control(0)=   "cmdRemove"
+      Tab(1).Control(1)=   "txtWord"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "cmdColour"
+      Tab(1).Control(4)=   "chkBold"
+      Tab(1).Control(5)=   "chkItalic"
+      Tab(1).Control(6)=   "lvWords"
+      Tab(1).Control(7)=   "Label2"
       Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdExpUninstall"
-      Tab(2).Control(1)=   "cmdExpInstall"
-      Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(3)=   "lstExporters"
+      Tab(2).Control(0)=   "lstExporters"
+      Tab(2).Control(1)=   "Frame1"
+      Tab(2).Control(2)=   "cmdExpInstall"
+      Tab(2).Control(3)=   "cmdExpUninstall"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lstPlugins"
-      Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(2)=   "cmdPlgInstall"
-      Tab(3).Control(3)=   "cmdPlgUninstall"
+      Tab(3).Control(0)=   "cmdPlgUninstall"
+      Tab(3).Control(1)=   "cmdPlgInstall"
+      Tab(3).Control(2)=   "Frame2"
+      Tab(3).Control(3)=   "lstPlugins"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame4"
-      Tab(4).Control(1)=   "Frame3"
+      Tab(4).Control(0)=   "Frame3"
+      Tab(4).Control(1)=   "Frame4"
       Tab(4).ControlCount=   2
       Begin VB.Frame Frame4 
          Caption         =   "Security"
@@ -598,7 +598,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, The pgAdmin Development Team
+' Copyright (C) 2001, 2002, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 '
 ' frmLog.frm - Displays the rolling log
