@@ -105,7 +105,7 @@ Dim sStart As Single
   frmMain.txtDefinition.Wordlist = ctx.AutoHighlight
   
   'Hide the splash screen
-  Do Until Timer > sStart + 3
+  Do Until Timer > sStart + 2
     DoEvents
   Loop
 
@@ -280,7 +280,17 @@ Dim szTemp As String
   
     'Get the username
     szName = Left(szEntry, InStr(1, szEntry, "=") - 1)
-    If szName = "" Then szName = "PUBLIC"
+    If szName = "" Then
+      szName = "PUBLIC"
+    ElseIf Len(szName) > 6 Then
+      If Left(UCase(szName), 6) = "GROUP " Then
+        szName = "GROUP " & QUOTE & Mid(szName, 7) & QUOTE
+      Else
+        szName = QUOTE & szName & QUOTE
+      End If
+    Else
+      szName = QUOTE & szName & QUOTE
+    End If
     
     'Get the Access
     szAccess = Mid(szEntry, InStr(1, szEntry, "=") + 1)
