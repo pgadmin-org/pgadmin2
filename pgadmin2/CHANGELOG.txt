@@ -22,6 +22,7 @@ Added command history to the SQL dialogue [Frank Lupo].
 Allow F5 to execute SQL queries.
 Limit statistics to the correct schema [Frank Lupo].
 Allow numeric usernames in groups.
+Added a dialogue to allow column definition to be copied from another table in Create Table dialogue [Frank Lupo],
 
 1.4.12
 ------
