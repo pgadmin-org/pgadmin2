@@ -95,7 +95,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.cmdOK_Click()", etFullDebug
 
   If txtCurrent.Text <> ctx.Password Then
@@ -121,7 +121,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Load()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.Form_Load()", etFullDebug
 
   Set txtCurrent.Font = ctx.Font

@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTrigger 
    BorderStyle     =   1  'Fixed Single
@@ -330,10 +330,11 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim objTrigger As pgTrigger
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -343,11 +344,12 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewTrigger As pgTrigger
 Dim szEvent As String
 
   'Check the data
@@ -385,17 +387,12 @@ Dim szEvent As String
       chkProperties(0).SetFocus
       Exit Sub
     End If
-    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Add txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text
+    Set objNewTrigger = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Triggers.Add(txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-        If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = cboProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "TRG-" & GetID, txtProperties(0).Text & " ON " & cboProperties(0).Text, "trigger"
-          objNode.Text = "Triggers (" & objNode.Children & ")"
-        End If
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Triggers.Tag
+    Set objNewTrigger.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TRG-" & GetID, txtProperties(0).Text & " ON " & cboProperties(0).Text, "trigger")
+    objNode.Text = "Triggers (" & objNode.Children & ")"
     
   Else
     StartMsg "Updating Trigger..."
@@ -415,16 +412,18 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTrigger.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional Trigger As pgTrigger)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional Trigger As pgTrigger)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objTable As pgTable
 Dim objFunction As pgFunction
+Dim objNamespace As pgNamespace
 Dim objItem As ComboItem
   
   szDatabase = szDB
+  szNamespace = szNS
     
   'Set the font
   For X = 0 To 1
@@ -442,7 +441,7 @@ Dim objItem As ComboItem
     Me.Caption = "Create Trigger"
     
     'Load the combos
-    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
+    For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
       If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.Identifier, "table"
     Next objTable
     Set objItem = cboProperties(1).ComboItems.Add(, , "BEFORE", "trigger")
@@ -450,10 +449,20 @@ Dim objItem As ComboItem
     cboProperties(1).ComboItems.Add , , "AFTER", "trigger"
     Set objItem = cboProperties(2).ComboItems.Add(, , "ROW", "trigger")
     objItem.Selected = True
-    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
-      If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , , objFunction.Identifier, "function"
-    Next objFunction
-
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 And szNamespace <> "pg_catalog" Then
+      For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          For Each objFunction In objNamespace.Functions
+            If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , , szNamespace & "." & objFunction.Identifier, "function"
+          Next objFunction
+        End If
+      Next objNamespace
+    Else
+      For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions
+        If (objFunction.Returns = "opaque") And Not (objFunction.SystemObject) Then cboProperties(3).ComboItems.Add , , objFunction.Identifier, "function"
+      Next objFunction
+    End If
+    
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
     txtProperties(0).Locked = False
@@ -495,7 +504,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Trigger As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.hbxProperties_Change(" & Trigger & ")", etFullDebug
 
   hbxProperties(Trigger).Tag = "Y"
@@ -505,7 +514,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub SetChecks(szData As String)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.SetChecks(" & QUOTE & szData & QUOTE & ")", etFullDebug
 
 Static bSetting As Boolean
@@ -529,7 +538,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objTrigger Is Nothing) Then

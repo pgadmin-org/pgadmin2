@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmAggregate 
    BorderStyle     =   1  'Fixed Single
@@ -369,10 +369,11 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim objAggregate As pgAggregate
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -382,11 +383,12 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewAggregate As pgAggregate
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
@@ -419,22 +421,16 @@ Dim vEntity As Variant
   
   If bNew Then
     StartMsg "Creating Aggregate..."
-    frmMain.svr.Databases(szDatabase).Aggregates.Add txtProperties(0).Text, cboProperties(0).Text, cboProperties(2).Text, cboProperties(1).Text, cboProperties(4).Text, txtProperties(3).Text, hbxProperties(0).Text
+    Set objNewAggregate = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Aggregates.Add(txtProperties(0).Text, cboProperties(0).Text, cboProperties(2).Text, cboProperties(1).Text, cboProperties(4).Text, txtProperties(3).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) <> "SVR-" Then
-        If (Left(objNode.Key, 4) = "AGG+") And (objNode.Parent.Text = szDatabase) Then
-          If cboProperties(0).Text = "ANY" Then
-            frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " opaque", "aggregate"
-          Else
-            frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " " & cboProperties(0).Text, "aggregate"
-          End If
-          objNode.Text = "Aggregates (" & objNode.Children & ")"
-          Exit For
-        End If
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Aggregates.Tag
+    If cboProperties(0).Text = "ANY" Then
+      frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " opaque", "aggregate"
+    Else
+      frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " " & cboProperties(0).Text, "aggregate"
+    End If
+    objNode.Text = "Aggregates (" & objNode.Children & ")"
     
   Else
     StartMsg "Updating Aggregate..."
@@ -454,17 +450,19 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmAggregate.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional Aggregate As pgAggregate)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional Aggregate As pgAggregate)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objType As pgType
 Dim objDomain As pgDomain
 Dim objFunction As pgFunction
+Dim objNamespace As pgNamespace
 Dim objItem As ComboItem
   
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 3
@@ -493,14 +491,39 @@ Dim objItem As ComboItem
   
     'Load the combos
     cboProperties(0).ComboItems.Add , , "ANY", "any"
-    For Each objDomain In frmMain.svr.Databases(szDatabase).Domains
-      cboProperties(0).ComboItems.Add , , objDomain.Identifier, "domain"
-      cboProperties(1).ComboItems.Add , , objDomain.Identifier, "domain"
-    Next objDomain
-    For Each objType In frmMain.svr.Databases(szDatabase).Types
-      If Left(objType.Identifier, 1) <> "_" Then cboProperties(0).ComboItems.Add , , objType.Identifier, "type"
-      If Left(objType.Identifier, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Identifier, "type"
-    Next objType
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      'Load pg_catalog entries first, unqualified
+      For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Domains
+        cboProperties(0).ComboItems.Add , , fmtID(objDomain.Name), "domain"
+        cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain"
+      Next objDomain
+      For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
+        If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , fmtID(objType.Name), "type"
+        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type"
+      Next objType
+      'Now load the rest
+      For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          For Each objDomain In objNamespace.Domains
+            cboProperties(0).ComboItems.Add , , objDomain.FormattedID, "domain"
+            cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain"
+          Next objDomain
+          For Each objType In objNamespace.Types
+            If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , objType.FormattedID, "type"
+            If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type"
+          Next objType
+        End If
+      Next objNamespace
+    Else
+      For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Domains
+        cboProperties(0).ComboItems.Add , , objDomain.FormattedID, "domain"
+        cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain"
+      Next objDomain
+      For Each objType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
+        If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , objType.FormattedID, "type"
+        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type"
+      Next objType
+    End If
   
   Else
   
@@ -534,7 +557,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -544,12 +567,12 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmAggregate.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objFunction As pgFunction
+Dim objNamespace As pgNamespace
 
-  
   'Populate the StateFunction Combo. StateFunctions have 1 or 2 arguments, the first of which
   'is the StateType. The second is the InputType The return type must also be the StateType.
   'For the FinalFunction Combo, FinalFunction have 1 argument = StateType
@@ -558,29 +581,82 @@ Dim objFunction As pgFunction
     cboProperties(2).Text = ""
     cboProperties(4).ComboItems.Clear
     cboProperties(4).Text = ""
-    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
-      If objFunction.Arguments.Count >= 1 Then
+    
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+    
+      'Add pg_catalog items first, unqualified
+      For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
+        If objFunction.Arguments.Count >= 1 Then
+          'StateFunction - Single argument functions
+          If objFunction.Arguments.Count = 1 Then
+            If objFunction.Arguments(1) = cboProperties(1).Text And objFunction.Returns = cboProperties(1).Text Then
+              cboProperties(2).ComboItems.Add , , fmtID(objFunction.Name), "function"
+            End If
+          End If
+          'StateFunction - Double argument functions
+          If objFunction.Arguments.Count = 2 Then
+            If objFunction.Arguments(1) = cboProperties(1).Text And objFunction.Arguments(2) = cboProperties(0).Text And objFunction.Returns = cboProperties(1).Text Then
+              cboProperties(2).ComboItems.Add , , fmtID(objFunction.Name), "function"
+            End If
+          End If
+          'FinalFunction
+          If objFunction.Arguments(1) = cboProperties(1).Text Then
+            cboProperties(4).ComboItems.Add , , fmtID(objFunction.Name), "function"
+          End If
+        End If
+      Next objFunction
       
-        'StateFunction - Single argument functions
-        If objFunction.Arguments.Count = 1 Then
-          If objFunction.Arguments(1) = cboProperties(1).Text And objFunction.Returns = cboProperties(1).Text Then
-            cboProperties(2).ComboItems.Add , , objFunction.Name, "function"
+      'Now add other items
+      For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          For Each objFunction In objNamespace.Functions
+            If objFunction.Arguments.Count >= 1 Then
+              'StateFunction - Single argument functions
+              If objFunction.Arguments.Count = 1 Then
+                If objFunction.Arguments(1) = cboProperties(1).Text And objFunction.Returns = cboProperties(1).Text Then
+                  cboProperties(2).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                End If
+              End If
+              'StateFunction - Double argument functions
+              If objFunction.Arguments.Count = 2 Then
+                If objFunction.Arguments(1) = cboProperties(1).Text And objFunction.Arguments(2) = cboProperties(0).Text And objFunction.Returns = cboProperties(1).Text Then
+                  cboProperties(2).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                End If
+              End If
+              'FinalFunction
+              If objFunction.Arguments(1) = cboProperties(1).Text Then
+                cboProperties(4).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+              End If
+            End If
+          Next objFunction
+        End If
+      Next objNamespace
+      
+    Else
+      For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions
+        If objFunction.Arguments.Count >= 1 Then
+        
+          'StateFunction - Single argument functions
+          If objFunction.Arguments.Count = 1 Then
+            If objFunction.Arguments(1) = cboProperties(1).Text And objFunction.Returns = cboProperties(1).Text Then
+              cboProperties(2).ComboItems.Add , , objFunction.Name, "function"
+            End If
+          End If
+          
+          'StateFunction - Double argument functions
+          If objFunction.Arguments.Count = 2 Then
+            If objFunction.Arguments(1) = cboProperties(1).Text And objFunction.Arguments(2) = cboProperties(0).Text And objFunction.Returns = cboProperties(1).Text Then
+              cboProperties(2).ComboItems.Add , , objFunction.Name, "function"
+            End If
+          End If
+          
+          'FinalFunction
+          If objFunction.Arguments(1) = cboProperties(1).Text Then
+            cboProperties(4).ComboItems.Add , , objFunction.Name, "function"
           End If
         End If
-        
-        'StateFunction - Double argument functions
-        If objFunction.Arguments.Count = 2 Then
-          If objFunction.Arguments(1) = cboProperties(1).Text And objFunction.Arguments(2) = cboProperties(0).Text And objFunction.Returns = cboProperties(1).Text Then
-            cboProperties(2).ComboItems.Add , , objFunction.Name, "function"
-          End If
-        End If
-        
-        'FinalFunction
-        If objFunction.Arguments(1) = cboProperties(1).Text Then
-          cboProperties(4).ComboItems.Add , , objFunction.Name, "function"
-        End If
-      End If
-    Next objFunction
+      Next objFunction
+    End If
   End If
   
   Exit Sub

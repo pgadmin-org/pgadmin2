@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmUser 
    BorderStyle     =   1  'Fixed Single
@@ -86,7 +86,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   61669378
+         StartOfWeek     =   61407234
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -233,7 +233,7 @@ Dim bNew As Boolean
 Dim objUser As pgUser
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -243,10 +243,11 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
+Dim objNewUser As pgUser
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -262,16 +263,12 @@ Dim objNode As Node
   
   If bNew Then
     StartMsg "Creating User..."
-    frmMain.svr.Users.Add txtProperties(0).Text, Val(txtProperties(1).Text), txtProperties(2).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), mvProperties(0).Value
+    Set objNewUser = frmMain.svr.Users.Add(txtProperties(0).Text, Val(txtProperties(1).Text), txtProperties(2).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), mvProperties(0).Value)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) = "USR+" Then
-        frmMain.tv.Nodes.Add objNode.Key, tvwChild, "USR-" & GetID, txtProperties(0).Text, "user"
-        objNode.Text = "Users (" & frmMain.svr.Users.Count & ")"
-        Exit For
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Users.Tag
+    Set objNewUser.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "USR-" & GetID, txtProperties(0).Text, "user")
+    objNode.Text = "Users (" & frmMain.svr.Users.Count & ")"
     
   Else
     StartMsg "Updating User..."
@@ -295,7 +292,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(Optional User As pgUser)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.Initialise()", etFullDebug
   
 Dim X As Integer
@@ -354,7 +351,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -364,7 +361,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.chkProperties_Click(" & Index & ")", etFullDebug
 
   If txtProperties(0).Text = "postgres" Then
@@ -379,7 +376,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mvProperties_DateClick(Index As Integer, ByVal DateClicked As Date)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.mvProperties_DateClick(" & Index & ")", etFullDebug
 
   mvProperties(Index).Tag = "Y"

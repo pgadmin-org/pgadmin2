@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmRecordLog 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Record query log"
@@ -109,7 +109,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdBrowse_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRecordLog.cmdBrowse_Click()", etFullDebug
   
   With cdlg
@@ -127,7 +127,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRecordLog.cmdCancel_Click()", etFullDebug
   
   Unload Me
@@ -137,7 +137,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Load()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRecordLog.Form_Load()", etFullDebug
 
   txtFileName.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "User Log Filename", frmMain.svr.UserLogfile)
@@ -150,7 +150,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRecordLog.cmdOK_Click()", etFullDebug
   
 Dim lLogOptions As Long

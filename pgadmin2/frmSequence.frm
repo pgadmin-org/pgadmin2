@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSequence 
    BorderStyle     =   1  'Fixed Single
@@ -524,11 +524,12 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim szUsers() As String
 Dim objSequence As pgSequence
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -538,12 +539,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdOK_Click()", etFullDebug
 
 Dim szOldName As String
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewSequence As pgSequence
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
@@ -569,18 +571,12 @@ Dim vEntity As Variant
    
   If bNew Then
     StartMsg "Creating Sequence..."
-    frmMain.svr.Databases(szDatabase).Sequences.Add txtProperties(0).Text, txtProperties(7).Text, txtProperties(4).Text, txtProperties(5).Text, txtProperties(6).Text, txtProperties(8).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text
+    Set objNewSequence = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Add(txtProperties(0).Text, txtProperties(7).Text, txtProperties(4).Text, txtProperties(5).Text, txtProperties(6).Text, txtProperties(8).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) <> "SVR-" Then
-        If (Left(objNode.Key, 4) = "SEQ+") And (objNode.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "SEQ-" & GetID, txtProperties(0).Text, "sequence"
-          objNode.Text = "Sequences (" & objNode.Children & ")"
-          Exit For
-        End If
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Tag
+    Set objNewSequence = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "SEQ-" & GetID, txtProperties(0).Text, "sequence")
+    objNode.Text = "Sequences (" & objNode.Children & ")"
     
   Else
     StartMsg "Updating Sequence..."
@@ -591,14 +587,7 @@ Dim vEntity As Variant
       frmMain.svr.Databases(szDatabase).Sequences.Rename szOldName, txtProperties(0).Text
         
       'Update the node text
-      For Each objNode In frmMain.tv.Nodes
-        If (InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0) Then
-          If (Left(objNode.Key, 4) = "SEQ-") And (objNode.Parent.Parent.Text = szDatabase) And (objNode.Text = szOldName) Then
-            objNode.Text = txtProperties(0).Text
-            Exit For
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
     End If
     
     If txtProperties(3).Tag = "Y" Then objSequence.LastValue = txtProperties(3).Text
@@ -611,11 +600,11 @@ Dim vEntity As Variant
     For Each vEntity In szUsers
       If vEntity <> "" Then
         If vEntity = "PUBLIC" Then
-          frmMain.svr.Databases(szDatabase).Sequences(txtProperties(0).Text).Revoke vEntity, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Revoke vEntity, aclAll
         ElseIf Left(vEntity, 6) = "GROUP " Then
-          frmMain.svr.Databases(szDatabase).Sequences(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
         Else
-          frmMain.svr.Databases(szDatabase).Sequences(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
         End If
       End If
     Next vEntity
@@ -638,7 +627,7 @@ Dim vEntity As Variant
       If InStr(1, objItem.SubItems(1), "Rule") <> 0 Then lACL = lACL + aclRule
       If InStr(1, objItem.SubItems(1), "References") <> 0 Then lACL = lACL + aclReferences
       If InStr(1, objItem.SubItems(1), "Trigger") <> 0 Then lACL = lACL + aclTrigger
-      frmMain.svr.Databases(szDatabase).Sequences(txtProperties(0).Text).Grant szEntity, lACL
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
   
@@ -655,8 +644,8 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSequence.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional Sequence As pgSequence)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional Sequence As pgSequence)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -668,6 +657,7 @@ Dim szAccesslist As String
 Dim szAccess() As String
   
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 8
@@ -774,7 +764,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
@@ -786,7 +776,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String
@@ -834,7 +824,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -844,7 +834,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -854,7 +844,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.chkPrivilege_Click(" & Index & ")", etFullDebug
 
 Dim X As Integer
@@ -895,7 +885,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objSequence Is Nothing) Then

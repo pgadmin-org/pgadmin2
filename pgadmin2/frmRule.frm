@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmRule 
    BorderStyle     =   1  'Fixed Single
@@ -284,10 +284,11 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim objRule As pgRule
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -297,11 +298,12 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewRule As pgRule
 
   'Check the data
   If txtProperties(0).Text = "" Then
@@ -326,19 +328,13 @@ Dim objItem As ListItem
   
   If bNew Then
     StartMsg "Creating Rule..."
-    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Rules.Add txtProperties(0).Text, cboProperties(1).Text, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(1).Text, hbxProperties(2).Text
+    Set objNewRule = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Rules.Add(txtProperties(0).Text, cboProperties(1).Text, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(1).Text, hbxProperties(2).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-        If (Left(objNode.Key, 4) = "RUL+") And (objNode.Parent.Text = cboProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "RUL-" & GetID, txtProperties(0).Text, "rule"
-          objNode.Text = "Rules (" & objNode.Children & ")"
-          Exit For
-        End If
-      End If
-    Next objNode
-    
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Rules.Tag
+    Set objNewRule.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "RUL-" & GetID, txtProperties(0).Text, "rule")
+    objNode.Text = "Rules (" & objNode.Children & ")"
+
   Else
     StartMsg "Updating Rule..."
     If hbxProperties(2).Tag = "Y" Then objRule.Comment = hbxProperties(2).Text
@@ -357,8 +353,8 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmRule.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional Rule As pgRule)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional Rule As pgRule)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -367,6 +363,7 @@ Dim objItem As ComboItem
 Dim vArgument As Variant
   
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 1
@@ -388,8 +385,8 @@ Dim vArgument As Variant
     Me.Caption = "Create Rule"
     
     'Load the combos
-    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.Identifier, "table"
+    For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
+      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.FormattedID, "table"
     Next objTable
     cboProperties(1).ComboItems.Add , , "INSERT", "event"
     cboProperties(1).ComboItems.Add , , "UPDATE", "event"
@@ -433,7 +430,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -443,7 +440,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objRule Is Nothing) Then
@@ -453,8 +450,3 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.chkProperties_Click(" &
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmRule.chkProperties_Click"
 End Sub
-
-
-
-
-

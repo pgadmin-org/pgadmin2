@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmIndex 
    BorderStyle     =   1  'Fixed Single
@@ -318,10 +318,11 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim objIndex As pgIndex
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -331,12 +332,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cmdOK_Click()", etFullDebug
 
 Dim szOldName As String
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewIndex As pgIndex
 Dim szColumns As String
 
   'Check the data
@@ -366,18 +368,12 @@ Dim szColumns As String
     End If
     
     StartMsg "Creating Index..."
-    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Indexes.Add txtProperties(0).Text, Bin2Bool(chkProperties(1).Value), szColumns, cboProperties(1).Text, hbxProperties(1).Text, hbxProperties(0).Text
+    Set objNewIndex = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes.Add(txtProperties(0).Text, Bin2Bool(chkProperties(1).Value), szColumns, cboProperties(1).Text, hbxProperties(1).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-        If (Left(objNode.Key, 4) = "IND+") And (objNode.Parent.Text = cboProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "IND-" & GetID, txtProperties(0).Text, "index"
-          objNode.Text = "Indexes (" & objNode.Children & ")"
-          Exit For
-        End If
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes.Tag
+    Set objNewIndex.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "IND-" & GetID, txtProperties(0).Text, "index")
+    objNode.Text = "Indexes (" & objNode.Children & ")"
     
   Else
     StartMsg "Updating Index..."
@@ -385,17 +381,10 @@ Dim szColumns As String
     'Update the sequencename if required
     If txtProperties(0).Tag = "Y" Then
       szOldName = objIndex.Name
-      frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Indexes.Rename szOldName, txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes.Rename szOldName, txtProperties(0).Text
         
       'Update the node text
-      For Each objNode In frmMain.tv.Nodes
-        If (InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0) And (InStr(1, objNode.FullPath, "\" & cboProperties(0).Text & "\") <> 0) Then
-          If (Left(objNode.Key, 4) = "IND-") And (objNode.Parent.Parent.Parent.Parent.Text = szDatabase) And (objNode.Parent.Parent.Text = cboProperties(0).Text) And (objNode.Text = szOldName) Then
-            objNode.Text = txtProperties(0).Text
-            Exit For
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
     End If
     
     If hbxProperties(1).Tag = "Y" Then objIndex.Comment = hbxProperties(1).Text
@@ -414,8 +403,8 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmIndex.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional Index As pgIndex)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional Index As pgIndex)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -426,6 +415,7 @@ Dim vColumn As Variant
 Dim vArgument As Variant
   
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 1
@@ -446,8 +436,8 @@ Dim vArgument As Variant
     Me.Caption = "Create Index"
     
     'Load the combos
-    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.Identifier, "table"
+    For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
+      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.FormattedID, "table"
     Next objTable
     Set objItem = cboProperties(1).ComboItems.Add(, , "btree", "index")
     objItem.Selected = True
@@ -482,7 +472,7 @@ Dim vArgument As Variant
     objItem.Selected = True
     chkProperties(0).Value = Bool2Bin(objIndex.Primary)
     chkProperties(1).Value = Bool2Bin(objIndex.Unique)
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(objIndex.Table).Columns
+    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(objIndex.Table).Columns
       If Not objColumn.SystemObject Then lvProperties(0).ListItems.Add , objColumn.Identifier, objColumn.Identifier, "column", "column"
     Next objColumn
     For Each vColumn In objIndex.IndexedColumns
@@ -502,7 +492,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -512,7 +502,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -522,7 +512,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objIndex Is Nothing) Then
@@ -537,14 +527,14 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objColumn As pgColumn
 
   If (Index = 0) And (objIndex Is Nothing) Then
     lvProperties(0).ListItems.Clear
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(cboProperties(Index).Text).Columns
+    For Each objColumn In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(Index).Text).Columns
       If Not objColumn.SystemObject Then lvProperties(0).ListItems.Add , , objColumn.Identifier, "column", "column"
     Next objColumn
   End If
@@ -554,7 +544,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lvProperties_ItemCheck(Index As Integer, ByVal Item As MSComctlLib.ListItem)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.lvProperties_ItemCheck(" & Index & ", " & QUOTE & Item.Text & QUOTE & ")", etFullDebug
 
   If Not (objIndex Is Nothing) Then

@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTable 
    BorderStyle     =   1  'Fixed Single
@@ -74,42 +74,63 @@ Begin VB.Form frmTable
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdColAdd"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "cmdColRemove"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "lblProperties(5)"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "lvProperties(1)"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "hbxCheck(0)"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "cmdChkRemove"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "cmdChkAdd"
+      Tab(2).Control(4).Enabled=   0   'False
       Tab(2).Control(5)=   "txtCheck(0)"
+      Tab(2).Control(5).Enabled=   0   'False
       Tab(2).ControlCount=   6
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":0716
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdFkyRemove"
+      Tab(3).Control(0)=   "lvProperties(2)"
+      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "lvProperties(2)"
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "cmdFkyRemove"
+      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":0732
       Tab(4).ControlEnabled=   0   'False
       Tab(4).Control(0)=   "lblProperties(6)"
+      Tab(4).Control(0).Enabled=   0   'False
       Tab(4).Control(1)=   "lvProperties(3)"
+      Tab(4).Control(1).Enabled=   0   'False
       Tab(4).Control(2)=   "cmdInhAdd"
+      Tab(4).Control(2).Enabled=   0   'False
       Tab(4).Control(3)=   "cmdInhRemove"
+      Tab(4).Control(3).Enabled=   0   'False
       Tab(4).Control(4)=   "cboInheritedTables(0)"
+      Tab(4).Control(4).Enabled=   0   'False
       Tab(4).ControlCount=   5
       TabCaption(5)   =   "&Security"
       TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
       Tab(5).Control(0)=   "lvProperties(4)"
+      Tab(5).Control(0).Enabled=   0   'False
       Tab(5).Control(1)=   "cmdAdd"
+      Tab(5).Control(1).Enabled=   0   'False
       Tab(5).Control(2)=   "fraAdd"
+      Tab(5).Control(2).Enabled=   0   'False
       Tab(5).Control(3)=   "cmdRemove"
+      Tab(5).Control(3).Enabled=   0   'False
       Tab(5).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -782,12 +803,13 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim szDropCheckList As String
 Dim szUsers() As String
 Dim objTable As pgTable
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -797,7 +819,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdChkAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdChkAdd_Click()", etFullDebug
 
 Dim objItem As ListItem
@@ -836,7 +858,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdChkRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdChkRemove_Click()", etFullDebug
 
   If lvProperties(1).SelectedItem Is Nothing Then
@@ -871,16 +893,16 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdColAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdColAdd_Click()", etFullDebug
 
 Dim objColumnForm As New frmColumn
   
   Load objColumnForm
   If objTable Is Nothing Then
-    objColumnForm.Initialise ctx.CurrentDB, "TA", , Me, False
+    objColumnForm.Initialise szDatabase, szNamespace, "TA", , Me, False
   Else
-    objColumnForm.Initialise ctx.CurrentDB, "TA", , Me, True
+    objColumnForm.Initialise szDatabase, szNamespace, "TA", , Me, True
   End If
   objColumnForm.Show
 
@@ -888,7 +910,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdColRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdColRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then
@@ -912,13 +934,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdFkyAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdFkyAdd_Click()", etFullDebug
 
 Dim objForeignKeyForm As New frmForeignKey
   
   Load objForeignKeyForm
-  objForeignKeyForm.Initialise ctx.CurrentDB, "TA", , Me
+  objForeignKeyForm.Initialise szDatabase, szNamespace, "TA", , Me
   objForeignKeyForm.Show
   
   Exit Sub
@@ -927,7 +949,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdFkyRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdFkyRemove_Click()", etFullDebug
 
 Dim colTemp As New Collection
@@ -951,7 +973,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdInhAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdInhAdd_Click()", etFullDebug
 
 Dim objItem As ListItem
@@ -980,7 +1002,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdInhRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdInhRemove_Click()", etFullDebug
 
   If lvProperties(3).SelectedItem Is Nothing Then
@@ -999,11 +1021,14 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewTable As pgTable
+Dim objNewColumn As pgColumn
+Dim objNewCheck As pgCheck
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
@@ -1036,14 +1061,14 @@ Dim X As Integer
     
     'Build the column list
     For Each objItem In lvProperties(0).ListItems
-      szColumns = szColumns & QUOTE & objItem.Text & QUOTE & " " & objItem.SubItems(2)
+      szColumns = szColumns & fmtID(objItem.Text) & " " & objItem.SubItems(2)
       If objItem.SubItems(3) <> "" Then szColumns = szColumns & "(" & objItem.SubItems(3) & ")"
       If objItem.SubItems(4) <> "" Then szColumns = szColumns & " DEFAULT " & objItem.SubItems(4)
       If objItem.SubItems(5) <> "No" Then szColumns = szColumns & " NOT NULL"
       szColumns = szColumns & ", "
       
       'Add to the Primary Key list if required.
-      If objItem.SubItems(6) <> "No" Then szPrimaryKeys = szPrimaryKeys & QUOTE & objItem.Text & QUOTE & ", "
+      If objItem.SubItems(6) <> "No" Then szPrimaryKeys = szPrimaryKeys & fmtID(objItem.Text) & ", "
     Next objItem
     If Len(szColumns) > 2 Then szColumns = Left(szColumns, Len(szColumns) - 2)
     
@@ -1052,14 +1077,14 @@ Dim X As Integer
 
     'Add Checks
     For Each objItem In lvProperties(1).ListItems
-      szChecks = szChecks & "CONSTRAINT " & QUOTE & objItem.Text & QUOTE & " CHECK (" & objItem.SubItems(1) & "), "
+      szChecks = szChecks & "CONSTRAINT " & fmtID(objItem.Text) & " CHECK (" & objItem.SubItems(1) & "), "
     Next objItem
     If Len(szChecks) > 2 Then szChecks = Left(szChecks, Len(szChecks) - 2)
     
     'Add Foreign Keys
     For Each objItem In lvProperties(2).ListItems
-      szForeignKeys = szForeignKeys & "CONSTRAINT " & QUOTE & objItem.Text & QUOTE & " FOREIGN KEY (" & objItem.SubItems(2) & ") "
-      szForeignKeys = szForeignKeys & "REFERENCES " & QUOTE & objItem.SubItems(1) & QUOTE & " (" & objItem.SubItems(3) & ")"
+      szForeignKeys = szForeignKeys & "CONSTRAINT " & fmtID(objItem.Text) & " FOREIGN KEY (" & objItem.SubItems(2) & ") "
+      szForeignKeys = szForeignKeys & "REFERENCES " & objItem.SubItems(1) & " (" & objItem.SubItems(3) & ")"
       szForeignKeys = szForeignKeys & " ON DELETE " & UCase(objItem.SubItems(4))
       szForeignKeys = szForeignKeys & " ON UPDATE " & UCase(objItem.SubItems(5))
       If objItem.SubItems(6) = "Yes" Then szForeignKeys = szForeignKeys & " DEFERRABLE"
@@ -1069,43 +1094,32 @@ Dim X As Integer
     
     'Add Inherits
     For Each objItem In lvProperties(3).ListItems
-      szInherits = szInherits & QUOTE & objItem.Text & QUOTE & ", "
+      szInherits = szInherits & objItem.Text & ", "
     Next objItem
     If Len(szInherits) > 2 Then szInherits = Left(szInherits, Len(szInherits) - 2)
      
-    frmMain.svr.Databases(szDatabase).Tables.Add txtProperties(0).Text, szColumns, szPrimaryKeys, szChecks, szForeignKeys, szInherits, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value)
+    Set objNewTable = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Add(txtProperties(0).Text, szColumns, szPrimaryKeys, szChecks, szForeignKeys, szInherits, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value))
     
     'Add any comments for the columns.
     For Each objItem In lvProperties(0).ListItems
-      If objItem.SubItems(7) <> "" Then frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Columns(objItem.Text).Comment = objItem.SubItems(7)
+      If objItem.SubItems(7) <> "" Then frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns(objItem.Text).Comment = objItem.SubItems(7)
     Next objItem
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) <> "SVR-" Then
-        If (Left(objNode.Key, 4) = "TBL+") And (objNode.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "TBL-" & GetID, txtProperties(0).Text, "table"
-          objNode.Text = "Tables (" & objNode.Children & ")"
-        End If
-      End If
-    Next objNode
-    
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Tag
+    Set objNewTable.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TBL-" & GetID, txtProperties(0).Text, "table")
+    objNode.Text = "Tables (" & objNode.Children & ")"
+ 
   Else
     StartMsg "Updating Table..."
     
     'Update the tablename if required
     If txtProperties(0).Tag = "Y" Then
       szOldName = objTable.Name
-      frmMain.svr.Databases(szDatabase).Tables.Rename szOldName, txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Rename szOldName, txtProperties(0).Text
         
       'Update the node text
-      For Each objNode In frmMain.tv.Nodes
-        If (InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0) Then
-          If (Left(objNode.Key, 4) = "TBL-") And (objNode.Parent.Parent.Text = szDatabase) And (objNode.Text = szOldName) Then
-            objNode.Text = txtProperties(0).Text
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
     End If
     
     'Add any new columns
@@ -1118,15 +1132,10 @@ Dim X As Integer
             szDataType = objItem.SubItems(2) & "(" & objItem.SubItems(3) & ")"
           End If
           If objItem.SubItems(5) = "Yes" Then szDataType = szDataType & " NOT NULL"
-          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Columns.Add objItem.Text, szDataType, objItem.SubItems(4), objItem.SubItems(7)
-          For Each objNode In frmMain.tv.Nodes
-            If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-              If (Left(objNode.Key, 4) = "COL+") And (objNode.Parent.Text = txtProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-                frmMain.tv.Nodes.Add objNode.Key, tvwChild, "COL-" & GetID, objItem.Text, "column"
-                objNode.Text = "Columns (" & objNode.Children & ")"
-              End If
-            End If
-          Next objNode
+          Set objNewColumn = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Add(objItem.Text, szDataType, objItem.SubItems(4), objItem.SubItems(7))
+          Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Tag
+          Set objNewColumn.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "COL-" & GetID, objItem.Text, "column")
+          objNode.Text = "Columns (" & objNode.Children & ")"
         End If
       Next objItem
     End If
@@ -1135,15 +1144,10 @@ Dim X As Integer
     If lvProperties(1).Tag = "Y" Then
       For Each objItem In lvProperties(1).ListItems
         If objItem.Tag <> "ORIG" Then
-          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Checks.Add objItem.Text, objItem.SubItems(1)
-          For Each objNode In frmMain.tv.Nodes
-            If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-              If (Left(objNode.Key, 4) = "CHK+") And (objNode.Parent.Text = txtProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-                frmMain.tv.Nodes.Add objNode.Key, tvwChild, "CHK-" & GetID, objItem.Text, "check"
-                objNode.Text = "Checks (" & objNode.Children & ")"
-              End If
-            End If
-          Next objNode
+          Set objNewCheck = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Add(objItem.Text, objItem.SubItems(1))
+          Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Tag
+          Set objNewCheck.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "CHK-" & GetID, objItem.Text, "check")
+          objNode.Text = "Checks (" & objNode.Children & ")"
         End If
       Next objItem
     End If
@@ -1153,15 +1157,10 @@ Dim X As Integer
       szDropChecks = Split(szDropCheckList, "!|!")
       For X = 0 To UBound(szDropChecks)
         If szDropChecks(X) <> "" Then
-          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Checks.Remove szDropChecks(X)
-          For Each objNode In frmMain.tv.Nodes
-            If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-              If (Left(objNode.Key, 4) = "CHK-") And (Left(objNode.Parent.Text, 8) = "Checks (") And (objNode.Parent.Parent.Text = szDatabase) Then
-                frmMain.tv.Nodes.Remove objNode.Index
-                objNode.Text = "Checks (" & objNode.Children & ")"
-              End If
-            End If
-          Next objNode
+          Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks(szDropChecks(X))
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Remove szDropChecks(X)
+          frmMain.tv.Nodes.Remove objNode.Index
+          objNode.Text = "Checks (" & objNode.Children & ")"
         End If
       Next X
     End If
@@ -1176,11 +1175,11 @@ Dim X As Integer
     For Each vEntity In szUsers
       If vEntity <> "" Then
         If vEntity = "PUBLIC" Then
-          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Revoke vEntity, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Revoke vEntity, aclAll
         ElseIf Left(vEntity, 6) = "GROUP " Then
-          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
         Else
-          frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
         End If
       End If
     Next vEntity
@@ -1203,12 +1202,12 @@ Dim X As Integer
       If InStr(1, objItem.SubItems(1), "Rule") <> 0 Then lACL = lACL + aclRule
       If InStr(1, objItem.SubItems(1), "References") <> 0 Then lACL = lACL + aclReferences
       If InStr(1, objItem.SubItems(1), "Trigger") <> 0 Then lACL = lACL + aclTrigger
-      frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Grant szEntity, lACL
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
   
   'Finally, alter the username if required.
-  If cboProperties(0).Tag = "Y" Then frmMain.svr.Databases(szDatabase).Tables(txtProperties(0).Text).Owner = cboProperties(0).Text
+  If cboProperties(0).Tag = "Y" Then frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Owner = cboProperties(0).Text
   
   'Simulate a node click to refresh the ListTable
   frmMain.tv_NodeClick frmMain.tv.SelectedItem
@@ -1223,8 +1222,8 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTable.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional Table As pgTable)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional Table As pgTable)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -1235,6 +1234,7 @@ Dim objColumn As pgColumn
 Dim objCheck As pgCheck
 Dim objForeignKey As pgForeignKey
 Dim objRelationship As pgRelationship
+Dim objNamespace As pgNamespace
 Dim bFirstRow As Boolean
 Dim vInheritedTable As Variant
 Dim szUserlist As String
@@ -1242,6 +1242,7 @@ Dim szAccesslist As String
 Dim szAccess() As String
   
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 4
@@ -1284,11 +1285,23 @@ Dim szAccess() As String
     cboInheritedTables(0).BackColor = &H80000005
     
     'Populate the Combos
-    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-      If Not objTable.SystemObject Then
-        cboInheritedTables(0).ComboItems.Add , , objTable.Identifier, "table"
-      End If
-    Next objTable
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          For Each objTable In objNamespace.Tables
+            If Not objTable.SystemObject Then
+              cboInheritedTables(0).ComboItems.Add , , objTable.FormattedID, "table"
+            End If
+          Next objTable
+        End If
+      Next objNamespace
+    Else
+      For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
+        If Not objTable.SystemObject Then
+          cboInheritedTables(0).ComboItems.Add , , objTable.Identifier, "table"
+        End If
+      Next objTable
+    End If
     
     'Default the owner
     cboProperties(0).ComboItems(ctx.Username).Selected = True
@@ -1318,7 +1331,7 @@ Dim szAccess() As String
     chkProperties(0).Value = Bool2Bin(objTable.HasOIDs)
     hbxProperties(0).Text = objTable.Comment
     
-    For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(objTable.Name).Columns
+    For Each objColumn In objTable.Columns
       If Not objColumn.SystemObject Then
         Set objItem = lvProperties(0).ListItems.Add(, , objColumn.Name, "column", "column")
         objItem.SubItems(1) = objColumn.Position
@@ -1344,13 +1357,13 @@ Dim szAccess() As String
       End If
     Next objColumn
     
-    For Each objCheck In frmMain.svr.Databases(szDatabase).Tables(objTable.Name).Checks
+    For Each objCheck In objTable.Checks
       Set objItem = lvProperties(1).ListItems.Add(, , objCheck.Name, "check", "check")
       objItem.SubItems(1) = objCheck.Definition
       objItem.Tag = "ORIG"
     Next objCheck
     
-    For Each objForeignKey In frmMain.svr.Databases(szDatabase).Tables(objTable.Name).ForeignKeys
+    For Each objForeignKey In objTable.ForeignKeys
       Set objItem = lvProperties(2).ListItems.Add(, , objForeignKey.Name, "foreignkey", "foreignkey")
       objItem.SubItems(1) = objForeignKey.ReferencedTable
       For Each objRelationship In objForeignKey.Relationships
@@ -1369,7 +1382,7 @@ Dim szAccess() As String
       objItem.SubItems(7) = objForeignKey.Initially
     Next objForeignKey
     
-    For Each vInheritedTable In frmMain.svr.Databases(szDatabase).Tables(objTable.Name).InheritedTables
+    For Each vInheritedTable In objTable.InheritedTables
       Set objItem = lvProperties(3).ListItems.Add(, , vInheritedTable, "table", "table")
     Next vInheritedTable
     
@@ -1411,7 +1424,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdRemove_Click()", etFullDebug
 
   If lvProperties(4).SelectedItem Is Nothing Then Exit Sub
@@ -1423,7 +1436,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String
@@ -1471,7 +1484,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -1481,7 +1494,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lvProperties_ItemClick(Index As Integer, ByVal Item As MSComctlLib.ListItem)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.lvProperties_ItemClick(" & Index & ", " & Item.Text & ")", etFullDebug
 
   'Don't allow removal of existing columns
@@ -1507,7 +1520,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -1517,7 +1530,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.chkPrivilege_Click(" & Index & ")", etFullDebug
 
 Dim X As Integer
@@ -1558,7 +1571,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cboProperties_Click(" & Index & ")", etFullDebug
 
   cboProperties(Index).Tag = "Y"
@@ -1568,7 +1581,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.chkProperties_Click(" & Index & ")", etFullDebug
 
   If frmMain.svr.dbVersion.VersionNum < 7.2 Then

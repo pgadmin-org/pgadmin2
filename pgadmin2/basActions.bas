@@ -8,7 +8,7 @@ Attribute VB_Name = "basActions"
 Option Explicit
 
 Public Sub Vacuum(bAnalyse As Boolean)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Vacuum(" & bAnalyse & ")", etFullDebug
   
   'If a table is selected then Vacuum it alone, otherwise vacuum the entire database. We don't do columns
@@ -35,7 +35,7 @@ Err_Handler:
 End Sub
 
 Public Sub Drop()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basActions.Drop()", etFullDebug
  
 Dim objItem As ListItem
@@ -49,28 +49,10 @@ Dim szPath() As String
       MsgBox "You cannot drop system objects!", vbExclamation, "Error"
       Exit Sub
     End If
-    If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
-      If ctx.CurrentObject.ObjectType <> "Check" Then
-        If ctx.CurrentObject.ObjectType = "Table" Then
-          If ctx.CurrentObject.RCStatus <> rcUpToDate Then
-            If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later, however any data in the table will be lost." & vbCrLf & vbCrLf & "NOTE: This table is not up to date in the Revision Control system, so it may not be possible to restore to the current state.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-          Else
-            If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later, however any data in the table will be lost.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-          End If
-        Else
-          If ctx.CurrentObject.RCStatus <> rcUpToDate Then
-            If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "NOTE: This object is not up to date in the Revision Control system, so it may not be possible to restore to the current state.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-          Else
-            If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "These objects may be restored from Revision Control later.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-          End If
-        End If
-      End If
+    If ctx.CurrentObject.ObjectType = "Table" Then
+      If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
     Else
-      If ctx.CurrentObject.ObjectType = "Table" Then
-        If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-      Else
-        If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
-      End If
+      If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
     End If
   Else
     If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
@@ -78,8 +60,9 @@ Dim szPath() As String
   
   StartMsg "Dropping " & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.Identifier
         
-  'Store the Identifier for later.
+  'Store the Identifier & node for later.
   szIdentifier = ctx.CurrentObject.Identifier
+  Set objNode = ctx.CurrentObject.Tag
   
   'We need to figure out what type of object we are trying to drop to know where it is in the
   'object hierarchy
@@ -88,26 +71,14 @@ Dim szPath() As String
     Case "User"
       szType = "USR-"
       frmMain.svr.Users.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        If Left(objNode.Key, 4) = szType And objNode.Text = szIdentifier Then
-          objNode.Parent.Text = "Users (" & objNode.Parent.Children - 1 & ")"
-          frmMain.tv.Nodes.Remove objNode.Index
-        End If
-      Next objNode
+      objNode.Parent.Text = "Users (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
       
     Case "Group"
       szType = "GRP-"
       frmMain.svr.Groups.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        If Left(objNode.Key, 4) = szType And objNode.Text = szIdentifier Then
-          objNode.Parent.Text = "Groups (" & objNode.Parent.Children - 1 & ")"
-          frmMain.tv.Nodes.Remove objNode.Index
-        End If
-      Next objNode
+      objNode.Parent.Text = "Groups (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
       
     Case "Database"
     
@@ -116,209 +87,92 @@ Dim szPath() As String
     
       szType = "DAT-"
       frmMain.svr.Databases.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        If Left(objNode.Key, 4) = szType And objNode.Text = szIdentifier Then
-          objNode.Parent.Text = "Databases (" & objNode.Parent.Children - 1 & ")"
-          frmMain.tv.Nodes.Remove objNode.Index
-        End If
-      Next objNode
+      objNode.Parent.Text = "Databases (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
       
     Case "Aggregate"
       szType = "AGG-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Aggregates.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Aggregates (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Aggregates.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Aggregates (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
 
     Case "Domain"
       szType = "DOM-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Domains.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Domains (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Domains.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Domains (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
     
     Case "Function"
       szType = "FNC-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Functions.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Functions (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Functions.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Functions (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
     
     Case "Index"
       szType = "IND-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables(ctx.CurrentObject.Table).Indexes.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Indexes (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables(ctx.CurrentObject.Table).Indexes.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Indexes (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
       
     Case "Language"
       szType = "LNG-"
       frmMain.svr.Databases(ctx.CurrentObject.Database).Languages.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Languages (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
       
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Languages (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+    Case "Schema"
+      szType = "NSP-"
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Schemas (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
     
     Case "Operator"
       szType = "OPR-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Operators.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Operators (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Operators.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Operators (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
     
     Case "Rule"
       szType = "RUL-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables(ctx.CurrentObject.Table).Rules.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Rules (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables(ctx.CurrentObject.Table).Rules.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Rules (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
     
     Case "Sequence"
       szType = "SEQ-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Sequences.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Sequences (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Sequences.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Sequences (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
     
     Case "Table"
       szType = "TBL-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables.Remove ctx.CurrentObject.Identifier, True
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Tables (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables.Remove ctx.CurrentObject.Identifier, True
+      objNode.Parent.Text = "Tables (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
       
     Case "Check"
       szType = "CHK-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables(ctx.CurrentObject.Table).Checks.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Checks (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables(ctx.CurrentObject.Table).Checks.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Checks (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
       
     Case "Trigger"
       szType = "TRG-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Tables(ctx.CurrentObject.Table).Triggers.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Triggers (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Tables(ctx.CurrentObject.Table).Triggers.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Triggers (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
       
     Case "Type"
       szType = "TYP-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Types.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Types (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Types.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Types (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
     
     Case "View"
       szType = "VIE-"
-      frmMain.svr.Databases(ctx.CurrentObject.Database).Views.Remove ctx.CurrentObject.Identifier
-      
-      'Delete any matching tree nodes
-      For Each objNode In frmMain.tv.Nodes
-        szPath = Split(objNode.FullPath, "\")
-        If UBound(szPath) >= 2 Then
-          If (Left(objNode.Key, 4) = szType) And (szPath(2) = ctx.CurrentObject.Database) And (objNode.Text = szIdentifier) Then
-            objNode.Parent.Text = "Views (" & objNode.Parent.Children - 1 & ")"
-            frmMain.tv.Nodes.Remove objNode.Index
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(ctx.CurrentObject.Database).Namespaces(ctx.CurrentObject.Namespace).Views.Remove ctx.CurrentObject.Identifier
+      objNode.Parent.Text = "Views (" & objNode.Parent.Children - 1 & ")"
+      frmMain.tv.Nodes.Remove objNode.Index
   
     Case Else
       MsgBox ctx.CurrentObject.ObjectType & " objects cannot be dropped.", vbExclamation, "Error"

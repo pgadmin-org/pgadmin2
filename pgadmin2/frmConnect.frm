@@ -115,7 +115,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdConnect_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.cmdConnect_Click()", etFullDebug
 
 Dim szOriConns(11) As String
@@ -193,6 +193,7 @@ Dim objNode As Node
   frmMain.lv.ListItems.Clear
   frmMain.lv.ColumnHeaders.Clear
   Set objNode = frmMain.tv.Nodes.Add(, , "SVR-" & GetID, frmMain.svr.Server, "server")
+  Set frmMain.svr.Tag = objNode
   
   'Set the CurrentObject
   Set ctx.CurrentObject = frmMain.svr
@@ -213,7 +214,7 @@ Err_Handler:
 End Sub
 
 Public Sub Load_Defaults(Optional Connection As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmConnect.Load_Defaults(" & Connection & ")", etFullDebug
 
 Dim szConnection() As String

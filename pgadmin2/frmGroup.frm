@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Begin VB.Form frmGroup 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Group"
@@ -186,7 +186,7 @@ Dim bNew As Boolean
 Dim objGroup As pgGroup
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -196,11 +196,12 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewGroup As pgGroup
 Dim szAddList As String
 Dim szRemoveList As String
   
@@ -213,15 +214,12 @@ Dim szRemoveList As String
   
   If bNew Then
     StartMsg "Creating Group..."
-    frmMain.svr.Groups.Add txtProperties(0).Text, Val(txtProperties(1).Text)
+    Set objNewGroup = frmMain.svr.Groups.Add(txtProperties(0).Text, Val(txtProperties(1).Text))
 
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) = "GRP+" Then
-        frmMain.tv.Nodes.Add objNode.Key, tvwChild, "GRP-" & GetID, txtProperties(0).Text, "group"
-        objNode.Text = "Groups (" & frmMain.svr.Groups.Count & ")"
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Groups.Tag
+    Set objNewGroup.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "GRP-" & GetID, txtProperties(0).Text, "group")
+    objNode.Text = "Groups (" & frmMain.svr.Groups.Count & ")"
     
   Else
     StartMsg "Updating Group..."
@@ -252,7 +250,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(Optional Group As pgGroup)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.Initialise()", etFullDebug
   
 Dim X As Integer
@@ -320,7 +318,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lvProperties_ItemCheck(Index As Integer, ByVal Item As MSComctlLib.ListItem)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.lvProperties_ItemCheck(" & Index & ", " & Item.Text & ")", etFullDebug
 
   Item.Tag = "Y"
@@ -330,7 +328,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"

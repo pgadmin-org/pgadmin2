@@ -56,6 +56,12 @@ Treat all objects named pgadmin_* as system objects.
 Fixed a bug in the Operator Cache which also cached the left & right types.
 Allow addition & removal of NOT NULL constraints on columns with PostgreSQL 7.3+.
 Check the ODBC driver version correctly for EXPLAIN.
+Added support for Schemas in PostgreSQL 7.3+.
+Removed Revision Control due to it's complexity and lack of use following an RFD on the hackers and support lists.
+Rewrote the code that associates treeview nodes with pgSchema objects. The new code is faster and more reliable.
+Correctly recognise functions with one opaque argument.
+Filter functions listed when creating Types & Operators to only those that are suitable.
+Only quote identifiers when required.
 
 1.2.0 Stable
 ------------

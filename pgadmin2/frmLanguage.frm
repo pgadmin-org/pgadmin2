@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmLanguage 
    BorderStyle     =   1  'Fixed Single
@@ -203,7 +203,7 @@ Dim szDatabase As String
 Dim objLanguage As pgLanguage
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -213,11 +213,12 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewLanguage As pgLanguage
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
@@ -238,18 +239,12 @@ Dim vEntity As Variant
   
   If bNew Then
     StartMsg "Creating Language..."
-    frmMain.svr.Databases(szDatabase).Languages.Add txtProperties(0).Text, Bin2Bool(chkProperties(0).Value), Left(cboProperties(0).Text, Len(cboProperties(0).Text) - 2), hbxProperties(0).Text
+    Set objNewLanguage = frmMain.svr.Databases(szDatabase).Languages.Add(txtProperties(0).Text, Bin2Bool(chkProperties(0).Value), Left(cboProperties(0).Text, Len(cboProperties(0).Text) - 2), hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) <> "SVR-" Then
-        If (Left(objNode.Key, 4) = "LNG+") And (objNode.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "LNG-" & GetID, txtProperties(0).Text, "language"
-          objNode.Text = "Languages (" & objNode.Children & ")"
-          Exit For
-        End If
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Databases(szDatabase).Languages.Tag
+    Set objNewLanguage.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "LNG-" & GetID, txtProperties(0).Text, "language")
+    objNode.Text = "Languages (" & objNode.Children & ")"
     
   Else
     StartMsg "Updating Language..."
@@ -270,11 +265,12 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Language As pgLanguage)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objFunction As pgFunction
+Dim objNamespace As pgNamespace
 Dim objItem As ComboItem
   
   szDatabase = szDB
@@ -293,11 +289,30 @@ Dim objItem As ComboItem
     Me.Caption = "Create Language"
     
     'Load the combo
-    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
-      If (objFunction.Returns = "opaque") And (objFunction.Arguments.Count = 0) Then
-        cboProperties(0).ComboItems.Add , , objFunction.Identifier, "function"
-      End If
-    Next objFunction
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      'Add pg_catalog items first, unqualified
+      For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
+        If (objFunction.Returns = "opaque") And (objFunction.Arguments.Count = 0) Then
+          cboProperties(0).ComboItems.Add , , fmtID(objFunction.Name), "function"
+        End If
+      Next objFunction
+      'Now add other items
+      For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          For Each objFunction In objNamespace.Functions
+            If (objFunction.Returns = "opaque") And (objFunction.Arguments.Count = 0) Then
+              cboProperties(0).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+            End If
+          Next objFunction
+        End If
+      Next objNamespace
+    Else
+      For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("public").Functions
+        If (objFunction.Returns = "opaque") And (objFunction.Arguments.Count = 0) Then
+          cboProperties(0).ComboItems.Add , , fmtID(objFunction.Name), "function"
+        End If
+      Next objFunction
+    End If
   
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -328,7 +343,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -338,7 +353,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -348,7 +363,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objLanguage Is Nothing) Then

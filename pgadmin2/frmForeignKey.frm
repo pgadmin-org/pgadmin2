@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Begin VB.Form frmForeignKey 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Foreign Key"
@@ -81,13 +81,13 @@ Begin VB.Form frmForeignKey
       TabCaption(1)   =   "&Relationships"
       TabPicture(1)   =   "frmForeignKey.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(7)"
-      Tab(1).Control(1)=   "lblProperties(8)"
-      Tab(1).Control(2)=   "cboProperties(6)"
+      Tab(1).Control(0)=   "cmdAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdRemove"
-      Tab(1).Control(6)=   "cmdAdd"
+      Tab(1).Control(4)=   "cboProperties(6)"
+      Tab(1).Control(5)=   "lblProperties(8)"
+      Tab(1).Control(6)=   "lblProperties(7)"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -423,12 +423,13 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim szDatabase As String
+Dim szNamespace As String
 Dim szMode As String
 Dim frmCallingForm As Form
 Dim objForeignKey As pgForeignKey
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
@@ -439,7 +440,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdAdd_Click()", etFullDebug
 
 Dim objItem As ListItem
@@ -455,7 +456,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -465,7 +466,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -515,8 +516,8 @@ Dim szOldName As String
       Set objItem = frmCallingForm.lvProperties(2).ListItems.Add(, , txtProperties(0).Text, "foreignkey", "foreignkey")
       objItem.SubItems(1) = cboProperties(1).Text
       For Each objRelItem In lvProperties(0).ListItems
-        objItem.SubItems(2) = objItem.SubItems(2) & QUOTE & objRelItem.Text & QUOTE & ", "
-        objItem.SubItems(3) = objItem.SubItems(3) & QUOTE & objRelItem.SubItems(1) & QUOTE & ", "
+        objItem.SubItems(2) = objItem.SubItems(2) & objRelItem.Text & ", "
+        objItem.SubItems(3) = objItem.SubItems(3) & objRelItem.SubItems(1) & ", "
       Next objRelItem
       If Len(objItem.SubItems(2)) > 2 Then objItem.SubItems(2) = Left(objItem.SubItems(2), Len(objItem.SubItems(2)) - 2)
       If Len(objItem.SubItems(3)) > 2 Then objItem.SubItems(3) = Left(objItem.SubItems(3), Len(objItem.SubItems(3)) - 2)
@@ -548,17 +549,19 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmForeignKey.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, szMD As String, Optional ForeignKey As pgForeignKey, Optional frmCF As Form)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, szMD As String, Optional ForeignKey As pgForeignKey, Optional frmCF As Form)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.Initialise(" & QUOTE & szDB & QUOTE & ", " & QUOTE & szMD & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ComboItem
 Dim objLItem As ListItem
 Dim objTable As pgTable
+Dim objNamespace As pgNamespace
 Dim objRelationship As pgRelationship
 
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 1
@@ -599,28 +602,44 @@ Dim objRelationship As pgRelationship
       objItem.Selected = True
       
       'Populate the Referenced Tables combo
-      For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-        If Not objTable.SystemObject Then cboProperties(1).ComboItems.Add , , objTable.Name, "table", "table"
-      Next objTable
+      If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+        For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+          If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+            For Each objTable In objNamespace.Tables
+              If Not objTable.SystemObject Then
+                Set objItem = cboProperties(1).ComboItems.Add(, , objTable.FormattedID, "table", "table")
+                Set objItem.Tag = objTable
+              End If
+            Next objTable
+          End If
+        Next objNamespace
+      Else
+        For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
+          If Not objTable.SystemObject Then
+            Set objItem = cboProperties(1).ComboItems.Add(, , objTable.FormattedID, "table", "table")
+            Set objItem.Tag = objTable
+          End If
+        Next objTable
+      End If
       
       'Populate the Actions combos
-      Set objItem = cboProperties(2).ComboItems.Add(, , "No Action", "key", "key")
+      Set objItem = cboProperties(2).ComboItems.Add(, , "NO ACTION", "key", "key")
       objItem.Selected = True
-      Set objItem = cboProperties(3).ComboItems.Add(, , "No Action", "key", "key")
+      Set objItem = cboProperties(3).ComboItems.Add(, , "NO ACTION", "key", "key")
       objItem.Selected = True
-      cboProperties(2).ComboItems.Add , , "Restrict", "key", "key"
-      cboProperties(3).ComboItems.Add , , "Restrict", "key", "key"
-      cboProperties(2).ComboItems.Add , , "Cascade", "key", "key"
-      cboProperties(3).ComboItems.Add , , "Cascade", "key", "key"
-      cboProperties(2).ComboItems.Add , , "Set Null", "key", "key"
-      cboProperties(3).ComboItems.Add , , "Set Null", "key", "key"
-      cboProperties(2).ComboItems.Add , , "Set Default", "key", "key"
-      cboProperties(3).ComboItems.Add , , "Set Default", "key", "key"
+      cboProperties(2).ComboItems.Add , , "RESTRICT", "key", "key"
+      cboProperties(3).ComboItems.Add , , "RESTRICT", "key", "key"
+      cboProperties(2).ComboItems.Add , , "CASCADE", "key", "key"
+      cboProperties(3).ComboItems.Add , , "CASCADE", "key", "key"
+      cboProperties(2).ComboItems.Add , , "SET NULL", "key", "key"
+      cboProperties(3).ComboItems.Add , , "SET NULL", "key", "key"
+      cboProperties(2).ComboItems.Add , , "SET DEFAULT", "key", "key"
+      cboProperties(3).ComboItems.Add , , "SET DEFAULT", "key", "key"
       
       'Populate the Initially combo
-      Set objItem = cboProperties(4).ComboItems.Add(, , "Immediate", "key", "key")
+      Set objItem = cboProperties(4).ComboItems.Add(, , "IMMEDIATE", "key", "key")
       objItem.Selected = True
-      cboProperties(4).ComboItems.Add , , "Deferred", "key", "key"
+      cboProperties(4).ComboItems.Add , , "DEFERRED", "key", "key"
       
       'Populate the local columns combo
       For Each objLItem In frmCallingForm.lvProperties(0).ListItems
@@ -657,7 +676,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objForeignKey Is Nothing) Then
@@ -669,7 +688,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmForeignKey.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objColumn As pgColumn
@@ -678,7 +697,7 @@ Dim objColumn As pgColumn
     If Index = 1 Then
       cboProperties(6).ComboItems.Clear
       lvProperties(0).ListItems.Clear
-      For Each objColumn In frmMain.svr.Databases(szDatabase).Tables(cboProperties(1).Text).Columns
+      For Each objColumn In cboProperties(1).SelectedItem.Tag.Columns
         If Not objColumn.SystemObject Then cboProperties(6).ComboItems.Add , , objColumn.Name, "column", "column"
       Next objColumn
     End If

@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmColumn 
    BorderStyle     =   1  'Fixed Single
@@ -327,13 +327,14 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim szDatabase As String
+Dim szNamespace As String
 Dim szMode As String
 Dim frmCallingForm As Form
 Dim objColumn As pgColumn
 Dim bNoPrimaryKey As Boolean
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -343,7 +344,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -385,10 +386,6 @@ Dim szOldName As String
       
       If ((cboProperties(1).Text = "serial") Or (cboProperties(1).Text = "serial8")) Then
         Set objItem = frmCallingForm.lvProperties(0).ListItems.Add(, , txtProperties(0).Text, "sequence", "sequence")
-        'Warn about revision control issues
-        If frmMain.svr.Databases(szDatabase).RevisionControl Then
-          MsgBox "You have created a serial column - this will cause PostgreSQL to automatically create an Index on the table, and a Sequence which cannot be automatically be added to Revision Control and will need to be manually committed. You may need to refresh the Indexes or Sequences collections in the treeview in order to see these objects.", vbInformation, "Warning"
-        End If
       Else
         Set objItem = frmCallingForm.lvProperties(0).ListItems.Add(, , txtProperties(0).Text, "column", "column")
       End If
@@ -421,17 +418,10 @@ Dim szOldName As String
       
       If txtProperties(0).Tag = "Y" Then
         szOldName = objColumn.Name
-        frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Columns.Rename szOldName, txtProperties(0).Text
+        frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Columns.Rename szOldName, txtProperties(0).Text
         
         'Update the node text
-        For Each objNode In frmMain.tv.Nodes
-          If (InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0) And (InStr(1, objNode.FullPath, "\" & cboProperties(0).Text & "\") <> 0) Then
-            If (Left(objNode.Key, 4) = "COL-") And (objNode.Parent.Parent.Text = cboProperties(0).Text) And (objNode.Parent.Parent.Parent.Parent.Text = szDatabase) And (objNode.Text = szOldName) Then
-              objNode.Text = txtProperties(0).Text
-              Exit For
-            End If
-          End If
-        Next objNode
+        frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Columns(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
       End If
       
       'Simulate a node click to refresh the ListColumn (only do this when updating a column).
@@ -448,16 +438,18 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmColumn.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, szMD As String, Optional Column As pgColumn, Optional frmCF As Form, Optional bNoPKey As Boolean)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, szMD As String, Optional Column As pgColumn, Optional frmCF As Form, Optional bNoPKey As Boolean)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.Initialise(" & QUOTE & szDB & QUOTE & ", " & QUOTE & szMD & QUOTE & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ComboItem
 Dim objDomain As pgDomain
 Dim objType As pgType
+Dim objNamespace As pgNamespace
 
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 4
@@ -493,14 +485,37 @@ Dim objType As pgType
       txtProperties(1).Text = frmCallingForm.lvProperties(0).ListItems.Count + 1
       
       'Populate the Types combo
+      'Pseudo types
       If frmMain.svr.dbVersion.VersionNum >= 7.2 Then cboProperties(1).ComboItems.Add , , "serial8", "sequence", "sequence"
       cboProperties(1).ComboItems.Add , , "serial", "sequence", "sequence"
-      For Each objDomain In frmMain.svr.Databases(szDatabase).Domains
-        cboProperties(1).ComboItems.Add , , objDomain.Name, "domain", "domain"
-      Next objDomain
-      For Each objType In frmMain.svr.Databases(szDatabase).Types
-        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Name, "type", "type"
-      Next objType
+      
+      If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+        'Add pg_catalog items first, unqualified
+        For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Domains
+          cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain", "domain"
+        Next objDomain
+        For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
+          If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type", "type"
+        Next objType
+        'Now add other items
+        For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+          If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+            For Each objDomain In objNamespace.Domains
+              cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain", "domain"
+            Next objDomain
+            For Each objType In objNamespace.Types
+              If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type", "type"
+            Next objType
+          End If
+        Next objNamespace
+      Else
+        For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Domains
+          cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain", "domain"
+        Next objDomain
+        For Each objType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
+          If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type", "type"
+        Next objType
+      End If
     
     Case "MP"
   
@@ -517,8 +532,13 @@ Dim objType As pgType
       End If
       If objColumn.DataType = "numeric" Then txtProperties(3).Text = objColumn.NumericScale
       txtProperties(4).Text = objColumn.Default
-      Set objItem = cboProperties(0).ComboItems.Add(, , objColumn.Table, "table")
-      objItem.Selected = True
+      If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+        Set objItem = cboProperties(0).ComboItems.Add(, , objColumn.Namespace & "." & objColumn.Table, "table")
+        objItem.Selected = True
+      Else
+        Set objItem = cboProperties(0).ComboItems.Add(, , objColumn.Table, "table")
+        objItem.Selected = True
+      End If
       Set objItem = cboProperties(1).ComboItems.Add(, , objColumn.DataType, "type")
       objItem.Selected = True
       chkProperties(0).Value = Bool2Bin(objColumn.NotNull)
@@ -541,7 +561,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -551,7 +571,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -561,7 +581,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objColumn Is Nothing) Then
@@ -583,7 +603,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cboProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cboProperties_Click(" & Index & ")", etFullDebug
 
 Dim objColumn As pgColumn

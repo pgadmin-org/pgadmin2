@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmFunction 
    BorderStyle     =   1  'Fixed Single
@@ -107,13 +107,13 @@ Begin VB.Form frmFunction
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":1A60
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdRemove"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lblProperties(4)"
+      Tab(1).Control(1)=   "lblProperties(5)"
+      Tab(1).Control(2)=   "cboProperties(2)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "cboProperties(2)"
-      Tab(1).Control(5)=   "lblProperties(5)"
-      Tab(1).Control(6)=   "lblProperties(4)"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cmdAdd"
+      Tab(1).Control(6)=   "cmdRemove"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":1A7C
@@ -392,10 +392,11 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim objFunction As pgFunction
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
@@ -406,11 +407,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdAdd_Click()", etFullDebug
 
   If cboProperties(2).Text = "" Then Exit Sub
   Select Case cboProperties(2).SelectedItem.Image
+    Case "domain"
+      lvProperties(0).ListItems.Add , , cboProperties(2).Text, "domain", "domain"
     Case "type"
       lvProperties(0).ListItems.Add , , cboProperties(2).Text, "type", "type"
     Case "opaque"
@@ -424,7 +427,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -434,11 +437,12 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewFunction As pgFunction
 Dim szArguments As String
 Dim lACL As Long
 Dim szEntity As String
@@ -476,18 +480,12 @@ Dim vEntity As Variant
       szArguments = szArguments & objItem.Text & ", "
     Next objItem
     If Len(szArguments) > 2 Then szArguments = Left(szArguments, Len(szArguments) - 2)
-    frmMain.svr.Databases(szDatabase).Functions.Add txtProperties(0).Text, szArguments, cboProperties(1).Text, hbxProperties(1).Text, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text
+    Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(txtProperties(0).Text, szArguments, cboProperties(1).Text, hbxProperties(1).Text, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) <> "SVR-" Then
-        If (Left(objNode.Key, 4) = "FNC+") And (objNode.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "FNC-" & GetID, txtProperties(0).Text & "(" & szArguments & ")", "function"
-          objNode.Text = "Functions (" & objNode.Children & ")"
-          Exit For
-        End If
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Tag
+    Set objNewFunction.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "FNC-" & GetID, txtProperties(0).Text & "(" & szArguments & ")", "function")
+    objNode.Text = "Functions (" & objNode.Children & ")"
     
   Else
     StartMsg "Updating Function..."
@@ -508,8 +506,8 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional oFunction As pgFunction)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional oFunction As pgFunction)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -517,10 +515,12 @@ Dim objLanguage As pgLanguage
 Dim objDomain As pgDomain
 Dim objType As pgType
 Dim objTable As pgTable
+Dim objNamespace As pgNamespace
 Dim objItem As ComboItem
 Dim vArgument As Variant
   
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 2
@@ -547,19 +547,53 @@ Dim vArgument As Variant
     Next objLanguage
     cboProperties(1).ComboItems.Add , , "opaque", "opaque"
     cboProperties(2).ComboItems.Add , , "opaque", "opaque"
-    For Each objDomain In frmMain.svr.Databases(szDatabase).Domains
-      cboProperties(1).ComboItems.Add , , objDomain.Identifier, "domain"
-      cboProperties(2).ComboItems.Add , , objDomain.Identifier, "domain"
-    Next objDomain
-    For Each objType In frmMain.svr.Databases(szDatabase).Types
-      If Left(objType.Identifier, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Identifier, "type"
-      If Left(objType.Identifier, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objType.Identifier, "type"
-    Next objType
-    For Each objTable In frmMain.svr.Databases(szDatabase).Tables
-      cboProperties(1).ComboItems.Add , , objTable.Identifier, "table"
-      cboProperties(2).ComboItems.Add , , objTable.Identifier, "table"
-    Next objTable
-  
+    
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      'Load pg_catalog entries first, unqualified
+      For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Domains
+        cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain"
+        cboProperties(2).ComboItems.Add , , fmtID(objDomain.Name), "domain"
+      Next objDomain
+      For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
+        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type"
+        If Left(objType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , fmtID(objType.Name), "type"
+      Next objType
+      For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Tables
+        cboProperties(1).ComboItems.Add , , fmtID(objTable.Name), "table"
+        cboProperties(2).ComboItems.Add , , fmtID(objTable.Name), "table"
+      Next objTable
+      'Now load the rest
+      For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          For Each objDomain In objNamespace.Domains
+            cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain"
+            cboProperties(2).ComboItems.Add , , objDomain.FormattedID, "domain"
+          Next objDomain
+          For Each objType In objNamespace.Types
+            If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type"
+            If Left(objType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objType.FormattedID, "type"
+          Next objType
+          For Each objTable In objNamespace.Tables
+            cboProperties(1).ComboItems.Add , , objTable.FormattedID, "table"
+            cboProperties(2).ComboItems.Add , , objTable.FormattedID, "table"
+          Next objTable
+        End If
+      Next objNamespace
+    Else
+      For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Domains
+        cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain"
+        cboProperties(2).ComboItems.Add , , objDomain.FormattedID, "domain"
+      Next objDomain
+      For Each objType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
+        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type"
+        If Left(objType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objType.FormattedID, "type"
+      Next objType
+      For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
+        cboProperties(1).ComboItems.Add , , objTable.FormattedID, "table"
+        cboProperties(2).ComboItems.Add , , objTable.FormattedID, "table"
+      Next objTable
+    End If
+    
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
     txtProperties(0).Locked = False
@@ -614,7 +648,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -624,7 +658,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objFunction Is Nothing) Then

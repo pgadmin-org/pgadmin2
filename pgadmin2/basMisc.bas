@@ -185,7 +185,7 @@ Dim objFont As New StdFont
 End Sub
 
 Public Function GetID() As String
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 'Don't log, accessed *all* the time.
 
 Static lID As Long
@@ -197,7 +197,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
 
 Public Function SetTopMostWindow(hWnd As Long, Topmost As Boolean) As Long
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.SetTopMostWindow(" & hWnd & ", " & Topmost & ")", etFullDebug
 
   If Topmost = True Then 'Make the window topmost
@@ -211,7 +211,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Function
  
 Public Sub BuildConnectionMenu()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildConnectionMenu()", etFullDebug
 
 Dim X As Integer
@@ -228,7 +228,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub BuildPluginsMenu()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.BuildPluginsMenu()", etFullDebug
 
 Dim objPlugin As pgPlugin
@@ -316,6 +316,31 @@ Public Function dbSZ(szData As String) As String
 
 End Function
 
+'Format an identifier as required
+'This code is based on fmtID from the pg_dump code
+Public Function fmtID(ByVal szData As String) As String
+On Error Resume Next
+
+Dim X As Integer
+Dim iVal As Integer
+
+  'Replace double quotes
+  szData = Replace(szData, QUOTE, QUOTE & QUOTE)
+    
+  For X = 1 To Len(szData)
+    iVal = Asc(Mid(szData, X, 1))
+    If Not ((iVal >= 48) And (iVal <= 57)) And _
+       Not ((iVal >= 97) And (iVal <= 122)) And _
+       Not (iVal = 95) Then
+      szData = QUOTE & szData & QUOTE
+      Exit For
+    End If
+  Next X
+  
+  fmtID = szData
+
+End Function
+
 Public Function Bool2Bin(bData As Boolean) As Integer
 'Don't log this - it needs to be fast and it's unlikely to go wrong...
 
@@ -340,7 +365,7 @@ End Function
 
 'Parse an ACL and return | delimited User/Access lists
 Public Sub ParseACL(ByVal szACL As String, ByRef szUserlist As String, ByRef szAccesslist As String)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basMisc.ParseACL(" & QUOTE & szACL & QUOTE & ", " & QUOTE & szUserlist & QUOTE & ", " & QUOTE & szAccesslist & QUOTE & ")", etFullDebug
 
 Dim szEntries() As String
@@ -407,6 +432,9 @@ Dim szTemp As String
           If InStr(1, szAccess, "R") <> 0 Then szTemp = szTemp & "Rule, "
           If InStr(1, szAccess, "x") <> 0 Then szTemp = szTemp & "References, "
           If InStr(1, szAccess, "t") <> 0 Then szTemp = szTemp & "Trigger, "
+          If InStr(1, szAccess, "C") <> 0 Then szTemp = szTemp & "Create, "
+          If InStr(1, szAccess, "T") <> 0 Then szTemp = szTemp & "Temp, "
+          If InStr(1, szAccess, "U") <> 0 Then szTemp = szTemp & "Usage, "
           szAccess = Left(szTemp, Len(szTemp) - 2)
       End Select
     

@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
@@ -54,7 +54,7 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   13
+         NumListImages   =   10
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":0A02
             Key             =   "connect"
@@ -77,34 +77,22 @@ Begin VB.Form frmMain
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":4224
-            Key             =   "commit"
+            Key             =   "sql"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":4DF6
-            Key             =   "history"
+            Key             =   "viewdata"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":59C8
-            Key             =   "graveyard"
+            Key             =   "vacuum"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmMain.frx":659A
-            Key             =   "sql"
-         EndProperty
-         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":716C
-            Key             =   "viewdata"
-         EndProperty
-         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":7D3E
-            Key             =   "vacuum"
-         EndProperty
-         BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":8910
             Key             =   "record"
          EndProperty
-         BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":91EA
+         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":6E74
             Key             =   "stop"
          EndProperty
       EndProperty
@@ -125,12 +113,12 @@ Begin VB.Form frmMain
       ImageList       =   "ilTB"
       _Version        =   393216
       BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-         NumButtons      =   17
+         NumButtons      =   13
          BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Key             =   "connect"
             Description     =   "Connect"
             Object.ToolTipText     =   "Connect to a Server."
-            ImageIndex      =   1
+            ImageKey        =   "connect"
             Style           =   5
          EndProperty
          BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
@@ -138,7 +126,7 @@ Begin VB.Form frmMain
             Key             =   "refresh"
             Description     =   "Refresh"
             Object.ToolTipText     =   "Refresh the data below the selected object."
-            ImageIndex      =   2
+            ImageKey        =   "refresh"
          EndProperty
          BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
@@ -150,10 +138,10 @@ Begin VB.Form frmMain
             Key             =   "create"
             Description     =   "Create"
             Object.ToolTipText     =   "Create a new object."
-            ImageIndex      =   3
+            ImageKey        =   "create"
             Style           =   5
             BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
-               NumButtonMenus  =   15
+               NumButtonMenus  =   16
                BeginProperty ButtonMenu1 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "aggregate"
@@ -201,30 +189,35 @@ Begin VB.Form frmMain
                EndProperty
                BeginProperty ButtonMenu10 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
+                  Key             =   "namespace"
+                  Text            =   "Sc&hema"
+               EndProperty
+               BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
                   Key             =   "sequence"
                   Text            =   "&Sequence"
                EndProperty
-               BeginProperty ButtonMenu11 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "table"
                   Text            =   "&Table"
                EndProperty
-               BeginProperty ButtonMenu12 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "trigger"
                   Text            =   "T&rigger"
                EndProperty
-               BeginProperty ButtonMenu13 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "type"
                   Text            =   "T&ype"
                EndProperty
-               BeginProperty ButtonMenu14 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "user"
                   Text            =   "&User"
                EndProperty
-               BeginProperty ButtonMenu15 {66833FEE-8583-11D1-B16A-00C0F0283628} 
+               BeginProperty ButtonMenu16 {66833FEE-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
                   Key             =   "view"
                   Text            =   "&View"
@@ -236,14 +229,14 @@ Begin VB.Form frmMain
             Key             =   "drop"
             Description     =   "Drop"
             Object.ToolTipText     =   "Drop the selected object."
-            ImageIndex      =   4
+            ImageKey        =   "drop"
          EndProperty
          BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "properties"
             Description     =   "Properties"
             Object.ToolTipText     =   "View/Edit the properties for the selected object."
-            ImageIndex      =   5
+            ImageKey        =   "properties"
          EndProperty
          BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
@@ -252,49 +245,24 @@ Begin VB.Form frmMain
          EndProperty
          BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
-            Key             =   "commit"
-            Description     =   "Commit"
-            Object.ToolTipText     =   "Commit any changes to Revision Control."
-            ImageIndex      =   6
-         EndProperty
-         BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Enabled         =   0   'False
-            Key             =   "history"
-            Description     =   "History"
-            Object.ToolTipText     =   "View the revision history of the selected object."
-            ImageIndex      =   7
-         EndProperty
-         BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Enabled         =   0   'False
-            Key             =   "graveyard"
-            Description     =   "Graveyard"
-            Object.ToolTipText     =   "View the deleted object graveyard."
-            ImageIndex      =   8
-         EndProperty
-         BeginProperty Button11 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Key             =   "sep3"
-            Style           =   3
-         EndProperty
-         BeginProperty Button12 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-            Enabled         =   0   'False
             Key             =   "sql"
             Description     =   "SQL"
             Object.ToolTipText     =   "Execute arbitrary SQL queries."
-            ImageIndex      =   9
+            ImageKey        =   "sql"
          EndProperty
-         BeginProperty Button13 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "viewdata"
             Description     =   "View Data"
             Object.ToolTipText     =   "View the data in the selected table/view"
-            ImageIndex      =   10
+            ImageKey        =   "viewdata"
          EndProperty
-         BeginProperty Button14 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "vacuum"
             Description     =   "Vacuum"
             Object.ToolTipText     =   "Vacuum the selected object."
-            ImageIndex      =   11
+            ImageKey        =   "vacuum"
             Style           =   5
             BeginProperty ButtonMenus {66833FEC-8583-11D1-B16A-00C0F0283628} 
                NumButtonMenus  =   2
@@ -308,22 +276,22 @@ Begin VB.Form frmMain
                EndProperty
             EndProperty
          EndProperty
-         BeginProperty Button15 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button11 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Key             =   "sep4"
             Style           =   3
          EndProperty
-         BeginProperty Button16 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button12 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Key             =   "record"
             Description     =   "Record Log"
             Object.ToolTipText     =   "Record a query log."
-            ImageIndex      =   12
+            ImageKey        =   "record"
          EndProperty
-         BeginProperty Button17 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+         BeginProperty Button13 {66833FEA-8583-11D1-B16A-00C0F0283628} 
             Enabled         =   0   'False
             Key             =   "stop"
             Description     =   "Stop Recording"
             Object.ToolTipText     =   "Stop recording."
-            ImageIndex      =   13
+            ImageKey        =   "stop"
          EndProperty
       EndProperty
    End
@@ -338,10 +306,10 @@ Begin VB.Form frmMain
       _ExtentY        =   503
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
-         NumPanels       =   4
+         NumPanels       =   5
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   8892
+            Object.Width           =   5611
             MinWidth        =   2
             Text            =   "Ready"
             TextSave        =   "Ready"
@@ -374,6 +342,15 @@ Begin VB.Form frmMain
             TextSave        =   "Database: Not Connected"
             Key             =   "currentdb"
          EndProperty
+         BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            AutoSize        =   2
+            Object.Width           =   3254
+            MinWidth        =   2
+            Text            =   "Schema: Not Connected"
+            TextSave        =   "Schema: Not Connected"
+            Key             =   "currentns"
+         EndProperty
       EndProperty
    End
    Begin MSComctlLib.ImageList il 
@@ -387,110 +364,114 @@ Begin VB.Form frmMain
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   26
+         NumListImages   =   27
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":9AC4
+            Picture         =   "frmMain.frx":774E
             Key             =   "aggregate"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A196
+            Picture         =   "frmMain.frx":7E20
             Key             =   "check"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":A868
+            Picture         =   "frmMain.frx":84F2
             Key             =   "column"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":AF3A
+            Picture         =   "frmMain.frx":8BC4
             Key             =   "function"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":B60C
+            Picture         =   "frmMain.frx":9296
             Key             =   "group"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":BCDE
+            Picture         =   "frmMain.frx":9968
             Key             =   "index"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C278
+            Picture         =   "frmMain.frx":9F02
             Key             =   "indexcolumn"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":C94A
+            Picture         =   "frmMain.frx":A5D4
             Key             =   "foreignkey"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D01C
+            Picture         =   "frmMain.frx":ACA6
             Key             =   "language"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":D6EE
+            Picture         =   "frmMain.frx":B378
             Key             =   "operator"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":DDC0
+            Picture         =   "frmMain.frx":BA4A
             Key             =   "property"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":E35A
+            Picture         =   "frmMain.frx":BFE4
             Key             =   "relationship"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":E4B4
+            Picture         =   "frmMain.frx":C13E
             Key             =   "rule"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":EB86
+            Picture         =   "frmMain.frx":C810
             Key             =   "server"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":ECE0
+            Picture         =   "frmMain.frx":C96A
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":F3B2
+            Picture         =   "frmMain.frx":D03C
             Key             =   "table"
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":FA84
+            Picture         =   "frmMain.frx":D70E
             Key             =   "trigger"
          EndProperty
          BeginProperty ListImage18 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":10156
+            Picture         =   "frmMain.frx":DDE0
             Key             =   "type"
          EndProperty
          BeginProperty ListImage19 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":10828
+            Picture         =   "frmMain.frx":E4B2
             Key             =   "user"
          EndProperty
          BeginProperty ListImage20 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":10982
+            Picture         =   "frmMain.frx":E60C
             Key             =   "view"
          EndProperty
          BeginProperty ListImage21 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":11054
+            Picture         =   "frmMain.frx":ECDE
             Key             =   "hiproperty"
          EndProperty
          BeginProperty ListImage22 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":115EE
+            Picture         =   "frmMain.frx":F278
             Key             =   "database"
          EndProperty
          BeginProperty ListImage23 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":11748
-            Key             =   "baddatabase"
-         EndProperty
-         BeginProperty ListImage24 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":118A2
+            Picture         =   "frmMain.frx":F3D2
             Key             =   "closeddatabase"
          EndProperty
+         BeginProperty ListImage24 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":F52C
+            Key             =   "baddatabase"
+         EndProperty
          BeginProperty ListImage25 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":119FC
+            Picture         =   "frmMain.frx":F686
             Key             =   "statistics"
          EndProperty
          BeginProperty ListImage26 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMain.frx":125CE
+            Picture         =   "frmMain.frx":10258
             Key             =   "domain"
+         EndProperty
+         BeginProperty ListImage27 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmMain.frx":1092A
+            Key             =   "namespace"
          EndProperty
       EndProperty
    End
@@ -523,13 +504,13 @@ Begin VB.Form frmMain
       Tabs            =   2
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmMain.frx":12CA0
+      TabPicture(0)   =   "frmMain.frx":114FC
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lv"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).ControlCount=   1
       TabCaption(1)   =   "&Statistics"
-      TabPicture(1)   =   "frmMain.frx":12CBC
+      TabPicture(1)   =   "frmMain.frx":11518
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "sv"
       Tab(1).ControlCount=   1
@@ -836,6 +817,10 @@ Begin VB.Form frmMain
             Caption         =   "&Rule..."
             Enabled         =   0   'False
          End
+         Begin VB.Menu mnuPopupCreateNamespace 
+            Caption         =   "&Schema"
+            Enabled         =   0   'False
+         End
          Begin VB.Menu mnuPopupCreateSequence 
             Caption         =   "&Sequence..."
             Enabled         =   0   'False
@@ -870,21 +855,6 @@ Begin VB.Form frmMain
          Enabled         =   0   'False
       End
       Begin VB.Menu mnuPopupSep2 
-         Caption         =   "-"
-      End
-      Begin VB.Menu mnuPopupCommit 
-         Caption         =   "&Commit..."
-         Enabled         =   0   'False
-      End
-      Begin VB.Menu mnuPopupHistory 
-         Caption         =   "&History"
-         Enabled         =   0   'False
-      End
-      Begin VB.Menu mnuPopupGraveyard 
-         Caption         =   "&Graveyard"
-         Enabled         =   0   'False
-      End
-      Begin VB.Menu mnuPopupSep3 
          Caption         =   "-"
       End
       Begin VB.Menu mnuPopupSQL 
@@ -935,7 +905,7 @@ Public WithEvents svr As pgServer
 Attribute svr.VB_VarHelpID = -1
 
 Private Sub Form_Resize()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Resize()", etFullDebug
 
   If Me.WindowState <> 1 Then
@@ -948,7 +918,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub Resize(VPos As Single, HPos As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.Resize(" & HPos & ", " & VPos & ")", etFullDebug
 
 Dim siTop As Single
@@ -1023,13 +993,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateDomain_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateDomain_Click()", etFullDebug
 
 Dim objDomainForm As New frmDomain
 
   Load objDomainForm
-  objDomainForm.Initialise ctx.CurrentDB
+  objDomainForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objDomainForm.Show
   
   Exit Sub
@@ -1037,7 +1007,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupRecordLog_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupRecordLog_Click()", etFullDebug
 
   Load frmRecordLog
@@ -1052,7 +1022,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupStopRecording_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupStopRecording_Click()", etFullDebug
 
   svr.LogEvent "Stopping recording query log.", etMiniDebug
@@ -1067,7 +1037,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
@@ -1081,7 +1051,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub prop_DragDrop(Source As Control, X As Single, Y As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.prop_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
@@ -1095,7 +1065,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lv_DragDrop(Source As Control, X As Single, Y As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
@@ -1109,7 +1079,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub sv_DragDrop(Source As Control, X As Single, Y As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.sv_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
@@ -1123,7 +1093,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtDefinition_DragDrop(Source As Control, X As Single, Y As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_DragDrop(" & Source.Name & ", " & X & ", " & Y & ")", etFullDebug
 
   If Source.Name = "splVertical" Then
@@ -1137,7 +1107,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lv_DblClick()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_DblClick()", etFullDebug
 
   mnuPopupProperties_Click
@@ -1147,7 +1117,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
@@ -1157,7 +1127,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuHelpContents_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpContents_Click()", etFullDebug
 
   HtmlHelp hWnd, App.Path & "\" & "help\pgadmin2.chm", HH_DISPLAY_TOPIC, 0
@@ -1167,7 +1137,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuHelpTipOfTheDay_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpTipOfTheDay_Click()", etFullDebug
 
   Load frmTip
@@ -1178,7 +1148,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPluginsPlg_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPluginsPlg_Click(" & Index & ")", etFullDebug
 
 Dim szPlugin As String
@@ -1192,49 +1162,8 @@ Dim szPlugin As String
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPluginsPlg_Click"
 End Sub
 
-Private Sub mnuPopupCommit_Click()
-On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCommit_Click()", etFullDebug
-
-  Load frmCommit
-  frmCommit.Initialise ctx.CurrentObject
-  frmCommit.Show
-
-  Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCommit_Click"
-End Sub
-
-Private Sub mnuPopupGraveyard_Click()
-On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupGraveyard_Click()", etFullDebug
-
-  StartMsg "Searching for missing objects..."
-  svr.Databases(ctx.CurrentDB).Graveyard.Refresh
-  Load frmGraveyard
-  frmGraveyard.Initialise ctx.CurrentDB
-  frmGraveyard.Show
-  EndMsg
-
-  Exit Sub
-Err_Handler:
-  EndMsg
-  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupGraveyard_Click"
-End Sub
-
-Private Sub mnuPopupHistory_Click()
-On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupHistory_Click()", etFullDebug
-
-  Load frmHistory
-  frmHistory.Initialise ctx.CurrentObject
-  frmHistory.Show
-
-  Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupHistory_Click"
-End Sub
-
 Private Sub mnuToolsUpgradeWizard_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsUpgradeWizard_Click()", etFullDebug
 
   Load frmUpgradeWizard
@@ -1245,7 +1174,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuViewSystemObjects_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewSystemObjects_Click()", etFullDebug
 
 Dim objNode As Node
@@ -1278,7 +1207,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tv_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tv_MouseUp(" & Button & ", " & Shift & ", " & X & ", " & Y & ")", etFullDebug
 
   If Button = 2 Then PopupMenu frmMain.mnuPopup
@@ -1288,7 +1217,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuFileChangePassword_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileChangePassword_Click()", etFullDebug
 
   Load frmPassword
@@ -1345,7 +1274,7 @@ Err_Handler:
 End Sub
 
 Private Sub mnuFileSaveDefinition_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileSaveDefinition_Click()", etFullDebug
 
 Dim fNum As Integer
@@ -1382,7 +1311,7 @@ Err_Handler:
 End Sub
 
 Private Sub mnuHelpAbout_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpAbout_Click()", etFullDebug
 
   Load frmAbout
@@ -1397,7 +1326,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuToolsOptions_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsOptions_Click()", etFullDebug
 
   Load frmOptions
@@ -1412,7 +1341,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuViewShowDefinitionPane_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowDefinitionPane_Click()", etFullDebug
 
   txtDefinition.Text = ""
@@ -1432,7 +1361,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuViewShowLogWindow_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowLogWindow_Click()", etFullDebug
 
   If mnuViewShowLogWindow.Checked = True Then
@@ -1450,7 +1379,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuViewShowStatusBar_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowStatusBar_Click()", etFullDebug
 
   If mnuViewShowStatusBar.Checked = True Then
@@ -1469,7 +1398,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuViewShowToolBar_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewShowToolBar_Click()", etFullDebug
 
   If mnuViewShowToolBar.Checked = True Then
@@ -1488,7 +1417,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupConnect_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupConnect_Click()", etFullDebug
 
   Load frmConnect
@@ -1504,7 +1433,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupRefresh_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupRefresh_Click()", etFullDebug
 
 Dim objNode As Node
@@ -1526,38 +1455,40 @@ Dim objNode As Node
       svr.Groups.Refresh
     Case "USR+"
       svr.Users.Refresh
-    Case "AGG+"
-      svr.Databases(objNode.Parent.Text).Aggregates.Refresh
-    Case "DOM+"
-      svr.Databases(objNode.Parent.Text).Domains.Refresh
-    Case "FNC+"
-      svr.Databases(objNode.Parent.Text).Functions.Refresh
     Case "LNG+"
       svr.Databases(objNode.Parent.Text).Languages.Refresh
+    Case "NSP+"
+      svr.Databases(objNode.Parent.Text).Namespaces.Refresh
+    Case "AGG+"
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Aggregates.Refresh
+    Case "DOM+"
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Domains.Refresh
+    Case "FNC+"
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Functions.Refresh
     Case "OPR+"
-      svr.Databases(objNode.Parent.Text).Operators.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Operators.Refresh
     Case "SEQ+"
-      svr.Databases(objNode.Parent.Text).Sequences.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Sequences.Refresh
     Case "TBL+"
-      svr.Databases(objNode.Parent.Text).Tables.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Tables.Refresh
     Case "CHK+"
-      svr.Databases(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Checks.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Checks.Refresh
     Case "COL+"
-      svr.Databases(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Columns.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Columns.Refresh
     Case "FKY+"
-      svr.Databases(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).ForeignKeys.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).ForeignKeys.Refresh
     Case "REL+"
-      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Tables(objNode.Parent.Parent.Parent.Text).ForeignKeys(objNode.Parent.Text).Relationships.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Parent.Parent.Text).Tables(objNode.Parent.Parent.Parent.Text).ForeignKeys(objNode.Parent.Text).Relationships.Refresh
     Case "IND+"
-      svr.Databases(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Indexes.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Indexes.Refresh
     Case "RUL+"
-      svr.Databases(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Rules.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Rules.Refresh
     Case "TRG+"
-      svr.Databases(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Triggers.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Parent.Parent.Text).Tables(objNode.Parent.Text).Triggers.Refresh
     Case "TYP+"
-      svr.Databases(objNode.Parent.Text).Types.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Types.Refresh
     Case "VIE+"
-      svr.Databases(objNode.Parent.Text).Views.Refresh
+      svr.Databases(objNode.Parent.Parent.Parent.Text).Namespaces(objNode.Parent.Text).Views.Refresh
   End Select
   
   'Clear the child nodes
@@ -1572,7 +1503,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupDrop_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupDrop_Click()", etFullDebug
 
   Drop
@@ -1589,13 +1520,13 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
         Case "Aggregate"
           Dim objAggregateForm As New frmAggregate
           Load objAggregateForm
-          objAggregateForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objAggregateForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objAggregateForm.Show
           
         Case "Column"
           Dim objColumnForm As New frmColumn
           Load objColumnForm
-          objColumnForm.Initialise ctx.CurrentDB, "MP", ctx.CurrentObject
+          objColumnForm.Initialise ctx.CurrentDB, ctx.CurrentNS, "MP", ctx.CurrentObject
           objColumnForm.Show
           
         Case "Database"
@@ -1607,19 +1538,19 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
         Case "Domain"
           Dim objDomainForm As New frmDomain
           Load objDomainForm
-          objDomainForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objDomainForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objDomainForm.Show
           
         Case "Foreign Key"
           Dim objForeignKeyForm As New frmForeignKey
           Load objForeignKeyForm
-          objForeignKeyForm.Initialise ctx.CurrentDB, "MP", ctx.CurrentObject
+          objForeignKeyForm.Initialise ctx.CurrentDB, ctx.CurrentNS, "MP", ctx.CurrentObject
           objForeignKeyForm.Show
           
         Case "Function"
           Dim objFunctionForm As New frmFunction
           Load objFunctionForm
-          objFunctionForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objFunctionForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objFunctionForm.Show
 
         Case "Group"
@@ -1631,7 +1562,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
         Case "Index"
           Dim objIndexForm As New frmIndex
           Load objIndexForm
-          objIndexForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objIndexForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objIndexForm.Show
           
         Case "Language"
@@ -1640,16 +1571,22 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
           objLanguageForm.Initialise ctx.CurrentDB, ctx.CurrentObject
           objLanguageForm.Show
           
+        Case "Schema"
+          Dim objNamespaceForm As New frmNamespace
+          Load objNamespaceForm
+          objNamespaceForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objNamespaceForm.Show
+          
         Case "Operator"
           Dim objOperatorForm As New frmOperator
           Load objOperatorForm
-          objOperatorForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objOperatorForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objOperatorForm.Show
           
         Case "Rule"
           Dim objRuleForm As New frmRule
           Load objRuleForm
-          objRuleForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objRuleForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objRuleForm.Show
           
         Case "Server"
@@ -1661,25 +1598,25 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
         Case "Sequence"
           Dim objSequenceForm As New frmSequence
           Load objSequenceForm
-          objSequenceForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objSequenceForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objSequenceForm.Show
 
         Case "Table"
           Dim objTableForm As New frmTable
           Load objTableForm
-          objTableForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objTableForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objTableForm.Show
           
         Case "Trigger"
           Dim objTriggerForm As New frmTrigger
           Load objTriggerForm
-          objTriggerForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objTriggerForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objTriggerForm.Show
           
         Case "Type"
           Dim objTypeForm As New frmType
           Load objTypeForm
-          objTypeForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objTypeForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objTypeForm.Show
           
         Case "User"
@@ -1691,7 +1628,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
         Case "View"
           Dim objViewForm As New frmView
           Load objViewForm
-          objViewForm.Initialise ctx.CurrentDB, ctx.CurrentObject
+          objViewForm.Initialise ctx.CurrentDB, ctx.CurrentNS, ctx.CurrentObject
           objViewForm.Show
           
         Case Else
@@ -1703,7 +1640,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupSQL_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupSQL_Click()", etFullDebug
   
 Dim Y As Integer
@@ -1726,7 +1663,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupViewData_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupViewData_Click()", etFullDebug
   
 Dim objOutputForm As New frmSQLOutput
@@ -1756,7 +1693,7 @@ Err_Handler:
 End Sub
 
 Private Sub tb_ButtonClick(ByVal Button As MSComctlLib.Button)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")", etFullDebug
 
   Select Case Button.Key
@@ -1775,12 +1712,6 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")"
       mnuPopupDrop_Click
     Case "properties"
       mnuPopupProperties_Click
-    Case "commit"
-      mnuPopupCommit_Click
-    Case "history"
-      mnuPopupHistory_Click
-    Case "graveyard"
-      mnuPopupGraveyard_Click
     Case "sql"
       mnuPopupSQL_Click
     Case "viewdata"
@@ -1800,7 +1731,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupVacuumVacuum_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupVacuumVacuum_Click()", etFullDebug
 
   Vacuum False
@@ -1810,7 +1741,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupVacuumAnalyse_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupVacuumAnalyse_Click()", etFullDebug
 
   Vacuum True
@@ -1820,13 +1751,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateAggregate_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateAggregate_Click()", etFullDebug
 
 Dim objAggregateForm As New frmAggregate
 
   Load objAggregateForm
-  objAggregateForm.Initialise ctx.CurrentDB
+  objAggregateForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objAggregateForm.Show
   
   Exit Sub
@@ -1834,7 +1765,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateDatabase_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateDatabase_Click()", etFullDebug
 
 Dim objDatabaseForm As New frmDatabase
@@ -1848,13 +1779,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateFunction_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateFunction_Click()", etFullDebug
 
 Dim objFunctionForm As New frmFunction
 
   Load objFunctionForm
-  objFunctionForm.Initialise ctx.CurrentDB
+  objFunctionForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objFunctionForm.Show
   
   Exit Sub
@@ -1862,7 +1793,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateGroup_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateGroup_Click()", etFullDebug
 
 Dim objGroupForm As New frmGroup
@@ -1876,13 +1807,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateIndex_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateIndex_Click()", etFullDebug
 
 Dim objIndexForm As New frmIndex
 
   Load objIndexForm
-  objIndexForm.Initialise ctx.CurrentDB
+  objIndexForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objIndexForm.Show
   
   Exit Sub
@@ -1890,7 +1821,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateLanguage_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateLanguage_Click()", etFullDebug
 
 Dim objLanguageForm As New frmLanguage
@@ -1903,14 +1834,28 @@ Dim objLanguageForm As New frmLanguage
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateLanguage_Click"
 End Sub
 
+Private Sub mnuPopupCreateNamespace_Click()
+'On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateNamespace_Click()", etFullDebug
+
+Dim objNamespaceForm As New frmNamespace
+
+  Load objNamespaceForm
+  objNamespaceForm.Initialise ctx.CurrentDB
+  objNamespaceForm.Show
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuPopupCreateNamespace_Click"
+End Sub
+
 Private Sub mnuPopupCreateOperator_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateOperator_Click()", etFullDebug
 
 Dim objOperatorForm As New frmOperator
 
   Load objOperatorForm
-  objOperatorForm.Initialise ctx.CurrentDB
+  objOperatorForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objOperatorForm.Show
   
   Exit Sub
@@ -1918,13 +1863,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateRule_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateRule_Click()", etFullDebug
 
 Dim objRuleForm As New frmRule
 
   Load objRuleForm
-  objRuleForm.Initialise ctx.CurrentDB
+  objRuleForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objRuleForm.Show
   
   Exit Sub
@@ -1932,13 +1877,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateSequence_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateSequence_Click()", etFullDebug
 
 Dim objSequenceForm As New frmSequence
 
   Load objSequenceForm
-  objSequenceForm.Initialise ctx.CurrentDB
+  objSequenceForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objSequenceForm.Show
   
   Exit Sub
@@ -1946,13 +1891,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateTable_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateTable_Click()", etFullDebug
 
 Dim objTableForm As New frmTable
 
   Load objTableForm
-  objTableForm.Initialise ctx.CurrentDB
+  objTableForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objTableForm.Show
   
   Exit Sub
@@ -1960,13 +1905,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateTrigger_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateTrigger_Click()", etFullDebug
 
 Dim objTriggerForm As New frmTrigger
 
   Load objTriggerForm
-  objTriggerForm.Initialise ctx.CurrentDB
+  objTriggerForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objTriggerForm.Show
   
   Exit Sub
@@ -1974,13 +1919,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateType_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateType_Click()", etFullDebug
 
 Dim objTypeForm As New frmType
 
   Load objTypeForm
-  objTypeForm.Initialise ctx.CurrentDB
+  objTypeForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objTypeForm.Show
   
   Exit Sub
@@ -1988,7 +1933,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateUser_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateUser_Click()", etFullDebug
 
 Dim objUserForm As New frmUser
@@ -2002,13 +1947,13 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuPopupCreateView_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupCreateView_Click()", etFullDebug
 
 Dim objViewForm As New frmView
 
   Load objViewForm
-  objViewForm.Initialise ctx.CurrentDB
+  objViewForm.Initialise ctx.CurrentDB, ctx.CurrentNS
   objViewForm.Show
   
   Exit Sub
@@ -2016,7 +1961,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tb_ButtonMenuClick(ByVal ButtonMenu As MSComctlLib.ButtonMenu)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMenu & ")", etFullDebug
 
   Select Case ButtonMenu.Parent.Key
@@ -2051,6 +1996,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
           mnuPopupCreateOperator_Click
         Case "rule"
           mnuPopupCreateRule_Click
+        Case "namespace"
+          mnuPopupCreateNamespace_Click
         Case "sequence"
           mnuPopupCreateSequence_Click
         Case "table"
@@ -2083,7 +2030,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Error Resume Next
+'On Error Resume Next
 svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Unload(" & Cancel & ")", etFullDebug
 
 Dim objform As Form
@@ -2127,7 +2074,7 @@ Dim lLeft As Long
 End Sub
 
 Private Sub mnuFileExit_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileExit_Click()", etFullDebug
 
   Unload Me
@@ -2137,7 +2084,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub mnuFileConnect_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileConnect_Click()", etFullDebug
 
   Load frmConnect
@@ -2160,15 +2107,15 @@ Private Sub svr_EventLog(EventLevel As pgSchema.LogLevel, EventMessage As String
 End Sub
 
 Private Sub tvServer(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvServer(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
     
   If Node.Children = 0 Then
-    tv.Nodes.Add Node.Key, tvwChild, "DAT+" & GetID, "Databases", "database"
-    tv.Nodes.Add Node.Key, tvwChild, "GRP+" & GetID, "Groups", "group"
-    tv.Nodes.Add Node.Key, tvwChild, "USR+" & GetID, "Users", "user"
+    Set ctx.CurrentObject.Databases.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DAT+" & GetID, "Databases", "database")
+    Set ctx.CurrentObject.Groups.Tag = tv.Nodes.Add(Node.Key, tvwChild, "GRP+" & GetID, "Groups", "group")
+    Set ctx.CurrentObject.Users.Tag = tv.Nodes.Add(Node.Key, tvwChild, "USR+" & GetID, "Users", "user")
   End If
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
@@ -2196,7 +2143,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub svServer(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.svServer(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2235,7 +2182,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvDatabases(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabases(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2253,12 +2200,12 @@ Dim dat As pgDatabase
         
         If dat.Status <> statInaccessible Then
           If svr.DeferConnection Then
-            tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "closeddatabase"
+            Set dat.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "closeddatabase")
           Else
-            tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "database"
+            Set dat.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "database")
           End If
         Else
-          tv.Nodes.Add Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "baddatabase"
+          Set dat.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DAT-" & GetID, dat.Identifier, "baddatabase")
         End If
       End If
     Next dat
@@ -2323,7 +2270,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvDatabase(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2345,15 +2292,8 @@ Dim lvItem As ListItem
   
   If svr.Databases(Node.Text).Status = statOpen Then
     If Node.Children = 0 Then
-      tv.Nodes.Add Node.Key, tvwChild, "AGG+" & GetID, "Aggregates", "aggregate"
-      If svr.dbVersion.VersionNum >= 7.3 Then tv.Nodes.Add Node.Key, tvwChild, "DOM+" & GetID, "Domains", "domain"
-      tv.Nodes.Add Node.Key, tvwChild, "FNC+" & GetID, "Functions", "function"
-      tv.Nodes.Add Node.Key, tvwChild, "LNG+" & GetID, "Languages", "language"
-      tv.Nodes.Add Node.Key, tvwChild, "OPR+" & GetID, "Operators", "operator"
-      tv.Nodes.Add Node.Key, tvwChild, "SEQ+" & GetID, "Sequences", "sequence"
-      tv.Nodes.Add Node.Key, tvwChild, "TBL+" & GetID, "Tables", "table"
-      tv.Nodes.Add Node.Key, tvwChild, "TYP+" & GetID, "Types", "type"
-      tv.Nodes.Add Node.Key, tvwChild, "VIE+" & GetID, "Views", "view"
+      Set ctx.CurrentObject.Languages.Tag = tv.Nodes.Add(Node.Key, tvwChild, "LNG+" & GetID, "Languages", "language")
+      Set ctx.CurrentObject.Namespaces.Tag = tv.Nodes.Add(Node.Key, tvwChild, "NSP+" & GetID, "Schemas", "namespace")
     End If
   Else
     Node.Image = "baddatabase"
@@ -2383,14 +2323,6 @@ Dim lvItem As ListItem
     lvItem.SubItems(1) = "Connected"
   Else
     lvItem.SubItems(1) = "Not connected"
-  End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control?", "property", "property")
-  If ctx.CurrentObject.Status = statInaccessible Then
-    lvItem.SubItems(1) = "Unknown"
-  ElseIf ctx.CurrentObject.RevisionControl Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Database?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
@@ -2451,7 +2383,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvGroups(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvGroups(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2464,7 +2396,7 @@ Dim grp As pgGroup
       tv.Nodes.Remove Node.Child.Index
     Wend
     For Each grp In svr.Groups
-      tv.Nodes.Add Node.Key, tvwChild, "GRP-" & GetID, grp.Identifier, "group"
+      Set grp.Tag = tv.Nodes.Add(Node.Key, tvwChild, "GRP-" & GetID, grp.Identifier, "group")
     Next grp
     Node.Text = "Groups (" & Node.Children & ")"
   End If
@@ -2486,7 +2418,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvGroup(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvGroup(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2515,7 +2447,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvUsers(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvUsers(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2526,7 +2458,7 @@ Dim usr As pgUser
       tv.Nodes.Remove Node.Child.Index
     Wend
     For Each usr In svr.Users
-      tv.Nodes.Add Node.Key, tvwChild, "USR-" & GetID, usr.Identifier, "user"
+      Set usr.Tag = tv.Nodes.Add(Node.Key, tvwChild, "USR-" & GetID, usr.Identifier, "user")
     Next usr
     Node.Text = "Users (" & Node.Children & ")"
   End If
@@ -2544,7 +2476,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvUser(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvUser(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2585,25 +2517,162 @@ Dim vData As Variant
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvUser"
 End Sub
 
+Private Sub tvLanguages(ByVal Node As MSComctlLib.Node)
+'On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguages(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim lng As pgLanguage
+
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Languages.Count(Not ctx.IncludeSys) Then
+    While Not (Node.Child Is Nothing)
+      tv.Nodes.Remove Node.Child.Index
+    Wend
+    For Each lng In svr.Databases(Node.Parent.Text).Languages
+      If Not (lng.SystemObject And Not ctx.IncludeSys) Then Set lng.Tag = tv.Nodes.Add(Node.Key, tvwChild, "LNG-" & GetID, lng.Identifier, "language")
+    Next lng
+    Node.Text = "Languages (" & Node.Children & ")"
+  End If
+  lv.ColumnHeaders.Add , , "Language", 2000
+  lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
+  For Each lng In svr.Databases(Node.Parent.Text).Languages
+    If Not (lng.SystemObject And Not ctx.IncludeSys) Then
+      Set lvItem = lv.ListItems.Add(, "LNG-" & GetID, lng.Identifier, "language", "language")
+      lvItem.SubItems(1) = Replace(lng.Comment, vbCrLf, " ")
+    End If
+  Next lng
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvLanguages"
+End Sub
+
+Private Sub tvLanguage(ByVal Node As MSComctlLib.Node)
+'On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguage(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+
+  lv.ColumnHeaders.Add , , "Property", 2000
+  lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Handler", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Handler
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Trusted?", "property", "property")
+  If ctx.CurrentObject.Trusted Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Language?", "property", "property")
+  If ctx.CurrentObject.SystemObject Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
+  
+  'Set the Definition Pane
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvLanguage"
+End Sub
+
+Private Sub tvNamespaces(ByVal Node As MSComctlLib.Node)
+'On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvNamespaces(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+Dim nsp As pgNamespace
+
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Namespaces.Count(Not ctx.IncludeSys) Then
+    While Not (Node.Child Is Nothing)
+      tv.Nodes.Remove Node.Child.Index
+    Wend
+    For Each nsp In svr.Databases(Node.Parent.Text).Namespaces
+      If Not (nsp.SystemObject And Not ctx.IncludeSys) Then Set nsp.Tag = tv.Nodes.Add(Node.Key, tvwChild, "NSP-" & GetID, nsp.Identifier, "namespace")
+    Next nsp
+    Node.Text = "Schemas (" & Node.Children & ")"
+  End If
+  lv.ColumnHeaders.Add , , "Schema", 2000
+  lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
+  For Each nsp In svr.Databases(Node.Parent.Text).Namespaces
+    If Not (nsp.SystemObject And Not ctx.IncludeSys) Then
+      Set lvItem = lv.ListItems.Add(, "NSP-" & GetID, nsp.Identifier, "namespace", "namespace")
+      lvItem.SubItems(1) = Replace(nsp.Comment, vbCrLf, " ")
+    End If
+  Next nsp
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvNamespaces"
+End Sub
+
+Private Sub tvNamespace(ByVal Node As MSComctlLib.Node)
+'On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvNamespace(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+
+Dim lvItem As ListItem
+
+  If Node.Children = 0 Then
+    Set ctx.CurrentObject.Aggregates.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG+" & GetID, "Aggregates", "aggregate")
+    If svr.dbVersion.VersionNum >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, "Domains", "domain")
+    Set ctx.CurrentObject.Functions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC+" & GetID, "Functions", "function")
+    Set ctx.CurrentObject.Operators.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR+" & GetID, "Operators", "operator")
+    Set ctx.CurrentObject.Sequences.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ+" & GetID, "Sequences", "sequence")
+    Set ctx.CurrentObject.Tables.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TBL+" & GetID, "Tables", "table")
+    Set ctx.CurrentObject.Types.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TYP+" & GetID, "Types", "type")
+    Set ctx.CurrentObject.Views.Tag = tv.Nodes.Add(Node.Key, tvwChild, "VIE+" & GetID, "Views", "view")
+  End If
+    
+  lv.ColumnHeaders.Add , , "Property", 2000
+  lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  lvItem.SubItems(1) = ctx.CurrentObject.ACL
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Schema?", "property", "property")
+  If ctx.CurrentObject.SystemObject Then
+    lvItem.SubItems(1) = "Yes"
+  Else
+    lvItem.SubItems(1) = "No"
+  End If
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
+  
+  'Set the Definition Pane
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvNamespace"
+End Sub
+
 Private Sub tvAggregates(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregates(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim agg As pgAggregate
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Aggregates.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Aggregates.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each agg In svr.Databases(Node.Parent.Text).Aggregates
-      If Not (agg.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "AGG-" & GetID, agg.Identifier, "aggregate"
+    For Each agg In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Aggregates
+      If Not (agg.SystemObject And Not ctx.IncludeSys) Then Set agg.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG-" & GetID, agg.Identifier, "aggregate")
     Next agg
     Node.Text = "Aggregates (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Aggregate", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each agg In svr.Databases(Node.Parent.Text).Aggregates
+  For Each agg In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Aggregates
     If Not (agg.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "AGG-" & GetID, agg.Identifier, "aggregate", "aggregate")
       lvItem.SubItems(1) = Replace(agg.Comment, vbCrLf, " ")
@@ -2615,7 +2684,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvAggregate(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregate(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2640,29 +2709,6 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.FinalFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Initial Condition", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InitialCondition
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Aggregate?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2680,24 +2726,25 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvDomains(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomains(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim dom As pgDomain
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Domains.Count(Not ctx.IncludeSys) Then
+
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Domains.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each dom In svr.Databases(Node.Parent.Text).Domains
-      If Not (dom.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "DOM-" & GetID, dom.Identifier, "domain"
+    For Each dom In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Domains
+      If Not (dom.SystemObject And Not ctx.IncludeSys) Then Set dom.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM-" & GetID, dom.Identifier, "domain")
     Next dom
     Node.Text = "Domains (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Domain", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each dom In svr.Databases(Node.Parent.Text).Domains
+  For Each dom In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Domains
     If Not (dom.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "DOM-" & GetID, dom.Identifier, "domain", "domain")
       lvItem.SubItems(1) = Replace(dom.Comment, vbCrLf, " ")
@@ -2709,7 +2756,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvDomain(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomain(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2742,29 +2789,6 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Domain?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2782,7 +2806,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvFunctions(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvFunctions(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2790,18 +2814,18 @@ Dim szTemp As String
 Dim vData As Variant
 Dim fnc As pgFunction
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Functions.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Functions.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each fnc In svr.Databases(Node.Parent.Text).Functions
-      If Not (fnc.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "FNC-" & GetID, fnc.Identifier, "function"
+    For Each fnc In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Functions
+      If Not (fnc.SystemObject And Not ctx.IncludeSys) Then Set fnc.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC-" & GetID, fnc.Identifier, "function")
     Next fnc
     Node.Text = "Functions (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Function", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each fnc In svr.Databases(Node.Parent.Text).Functions
+  For Each fnc In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Functions
     If Not (fnc.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "FNC-" & GetID, fnc.Identifier, "function", "function")
       szTemp = ""
@@ -2818,7 +2842,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvFunction(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvFunction(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -2860,29 +2884,6 @@ Dim vData As Variant
   Else
     lvItem.SubItems(1) = "No"
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Function?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2899,113 +2900,25 @@ Dim vData As Variant
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvFunction"
 End Sub
 
-Private Sub tvLanguages(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguages(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
-
-Dim lvItem As ListItem
-Dim lng As pgLanguage
-
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Languages.Count(Not ctx.IncludeSys) Then
-    While Not (Node.Child Is Nothing)
-      tv.Nodes.Remove Node.Child.Index
-    Wend
-    For Each lng In svr.Databases(Node.Parent.Text).Languages
-      If Not (lng.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "LNG-" & GetID, lng.Identifier, "language"
-    Next lng
-    Node.Text = "Languages (" & Node.Children & ")"
-  End If
-  lv.ColumnHeaders.Add , , "Language", 2000
-  lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each lng In svr.Databases(Node.Parent.Text).Languages
-    If Not (lng.SystemObject And Not ctx.IncludeSys) Then
-      Set lvItem = lv.ListItems.Add(, "LNG-" & GetID, lng.Identifier, "language", "language")
-      lvItem.SubItems(1) = Replace(lng.Comment, vbCrLf, " ")
-    End If
-  Next lng
-  
-  Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvLanguages"
-End Sub
-
-Private Sub tvLanguage(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguage(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
-
-Dim lvItem As ListItem
-
-  lv.ColumnHeaders.Add , , "Property", 2000
-  lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.OID
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Handler", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.Handler
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Trusted?", "property", "property")
-  If ctx.CurrentObject.Trusted Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Language?", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Yes"
-  Else
-    lvItem.SubItems(1) = "No"
-  End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
-  
-  'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
-  
-  Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvLanguage"
-End Sub
-
 Private Sub tvOperators(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperators(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim opr As pgOperator
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Operators.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Operators.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each opr In svr.Databases(Node.Parent.Text).Operators
-      If Not (opr.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "OPR-" & GetID, opr.Identifier, "operator"
+    For Each opr In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Operators
+      If Not (opr.SystemObject And Not ctx.IncludeSys) Then Set opr.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR-" & GetID, opr.Identifier, "operator")
     Next opr
     Node.Text = "Operators (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Operator", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each opr In svr.Databases(Node.Parent.Text).Operators
+  For Each opr In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Operators
     If Not (opr.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "OPR-" & GetID, opr.Identifier, "operator", "operator")
       lvItem.SubItems(1) = Replace(opr.Comment, vbCrLf, " ")
@@ -3017,7 +2930,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvOperator(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperator(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3058,29 +2971,6 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Operator?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3098,24 +2988,24 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvSequences(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequences(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim seq As pgSequence
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Sequences.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Sequences.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each seq In svr.Databases(Node.Parent.Text).Sequences
-      If Not (seq.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "SEQ-" & GetID, seq.Identifier, "sequence"
+    For Each seq In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Sequences
+      If Not (seq.SystemObject And Not ctx.IncludeSys) Then Set seq.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ-" & GetID, seq.Identifier, "sequence")
     Next seq
     Node.Text = "Sequences (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Sequence", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each seq In svr.Databases(Node.Parent.Text).Sequences
+  For Each seq In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Sequences
     If Not (seq.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "SEQ-" & GetID, seq.Identifier, "sequence", "sequence")
       lvItem.SubItems(1) = Replace(seq.Comment, vbCrLf, " ")
@@ -3127,7 +3017,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub svSequences(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3142,8 +3032,8 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Blocks Hit", 2000
   
     While Not rsStat.EOF
-      If svr.Databases(ctx.CurrentDB).Sequences.Exists(rsStat!relname) Then
-        If Not (svr.Databases(ctx.CurrentDB).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences.Exists(rsStat!relname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
           Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
           lvItem.SubItems(1) = rsStat!blks_read & ""
           lvItem.SubItems(2) = rsStat!blks_hit & ""
@@ -3166,7 +3056,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvSequence(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3197,29 +3087,6 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Sequence?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3237,7 +3104,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub svSequence(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.svSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3246,7 +3113,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If svr.dbVersion.VersionNum >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relname = '" & Node.Text & "'")
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relid = " & ctx.CurrentObject.OID)
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", sv.Width - 2600
   
@@ -3273,24 +3140,24 @@ Err_Handler:
 End Sub
 
 Private Sub tvTables(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvTables(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim tbl As pgTable
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Tables.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Tables.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each tbl In svr.Databases(Node.Parent.Text).Tables
-      If Not (tbl.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "TBL-" & GetID, tbl.Identifier, "table"
+    For Each tbl In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Tables
+      If Not (tbl.SystemObject And Not ctx.IncludeSys) Then Set tbl.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TBL-" & GetID, tbl.Identifier, "table")
     Next tbl
     Node.Text = "Tables (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Table", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each tbl In svr.Databases(Node.Parent.Text).Tables
+  For Each tbl In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Tables
     If Not (tbl.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TBL-" & GetID, tbl.Identifier, "table", "table")
       lvItem.SubItems(1) = Replace(tbl.Comment, vbCrLf, " ")
@@ -3302,7 +3169,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub svTables(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3318,8 +3185,8 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Tuples Deleted", 2000
   
     While Not rsStat.EOF
-      If svr.Databases(ctx.CurrentDB).Tables.Exists(rsStat!relname) Then
-        If Not (svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
+      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables.Exists(rsStat!relname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).SystemObject And Not ctx.IncludeSys) Then
           Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!relname & "", "statistics", "statistics")
           lvItem.SubItems(1) = rsStat!n_tup_ins & ""
           lvItem.SubItems(2) = rsStat!n_tup_upd & ""
@@ -3343,7 +3210,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvTable(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvTable(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3353,12 +3220,12 @@ Dim vData As Variant
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   If Node.Children = 0 Then
-    tv.Nodes.Add Node.Key, tvwChild, "CHK+" & GetID, "Checks", "check"
-    tv.Nodes.Add Node.Key, tvwChild, "COL+" & GetID, "Columns", "column"
-    tv.Nodes.Add Node.Key, tvwChild, "FKY+" & GetID, "Foreign Keys", "foreignkey"
-    tv.Nodes.Add Node.Key, tvwChild, "IND+" & GetID, "Indexes", "index"
-    tv.Nodes.Add Node.Key, tvwChild, "RUL+" & GetID, "Rules", "rule"
-    tv.Nodes.Add Node.Key, tvwChild, "TRG+" & GetID, "Triggers", "trigger"
+    Set ctx.CurrentObject.Checks.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CHK+" & GetID, "Checks", "check")
+    Set ctx.CurrentObject.Columns.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL+" & GetID, "Columns", "column")
+    Set ctx.CurrentObject.ForeignKeys.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FKY+" & GetID, "Foreign Keys", "foreignkey")
+    Set ctx.CurrentObject.Indexes.Tag = tv.Nodes.Add(Node.Key, tvwChild, "IND+" & GetID, "Indexes", "index")
+    Set ctx.CurrentObject.Rules.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL+" & GetID, "Rules", "rule")
+    Set ctx.CurrentObject.Triggers.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TRG+" & GetID, "Triggers", "trigger")
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
@@ -3388,29 +3255,6 @@ Dim vData As Variant
   Else
     lvItem.SubItems(1) = "No"
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Table?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3428,7 +3272,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub svTable(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.svTable(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3437,7 +3281,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If svr.dbVersion.VersionNum >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relname = '" & Node.Text & "'")
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relid = " & ctx.CurrentObject.OID)
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", sv.Width - 2600
   
@@ -3486,23 +3330,23 @@ Err_Handler:
 End Sub
 
 Private Sub tvChecks(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvChecks(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim chk As pgCheck
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks.Count Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks.Count Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each chk In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks
-      tv.Nodes.Add Node.Key, tvwChild, "CHK-" & GetID, chk.Identifier, "check"
+    For Each chk In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks
+      Set chk.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CHK-" & GetID, chk.Identifier, "check")
     Next chk
     Node.Text = "Checks (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Check", lv.Width
-  For Each chk In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks
+  For Each chk In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks
     Set lvItem = lv.ListItems.Add(, "CHK-" & GetID, chk.Identifier, "check", "check")
   Next chk
   
@@ -3511,7 +3355,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvCheck(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvCheck(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3528,25 +3372,25 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvColumns(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumns(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim col As pgColumn
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each col In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
-     If Not (col.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "COL-" & GetID, col.Identifier, "column"
+    For Each col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
+     If Not (col.SystemObject And Not ctx.IncludeSys) Then Set col.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL-" & GetID, col.Identifier, "column")
     Next col
     Node.Text = "Columns (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Column", 2000
   lv.ColumnHeaders.Add , , "Type", 1000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 3100
-  For Each col In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
+  For Each col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
     If Not (col.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "COL-" & GetID, col.Identifier, "column", "column")
       lvItem.SubItems(1) = col.DataType
@@ -3559,7 +3403,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvColumn(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumn(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3610,7 +3454,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub svColumn(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3656,24 +3500,24 @@ Err_Handler:
 End Sub
 
 Private Sub tvForeignKeys(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKeys(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim fky As pgForeignKey
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each fky In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys
-      If Not (fky.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "FKY-" & GetID, fky.Identifier, "foreignkey"
+    For Each fky In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys
+      If Not (fky.SystemObject And Not ctx.IncludeSys) Then Set fky.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FKY-" & GetID, fky.Identifier, "foreignkey")
     Next fky
     Node.Text = "Foreign Keys (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Foreign Key", 2000
   lv.ColumnHeaders.Add , , "References", lv.Width - 2100
-  For Each fky In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys
+  For Each fky In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys
     If Not (fky.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "FKY-" & GetID, fky.Identifier, "foreignkey", "foreignkey")
       lvItem.SubItems(1) = fky.ReferencedTable
@@ -3685,7 +3529,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvForeignKey(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKey(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3723,7 +3567,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvRelationships(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvRelationships(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3731,8 +3575,8 @@ Dim rel As pgRelationship
 
   lv.ColumnHeaders.Add , , "Local Column", 2000
   lv.ColumnHeaders.Add , , "Referenced Column", lv.Width - 2600
-  Node.Text = "Relationships (" & svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships.Count & ")"
-  For Each rel In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships
+  Node.Text = "Relationships (" & svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships.Count & ")"
+  For Each rel In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships
     Set lvItem = lv.ListItems.Add(, "REL-" & GetID, rel.LocalColumn, "relationship", "relationship")
     lvItem.SubItems(1) = rel.ReferencedColumn
   Next rel
@@ -3742,24 +3586,24 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvIndexes(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndexes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim ind As pgIndex
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each ind In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes
-      If Not (ind.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "IND-" & GetID, ind.Identifier, "index"
+    For Each ind In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes
+      If Not (ind.SystemObject And Not ctx.IncludeSys) Then Set ind.Tag = tv.Nodes.Add(Node.Key, tvwChild, "IND-" & GetID, ind.Identifier, "index")
     Next ind
     Node.Text = "Indexes (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Index", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each ind In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes
+  For Each ind In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes
     If Not (ind.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "IND-" & GetID, ind.Identifier, "index", "index")
       lvItem.SubItems(1) = Replace(ind.Comment, vbCrLf, " ")
@@ -3771,7 +3615,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub svIndexes(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3786,8 +3630,8 @@ Dim rsStat As New Recordset
     sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
   
     While Not rsStat.EOF
-      If svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).Indexes.Exists(rsStat!indexrelname) Then
-        If Not (svr.Databases(ctx.CurrentDB).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
+      If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes.Exists(rsStat!indexrelname) Then
+        If Not (svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes(rsStat!indexrelname).SystemObject And Not ctx.IncludeSys) Then
           Set lvItem = sv.ListItems.Add(, "STA+" & GetID, rsStat!indexrelname & "", "statistics", "statistics")
           lvItem.SubItems(1) = rsStat!idx_blks_read & ""
           lvItem.SubItems(2) = rsStat!idx_blks_hit & ""
@@ -3810,7 +3654,7 @@ Err_Handler:
 End Sub
 
 Private Sub tvIndex(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndex(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3847,29 +3691,6 @@ Dim vData As Variant
   lvItem.SubItems(1) = szTemp
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Constraint", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Constraint
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Index?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3887,7 +3708,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub svIndex(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.svIndex(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3896,7 +3717,7 @@ Dim rsStat As New Recordset
   ' Statistics.
   ' These don't come from pgSchema because they aren't really schema related.
   If svr.dbVersion.VersionNum >= 7.2 Then
-    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND stat.relname = '" & Node.Parent.Parent.Text & "' AND stat.indexrelname = '" & Node.Text & "'")
+    Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND statio.indexrelid = " & ctx.CurrentObject.OID)
     sv.ColumnHeaders.Add , , "Statistic", 2500
     sv.ColumnHeaders.Add , , "Value", sv.Width - 2600
   
@@ -3929,24 +3750,24 @@ Err_Handler:
 End Sub
 
 Private Sub tvRules(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvRules(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rul As pgRule
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each rul In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules
-      If Not (rul.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "RUL-" & GetID, rul.Identifier, "rule"
+    For Each rul In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules
+      If Not (rul.SystemObject And Not ctx.IncludeSys) Then Set rul.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL-" & GetID, rul.Identifier, "rule")
     Next rul
     Node.Text = "Rules (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Rule", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each rul In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules
+  For Each rul In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Rules
     If Not (rul.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "RUL-" & GetID, rul.Identifier, "rule", "rule")
       lvItem.SubItems(1) = Replace(rul.Comment, vbCrLf, " ")
@@ -3958,7 +3779,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvRule(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvRule(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -3983,29 +3804,6 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Action
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Definition
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Rule?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -4023,24 +3821,24 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvTriggers(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvTriggers(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim trg As pgTrigger
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each trg In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers
-      If Not (trg.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "TRG-" & GetID, trg.Identifier, "trigger"
+    For Each trg In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers
+      If Not (trg.SystemObject And Not ctx.IncludeSys) Then Set trg.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TRG-" & GetID, trg.Identifier, "trigger")
     Next trg
     Node.Text = "Triggers (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Trigger", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each trg In svr.Databases(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers
+  For Each trg In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers
     If Not (trg.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TRG-" & GetID, trg.Identifier, "trigger", "trigger")
       lvItem.SubItems(1) = Replace(trg.Comment, vbCrLf, " ")
@@ -4052,7 +3850,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvTrigger(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvTrigger(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -4071,29 +3869,6 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.ForEach
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.TriggerFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-    If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Trigger?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -4111,24 +3886,24 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvTypes(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvTypes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim typ As pgType
 
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Types.Count(Not ctx.IncludeSys) Then
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Types.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each typ In svr.Databases(Node.Parent.Text).Types
-      If Not (typ.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "TYP-" & GetID, typ.Identifier, "type"
+    For Each typ In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Types
+      If Not (typ.SystemObject And Not ctx.IncludeSys) Then Set typ.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TYP-" & GetID, typ.Identifier, "type")
     Next typ
     Node.Text = "Types (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "Type", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each typ In svr.Databases(Node.Parent.Text).Types
+  For Each typ In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Types
     If Not (typ.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TYP-" & GetID, typ.Identifier, "type", "type")
       lvItem.SubItems(1) = Replace(typ.Comment, vbCrLf, " ")
@@ -4140,7 +3915,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvType(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvType(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -4159,18 +3934,12 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.OutputFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Internal Length", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InternalLength
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "External Length", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.ExternalLength
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Default
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Element", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Element
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Delimiter", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Delimiter
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Send Function", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.SendFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Receive Function", "property", "property")
-  lvItem.SubItems(1) = ctx.CurrentObject.ReceiveFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Passed by Value?", "property", "property")
   If ctx.CurrentObject.PassedByValue Then
     lvItem.SubItems(1) = "Yes"
@@ -4181,29 +3950,6 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Alignment
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Storage", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Storage
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Type?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -4221,23 +3967,24 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvViews(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvViews(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
-  Dim vie As pgView
-  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Text).Views.Count(Not ctx.IncludeSys) Then
+Dim vie As pgView
+  
+  If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Views.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
       tv.Nodes.Remove Node.Child.Index
     Wend
-    For Each vie In svr.Databases(Node.Parent.Text).Views
-      If Not (vie.SystemObject And Not ctx.IncludeSys) Then tv.Nodes.Add Node.Key, tvwChild, "VIE-" & GetID, vie.Identifier, "view"
+    For Each vie In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Views
+      If Not (vie.SystemObject And Not ctx.IncludeSys) Then Set vie.Tag = tv.Nodes.Add(Node.Key, tvwChild, "VIE-" & GetID, vie.Identifier, "view")
     Next vie
     Node.Text = "Views (" & Node.Children & ")"
   End If
   lv.ColumnHeaders.Add , , "View", 2000
   lv.ColumnHeaders.Add , , "Comment", lv.Width - 2100
-  For Each vie In svr.Databases(Node.Parent.Text).Views
+  For Each vie In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Views
     If Not (vie.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "VIE-" & GetID, vie.Identifier, "view", "view")
       lvItem.SubItems(1) = Replace(vie.Comment, vbCrLf, " ")
@@ -4249,7 +3996,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tvView(ByVal Node As MSComctlLib.Node)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.tvView(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
 
 Dim lvItem As ListItem
@@ -4272,29 +4019,6 @@ Dim lvItem As ListItem
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Definition
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If ctx.CurrentObject.SystemObject Then
-    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
-  Else
-    Select Case ctx.CurrentObject.RCStatus
-      Case rcNotApplicable
-        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-      Case rcUpToDate
-        lvItem.SubItems(1) = "Up to date."
-      Case rcOutOfDate
-        lvItem.SubItems(1) = "Out of date."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNeedsRefresh
-        lvItem.SubItems(1) = "Needs refresh."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-      Case rcNotInRC
-        lvItem.SubItems(1) = "Not in Revision Control."
-        lvItem.SmallIcon = "hiproperty"
-        lvItem.Icon = "hiproperty"
-    End Select
-  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System View?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -4312,7 +4036,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Public Sub ClearStats()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.ClearStats()", etFullDebug
 
   sv.ColumnHeaders.Clear
@@ -4352,210 +4076,261 @@ Dim vData As Variant
 
     Case "SVR-" 'Server
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr
       tvServer Node
       If svr.dbVersion.VersionNum >= 7.2 Then svServer Node
 
     Case "DAT+" 'Databases
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
       tvDatabases Node
       If svr.dbVersion.VersionNum >= 7.2 Then svDatabases Node
         
     Case "DAT-" 'Database
       ctx.CurrentDB = Node.Text
+      ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Databases(Node.Text)
       tvDatabase Node
       If svr.dbVersion.VersionNum >= 7.2 Then svDatabase Node
       
     Case "GRP+" 'Groups
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
       tvGroups Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "GRP-" 'Group
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Groups(Node.Text)
       tvGroup Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "USR+" 'Users
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
       tvUsers Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "USR-" 'User
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Users(Node.Text)
       tvUser Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
-    Case "AGG+" 'Aggregates
-      ctx.CurrentDB = Node.Parent.Text
-      tvAggregates Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
-      
-    Case "AGG-" 'Aggregate
-      ctx.CurrentDB = Node.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text)
-      tvAggregate Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
-      
-    Case "DOM+" 'Domains
-      ctx.CurrentDB = Node.Parent.Text
-      tvDomains Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
-      
-    Case "DOM-" 'Domain
-      ctx.CurrentDB = Node.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Domains(Node.Text)
-      tvDomain Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
-      
-    Case "FNC+" 'Functions
-      ctx.CurrentDB = Node.Parent.Text
-      tvFunctions Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
-      
-    Case "FNC-" 'Function
-      ctx.CurrentDB = Node.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text)
-      tvFunction Node
-      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
-      
     Case "LNG+" 'Languages
       ctx.CurrentDB = Node.Parent.Text
+      ctx.CurrentNS = ""
       tvLanguages Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
 
     Case "LNG-" 'Language
       ctx.CurrentDB = Node.Parent.Parent.Text
+      ctx.CurrentNS = ""
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text)
       tvLanguage Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
-    Case "OPR+" 'Operators
+    Case "NSP+" 'Namespaces
       ctx.CurrentDB = Node.Parent.Text
+      ctx.CurrentNS = ""
+      tvNamespaces Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+
+    Case "NSP-" 'Namespaces
+      ctx.CurrentDB = Node.Parent.Parent.Text
+      ctx.CurrentNS = Node.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Namespaces(Node.Text)
+      tvNamespace Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "AGG+" 'Aggregates
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
+      tvAggregates Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "AGG-" 'Aggregate
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Aggregates(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
+      tvAggregate Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "DOM+" 'Domains
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
+      tvDomains Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "DOM-" 'Domain
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Domains(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
+      tvDomain Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "FNC+" 'Functions
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
+      tvFunctions Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "FNC-" 'Function
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Functions(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
+      tvFunction Node
+      If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
+      
+    Case "OPR+" 'Operators
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
       tvOperators Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "OPR-" 'Operator
-      ctx.CurrentDB = Node.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Operators(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
       tvOperator Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "SEQ+" 'Sequences
-      ctx.CurrentDB = Node.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
       tvSequences Node
       If svr.dbVersion.VersionNum >= 7.2 Then svSequences Node
 
     Case "SEQ-" 'Sequence
-      ctx.CurrentDB = Node.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Sequences(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
       tvSequence Node
       If svr.dbVersion.VersionNum >= 7.2 Then svSequence Node
       
     Case "TBL+" 'Tables
-      ctx.CurrentDB = Node.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
       tvTables Node
       If svr.dbVersion.VersionNum >= 7.2 Then svTables Node
       
     Case "TBL-" 'Table
-      ctx.CurrentDB = Node.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Tables(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
       tvTable Node
       If svr.dbVersion.VersionNum >= 7.2 Then svTable Node
       
     Case "CHK+" 'Checks
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvChecks Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "CHK-" 'Check
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvCheck Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
     
     Case "COL+" 'Columns
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvColumns Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "COL-" 'Column
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvColumn Node
       If svr.dbVersion.VersionNum >= 7.2 Then svColumn Node
       
     Case "FKY+" 'Foreign Keys
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvForeignKeys Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "FKY-" 'Foreign Key
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvForeignKey Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "REL+" 'Relationships
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Parent.Text
       tvRelationships Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "IND+" 'Indexes
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvIndexes Node
       If svr.dbVersion.VersionNum >= 7.2 Then svIndexes Node
       
     Case "IND-" 'Index
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvIndex Node
       If svr.dbVersion.VersionNum >= 7.2 Then svIndex Node
 
     Case "RUL+" 'Rules
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvRules Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
   
     Case "RUL-" 'Rule
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvRule Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "TRG+" 'Triggers
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Text
       tvTriggers Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "TRG-" 'Trigger
-      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Parent.Parent.Text
       tvTrigger Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "TYP+" 'Types
-      ctx.CurrentDB = Node.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
       tvTypes Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
 
     Case "TYP-" 'Type
-      ctx.CurrentDB = Node.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Types(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
       tvType Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "VIE+" 'Views
-      ctx.CurrentDB = Node.Parent.Text
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      ctx.CurrentNS = Node.Parent.Text
       tvViews Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
     Case "VIE-" 'View
-      ctx.CurrentDB = Node.Parent.Parent.Text
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text)
+      ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Text).Views(Node.Text)
+      ctx.CurrentNS = Node.Parent.Parent.Text
       tvView Node
       If svr.dbVersion.VersionNum >= 7.2 Then ClearStats
       
@@ -4567,7 +4342,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lv_ItemClick(ByVal Item As MSComctlLib.ListItem)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
 
 Dim szPath() As String
@@ -4580,96 +4355,121 @@ Dim szPath() As String
     Case "SVR-" 'Server
       Set ctx.CurrentObject = svr
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
       If txtDefinition.Visible Then txtDefinition.Text = ""
         
     Case "DAT-" 'Database
       Set ctx.CurrentObject = svr.Databases(Item.Text)
       ctx.CurrentDB = Item.Text
+      ctx.CurrentNS = ""
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       
     Case "GRP-" 'Group
       Set ctx.CurrentObject = svr.Groups(Item.Text)
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       
     Case "USR-" 'User
       Set ctx.CurrentObject = svr.Users(Item.Text)
       ctx.CurrentDB = ""
+      ctx.CurrentNS = ""
+      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+      
+    Case "LNG-" 'Language
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Languages(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ""
+      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
+
+    Case "NSP-" 'Namespace
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = Item.Text
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       
     Case "AGG-" 'Aggregate
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Aggregates(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Aggregates(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       
     Case "DOM-" 'Domain
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Domains(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Domains(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
 
     Case "FNC-" 'Function
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Functions(Item.Text)
-      ctx.CurrentDB = szPath(2)
-      If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
-
-    Case "LNG-" 'Language
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Languages(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Functions(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       
     Case "OPR-" 'Operator
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Operators(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Operators(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
  
     Case "SEQ-" 'Sequence
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Sequences(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Sequences(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
 
     Case "TBL-" 'Table
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
 
     Case "CHK-" 'Check
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).Checks(Item.Text)
-      ctx.CurrentDB = szPath(2)
-      If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(ctx.CurrentDB).Tables(ctx.CurrentObject.Table).SQL
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(szPath(6)).Checks(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
+      If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(ctx.CurrentObject.Table).SQL
       
     Case "COL-" 'Column
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).Columns(Item.Text)
-      ctx.CurrentDB = szPath(2)
-      If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(ctx.CurrentDB).Tables(ctx.CurrentObject.Table).SQL
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(szPath(6)).Columns(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
+      If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(ctx.CurrentObject.Table).SQL
 
     Case "FKY-" 'Foreign Key
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).ForeignKeys(Item.Text)
-      ctx.CurrentDB = szPath(2)
-      If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(ctx.CurrentDB).Tables(ctx.CurrentObject.Table).SQL
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(szPath(6)).ForeignKeys(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
+      If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(ctx.CurrentObject.Table).SQL
       
     Case "IND-" 'Index
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).Indexes(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(szPath(6)).Indexes(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
     Case "RUL-" 'Rule
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).Rules(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(szPath(6)).Rules(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       
     Case "TRG-" 'Trigger
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Tables(szPath(4)).Triggers(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Tables(szPath(6)).Triggers(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
 
     Case "TYP-" 'Type
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Types(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Types(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       
     Case "VIE-" 'View
-      Set ctx.CurrentObject = svr.Databases(szPath(2)).Views(Item.Text)
-      ctx.CurrentDB = szPath(2)
+      Set ctx.CurrentObject = svr.Databases(szPath(2)).Namespaces(szPath(4)).Views(Item.Text)
+      ctx.CurrentDB = ctx.CurrentObject.Database
+      ctx.CurrentNS = ctx.CurrentObject.Namespace
       If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
       
   End Select
@@ -4679,7 +4479,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtDefinition_Change()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.txtDefinition_Change()", etFullDebug
   
   If txtDefinition.Text = "" Then
@@ -4693,7 +4493,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lv_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
 
   lv.Sorted = True
@@ -4714,7 +4514,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub sv_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.sv_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
 
   sv.Sorted = True

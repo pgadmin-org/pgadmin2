@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmView 
    BorderStyle     =   1  'Fixed Single
@@ -73,18 +73,22 @@ Begin VB.Form frmView
       TabCaption(1)   =   "&Definition"
       TabPicture(1)   =   "frmView.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdLoad"
+      Tab(1).Control(0)=   "hbxProperties(1)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "hbxProperties(1)"
+      Tab(1).Control(1)=   "cmdLoad"
       Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmView.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "fraAdd"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "cmdRemove"
-      Tab(2).Control(3)=   "lvProperties(0)"
+      Tab(2).Control(0)=   "lvProperties(0)"
+      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).Control(1)=   "cmdRemove"
+      Tab(2).Control(1).Enabled=   0   'False
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(2).Enabled=   0   'False
+      Tab(2).Control(3)=   "fraAdd"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -409,11 +413,12 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim szUsers() As String
 Dim objView As pgView
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -423,7 +428,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdLoad_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdLoad_Click()", etFullDebug
 
 Dim szLine As String
@@ -463,11 +468,12 @@ Err_Handler:
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewView As pgView
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
@@ -490,18 +496,12 @@ Dim szOldName As String
   
   If bNew Then
     StartMsg "Creating View..."
-    frmMain.svr.Databases(szDatabase).Views.Add txtProperties(0).Text, hbxProperties(1).Text, hbxProperties(0).Text
+    Set objNewView = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Add(txtProperties(0).Text, hbxProperties(1).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) <> "SVR-" Then
-        If (Left(objNode.Key, 4) = "VIE+") And (objNode.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "VIE-" & GetID, txtProperties(0).Text, "view"
-          objNode.Text = "Views (" & objNode.Children & ")"
-          Exit For
-        End If
-      End If
-    Next objNode
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Tag
+    Set objNewView.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "VIE-" & GetID, txtProperties(0).Text, "view")
+    objNode.Text = "Views (" & objNode.Children & ")"
     
   Else
     StartMsg "Updating View..."
@@ -512,14 +512,7 @@ Dim szOldName As String
       frmMain.svr.Databases(szDatabase).Views.Rename szOldName, txtProperties(0).Text
         
       'Update the node text
-      For Each objNode In frmMain.tv.Nodes
-        If (InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0) Then
-          If (Left(objNode.Key, 4) = "VIE-") And (objNode.Parent.Parent.Text = szDatabase) And (objNode.Text = szOldName) Then
-            objNode.Text = txtProperties(0).Text
-            Exit For
-          End If
-        End If
-      Next objNode
+      frmMain.svr.Databases(szDatabase).Views(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
     End If
     
     If hbxProperties(1).Tag = "Y" Then objView.Definition = hbxProperties(1).Text
@@ -532,11 +525,11 @@ Dim szOldName As String
     For Each vEntity In szUsers
       If vEntity <> "" Then
         If vEntity = "PUBLIC" Then
-          frmMain.svr.Databases(szDatabase).Views(txtProperties(0).Text).Revoke vEntity, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Revoke vEntity, aclAll
         ElseIf Left(vEntity, 6) = "GROUP " Then
-          frmMain.svr.Databases(szDatabase).Views(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Revoke "GROUP " & QUOTE & Mid(vEntity, 7) & QUOTE, aclAll
         Else
-          frmMain.svr.Databases(szDatabase).Views(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
+          frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Revoke QUOTE & vEntity & QUOTE, aclAll
         End If
       End If
     Next vEntity
@@ -559,7 +552,7 @@ Dim szOldName As String
       If InStr(1, objItem.SubItems(1), "Rule") <> 0 Then lACL = lACL + aclRule
       If InStr(1, objItem.SubItems(1), "References") <> 0 Then lACL = lACL + aclReferences
       If InStr(1, objItem.SubItems(1), "Trigger") <> 0 Then lACL = lACL + aclTrigger
-      frmMain.svr.Databases(szDatabase).Views(txtProperties(0).Text).Grant szEntity, lACL
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
   
@@ -576,8 +569,8 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmView.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional View As pgView)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional View As pgView)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -589,6 +582,7 @@ Dim szAccesslist As String
 Dim szAccess() As String
   
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 2
@@ -685,7 +679,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdRemove_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then Exit Sub
@@ -697,7 +691,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.cmdAdd_Click()", etFullDebug
 
 Dim szAccess As String
@@ -745,7 +739,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -755,7 +749,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.txtProperties_Change(" & Index & ")", etFullDebug
 
   txtProperties(Index).Tag = "Y"
@@ -765,7 +759,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkPrivilege_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.chkPrivilege_Click(" & Index & ")", etFullDebug
 
 Dim X As Integer

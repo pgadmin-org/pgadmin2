@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmOptions 
    BorderStyle     =   1  'Fixed Single
@@ -56,32 +56,32 @@ Begin VB.Form frmOptions
       TabCaption(1)   =   "&Text"
       TabPicture(1)   =   "frmOptions.frx":0A1E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame7"
-      Tab(1).Control(1)=   "Frame8"
+      Tab(1).Control(0)=   "Frame8"
+      Tab(1).Control(1)=   "Frame7"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "&Exporters"
       TabPicture(2)   =   "frmOptions.frx":0A3A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lstExporters"
-      Tab(2).Control(1)=   "Frame1"
-      Tab(2).Control(2)=   "cmdExpInstall"
-      Tab(2).Control(3)=   "cmdExpUninstall"
+      Tab(2).Control(0)=   "cmdExpUninstall"
+      Tab(2).Control(1)=   "cmdExpInstall"
+      Tab(2).Control(2)=   "Frame1"
+      Tab(2).Control(3)=   "lstExporters"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "&Plugins"
       TabPicture(3)   =   "frmOptions.frx":0A56
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cmdPlgUninstall"
-      Tab(3).Control(1)=   "cmdPlgInstall"
-      Tab(3).Control(2)=   "Frame2"
-      Tab(3).Control(3)=   "lstPlugins"
+      Tab(3).Control(0)=   "lstPlugins"
+      Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(2)=   "cmdPlgInstall"
+      Tab(3).Control(3)=   "cmdPlgUninstall"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   "&PostgreSQL"
       TabPicture(4)   =   "frmOptions.frx":0A72
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame6"
-      Tab(4).Control(1)=   "Frame5"
-      Tab(4).Control(2)=   "Frame4"
-      Tab(4).Control(3)=   "Frame3"
+      Tab(4).Control(0)=   "Frame3"
+      Tab(4).Control(1)=   "Frame4"
+      Tab(4).Control(2)=   "Frame5"
+      Tab(4).Control(3)=   "Frame6"
       Tab(4).ControlCount=   4
       Begin VB.Frame Frame8 
          Caption         =   "Font"
@@ -695,7 +695,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdAdd_Click()", etFullDebug
 
 Dim itmX As ListItem
@@ -732,7 +732,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdBrowse_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdBrowse_Click()", etFullDebug
 
   With cdlg
@@ -750,7 +750,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdBrowseFont_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdBrowseFont_Click()", etFullDebug
 
 Dim szFont() As String
@@ -772,7 +772,7 @@ Err_Handler:
 End Sub
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -782,7 +782,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdOK_Click()", etFullDebug
 
 Dim iLogLevel As Integer
@@ -896,7 +896,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdRemove_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdRemove_Click()", etFullDebug
 
   If MsgBox("Are you sure you wish to remove the selected word?", vbQuestion + vbYesNo, "Remove Word") = vbNo Then Exit Sub
@@ -907,7 +907,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Load()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.Form_Load()", etFullDebug
 
 Dim iLoop As Integer
@@ -1009,7 +1009,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdColour_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdColour_Click()", etFullDebug
 
   cdlg.ShowColor
@@ -1020,7 +1020,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub GetExporters()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.GetExporters()", etFullDebug
 
 Dim objExporter As pgExporter
@@ -1039,7 +1039,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdExpInstall_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdExpInstall_Click()", etFullDebug
 
   cdlg.FLAGS = cdlOFNHideReadOnly
@@ -1058,7 +1058,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdExpUninstall_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdExpUninstall_Click()", etFullDebug
 
   If lstExporters.Text = "" Then
@@ -1076,7 +1076,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lstExporters_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.lstExporters_Click()", etFullDebug
 
   txtExpDescription.Text = exp(lstExporters.Text).Description
@@ -1088,7 +1088,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub GetPlugins()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.GetPlugins()", etFullDebug
 
 Dim objPlugin As pgPlugin
@@ -1110,7 +1110,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdPlgInstall_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdPlgInstall_Click()", etFullDebug
 
   cdlg.FLAGS = cdlOFNHideReadOnly
@@ -1129,7 +1129,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdPlgUninstall_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.cmdPlgUninstall_Click()", etFullDebug
 
   If lstPlugins.Text = "" Then
@@ -1147,7 +1147,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lstPlugins_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.lstPlugins_Click()", etFullDebug
 
   txtPlgDescription.Text = plg(lstPlugins.Text).Description
@@ -1159,7 +1159,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub tabOptions_Click(PreviousTab As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOptions.tabOptions_Click(" & PreviousTab & ")", etFullDebug
 
   Select Case tabOptions.Tab

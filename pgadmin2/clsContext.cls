@@ -32,6 +32,7 @@ Dim bIncludeSys As Boolean
 Dim szAutoHighlight As String
 Dim objCurrentObject As Object
 Dim szCurrentDB As String
+Dim szCurrentNS As String
 Dim bAutoRowCount As Boolean
 Dim objFont As StdFont
 
@@ -101,7 +102,7 @@ End Property
 
 'The Current Object
 Public Property Set CurrentObject(ByVal vData As Variant)
-On Error Resume Next
+'On Error Resume Next
 
   Set objCurrentObject = vData
   
@@ -125,59 +126,51 @@ On Error Resume Next
     frmMain.mnuPopupViewData.Enabled = False
   End If
   
-  'Revision Control options
-  If vData.ObjectType = "Aggregate" Or vData.ObjectType = "Function" Or _
-     vData.ObjectType = "Index" Or vData.ObjectType = "Language" Or _
-     vData.ObjectType = "Operator" Or vData.ObjectType = "Rule" Or _
-     vData.ObjectType = "Sequence" Or vData.ObjectType = "Table" Or _
-     vData.ObjectType = "Trigger" Or vData.ObjectType = "Type" Or _
-     vData.ObjectType = "View" Or vData.ObjectType = "Domain" Then
-    If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl And vData.RCStatus <> rcNotApplicable Then
-      frmMain.mnuPopupCommit.Enabled = True
-      frmMain.tb.Buttons("commit").Enabled = True
-      frmMain.mnuPopupHistory.Enabled = True
-      frmMain.tb.Buttons("history").Enabled = True
-    Else
-      frmMain.mnuPopupCommit.Enabled = False
-      frmMain.tb.Buttons("commit").Enabled = False
-      frmMain.mnuPopupHistory.Enabled = False
-      frmMain.tb.Buttons("history").Enabled = False
-    End If
-  Else
-    If vData.ObjectType = "Database" Then
-      frmMain.mnuPopupCommit.Enabled = True
-      frmMain.tb.Buttons("commit").Enabled = True
-    Else
-      frmMain.mnuPopupCommit.Enabled = False
-      frmMain.tb.Buttons("commit").Enabled = False
-    End If
-    frmMain.mnuPopupHistory.Enabled = False
-    frmMain.tb.Buttons("history").Enabled = False
-  End If
-  
 End Property
 Public Property Get CurrentObject() As Object
   Set CurrentObject = objCurrentObject
 End Property
 
-'The connected server name
+'The current Database
 Public Property Let CurrentDB(ByVal szData As String)
   szCurrentDB = szData
   If szData <> "" Then
-    'Graveyard
-    If frmMain.svr.Databases(szData).RevisionControl Then
-      frmMain.mnuPopupGraveyard.Enabled = True
-      frmMain.tb.Buttons("graveyard").Enabled = True
-    Else
-      frmMain.mnuPopupGraveyard.Enabled = False
-      frmMain.tb.Buttons("graveyard").Enabled = False
-    End If
     frmMain.sb.Panels("currentdb").Text = "Database: " & szData
+    frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = True
+    frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = True
+    frmMain.tb.Buttons("sql").Enabled = True
+    frmMain.tb.Buttons("vacuum").Enabled = True
+    frmMain.mnuFileSaveDBSchema.Enabled = True
+    frmMain.mnuPopupCreateLanguage.Enabled = True
+    frmMain.mnuPopupCreateNamespace.Enabled = True
+    frmMain.mnuPopupSQL.Enabled = True
+    frmMain.mnuPopupVacuum.Enabled = True
+  Else
+    frmMain.sb.Panels("currentdb").Text = "Database: None"
+    frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = False
+    frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = False
+    frmMain.tb.Buttons("sql").Enabled = False
+    frmMain.tb.Buttons("vacuum").Enabled = False
+    frmMain.mnuFileSaveDBSchema.Enabled = False
+    frmMain.mnuPopupCreateLanguage.Enabled = False
+    frmMain.mnuPopupCreateNamespace.Enabled = False
+    frmMain.mnuPopupSQL.Enabled = False
+    frmMain.mnuPopupVacuum.Enabled = False
+  End If
+End Property
+Public Property Get CurrentDB() As String
+  CurrentDB = szCurrentDB
+End Property
+
+'The current Schema (Namespace)
+Public Property Let CurrentNS(ByVal szData As String)
+  szCurrentNS = szData
+  If szData <> "" Then
+    frmMain.sb.Panels("currentns").Text = "Schema: " & szData
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = True
     If frmMain.svr.dbVersion.VersionNum >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = True
-    frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("operator").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("rule").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("sequence").Enabled = True
@@ -185,14 +178,10 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("trigger").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = True
-    frmMain.tb.Buttons("sql").Enabled = True
-    frmMain.tb.Buttons("vacuum").Enabled = True
-    frmMain.mnuFileSaveDBSchema.Enabled = True
     frmMain.mnuPopupCreateAggregate.Enabled = True
     If frmMain.svr.dbVersion.VersionNum >= 7.3 Then frmMain.mnuPopupCreateDomain.Enabled = True
     frmMain.mnuPopupCreateFunction.Enabled = True
     frmMain.mnuPopupCreateIndex.Enabled = True
-    frmMain.mnuPopupCreateLanguage.Enabled = True
     frmMain.mnuPopupCreateOperator.Enabled = True
     frmMain.mnuPopupCreateRule.Enabled = True
     frmMain.mnuPopupCreateSequence.Enabled = True
@@ -200,15 +189,12 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.mnuPopupCreateTrigger.Enabled = True
     frmMain.mnuPopupCreateType.Enabled = True
     frmMain.mnuPopupCreateView.Enabled = True
-    frmMain.mnuPopupSQL.Enabled = True
-    frmMain.mnuPopupVacuum.Enabled = True
   Else
-    frmMain.sb.Panels("currentdb").Text = "Database: None"
+    frmMain.sb.Panels("currentns").Text = "Schema: None"
     frmMain.tb.Buttons("create").ButtonMenus("aggregate").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("domain").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("function").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("index").Enabled = False
-    frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("operator").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("rule").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("sequence").Enabled = False
@@ -216,15 +202,10 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.tb.Buttons("create").ButtonMenus("trigger").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("type").Enabled = False
     frmMain.tb.Buttons("create").ButtonMenus("view").Enabled = False
-    frmMain.tb.Buttons("graveyard").Enabled = False
-    frmMain.tb.Buttons("sql").Enabled = False
-    frmMain.tb.Buttons("vacuum").Enabled = False
-    frmMain.mnuFileSaveDBSchema.Enabled = False
     frmMain.mnuPopupCreateAggregate.Enabled = False
     frmMain.mnuPopupCreateDomain.Enabled = False
     frmMain.mnuPopupCreateFunction.Enabled = False
     frmMain.mnuPopupCreateIndex.Enabled = False
-    frmMain.mnuPopupCreateLanguage.Enabled = False
     frmMain.mnuPopupCreateOperator.Enabled = False
     frmMain.mnuPopupCreateRule.Enabled = False
     frmMain.mnuPopupCreateSequence.Enabled = False
@@ -232,13 +213,10 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.mnuPopupCreateTrigger.Enabled = False
     frmMain.mnuPopupCreateType.Enabled = False
     frmMain.mnuPopupCreateView.Enabled = False
-    frmMain.mnuPopupGraveyard.Enabled = False
-    frmMain.mnuPopupSQL.Enabled = False
-    frmMain.mnuPopupVacuum.Enabled = False
   End If
 End Property
-Public Property Get CurrentDB() As String
-  CurrentDB = szCurrentDB
+Public Property Get CurrentNS() As String
+  CurrentNS = szCurrentNS
 End Property
 
 'Auto row Count

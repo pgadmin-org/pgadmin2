@@ -181,7 +181,7 @@ Dim iUnique As Integer
 Dim bUpdateable As Boolean
 
 Private Sub cmdAdd_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdAdd_Click()", etFullDebug
 
   BuildEditBox
@@ -192,7 +192,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdCancel_Click()", etFullDebug
 
   HideEditBox
@@ -202,7 +202,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdDelete_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdDelete_Click()", etFullDebug
 
 Dim X As Integer
@@ -353,7 +353,7 @@ Err_Handler:
 End Sub
 
 Private Sub cmdRefresh_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdSave_Click()", etFullDebug
 
   rsSQL.Requery
@@ -363,7 +363,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdSave_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdSave_Click()", etFullDebug
 
 Dim szQuery As String
@@ -632,13 +632,13 @@ Err_Handler:
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Error Resume Next
+'On Error Resume Next
   If rsSQL.State <> adStateClosed Then rsSQL.Close
   Set rsSQL = Nothing
 End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
-'On Error GoTo Err_Handler
+''On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer
@@ -652,6 +652,9 @@ Dim bInQuotes As Boolean
 Dim bFlag As Boolean
 Dim objView As pgView
 Dim szTemp As String
+Dim szTempTable As String
+Dim rsSchema As New Recordset
+Dim szSchemas() As String
 
   Set rsSQL = rsQuery
   szDatabase = szDB
@@ -809,13 +812,61 @@ Dim szTemp As String
     szTable = Replace(szBits(0), vbTab, " ")
   End If
   
-  'Check to see if our table is actually a view. If it is then we can't
+  'Check to see if our table is actually a view or sequence. If it is then we can't
   'update :-(
-  If frmMain.svr.Databases(szDatabase).Views.Exists(Mid(szTable, 2, Len(szTable) - 2)) Then
-    szTable = ""
-    szWhere = ""
-    bUpdateable = False
-    GoTo GotInfo
+  
+  If Left(szTable, 1) = QUOTE And Right(szTable, 1) = QUOTE Then
+    szTempTable = Mid(szTable, 2, Len(szTable) - 2)
+  Else
+    szTempTable = szTable
+  End If
+  If frmMain.svr.dbVersion.VersionNum < 7.3 Then
+    If frmMain.svr.Databases(szDatabase).Namespaces("public").Views.Exists(szTempTable) Or _
+       frmMain.svr.Databases(szDatabase).Namespaces("public").Sequences.Exists(szTempTable) Then
+      szTable = ""
+      szWhere = ""
+      bUpdateable = False
+      GoTo GotInfo
+    End If
+  Else
+    'This is a PITA with 7.3 as we can have multiple schemas in the search path.
+    Set rsSchema = frmMain.svr.Databases(szDatabase).Execute("SELECT current_schemas() AS path", , , qrySystem)
+    szTemp = rsSchema!Path & ""
+    If Len(szTemp) > 2 Then szTemp = Mid(szTemp, 2, Len(szTemp) - 2)
+    If rsSchema.State <> adStateClosed Then rsSchema.Close
+    Set rsSchema = Nothing
+    bInQuotes = False
+    ReDim szSchemas(0)
+    For X = 1 To Len(szTemp)
+      If Mid(szTemp, X, 1) = "," Then
+        If bInQuotes Then
+          szSchemas(UBound(szSchemas)) = szSchemas(UBound(szSchemas)) & ","
+        Else
+          ReDim Preserve szSchemas(UBound(szSchemas) + 1)
+        End If
+      ElseIf Mid(szTemp, X, 1) = QUOTE Then
+        bInQuotes = Not bInQuotes
+      Else
+        szSchemas(UBound(szSchemas)) = szSchemas(UBound(szSchemas)) & Mid(szTemp, X, 1)
+      End If
+    Next X
+    
+    'Now check for the existance of a view, sequence or table with the current name.
+    'If a table exists, then we're all go. If it's as view or sequence then it's not
+    'updateable
+    For X = 0 To UBound(szSchemas)
+      If frmMain.svr.Databases(szDatabase).Namespaces(szSchemas(X)).Views.Exists(szTempTable) Or _
+         frmMain.svr.Databases(szDatabase).Namespaces(szSchemas(X)).Sequences.Exists(szTempTable) Then
+        szTable = ""
+        szWhere = ""
+        bUpdateable = False
+        GoTo GotInfo
+      Else
+        If frmMain.svr.Databases(szDatabase).Namespaces(szSchemas(X)).Tables.Exists(szTempTable) Then
+          Exit For
+        End If
+      End If
+    Next X
   End If
   
   'Yippee!
@@ -887,37 +938,41 @@ GotInfo:
   End If
   LoadGrid
   
+  '*** FIXME ***
   'Attempt to figure out a Unique Column for safer updating
-  If bUpdateable Then
-    szTemp = szTable
-    If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
-    If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
-    For iTemp = 1 To lvData.ColumnHeaders.Count
-      If frmMain.svr.Databases(szDatabase).Tables.Exists(szTemp) Then
-        If frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns.Exists(lvData.ColumnHeaders(iTemp).Text) Then
-          If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
-             (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
-             (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
-             (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
-            iUnique = iTemp
-            Exit For
-          End If
-        End If
-      End If
-    Next iTemp
-    If iUnique = 0 Then
-      frmMain.svr.LogEvent "Couldn't find a suitable unique column for use as a key.", etMiniDebug
-    Else
-      frmMain.svr.LogEvent "Found column: " & lvData.ColumnHeaders(iUnique).Text & " for use as a key.", etMiniDebug
-    End If
-  End If
+'  If bUpdateable Then
+'    szTemp = szTable
+'    If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
+'    If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
+'    For iTemp = 1 To lvData.ColumnHeaders.Count
+'      If frmMain.svr.Databases(szDatabase).Tables.Exists(szTemp) Then
+'        If frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns.Exists(lvData.ColumnHeaders(iTemp).Text) Then
+'          If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
+'             (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
+'             (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
+'             (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
+'            iUnique = iTemp
+'            Exit For
+'          End If
+'        End If
+'      End If
+'    Next iTemp
+'    If iUnique = 0 Then
+'      frmMain.svr.LogEvent "Couldn't find a suitable unique column for use as a key.", etMiniDebug
+'    Else
+'      frmMain.svr.LogEvent "Found column: " & lvData.ColumnHeaders(iUnique).Text & " for use as a key.", etMiniDebug
+'    End If
+'  End If
   
   Exit Sub
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.Display"
+Err_Handler:
+  If rsSchema.State <> adStateClosed Then rsSchema.Close
+  Set rsSchema = Nothing
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.Display"
 End Sub
 
 Private Sub Form_Resize()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Form_Resize()", etFullDebug
 
   If Me.WindowState <> 1 And Me.ScaleHeight > 0 Then
@@ -943,7 +998,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub LoadGrid()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.LoadGrid()", etFullDebug
 
 Dim X As Long
@@ -966,7 +1021,7 @@ Err_Handler:
 End Sub
 
 Private Sub RefreshData()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.RefreshData()", etFullDebug
 
 Dim itmX As ListItem
@@ -1014,7 +1069,7 @@ Err_Handler:
 End Sub
 
 Private Sub lvData_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
 
   lvData.Sorted = True
@@ -1035,7 +1090,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub lvData_ItemClick(ByVal Item As MSComctlLib.ListItem)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.lvData_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
 
   lblInfo.Caption = "Record " & lvData.SelectedItem.Index & " of " & lvData.ListItems.Count
@@ -1045,7 +1100,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub BuildEditBox()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.BuildEditBox()", etFullDebug
 
 Dim X As Integer
@@ -1103,7 +1158,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdEdit_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.cmdEdit_Click()", etFullDebug
 
 Dim X As Long
@@ -1124,7 +1179,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub scScroll_Change()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.scScroll_Change()", etFullDebug
 
   picScroll.Top = -scScroll.Value
@@ -1134,7 +1189,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtField_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.txtField_Change(" & Index & ")", etFullDebug
 
   txtField(Index).Tag = "Y"
@@ -1144,7 +1199,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub txtField_GotFocus(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.txtField_GotFocus(" & Index & ")", etFullDebug
 
 Dim X As Long
@@ -1171,7 +1226,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub HideEditBox()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.HideEditBox()", etFullDebug
 
 Dim X As Integer

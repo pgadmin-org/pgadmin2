@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmOperator 
    BorderStyle     =   1  'Fixed Single
@@ -94,15 +94,15 @@ Begin VB.Form frmOperator
       Tab(0).Control(6).Enabled=   0   'False
       Tab(0).Control(7)=   "lblProperties(3)"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cboProperties(3)"
+      Tab(0).Control(8)=   "cboProperties(2)"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "cboProperties(2)"
+      Tab(0).Control(9)=   "cboProperties(3)"
       Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "cboProperties(1)"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "hbxProperties(0)"
+      Tab(0).Control(11)=   "cboProperties(0)"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "cboProperties(0)"
+      Tab(0).Control(12)=   "hbxProperties(0)"
       Tab(0).Control(12).Enabled=   0   'False
       Tab(0).Control(13)=   "txtProperties(3)"
       Tab(0).Control(13).Enabled=   0   'False
@@ -117,31 +117,18 @@ Begin VB.Form frmOperator
       TabPicture(1)   =   "frmOperator.frx":1E7E
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lblProperties(8)"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "lblProperties(9)"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "lblProperties(10)"
-      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "lblProperties(11)"
-      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "lblProperties(12)"
-      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "lblProperties(13)"
-      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "cboProperties(9)"
-      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "cboProperties(8)"
-      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "cboProperties(7)"
-      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "cboProperties(6)"
-      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "cboProperties(5)"
-      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).Control(11)=   "cboProperties(4)"
-      Tab(1).Control(11).Enabled=   0   'False
       Tab(1).Control(12)=   "chkProperties(0)"
-      Tab(1).Control(12).Enabled=   0   'False
       Tab(1).ControlCount=   13
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -198,22 +185,6 @@ Begin VB.Form frmOperator
          Top             =   3105
          Width           =   3390
       End
-      Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
-         Index           =   0
-         Left            =   1935
-         TabIndex        =   4
-         ToolTipText     =   "The function used to implement this operator."
-         Top             =   1845
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
-         _Version        =   393216
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483633
-         Locked          =   -1  'True
-         ImageList       =   "il"
-      End
       Begin HighlightBox.HBX hbxProperties 
          Height          =   2130
          Index           =   0
@@ -237,11 +208,11 @@ Begin VB.Form frmOperator
       End
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
-         Index           =   1
+         Index           =   0
          Left            =   1935
-         TabIndex        =   5
+         TabIndex        =   4
          ToolTipText     =   "The type of the left-hand argument of the operator, if any. This option would be omitted for a left-unary operator. "
-         Top             =   2250
+         Top             =   1845
          Width           =   3390
          _ExtentX        =   5980
          _ExtentY        =   582
@@ -253,11 +224,11 @@ Begin VB.Form frmOperator
       End
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   330
-         Index           =   2
+         Index           =   1
          Left            =   1935
-         TabIndex        =   6
+         TabIndex        =   5
          ToolTipText     =   "The type of the right-hand argument of the operator, if any. This option would be omitted for a right-unary operator."
-         Top             =   2655
+         Top             =   2250
          Width           =   3390
          _ExtentX        =   5980
          _ExtentY        =   582
@@ -368,8 +339,24 @@ Begin VB.Form frmOperator
          Index           =   3
          Left            =   1935
          TabIndex        =   8
-         ToolTipText     =   "The type of the right-hand argument of the operator, if any. This option would be omitted for a right-unary operator."
+         ToolTipText     =   "The resultant type of the operator."
          Top             =   3465
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   330
+         Index           =   2
+         Left            =   1935
+         TabIndex        =   6
+         ToolTipText     =   "The function used to implement this operator."
+         Top             =   2655
          Width           =   3390
          _ExtentX        =   5980
          _ExtentY        =   582
@@ -381,11 +368,21 @@ Begin VB.Form frmOperator
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
+         Caption         =   "Operator function"
+         Height          =   195
+         Index           =   3
+         Left            =   135
+         TabIndex        =   32
+         Top             =   2745
+         Width           =   1230
+      End
+      Begin VB.Label lblProperties 
+         AutoSize        =   -1  'True
          Caption         =   "Right sort operator"
          Height          =   195
          Index           =   13
          Left            =   -74865
-         TabIndex        =   32
+         TabIndex        =   31
          Top             =   3150
          Width           =   1305
       End
@@ -395,7 +392,7 @@ Begin VB.Form frmOperator
          Height          =   195
          Index           =   12
          Left            =   -74865
-         TabIndex        =   31
+         TabIndex        =   30
          Top             =   2745
          Width           =   1200
       End
@@ -405,7 +402,7 @@ Begin VB.Form frmOperator
          Height          =   195
          Index           =   11
          Left            =   -74865
-         TabIndex        =   30
+         TabIndex        =   29
          Top             =   1935
          Width           =   900
       End
@@ -415,7 +412,7 @@ Begin VB.Form frmOperator
          Height          =   195
          Index           =   10
          Left            =   -74865
-         TabIndex        =   29
+         TabIndex        =   28
          Top             =   1530
          Width           =   1155
       End
@@ -425,7 +422,7 @@ Begin VB.Form frmOperator
          Height          =   195
          Index           =   9
          Left            =   -74865
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   1125
          Width           =   570
       End
@@ -435,19 +432,9 @@ Begin VB.Form frmOperator
          Height          =   195
          Index           =   8
          Left            =   -74865
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   720
          Width           =   840
-      End
-      Begin VB.Label lblProperties 
-         AutoSize        =   -1  'True
-         Caption         =   "Operator function"
-         Height          =   195
-         Index           =   3
-         Left            =   135
-         TabIndex        =   26
-         Top             =   1935
-         Width           =   1230
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
@@ -486,7 +473,7 @@ Begin VB.Form frmOperator
          Index           =   4
          Left            =   135
          TabIndex        =   22
-         Top             =   2340
+         Top             =   1935
          Width           =   1245
       End
       Begin VB.Label lblProperties 
@@ -496,7 +483,7 @@ Begin VB.Form frmOperator
          Index           =   5
          Left            =   135
          TabIndex        =   21
-         Top             =   2745
+         Top             =   2340
          Width           =   1350
       End
       Begin VB.Label lblProperties 
@@ -536,10 +523,11 @@ Option Explicit
 
 Dim bNew As Boolean
 Dim szDatabase As String
+Dim szNamespace As String
 Dim objOperator As pgOperator
 
 Private Sub cmdCancel_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cmdCancel_Click()", etFullDebug
 
   Unload Me
@@ -549,11 +537,12 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
 Dim objItem As ListItem
+Dim objNewOperator As pgOperator
 Dim szFunction As String
 Dim szCommutator As String
 Dim szNegator As String
@@ -569,47 +558,35 @@ Dim szRightSort As String
     txtProperties(0).SetFocus
     Exit Sub
   End If
-  If cboProperties(0).Text = "" Then
+  If cboProperties(2).Text = "" Then
     MsgBox "You must select a Operator function!", vbExclamation, "Error"
     tabProperties.Tab = 0
-    cboProperties(0).SetFocus
-    Exit Sub
-  End If
-  If cboProperties(1).Text = "" Then
-    MsgBox "You must select a left operand type!", vbExclamation, "Error"
-    tabProperties.Tab = 0
-    cboProperties(1).SetFocus
-    Exit Sub
-  End If
-  If cboProperties(2).Text = "" Then
-    MsgBox "You must select a right operand type!", vbExclamation, "Error"
-    tabProperties.Tab = 0
     cboProperties(2).SetFocus
+    Exit Sub
+  End If
+  If cboProperties(0).Text = "" And cboProperties(1).Text = "" Then
+    MsgBox "You must select at least one operand type!", vbExclamation, "Error"
+    tabProperties.Tab = 0
+    cboProperties(0).SetFocus
     Exit Sub
   End If
   
   If bNew Then
     StartMsg "Creating Operator..."
-    If Not (cboProperties(0).SelectedItem Is Nothing) Then szFunction = cboProperties(0).SelectedItem.Tag
-    If Not (cboProperties(4).SelectedItem Is Nothing) Then szCommutator = cboProperties(4).SelectedItem.Tag
-    If Not (cboProperties(5).SelectedItem Is Nothing) Then szNegator = cboProperties(5).SelectedItem.Tag
-    If Not (cboProperties(6).SelectedItem Is Nothing) Then szRestrict = cboProperties(6).SelectedItem.Tag
-    If Not (cboProperties(7).SelectedItem Is Nothing) Then szJoin = cboProperties(7).SelectedItem.Tag
-    If Not (cboProperties(8).SelectedItem Is Nothing) Then szLeftSort = cboProperties(8).SelectedItem.Tag
-    If Not (cboProperties(9).SelectedItem Is Nothing) Then szRightSort = cboProperties(9).SelectedItem.Tag
-    frmMain.svr.Databases(szDatabase).Operators.Add txtProperties(0).Text, szFunction, cboProperties(1).Text, cboProperties(2).Text, szCommutator, szNegator, szRestrict, szJoin, Bin2Bool(chkProperties(0).Value), szLeftSort, szRightSort, hbxProperties(0).Text
+    If Not (cboProperties(0).SelectedItem Is Nothing) Then szFunction = cboProperties(2).SelectedItem.Text
+    If Not (cboProperties(4).SelectedItem Is Nothing) Then szCommutator = cboProperties(4).SelectedItem.Text
+    If Not (cboProperties(5).SelectedItem Is Nothing) Then szNegator = cboProperties(5).SelectedItem.Text
+    If Not (cboProperties(6).SelectedItem Is Nothing) Then szRestrict = cboProperties(6).SelectedItem.Text
+    If Not (cboProperties(7).SelectedItem Is Nothing) Then szJoin = cboProperties(7).SelectedItem.Text
+    If Not (cboProperties(8).SelectedItem Is Nothing) Then szLeftSort = cboProperties(8).SelectedItem.Text
+    If Not (cboProperties(9).SelectedItem Is Nothing) Then szRightSort = cboProperties(9).SelectedItem.Text
+    Set objNewOperator = frmMain.svr.Databases(szDatabase).Namespace(szNamespace).Operators.Add(txtProperties(0).Text, szFunction, cboProperties(0).Text, cboProperties(1).Text, szCommutator, szNegator, szRestrict, szJoin, Bin2Bool(chkProperties(0).Value), szLeftSort, szRightSort, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    For Each objNode In frmMain.tv.Nodes
-      If Left(objNode.Key, 4) <> "SVR-" Then
-        If (Left(objNode.Key, 4) = "OPR+") And (objNode.Parent.Text = szDatabase) Then
-          frmMain.tv.Nodes.Add objNode.Key, tvwChild, "OPR-" & GetID, txtProperties(0).Text & " (" & cboProperties(1).Text & ", " & cboProperties(2).Text & ")", "Operator"
-          objNode.Text = "Operators (" & objNode.Children & ")"
-          Exit For
-        End If
-      End If
-    Next objNode
-    
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespace(szNamespace).Operators.Tag
+    Set objNewOperator.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPR-" & GetID, txtProperties(0).Text & " (" & cboProperties(0).Text & ", " & cboProperties(1).Text & ")", "Operator")
+    objNode.Text = "Operators (" & objNode.Children & ")"
+  
   Else
     StartMsg "Updating Operator..."
     If hbxProperties(0).Tag = "Y" Then objOperator.Comment = hbxProperties(0).Text
@@ -628,19 +605,20 @@ Err_Handler:
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.cmdOK_Click"
 End Sub
 
-Public Sub Initialise(szDB As String, Optional Operator As pgOperator)
-On Error GoTo Err_Handler
+Public Sub Initialise(szDB As String, szNS As String, Optional Operator As pgOperator)
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
-Dim objFunction As pgFunction
 Dim objDomain As pgDomain
 Dim objType As pgType
 Dim objTempOperator As pgOperator
+Dim objNamespace As pgNamespace
 Dim objItem As ComboItem
 Dim vArgument As Variant
   
   szDatabase = szDB
+  szNamespace = szNS
   
   'Set the font
   For X = 0 To 3
@@ -658,37 +636,65 @@ Dim vArgument As Variant
     Me.Caption = "Create Operator"
     
     'Load the combos
-    For Each objFunction In frmMain.svr.Databases(szDatabase).Functions
-      Set objItem = cboProperties(0).ComboItems.Add(, , objFunction.Identifier, "function")
-      objItem.Tag = objFunction.Name
-      Set objItem = cboProperties(6).ComboItems.Add(, , objFunction.Identifier, "function")
-      objItem.Tag = objFunction.Name
-      Set objItem = cboProperties(7).ComboItems.Add(, , objFunction.Identifier, "function")
-      objItem.Tag = objFunction.Name
-    Next objFunction
-    For Each objDomain In frmMain.svr.Databases(szDatabase).Domains
-      cboProperties(1).ComboItems.Add , , objType.Name, "domain"
-      cboProperties(2).ComboItems.Add , , objType.Name, "domain"
-    Next objDomain
-    For Each objType In frmMain.svr.Databases(szDatabase).Types
-      If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.Name, "type"
-      If Left(objType.Name, 1) <> "_" Then cboProperties(2).ComboItems.Add , , objType.Name, "type"
-    Next objType
-    For Each objTempOperator In frmMain.svr.Databases(szDatabase).Operators
-      Set objItem = cboProperties(4).ComboItems.Add(, , objTempOperator.Identifier, "operator")
-      objItem.Tag = objTempOperator.Name
-      Set objItem = cboProperties(5).ComboItems.Add(, , objTempOperator.Identifier, "operator")
-      objItem.Tag = objTempOperator.Name
-      Set objItem = cboProperties(8).ComboItems.Add(, , objTempOperator.Identifier, "operator")
-      objItem.Tag = objTempOperator.Name
-      Set objItem = cboProperties(9).ComboItems.Add(, , objTempOperator.Identifier, "operator")
-      objItem.Tag = objTempOperator.Name
-    Next objTempOperator
-  
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      'First load pg_catalog items, unqualified
+      For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Domains
+        cboProperties(0).ComboItems.Add , , fmtID(objDomain.Name), "domain"
+        cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain"
+      Next objDomain
+      For Each objType In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Types
+        If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , fmtID(objType.Name), "type"
+        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type"
+      Next objType
+      For Each objTempOperator In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Operators
+        cboProperties(4).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(5).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(8).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(9).ComboItems.Add , , objTempOperator.Name, "operator"
+      Next objTempOperator
+      'Now load the rest
+      For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          For Each objDomain In objNamespace.Domains
+            cboProperties(0).ComboItems.Add , , objDomain.FormattedID, "domain"
+            cboProperties(1).ComboItems.Add , , objDomain.FormattedID, "domain"
+          Next objDomain
+          For Each objType In objNamespace.Types
+            If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , objType.FormattedID, "type"
+            If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , objType.FormattedID, "type"
+          Next objType
+          For Each objTempOperator In objNamespace.Operators
+            cboProperties(4).ComboItems.Add , , objTempOperator.FormattedID, "operator"
+            cboProperties(5).ComboItems.Add , , objTempOperator.FormattedID, "operator"
+            cboProperties(8).ComboItems.Add , , objTempOperator.FormattedID, "operator"
+            cboProperties(9).ComboItems.Add , , objTempOperator.FormattedID, "operator"
+          Next objTempOperator
+        End If
+      Next objNamespace
+    Else
+      For Each objDomain In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Domains
+        cboProperties(0).ComboItems.Add , , fmtID(objDomain.Name), "domain"
+        cboProperties(1).ComboItems.Add , , fmtID(objDomain.Name), "domain"
+      Next objDomain
+      For Each objType In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Types
+        If Left(objType.Name, 1) <> "_" Then cboProperties(0).ComboItems.Add , , fmtID(objType.Name), "type"
+        If Left(objType.Name, 1) <> "_" Then cboProperties(1).ComboItems.Add , , fmtID(objType.Name), "type"
+      Next objType
+      For Each objTempOperator In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Operators
+        cboProperties(4).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(5).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(8).ComboItems.Add , , objTempOperator.Name, "operator"
+        cboProperties(9).ComboItems.Add , , objTempOperator.Name, "operator"
+      Next objTempOperator
+    End If
+    
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
     txtProperties(0).Locked = False
-    For X = 0 To 9
+    For X = 0 To 2
+      cboProperties(X).BackColor = &H80000005
+    Next X
+    For X = 4 To 9
       cboProperties(X).BackColor = &H80000005
     Next X
     
@@ -703,11 +709,11 @@ Dim vArgument As Variant
     txtProperties(1).Text = objOperator.OID
     txtProperties(2).Text = objOperator.Owner
     txtProperties(3).Text = objOperator.Kind
-    Set objItem = cboProperties(0).ComboItems.Add(, , objOperator.OperatorFunction, "function")
+    Set objItem = cboProperties(2).ComboItems.Add(, , objOperator.OperatorFunction, "function")
     objItem.Selected = True
-    Set objItem = cboProperties(1).ComboItems.Add(, , objOperator.LeftOperandType, "type")
+    Set objItem = cboProperties(0).ComboItems.Add(, , objOperator.LeftOperandType, "type")
     objItem.Selected = True
-    Set objItem = cboProperties(2).ComboItems.Add(, , objOperator.RightOperandType, "type")
+    Set objItem = cboProperties(1).ComboItems.Add(, , objOperator.RightOperandType, "type")
     objItem.Selected = True
     Set objItem = cboProperties(3).ComboItems.Add(, , objOperator.ResultType, "type")
     objItem.Selected = True
@@ -736,7 +742,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub hbxProperties_Change(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.hbxProperties_Change(" & Index & ")", etFullDebug
 
   hbxProperties(Index).Tag = "Y"
@@ -746,7 +752,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub chkProperties_Click(Index As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.chkProperties_Click(" & Index & ")", etFullDebug
 
   If Not (objOperator Is Nothing) Then
@@ -757,5 +763,139 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.chkProperties_Click
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.chkProperties_Click"
 End Sub
 
+Private Sub cboProperties_Click(Index As Integer)
+'On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperator.cboProperties_Click(" & Index & ")", etFullDebug
 
+Dim objNamespace As pgNamespace
+Dim objFunction As pgFunction
+
+  'The operator function, restrict function & join functions are dependent on the operands.
+  'Valid functions are of one of the forms:
+  '
+  ' xxx(<LeftOperandType>) - Where <RightOperandType> is not specified
+  ' xxx(<RightOperandType>) - Where <LeftOperandType> is not specified
+  ' xxx(<LeftOperandType>, <RightOperandType>)
+  '
+  'In addition, the restrict and join functions must returns floats
+  
+  If Index = 0 Or Index = 1 Then
+    cboProperties(2).ComboItems.Clear
+    cboProperties(6).ComboItems.Clear
+    cboProperties(7).ComboItems.Clear
+    If frmMain.svr.dbVersion.VersionNum >= 7.3 Then
+      'First do pg_catalog items, unqualified
+      For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
+        If (cboProperties(0).Text <> "") And (cboProperties(1).Text <> "") Then 'Both
+          If objFunction.Arguments.Count = 2 Then
+            If (objFunction.Arguments(1) = cboProperties(0).Text) And (objFunction.Arguments(2) = cboProperties(1).Text) Then
+              cboProperties(2).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              If Left(objFunction.Returns, 5) = "float" Then
+                cboProperties(6).ComboItems.Add , , fmtID(objFunction.Name), "function"
+                cboProperties(7).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              End If
+            End If
+          End If
+        ElseIf (cboProperties(0).Text <> "") And (cboProperties(1).Text = "") Then 'Left
+          If objFunction.Arguments.Count = 1 Then
+            If (objFunction.Arguments(1) = cboProperties(0).Text) Then
+              cboProperties(2).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              If Left(objFunction.Returns, 5) = "float" Then
+                cboProperties(6).ComboItems.Add , , fmtID(objFunction.Name), "function"
+                cboProperties(7).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              End If
+            End If
+          End If
+        ElseIf (cboProperties(0).Text = "") And (cboProperties(1).Text <> "") Then 'Right
+          If objFunction.Arguments.Count = 1 Then
+            If (objFunction.Arguments(1) = cboProperties(1).Text) Then
+              cboProperties(2).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              If Left(objFunction.Returns, 5) = "float" Then
+                cboProperties(6).ComboItems.Add , , fmtID(objFunction.Name), "function"
+                cboProperties(7).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              End If
+            End If
+          End If
+        End If
+      Next objFunction
+      
+      'Now load the rest
+      For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
+        If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
+          For Each objFunction In objNamespace.Functions
+            If (cboProperties(0).Text <> "") And (cboProperties(1).Text <> "") Then 'Both
+              If objFunction.Arguments.Count = 2 Then
+                If (objFunction.Arguments(1) = cboProperties(0).Text) And (objFunction.Arguments(2) = cboProperties(1).Text) Then
+                  cboProperties(2).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                  If Left(objFunction.Returns, 5) = "float" Then
+                    cboProperties(6).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                    cboProperties(7).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                  End If
+                End If
+              End If
+            ElseIf (cboProperties(0).Text <> "") And (cboProperties(1).Text = "") Then 'Left
+              If objFunction.Arguments.Count = 1 Then
+                If (objFunction.Arguments(1) = cboProperties(0).Text) Then
+                  cboProperties(2).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                  If Left(objFunction.Returns, 5) = "float" Then
+                    cboProperties(6).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                    cboProperties(7).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                  End If
+                End If
+              End If
+            ElseIf (cboProperties(0).Text = "") And (cboProperties(1).Text <> "") Then 'Right
+              If objFunction.Arguments.Count = 1 Then
+                If (objFunction.Arguments(1) = cboProperties(1).Text) Then
+                  cboProperties(2).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                  If Left(objFunction.Returns, 5) = "float" Then
+                    cboProperties(6).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                    cboProperties(7).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+                  End If
+                End If
+              End If
+            End If
+          Next objFunction
+        End If
+      Next objNamespace
+    Else
+      ' <=7.2
+      For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions
+        If (cboProperties(0).Text <> "") And (cboProperties(1).Text <> "") Then 'Both
+          If objFunction.Arguments.Count = 2 Then
+            If (objFunction.Arguments(1) = cboProperties(0).Text) And (objFunction.Arguments(2) = cboProperties(1).Text) Then
+              cboProperties(2).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              If Left(objFunction.Returns, 5) = "float" Then
+                cboProperties(6).ComboItems.Add , , fmtID(objFunction.Name), "function"
+                cboProperties(7).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              End If
+            End If
+          End If
+        ElseIf (cboProperties(0).Text <> "") And (cboProperties(1).Text = "") Then 'Left
+          If objFunction.Arguments.Count = 1 Then
+            If (objFunction.Arguments(1) = cboProperties(0).Text) Then
+              cboProperties(2).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              If Left(objFunction.Returns, 5) = "float" Then
+                cboProperties(6).ComboItems.Add , , fmtID(objFunction.Name), "function"
+                cboProperties(7).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              End If
+            End If
+          End If
+        ElseIf (cboProperties(0).Text = "") And (cboProperties(1).Text <> "") Then 'Right
+          If objFunction.Arguments.Count = 1 Then
+            If (objFunction.Arguments(1) = cboProperties(1).Text) Then
+              cboProperties(2).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              If Left(objFunction.Returns, 5) = "float" Then
+                cboProperties(6).ComboItems.Add , , fmtID(objFunction.Name), "function"
+                cboProperties(7).ComboItems.Add , , fmtID(objFunction.Name), "function"
+              End If
+            End If
+          End If
+        End If
+      Next objFunction
+    End If
+  End If
+  
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.cboProperties_Click"
+End Sub
 

@@ -59,7 +59,7 @@ Dim X As Long
 End Sub
 
 Private Sub Form_Load()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Load()", etFullDebug
   
   'Size & position the form
@@ -80,7 +80,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Resize()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 'Don't log this as if the user is resizing this window, they probably don't want to see resize messages!
 
   txtLog.Width = Me.ScaleWidth
@@ -91,7 +91,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLog.Form_Unload(" & Cancel & ")", etFullDebug
 
   'Stop writing Log Messages
