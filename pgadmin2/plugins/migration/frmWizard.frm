@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Database Migration Wizard"
@@ -117,55 +117,55 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":187D
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label2"
+      Tab(1).Control(0)=   "lstDatabase"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "lstDatabase"
+      Tab(1).Control(1)=   "Label2"
       Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":1899
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label1(1)"
+      Tab(2).Control(0)=   "cmdDeselect(0)"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lstTables"
+      Tab(2).Control(1)=   "cmdSelect(0)"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "cmdSelect(0)"
+      Tab(2).Control(2)=   "lstTables"
       Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "cmdDeselect(0)"
+      Tab(2).Control(3)=   "Label1(1)"
       Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":18B5
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Label1(9)"
+      Tab(3).Control(0)=   "cmdDeselect(1)"
       Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "lstData"
+      Tab(3).Control(1)=   "cmdSelect(1)"
       Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "cmdSelect(1)"
+      Tab(3).Control(2)=   "lstData"
       Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "cmdDeselect(1)"
+      Tab(3).Control(3)=   "Label1(9)"
       Tab(3).Control(3).Enabled=   0   'False
       Tab(3).ControlCount=   4
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":18D1
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Label1(10)"
+      Tab(4).Control(0)=   "cmdDeselect(2)"
       Tab(4).Control(0).Enabled=   0   'False
-      Tab(4).Control(1)=   "Label1(8)"
+      Tab(4).Control(1)=   "cmdSelect(2)"
       Tab(4).Control(1).Enabled=   0   'False
       Tab(4).Control(2)=   "lstForeignKeys"
       Tab(4).Control(2).Enabled=   0   'False
-      Tab(4).Control(3)=   "cmdSelect(2)"
+      Tab(4).Control(3)=   "Label1(8)"
       Tab(4).Control(3).Enabled=   0   'False
-      Tab(4).Control(4)=   "cmdDeselect(2)"
+      Tab(4).Control(4)=   "Label1(10)"
       Tab(4).Control(4).Enabled=   0   'False
       Tab(4).ControlCount=   5
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":18ED
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "pbStatus"
+      Tab(5).Control(0)=   "txtStatus"
       Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "txtStatus"
+      Tab(5).Control(1)=   "pbStatus"
       Tab(5).Control(1).Enabled=   0   'False
       Tab(5).ControlCount=   2
       Begin VB.CommandButton cmdDeselect 
@@ -1344,7 +1344,7 @@ Dim auto_increment_rs As New Recordset
           End If
         
           For Z = 0 To rsTemp.Fields.Count - 1
-            If rsTemp.Fields(Z).Value & "" <> "" Then
+            If ((rsTemp.Fields(Z).Value & "" <> "") And (rsTemp.Fields(Z).Type <> adLongVarBinary) And (rsTemp.Fields(Z).Type <> adVarBinary)) Then
                             
               If chkLCaseColumns.Value = 0 Then
                 Fields = Fields & QUOTE & rsTemp.Fields(Z).Name & QUOTE & ", "
