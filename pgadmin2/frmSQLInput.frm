@@ -120,6 +120,13 @@ Dim szBits() As String
 Dim vBit As Variant
 
   If Len(txtSQL.Text) < 5 Then Exit Sub
+  
+  If txtSQL.SelLength > 5 Then
+    sSQL = Mid(txtSQL.Text, txtSQL.SelStart + 1, txtSQL.SelLength)
+  Else
+    sSQL = txtSQL.Text
+  End If
+  
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
   
   StartMsg "Executing SQL Query..."
@@ -209,6 +216,19 @@ Err_Handler:
     Exit Sub
   End If
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.cmdLoad_Click"
+End Sub
+
+Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_KeyUp(" & KeyCode & ", " & Shift & ")", etFullDebug
+
+  Select Case KeyCode
+    Case vbKeyF5
+      cmdExecute_Click
+  End Select
+    
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLInput.Form_KeyUp"
 End Sub
 
 Private Sub cmdSave_Click()
