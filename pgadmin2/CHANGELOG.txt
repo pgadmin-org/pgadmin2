@@ -1,5 +1,5 @@
-1.4.x
------
+1.4.12
+------
 
 Allow dropping of Rules correctly with PostgreSQL < 7.3.
 Quote referenced columns in foreign keys correctly.
