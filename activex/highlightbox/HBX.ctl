@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
 Begin VB.UserControl HBX 
    ClientHeight    =   1065
    ClientLeft      =   0
@@ -19,7 +19,6 @@ Begin VB.UserControl HBX
       _ExtentY        =   661
       _Version        =   393217
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ScrollBars      =   3
       Appearance      =   0
       AutoVerbMenu    =   -1  'True
@@ -232,10 +231,12 @@ Dim lX As Long
   lCount = Len(szData)
   For lX = 1 To lCount
     szChar = Mid(szData, lX, 1)
-     If Not CharInstr(szChar, DELIMCHARS) And szChar <> vbLf Then
+    If Not CharInstr(szChar, DELIMCHARS) And szChar <> vbLf Then
       szTemp = szTemp & szChar
     Else
       If szChar = vbLf Then szChar = "\par "
+      If szChar = "{" Then szChar = "\{"
+      If szChar = "}" Then szChar = "\}"
       If szTemp <> "" Then
         Stringlist(lArraypos) = Replace(szTemp, "\", "\\")
         lArraypos = lArraypos + 1
