@@ -15,7 +15,7 @@
       <h3>Troubleshooting Guide</h3>
     </td>
     <td width="120" id="TablePar">
-      <a href="index.html"><img border="0" src="images/logo.jpg" align="right"></a>
+      <a href="index.html"><img border="0" src="images/logo.jpg" align="right" width="119" height="119"></a>
     </td>
   </tr>
 </table>
@@ -35,14 +35,8 @@ your problem is listed in the troubleshooting guide below.</p>
       <ul>
         <li id="WhiteTablePar">The server or port specified is incorrect.</li><br><br>
         <li id="WhiteTablePar">The client workstation cannot establish a network connection to the server. Try using 'ping' on the workstation to check the network.</li><br><br>
-        <li id="WhiteTablePar">The server is not listening on a TCP/IP port. Make sure that the postmaster was started with the -i option, or that <i>tcpip_socket = true</i> is set in $PGDATA/postgresql.conf.</li><br><br>
+        <li id="WhiteTablePar">The server is not listening on a TCP/IP port. Make sure that the postmaster was started with the -i option, or that <i>tcpip_socket = true</i> is set in $PGDATA/postgresql.conf.</li><br>
       </ul>
-  </tr>
-  <tr>
-    <td width="35%"><br>
-    pgAdmin gives an error similar to: <br><br><i>Attribute 'datlastsysoid' not found</i><br><br> when attempting to logon to the server.<br>
-&nbsp;</td>
-    <td width="65%">pgAdmin II requires PostgreSQL 7.1 or higher to operate correctly. The 'datlastsysoid' attribute is found in the pg_database system catalogue, but only on PostgreSQL 7.1+</td>
   </tr>
   <tr>
     <td width="35%">pgAdmin gives an error similar to: <br><br><i>No pg_hba.conf entry for host 127.0.0.1, user postgres, database template1</i><br><br> when attempting to logon to the server.</td>

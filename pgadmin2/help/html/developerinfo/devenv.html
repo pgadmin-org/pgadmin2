@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" href="../pgadmin2.css" type="text/css">
+<title>Setting up a Development Environment</title>
+</head>
+
+<body>
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" id="TablePar">
+  <tr>
+    <td valign="middle" id="TablePar">
+      <h3>Setting up a Development Environment</h3>
+    </td>
+    <td width="120" id="TablePar">
+      <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right" width="119" height="119"></a>
+    </td>
+  </tr>
+</table>
+
+<p>Before you can work on pgAdmin, you must setup a development environment. It is not practical to develop pgAdmin and have a normally installed version on the same machine because much of the time the components in use in the development system will not be compatible with the installed version. Follow these steps to get started:</p>
+<ol>
+  <li>Uninstall any installed copies of pgAdmin II.<br>
+&nbsp;</li>
+  <li>Install WinCVS from <a href="http://www.wincvs.org/">http://www.wincvs.org/</a><br>
+&nbsp;</li>
+  <li>Select a local cvsroot directory, and set the remote cvsroot as outline <a href="cvs.html">here</a>.<br>
+&nbsp;</li>
+  <li>Checkout copies of the following modules: activex, binaries, pgadmin2, pgschema.<br>
+&nbsp;</li>
+  <li>Register the .dlls and .ocxs in the binaries directory using regsvr32.exe. pgSchema.dll should be registered first.<br>
+&nbsp;</li>
+  <li>pgAdmin may be run by just executing pgAdmin2.exe.</li>
+</ol>
+<p>If at any time you break compatibility in pgSchema, you may find the whole installation should be recompiled. The BuildAll.bat batch file in the pgadmin2 directory can be used for this.</p>
+
+</body>
+
+</html>

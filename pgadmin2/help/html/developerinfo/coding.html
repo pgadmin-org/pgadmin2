@@ -15,7 +15,7 @@
       <h3>Coding Standards</h3>
     </td>
     <td width="120" id="TablePar">
-      <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right"></a>
+      <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right" width="119" height="119"></a>
     </td>
   </tr>
 </table>
@@ -28,7 +28,8 @@ that the code remains easily readable and maintainable.</p>
   functions/subroutines. Similar code should be included in all functions or 
   subroutines except where it might cause significant speed problems due to 
   repeated execution, or where there is a risk of deep recursion or entering a 
-  loop.</li>
+  loop.<br>
+&nbsp;</li>
   <li>Use 2 character tabs and indent all code. A typical function might look 
   like:</li>
 <blockquote>
@@ -138,22 +139,19 @@ that the code remains easily readable and maintainable.</p>
   </div>
   <p>&nbsp;</li>
   <li>Don't use global variables. If a global value is required, add it to 
-  clsContext (in pgAdmin) and access it via the ctx object.<li>Ensure that 
-  standard file headers are included at the top of all source files. 
-  <li>When a long operation is to be run, wrap the code in LogMsg/EndMsg as 
+  clsContext (in pgAdmin) and access it via the ctx object.<br>
+&nbsp;<li>Ensure that 
+  standard file headers are included at the top of all source files. <br>
+&nbsp;<li>When a long operation is to be run, wrap the code in LogMsg/EndMsg as 
   shown below. This will control the busy cursor, and log/time the operation.<br>
   <code><br>
   LogMsg &quot;Doing stuff...&quot;<br>
 &nbsp; ...<br>
   EndMsg</code><br>
 &nbsp;<li>Use 'frmMain.svr.LogEvent &quot;Message&quot;, etDebug' to log significant 
-  events.<li>Include comments liberally.</ol>
-<blockquote>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-</blockquote>
-<p>&nbsp;</p>
-<p>
+  events.<br>
+&nbsp;<li>Include comments liberally.<br>
+&nbsp;<li>Update the CHANGELOG.txt file whenever a change is made that may affect the user in any way.</ol>
 
 </body>
 

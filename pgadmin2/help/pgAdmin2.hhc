@@ -54,6 +54,11 @@
 				<param name="ImageNumber" value="41">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Setting up a Development Environment">
+				<param name="Local" value="html\developerinfo\devenv.html">
+				<param name="ImageNumber" value="41">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="To Do List">
 				<param name="Local" value="html\developerinfo\todo.html">
 				<param name="ImageNumber" value="41">
