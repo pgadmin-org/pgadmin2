@@ -25,7 +25,6 @@ Private bSystemObject As Boolean
 Private bTrusted As Boolean
 Private szHandler As String
 Private szValidator As String
-Private szComment As String
 Private cnDatabase As Connection
 Private vTag As Variant
 Private szACL As String
@@ -261,40 +260,6 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Validato
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
-'Set/Return the Comment
-Friend Property Let iComment(ByVal vData As String)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Comment(" & vData & ")", etFullDebug
-
-  szComment = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err.Number, Err.Description
-End Property
-Public Property Let Comment(ByVal vData As String)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let iComment(" & vData & ")", etFullDebug
-
-Dim szSQL As String
-
-  szSQL = "UPDATE pg_language SET lancompiler = '" & dbSZ(vData) & "' WHERE oid = " & dOID & "::oid"
-  objServer.ExecSQL szSQL, cnDatabase
-  szComment = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err.Number, Err.Description
-End Property
-Public Property Get Comment() As String
-Attribute Comment.VB_Description = "Sets/Returns the Language comment."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Comment()", etFullDebug
-  
-  Comment = szComment
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err.Number, Err.Description
-End Property
-
 'Set/Return the ACL
 Friend Property Let ACL(ByVal vData As String)
 On Error GoTo Err_Handler
@@ -430,7 +395,6 @@ Dim szMember As Variant
     szSQL = szSQL & "  HANDLER " & szHandler
   End If
   If (objVersion.VersionNum >= 7.3) And (szValidator <> "") Then szSQL = szSQL & vbCrLf & "  VALIDATOR " & szValidator
-  If Comment <> "" Then szSQL = szSQL & vbCrLf & "  LANCOMPILER '" & dbSZ(Comment) & "'"
   szSQL = szSQL & ";" & vbCrLf
 
   If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclLanguage)

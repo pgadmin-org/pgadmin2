@@ -125,21 +125,19 @@ Begin VB.Form frmFunction
       Tab(0).Control(11).Enabled=   0   'False
       Tab(0).Control(12)=   "chkProperties(1)"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "chkProperties(3)"
+      Tab(0).Control(13)=   "chkProperties(2)"
       Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "chkProperties(2)"
-      Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).ControlCount=   15
+      Tab(0).ControlCount=   14
       TabCaption(1)   =   "&Input/Output"
       TabPicture(1)   =   "frmFunction.frx":2CC0
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(4)"
-      Tab(1).Control(1)=   "lblProperties(5)"
-      Tab(1).Control(2)=   "cboProperties(2)"
+      Tab(1).Control(0)=   "cmdRemove"
+      Tab(1).Control(1)=   "cmdAdd"
+      Tab(1).Control(2)=   "lvProperties(0)"
       Tab(1).Control(3)=   "cboProperties(1)"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cmdAdd"
-      Tab(1).Control(6)=   "cmdRemove"
+      Tab(1).Control(4)=   "cboProperties(2)"
+      Tab(1).Control(5)=   "lblProperties(5)"
+      Tab(1).Control(6)=   "lblProperties(4)"
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "&Definition"
       TabPicture(2)   =   "frmFunction.frx":2CDC
@@ -149,33 +147,21 @@ Begin VB.Form frmFunction
       TabCaption(3)   =   "&Security"
       TabPicture(3)   =   "frmFunction.frx":2CF8
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lvProperties(1)"
-      Tab(3).Control(1)=   "fraAdd"
-      Tab(3).Control(2)=   "cmdAddPrivilege"
-      Tab(3).Control(3)=   "cmdRemovePrivilege"
+      Tab(3).Control(0)=   "cmdRemovePrivilege"
+      Tab(3).Control(1)=   "cmdAddPrivilege"
+      Tab(3).Control(2)=   "fraAdd"
+      Tab(3).Control(3)=   "lvProperties(1)"
       Tab(3).ControlCount=   4
-      Begin VB.CheckBox chkProperties 
-         Alignment       =   1  'Right Justify
-         Caption         =   "Implicit Cast?"
-         Enabled         =   0   'False
-         Height          =   240
-         Index           =   2
-         Left            =   135
-         TabIndex        =   30
-         ToolTipText     =   "Indicates whether the function may be invoked as an implicit type coercion"
-         Top             =   3015
-         Width           =   1995
-      End
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
          Caption         =   "Returns a Set?"
          Enabled         =   0   'False
          Height          =   240
-         Index           =   3
+         Index           =   2
          Left            =   135
          TabIndex        =   29
          ToolTipText     =   "Indicates whether the function returns a set (ie, multiple values of the specified data type)."
-         Top             =   3375
+         Top             =   3015
          Width           =   1995
       End
       Begin VB.CommandButton cmdRemovePrivilege 
@@ -363,15 +349,15 @@ Begin VB.Form frmFunction
          Width           =   3390
       End
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   1860
+         Height          =   2220
          Index           =   0
          Left            =   135
          TabIndex        =   7
          ToolTipText     =   "Comments about the function."
-         Top             =   4140
+         Top             =   3780
          Width           =   5190
          _ExtentX        =   9155
-         _ExtentY        =   3281
+         _ExtentY        =   3916
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -475,9 +461,9 @@ Begin VB.Form frmFunction
          Height          =   330
          Index           =   3
          Left            =   1935
-         TabIndex        =   32
+         TabIndex        =   31
          ToolTipText     =   "Indicates whether the function's result depends only on its input arguments, or is affected by outside factors."
-         Top             =   3690
+         Top             =   3330
          Width           =   3390
          _ExtentX        =   5980
          _ExtentY        =   582
@@ -493,8 +479,8 @@ Begin VB.Form frmFunction
          Height          =   195
          Index           =   7
          Left            =   135
-         TabIndex        =   31
-         Top             =   3780
+         TabIndex        =   30
+         Top             =   3420
          Width           =   570
       End
       Begin VB.Label lblProperties 
@@ -667,7 +653,7 @@ Dim szIdentifier As String
   
   If bNew Then
     StartMsg "Creating Function..."
-    Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(txtProperties(0).Text, szArguments, cboProperties(1).Text, hbxProperties(1).Text, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text, Bin2Bool(chkProperties(2).Value), cboProperties(3).Text)
+    Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(txtProperties(0).Text, szArguments, cboProperties(1).Text, hbxProperties(1).Text, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text, cboProperties(3).Text)
     
     'Add a new node and update the text on the parent
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Tag
@@ -769,7 +755,6 @@ Dim szAccess() As String
     cboEntities.BackColor = &H80000005
     chkPrivilege(0).Enabled = True
     chkProperties(2).Enabled = True
-    chkProperties(3).Enabled = True
   Else
     chkProperties(0).Enabled = True
   End If
@@ -885,8 +870,7 @@ Dim szAccess() As String
     Next vArgument
     chkProperties(0).Value = Bool2Bin(objFunction.Cachable)
     chkProperties(1).Value = Bool2Bin(objFunction.Strict)
-    chkProperties(2).Value = Bool2Bin(objFunction.Implicit)
-    chkProperties(3).Value = Bool2Bin(objFunction.RetSet)
+    chkProperties(2).Value = Bool2Bin(objFunction.RetSet)
     hbxProperties(0).Text = objFunction.Comment
     hbxProperties(1).Text = objFunction.Source
     
@@ -952,10 +936,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.chkProperties_Click
   If Not (objFunction Is Nothing) Then
     chkProperties(0).Value = Bool2Bin(objFunction.Cachable)
     chkProperties(1).Value = Bool2Bin(objFunction.Strict)
-    chkProperties(2).Value = Bool2Bin(objFunction.Implicit)
-    chkProperties(3).Value = Bool2Bin(objFunction.RetSet)
+    chkProperties(2).Value = Bool2Bin(objFunction.RetSet)
   Else
-    chkProperties(3).Value = 0
+    chkProperties(2).Value = 0
   End If
   
   Exit Sub

@@ -2549,12 +2549,10 @@ Dim lng As pgLanguage
     Next lng
     Node.Text = "Languages (" & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Language", 2000
-  lv.ColumnHeaders.Add , , "Comment", FixWidth(lv.Width - 2100)
+  lv.ColumnHeaders.Add , , "Language", lv.Width
   For Each lng In svr.Databases(Node.Parent.Text).Languages
     If Not (lng.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "LNG-" & GetID, lng.Identifier, "language", "language")
-      lvItem.SubItems(1) = Replace(lng.Comment, vbCrLf, " ")
     End If
   Next lng
   
@@ -2590,8 +2588,6 @@ Dim lvItem As ListItem
   Else
     lvItem.SubItems(1) = "No"
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
   If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
@@ -2900,12 +2896,6 @@ Dim vData As Variant
       lvItem.SubItems(1) = "No"
     End If
   Else
-    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Implicit Cast?", "property", "property")
-    If ctx.CurrentObject.Implicit Then
-      lvItem.SubItems(1) = "Yes"
-    Else
-      lvItem.SubItems(1) = "No"
-    End If
     Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Returns a Set?", "property", "property")
     If ctx.CurrentObject.RetSet Then
       lvItem.SubItems(1) = "Yes"

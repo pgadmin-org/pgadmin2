@@ -38,7 +38,6 @@ Private szNamespace As String
 Private vTag As Variant
 Private szACL As String
 Private szVolatility As String
-Private bImplicit As Boolean
 Private bRetSet As Boolean
 
 Public Property Get FormattedID() As String
@@ -452,27 +451,6 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Strict()
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
-'Set/Return Implicit?
-Friend Property Let Implicit(ByVal vData As Boolean)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Implicit(" & vData & ")", etFullDebug
-
-  bImplicit = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err.Number, Err.Description
-End Property
-Public Property Get Implicit() As Boolean
-Attribute Implicit.VB_Description = "Returns a value indicating whether the function may be invoked as an implicit type coercion."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Implicit()", etFullDebug
-
-  Implicit = bImplicit
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err.Number, Err.Description
-End Property
-
 'Set/Return RetSet?
 Friend Property Let RetSet(ByVal vData As Boolean)
 On Error GoTo Err_Handler
@@ -689,16 +667,19 @@ Dim X As Long
   szSQL = szSQL & " RETURNS " & szReturns
   
   szSQL = szSQL & " AS '" & szSource & "' "
-  szSQL = szSQL & " LANGUAGE '" & dbSZ(szLanguage) & "'"
-  If bCachable Or bStrict Or bImplicit Or (szVolatility <> "") Then szSQL = szSQL & " WITH ("
   If objVersion.VersionNum >= 7.3 Then
-    If bImplicit Then szSQL = szSQL & "IMPLICITCOERCION, "
-    If szVolatility <> "" Then szSQL = szSQL & "IS" & UCase(szVolatility) & ", "
+    szSQL = szSQL & "{LANGUAGE '" & dbSZ(szLanguage) & "'"
+    If szVolatility <> "" Then szSQL = szSQL & " " & UCase(szVolatility)
+    If bStrict Then szSQL = szSQL & " STRICT"
+    szSQL = szSQL & "}"
   Else
+    szSQL = szSQL & " LANGUAGE '" & dbSZ(szLanguage) & "'"
+    If bCachable Or bStrict Or (szVolatility <> "") Then szSQL = szSQL & " WITH ("
     If bCachable Then szSQL = szSQL & "ISCACHABLE, "
+    If bStrict Then szSQL = szSQL & "ISSTRICT, "
+    If bCachable Or bStrict Or (szVolatility <> "") Then szSQL = Mid(szSQL, 1, Len(szSQL) - 2) & ")"
   End If
-  If bStrict Then szSQL = szSQL & "ISSTRICT, "
-  If bCachable Or bStrict Or bImplicit Or (szVolatility <> "") Then szSQL = Mid(szSQL, 1, Len(szSQL) - 2) & ")"
+  
   szSQL = szSQL & ";" & vbCrLf
   
   If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclFunction)
