@@ -1,18 +1,18 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmIndex 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Index"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   5520
    Icon            =   "frmIndex.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdOK 
@@ -85,11 +85,11 @@ Begin VB.Form frmIndex
          ToolTipText     =   "Comments about the index."
          Top             =   5310
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   1535
+         _ExtentX        =   9165
+         _ExtentY        =   1545
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -106,7 +106,7 @@ Begin VB.Form frmIndex
          ToolTipText     =   "Lists the indexed columns."
          Top             =   3195
          Width           =   3390
-         _ExtentX        =   5980
+         _ExtentX        =   5990
          _ExtentY        =   2011
          View            =   3
          LabelEdit       =   1
@@ -171,15 +171,15 @@ Begin VB.Form frmIndex
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   3
          ToolTipText     =   "The indexed table."
-         Top             =   1485
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1488
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -187,15 +187,15 @@ Begin VB.Form frmIndex
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   $"frmIndex.frx":05A6
-         Top             =   1935
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1932
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -210,12 +210,12 @@ Begin VB.Form frmIndex
          ToolTipText     =   "Defines the constraint expression for a partial index (PostgreSQL 7.2+)."
          Top             =   4410
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   1455
+         _ExtentX        =   9165
+         _ExtentY        =   1461
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -279,8 +279,8 @@ Begin VB.Form frmIndex
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
