@@ -1,5 +1,5 @@
 Type=OleDll
-Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\..\..\Program Files\Common Files\system\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
+Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\..\..\..\Program Files\Common Files\system\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
 Reference=*\G{204AB53D-F920-46E7-BE1E-3EBAF0F580C1}#1.0#0#..\..\..\binaries\pgAbsExp.dll#pgAdmin II Abstract Exporter
 Class=pgAdmin2_Exporter; pgAdmin2_Exporter.cls
 Startup="(None)"
@@ -16,7 +16,7 @@ CompatibleEXE32="..\..\..\binaries\pgExcel.dll"
 VersionCompatible32="1"
 MajorVer=1
 MinorVer=5
-RevisionVer=71
+RevisionVer=72
 AutoIncrementVer=1
 ServerSupportFiles=0
 DllBaseAddress=&H4fe0000

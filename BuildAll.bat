@@ -7,11 +7,13 @@ REM BuildAll.bat - Recompile all pgAdmin II Code
 REM Note that this doesn't rebuild the documentation
 
 echo Creating clsPgApp.cls class...
-cscript //nologo crtpgAppClass.vbs > clspgApp.cls
+cscript //nologo pgadmin2\crtpgAppClass.vbs > pgadmin2\clspgApp.cls
 
+cd pgschema
 echo Building pgSchema...
-"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\pgschema\pgSchema.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make pgSchema.vbp /outdir ..\binaries
 
+cd ..\pgadmin2
 echo Building Abstract Exporter...
 "%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Exporters\Abstract\pgAbsExp.vbp /outdir ..\binaries
 echo Building Access Exporter...
@@ -40,11 +42,15 @@ echo Building ConnDebug Plugin...
 echo Building Migration Wizard Plugin...
 "%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Plugins\Migration\pgMigration.vbp /outdir ..\binaries
 
+cd ..\ActiveX
 echo Building Highlightbox...
-"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make ..\ActiveX\Highlightbox\Highlightbox.vbp /outdir ..\binaries
+"%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make Highlightbox\Highlightbox.vbp /outdir ..\binaries
 
+cd ..\pgadmin2
 echo Building pgAdmin...
 "%ProgramFiles%\Microsoft Visual Studio\VB98\VB6.EXE" /make pgAdmin2.vbp /outdir ..\binaries
+
+cd ..
 
 echo
 echo Done!

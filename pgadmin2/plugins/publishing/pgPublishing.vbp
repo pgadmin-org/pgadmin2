@@ -1,6 +1,6 @@
 Type=OleDll
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
-Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\..\..\Program Files\Common Files\system\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
+Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\..\..\..\Program Files\Common Files\system\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
 Reference=*\G{BAB71E46-8599-499F-A9C4-19B1A0FB3AAA}#1.0#0#..\..\..\binaries\pgAbsPlg.dll#pgAdmin II Abstract Plugin
 Reference=*\G{A6F1DFBE-87C8-4007-88AA-A534C384E170}#1.0#0#..\..\..\binaries\pgSchema.dll#PostgreSQL Schema Objects
 Object={F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0; comdlg32.ocx
@@ -26,7 +26,7 @@ CompatibleEXE32="..\..\..\binaries\pgPublishing.dll"
 VersionCompatible32="1"
 MajorVer=1
 MinorVer=5
-RevisionVer=71
+RevisionVer=72
 AutoIncrementVer=1
 ServerSupportFiles=0
 DllBaseAddress=&H66ae0000

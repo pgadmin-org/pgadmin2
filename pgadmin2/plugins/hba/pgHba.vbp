@@ -1,5 +1,5 @@
 Type=OleDll
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
 Reference=*\G{BAB71E46-8599-499F-A9C4-19B1A0FB3AAA}#1.0#0#..\..\..\binaries\pgAbsPlg.dll#pgAdmin II Abstract Plugin
 Reference=*\G{A6F1DFBE-87C8-4007-88AA-A534C384E170}#2.0#0#..\..\..\binaries\pgSchema.dll#PostgreSQL Schema Objects
 Object={BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0; tabctl32.ocx
@@ -25,7 +25,7 @@ CompatibleEXE32="..\..\..\binaries\pgHba.dll"
 VersionCompatible32="1"
 MajorVer=1
 MinorVer=5
-RevisionVer=71
+RevisionVer=72
 AutoIncrementVer=1
 ServerSupportFiles=0
 DllBaseAddress=&H1bf20000
