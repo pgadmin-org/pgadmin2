@@ -1,0 +1,160 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" href="../pgadmin2.css" type="text/css">
+<title>Coding Standards</title>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <td style="background-color: #FFFFFF" valign="middle">
+      <h3>Coding Standards</h3>
+    </td>
+    <td width="150" style="background-color: #FFFFFF">
+      <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right" width="147" height="69"></a>
+    </td>
+  </tr>
+</table>
+
+<p>The pgAdmin Development Team welcome patches and additional functionality for 
+pgAdmin. All we ask is that you follow these guidelines when coding to ensure 
+that the code remains easily readable and maintainable.</p>
+<ol>
+  <li>pgAdmin and pgSchema both use logging and error handers in virtually all 
+  functions/subroutines. Similar code should be included in all functions or 
+  subroutines except where it might cause significant speed problems due to 
+  repeated execution, or where there is a risk of deep recursion or entering a 
+  loop.</li>
+  <li>Use 2 character tabs and indent all code. A typical function might look 
+  like:</li>
+<blockquote>
+  <blockquote>
+    <p><code>Private Sub TestFunc()<br>
+    On Error GoTo Err_Handler<br>
+    frmMain.svr.LogEvent &quot;Entering frmMain.TestFunc()&quot;, etFullDebug<br>
+    <br>
+    Dim X As Long<br>
+    <br>
+&nbsp; For X = 0 to 10<br>
+&nbsp;&nbsp;&nbsp; Debug.Print &quot;Count: &quot; &amp; X<br>
+&nbsp; Next X<br>
+    <br>
+    Exit Sub<br>
+    Err_Handler: If Err.Number &lt;&gt; 0 Then LogError Err.Number, Err.Description, &quot;frmMain.TestFunc&quot;<br>
+    End Sub</code></p>
+  </blockquote>
+  <p><code>Note the logging and error handling at the top and bottom. Variables 
+  are declared on the left hand edge immediately after the initial logging.</code></p>
+</blockquote>
+  <li>Use Hungarian notation when naming all objects and variables. This rule 
+  may be ignored for simple loop counters and global objects only. Try to keep 
+  names short, but descriptive, and avoid using underscore characters, for 
+  example, use chkIsNull instead of chkIs_null. The following 
+  are examples acceptable names:<br>
+&nbsp;<div align="center">
+    <center>
+    <table width="277">
+      <tr>
+        <th width="66" align="left">Prefix</th>
+        <th width="105" align="left">Name</th>
+        <th width="92" align="left">Type</th>
+      </tr>
+      <tr>
+        <td width="66" align="left">i</td>
+        <td width="105" align="left">iCount</td>
+        <td width="92" align="left">Integer</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">l</td>
+        <td width="105" align="left">lRetVal</td>
+        <td width="92" align="left">Long</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">s</td>
+        <td width="105" align="left">sTimer</td>
+        <td width="92" align="left">Single</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">g</td>
+        <td width="105" align="left">dTotal</td>
+        <td width="92" align="left">Double</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">dt</td>
+        <td width="105" align="left">dtExpires</td>
+        <td width="92" align="left">Date</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">sz</td>
+        <td width="105" align="left">szMessage</td>
+        <td width="92" align="left">String</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">v</td>
+        <td width="105" align="left">vData</td>
+        <td width="92" align="left">Variant</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">obj</td>
+        <td width="105" align="left">objDatabase</td>
+        <td width="92" align="left">Object</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">txt</td>
+        <td width="105" align="left">txtName</td>
+        <td width="92" align="left">Textbox</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">cbo</td>
+        <td width="105" align="left">cboDataType</td>
+        <td width="92" align="left">Combobox</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">lv</td>
+        <td width="105" align="left">lvProperties</td>
+        <td width="92" align="left">Listview</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">tv</td>
+        <td width="105" align="left">tvBrowser</td>
+        <td width="92" align="left">Treeview</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">hbx</td>
+        <td width="105" align="left">hbxComment</td>
+        <td width="92" align="left">Highlightbox</td>
+      </tr>
+      <tr>
+        <td width="66" align="left">chk</td>
+        <td width="105" align="left">chkIsNull</td>
+        <td width="92" align="left">Checkbox</td>
+      </tr>
+    </table>
+    </center>
+  </div>
+  <p>&nbsp;</li>
+  <li>Don't use global variables. If a global value is required, add it to 
+  clsContext (in pgAdmin) and access it via the ctx object.<li>Ensure that 
+  standard file headers are included at the top of all source files. 
+  <li>When a long operation is to be run, wrap the code in LogMsg/EndMsg as 
+  shown below. This will control the busy cursor, and log/time the operation.<br>
+  <code><br>
+  LogMsg &quot;Doing stuff...&quot;<br>
+&nbsp; ...<br>
+  EndMsg</code><br>
+&nbsp;<li>Use 'frmMain.svr.LogEvent &quot;Message&quot;, etDebug' to log significant 
+  events.<li>Include comments liberally.</ol>
+<blockquote>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>
+
+</body>
+
+</html>
