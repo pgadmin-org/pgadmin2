@@ -155,8 +155,6 @@ Friend Function LookupOperator(lOID As Long) As String
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.LookupOperator(" & lOID & ")", etFullDebug
 Dim rs As New Recordset
-Dim szLOT As String
-Dim szROT As String
 
   'Connect if required
   If dbConnect = False Then Exit Function
@@ -168,11 +166,8 @@ Dim szROT As String
     'Select an O in front of the name to avoid strange behaviour with !
     Set rs = objServer.ExecSQL(SQL_GET_OPERATORS, cnDatabase)
     While Not rs.EOF
-      szLOT = LookupType(rs!oprleft & "")
-      szROT = LookupType(rs!oprright & "")
-      If szLOT = "" Then szLOT = "NONE"
-      If szROT = "" Then szROT = "NONE"
-      szOperatorCache.Add rs!oprname & "(" & szLOT & ", " & szROT & ")", "O" & rs!OID
+      'Prefix the operator name otherwise we get bizarre errors
+      szOperatorCache.Add "O" & rs!oprname, "O" & rs!OID
       rs.MoveNext
     Wend
     If rs.State <> adStateClosed Then rs.Close
@@ -181,7 +176,7 @@ Dim szROT As String
   End If
   
   On Error Resume Next
-  LookupOperator = szOperatorCache("O" & lOID)
+  LookupOperator = Mid(szOperatorCache("O" & lOID), 2)
   On Error GoTo Err_Handler
 
   Exit Function
