@@ -24,3 +24,4 @@ There are a number of useful files, tools and projects included with PostgreSQL 
 PostgreSQL's procedural languages include pl/pgSQL, pl/Python, pl/TCL, pl/Perl & pl/sh.
 pgAdmin II was downloaded over 10,000 times *before* the first release quality version was available!
 The rserv project in PostgreSQL's contrib directory can be used for Master -> Slave replication.
+The first official stable version of pgAdmin II was released on 16 January 2002.
