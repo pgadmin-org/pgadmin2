@@ -2110,9 +2110,9 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvServer(" & QUOTE & Node.FullP
 Dim lvItem As ListItem
     
   If Node.Children = 0 Then
-    Set ctx.CurrentObject.Databases.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DAT+" & GetID, "Databases", "database")
-    Set ctx.CurrentObject.Groups.Tag = tv.Nodes.Add(Node.Key, tvwChild, "GRP+" & GetID, "Groups", "group")
-    Set ctx.CurrentObject.Users.Tag = tv.Nodes.Add(Node.Key, tvwChild, "USR+" & GetID, "Users", "user")
+    Set ctx.CurrentObject.Databases.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DAT+" & GetID, "Databases (" & ctx.CurrentObject.Databases.Count(Not ctx.IncludeSys) & ")", "database")
+    Set ctx.CurrentObject.Groups.Tag = tv.Nodes.Add(Node.Key, tvwChild, "GRP+" & GetID, "Groups (" & ctx.CurrentObject.Groups.Count & ")", "group")
+    Set ctx.CurrentObject.Users.Tag = tv.Nodes.Add(Node.Key, tvwChild, "USR+" & GetID, "Users (" & ctx.CurrentObject.Users.Count & ")", "user")
   End If
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
@@ -2291,8 +2291,8 @@ Dim szTemp As String
   
   If svr.Databases(Node.Text).Status = statOpen Then
     If Node.Children = 0 Then
-      Set ctx.CurrentObject.Languages.Tag = tv.Nodes.Add(Node.Key, tvwChild, "LNG+" & GetID, "Languages", "language")
-      Set ctx.CurrentObject.Namespaces.Tag = tv.Nodes.Add(Node.Key, tvwChild, "NSP+" & GetID, "Schemas", "namespace")
+      Set ctx.CurrentObject.Languages.Tag = tv.Nodes.Add(Node.Key, tvwChild, "LNG+" & GetID, "Languages (" & ctx.CurrentObject.Languages.Count(Not ctx.IncludeSys) & ")", "language")
+      Set ctx.CurrentObject.Namespaces.Tag = tv.Nodes.Add(Node.Key, tvwChild, "NSP+" & GetID, "Schemas (" & ctx.CurrentObject.Namespaces.Count(Not ctx.IncludeSys) & ")", "namespace")
     End If
   Else
     Node.Image = "baddatabase"
@@ -2636,14 +2636,14 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvNamespace(" & QUOTE & Node.Fu
 Dim lvItem As ListItem
 
   If Node.Children = 0 Then
-    Set ctx.CurrentObject.Aggregates.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG+" & GetID, "Aggregates", "aggregate")
-    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, "Domains", "domain")
-    Set ctx.CurrentObject.Functions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC+" & GetID, "Functions", "function")
-    Set ctx.CurrentObject.Operators.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR+" & GetID, "Operators", "operator")
-    Set ctx.CurrentObject.Sequences.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ+" & GetID, "Sequences", "sequence")
-    Set ctx.CurrentObject.Tables.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TBL+" & GetID, "Tables", "table")
-    Set ctx.CurrentObject.Types.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TYP+" & GetID, "Types", "type")
-    Set ctx.CurrentObject.Views.Tag = tv.Nodes.Add(Node.Key, tvwChild, "VIE+" & GetID, "Views", "view")
+    Set ctx.CurrentObject.Aggregates.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG+" & GetID, "Aggregates (" & ctx.CurrentObject.Aggregates.Count(Not ctx.IncludeSys) & ")", "aggregate")
+    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, "Domains (" & ctx.CurrentObject.Domains.Count(Not ctx.IncludeSys) & ")", "domain")
+    Set ctx.CurrentObject.Functions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC+" & GetID, "Functions (" & ctx.CurrentObject.Functions.Count(Not ctx.IncludeSys) & ")", "function")
+    Set ctx.CurrentObject.Operators.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR+" & GetID, "Operators (" & ctx.CurrentObject.Operators.Count(Not ctx.IncludeSys) & ")", "operator")
+    Set ctx.CurrentObject.Sequences.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ+" & GetID, "Sequences (" & ctx.CurrentObject.Sequences.Count(Not ctx.IncludeSys) & ")", "sequence")
+    Set ctx.CurrentObject.Tables.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TBL+" & GetID, "Tables (" & ctx.CurrentObject.Tables.Count(Not ctx.IncludeSys) & ")", "table")
+    Set ctx.CurrentObject.Types.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TYP+" & GetID, "Types (" & ctx.CurrentObject.Types.Count(Not ctx.IncludeSys) & ")", "type")
+    Set ctx.CurrentObject.Views.Tag = tv.Nodes.Add(Node.Key, tvwChild, "VIE+" & GetID, "Views (" & ctx.CurrentObject.Views.Count(Not ctx.IncludeSys) & ")", "view")
   End If
     
   lv.ColumnHeaders.Add , , "Property", 2000
@@ -3257,12 +3257,12 @@ Dim vData As Variant
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", FixWidth(lv.Width - 2100)
   If Node.Children = 0 Then
-    Set ctx.CurrentObject.Checks.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CHK+" & GetID, "Checks", "check")
-    Set ctx.CurrentObject.Columns.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL+" & GetID, "Columns", "column")
-    Set ctx.CurrentObject.ForeignKeys.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FKY+" & GetID, "Foreign Keys", "foreignkey")
-    Set ctx.CurrentObject.Indexes.Tag = tv.Nodes.Add(Node.Key, tvwChild, "IND+" & GetID, "Indexes", "index")
-    Set ctx.CurrentObject.Rules.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL+" & GetID, "Rules", "rule")
-    Set ctx.CurrentObject.Triggers.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TRG+" & GetID, "Triggers", "trigger")
+    Set ctx.CurrentObject.Checks.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CHK+" & GetID, "Checks (" & ctx.CurrentObject.Checks.Count(Not ctx.IncludeSys) & ")", "check")
+    Set ctx.CurrentObject.Columns.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL+" & GetID, "Columns (" & ctx.CurrentObject.Columns.Count(Not ctx.IncludeSys) & ")", "column")
+    Set ctx.CurrentObject.ForeignKeys.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FKY+" & GetID, "Foreign Keys (" & ctx.CurrentObject.ForeignKeys.Count(Not ctx.IncludeSys) & ")", "foreignkey")
+    Set ctx.CurrentObject.Indexes.Tag = tv.Nodes.Add(Node.Key, tvwChild, "IND+" & GetID, "Indexes (" & ctx.CurrentObject.Indexes.Count(Not ctx.IncludeSys) & ")", "index")
+    Set ctx.CurrentObject.Rules.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL+" & GetID, "Rules (" & ctx.CurrentObject.Rules.Count(Not ctx.IncludeSys) & ")", "rule")
+    Set ctx.CurrentObject.Triggers.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TRG+" & GetID, "Triggers (" & ctx.CurrentObject.Triggers.Count(Not ctx.IncludeSys) & ")", "trigger")
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
