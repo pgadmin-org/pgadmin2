@@ -2665,15 +2665,7 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Funct
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Context", "property", "property")
-  
-  Select Case ctx.CurrentObject.Context
-    Case "e"
-    Case "i"
-      lvItem.SubItems(1) = "Implict"
-    Case "a"
-      lvItem.SubItems(1) = "Assigment"
-  End Select
-  
+  lvItem.SubItems(1) = ctx.CurrentObject.Context
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Cast?", "property", "property")
   If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"

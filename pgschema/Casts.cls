@@ -102,9 +102,9 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
-Private Sub iAdd(ByVal dOID As Double, ByVal dSource As Double, ByVal dTarget As Double, ByVal dFunc As Double, ByVal szContext)
+Private Function iAdd(ByVal dOID As Double, ByVal szSource As String, ByVal szTarget As String, ByVal szFunc As String, ByVal szContext)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Casts.iAdd(" & dOID & ", " & dSource & ", " & dTarget & ", " & dFunc & ", " & QUOTE & szContext & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Casts.iAdd(" & dOID & ", " & QUOTE & szSource & QUOTE & ", " & QUOTE & szTarget & QUOTE & ", " & QUOTE & szFunc & QUOTE & ", " & QUOTE & szContext & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgCast
 Dim rs As New Recordset
@@ -113,28 +113,16 @@ Dim szSQL As String
   'Create a new object
   Set objNewMember = New pgCast
   If dOID <= objServer.LastSystemOID Then
-    If Not objServer.IncludeSys Then Exit Sub
+    If Not objServer.IncludeSys Then Exit Function
     objNewMember.SystemObject = True
   Else
     objNewMember.SystemObject = False
   End If
   objNewMember.OID = dOID
-  
-  'Get the source type
-  szSQL = SQL_GET_TYPES7_3 & " AND oid = " & dSource & "::oid"
-  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-  If Not rs.EOF Then objNewMember.Source = fmtID(rs!typname & "")
-  
-  'Get the target type
-  szSQL = SQL_GET_TYPES7_3 & " AND oid = " & dTarget & "::oid"
-  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-  If Not rs.EOF Then objNewMember.Target = fmtID(rs!typname & "")
-  
-  'Get the function
-  szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dFunc & "::oid"
-  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-  If Not rs.EOF Then objNewMember.Funct = fmtID(rs!proname & "")
-  
+  objNewMember.Source = szSource
+  objNewMember.Target = szTarget
+  objNewMember.Funct = szFunc
+    
   Select Case UCase(szContext)
     Case "I"
       objNewMember.Context = "IMPLICIT"
@@ -144,23 +132,22 @@ Dim szSQL As String
       objNewMember.Context = "ASSIGNMENT"
   End Select
   
-  
   objNewMember.Name = Trim(objNewMember.Source) & "::" & Trim(objNewMember.Target)
   objNewMember.Identifier = objNewMember.Name
   Set objNewMember.Connection = cnDatabase
   
   'Add the Cast
   mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
-  Set objNewMember = Nothing
+  Set iAdd = objNewMember
   
   Set rs = Nothing
   
-  Exit Sub
+  Exit Function
 Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   objServer.iLogError Err.Number, Err.Description
-End Sub
+End Function
 
 'External Add
 Public Function Add(ByVal szSource As String, ByVal szTarget As String, ByVal szFunct As String, ByVal szContext As String) As pgCast
@@ -196,8 +183,15 @@ Dim objCast As pgCast
           
   objServer.ExecSQL szSQL, cnDatabase
   
-  'Return the object created
-  Set objCast = objNewMember
+  
+  'Generate and execute the szSQL to retrieve *all* properties of the new object
+  szSQL = SQL_GET_CASTS & " WHERE t1.typname = '" & szSource & "' AND t2.typname = '" & szTarget & "' AND p.proname = '" & szFunct & "'"
+  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+    
+  If Not rs.EOF Then
+    Set objCast = iAdd(rs.Fields("oid"), rs!castsource & "", rs!casttarget & "", rs!castfunc & "", rs!castcontext & "")
+  End If
+  
   Set Add = objCast
   
   'Cleanup
