@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":05A6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -832,11 +832,11 @@ Dim X As Integer
     'ACLs are different in 7.2+
     If frmMain.svr.dbVersion.VersionNum < 7.2 Then
       If chkPrivilege(0).Value = 1 Then
-        For X = 1 To 4
+        For X = 1 To 5
           chkPrivilege(X).Enabled = False
         Next X
       Else
-        For X = 1 To 4
+        For X = 1 To 5
           chkPrivilege(X).Enabled = True
         Next X
       End If

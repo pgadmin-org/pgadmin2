@@ -721,11 +721,11 @@ Dim X As Integer
     'ACLs are different in 7.2+
     If frmMain.svr.dbVersion.VersionNum < 7.2 Then
       If chkPrivilege(0).Value = 1 Then
-        For X = 1 To 4
+        For X = 1 To 5
           chkPrivilege(X).Enabled = False
         Next X
       Else
-        For X = 1 To 4
+        For X = 1 To 5
           chkPrivilege(X).Enabled = True
         Next X
       End If

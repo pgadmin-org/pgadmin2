@@ -13,6 +13,22 @@ Begin VB.Form frmMain
    ScaleHeight     =   6675
    ScaleWidth      =   9675
    StartUpPosition =   3  'Windows Default
+   Begin MSComctlLib.Toolbar ib 
+      Align           =   2  'Align Bottom
+      Height          =   630
+      Left            =   0
+      TabIndex        =   5
+      Top             =   5760
+      Width           =   9675
+      _ExtentX        =   17066
+      _ExtentY        =   1111
+      ButtonWidth     =   609
+      ButtonHeight    =   953
+      AllowCustomize  =   0   'False
+      Appearance      =   1
+      TextAlignment   =   1
+      _Version        =   393216
+   End
    Begin MSComDlg.CommonDialog cdlg 
       Left            =   8550
       Top             =   90
@@ -25,7 +41,7 @@ Begin VB.Form frmMain
       Left            =   3825
       TabIndex        =   4
       ToolTipText     =   "Displays the SQL Definition of the currently selected object."
-      Top             =   4545
+      Top             =   4275
       Width           =   5820
       _ExtentX        =   10266
       _ExtentY        =   2884
@@ -452,13 +468,13 @@ Begin VB.Form frmMain
       EndProperty
    End
    Begin MSComctlLib.ListView lv 
-      Height          =   3480
+      Height          =   3255
       Left            =   3825
       TabIndex        =   2
       Top             =   675
       Width           =   5820
       _ExtentX        =   10266
-      _ExtentY        =   6138
+      _ExtentY        =   5741
       View            =   3
       LabelEdit       =   1
       LabelWrap       =   -1  'True
@@ -475,13 +491,13 @@ Begin VB.Form frmMain
       NumItems        =   0
    End
    Begin MSComctlLib.TreeView tv 
-      Height          =   5460
+      Height          =   5235
       Left            =   0
       TabIndex        =   1
       Top             =   720
       Width           =   3390
       _ExtentX        =   5980
-      _ExtentY        =   9631
+      _ExtentY        =   9234
       _Version        =   393217
       Indentation     =   441
       LabelEdit       =   1
@@ -491,7 +507,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Image splVertical 
       DragMode        =   1  'Automatic
-      Height          =   5550
+      Height          =   5325
       Left            =   3600
       MousePointer    =   9  'Size W E
       Top             =   585
@@ -500,9 +516,9 @@ Begin VB.Form frmMain
    Begin VB.Image splHorizontal 
       DragMode        =   1  'Automatic
       Height          =   45
-      Left            =   3780
+      Left            =   3825
       MousePointer    =   7  'Size N S
-      Top             =   4320
+      Top             =   4095
       Width           =   5760
    End
    Begin VB.Menu mnuFile 
@@ -864,7 +880,7 @@ Dim siWidth As Single
   End If
   siLeft = 0
   If sb.Visible Then
-    siHeight = Me.ScaleHeight - sb.Height
+    siHeight = Me.ScaleHeight - sb.Height - ib.Height
   Else
     siHeight = Me.ScaleHeight
   End If
