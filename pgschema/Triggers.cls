@@ -340,6 +340,7 @@ Dim szEvent As String
         szForEach = "Statement"
       End If
       
+      szEvent = ""
       If (rs!tgtype And 4) = 4 Then szEvent = szEvent & "Insert OR "
       If (rs!tgtype And 8) = 8 Then szEvent = szEvent & "Delete OR "
       If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "Update OR "
