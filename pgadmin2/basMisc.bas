@@ -195,8 +195,8 @@ End Sub
 Public Sub LogError(lError As Long, szError As String, szRoutine As String)
 'No logging here, if anythings going wrong then we want the real error
 
-  frmMain.svr.LogEvent "Error in " & App.Title & ":" & szRoutine & ": " & lError & " - " & szError, etErrors
-  MsgBox "An error has occured in " & App.Title & ":" & szRoutine & ":" & vbCrLf & vbCrLf & "Number: " & lError & vbCrLf & "Description: " & szError, vbExclamation, App.Title & " Error"
+  frmMain.svr.LogEvent "Error in " & szRoutine & ": " & lError & " - " & szError, etErrors
+  MsgBox "An error has occured in " & szRoutine & ":" & vbCrLf & vbCrLf & "Number: " & lError & vbCrLf & "Description: " & szError, vbExclamation, App.Title & " Error"
   
 End Sub
 
