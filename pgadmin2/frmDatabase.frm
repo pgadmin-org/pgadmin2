@@ -142,23 +142,23 @@ Begin VB.Form frmDatabase
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmDatabase.frx":4578
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1"
-      Tab(1).Control(1)=   "Label2"
-      Tab(1).Control(2)=   "lvProperties(0)"
-      Tab(1).Control(3)=   "cmdRemoveVar"
+      Tab(1).Control(0)=   "cboVarValue"
+      Tab(1).Control(1)=   "cmdCurrVal"
+      Tab(1).Control(2)=   "cboVarName"
+      Tab(1).Control(3)=   "txtVarValue"
       Tab(1).Control(4)=   "cmdAddVar"
-      Tab(1).Control(5)=   "txtVarValue"
-      Tab(1).Control(6)=   "cboVarName"
-      Tab(1).Control(7)=   "cmdCurrVal"
-      Tab(1).Control(8)=   "cboVarValue"
+      Tab(1).Control(5)=   "cmdRemoveVar"
+      Tab(1).Control(6)=   "lvProperties(0)"
+      Tab(1).Control(7)=   "Label2"
+      Tab(1).Control(8)=   "Label1"
       Tab(1).ControlCount=   9
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmDatabase.frx":4594
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdRemove"
-      Tab(2).Control(1)=   "cmdAdd"
-      Tab(2).Control(2)=   "fraAdd"
-      Tab(2).Control(3)=   "lvProperties(1)"
+      Tab(2).Control(0)=   "lvProperties(1)"
+      Tab(2).Control(1)=   "fraAdd"
+      Tab(2).Control(2)=   "cmdAdd"
+      Tab(2).Control(3)=   "cmdRemove"
       Tab(2).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboVarValue 
          Height          =   330
@@ -652,7 +652,7 @@ Dim objNode As Node
 Dim objItem As ListItem
 Dim objNewDatabase As pgDatabase
 Dim szDropVars() As String
-Dim x As Integer
+Dim X As Integer
 Dim lACL As Long
 Dim szEntity As String
 Dim vEntity As Variant
@@ -688,9 +688,9 @@ Dim vEntity As Variant
     'Drop any vars
     If Len(szVarDropList) > 3 Then
       szDropVars = Split(szVarDropList, "!|!")
-      For x = 0 To UBound(szDropVars)
-        If szDropVars(x) <> "" Then objDatabase.DatabaseVars.Remove szDropVars(x)
-      Next x
+      For X = 0 To UBound(szDropVars)
+        If szDropVars(X) <> "" Then objDatabase.DatabaseVars.Remove szDropVars(X)
+      Next X
     End If
     
     If hbxProperties(0).Tag = "Y" Then objDatabase.Comment = hbxProperties(0).Text
@@ -750,7 +750,7 @@ Public Sub Initialise(Optional Database As pgDatabase)
 On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.Initialise()", etFullDebug
 
-Dim x As Integer
+Dim X As Integer
 Dim objItem As ComboItem
 Dim objLItem As ListItem
 Dim objUser As pgUser
@@ -762,9 +762,9 @@ Dim rsVar As Recordset
 Dim objDb As pgDatabase
   
   'Set the font
-  For x = 0 To 3
-    Set txtProperties(x).Font = ctx.Font
-  Next x
+  For X = 0 To 3
+    Set txtProperties(X).Font = ctx.Font
+  Next X
   Set cboProperties(0).Font = ctx.Font
   Set cboProperties(1).Font = ctx.Font
   Set hbxProperties(0).Font = ctx.Font
@@ -884,18 +884,18 @@ Dim objDb As pgDatabase
     ParseACL objDatabase.ACL, szUserlist, szAccesslist
     szUsers = Split(szUserlist, "|")
     szAccess = Split(szAccesslist, "|")
-    For x = 0 To UBound(szUsers)
-      If UCase(Left(szUsers(x), 6)) = "GROUP " Then
-        Set objItem = lvProperties(1).ListItems.Add(, , Mid(szUsers(x), 7), "group", "group")
+    For X = 0 To UBound(szUsers)
+      If UCase(Left(szUsers(X), 6)) = "GROUP " Then
+        Set objLItem = lvProperties(1).ListItems.Add(, , Mid(szUsers(X), 7), "group", "group")
       Else
-        If UCase(szUsers(x)) = "PUBLIC" Then
-          Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(x), "public", "public")
+        If UCase(szUsers(X)) = "PUBLIC" Then
+          Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(X), "public", "public")
         Else
-          Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(x), "user", "user")
+          Set objLItem = lvProperties(1).ListItems.Add(, , szUsers(X), "user", "user")
         End If
       End If
-      objLItem.SubItems(1) = szAccess(x)
-    Next x
+      objLItem.SubItems(1) = szAccess(X)
+    Next X
     
   End If
 
@@ -912,9 +912,9 @@ Dim objDb As pgDatabase
   End If
   
   'Reset the Tags
-  For x = 0 To 3
-    txtProperties(x).Tag = "N"
-  Next x
+  For X = 0 To 3
+    txtProperties(X).Tag = "N"
+  Next X
   hbxProperties(0).Tag = "N"
   lvProperties(0).Tag = "N"
   lvProperties(1).Tag = "N"
@@ -1162,9 +1162,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.txtProperties_Chang
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.txtProperties_Change"
 End Sub
 
-Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, y As Single)
 On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & X & "," & y & ")", etFullDebug
 
   If Button = vbRightButton Then
     mnuModifyPasteVar.Enabled = False
