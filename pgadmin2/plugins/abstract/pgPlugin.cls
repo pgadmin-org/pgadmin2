@@ -29,6 +29,6 @@ Public Property Get Author() As String
 
 End Property
 
-Public Sub Execute(objSchema As Variant)
+Public Sub Execute(objSchema As Variant, objStatusBar As Variant)
 
 End Sub
