@@ -610,6 +610,8 @@ Dim objView As pgView
   bInQuotes = False
   While bFlag = False
     iStart = InStr(iStart + 1, UCase(szQuery), " FROM ")
+    'If not found, look at the start of a line.
+    If iStart = 0 Then iStart = InStr(iStart + 1, UCase(szQuery), vbCrLf & "FROM ")
     If iStart = 0 Then 'No FROMs found
       bFlag = True
     Else 'Found a FROM, check it's not in quotes
