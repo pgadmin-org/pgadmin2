@@ -1932,9 +1932,7 @@ End Sub
 Private Sub svr_EventLog(EventLevel As pgSchema.LogLevel, EventMessage As String)
 'Note - No function entry logging is done here 'cos we'd enter a loop then...
 
-  If ctx.LogView Then
-    If EventLevel <= ctx.LogLevel Then frmLog.LogMsg EventMessage
-  End If
+  If ctx.LogView Then If EventLevel <= ctx.LogLevel Then frmLog.LogMsg EventMessage
 
 End Sub
 
@@ -2263,24 +2261,28 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Initial Condition", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).InitialCondition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Aggregate?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2377,24 +2379,28 @@ Dim vData As Variant
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Function?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2461,24 +2467,28 @@ Dim lvItem As ListItem
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Language?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2567,24 +2577,28 @@ Dim lvItem As ListItem
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Operator?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2663,24 +2677,28 @@ Dim lvItem As ListItem
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Sequence?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -2769,24 +2787,28 @@ Dim vData As Variant
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Table?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3077,24 +3099,28 @@ Dim vData As Variant
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Constraint", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).Constraint
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Index?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3167,24 +3193,28 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).Definition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Rule?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3251,24 +3281,28 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).TriggerFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+    If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Trigger?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3357,24 +3391,28 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Storage", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Storage
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Type?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3438,24 +3476,28 @@ Dim lvItem As ListItem
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).Definition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  Select Case svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).RCStatus
-    Case rcNotApplicable
-      lvItem.SubItems(1) = "Revision Control is not enabled in this database."
-    Case rcUpToDate
-      lvItem.SubItems(1) = "Up to date."
-    Case rcOutOfDate
-      lvItem.SubItems(1) = "Out of date."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNeedsRefresh
-      lvItem.SubItems(1) = "Needs refresh."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-    Case rcNotInRC
-      lvItem.SubItems(1) = "Not in Revision Control."
-      lvItem.SmallIcon = "hiproperty"
-      lvItem.Icon = "hiproperty"
-  End Select
+  If svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).SystemObject Then
+    lvItem.SubItems(1) = "Revision Control is not applicable for this object."
+  Else
+    Select Case svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).RCStatus
+      Case rcNotApplicable
+        lvItem.SubItems(1) = "Revision Control is not enabled in this database."
+      Case rcUpToDate
+        lvItem.SubItems(1) = "Up to date."
+      Case rcOutOfDate
+        lvItem.SubItems(1) = "Out of date."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNeedsRefresh
+        lvItem.SubItems(1) = "Needs refresh."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+      Case rcNotInRC
+        lvItem.SubItems(1) = "Not in Revision Control."
+        lvItem.SmallIcon = "hiproperty"
+        lvItem.Icon = "hiproperty"
+    End Select
+  End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System View?", "property", "property")
   If svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).SystemObject Then
     lvItem.SubItems(1) = "Yes"
@@ -3491,8 +3533,9 @@ Dim vData As Variant
 
     Case "SVR-" 'Server
       tvServer Node
-      Set ctx.CurrentObject = svr
       ctx.CurrentDB = ""
+      Set ctx.CurrentObject = svr
+
     
     Case "DAT+" 'Databases
       tvDatabases Node
@@ -3500,8 +3543,8 @@ Dim vData As Variant
         
     Case "DAT-" 'Database
       tvDatabase Node
-      Set ctx.CurrentObject = svr.Databases(Node.Text)
       ctx.CurrentDB = Node.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Text)
       
     Case "GRP+" 'Groups
       tvGroups Node
@@ -3509,8 +3552,8 @@ Dim vData As Variant
       
     Case "GRP-" 'Group
       tvGroup Node
-      Set ctx.CurrentObject = svr.Groups(Node.Text)
       ctx.CurrentDB = ""
+      Set ctx.CurrentObject = svr.Groups(Node.Text)
       
     Case "USR+" 'Users
       tvUsers Node
@@ -3518,8 +3561,8 @@ Dim vData As Variant
       
     Case "USR-" 'User
       tvUser Node
-      Set ctx.CurrentObject = svr.Users(Node.Text)
       ctx.CurrentDB = ""
+      Set ctx.CurrentObject = svr.Users(Node.Text)
       
     Case "AGG+" 'Aggregates
       tvAggregates Node
@@ -3527,8 +3570,8 @@ Dim vData As Variant
       
     Case "AGG-" 'Aggregate
       tvAggregate Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text)
       
     Case "FNC+" 'Functions
       tvFunctions Node
@@ -3536,8 +3579,8 @@ Dim vData As Variant
       
     Case "FNC-" 'Function
       tvFunction Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text)
       
     Case "LNG+" 'Languages
       tvLanguages Node
@@ -3545,8 +3588,8 @@ Dim vData As Variant
 
     Case "LNG-" 'Language
       tvLanguage Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text)
       
     Case "OPR+" 'Operators
       tvOperators Node
@@ -3554,8 +3597,8 @@ Dim vData As Variant
       
     Case "OPR-" 'Operator
       tvOperator Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text)
       
     Case "SEQ+" 'Sequences
       tvSequences Node
@@ -3563,8 +3606,8 @@ Dim vData As Variant
 
     Case "SEQ-" 'Sequence
       tvSequence Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text)
       
     Case "TBL+" 'Tables
       tvTables Node
@@ -3572,8 +3615,8 @@ Dim vData As Variant
       
     Case "TBL-" 'Table
       tvTable Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text)
       
     Case "CHK+" 'Checks
       tvChecks Node
@@ -3581,8 +3624,8 @@ Dim vData As Variant
       
     Case "CHK-" 'Check
       tvCheck Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text)
     
     Case "COL+" 'Columns
       tvColumns Node
@@ -3590,8 +3633,8 @@ Dim vData As Variant
       
     Case "COL-" 'Column
       tvColumn Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text)
       
     Case "FKY+" 'Foreign Keys
       tvForeignKeys Node
@@ -3599,8 +3642,8 @@ Dim vData As Variant
       
     Case "FKY-" 'Foreign Key
       tvForeignKey Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text)
       
     Case "REL+" 'Relationships
       tvRelationships Node
@@ -3612,8 +3655,8 @@ Dim vData As Variant
       
     Case "IND-" 'Index
       tvIndex Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text)
 
     Case "RUL+" 'Rules
       tvRules Node
@@ -3621,8 +3664,8 @@ Dim vData As Variant
   
     Case "RUL-" 'Rule
       tvRule Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
       
     Case "TRG+" 'Triggers
       tvTriggers Node
@@ -3630,8 +3673,8 @@ Dim vData As Variant
       
     Case "TRG-" 'Trigger
       tvTrigger Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text)
       
     Case "TYP+" 'Types
       tvTypes Node
@@ -3639,8 +3682,8 @@ Dim vData As Variant
 
     Case "TYP-" 'Type
       tvType Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text)
       
     Case "VIE+" 'Views
       tvViews Node
@@ -3648,8 +3691,8 @@ Dim vData As Variant
       
     Case "VIE-" 'View
       tvView Node
-      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text)
       ctx.CurrentDB = Node.Parent.Parent.Text
+      Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text)
       
   End Select
   EndMsg

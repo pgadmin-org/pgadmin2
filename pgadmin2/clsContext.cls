@@ -130,7 +130,7 @@ On Error Resume Next
      vData.ObjectType = "Sequence" Or vData.ObjectType = "Table" Or _
      vData.ObjectType = "Trigger" Or vData.ObjectType = "Type" Or _
      vData.ObjectType = "View" Then
-    If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl Then
+    If frmMain.svr.Databases(ctx.CurrentDB).RevisionControl And vData.RCStatus <> rcNotApplicable Then
       frmMain.mnuPopupCommit.Enabled = True
       frmMain.tb.Buttons("commit").Enabled = True
       frmMain.mnuPopupHistory.Enabled = True
@@ -143,7 +143,9 @@ On Error Resume Next
     End If
   Else
     frmMain.mnuPopupCommit.Enabled = False
+    frmMain.tb.Buttons("commit").Enabled = False
     frmMain.mnuPopupHistory.Enabled = False
+    frmMain.tb.Buttons("history").Enabled = False
   End If
   
 End Property

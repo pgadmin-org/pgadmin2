@@ -7,6 +7,7 @@ Hide System Objects in the SQL Wizard.
 Updated icons.
 Added Refresh button to DataGrid.
 Added Select All/Select None buttons to potentially large listviews.
+Make System Objects not applicable for Revision Control.
 
 1.2.0 Stable
 ------------

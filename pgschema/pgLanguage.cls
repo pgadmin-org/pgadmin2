@@ -310,7 +310,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.RCStatus()", etFullDe
 Dim szSQL As String
 Dim rs As New Recordset
 
-  If Not objServer.Databases(Database).RevisionControl Then
+  If (Not objServer.Databases(Database).RevisionControl) Or SystemObject Then
     RCStatus = rcNotApplicable
     Exit Property
   End If
