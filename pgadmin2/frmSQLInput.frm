@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
-Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighLightBox.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLInput 
    Caption         =   "SQL"
    ClientHeight    =   3195
@@ -48,7 +48,6 @@ Begin VB.Form frmSQLInput
          Strikethrough   =   0   'False
       EndProperty
       ControlBarVisible=   0   'False
-      RightMargin     =   1,00000e5
    End
    Begin VB.CommandButton cmdSQLWizard 
       Caption         =   "&Wizard"
