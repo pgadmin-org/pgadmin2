@@ -88,6 +88,7 @@ Dim szObjIdentifier As String
 Dim szIdentifier As String
 Dim objForm As Form
 Dim szObjectType As String
+Dim szTemp As String
   
   If Len(Trim(szDatabase)) <= 0 Then Exit Sub
   
@@ -98,10 +99,18 @@ Dim szObjectType As String
   szObjIdentifier = Trim(Mid(UserControl.Extender.Container.Caption, InStr(UserControl.Extender.Container.Caption, ":") + 1))
   szObjectType = Mid(UserControl.Extender.Container.Name, 4)
   Select Case szObjectType
-    Case "Aggreagte", "Domain", "Function", "Operator", "Sequence", "Table", "Type", "View", "Conversion"
+    Case "Aggreagte", "Domain", "Function", "Operator", "Sequence", "Table", "Type", "View", "Conversion", "OperatorClass"
 
+      Select Case szObjectType
+        Case "OperatorClass"
+          szTemp = "OperatorsClass"
+        
+        Case Else
+          szTemp = szObjectType & "s"
+      End Select
+      
       'Find next/prev object
-      szIdentifier = GetIdentifier(CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace), szObjectType & "s", VbGet), szObjIdentifier, ETypeMove)
+      szIdentifier = GetIdentifier(CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace), szTemp, VbGet), szObjIdentifier, ETypeMove)
       If Len(szIdentifier) <= 0 Then Exit Sub
       
       'load new form
@@ -121,6 +130,9 @@ Dim szObjectType As String
         Case "Operator"
           Set objForm = New frmOperator
         
+        Case "OperatorClass"
+          Set objForm = New frmOperatorClass
+        
         Case "Sequence"
           Set objForm = New frmSequence
         
@@ -137,7 +149,7 @@ Dim szObjectType As String
       
       'load object
       StartMsg "Load " & szObjectType
-      objForm.Initialise szDatabase, szNamespace, CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace), szObjectType & "s", VbGet, szIdentifier)
+      objForm.Initialise szDatabase, szNamespace, CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace), szTemp, VbGet, szIdentifier)
       ActivateForm objForm
     
     Case "User", "Group", "Database"

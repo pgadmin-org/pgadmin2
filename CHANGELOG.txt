@@ -10,6 +10,7 @@ add Max number of record for view data.
 add Max number of sql command to memorize (Query). 
 add new visual query builder
 Display Operator details correctly [Hiroshi Saito]
+add operator class (create,drop,clone,find)
 
 1.6.0
 -----
