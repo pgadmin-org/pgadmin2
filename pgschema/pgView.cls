@@ -251,6 +251,7 @@ Dim rs As New Recordset
   'Select the prosrc back from the DB...
   Set rs = objServer.ExecSQL("SELECT definition FROM pg_views WHERE viewname = '" & szName & "'", cnDatabase)
   If Not rs.EOF Then szDefinition = rs!Definition & ""
+  If Not SystemObject Then Commit rcUpdate, "Updated view definition."
   
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
