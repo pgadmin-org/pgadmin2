@@ -435,7 +435,6 @@ Dim rs As New Recordset
   Set rs = Nothing
   
   If Not SystemObject Then Commit rcUpdate, "Altered trigger."
-  Set rs = Nothing
 Exit Sub
   
 Err_Handler:
