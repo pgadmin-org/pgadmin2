@@ -264,7 +264,7 @@ Dim lNextID As Long
   
   'Load the users...
   For Each objTempUser In frmMain.svr.Users
-    Set objItem = lvProperties(0).ListItems.Add(, objTempUser.Name, objTempUser.Name, "user", "user")
+    Set objItem = lvProperties(0).ListItems.Add(, "U:" & objTempUser.Name, objTempUser.Name, "user", "user")
     objItem.SubItems(1) = objTempUser.ID
     objItem.Tag = False
   Next objTempUser
@@ -300,8 +300,8 @@ Dim lNextID As Long
     'been changed, we use it to store the original value. This will solve errors caused when items
     'are mistakenly checked, then unchecked.
     For Each objTempMember In Group.Members
-      lvProperties(0).ListItems(objTempMember).Checked = True
-      lvProperties(0).ListItems(objTempMember).Tag = True
+      lvProperties(0).ListItems("U:" & objTempMember).Checked = True
+      lvProperties(0).ListItems("U:" & objTempMember).Tag = True
     Next objTempMember
   End If
   
