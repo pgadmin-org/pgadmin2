@@ -177,6 +177,7 @@ Dim rsSQL As New Recordset
 Dim szDatabase As String
 Dim szTable As String
 Dim szWhere As String
+Dim iUnique As Integer
 Dim bUpdateable As Boolean
 
 Private Sub cmdAdd_Click()
@@ -208,6 +209,7 @@ Dim X As Integer
 Dim Y As Integer
 Dim Z As Integer
 Dim szCriteria As String
+Dim szFullCriteria As String
 Dim rsCount As New Recordset
 Dim szQuery As String
 Dim szValues() As String
@@ -216,60 +218,77 @@ Dim bFlag As Boolean
   If MsgBox("Are you sure you wish to delete the selected record?", vbQuestion + vbYesNo, "Delete Record?") = vbNo Then Exit Sub
   
   'Build the most concise WHERE clause we can. adDate and adDBDate fields should be
-  'formatted as ISO dates.
-  For X = 0 To lvData.ColumnHeaders.Count - 1
-    If X = 0 Then
-      If lvData.SelectedItem.Text <> "" Then
-        Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
-          Case adDate
-            szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
-          Case adDBDate
-            szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
+  'formatted as ISO dates. Not required if we found a suitable unique column.
+  If iUnique = 0 Then
+    For X = 0 To lvData.ColumnHeaders.Count - 1
+      If X = 0 Then
+        If lvData.SelectedItem.Text <> "" Then
+          Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
+            Case adDate
+              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
+            Case adDBDate
+              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
             Case adDBTimeStamp
-            szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
-          Case Else
-            If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
-            End If
-        End Select
+              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
+            Case Else
+              If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
+              End If
+          End Select
+        End If
+      Else
+        If lvData.SelectedItem.SubItems(X) <> "" Then
+          Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
+            Case adDate
+              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
+            Case adDBDate
+              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
+            Case adDBTimeStamp
+              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
+            Case Else
+              If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
+              End If
+          End Select
+        End If
       End If
-    Else
-      If lvData.SelectedItem.SubItems(X) <> "" Then
-        Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
-          Case adDate
-            szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
-          Case adDBDate
-            szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
-          Case adDBTimeStamp
-            szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
-          Case Else
-            If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
-            End If
-        End Select
-      End If
-    End If
-  Next
+    Next
+  End If
   
   'Find out how many records would be affected. Abort if zero, update if 1 or
   'give the option to update all if > 1
   StartMsg "Counting matching records..."
   If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
   szQuery = "SELECT count(*) AS count FROM " & szTable
-  If (szCriteria <> "") Or (szWhere <> "") Then
-    szQuery = szQuery & " WHERE " & szCriteria
-    If (szCriteria <> "") And (szWhere <> "") Then szQuery = szQuery & " AND "
-    If szWhere <> "" Then szQuery = szQuery & szWhere
+  
+  'WHERE Clase
+  If iUnique > 0 Then
+    If txtField(iUnique - 1).Tag <> "Y" Then
+      If iUnique = 1 Then
+        szFullCriteria = " WHERE " & QUOTE & lvData.ColumnHeaders(iUnique).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
+      Else
+        szFullCriteria = " WHERE " & QUOTE & lvData.ColumnHeaders(iUnique).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
+      End If
+    Else
+      If (szCriteria <> "") Or (szWhere <> "") Then
+        szFullCriteria = " WHERE " & szCriteria
+        If (szCriteria <> "") And (szWhere <> "") Then szFullCriteria = szFullCriteria & " AND "
+        If szWhere <> "" Then szFullCriteria = szFullCriteria & szWhere
+      End If
+    End If
+  Else
+    If (szCriteria <> "") Or (szWhere <> "") Then
+      szFullCriteria = " WHERE " & szCriteria
+      If (szCriteria <> "") And (szWhere <> "") Then szFullCriteria = szFullCriteria & " AND "
+      If szWhere <> "" Then szFullCriteria = szFullCriteria & szWhere
+    End If
   End If
+  
+  szQuery = szQuery & szFullCriteria
   Set rsCount = frmMain.svr.Databases(szDatabase).Execute(szQuery)
   
   'Prepare the delete query for later
-  szQuery = "DELETE FROM " & szTable
-  If (szCriteria <> "") Or (szWhere <> "") Then
-    szQuery = szQuery & " WHERE " & szCriteria
-    If (szCriteria <> "") And (szWhere <> "") Then szQuery = szQuery & " AND "
-    If szWhere <> "" Then szQuery = szQuery & szWhere
-  End If
+  szQuery = "DELETE FROM " & szTable & szFullCriteria
   
   EndMsg
   If Not rsCount.EOF Then
@@ -351,6 +370,7 @@ Dim szQuery As String
 Dim szColumns As String
 Dim szValues As String
 Dim szCriteria As String
+Dim szFullCriteria As String
 Dim szCells() As String
 Dim X As Integer
 Dim Y As Integer
@@ -400,7 +420,7 @@ Dim rsCount As New Recordset
     GoTo Done
   Else
     'Update record
-    'First build lists of columns and values
+    'First build lists of columns and values.
     For X = 0 To lblField.Count - 1
       If txtField(X).Tag = "Y" Then
         Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
@@ -417,40 +437,79 @@ Dim rsCount As New Recordset
     Next X
     
     'Build the most concise WHERE clause we can. adDate and adDBDate fields should be
-    'formatted as ISO dates.
-    For X = 0 To lvData.ColumnHeaders.Count - 1
-      If X = 0 Then
-        If lvData.SelectedItem.Text <> "" Then
-          Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
-            Case adDate
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
-            Case adDBDate
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
-            Case adDBTimeStamp
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
-            Case Else
-              If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
-                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
-              End If
-          End Select
-        End If
-      Else
-        If lvData.SelectedItem.SubItems(X) <> "" Then
-          Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
-            Case adDate
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
-            Case adDBDate
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
-            Case adDBTimeStamp
-              szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
-            Case Else
-              If ((InStr(1, lvData.SelectedItem.SubItems(X), vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.SubItems(X), "\n")) <> 0) = 0 Then
-                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
-              End If
-          End Select
-        End If
+    'formatted as ISO dates. This is not required if we found a unique column AND it's
+    'not been modified
+    If iUnique > 0 Then
+      If txtField(iUnique - 1).Tag = "Y" Then
+        For X = 0 To lvData.ColumnHeaders.Count - 1
+          If X = 0 Then
+            If lvData.SelectedItem.Text <> "" Then
+              Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
+                Case adDate
+                  szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
+                Case adDBDate
+                  szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
+                Case adDBTimeStamp
+                  szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
+                Case Else
+                  If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
+                    szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
+                  End If
+              End Select
+            End If
+          Else
+            If lvData.SelectedItem.SubItems(X) <> "" Then
+              Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
+                Case adDate
+                  szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
+                Case adDBDate
+                  szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
+                Case adDBTimeStamp
+                  szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
+                Case Else
+                  If ((InStr(1, lvData.SelectedItem.SubItems(X), vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.SubItems(X), "\n")) <> 0) = 0 Then
+                    szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
+                  End If
+              End Select
+            End If
+          End If
+        Next
       End If
-    Next
+    Else
+      For X = 0 To lvData.ColumnHeaders.Count - 1
+        If X = 0 Then
+          If lvData.SelectedItem.Text <> "" Then
+            Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
+              Case adDate
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
+              Case adDBDate
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd") & "' AND "
+              Case adDBTimeStamp
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.Text, "yyyy-MM-dd hh:mm:ss") & "' AND "
+              Case Else
+                If ((InStr(1, lvData.SelectedItem.Text, vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.Text, "\n")) <> 0) = 0 Then
+                  szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "' AND "
+                End If
+            End Select
+          End If
+        Else
+          If lvData.SelectedItem.SubItems(X) <> "" Then
+            Select Case Val(Mid(lvData.ColumnHeaders(X + 1).Key, InStr(1, lvData.ColumnHeaders(X + 1).Key, ":") + 1))
+              Case adDate
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
+              Case adDBDate
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd") & "' AND "
+              Case adDBTimeStamp
+                szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & Format(lvData.SelectedItem.SubItems(X), "yyyy-MM-dd hh:mm:ss") & "' AND "
+              Case Else
+                If ((InStr(1, lvData.SelectedItem.SubItems(X), vbCrLf) <> 0) + (InStr(1, lvData.SelectedItem.SubItems(X), "\n")) <> 0) = 0 Then
+                  szCriteria = szCriteria & QUOTE & lvData.ColumnHeaders(X + 1).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(X)) & "' AND "
+                End If
+            End Select
+          End If
+        End If
+      Next
+    End If
 
     'Check the data
     If szValues = "" Then
@@ -465,20 +524,36 @@ Dim rsCount As New Recordset
     If Len(szValues) > 2 Then szValues = Mid(szValues, 1, Len(szValues) - 2)
     If Len(szCriteria) > 5 Then szCriteria = Mid(szCriteria, 1, Len(szCriteria) - 5)
     szQuery = "SELECT count(*) AS count FROM " & szTable
-    If (szCriteria <> "") Or (szWhere <> "") Then
-      szQuery = szQuery & " WHERE " & szCriteria
-      If (szCriteria <> "") And (szWhere <> "") Then szQuery = szQuery & " AND "
-      If szWhere <> "" Then szQuery = szQuery & szWhere
+    
+    'WHERE Clase
+    If iUnique > 0 Then
+      If txtField(iUnique - 1).Tag <> "Y" Then
+        If iUnique = 1 Then
+          szFullCriteria = " WHERE " & QUOTE & lvData.ColumnHeaders(iUnique).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.Text) & "'"
+        Else
+          szFullCriteria = " WHERE " & QUOTE & lvData.ColumnHeaders(iUnique).Text & QUOTE & " = '" & dbSZ(lvData.SelectedItem.SubItems(iUnique - 1)) & "'"
+        End If
+      Else
+        If (szCriteria <> "") Or (szWhere <> "") Then
+          szFullCriteria = " WHERE " & szCriteria
+          If (szCriteria <> "") And (szWhere <> "") Then szFullCriteria = szFullCriteria & " AND "
+          If szWhere <> "" Then szFullCriteria = szFullCriteria & szWhere
+        End If
+      End If
+    Else
+      If (szCriteria <> "") Or (szWhere <> "") Then
+        szFullCriteria = " WHERE " & szCriteria
+        If (szCriteria <> "") And (szWhere <> "") Then szFullCriteria = szFullCriteria & " AND "
+        If szWhere <> "" Then szFullCriteria = szFullCriteria & szWhere
+      End If
     End If
+    
+    szQuery = szQuery & szFullCriteria
     Set rsCount = frmMain.svr.Databases(szDatabase).Execute(szQuery)
 
     'Prepare the update query for later
-    szQuery = "UPDATE " & szTable & " SET " & szValues
-    If (szCriteria <> "") Or (szWhere <> "") Then
-      szQuery = szQuery & " WHERE " & szCriteria
-      If (szCriteria <> "") And (szWhere <> "") Then szQuery = szQuery & " AND "
-      If szWhere <> "" Then szQuery = szQuery & szWhere
-    End If
+    szQuery = "UPDATE " & szTable & " SET " & szValues & szFullCriteria
+    
     EndMsg
     If Not rsCount.EOF Then
       Select Case rsCount!Count
@@ -576,6 +651,7 @@ Dim szBits() As String
 Dim bInQuotes As Boolean
 Dim bFlag As Boolean
 Dim objView As pgView
+Dim szTemp As String
 
   Set rsSQL = rsQuery
   szDatabase = szDB
@@ -774,6 +850,25 @@ GotInfo:
     cmdDelete.Enabled = False
   End If
   LoadGrid
+  
+  'Attempt to figure out a Unique Column for safer updating
+  szTemp = szTable
+  If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
+  If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
+  For iTemp = 1 To lvData.ColumnHeaders.Count
+    If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
+       (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
+       (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
+       (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
+      iUnique = iTemp
+      Exit For
+    End If
+  Next iTemp
+  If iUnique = 0 Then
+    frmMain.svr.LogEvent "Couldn't find a suitable unique column for use as a key.", etMiniDebug
+  Else
+    frmMain.svr.LogEvent "Found column: " & lvData.ColumnHeaders(iUnique).Text & " for use as a key.", etMiniDebug
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmSQLOutput.Display"
