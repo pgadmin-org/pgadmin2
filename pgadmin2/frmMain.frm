@@ -2032,6 +2032,12 @@ Dim lLeft As Long
     Unload objform
   Next objform
   
+  'If child forms haven't been closed, then the user probably pressed cancel on a save dialogue
+  If Forms.Count > 1 Then
+    Cancel = 1
+    Exit Sub
+  End If
+  
   'Convert to Pixels
   lTop = Me.ScaleY(Me.Top, 1, 3)
   lLeft = Me.ScaleX(Me.Left, 1, 3)

@@ -45,6 +45,7 @@ Allow selection of font for display of data.
 Added a guide to setting up a development environment.
 Added a HOWTO on using MD5 Encrypted Passwords.
 Added support for viewing statistics on PostgreSQL 7.2+
+Cancelling closure of child windows will now cancel application exit.
 
 1.2.0 Stable
 ------------
