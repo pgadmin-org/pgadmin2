@@ -85,6 +85,7 @@ End Sub
 Private Sub Command2_Click()
 Dim Start As Single
 Dim X As Long
+  HBX1.Font.Name = "Comic Sans MS"
   HBX1.Text = ""
   Start = Timer
   HBX1.AutoColour = False

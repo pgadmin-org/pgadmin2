@@ -19,7 +19,6 @@ Begin VB.UserControl HBX
       _ExtentY        =   661
       _Version        =   393217
       BorderStyle     =   0
-      Enabled         =   -1  'True
       ScrollBars      =   3
       Appearance      =   0
       AutoVerbMenu    =   -1  'True
@@ -594,6 +593,7 @@ End Property
 Public Property Set Font(ByVal New_Font As Font)
   Set rtbString.Font = New_Font
   PropertyChanged "Font"
+  BuildCache
 End Property
 
 Public Property Get Text() As String
