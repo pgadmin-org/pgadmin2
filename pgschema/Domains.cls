@@ -136,10 +136,10 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'External Add
-Public Function Add(ByVal Name As String, ByVal BaseType As String, Optional ByVal Default As String, Optional ByVal NotNull As Boolean, Optional ByVal Comment As String)
+Public Function Add(ByVal Name As String, ByVal BaseType As String, Optional ByVal Length As Long, Optional ByVal NumericScale As Long, Optional ByVal Default As String, Optional ByVal NotNull As Boolean, Optional ByVal Comment As String)
 Attribute Add.VB_Description = "Add a new Type."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Domains.iAdd(" & QUOTE & Name & QUOTE & ", " & QUOTE & BaseType & QUOTE & ", " & QUOTE & Default & QUOTE & ", " & NotNull & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Domains.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & BaseType & QUOTE & ", " & Length & ", " & NumericScale & ", " & QUOTE & Default & QUOTE & ", " & NotNull & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -157,6 +157,8 @@ Dim lScale As Long
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE DOMAIN " & QUOTE & dbSZ(Name) & QUOTE
   szSQL = szSQL & " AS " & BaseType
+  If BaseType = "numeric" Then szSQL = szSQL & "(" & Length & ", " & NumericScale & ")"
+  If BaseType = "char" Or BaseType = "varchar" Then szSQL = szSQL & "(" & Length & ")"
   If Default <> "" Then szSQL = szSQL & " DEFAULT " & Default
   If NotNull Then szSQL = szSQL & " NOT NULL"
   objServer.ExecSQL szSQL, cnDatabase
