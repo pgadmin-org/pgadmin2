@@ -20,45 +20,53 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objFunction As pgFunction
@@ -77,7 +85,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -91,7 +99,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -101,9 +109,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, lReturns As Long, szSource As String, lLanguage As Long, bCachable As Boolean, bStrict As Boolean, szArgumentList As String) As pgFunction
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lReturns & ", " & QUOTE & szSource & QUOTE & ", " & lLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ")", etFullDebug
+Private Function iAdd(lOID As Long, szName As String, szOwner As String, lReturns As Long, szSource As String, lLanguage As Long, bCachable As Boolean, bStrict As Boolean, szArgumentList As String) As pgFunction
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Functions.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lReturns & ", " & QUOTE & szSource & QUOTE & ", " & lLanguage & ", " & bCachable & ", " & bStrict & ", " & QUOTE & szArgumentList & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgFunction
 Dim rs As New Recordset
@@ -120,10 +128,11 @@ Dim X As Long
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   objNewMember.Returns = objServer.Databases(Database).LookupType(lReturns)
   
   'Cleanup the source code
@@ -159,7 +168,7 @@ End Function
 'External Add
 Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String) As pgFunction
 Attribute Add.VB_Description = "Add a new function."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -169,7 +178,11 @@ Dim bFlag As Boolean
 Dim objFunction As pgFunction
  
   'Generate the szSQL query to create the new object and execute
-  szSQL = "CREATE FUNCTION " & QUOTE & Name & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "CREATE FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
+  Else
+    szSQL = "CREATE FUNCTION " & QUOTE & Name & QUOTE
+  End If
   szSQL = szSQL & " (" & Arguments & ")"
   szSQL = szSQL & " RETURNS " & Returns
   szSQL = szSQL & " AS '" & Source & "'"
@@ -184,11 +197,19 @@ Dim objFunction As pgFunction
   objServer.ExecSQL szSQL, cnDatabase
 
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_FUNCTIONS & " WHERE proname = '" & dbSZ(Name) & "'"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_FUNCTIONS7_3 & " WHERE proname = '" & Name & "' AND pronamespace = " & lNamespaceOID
+  Else
+    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE proname = '" & Name & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
 
   If Comment <> "" Then
-    szSQL = "COMMENT ON FUNCTION " & QUOTE & Name & QUOTE & "(" & dbSZ(Arguments) & ") IS '" & dbSZ(Comment) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & "(" & dbSZ(Arguments) & ") IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON FUNCTION " & QUOTE & Name & QUOTE & "(" & dbSZ(Arguments) & ") IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
@@ -205,15 +226,14 @@ Dim objFunction As pgFunction
     Next fFunc
     If bFlag = False Then
       If objVersion.VersionNum >= 7.1 Then
-        Set objFunction = iAdd(rs!ts, rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, rs!proisstrict, rs!proargtypes & "")
+        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, rs!proisstrict, rs!proargtypes & "")
       Else
-        Set objFunction = iAdd(rs!ts, rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, False, rs!proargtypes & "")
+        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!proowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, rs!proiscachable, False, rs!proargtypes & "")
       End If
     End If
     rs.MoveNext
   Wend
   
-  If Not objFunction.SystemObject Then objFunction.Commit rcAdd, "Created object."
   Set Add = objFunction
   
   'Cleanup
@@ -232,7 +252,7 @@ End Function
 Public Property Get Item(Key As String) As pgFunction
 Attribute Item.VB_Description = "Returns a Type object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -245,7 +265,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Functions in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objFunction As pgFunction
@@ -267,7 +287,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Function."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -281,11 +301,14 @@ Dim vArg As Variant
   If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
   szArgs = szArgs & ")"
   
-  'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP FUNCTION " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE & szArgs
+  'Generate/Execute SQL to drop the Function.
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & szArgs
+  Else
+    szSQL = "DROP FUNCTION " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & szArgs
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -301,7 +324,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -313,7 +336,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refrsh the collection of Functions."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Refresh()", etFullDebug
 
 
@@ -331,7 +354,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -341,12 +364,18 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_FUNCTIONS & " ORDER BY proname", cnDatabase)
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_FUNCTIONS7_3 & " AND pronamespace = " & lNamespaceOID & " ORDER BY proname", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_FUNCTIONS7_1 & " ORDER BY proname", cnDatabase)
+    End If
     While Not rs.EOF
-      If objVersion.VersionNum >= 7.1 Then
-        iAdd rs!ts, rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, rs!proargtypes & ""
+      If objVersion.VersionNum >= 7.3 Then
+        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, rs!proargtypes & ""
+      ElseIf objVersion.VersionNum >= 7.1 Then
+        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, rs!proargtypes & ""
       Else
-        iAdd rs!ts, rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, rs!proargtypes & ""
+        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, rs!proargtypes & ""
       End If
       rs.MoveNext
     Wend
@@ -363,7 +392,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -374,7 +403,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objFunction As pgFunction
@@ -390,18 +419,3 @@ Dim objFunction As pgFunction
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objFunction As pgFunction
-
-  For Each objFunction In mCol
-    If Not objFunction.SystemObject Then objFunction.Commit UpdateType, UpdateComment
-  Next objFunction
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub

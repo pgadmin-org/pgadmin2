@@ -20,45 +20,53 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Operators.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objOperator As pgOperator
@@ -77,7 +85,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -91,7 +99,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -101,9 +109,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, szKind As String, bHashJoins As Boolean, lLeftOperandType As Long, lRightOperandType As Long, lResultType As Long, lCommutator As Long, lNegator As Long, lLeftTypeSortOperator As Long, lRightTypeSortOperator As Long, szOperatorFunction As String, szRestrictFunction As String, szJoinFunction As String) As pgOperator
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Operators.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szKind & QUOTE & ", " & bHashJoins & ", " & lLeftOperandType & ", " & lRightOperandType & ", " & lResultType & ", " & lCommutator & ", " & lNegator & ", " & lLeftTypeSortOperator & ", " & lRightTypeSortOperator & ", " & QUOTE & szOperatorFunction & QUOTE & ", " & QUOTE & szRestrictFunction & QUOTE & ", " & QUOTE & szJoinFunction & QUOTE & ")", etFullDebug
+Private Function iAdd(lOID As Long, szName As String, szOwner As String, szKind As String, bHashJoins As Boolean, lLeftOperandType As Long, lRightOperandType As Long, lResultType As Long, lCommutator As Long, lNegator As Long, lLeftTypeSortOperator As Long, lRightTypeSortOperator As Long, szOperatorFunction As String, szRestrictFunction As String, szJoinFunction As String) As pgOperator
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Operators.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szKind & QUOTE & ", " & bHashJoins & ", " & lLeftOperandType & ", " & lRightOperandType & ", " & lResultType & ", " & lCommutator & ", " & lNegator & ", " & lLeftTypeSortOperator & ", " & lRightTypeSortOperator & ", " & QUOTE & szOperatorFunction & QUOTE & ", " & QUOTE & szRestrictFunction & QUOTE & ", " & QUOTE & szJoinFunction & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgOperator
 Dim rs As New Recordset
@@ -120,10 +128,11 @@ Dim szTemp As String
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   
   Select Case UCase(szKind)
     Case "B"
@@ -167,13 +176,12 @@ Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   objServer.iLogError Err
-  
 End Function
 
 'External Add
 Public Function Add(ByVal Name As String, ByVal OperatorFunction As String, Optional ByVal LeftOperandType As String, Optional ByVal RightOperandType As String, Optional ByVal Commutator As String, Optional ByVal Negator As String, Optional ByVal RestrictFunction As String, Optional ByVal JoinFunction As String, Optional ByVal Hashes As Boolean, Optional ByVal LeftTypeSortOperator As String, Optional ByVal RightTypeSortOperator As String, Optional ByVal Comment As String) As pgOperator
 Attribute Add.VB_Description = "Add a new Operator."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & OperatorFunction & QUOTE & ", " & QUOTE & LeftOperandType & QUOTE & ", " & QUOTE & RightOperandType & QUOTE & ", " & QUOTE & Commutator & QUOTE & ", " & QUOTE & Negator & QUOTE & ", " & QUOTE & RestrictFunction & QUOTE & ", " & QUOTE & JoinFunction & QUOTE & ", " & Hashes & ", " & QUOTE & LeftTypeSortOperator & QUOTE & ", " & QUOTE & RightTypeSortOperator & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -183,7 +191,11 @@ Dim szROT As String
 Dim objOperator As pgOperator
   
   'Generate the szSQL query to create the new object and execute
-  szSQL = "CREATE OPERATOR " & Name
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "CREATE OPERATOR " & QUOTE & szNamespace & QUOTE & "." & Name
+  Else
+    szSQL = "CREATE OPERATOR " & Name
+  End If
   szSQL = szSQL & " (PROCEDURE = " & QUOTE & OperatorFunction & QUOTE
   If LeftOperandType <> "" Then szSQL = szSQL & ", LEFTARG = " & QUOTE & LeftOperandType & QUOTE
   If RightOperandType <> "" Then szSQL = szSQL & ", RIGHTARG = " & QUOTE & RightOperandType & QUOTE
@@ -197,29 +209,35 @@ Dim objOperator As pgOperator
   szSQL = szSQL & ")"
   objServer.ExecSQL szSQL, cnDatabase
   
-  
   szLOT = LeftOperandType
   If szLOT = "" Then szLOT = "NONE"
   szROT = RightOperandType
   If szROT = "" Then szROT = "NONE"
   If Comment <> "" Then
-    szSQL = "COMMENT ON OPERATOR " & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON OPERATOR " & QUOTE & szNamespace & QUOTE & "." & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON OPERATOR " & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & dbSZ(LeftOperandType) & "' AND oprright = '" & dbSZ(RightOperandType) & "'"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "' AND oprnamespace = " & lNamespaceOID
+  Else
+    szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objOperator = iAdd(rs!ts, rs!OID, rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & "")
+    Set objOperator = iAdd(rs!OID, rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & "")
   End If
     
   'Invalidate the Operator Cache...
   objServer.Databases(Database).KillOperatorCache
   
-  If Not objOperator.SystemObject Then objOperator.Commit rcAdd, "Created object."
   Set Add = objOperator
   
   'Cleanup
@@ -231,14 +249,13 @@ Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   objServer.iLogError Err
-  
 End Function
 
 'Return the specified Item
 Public Property Get Item(Key As String) As pgOperator
 Attribute Item.VB_Description = "Returns a Operator object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -251,7 +268,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Operators in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objOperator As pgOperator
@@ -273,7 +290,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Operator."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -286,10 +303,13 @@ Dim szLOT As String
   If szROT = "" Then szROT = "NONE"
   
   'Generate/Execute SQL to drop the Operator.
-  szSQL = "DROP OPERATOR " & mCol(ULEncode(Key)).Name & "(" & szLOT & ", " & szROT & ")"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP OPERATOR " & QUOTE & szNamespace & QUOTE & "." & mCol(ULEncode(Key)).Name & "(" & szLOT & ", " & szROT & ")"
+  Else
+    szSQL = "DROP OPERATOR " & mCol(ULEncode(Key)).Name & "(" & szLOT & ", " & szROT & ")"
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcAdd, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -308,7 +328,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -320,7 +340,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Operators."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -338,7 +358,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -348,9 +368,13 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " ORDER BY oprname", cnDatabase)
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " WHERE oprnamespace = " & lNamespaceOID & " ORDER BY oprname", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " ORDER BY oprname", cnDatabase)
+    End If
     While Not rs.EOF
-      iAdd rs!ts, rs!OID, rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & ""
+      iAdd rs!OID, rs!oprname & "", rs!opowner & "", rs!oprkind & "", ToBool(rs!oprcanhash), rs!oprleft, rs!oprright, rs!oprresult, rs!oprcom, rs!oprnegate, rs!oprlsortop, rs!oprrsortop, rs!oprcode & "", rs!oprrest & "", rs!oprjoin & ""
       rs.MoveNext
     Wend
   End If
@@ -366,7 +390,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -377,7 +401,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objOperator As pgOperator
@@ -393,18 +417,3 @@ Dim objOperator As pgOperator
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Operators.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objOperator As pgOperator
-
-  For Each objOperator In mCol
-    If Not objOperator.SystemObject Then objOperator.Commit UpdateType, UpdateComment
-  Next objOperator
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub

@@ -21,47 +21,55 @@ Option Explicit
 Private mCol As Collection
 Private cnDatabase As Connection
 
-Dim lTableOID As Long
-Dim szTable As String
+Private lTableOID As Long
+Private szTable As String
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Triggers.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objTrigger As pgTrigger
@@ -80,7 +88,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -94,7 +102,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -105,7 +113,7 @@ End Property
 
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
@@ -116,7 +124,7 @@ End Property
 
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
@@ -126,9 +134,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szTriggerFunction As String, szExecutes As String, szTriggerEvent As String, szForEach As String) As pgTrigger
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Triggers.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szTriggerFunction & QUOTE & ", " & QUOTE & szExecutes & QUOTE & ", " & QUOTE & szTriggerEvent & QUOTE & ", " & QUOTE & szForEach & QUOTE & ")", etFullDebug
+Private Function iAdd(lOID As Long, szName As String, szTriggerFunction As String, szExecutes As String, szTriggerEvent As String, szForEach As String) As pgTrigger
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szTriggerFunction & QUOTE & ", " & QUOTE & szExecutes & QUOTE & ", " & QUOTE & szTriggerEvent & QUOTE & ", " & QUOTE & szForEach & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgTrigger
 
@@ -140,10 +148,11 @@ Dim objNewMember As pgTrigger
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   objNewMember.TriggerFunction = szTriggerFunction
   objNewMember.Executes = szExecutes
   objNewMember.TriggerEvent = szTriggerEvent
@@ -160,7 +169,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal TriggerFunction As String, ByVal Executes As String, ByVal TriggerEvent As String, ByVal ForEach As String, Optional ByVal Comment As String) As pgTrigger
 Attribute Add.VB_Description = "Add a new Trigger."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.iAdd(" & QUOTE & Name & QUOTE & ", " & QUOTE & TriggerFunction & QUOTE & ", " & QUOTE & Executes & QUOTE & ", " & QUOTE & TriggerEvent & QUOTE & ", " & QUOTE & ForEach & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -173,13 +182,21 @@ Dim objTrigger As pgTrigger
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE TRIGGER " & QUOTE & Name & QUOTE
   szSQL = szSQL & " " & Executes & " " & TriggerEvent
-  szSQL = szSQL & " ON " & QUOTE & szTable & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = szSQL & " ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
+  Else
+    szSQL = szSQL & " ON " & QUOTE & szTable & QUOTE
+  End If
   szSQL = szSQL & " FOR EACH " & ForEach
   szSQL = szSQL & " EXECUTE PROCEDURE " & TriggerFunction
   objServer.ExecSQL szSQL, cnDatabase
   
   If Comment <> "" Then
-    szSQL = "COMMENT ON TRIGGER " & QUOTE & Name & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON TRIGGER " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON TRIGGER " & QUOTE & Name & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
@@ -208,10 +225,9 @@ Dim objTrigger As pgTrigger
     If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "Update OR "
     If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-    Set objTrigger = iAdd(rs!ts, rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
+    Set objTrigger = iAdd(rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
   End If
   
-  If Not objTrigger.SystemObject Then objTrigger.Commit rcAdd, "Created object."
   Set Add = objTrigger
   
   'Cleanup
@@ -229,7 +245,7 @@ End Function
 Public Property Get Item(Key As String) As pgTrigger
 Attribute Item.VB_Description = "Returns a Trigger object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -242,7 +258,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Triggers on the current Table."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objTrigger As pgTrigger
@@ -264,16 +280,19 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Trigger."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Trigger.
-  szSQL = "DROP TRIGGER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & mCol(ULEncode(Key)).Table & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP TRIGGER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
+  Else
+    szSQL = "DROP TRIGGER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & szTable & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -289,7 +308,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -301,7 +320,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Triggers."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -319,7 +338,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -355,7 +374,7 @@ Dim szEvent As String
       If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "Update OR "
       If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-      iAdd rs!ts, rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach
+      iAdd rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach
       rs.MoveNext
     Wend
   End If
@@ -371,7 +390,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -382,7 +401,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objTrigger As pgTrigger
@@ -398,18 +417,3 @@ Dim objTrigger As pgTrigger
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Triggers.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objTrigger As pgTrigger
-
-  For Each objTrigger In mCol
-    If Not objTrigger.SystemObject Then objTrigger.Commit UpdateType, UpdateComment
-  Next objTrigger
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub

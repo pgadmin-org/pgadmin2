@@ -23,7 +23,7 @@ Private mCol As Collection
 
 'Internal Add
 Friend Sub iAdd(szName As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.iAdd(" & QUOTE & szName & QUOTE & ")", etFullDebug
   
   'Add the User
@@ -36,7 +36,7 @@ End Sub
 'External Add
 Public Sub Add(ByVal Name As String)
 Attribute Add.VB_Description = "Add a new User."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.Add(" & QUOTE & Name & QUOTE & ")", etFullDebug
 
 Dim X As Long
@@ -65,7 +65,7 @@ End Sub
 Public Property Get Item(Key As String) As pgUser
 Attribute Item.VB_Description = "Returns a User object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -76,7 +76,7 @@ End Property
 
 'Set the Name for internal use.
 Friend Property Let Name(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.Property let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -89,7 +89,7 @@ End Property
 Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the User objects."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get Count()", etFullDebug
 
   Count = mCol.Count
@@ -101,7 +101,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified user."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -125,7 +125,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -136,7 +136,7 @@ End Property
 
 'Initialise the collection if possible
 Friend Sub Initialize(Optional szUserList As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.Initialize(" & QUOTE & szUserList & QUOTE & ")", etFullDebug
 
 Dim szMembers() As String
@@ -181,7 +181,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing

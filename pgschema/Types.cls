@@ -20,45 +20,53 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Types.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objType As pgType
@@ -77,7 +85,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -91,7 +99,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -101,9 +109,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, szInputFunction As String, szOutputFunction As String, lInternalLength As Long, lExternalLength As Long, szDefault As String, lElement As Long, szDelimiter As String, szSendFunction As String, szReceiveFunction As String, bPassedByValue As Boolean, szAlignment As String, szStorage As String) As pgType
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & lExternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & lElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & QUOTE & szSendFunction & QUOTE & ", " & QUOTE & szReceiveFunction & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
+Private Function iAdd(lOID As Long, szName As String, szOwner As String, szInputFunction As String, szOutputFunction As String, lInternalLength As Long, lExternalLength As Long, szDefault As String, lElement As Long, szDelimiter As String, szSendFunction As String, szReceiveFunction As String, bPassedByValue As Boolean, szAlignment As String, szStorage As String) As pgType
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & lExternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & lElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & QUOTE & szSendFunction & QUOTE & ", " & QUOTE & szReceiveFunction & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgType
 Dim szTemp As String
@@ -116,10 +124,11 @@ Dim szTemp As String
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   objNewMember.InputFunction = szInputFunction
   objNewMember.OutputFunction = szOutputFunction
   objNewMember.InternalLength = lInternalLength
@@ -170,7 +179,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal InputFunction As String, ByVal OutputFunction As String, ByVal InternalLength As Long, Optional ByVal ExternalLength As Long, Optional ByVal Default As String, Optional ByVal Element As String, Optional ByVal Delimiter As String, Optional ByVal SendFunction As String, Optional ByVal ReceiveFunction As String, Optional ByVal PassedByValue As Boolean, Optional ByVal Alignment As String, Optional ByVal Storage As String, Optional ByVal Comment As String)
 Attribute Add.VB_Description = "Add a new Type."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputFunction & QUOTE & ", " & QUOTE & OutputFunction & QUOTE & ", " & InternalLength & ", " & ExternalLength & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Element & QUOTE & ", " & QUOTE & Delimiter & QUOTE & ", " & QUOTE & SendFunction & QUOTE & ", " & QUOTE & ReceiveFunction & QUOTE & ", " & PassedByValue & ", " & QUOTE & Alignment & QUOTE & ", " & QUOTE & Storage & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -178,7 +187,11 @@ Dim szSQL As String
 Dim objType As pgType
 
   'Generate the szSQL query to create the new object and execute
-  szSQL = "CREATE TYPE " & QUOTE & dbSZ(Name) & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "CREATE TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
+  Else
+    szSQL = "CREATE TYPE " & QUOTE & Name & QUOTE
+  End If
   szSQL = szSQL & " (INPUT = " & QUOTE & InputFunction & QUOTE
   szSQL = szSQL & ", OUTPUT = " & QUOTE & OutputFunction & QUOTE
   szSQL = szSQL & ", INTERNALLENGTH = " & InternalLength
@@ -199,29 +212,32 @@ Dim objType As pgType
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objVersion.VersionNum >= 7.3 Then
-    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typname = '" & dbSZ(Name) & "'", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typname = '" & Name & "' AND typnamespace = " & lNamespaceOID, cnDatabase)
   Else
-    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " AND typname = '" & dbSZ(Name) & "'", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " AND typname = '" & Name & "'", cnDatabase)
   End If
     
   If Comment <> "" Then
-    szSQL = "COMMENT ON TYPE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    If objVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON TYPE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
   
   If Not rs.EOF Then
     If objVersion.VersionNum >= 7.1 Then
-      Set objType = iAdd(rs!ts, rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
+      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
     Else
-      Set objType = iAdd(rs!ts, rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", "")
+      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", "")
     End If
   End If
   
   'Invalidate the Type Cache...
   objServer.Databases(Database).KillTypeCache
   
-  If Not objType.SystemObject Then objType.Commit rcAdd, "Created object."
   Set Add = objType
   
   'Cleanup
@@ -239,7 +255,7 @@ End Function
 Public Property Get Item(Key As String) As pgType
 Attribute Item.VB_Description = "Returns a Type object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -252,7 +268,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Types in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objType As pgType
@@ -274,16 +290,19 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Type."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
-  'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP TYPE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
+  'Generate/Execute SQL to drop the Type.
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  Else
+    szSQL = "DROP TYPE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -302,7 +321,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -314,7 +333,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Types."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -332,7 +351,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -343,15 +362,15 @@ Dim rs As New Recordset
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " ORDER BY typname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typnamespace = " & lNamespaceOID & " ORDER BY typname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " ORDER BY typname", cnDatabase)
     End If
     While Not rs.EOF
       If objVersion.VersionNum >= 7.1 Then
-        iAdd rs!ts, rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & ""
+        iAdd rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & ""
       Else
-        iAdd rs!ts, rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", ""
+        iAdd rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", ""
       End If
       rs.MoveNext
     Wend
@@ -368,7 +387,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -379,7 +398,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objType As pgType
@@ -395,19 +414,3 @@ Dim objType As pgType
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Types.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objType As pgType
-
-  For Each objType In mCol
-    If Not objType.SystemObject Then objType.Commit UpdateType, UpdateComment
-  Next objType
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub
-

@@ -20,11 +20,53 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lNamespaceOID As Long
+Private szNamespace As String
+
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Let NamespaceOID(" & vData & ")", etFullDebug
+
+  lNamespaceOID = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -38,7 +80,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -49,7 +91,7 @@ End Property
 
 'Internal Add
 Private Sub iAdd(szType As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Arguments.iAdd(" & QUOTE & szType & QUOTE & ")", etFullDebug
 
   mCol.Add szType
@@ -62,7 +104,7 @@ End Sub
 Public Property Get Item(Index As Long) As String
 Attribute Item.VB_Description = "Returns a Argument object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get Item(" & Index & ")", etFullDebug
 
   Item = mCol(Index)
@@ -75,7 +117,7 @@ End Property
 Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Arguments on the current Function."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get Count()", etFullDebug
 
   Count = mCol.Count
@@ -88,7 +130,7 @@ End Property
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Arguments.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -99,7 +141,7 @@ End Property
 
 'Initialise the collection if possible
 Friend Sub Initialize(szArgumentList As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Arguments.Initialize(" & QUOTE & szArgumentList & QUOTE & ")", etFullDebug
 
 Dim szArgs() As String
@@ -119,7 +161,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Arguments.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing

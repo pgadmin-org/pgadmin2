@@ -20,45 +20,53 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objAggregate As pgAggregate
@@ -77,7 +85,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -91,7 +99,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -101,9 +109,9 @@ Err_Handler: objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, lInputType As Long, szStateFunction As String, lStateType As Long, szFinalFunction As String, lFinalType As Long, szInitialCondition As String) As pgAggregate
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Aggregates.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & lStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & lFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
+Private Function iAdd(lOID As Long, szName As String, szOwner As String, lInputType As Long, szStateFunction As String, lStateType As Long, szFinalFunction As String, lFinalType As Long, szInitialCondition As String) As pgAggregate
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & lInputType & ", " & QUOTE & szStateFunction & QUOTE & ", " & lStateType & ", " & QUOTE & szFinalFunction & QUOTE & ", " & lFinalType & ", " & QUOTE & szInitialCondition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgAggregate
 Dim rs As New Recordset
@@ -117,10 +125,11 @@ Dim szSQL As String
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   
   'Get the cached Type name. If an error occurs it means the
   'OID specified doesn't exist.
@@ -128,7 +137,7 @@ Dim szSQL As String
   objNewMember.InputType = objServer.Databases(Database).LookupType(lInputType)
   objNewMember.StateType = objServer.Databases(Database).LookupType(lStateType)
   objNewMember.FinalType = objServer.Databases(Database).LookupType(lFinalType)
-  On Error GoTo Err_Handler
+  'On Error Goto Err_Handler
 
   objNewMember.StateFunction = szStateFunction
   objNewMember.FinalFunction = szFinalFunction
@@ -149,7 +158,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal InputType As String, ByVal StateFunction As String, ByVal StateType As String, Optional ByVal FinalFunction As String, Optional ByVal InitialCondition As String, Optional ByVal Comment As String) As pgAggregate
 Attribute Add.VB_Description = "Add a new Aggregate."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputType & QUOTE & ", " & QUOTE & StateFunction & QUOTE & ", " & QUOTE & StateType & QUOTE & ", " & QUOTE & FinalFunction & QUOTE & ", " & QUOTE & InitialCondition & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -157,7 +166,11 @@ Dim szSQL As String
 Dim objAggregate As pgAggregate
   
   'Generate the szSQL query to create the new object and execute
-  szSQL = "CREATE AGGREGATE " & QUOTE & Name & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "CREATE AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
+  Else
+    szSQL = "CREATE AGGREGATE " & QUOTE & Name & QUOTE
+  End If
   szSQL = szSQL & " (BASETYPE = " & QUOTE & InputType & QUOTE & ", "
   szSQL = szSQL & "SFUNC = " & QUOTE & StateFunction & QUOTE & ", "
   szSQL = szSQL & "STYPE = " & QUOTE & StateType & QUOTE
@@ -168,28 +181,43 @@ Dim objAggregate As pgAggregate
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If InputType = "ANY" Then
-    szSQL = "SELECT now() AS ts, pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate WHERE aggname = '" & dbSZ(Name) & "' AND aggbasetype = 0"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc WHERE pg_proc.oid = pg_aggregate.aggfnoid AND aggname = '" & Name & "' AND aggbasetype = 0 AND aggnamespace = " & lNamespaceOID
+    Else
+      szSQL = "SELECT pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate WHERE aggname = '" & dbSZ(Name) & "' AND aggbasetype = 0"
+    End If
   Else
-    szSQL = "SELECT now() AS ts, pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate, pg_type WHERE aggbasetype = pg_type.oid AND aggname = '" & dbSZ(Name) & "' AND typname = '" & dbSZ(InputType) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc, pg_type WHERE pg_proc.oid = pg_aggregate.aggfnoid AND proargtypes[0] = pg_type.oid AND aggname = '" & Name & "' AND typname = '" & InputType & "' AND aggnamespace = " & lNamespaceOID
+    Else
+      szSQL = "SELECT pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate, pg_type WHERE aggbasetype = pg_type.oid AND aggname = '" & Name & "' AND typname = '" & InputType & "'"
+    End If
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Comment <> "" Then
     If InputType = "ANY" Then
-      szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " * IS '" & dbSZ(Comment) & "'"
+      If objServer.dbVersion.VersionNum >= 7.3 Then
+        szSQL = "COMMENT ON AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " * IS '" & dbSZ(Comment) & "'"
+      Else
+        szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " * IS '" & dbSZ(Comment) & "'"
+      End If
       objServer.ExecSQL szSQL, cnDatabase
     Else
-      szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " " & QUOTE & InputType & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      If objServer.dbVersion.VersionNum >= 7.3 Then
+        szSQL = "COMMENT ON AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " " & QUOTE & InputType & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      Else
+        szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " " & QUOTE & InputType & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      End If
       objServer.ExecSQL szSQL, cnDatabase
     End If
     objServer.Databases(Database).KillCommentCache
   End If
   
   If Not rs.EOF Then
-    Set objAggregate = iAdd(rs!ts, rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & "")
+    Set objAggregate = iAdd(rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & "")
   End If
   
-  If Not objAggregate.SystemObject Then objAggregate.Commit rcAdd, "Created object."
   Set Add = objAggregate
   
   'Cleanup
@@ -198,8 +226,8 @@ Dim objAggregate As pgAggregate
   
   Exit Function
 Err_Handler:
-  'If rs.State <> adStateClosed Then rs.Close
-  'Set rs = Nothing
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
   objServer.iLogError Err
 End Function
 
@@ -207,7 +235,7 @@ End Function
 Public Property Get Item(Key As String) As pgAggregate
 Attribute Item.VB_Description = "Returns a Aggregate object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -220,7 +248,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Aggregates in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objAggregate As pgAggregate
@@ -242,20 +270,27 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Aggregate."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Aggregate.
   If mCol(ULEncode(Key)).InputType = "opaque" Then
-    szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " *"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "DROP AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " *"
+    Else
+      szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " *"
+    End If
   Else
-    szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " " & QUOTE & mCol(ULEncode(Key)).InputType & QUOTE
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "DROP AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " " & QUOTE & mCol(ULEncode(Key)).InputType & QUOTE
+    Else
+      szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " " & QUOTE & mCol(ULEncode(Key)).InputType & QUOTE
+    End If
   End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -271,7 +306,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -283,7 +318,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Aggregates."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -301,7 +336,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -311,9 +346,13 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES & " ORDER BY aggname", cnDatabase)
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_3 & " AND pronamespace = " & lNamespaceOID & " ORDER BY aggname", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_1 & " ORDER BY aggname", cnDatabase)
+    End If
     While Not rs.EOF
-      iAdd rs!ts, rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & ""
+      iAdd rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & ""
       rs.MoveNext
     Wend
   End If
@@ -330,7 +369,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -341,7 +380,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objAggregate As pgAggregate
@@ -357,18 +396,3 @@ Dim objAggregate As pgAggregate
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objAggregate As pgAggregate
-
-  For Each objAggregate In mCol
-    If Not objAggregate.SystemObject Then objAggregate.Commit UpdateType, UpdateComment
-  Next objAggregate
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub

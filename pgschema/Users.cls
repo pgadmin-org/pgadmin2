@@ -23,7 +23,7 @@ Private mCol As Collection
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objUser As pgUser
@@ -41,7 +41,7 @@ End Function
 
 'Internal Add
 Friend Sub iAdd(szName As String, lID As Long, bCreateDatabases As Boolean, bSuperuser As Boolean, bUpdateCatalogues As Boolean, dAccountExpires As Variant)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.iAdd(" & QUOTE & szName & QUOTE & ", " & lID & ", " & bCreateDatabases & ", " & bSuperuser & ", " & bUpdateCatalogues & ", " & QUOTE & dAccountExpires & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgUser
@@ -67,7 +67,7 @@ End Sub
 'External Add
 Public Function Add(ByVal Name As String, Optional ByVal ID As Long, Optional ByVal Password As String, Optional ByVal CreateDatabases As Boolean, Optional ByVal Superuser As Boolean, Optional ByVal AccountExpires As Date) As pgUser
 Attribute Add.VB_Description = "Add a new User."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Add(" & QUOTE & Name & QUOTE & ", " & ID & ", " & QUOTE & Password & QUOTE & ", " & CreateDatabases & ", " & Superuser & ", " & QUOTE & AccountExpires & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -149,7 +149,7 @@ End Function
 Public Property Get Item(Key As String) As pgUser
 Attribute Item.VB_Description = "Returns a User object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -162,7 +162,7 @@ End Property
 Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the User objects."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get Count()", etFullDebug
 
   Count = mCol.Count
@@ -174,7 +174,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified user."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -198,7 +198,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -210,7 +210,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Users."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Refresh()", etFullDebug
 
   'Initialize will basically do a refresh so let's use that!
@@ -222,7 +222,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -254,7 +254,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -265,7 +265,7 @@ End Sub
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim objUser As pgUser

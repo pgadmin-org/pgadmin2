@@ -20,45 +20,53 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Domains.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objDomain As pgDomain
@@ -77,7 +85,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -91,7 +99,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -101,9 +109,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, szBaseType As String, lLength As Long, lScale As Long, szDefault As String, bNotNull As Boolean) As pgDomain
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Domains.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szBaseType & QUOTE & ", " & lLength & ", " & lScale & ", " & QUOTE & szDefault & QUOTE & ", " & bNotNull & ")", etFullDebug
+Private Function iAdd(lOID As Long, szName As String, szOwner As String, szBaseType As String, lLength As Long, lScale As Long, szDefault As String, bNotNull As Boolean) As pgDomain
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Domains.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szBaseType & QUOTE & ", " & lLength & ", " & lScale & ", " & QUOTE & szDefault & QUOTE & ", " & bNotNull & ")", etFullDebug
 
 Dim objNewMember As pgDomain
 
@@ -115,10 +123,11 @@ Dim objNewMember As pgDomain
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   objNewMember.BaseType = szBaseType
   objNewMember.Length = lLength
   objNewMember.NumericScale = lScale
@@ -138,7 +147,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal BaseType As String, Optional ByVal Length As Long, Optional ByVal NumericScale As Long, Optional ByVal Default As String, Optional ByVal NotNull As Boolean, Optional ByVal Comment As String)
 Attribute Add.VB_Description = "Add a new Type."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & BaseType & QUOTE & ", " & Length & ", " & NumericScale & ", " & QUOTE & Default & QUOTE & ", " & NotNull & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -155,7 +164,7 @@ Dim lScale As Long
   End If
   
   'Generate the szSQL query to create the new object and execute
-  szSQL = "CREATE DOMAIN " & QUOTE & dbSZ(Name) & QUOTE
+  szSQL = "CREATE DOMAIN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
   szSQL = szSQL & " AS " & BaseType
   If BaseType = "numeric" Then szSQL = szSQL & "(" & Length & ", " & NumericScale & ")"
   If BaseType = "char" Or BaseType = "varchar" Then szSQL = szSQL & "(" & Length & ")"
@@ -164,10 +173,10 @@ Dim lScale As Long
   objServer.ExecSQL szSQL, cnDatabase
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " AND typname = '" & dbSZ(Name) & "'", cnDatabase)
+  Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " AND typname = '" & Name & "' AND typnamespace = " & lNamespaceOID, cnDatabase)
     
   If Comment <> "" Then
-    szSQL = "COMMENT ON DOMAIN " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    szSQL = "COMMENT ON DOMAIN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
@@ -186,13 +195,12 @@ Dim lScale As Long
     Else
       lLength = rs!typlen
     End If
-    Set objDomain = iAdd(rs!ts, rs!OID, rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull))
+    Set objDomain = iAdd(rs!OID, rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull))
   End If
   
   'Invalidate the Type Cache...
   objServer.Databases(Database).KillTypeCache
-  
-  If Not objDomain.SystemObject Then objDomain.Commit rcAdd, "Created object."
+
   Set Add = objDomain
   
   'Cleanup
@@ -210,7 +218,7 @@ End Function
 Public Property Get Item(Key As String) As pgDomain
 Attribute Item.VB_Description = "Returns a Domain object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   If objServer.dbVersion.VersionNum < 7.3 Then
@@ -228,7 +236,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Domains in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objType As pgType
@@ -250,7 +258,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Domain."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -261,10 +269,9 @@ Dim szSQL As String
   End If
 
   'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP DOMAIN " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
+  szSQL = "DROP DOMAIN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -283,7 +290,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -295,7 +302,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Domains."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -313,7 +320,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -330,7 +337,7 @@ Dim lScale As Long
   
     'Get the data and loop through it
     If objServer.Connection.State = adStateOpen Then
-      Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " ORDER BY typname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " AND typnamespace = " & lNamespaceOID & " ORDER BY typname", cnDatabase)
       While Not rs.EOF
       
         lLength = 0
@@ -349,7 +356,7 @@ Dim lScale As Long
           lLength = rs!typlen
         End If
   
-        iAdd rs!ts, rs!OID, rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull)
+        iAdd rs!OID, rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull)
         rs.MoveNext
       Wend
     End If
@@ -367,7 +374,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -378,7 +385,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objDomain As pgDomain
@@ -394,19 +401,4 @@ Dim objDomain As pgDomain
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Domains.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objDomain As pgDomain
-
-  For Each objDomain In mCol
-    If Not objDomain.SystemObject Then objDomain.Commit UpdateType, UpdateComment
-  Next objDomain
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub
 

@@ -20,14 +20,55 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lTableOID As Long
+Private szTable As String
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-Dim lTableOID As Long
-Dim szTable As String
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Let NamespaceOID(" & vData & ")", etFullDebug
+
+  lNamespaceOID = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objColumn As pgColumn
@@ -46,7 +87,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -60,7 +101,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -71,7 +112,7 @@ End Property
 
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
@@ -82,7 +123,7 @@ End Property
 
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
@@ -93,7 +134,7 @@ End Property
 
 'Internal Add
 Private Function iAdd(lOID As Long, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String) As pgColumn
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgColumn
@@ -116,6 +157,8 @@ Dim bDefaults As Boolean
   objNewMember.iName = szName
   objNewMember.Table = szTable
   objNewMember.TableOID = lTableOID
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   
   'Only have an OID pre 7.2
   If objServer.dbVersion.VersionNum < 7.2 Then
@@ -140,7 +183,7 @@ Dim bDefaults As Boolean
   Set objNewMember.Connection = cnDatabase
   
   'We should only add columns here if they are not inherited. The following
-  'rules determine that, and are taken from src/bin/pu_dump/common.c
+  'rules determine that, and are taken from src/bin/pg_dump/common.c
   '
   ' * For each attr, check the parent info: if no parent has an attr
   ' * with the same name, then it's not inherited. If there *is* an
@@ -150,11 +193,11 @@ Dim bDefaults As Boolean
   ' * default value AND the default value does not match all parent
   ' * default values, or no parents specify a default.
   
-  If (objServer.Databases(Database).Tables(szTable).InheritedTables.Count > 0) And (objNewMember.Position > 0) Then
-    For Each vInhTab In objServer.Databases(Database).Tables(szTable).InheritedTables
+  If (objServer.Databases(Database).Namespaces(Namespace).Tables(szTable).InheritedTables.Count > 0) And (objNewMember.Position > 0) Then
+    For Each vInhTab In objServer.Databases(Database).Namespaces(Namespace).Tables(szTable).InheritedTables
       'Must convert vInhTab to a String or will get a By Ref error
       szInhTab = vInhTab
-      For Each objInhCol In objServer.Databases(Database).Tables(szInhTab).Columns
+      For Each objInhCol In objServer.Databases(Database).Namespaces(Namespace).Tables(szInhTab).Columns
         If objInhCol.Position > 0 Then
           If objInhCol.Name = objNewMember.Name Then
             bFound = True
@@ -182,7 +225,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal DataType As String, Optional ByVal Default As String, Optional ByVal Comment As String) As pgColumn
 Attribute Add.VB_Description = "Add a new column."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & DataType & QUOTE & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -190,17 +233,29 @@ Dim szSQL As String
 Dim objColumn As pgColumn
   
   'Generate the szSQL query to create the new object and execute
-  szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & dbSZ(szTable) & QUOTE
+  Else
+    szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE
+  End If
   szSQL = szSQL & " ADD COLUMN " & QUOTE & dbSZ(Name) & QUOTE & " " & dbSZ(DataType)
   objServer.ExecSQL szSQL, cnDatabase
 
   If Default <> "" Then
-    szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & Name & QUOTE & " SET DEFAULT " & Default
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & Name & QUOTE & " SET DEFAULT " & Default
+    Else
+      szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & Name & QUOTE & " SET DEFAULT " & Default
+    End If
     objServer.ExecSQL szSQL, cnDatabase
   End If
   
   If Comment <> "" Then
-    szSQL = "COMMENT ON COLUMN " & QUOTE & szTable & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON COLUMN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON COLUMN " & QUOTE & szTable & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
@@ -216,8 +271,7 @@ Dim objColumn As pgColumn
   If Not rs.EOF Then
     Set objColumn = iAdd(rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "")
   End If
-  
-  objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Added column."
+    
   Set Add = objColumn
   
   'Cleanup
@@ -234,7 +288,7 @@ End Function
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
 Attribute Rename.VB_Description = "Rename the specified column."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objColumn As New pgColumn
@@ -252,8 +306,6 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldNa
   objServer.Databases(Database).Tables(szTable).Rules.Refresh
   objServer.Databases(Database).Tables(szTable).Triggers.Refresh
   
-  objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Renamed column."
-  
   Exit Sub
 Err_Handler: objServer.iLogError Err
 End Sub
@@ -262,7 +314,7 @@ End Sub
 Public Property Get Item(Key As String) As pgColumn
 Attribute Item.VB_Description = "Returns a Column object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -275,7 +327,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Columns in the current Table."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objColumn As pgColumn
@@ -298,7 +350,7 @@ End Property
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -310,7 +362,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refreshes the collection of Columns."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -328,7 +380,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -360,7 +412,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing

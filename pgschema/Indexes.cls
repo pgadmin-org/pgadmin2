@@ -20,48 +20,55 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lTableOID As Long
+Private szTable As String
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-Dim lTableOID As Long
-Dim szTable As String
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Indexes.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
-
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objIndex As pgIndex
@@ -80,7 +87,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -94,7 +101,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -105,7 +112,7 @@ End Property
 
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
@@ -116,7 +123,7 @@ End Property
 
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
@@ -126,15 +133,14 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, bUnique As Boolean, bPrimary As Boolean, szDefinition As String) As pgIndex
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Indexes.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & bUnique & ", " & bPrimary & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+Private Function iAdd(lOID As Long, szName As String, bUnique As Boolean, bPrimary As Boolean, szDefinition As String) As pgIndex
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bUnique & ", " & bPrimary & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgIndex
 
   'Create a new object
   Set objNewMember = New pgIndex
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.iName = szName
   objNewMember.Table = szTable
@@ -143,10 +149,12 @@ Dim objNewMember As pgIndex
   objNewMember.Definition = szDefinition
   objNewMember.Identifier = szName
   objNewMember.TableOID = lTableOID
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   Set objNewMember.Connection = cnDatabase
   
   'Indexes are a pain in the butt because of the wierd way in which we must
-  'define whether or not they are a system object. Baiscally we must create
+  'define whether or not they are a system object. Basically we must create
   'pgIndex, and then ask it if it is a system object before adding it to
   'the collection
   
@@ -164,7 +172,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal Unique As Boolean, ByVal ColumnList As String, Optional ByVal AccessMethod As String, Optional ByVal Comment As String, Optional ByVal Constraint As String) As pgIndex
 Attribute Add.VB_Description = "Add a new Index."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Add(" & QUOTE & Name & QUOTE & ", " & Unique & ", " & QUOTE & ColumnList & QUOTE & ", " & QUOTE & Comment & QUOTE & ", " & QUOTE & Constraint & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -175,7 +183,11 @@ Dim objIndex As pgIndex
   szSQL = "CREATE"
   If Unique Then szSQL = szSQL & " UNIQUE"
   szSQL = szSQL & " INDEX " & QUOTE & Name & QUOTE
-  szSQL = szSQL & " ON " & QUOTE & szTable & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = szSQL & " ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
+  Else
+    szSQL = szSQL & " ON " & QUOTE & szTable & QUOTE
+  End If
   If AccessMethod <> "" Then szSQL = szSQL & " USING " & dbSZ(AccessMethod)
   szSQL = szSQL & " (" & dbSZ(ColumnList) & ")"
   'Constraint is only valid for PostgreSQL 7.2+
@@ -185,20 +197,27 @@ Dim objIndex As pgIndex
   objServer.ExecSQL szSQL, cnDatabase
   
   If Comment <> "" Then
-    szSQL = "COMMENT ON INDEX " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON INDEX " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON INDEX " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_INDEXES & " AND relname = '" & dbSZ(Name) & "'"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_INDEXES & " AND relname = '" & Name & "' AND relnamespace = " & lNamespaceOID
+  Else
+    szSQL = SQL_GET_INDEXES & " AND relname = '" & Name & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objIndex = iAdd(rs!ts, rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & "")
+    Set objIndex = iAdd(rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & "")
   End If
-  
-  If Not objIndex.SystemObject Then objIndex.Commit rcAdd, "Created object."
+
   Set Add = objIndex
   
   'Cleanup
@@ -210,20 +229,18 @@ Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   objServer.iLogError Err
-  
 End Function
 
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
 Attribute Rename.VB_Description = "Rename the specified index."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objIndex As New pgIndex
   Dim szSQL As String
   Dim rs As New Recordset
     
-  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rcDelete, "Deleted object (prior to rename)."
   Set objIndex = mCol(ULEncode(OldName))
   objIndex.Name = NewName
   objIndex.Identifier = NewName
@@ -239,8 +256,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Sequences.Rename(" & QUOTE & Old
   
   mCol.Add objIndex, ULEncode(NewName), ULEncode(OldName)
   mCol.Remove ULEncode(OldName)
-  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rcAdd, "Created object (following rename)."
-  
+
   Exit Sub
 Err_Handler:
   objServer.iLogError Err
@@ -250,7 +266,7 @@ End Sub
 Public Property Get Item(Key As String) As pgIndex
 Attribute Item.VB_Description = "Returns an Index object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -263,7 +279,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Indexes on the current Table."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objIndex As pgIndex
@@ -285,16 +301,19 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Index."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Rule.
-  szSQL = "DROP INDEX " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP INDEX " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  Else
+    szSQL = "DROP INDEX " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -310,7 +329,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -322,7 +341,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Indexes."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -340,7 +359,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -352,7 +371,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_INDEXES & " AND indrelid = " & lTableOID & " ORDER BY relname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!ts, rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & ""
+      iAdd rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & ""
       rs.MoveNext
     Wend
   End If
@@ -368,7 +387,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -379,7 +398,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objIndex As pgIndex
@@ -395,19 +414,3 @@ Dim objIndex As pgIndex
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Indexes.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objIndex As pgIndex
-
-  For Each objIndex In mCol
-    If Not objIndex.SystemObject Then objIndex.Commit UpdateType, UpdateComment
-  Next objIndex
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub
-

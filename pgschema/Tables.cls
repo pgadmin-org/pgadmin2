@@ -20,45 +20,53 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objTable As pgTable
@@ -77,7 +85,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -91,7 +99,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -101,9 +109,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, szACL As String, bHasOIDs As Boolean)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & bHasOIDs & ")", etFullDebug
+Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String, bHasOIDs As Boolean)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & bHasOIDs & ")", etFullDebug
 
 Dim objNewMember As pgTable
 Dim szSQL As String
@@ -117,9 +125,10 @@ Dim rs As New Recordset
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.iName = szName
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   objNewMember.iOwner = szOwner
   objNewMember.ACL = szACL
   objNewMember.HasOIDs = bHasOIDs
@@ -140,14 +149,18 @@ End Sub
 'External Add
 Public Function Add(ByVal Name As String, ByVal Columns As String, Optional ByVal PrimaryKeys As String, Optional ByVal Checks As String, Optional ByVal ForeignKeys As String, Optional ByVal Inherits As String, Optional ByVal Comment As String, Optional ByVal OIDs As Boolean = True) As pgTable
 Attribute Add.VB_Description = "Add a new Table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Columns & QUOTE & ", " & QUOTE & PrimaryKeys & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & Checks & QUOTE & ", " & QUOTE & ForeignKeys & QUOTE & ", " & QUOTE & Inherits & QUOTE & ", " & QUOTE & Comment & QUOTE & ", " & OIDs & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
   
   'Generate the SQL query to create the new object and execute
-  szSQL = "CREATE TABLE " & QUOTE & Name & QUOTE & " (" & Columns
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "CREATE TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " (" & Columns
+  Else
+    szSQL = "CREATE TABLE " & QUOTE & Name & QUOTE & " (" & Columns
+  End If
   If PrimaryKeys <> "" Then szSQL = szSQL & ", PRIMARY KEY (" & PrimaryKeys & ")"
   If Checks <> "" Then szSQL = szSQL & ", " & Checks
   If ForeignKeys <> "" Then szSQL = szSQL & ", " & ForeignKeys
@@ -162,29 +175,34 @@ Dim szSQL As String
   End If
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
-    szSQL = "COMMENT ON TABLE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON TABLE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
 
   'Generate and execute the SQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum >= 7.2 Then
-    szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & dbSZ(Name) & "'"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & Name & "' AND relnamespace = " & lNamespaceOID
+  ElseIf objServer.dbVersion.VersionNum = 7.2 Then
+    szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & Name & "'"
   Else
-    szSQL = SQL_GET_TABLES7_1 & " AND relname = '" & dbSZ(Name) & "'"
+    szSQL = SQL_GET_TABLES7_1 & " AND relname = '" & Name & "'"
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   
   'Create a new member of the collection
   If Not rs.EOF Then
     If objServer.dbVersion.VersionNum >= 7.2 Then
-      iAdd rs!ts, rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
+      iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
     Else
-      iAdd rs!ts, rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
+      iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
     End If
   End If
   
-  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rcAdd, "Created object."
   Set Add = mCol(ULEncode(Name))
   
   'Cleanup
@@ -202,18 +220,16 @@ End Function
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
 Attribute Rename.VB_Description = "Rename the specified table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objTable As New pgTable
     
-  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rcDelete, "Deleted object (prior to rename)."
   Set objTable = mCol(ULEncode(OldName))
   objTable.Name = NewName
   objTable.Identifier = NewName
   mCol.Add objTable, ULEncode(NewName), ULEncode(OldName)
   mCol.Remove ULEncode(OldName)
-  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rcAdd, "Created object (following rename)."
   
   Exit Sub
 Err_Handler:
@@ -224,7 +240,7 @@ End Sub
 Public Property Get Item(Key As String) As pgTable
 Attribute Item.VB_Description = "Returns a Table object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -237,7 +253,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Tables in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objTable As pgTable
@@ -259,7 +275,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String, Optional RemoveSubItems As Boolean)
 Attribute Remove.VB_Description = "Remove the specified Table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -267,10 +283,7 @@ Dim objIndex As pgIndex
 Dim objRule As pgRule
 Dim objTrigger As pgTrigger
 
-  'Remove subitems first. This is especially important when
-  'Revision Control is enabled to ensure that everything gets
-  'committed before deletetion so it can be restored later if
-  'required. We must remove Indexes, Rules & Triggers
+  'Remove subitems first. We must remove Indexes, Rules & Triggers
   If RemoveSubItems Then
     For Each objIndex In mCol(ULEncode(Key)).Indexes
       If Not objIndex.SystemObject Then mCol(ULEncode(Key)).Indexes.Remove objIndex.Identifier
@@ -283,11 +296,14 @@ Dim objTrigger As pgTrigger
     Next objTrigger
   End If
   
-  'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP TABLE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
+  'Generate/Execute SQL to drop the Table.
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  Else
+    szSQL = "DROP TABLE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -303,7 +319,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -314,7 +330,7 @@ End Property
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -324,16 +340,18 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum >= 7.2 Then
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " AND relnamespace = " & lNamespaceOID & " ORDER BY relname", cnDatabase)
+    ElseIf objServer.dbVersion.VersionNum = 7.2 Then
       Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " ORDER BY relname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_TABLES7_1 & " ORDER BY relname", cnDatabase)
     End If
       While Not rs.EOF
         If objServer.dbVersion.VersionNum >= 7.2 Then
-          iAdd rs!ts, rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
+          iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
         Else
-          iAdd rs!ts, rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
+          iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
         End If
       rs.MoveNext
     Wend
@@ -351,7 +369,7 @@ End Sub
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Tables."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -369,7 +387,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -380,7 +398,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objTable As pgTable
@@ -396,18 +414,3 @@ Dim objTable As pgTable
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objTable As pgTable
-
-  For Each objTable In mCol
-    If Not objTable.SystemObject Then objTable.Commit UpdateType, UpdateComment
-  Next objTable
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub

@@ -20,48 +20,55 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lTableOID As Long
+Private szTable As String
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-Dim lTableOID As Long
-Dim szTable As String
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Rules.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
-
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objRule As pgRule
@@ -80,7 +87,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -94,7 +101,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -105,7 +112,7 @@ End Property
 
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
@@ -116,7 +123,7 @@ End Property
 
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
@@ -126,9 +133,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(dTimeStamp As Date, lOID As Long, szName As String, szDefinition As String) As pgRule
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Rules.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+Private Function iAdd(lOID As Long, szName As String, szDefinition As String) As pgRule
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Rules.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgRule
 
@@ -140,10 +147,11 @@ Dim objNewMember As pgRule
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Table = szTable
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   objNewMember.Definition = szDefinition
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
@@ -157,7 +165,7 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal TriggerEvent As String, ByVal Condition As String, ByVal Instead As Boolean, ByVal Action As String, Optional ByVal Comment As String) As pgRule
 Attribute Add.VB_Description = "Add a new Rule."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & TriggerEvent & QUOTE & ", " & QUOTE & Condition & QUOTE & ", " & Instead & ", " & QUOTE & Action & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -165,9 +173,14 @@ Dim szSQL As String
 Dim objRule As pgRule
   
   'Generate the szSQL query to create the new object and execute
+
   szSQL = "CREATE RULE " & QUOTE & Name & QUOTE
   szSQL = szSQL & " AS ON " & TriggerEvent
-  szSQL = szSQL & " TO " & QUOTE & szTable & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = szSQL & " TO " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
+  Else
+    szSQL = szSQL & " TO " & QUOTE & szTable & QUOTE
+  End If
   If Condition <> "" Then szSQL = szSQL & " WHERE " & Condition
   szSQL = szSQL & " DO"
   If Instead = True Then szSQL = szSQL & " INSTEAD"
@@ -175,20 +188,27 @@ Dim objRule As pgRule
   objServer.ExecSQL szSQL, cnDatabase
   
   If Comment <> "" Then
-    szSQL = "COMMENT ON RULE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON RULE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON RULE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_RULES & " WHERE rulename = '" & dbSZ(Name) & "'"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_RULES7_3 & " WHERE rulename = '" & dbSZ(Name) & "'"
+  Else
+    szSQL = SQL_GET_RULES7_1 & " WHERE rulename = '" & dbSZ(Name) & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objRule = iAdd(rs!ts, rs!OID, rs!rulename & "", rs!Definition & "")
+    Set objRule = iAdd(rs!OID, rs!rulename & "", rs!Definition & "")
   End If
   
-  If Not objRule.SystemObject Then objRule.Commit rcAdd, "Created object."
   Set Add = objRule
   
   'Cleanup
@@ -200,14 +220,13 @@ Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   objServer.iLogError Err
-  
 End Function
 
 'Return the specified Item
 Public Property Get Item(Key As String) As pgRule
 Attribute Item.VB_Description = "Returns a Rule object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -220,7 +239,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Rules on the current Table."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objRule As pgRule
@@ -242,16 +261,19 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Rule."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Rule.
-  szSQL = "DROP RULE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP RULE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & szTable & QUOTE
+  Else
+    szSQL = "DROP RULE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -261,14 +283,13 @@ Err_Handler:
   'Error 5 is thrown if the item is not in the collection...
   If Err.Number = 5 Then Exit Sub
   objServer.iLogError Err
-  
 End Sub
 
 'Allow enumeration using For...Each
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -280,7 +301,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Rules."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -298,7 +319,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -308,9 +329,13 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_RULES & " WHERE ev_class = " & lTableOID & " ORDER BY rulename", cnDatabase)
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_RULES7_3 & " WHERE ev_class = " & lTableOID & " ORDER BY rulename", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_RULES7_1 & " WHERE ev_class = " & lTableOID & " ORDER BY rulename", cnDatabase)
+    End If
     While Not rs.EOF
-      iAdd rs!ts, rs!OID, rs!rulename & "", rs!Definition & ""
+      iAdd rs!OID, rs!rulename & "", rs!Definition & ""
       rs.MoveNext
     Wend
   End If
@@ -327,7 +352,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -338,7 +363,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Rules.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objRule As pgRule
@@ -354,19 +379,3 @@ Dim objRule As pgRule
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Rules.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objRule As pgRule
-
-  For Each objRule In mCol
-    If Not objRule.SystemObject Then objRule.Commit UpdateType, UpdateComment
-  Next objRule
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub
-

@@ -25,7 +25,6 @@ Private colRules As Rules
 Private colTriggers As Triggers
 Private colInheritedTables As InheritedTables
 Private colForeignKeys As ForeignKeys
-Private colHistory As History
 
 'Properties
 Private lOID As Long
@@ -36,53 +35,53 @@ Private szOwner As String
 Private szACL As String
 Private bHasOIDs As Boolean
 Private cnDatabase As Connection
-Private dTimeStamp As Date
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Return the History collection.
-Public Property Get History() As History
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get History()", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-  If objServer.Databases(Database).RevisionControl Then
-    If colHistory Is Nothing Then
-      Set colHistory = New History
-     
-      'Pass the options to the class
-      Set colHistory.Connection = cnDatabase
-      colHistory.ObjIdentifier = szIdentifier
-      colHistory.objType = ObjectType
-      colHistory.Initialize
-    End If
-    Set History = colHistory
-  End If
+  lNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get NamespaceOID()", etFullDebug
 
-'Set/Return the TimeStamp
-Friend Property Let TimeStamp(ByVal vData As Date)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let TimeStamp(" & vData & ")", etFullDebug
-
-  dTimeStamp = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get TimeStamp() As Date
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get TimeStamp()", etFullDebug
-
-  TimeStamp = dTimeStamp
+  NamespaceOID = lNamespaceOID
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -94,7 +93,7 @@ End Property
 'Return the ForeignKeys Collection
 Public Property Get ForeignKeys() As ForeignKeys
 Attribute ForeignKeys.VB_Description = "Returns a collection of Foreign Keys on the current Table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ForeignKeys()", etFullDebug
 
   If colForeignKeys Is Nothing Then
@@ -104,6 +103,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get ForeignK
     Set colForeignKeys.Connection = cnDatabase
     colForeignKeys.TableOID = lOID
     colForeignKeys.Table = szName
+    colForeignKeys.Namespace = szNamespace
+    colForeignKeys.NamespaceOID = lNamespaceOID
     colForeignKeys.Initialize
   End If
   Set ForeignKeys = colForeignKeys
@@ -115,7 +116,7 @@ End Property
 'Return the InheritedTables Collection
 Public Property Get InheritedTables() As InheritedTables
 Attribute InheritedTables.VB_Description = "Returns a collection of Inherited Tables on the current Table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get InheritedTables()", etFullDebug
 
   If colInheritedTables Is Nothing Then
@@ -123,6 +124,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Inherite
     
     'Pass the connection to the class
     Set colInheritedTables.Connection = cnDatabase
+    colInheritedTables.Namespace = szNamespace
+    colInheritedTables.NamespaceOID = lNamespaceOID
     colInheritedTables.Initialize lOID
   End If
   Set InheritedTables = colInheritedTables
@@ -134,7 +137,7 @@ End Property
 'Return the Columns Collection
 Public Property Get Columns() As Columns
 Attribute Columns.VB_Description = "Returns a collection of Columns."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Columns()", etFullDebug
 
   If colColumns Is Nothing Then
@@ -144,6 +147,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Columns()",
     Set colColumns.Connection = cnDatabase
     colColumns.TableOID = lOID
     colColumns.Table = szName
+    colColumns.Namespace = szNamespace
+    colColumns.NamespaceOID = lNamespaceOID
     colColumns.Initialize
   End If
   Set Columns = colColumns
@@ -155,7 +160,7 @@ End Property
 'Return the Checks Collection
 Public Property Get Checks() As Checks
 Attribute Checks.VB_Description = "Returns a collection of Checks on the current Table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Checks()", etFullDebug
 
   If colChecks Is Nothing Then
@@ -165,6 +170,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Checks()", 
     Set colChecks.Connection = cnDatabase
     colChecks.TableOID = lOID
     colChecks.Table = szName
+    colChecks.Namespace = szNamespace
+    colChecks.NamespaceOID = lNamespaceOID
     colChecks.Initialize
   End If
   Set Checks = colChecks
@@ -176,7 +183,7 @@ End Property
 'Return the Indexes Collection
 Public Property Get Indexes() As Indexes
 Attribute Indexes.VB_Description = "Returns a collection of Indexes on the current Table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Indexes()", etFullDebug
 
   If colIndexes Is Nothing Then
@@ -186,6 +193,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Indexes()",
     Set colIndexes.Connection = cnDatabase
     colIndexes.TableOID = lOID
     colIndexes.Table = szName
+    colIndexes.Namespace = szNamespace
+    colIndexes.NamespaceOID = lNamespaceOID
     colIndexes.Initialize
   End If
   Set Indexes = colIndexes
@@ -197,7 +206,7 @@ End Property
 'Return the Triggers Collection
 Public Property Get Triggers() As Triggers
 Attribute Triggers.VB_Description = "Returns a collection of Triggers."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Triggers()", etFullDebug
 
   If colTriggers Is Nothing Then
@@ -207,6 +216,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Triggers()"
     Set colTriggers.Connection = cnDatabase
     colTriggers.TableOID = lOID
     colTriggers.Table = szName
+    colTriggers.Namespace = szNamespace
+    colTriggers.NamespaceOID = lNamespaceOID
     colTriggers.Initialize
   End If
   Set Triggers = colTriggers
@@ -218,7 +229,7 @@ End Property
 'Return the Rules Collection
 Public Property Get Rules() As Rules
 Attribute Rules.VB_Description = "Returns a collection of Rules."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rules()", etFullDebug
 
   If colRules Is Nothing Then
@@ -228,6 +239,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rules()", e
     Set colRules.Connection = cnDatabase
     colRules.TableOID = lOID
     colRules.Table = szName
+    colRules.Namespace = szNamespace
+    colRules.NamespaceOID = lNamespaceOID
     colRules.Initialize
   End If
   Set Rules = colRules
@@ -239,7 +252,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -253,7 +266,7 @@ End Property
 
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
@@ -263,7 +276,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Table OID."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get OID()", etFullDebug
 
   OID = lOID
@@ -274,7 +287,7 @@ End Property
 
 'Set/Return the Name
 Friend Property Let iName(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let iName(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -283,12 +296,16 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let iName(" & Q
 Err_Handler:  objServer.iLogError Err
 End Property
 Friend Property Let Name(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Name(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
-  szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
+  Else
+    szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData
   
@@ -306,7 +323,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Table name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Name()", etFullDebug
 
   Name = szName
@@ -317,7 +334,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -328,7 +345,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -340,7 +357,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Table"
@@ -351,7 +368,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -361,7 +378,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether this is a system object."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -372,7 +389,7 @@ End Property
 
 'Set/Return the Owner
 Friend Property Let iOwner(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let iOwner(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szOwner = vData
@@ -381,22 +398,25 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let iOwner("
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Let Owner(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Owner(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
-  szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " OWNER TO " & QUOTE & vData & QUOTE
+  If objServer.dbVersion.ver >= 7.3 Then
+    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " OWNER TO " & QUOTE & vData & QUOTE
+  Else
+    szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " OWNER TO " & QUOTE & vData & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   szOwner = vData
-  If Not SystemObject Then Commit rcUpdate, "Updated object owner."
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Owner() As String
 Attribute Owner.VB_Description = "Sets/Returns the Table Owner."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Owner()", etFullDebug
 
   Owner = szOwner
@@ -407,7 +427,7 @@ End Property
 
 'Set/Return the ACL
 Friend Property Let ACL(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let ACL(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szACL = vData
@@ -417,7 +437,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get ACL() As String
 Attribute ACL.VB_Description = "Returns the Table ACL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get ACL()", etFullDebug
 
   ACL = szACL
@@ -428,22 +448,25 @@ End Property
 
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
-  szSQL = "COMMENT ON TABLE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "COMMENT ON TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
+  Else
+    szSQL = "COMMENT ON TABLE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
-  If Not SystemObject Then Commit rcUpdate, "Updated object comment."
-    
+  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Table comment."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Comment()", etFullDebug
 
   Comment = objServer.Databases(Database).LookupComment(lOID)
@@ -455,12 +478,16 @@ End Property
 'Get the row count
 Public Property Get Rows() As Long
 Attribute Rows.VB_Description = "Returns the number of rows in the table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rows()", etFullDebug
 
 Dim rs As New Recordset
 
-  Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & Replace(szName, QUOTE, QUOTE & QUOTE) & QUOTE, cnDatabase)
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Replace(szName, QUOTE, QUOTE & QUOTE) & QUOTE, cnDatabase)
+  Else
+    Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & Replace(szName, QUOTE, QUOTE & QUOTE) & QUOTE, cnDatabase)
+  End If
   If Not rs.EOF Then Rows = rs!Rows
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
@@ -471,7 +498,7 @@ End Property
 
 'Set/Return a boolean indicating whether this table has OIDs
 Friend Property Let HasOIDs(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let HasOIDs(" & vData & ")", etFullDebug
 
   bHasOIDs = vData
@@ -481,7 +508,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get HasOIDs() As Boolean
 Attribute HasOIDs.VB_Description = "Indicates whether or not the table has OIDs."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get HasOIDs()", etFullDebug
 
   HasOIDs = bHasOIDs
@@ -493,7 +520,7 @@ End Property
 'Grant Permissions
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Grant.VB_Description = "Grant privileges on the Table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -520,7 +547,11 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = szSQL & "ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " TO " & UserOrGroup
+  Else
+    szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -529,8 +560,6 @@ Dim rs As New Recordset
   If Not rs.EOF Then
     szACL = rs!relacl & ""
   End If
-  
-  If Not SystemObject Then Commit rcUpdate, "Updated object ACL."
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -546,7 +575,7 @@ End Sub
 'Revoke Permissions
 Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
 Attribute Revoke.VB_Description = "Revoke privileges from the Table."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
 Dim szSQL As String
@@ -573,7 +602,11 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & " ON " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = szSQL & "ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
+  Else
+    szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -582,8 +615,6 @@ Dim rs As New Recordset
   If Not rs.EOF Then
     szACL = rs!relacl & ""
   End If
-  
-  If Not SystemObject Then Commit rcUpdate, "Updated object ACL."
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -598,7 +629,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Class_Terminate()", etFullDebug
 
   Set colForeignKeys = Nothing
@@ -615,7 +646,7 @@ End Sub
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL()", etFullDebug
 Dim szSQL As String
 Dim objColumn As pgColumn
@@ -627,9 +658,14 @@ Dim vTable As Variant
 Dim vColumn As Variant
 Dim bHaveObj As Boolean
   
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+  szSQL = "-- Table: " & szNamespace & "." & szName & vbCrLf & _
+          "CREATE TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " (" & vbCrLf
+  Else
   szSQL = "-- Table: " & szName & vbCrLf & _
           "CREATE TABLE " & QUOTE & szName & QUOTE & " (" & vbCrLf
-
+  End If
+  
   For Each objColumn In Columns
     If Not objColumn.SystemObject Then
       bHaveObj = True
@@ -751,73 +787,14 @@ Dim bHaveObj As Boolean
   
   szSQL = szSQL & ";" & vbCrLf
   If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON TABLE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+  Else
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TABLE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+  End If
     
   SQL = szSQL
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit object changes."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTable.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objIndex As pgIndex
-Dim objRule As pgRule
-Dim objTrigger As pgTrigger
-  
-  objServer.Databases(Database).LogRevision ObjectType, Identifier, OID, SQL, UpdateComment, UpdateType
-  
-  For Each objIndex In Indexes
-    objIndex.Commit UpdateType, "(Parent table committed)" & vbCrLf & vbCrLf & UpdateComment
-  Next objIndex
-  For Each objRule In Rules
-    objRule.Commit UpdateType, "(Parent table committed)" & vbCrLf & vbCrLf & UpdateComment
-  Next objRule
-  For Each objTrigger In Triggers
-    objTrigger.Commit UpdateType, "(Parent table committed)" & vbCrLf & vbCrLf & UpdateComment
-  Next objTrigger
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub
-
-Public Property Get RCStatus() As rcStat
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTable.RCStatus()", etFullDebug
-
-Dim szSQL As String
-Dim rs As New Recordset
-
-  If (Not objServer.Databases(Database).RevisionControl) Or SystemObject Then
-    RCStatus = rcNotApplicable
-    Exit Property
-  End If
-  
-  szSQL = "SELECT rc_timestamp, rc_definition FROM pgadmin_rclog WHERE rc_type = '" & dbSZ(ObjectType) & "' AND rc_identifier = '" & dbSZ(szIdentifier) & "' ORDER BY rc_version DESC LIMIT 1"
-  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-  If rs.EOF Then
-    RCStatus = rcNotInRC
-  Else
-    If SQL = rs!rc_definition & "" Then
-      RCStatus = rcUpToDate
-    Else
-      If rs!rc_timestamp > dTimeStamp Then
-        RCStatus = rcNeedsRefresh
-      Else
-        RCStatus = rcOutOfDate
-      End If
-    End If
-  End If
-  
-  Set rs = Nothing
-  
-  Exit Property
-Err_Handler:
-  Set rs = Nothing
-  objServer.iLogError Err
-End Property
-
-

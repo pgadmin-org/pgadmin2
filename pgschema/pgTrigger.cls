@@ -28,48 +28,44 @@ Private szExecutes As String
 Private szTriggerEvent As String
 Private szForEach As String
 Private cnDatabase As Connection
-Private dTimeStamp As Date
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'History
-Private colHistory As History
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-'Return the History collection.
-Public Property Get History() As History
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get History()", etFullDebug
-
-  If objServer.Databases(Database).RevisionControl Then
-    If colHistory Is Nothing Then
-      Set colHistory = New History
-     
-      'Pass the options to the class
-      Set colHistory.Connection = cnDatabase
-      colHistory.ObjIdentifier = szIdentifier
-      colHistory.objType = ObjectType
-      colHistory.Initialize
-    End If
-    Set History = colHistory
-  End If
+  lNamespaceOID = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get NamespaceOID()", etFullDebug
 
-'Set/Return the TimeStamp
-Friend Property Let TimeStamp(ByVal vData As Date)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let TimeStamp(" & vData & ")", etFullDebug
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
-  dTimeStamp = vData
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-Public Property Get TimeStamp() As Date
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get TimeStamp()", etFullDebug
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Namespace()", etFullDebug
 
-  TimeStamp = dTimeStamp
+  Namespace = szNamespace
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -77,7 +73,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -89,7 +85,7 @@ End Property
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -103,7 +99,7 @@ End Property
 
 'Set/Return the OID
 Friend Property Let OID(ByVal vData As Long)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let OID(" & vData & ")", etFullDebug
 
   lOID = vData
@@ -113,7 +109,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get OID() As Long
 Attribute OID.VB_Description = "Returns the Trigger OID."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get OID()", etFullDebug
 
   OID = lOID
@@ -124,7 +120,7 @@ End Property
 
 'Set/Return the Table
 Friend Property Let Table(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
@@ -134,7 +130,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Table() As String
 Attribute Table.VB_Description = "Returns the parent table name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Table()", etFullDebug
 
   Table = szTable
@@ -145,7 +141,7 @@ End Property
 
 'Set/Return the Name
 Friend Property Let Name(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Name(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szName = vData
@@ -155,7 +151,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Name() As String
 Attribute Name.VB_Description = "Returns the Trigger name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Name()", etFullDebug
 
   Name = szName
@@ -166,7 +162,7 @@ End Property
 
 'Set/Return the Identifier
 Friend Property Let Identifier(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Identifier(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szIdentifier = vData
@@ -177,7 +173,7 @@ End Property
 Public Property Get Identifier() As String
 Attribute Identifier.VB_Description = "Returns the object identifier."
 Attribute Identifier.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Identifier()", etFullDebug
 
   Identifier = szIdentifier
@@ -189,7 +185,7 @@ End Property
 'Return the Object Type
 Public Property Get ObjectType() As String
 Attribute ObjectType.VB_Description = "Returns the object type."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get ObjectType()", etFullDebug
 
   ObjectType = "Trigger"
@@ -200,7 +196,7 @@ End Property
 
 'Set/Return a boolean indicating whether this is a System Object
 Friend Property Let SystemObject(ByVal vData As Boolean)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let SystemObject(" & vData & ")", etFullDebug
 
   bSystemObject = vData
@@ -210,7 +206,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get SystemObject() As Boolean
 Attribute SystemObject.VB_Description = "Indicates whether or not this is a system object."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get SystemObject()", etFullDebug
 
   SystemObject = bSystemObject
@@ -221,7 +217,7 @@ End Property
 
 'Set/Return the TriggerFunction
 Friend Property Let TriggerFunction(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let TriggerFunction(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTriggerFunction = vData
@@ -231,7 +227,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get TriggerFunction() As String
 Attribute TriggerFunction.VB_Description = "Returns the function the Trigger will execute."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get TriggerFunction()", etFullDebug
 
   TriggerFunction = szTriggerFunction
@@ -242,7 +238,7 @@ End Property
 
 'Set/Return Executes
 Friend Property Let Executes(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Executes(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szExecutes = vData
@@ -252,7 +248,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Executes() As String
 Attribute Executes.VB_Description = "Returns a value indicating when the Trigger will fire - 'Before' or 'After' the firing statement is executed."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Executes()", etFullDebug
 
   Executes = szExecutes
@@ -263,7 +259,7 @@ End Property
 
 'Set/Return the TriggerEvent
 Friend Property Let TriggerEvent(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let TriggerEvent(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTriggerEvent = vData
@@ -273,7 +269,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get TriggerEvent() As String
 Attribute TriggerEvent.VB_Description = "Returns a string indicating the events that will fire the Trigger."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get TriggerEvent()", etFullDebug
 
   TriggerEvent = szTriggerEvent
@@ -284,7 +280,7 @@ End Property
 
 'Set/Return ForEach
 Friend Property Let ForEach(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let ForEach(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szForEach = vData
@@ -294,7 +290,7 @@ Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get ForEach() As String
 Attribute ForEach.VB_Description = "Returns a value indicating whether the Trigger fires for each Statement or affected Row."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get ForEach()", etFullDebug
 
   ForEach = szForEach
@@ -305,22 +301,25 @@ End Property
 
 'Set/Return the Comment
 Public Property Let Comment(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
 
-  szSQL = "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(vData) & "'"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " IS '" & dbSZ(vData) & "'"
+  Else
+    szSQL = "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(vData) & "'"
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
-  If Not SystemObject Then Commit rcUpdate, "Updated object comment."
-    
+  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get Comment() As String
 Attribute Comment.VB_Description = "Sets/Returns the Trigger comment."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Comment()", etFullDebug
 
   Comment = objServer.Databases(Database).LookupComment(lOID)
@@ -331,72 +330,33 @@ End Property
 
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get SQL()", etFullDebug
     
 Dim szSQL As String
 
-  szSQL = "-- Trigger: " & szIdentifier & vbCrLf
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "-- Trigger: " & szNamespace & "." & szIdentifier & vbCrLf & _
+            "CREATE TRIGGER " & QUOTE & szName & QUOTE & _
+            " " & szExecutes & " " & szTriggerEvent & _
+            " ON " & QUOTE & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & _
+            " FOR EACH " & szForEach & _
+            " EXECUTE PROCEDURE " & szTriggerFunction & _
+            ";" & vbCrLf
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & Comment & "';" & vbCrLf
+  Else
+    szSQL = "-- Trigger: " & szIdentifier & vbCrLf & _
+            "CREATE TRIGGER " & QUOTE & szName & QUOTE & _
+            " " & szExecutes & " " & szTriggerEvent & _
+            " ON " & QUOTE & szTable & QUOTE & _
+            " FOR EACH " & szForEach & _
+            " EXECUTE PROCEDURE " & szTriggerFunction & _
+            ";" & vbCrLf
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & Comment & "';" & vbCrLf
+  End If
 
-  szSQL = szSQL & "CREATE TRIGGER " & QUOTE & szName & QUOTE & _
-    " " & szExecutes & " " & szTriggerEvent & _
-    " ON " & QUOTE & szTable & QUOTE & _
-    " FOR EACH " & szForEach & _
-    " EXECUTE PROCEDURE " & szTriggerFunction & _
-    ";" & vbCrLf
-
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & Comment & "';" & vbCrLf
-    
   SQL = szSQL
   
 Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit object changes."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-  objServer.Databases(Database).LogRevision ObjectType, Identifier, OID, SQL, UpdateComment, UpdateType, szTable
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub
-
-Public Property Get RCStatus() As rcStat
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.RCStatus()", etFullDebug
-
-Dim szSQL As String
-Dim rs As New Recordset
-
-  If (Not objServer.Databases(Database).RevisionControl) Or SystemObject Then
-    RCStatus = rcNotApplicable
-    Exit Property
-  End If
-  
-  szSQL = "SELECT rc_timestamp, rc_definition FROM pgadmin_rclog WHERE rc_type = '" & dbSZ(ObjectType) & "' AND rc_identifier = '" & dbSZ(szIdentifier) & "' ORDER BY rc_version DESC LIMIT 1"
-  Set rs = objServer.ExecSQL(szSQL, cnDatabase)
-  If rs.EOF Then
-    RCStatus = rcNotInRC
-  Else
-    If SQL = rs!rc_definition & "" Then
-      RCStatus = rcUpToDate
-    Else
-      If rs!rc_timestamp > dTimeStamp Then
-        RCStatus = rcNeedsRefresh
-      Else
-        RCStatus = rcOutOfDate
-      End If
-    End If
-  End If
-  
-  Set rs = Nothing
-  
-  Exit Property
-Err_Handler:
-  Set rs = Nothing
-  objServer.iLogError Err
-End Property
-

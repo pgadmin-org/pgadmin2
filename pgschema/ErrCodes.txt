@@ -8,4 +8,6 @@ NOTE: Most error in pgSchema will be raised by ADO or other libraries.
 5432002 - Domains only exist in PostgreSQL 7.3 or above.
 5432003 - NOT NULL can only be set or dropped post column creation in PostgreSQL 7.3 or above.
 5432004 - Functions can only be updated in PostgreSQL 7.3 or above.
-
+5432005 - You cannot drop dummy schemas in PostgreSQL versions prior to 7.3.
+5432006 - You cannot create schemas in PostgreSQL versions prior to 7.3.
+5432007 - You cannot modify dummy schemas in PostgreSQL versions prior to 7.3.

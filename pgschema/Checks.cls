@@ -20,14 +20,55 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lTableOID As Long
+Private szTable As String
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-Dim lTableOID As Long
-Dim szTable As String
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Let NamespaceOID(" & vData & ")", etFullDebug
+
+  lNamespaceOID = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objCheck As pgCheck
@@ -46,7 +87,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -60,7 +101,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -71,7 +112,7 @@ End Property
 
 'Set the TableOID for internal use.
 Friend Property Let TableOID(ByVal vData As Long)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property let TableOID(" & vData & ")", etFullDebug
 
   lTableOID = vData
@@ -82,7 +123,7 @@ End Property
 
 'Set the Table for internal use.
 Friend Property Let Table(ByVal vData As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property let Table(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
   szTable = vData
@@ -93,7 +134,7 @@ End Property
 
 'Internal Add
 Private Function iAdd(szName As String, szDefinition As String) As pgCheck
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.iAdd(" & QUOTE & szName & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgCheck
@@ -103,6 +144,8 @@ Dim objNewMember As pgCheck
   objNewMember.Name = szName
   objNewMember.SystemObject = False
   objNewMember.Table = szTable
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   objNewMember.Definition = szDefinition
   If szName <> "" Then
     objNewMember.Identifier = szName
@@ -120,14 +163,18 @@ End Function
 'External Add
 Public Function Add(ByVal Name As String, ByVal Definition As String) As pgCheck
 Attribute Add.VB_Description = "Add a new Check."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Definition & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
   
   'Generate the szSQL query to create the new object and execute
-  szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
+  Else
+    szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE
+  End If
   szSQL = szSQL & " ADD CONSTRAINT " & QUOTE & Name & QUOTE
   szSQL = szSQL & " CHECK (" & Definition & ")"
   objServer.ExecSQL szSQL, cnDatabase
@@ -139,10 +186,7 @@ Dim szSQL As String
   If Not rs.EOF Then
     Set Add = iAdd(rs!rcname & "", rs!rcsrc & "")
   End If
-  
-  'Commit
-  objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Added CHECK: " & Name
-  
+
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
@@ -159,7 +203,7 @@ End Function
 Public Property Get Item(Key As String) As pgCheck
 Attribute Item.VB_Description = "Returns a Check object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -172,7 +216,7 @@ End Property
 Public Property Get Count() As Long
 Attribute Count.VB_Description = "Returns a count of the Checks on the current Table."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Count()", etFullDebug
 
     Count = mCol.Count
@@ -184,7 +228,7 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Check object."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
@@ -195,17 +239,17 @@ Dim szName As String
   szName = mCol(ULEncode(Key)).Name
   
   'Generate/Execute SQL to drop the Check.
-  szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " DROP CONSTRAINT " & QUOTE & szName & QUOTE & " RESTRICT"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " DROP CONSTRAINT " & QUOTE & szName & QUOTE & " RESTRICT"
+  Else
+    szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " DROP CONSTRAINT " & QUOTE & szName & QUOTE & " RESTRICT"
+  End If
   objServer.ExecSQL szSQL, objServer.Connection
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
-  
-  'Commit
-  objServer.Databases(Database).Tables(szTable).Commit rcUpdate, "Dropped CHECK: " & szName
-
-  
+    
   Exit Sub
 Err_Handler:
   'Error 5 is thrown if the item is not in the collection...
@@ -217,7 +261,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -229,7 +273,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Checks."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -247,7 +291,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -275,7 +319,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing

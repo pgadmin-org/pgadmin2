@@ -20,44 +20,53 @@ Option Explicit
 'Private Variables
 Private mCol As Collection
 Private cnDatabase As Connection
+Private lNamespaceOID As Long
+Private szNamespace As String
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Views.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
+'Set/Return the Namespace OID
+Friend Property Let NamespaceOID(ByVal vData As Long)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Let NamespaceOID(" & vData & ")", etFullDebug
 
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
+  lNamespaceOID = vData
+    
+  Exit Property
 Err_Handler:  objServer.iLogError Err
-End Sub
+End Property
+Public Property Get NamespaceOID() As Long
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get NamespaceOID()", etFullDebug
+
+  NamespaceOID = lNamespaceOID
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the Namespace Name
+Friend Property Let Namespace(ByVal vData As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Let Namespace(" & vData & ")", etFullDebug
+
+  szNamespace = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Namespace() As String
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get Namespace()", etFullDebug
+
+  Namespace = szNamespace
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objView As pgView
@@ -76,7 +85,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -90,7 +99,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -100,9 +109,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(dTimeStamp As Date, lOID As Long, szName As String, szOwner As String, szACL As String, szDefinition As String)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Views.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
+Private Sub iAdd(lOID As Long, szName As String, szOwner As String, szACL As String, szDefinition As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Views.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & QUOTE & szDefinition & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgView
 Dim szSQL As String
@@ -116,10 +125,11 @@ Dim rs As New Recordset
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.iName = szName
   objNewMember.Owner = szOwner
+  objNewMember.NamespaceOID = lNamespaceOID
+  objNewMember.Namespace = szNamespace
   objNewMember.ACL = szACL
   objNewMember.iDefinition = szDefinition
   objNewMember.Identifier = szName
@@ -139,32 +149,43 @@ End Sub
 'External Add
 Public Function Add(ByVal Name As String, ByVal Definition As String, Optional ByVal Comment As String) As pgView
 Attribute Add.VB_Description = "Add a new View."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Definition & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
   
   'Generate the SQL query to create the new object and execute
-  szSQL = "CREATE VIEW " & QUOTE & Name & QUOTE & " AS " & Definition
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "CREATE VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " AS " & Definition
+  Else
+    szSQL = "CREATE VIEW " & QUOTE & Name & QUOTE & " AS " & Definition
+  End If
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
-    szSQL = "COMMENT ON VIEW " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      szSQL = "COMMENT ON VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = "COMMENT ON VIEW " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
   End If
 
   'Generate and execute the SQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_VIEWS & " AND relname = '" & dbSZ(Name) & "'"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_VIEWS7_3 & " AND relname = '" & Name & "' AND relnamespace = " & lNamespaceOID
+  Else
+    szSQL = SQL_GET_VIEWS7_1 & " AND relname = '" & Name & "'"
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    iAdd rs!ts, rs!OID, rs!relname & "", rs!viewowner & "", rs!relacl & "", rs!Definition & ""
+    iAdd rs!OID, rs!relname & "", rs!viewowner & "", rs!relacl & "", rs!Definition & ""
   End If
   
   'Return the object created
-  If Not mCol(ULEncode(Name)).SystemObject Then mCol(ULEncode(Name)).Commit rcAdd, "Created object."
   Set Add = mCol(ULEncode(Name))
   
   'Cleanup
@@ -180,19 +201,17 @@ End Function
 
 'Rename
 Public Sub Rename(ByVal OldName As String, ByVal NewName As String)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Rename(" & QUOTE & OldName & QUOTE & ", " & QUOTE & NewName & QUOTE & ")", etFullDebug
 
   Dim objView As New pgView
     
-  If Not mCol(ULEncode(OldName)).SystemObject Then mCol(ULEncode(OldName)).Commit rcDelete, "Deleted object (prior to rename)."
   Set objView = mCol(ULEncode(OldName))
   objView.Name = NewName
   objView.Identifier = NewName
   mCol.Add objView, ULEncode(NewName), ULEncode(OldName)
   mCol.Remove ULEncode(OldName)
-  If Not mCol(ULEncode(NewName)).SystemObject Then mCol(ULEncode(NewName)).Commit rcAdd, "Created object (following rename)."
-  
+
 Exit Sub
 Err_Handler:
 objServer.iLogError Err
@@ -201,7 +220,7 @@ End Sub
 Public Property Get Item(Key As String) As pgView
 Attribute Item.VB_Description = "Returns a View object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -214,7 +233,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Views in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objView As pgView
@@ -236,16 +255,19 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified View."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the View.
-  szSQL = "DROP VIEW " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = "DROP VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  Else
+    szSQL = "DROP VIEW " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  End If
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+ 
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -261,7 +283,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -272,7 +294,7 @@ End Property
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -282,9 +304,13 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_VIEWS & " ORDER BY relname", cnDatabase)
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_VIEWS7_3 & " AND relnamespace = " & lNamespaceOID & " ORDER BY relname", cnDatabase)
+    Else
+      Set rs = objServer.ExecSQL(SQL_GET_VIEWS7_1 & " ORDER BY relname", cnDatabase)
+    End If
     While Not rs.EOF
-      iAdd rs!ts, rs!OID, rs!relname & "", rs!viewowner, rs!relacl & "", rs!Definition & ""
+      iAdd rs!OID, rs!relname & "", rs!viewowner, rs!relacl & "", rs!Definition & ""
       rs.MoveNext
     Wend
   End If
@@ -301,7 +327,7 @@ End Sub
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Views."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -319,7 +345,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -330,7 +356,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objView As pgView
@@ -346,18 +372,3 @@ Dim objView As pgView
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Views.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objView As pgView
-
-  For Each objView In mCol
-    If Not objView.SystemObject Then objView.Commit UpdateType, UpdateComment
-  Next objView
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub

@@ -21,44 +21,10 @@ Option Explicit
 Private mCol As Collection
 Private cnDatabase As Connection
 
-'Rollback to a prior version
-Public Sub Rollback(Identifier As String, Version As Long)
-Attribute Rollback.VB_Description = "Rollback the specified object to the specified version."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Rollback(" & QUOTE & Identifier & QUOTE & ", " & Version & ")", etFullDebug
-
-Dim szDefinition As String
-Dim objItem As rcItem
-
-  'Get the definition to restore to first as it will vanish as soon as we
-  'drop the current version
-  For Each objItem In mCol(ULEncode(Identifier)).History
-    If objItem.Version = Version Then
-      szDefinition = objItem.Definition
-      Exit For
-    End If
-  Next objItem
-  If szDefinition = "" Then Exit Sub
-  
-  'Remove the current version
-  Remove Identifier
-  
-  'Recreate the new object.
-  objServer.Databases(Database).Execute szDefinition
-  
-  'Kill the Comment Cache and log the change
-  objServer.Databases(Database).KillCommentCache
-  Refresh
-  mCol(ULEncode(Identifier)).Commit rcAdd, "Object rolled back to version " & Version & "."
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub
-
 'Does the specified item exist?
 Public Function Exists(Identifier As String) As Boolean
 Attribute Exists.VB_Description = "Does the specified object exist?"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Exists(" & QUOTE & Identifier & QUOTE & ")", etFullDebug
 
 Dim objLanguage As pgLanguage
@@ -77,7 +43,7 @@ End Function
 'Get the Database Name
 Public Property Get Database() As String
 Attribute Database.VB_Description = "Returns the parent database name."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Database()", etFullDebug
 
 Static szDB As String
@@ -91,7 +57,7 @@ End Property
 
 'Set the Connection to use
 Friend Property Set Connection(vData As Connection)
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Set Connection(Connection: " & vData & ")", etFullDebug
 
   Set cnDatabase = vData
@@ -101,9 +67,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(dTimeStamp As Date, lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & QUOTE & dTimeStamp & QUOTE & ", " & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
+Private Sub iAdd(lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String)
+'On Error Goto Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgLanguage
 Dim rs As New Recordset
@@ -117,13 +83,16 @@ Dim szSQL As String
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.TimeStamp = dTimeStamp
   objNewMember.OID = lOID
   objNewMember.Name = szName
   objNewMember.Trusted = bTrusted
   
   'Get the Handler
-  szSQL = SQL_GET_FUNCTIONS & " WHERE oid = " & lHandler
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & lHandler
+  Else
+    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE oid = " & lHandler
+  End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     objNewMember.Handler = rs!proname & ""
@@ -150,7 +119,7 @@ End Sub
 'External Add
 Public Function Add(ByVal Name As String, ByVal Trusted As Boolean, ByVal Handler As String, Optional ByVal Comment As String) As pgLanguage
 Attribute Add.VB_Description = "Add a new Language."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Add(" & QUOTE & Name & QUOTE & ", " & Trusted & ", " & QUOTE & Handler & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -175,7 +144,6 @@ Dim objLanguage As pgLanguage
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    objNewMember.TimeStamp = rs!ts
     objNewMember.OID = rs!OID
     objNewMember.Name = rs!lanname & ""
     objNewMember.Trusted = ToBool(rs!lanpltrusted)
@@ -192,7 +160,6 @@ Dim objLanguage As pgLanguage
   'Invalidate the Language Cache...
   objServer.Databases(Database).KillLanguageCache
   
-  If Not objLanguage.SystemObject Then objLanguage.Commit rcAdd, "Created object."
   Set Add = objLanguage
   
   'Cleanup
@@ -212,7 +179,7 @@ End Function
 Public Property Get Item(Key As String) As pgLanguage
 Attribute Item.VB_Description = "Returns a Language object."
 Attribute Item.VB_UserMemId = 0
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
   Set Item = mCol(ULEncode(Key))
@@ -225,7 +192,7 @@ End Property
 Public Property Get Count(Optional IgnoreSys As Boolean) As Long
 Attribute Count.VB_Description = "Returns a count of the Languages in the current database."
 Attribute Count.VB_MemberFlags = "200"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get Count(" & IgnoreSys & ")", etFullDebug
 
 Dim objLanguage As pgLanguage
@@ -247,16 +214,15 @@ End Property
 'Remove the specified Item
 Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Language."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP PROCEDURAL LANGUAGE '" & dbSZ(mCol(ULEncode(Key)).Name) & "'"
+  szSQL = "DROP PROCEDURAL LANGUAGE '" & mCol(ULEncode(Key)).Name & "'"
   objServer.ExecSQL szSQL, cnDatabase
-  If Not mCol(ULEncode(Key)).SystemObject Then mCol(ULEncode(Key)).Commit rcDelete, "Deleted object."
-  
+
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
   mCol.Remove ULEncode(Key)
@@ -275,7 +241,7 @@ End Sub
 Public Property Get NewEnum() As IUnknown
 Attribute NewEnum.VB_UserMemId = -4
 Attribute NewEnum.VB_MemberFlags = "40"
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get NewEnum()", etFullDebug
 
   Set NewEnum = mCol.[_NewEnum]
@@ -287,7 +253,7 @@ End Property
 'Refresh the collection
 Public Sub Refresh()
 Attribute Refresh.VB_Description = "Refresh the collection of Languages."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Refresh()", etFullDebug
 
   'Kill the caches first
@@ -305,7 +271,7 @@ End Sub
 
 'Initialise the collection if possible
 Friend Sub Initialize()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Initialize()", etFullDebug
 
 Dim rs As New Recordset
@@ -317,7 +283,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES & " ORDER BY lanname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!ts, rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
+      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
       rs.MoveNext
     Wend
   End If
@@ -333,7 +299,7 @@ End Sub
 
 'Cleanup
 Private Sub Class_Terminate()
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Class_Terminate()", etFullDebug
 
   Set mCol = Nothing
@@ -344,7 +310,7 @@ End Sub
 
 Public Property Get SQL(Optional IncludeSystem As Boolean) As String
 Attribute SQL.VB_Description = "Returns the collection's reverse engineered SQL."
-On Error GoTo Err_Handler
+'On Error Goto Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Languages.Property Get SQL(" & IncludeSystem & ")", etFullDebug
 Dim szSQL As String
 Dim objLanguage As pgLanguage
@@ -360,18 +326,3 @@ Dim objLanguage As pgLanguage
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
-
-Public Sub Commit(UpdateType As rcLogType, UpdateComment As String)
-Attribute Commit.VB_Description = "Commit all changes to Revision Control."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Commit(" & UpdateType & ", " & QUOTE & UpdateComment & QUOTE & ")", etFullDebug
-
-Dim objLanguage As pgLanguage
-
-  For Each objLanguage In mCol
-    If Not objLanguage.SystemObject Then objLanguage.Commit UpdateType, UpdateComment
-  Next objLanguage
-  
-  Exit Sub
-Err_Handler:  objServer.iLogError Err
-End Sub
