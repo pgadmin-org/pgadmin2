@@ -529,7 +529,7 @@ Dim rs As New Recordset
   If rs.EOF Then
     RCStatus = rcNotInRC
   Else
-    If SQL = rs!rc_definition & "" Then
+    If SQL(False, True, False) = rs!rc_definition & "" Then
       RCStatus = rcUpToDate
     Else
       If rs!rc_timestamp > dTimeStamp Then
