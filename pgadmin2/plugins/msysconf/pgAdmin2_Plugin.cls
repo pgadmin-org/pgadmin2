@@ -47,6 +47,10 @@ End Property
 'passed a reference to the main pgSchema object.
 Private Sub pgPlugin_Execute(objSchema As Variant, objStatusBar As Variant)
 
+  'Abort if we're already running
+  If bRunning = True Then Exit Sub
+  bRunning = True
+  
   'Reference the Server/Status Bar object
   Set svr = objSchema
   Set sb = objStatusBar

@@ -5,6 +5,9 @@ Attribute VB_Name = "basGlobal"
 
 Option Explicit
 
+'Are we already running?
+Global bRunning As Boolean
+
 'The global Server object
 Global svr As pgServer
 
