@@ -98,6 +98,10 @@
 				<param name="Name" value="Convert MS Access, MySQL or other databases?">
 				<param name="Local" value="html\howtos\migration.html">
 				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Use MD5 Encrypted Passwords?">
+				<param name="Local" value="html\howtos\md5passwords.html">
+				</OBJECT>
 		</UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Useful Links">

@@ -70,8 +70,16 @@
 		<param name="Local" value="html\links.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="MD5">
+		<param name="Local" value="html\howtos\md5passwords.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="MySQL">
 		<param name="Local" value="html\howtos\migration.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Password">
+		<param name="Local" value="html\howtos\md5passwords.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="pgAdmin">
