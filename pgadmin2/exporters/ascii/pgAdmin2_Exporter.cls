@@ -76,7 +76,7 @@ Dim szField As String
       Else
         szField = rsData.Fields(X).Value & ""
       End If
-      szData = szData & szQuote & szField & szQuote & szDelimiter
+      szData = szData & szQuote & Replace(szField, szQuote, szQuote & szQuote) & szQuote & szDelimiter
     Next
     If bTrailing = 0 Then
       szData = Mid(szData, 1, Len(szData) - Len(szDelimiter))
