@@ -349,11 +349,12 @@ On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTrigger.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
-
 Dim objItem As ListItem
 Dim szEvent As String
-
-
+Dim bRefresh As Boolean
+  
+  bRefresh = False
+  
   'Check the data
   If txtProperties(0).Text = "" Then
     MsgBox "You must specify a Trigger name!", vbExclamation, "Error"
@@ -388,39 +389,39 @@ Dim szEvent As String
     
   If bNew Then
     StartMsg "Creating Trigger..."
-   
+    bRefresh = True
     frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Add txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text
     szTableOldName = cboProperties(0).Text
   Else
     StartMsg "Updating Trigger..."
-    If hbxProperties(0).Tag = "Y" Then objTrigger.Comment = hbxProperties(0).Text
+    If hbxProperties(0).Tag = "Y" Then
+      bRefresh = True
+      objTrigger.Comment = hbxProperties(0).Text
+    End If
     If (cboProperties(0).Tag = "Y") Or (cboProperties(1).Tag = "Y") Or (cboProperties(3).Tag = "Y") Or (chkProperties(0).Tag = "Y") Or (chkProperties(1).Tag = "Y") Or (chkProperties(2).Tag = "Y") Then
+      bRefresh = True
       objTrigger.Alter txtProperties(0).Text, cboProperties(1).Text, szEvent, cboProperties(0).Text, cboProperties(2).Text, cboProperties(3).Text, hbxProperties(0).Text
     End If
   End If
   
-  ' Refresh properties and simulate a node click
-  If (cboProperties(0).Text = szTableOldName) Then
-    ' Add new node
-    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
-    frmMain.tv_NodeClick frmMain.tv.SelectedItem
-  Else
-    ' This happens only when a triiger is moved from one table to another
-    frmMain.svr.Databases(szDatabase).Tables(szTableOldName).Triggers.Refresh
-    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
-    
-    ' Del old node
-    For Each objNode In frmMain.tv.Nodes
-      If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
-        If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = szTableOldName) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
-           objNode.Selected = True
-           frmMain.tv_NodeClick objNode
-           Exit For
+  
+  If (bRefresh = True) Then
+    ' Refresh old node
+    If (cboProperties(0).Text <> szTableOldName) Then
+      frmMain.svr.Databases(szDatabase).Tables(szTableOldName).Triggers.Refresh
+      For Each objNode In frmMain.tv.Nodes
+        If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
+          If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = szTableOldName) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
+             objNode.Selected = True
+             frmMain.tv_NodeClick objNode
+             Exit For
+          End If
         End If
-      End If
-    Next objNode
+      Next objNode
+    End If
     
-    ' Add new node
+    ' Refresh new node
+    frmMain.svr.Databases(szDatabase).Tables(cboProperties(0).Text).Triggers.Refresh
     For Each objNode In frmMain.tv.Nodes
       If InStr(1, objNode.FullPath, "\" & szDatabase & "\") <> 0 Then
         If (Left(objNode.Key, 4) = "TRG+") And (objNode.Parent.Text = cboProperties(0).Text) And (objNode.Parent.Parent.Parent.Text = szDatabase) Then
@@ -431,7 +432,6 @@ Dim szEvent As String
       End If
     Next objNode
   End If
-  
   EndMsg
   Unload Me
   Exit Sub
