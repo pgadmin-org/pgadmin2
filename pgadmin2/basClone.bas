@@ -146,7 +146,7 @@ Dim vData
   Next
   If Len(szArguments) > 2 Then szArguments = Left(szArguments, Len(szArguments) - 2)
   
-  Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(szNewName, szArguments, ObjDbClone.Returns, ObjDbClone.Source, ObjDbClone.Language, ObjDbClone.Cachable, ObjDbClone.Strict, ObjDbClone.Comment, ObjDbClone.Volatility, ObjDbClone.SecDef)
+  Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(szNewName, szArguments, ObjDbClone.Returns, ObjDbClone.Source, ObjDbClone.Language, ObjDbClone.Cachable, ObjDbClone.Strict, ObjDbClone.Comment, ObjDbClone.Volatility, ObjDbClone.SecDef.ObjDbClone.RetSet)
   
   'clone acl
   CloneAcl objNewFunction

@@ -29,6 +29,7 @@ Added support for Conversions [Frank Lupo].
 Added support for rules on views [Frank Lupo].
 Added support for dependency checking [Frank Lupo].
 Fixed date handling in the Excel exporter.
+Added support for Set Returning Functions [Frank Lupo].
 
 1.4.12
 ------

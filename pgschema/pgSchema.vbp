@@ -1,6 +1,6 @@
 Type=OleDll
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
-Reference=*\G{00000200-0000-0010-8000-00AA006D2EA4}#2.0#0#..\..\..\..\..\Program Files\Common Files\system\ado\msado20.tlb#Microsoft ActiveX Data Objects 2.0 Library
+Reference=*\G{00000205-0000-0010-8000-00AA006D2EA4}#2.5#0#..\..\..\..\..\Program Files\Common Files\system\ado\msado25.tlb#Microsoft ActiveX Data Objects 2.0 Library
 Class=pgDatabase; pgDatabase.cls
 Class=pgServer; pgServer.cls
 Class=Databases; Databases.cls
@@ -69,7 +69,7 @@ CompatibleEXE32="..\binaries\pgSchema.dll"
 VersionCompatible32="1"
 MajorVer=1
 MinorVer=5
-RevisionVer=40
+RevisionVer=42
 AutoIncrementVer=1
 ServerSupportFiles=0
 DllBaseAddress=&H153d0000

@@ -1,25 +1,25 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmFunction 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Function"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   5520
    Icon            =   "frmFunction.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    StartUpPosition =   3  'Windows Default
    Begin MSComctlLib.ImageList il 
       Left            =   45
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -217,14 +217,14 @@ Begin VB.Form frmFunction
             Width           =   1590
          End
          Begin MSComctlLib.ImageCombo cboEntities 
-            Height          =   330
+            Height          =   300
             Left            =   1260
             TabIndex        =   24
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
-            Top             =   315
-            Width           =   3705
-            _ExtentX        =   6535
-            _ExtentY        =   582
+            Top             =   312
+            Width           =   3708
+            _ExtentX        =   6541
+            _ExtentY        =   529
             _Version        =   393216
             ForeColor       =   -2147483640
             BackColor       =   -2147483633
@@ -270,8 +270,8 @@ Begin VB.Form frmFunction
          ToolTipText     =   $"frmFunction.frx":2D14
          Top             =   1530
          Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   7964
+         _ExtentX        =   5990
+         _ExtentY        =   7959
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -314,15 +314,15 @@ Begin VB.Form frmFunction
          Width           =   1995
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "May be 'sql', 'C', 'internal', or 'plname', where 'plname' is the name of a created procedural language."
          Top             =   1800
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -370,11 +370,11 @@ Begin VB.Form frmFunction
          ToolTipText     =   "Comments about the function."
          Top             =   4140
          Width           =   5190
-         _ExtentX        =   9155
+         _ExtentX        =   9165
          _ExtentY        =   3281
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -391,12 +391,12 @@ Begin VB.Form frmFunction
          ToolTipText     =   $"frmFunction.frx":30BC
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   10107
+         _ExtentX        =   9165
+         _ExtentY        =   10097
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -407,15 +407,15 @@ Begin VB.Form frmFunction
          Caption         =   "Function Definition/Object Library"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   10
          ToolTipText     =   $"frmFunction.frx":3175
-         Top             =   630
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   636
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -423,15 +423,15 @@ Begin VB.Form frmFunction
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   2
-         Left            =   -73065
+         Left            =   -73068
          TabIndex        =   11
          ToolTipText     =   "Select an agument data type to add to the argument list."
-         Top             =   1035
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1032
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -446,8 +446,8 @@ Begin VB.Form frmFunction
          ToolTipText     =   "The access control list for the schema."
          Top             =   450
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   5980
+         _ExtentX        =   9165
+         _ExtentY        =   5990
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -472,15 +472,15 @@ Begin VB.Form frmFunction
          EndProperty
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   3
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   31
          ToolTipText     =   "Indicates whether the function's result depends only on its input arguments, or is affected by outside factors."
-         Top             =   3690
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   3696
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -667,7 +667,7 @@ Dim szIdentifier As String
   
   If bNew Then
     StartMsg "Creating Function..."
-    Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(txtProperties(0).Text, szArguments, cboProperties(1).Text, hbxProperties(1).Text, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text, cboProperties(3).Text, Bin2Bool(chkProperties(3).Value))
+    Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(txtProperties(0).Text, szArguments, cboProperties(1).Text, hbxProperties(1).Text, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text, cboProperties(3).Text, Bin2Bool(chkProperties(3).Value), Bin2Bool(chkProperties(2).Value))
     
     'Add a new node and update the text on the parent
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Tag
@@ -853,7 +853,7 @@ Dim szAccess() As String
     
     Me.Caption = "Function: " & objFunction.Identifier
     txtProperties(0).Text = objFunction.Name
-    txtProperties(1).Text = objFunction.OID
+    txtProperties(1).Text = objFunction.Oid
     txtProperties(2).Text = objFunction.Owner
     
     If ctx.dbVer >= 7.3 Then
@@ -944,8 +944,10 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.chkProperties_Click
     chkProperties(2).Value = Bool2Bin(objFunction.RetSet)
     chkProperties(3).Value = Bool2Bin(objFunction.SecDef)
   Else
-    chkProperties(2).Value = 0
-    If ctx.dbVer < 7.3 Then chkProperties(3).Value = 0
+    If ctx.dbVer < 7.3 Then
+      chkProperties(2).Value = 0
+      chkProperties(3).Value = 0
+    End If
   End If
   
   Exit Sub

@@ -688,7 +688,11 @@ Dim X As Long
     szSQL = szSQL & "CREATE FUNCTION " & FormattedID
   End If
   
-  szSQL = szSQL & " RETURNS " & szReturns
+  szSQL = szSQL & " RETURNS "
+  If objVersion.VersionNum >= 7.3 Then
+    If bRetSet Then szSQL = szSQL & " SETOF "
+  End If
+  szSQL = szSQL & szReturns
   
   szSQL = szSQL & " AS '" & szSource & "' "
   szSQL = szSQL & " LANGUAGE '" & dbSZ(szLanguage) & "'"

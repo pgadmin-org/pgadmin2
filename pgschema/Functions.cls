@@ -165,7 +165,7 @@ Dim X As Long
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = dOID
+  objNewMember.Oid = dOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
   objNewMember.NamespaceOID = dNamespaceOID
@@ -216,10 +216,10 @@ Err_Handler:
 End Function
 
 'External Add
-Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String, Optional Volatility As String, Optional SecurityDefiner As Boolean) As pgFunction
+Public Function Add(Name As String, Arguments As String, Returns As String, Source As String, Language As String, Cachable As Boolean, Strict As Boolean, Optional Comment As String, Optional Volatility As String, Optional SecurityDefiner As Boolean, Optional RetSet As Boolean) As pgFunction
 Attribute Add.VB_Description = "Add a new function."
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ", " & QUOTE & Volatility & QUOTE & ", " & SecurityDefiner & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Arguments & QUOTE & ", " & QUOTE & Returns & QUOTE & ", " & QUOTE & Source & QUOTE & ", " & QUOTE & Language & QUOTE & ", " & Cachable & ", " & Strict & ", " & QUOTE & Comment & QUOTE & ", " & QUOTE & Volatility & QUOTE & ", " & SecurityDefiner & "," & RetSet & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -235,7 +235,12 @@ Dim objFunction As pgFunction
     szSQL = "CREATE FUNCTION " & fmtID(Name)
   End If
   szSQL = szSQL & " (" & Arguments & ")"
-  szSQL = szSQL & " RETURNS " & Returns
+  
+  szSQL = szSQL & " RETURNS "
+  If objVersion.VersionNum >= 7.3 Then
+    If RetSet Then szSQL = szSQL & " SETOF "
+  End If
+  szSQL = szSQL & Returns
   
   szSQL = szSQL & " AS '" & Source & "'"
   szSQL = szSQL & " LANGUAGE '" & Language & "'"
@@ -280,7 +285,7 @@ Dim objFunction As pgFunction
   While Not rs.EOF
     bFlag = False
     For Each fFunc In mCol
-      If fFunc.OID = rs.Fields("oid") Then
+      If fFunc.Oid = rs.Fields("oid") Then
         bFlag = True
         Exit For
       End If
