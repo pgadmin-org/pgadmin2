@@ -170,7 +170,7 @@ Err_Handler:  objServer.iLogError Err.Number, Err.Description
 End Property
 
 'Internal Add
-Private Function iAdd(dOID As Double, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String, ByVal lStatistics As Long) As pgColumn
+Private Function iAdd(dOID As Double, szName As String, lPosition As Long, lLength As Long, szDataType As String, bNotNull As Boolean, bPrimaryKey As Boolean, szDefault As String, ByVal lStatistics As Long, ByVal szStorage As String) As pgColumn
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.iAdd(" & dOID & ", " & QUOTE & szName & QUOTE & ", " & lPosition & ", " & lLength & ", " & QUOTE & szDataType & QUOTE & ", " & bNotNull & ", " & bPrimaryKey & ", " & QUOTE & szDefault & QUOTE & ", " & lStatistics & ")", etFullDebug
 
@@ -199,7 +199,7 @@ Dim bDefaults As Boolean
   
   'Only have an OID pre 7.2
   If objVersion.VersionNum < 7.2 Then
-    objNewMember.OID = dOID
+    objNewMember.Oid = dOID
   End If
   
   objNewMember.Position = lPosition
@@ -217,6 +217,18 @@ Dim bDefaults As Boolean
   objNewMember.iPrimaryKey = bPrimaryKey
   objNewMember.iDefault = szDefault
   objNewMember.iStatistics = lStatistics
+  Select Case UCase(szStorage)
+    Case ""
+      objNewMember.iStorage = "PLAIN"
+    Case "P"
+      objNewMember.iStorage = "PLAIN"
+    Case "E"
+      objNewMember.iStorage = "EXTERNAL"
+    Case "M"
+      objNewMember.iStorage = "EXTENDED"
+    Case "X"
+      objNewMember.iStorage = "MAIN"
+  End Select
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
   
@@ -270,6 +282,7 @@ Dim rs As New Recordset
 Dim szSQL As String
 Dim objColumn As pgColumn
 Dim lStatistics As String
+Dim szStorage As String
   
   'Generate the szSQL query to create the new object and execute
   If objVersion.VersionNum >= 7.3 Then
@@ -315,7 +328,14 @@ Dim lStatistics As String
     Else
       lStatistics = 0
     End If
-    Set objColumn = iAdd(rs.Fields("oid"), rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics)
+    
+    If objVersion.VersionNum >= 7.3 Then
+      szStorage = rs!attstorage
+    Else
+      szStorage = ""
+    End If
+      
+    Set objColumn = iAdd(rs.Fields("oid"), rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics, szStorage)
   End If
     
   Set Add = objColumn
@@ -459,6 +479,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Initialize()", etFullDeb
 
 Dim rs As New Recordset
 Dim lStatistics As Long
+Dim szStorage As String
 
   'Create a new collection
   Set mCol = New Collection
@@ -478,7 +499,14 @@ Dim lStatistics As Long
       Else
         lStatistics = 0
       End If
-      iAdd rs.Fields("oid"), rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics
+      
+      If objVersion.VersionNum >= 7.3 Then
+        szStorage = rs!attstorage
+      Else
+        szStorage = ""
+      End If
+      
+      iAdd rs.Fields("oid"), rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics, szStorage
       rs.MoveNext
     Wend
   End If

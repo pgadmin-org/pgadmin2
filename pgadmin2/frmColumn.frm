@@ -1,20 +1,19 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmColumn 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Column"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   4008
+   ClientTop       =   1920
    ClientWidth     =   5520
    Icon            =   "frmColumn.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
-   StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
       Default         =   -1  'True
@@ -43,9 +42,9 @@ Begin VB.Form frmColumn
       _ExtentY        =   11218
       _Version        =   393216
       Style           =   1
-      Tabs            =   1
+      Tabs            =   2
       TabHeight       =   520
-      TabCaption(0)   =   "&Properties"
+      TabCaption(0)   =   "&Properties 1"
       TabPicture(0)   =   "frmColumn.frx":06C2
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(0)"
@@ -62,7 +61,7 @@ Begin VB.Form frmColumn
       Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "lblProperties(7)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "lblProperties(1)"
+      Tab(0).Control(7)=   "lblProperties(9)"
       Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "cboProperties(1)"
       Tab(0).Control(8).Enabled=   0   'False
@@ -84,18 +83,41 @@ Begin VB.Form frmColumn
       Tab(0).Control(16).Enabled=   0   'False
       Tab(0).Control(17)=   "chkProperties(1)"
       Tab(0).Control(17).Enabled=   0   'False
-      Tab(0).Control(18)=   "txtProperties(5)"
+      Tab(0).Control(18)=   "txtProperties(6)"
       Tab(0).Control(18).Enabled=   0   'False
       Tab(0).ControlCount=   19
+      TabCaption(1)   =   "&Properties 2"
+      TabPicture(1)   =   "frmColumn.frx":06DE
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "lblProperties(8)"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "lblProperties(1)"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "cboProperties(2)"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "txtProperties(5)"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).ControlCount=   4
+      Begin VB.TextBox txtProperties 
+         BackColor       =   &H8000000F&
+         Height          =   285
+         Index           =   6
+         Left            =   1932
+         Locked          =   -1  'True
+         TabIndex        =   24
+         ToolTipText     =   "The defined dimension array. E.g [1][][3]"
+         Top             =   2256
+         Width           =   3390
+      End
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
          Height          =   285
          Index           =   5
-         Left            =   1935
+         Left            =   -73044
          Locked          =   -1  'True
          TabIndex        =   20
-         ToolTipText     =   $"frmColumn.frx":06DE
-         Top             =   3510
+         ToolTipText     =   $"frmColumn.frx":06FA
+         Top             =   720
          Width           =   3390
       End
       Begin VB.CheckBox chkProperties 
@@ -103,10 +125,10 @@ Begin VB.Form frmColumn
          Caption         =   "Primary key?"
          Height          =   195
          Index           =   1
-         Left            =   135
+         Left            =   120
          TabIndex        =   9
          ToolTipText     =   "Is this column a primary key?"
-         Top             =   4275
+         Top             =   4344
          Width           =   1995
       End
       Begin VB.TextBox txtProperties 
@@ -115,7 +137,7 @@ Begin VB.Form frmColumn
          Left            =   1935
          TabIndex        =   7
          ToolTipText     =   "A default value for the column. This may be a literal value, user function or niladic function."
-         Top             =   3105
+         Top             =   3444
          Width           =   3390
       End
       Begin VB.CheckBox chkProperties 
@@ -123,10 +145,10 @@ Begin VB.Form frmColumn
          Caption         =   "Restrict null values?"
          Height          =   195
          Index           =   0
-         Left            =   135
+         Left            =   120
          TabIndex        =   8
          ToolTipText     =   "Should null values be restricted in this column?"
-         Top             =   3915
+         Top             =   3936
          Width           =   1995
       End
       Begin VB.TextBox txtProperties 
@@ -137,7 +159,7 @@ Begin VB.Form frmColumn
          Locked          =   -1  'True
          TabIndex        =   6
          ToolTipText     =   "The numeric scale of the column (applicable to numeric columns only)."
-         Top             =   2700
+         Top             =   3036
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -148,7 +170,7 @@ Begin VB.Form frmColumn
          Locked          =   -1  'True
          TabIndex        =   5
          ToolTipText     =   "The defined length of the column."
-         Top             =   2295
+         Top             =   2628
          Width           =   3390
       End
       Begin VB.TextBox txtProperties 
@@ -172,19 +194,19 @@ Begin VB.Form frmColumn
          Width           =   3390
       End
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   1545
+         Height          =   1380
          Index           =   0
-         Left            =   135
+         Left            =   132
          TabIndex        =   10
          ToolTipText     =   "Comments about the column."
-         Top             =   4635
-         Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   2725
+         Top             =   4800
+         Width           =   5196
+         _ExtentX        =   9165
+         _ExtentY        =   2434
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -195,15 +217,15 @@ Begin VB.Form frmColumn
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   2
          ToolTipText     =   "The table that the column will be part of."
          Top             =   1080
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -211,15 +233,31 @@ Begin VB.Form frmColumn
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "The data type of the column."
-         Top             =   1845
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1848
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   300
+         Index           =   2
+         Left            =   -73044
+         TabIndex        =   21
+         ToolTipText     =   "Storage technique for the data type. If specified, must be 'plain', 'external', 'extended', or 'main'; the default is 'plain'."
+         Top             =   1128
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -228,43 +266,63 @@ Begin VB.Form frmColumn
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
+         Caption         =   "Array dimension"
+         Height          =   192
+         Index           =   9
+         Left            =   132
+         TabIndex        =   25
+         Top             =   2304
+         Width           =   1164
+      End
+      Begin VB.Label lblProperties 
+         AutoSize        =   -1  'True
          Caption         =   "Statistics"
-         Height          =   195
+         Height          =   192
          Index           =   1
-         Left            =   135
-         TabIndex        =   21
-         Top             =   3555
-         Width           =   630
+         Left            =   -74844
+         TabIndex        =   23
+         Top             =   768
+         Width           =   636
+      End
+      Begin VB.Label lblProperties 
+         AutoSize        =   -1  'True
+         Caption         =   "Storage"
+         Height          =   192
+         Index           =   8
+         Left            =   -74856
+         TabIndex        =   22
+         Top             =   1176
+         Width           =   672
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Default value"
-         Height          =   195
+         Height          =   192
          Index           =   7
-         Left            =   135
+         Left            =   132
          TabIndex        =   19
-         Top             =   3150
-         Width           =   945
+         Top             =   3492
+         Width           =   996
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Length"
-         Height          =   195
+         Height          =   192
          Index           =   6
-         Left            =   135
+         Left            =   144
          TabIndex        =   18
-         Top             =   2340
-         Width           =   495
+         Top             =   2688
+         Width           =   492
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Numeric Scale"
-         Height          =   195
+         Height          =   192
          Index           =   5
-         Left            =   135
+         Left            =   132
          TabIndex        =   17
-         Top             =   2745
-         Width           =   1035
+         Top             =   3084
+         Width           =   1128
       End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
@@ -310,30 +368,34 @@ Begin VB.Form frmColumn
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6345
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   4
+         NumListImages   =   5
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":0773
+            Picture         =   "frmColumn.frx":078F
             Key             =   "table"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":08CD
+            Picture         =   "frmColumn.frx":08E9
             Key             =   "type"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":0E67
+            Picture         =   "frmColumn.frx":0E83
             Key             =   "sequence"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmColumn.frx":1401
+            Picture         =   "frmColumn.frx":141D
             Key             =   "domain"
+         EndProperty
+         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmColumn.frx":1AEF
+            Key             =   "storage"
          EndProperty
       EndProperty
    End
@@ -374,6 +436,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cmdOK_Click()", etFul
 Dim objNode As Node
 Dim objItem As ListItem
 Dim szOldName As String
+Dim szTemp As String
 
   If Not frmCallingForm Is Nothing Then
     If Not frmCallingForm.Visible Then
@@ -414,7 +477,13 @@ Dim szOldName As String
         Set objItem = frmCallingForm.lvProperties(0).ListItems.Add(, , txtProperties(0).Text, "column", "column")
       End If
       objItem.SubItems(1) = txtProperties(1).Text
-      objItem.SubItems(2) = cboProperties(1).Text
+      
+      'verify if column is array
+      szTemp = cboProperties(1).Text
+      If Right(szTemp, 2) = "[]" Then
+        szTemp = Mid(szTemp, 1, Len(szTemp) - 2) & Replace(txtProperties(6).Text, " ", "")
+      End If
+      objItem.SubItems(2) = szTemp
       If Not txtProperties(2).Locked Then objItem.SubItems(3) = Val(txtProperties(2).Text)
       If Not txtProperties(3).Locked Then objItem.SubItems(3) = Val(txtProperties(2).Text) & ", " & Val(txtProperties(3).Text)
       objItem.SubItems(4) = txtProperties(4).Text
@@ -441,6 +510,11 @@ Dim szOldName As String
       If hbxProperties(0).Tag = "Y" Then objColumn.Comment = hbxProperties(0).Text
       If chkProperties(0).Tag = "Y" Then objColumn.NotNull = Bin2Bool(chkProperties(0).Value)
       If chkProperties(1).Tag = "Y" Then objColumn.PrimaryKey = Bin2Bool(chkProperties(1).Value)
+      
+      'update storage
+      If ctx.dbVer >= 7.3 Then
+        If objColumn.Storage <> cboProperties(2).Text Then objColumn.Storage = cboProperties(2).Text
+      End If
       
       If txtProperties(0).Tag = "Y" Then
         szOldName = objColumn.Name
@@ -573,6 +647,16 @@ Dim objNamespace As pgNamespace
         txtProperties(5).Text = objColumn.Statistics
       End If
       
+      'storage
+      cboProperties(2).ComboItems.Add , "PLAIN", "PLAIN", "storage"
+      cboProperties(2).ComboItems.Add , "EXTERNAL", "EXTERNAL", "storage"
+      cboProperties(2).ComboItems.Add , "EXTENDED", "EXTENDED", "storage"
+      cboProperties(2).ComboItems.Add , "MAIN", "MAIN", "storage"
+      If ctx.dbVer >= 7.3 Then
+        cboProperties(2).BackColor = &H80000005
+        cboProperties(2).Locked = False
+      End If
+      cboProperties(2).ComboItems(objColumn.Storage).Selected = True
   End Select
 
   'Reset the Tags
@@ -666,6 +750,12 @@ Dim objColumn As pgColumn
         txtProperties(2).BackColor = &H80000005
         txtProperties(2).Locked = False
     End Select
+    
+    'array column
+    If Right(cboProperties(1).Text, 2) = "[]" Then
+        txtProperties(6).BackColor = &H80000005
+        txtProperties(6).Locked = False
+    End If
   End If
   
   Exit Sub

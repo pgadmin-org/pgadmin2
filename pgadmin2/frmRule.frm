@@ -5,16 +5,15 @@ Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmRule 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Rule"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   6312
+   ClientTop       =   2964
    ClientWidth     =   5520
    Icon            =   "frmRule.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
-   StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
       Default         =   -1  'True
@@ -92,12 +91,12 @@ Begin VB.Form frmRule
          ToolTipText     =   "Any SQL boolean-condition expression. The condition expression may not refer to any tables except new and old. "
          Top             =   2340
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   1614
+         _ExtentX        =   9165
+         _ExtentY        =   1609
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -130,15 +129,15 @@ Begin VB.Form frmRule
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   3
          ToolTipText     =   "Object is either table or table.column. (Currently, only the table form is actually implemented.)"
-         Top             =   1485
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1488
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -146,15 +145,15 @@ Begin VB.Form frmRule
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "The Event that will cause the rule to be invoked. Event is one of SELECT, UPDATE, DELETE or INSERT."
-         Top             =   1890
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1896
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -169,12 +168,12 @@ Begin VB.Form frmRule
          ToolTipText     =   "The query or queries making up the action can be any SQL SELECT, INSERT, UPDATE, DELETE, or NOTIFY statement."
          Top             =   3690
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   1614
+         _ExtentX        =   9165
+         _ExtentY        =   1609
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -192,11 +191,11 @@ Begin VB.Form frmRule
          ToolTipText     =   "Comments about the rule."
          Top             =   4725
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   2487
+         _ExtentX        =   9165
+         _ExtentY        =   2477
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -249,8 +248,8 @@ Begin VB.Form frmRule
    Begin MSComctlLib.ImageList il 
       Left            =   45
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16

@@ -161,7 +161,7 @@ Dim szTemp As String
   Else
     objNewMember.SystemObject = False
   End If
-  objNewMember.OID = dOID
+  objNewMember.Oid = dOID
   objNewMember.Name = szName
   objNewMember.Owner = szOwner
   objNewMember.NamespaceOID = dNamespaceOID

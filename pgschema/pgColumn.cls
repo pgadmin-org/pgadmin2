@@ -36,6 +36,7 @@ Private dNamespaceOID As Double
 Private szNamespace As String
 Private vTag As Variant
 Private lStatistics As Long
+Private szStorage As String
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
@@ -580,6 +581,45 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Statistics()", etFullDebug
 
   Statistics = lStatistics
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+
+'Set/Return Storage
+Friend Property Let iStorage(ByVal vData As String)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let iStorage(" & vData & ")", etFullDebug
+
+  szStorage = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+Public Property Let Storage(ByVal vData As String)
+Attribute Storage.VB_Description = "Sets/Returns the columns storage value."
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Storage(" & vData & ")", etFullDebug
+
+Dim szSQL As String
+
+  If objVersion.VersionNum < 7.3 Then
+    Err.Raise vbObjectError + 15, App.Title, "Column statistics are only available in PostgreSQL 7.3."
+    Exit Property
+  End If
+  
+  szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET STORAGE " & vData
+  objServer.ExecSQL szSQL, cnDatabase
+  szStorage = vData
+
+  Exit Property
+Err_Handler:  objServer.iLogError Err.Number, Err.Description
+End Property
+Public Property Get Storage() As String
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Storage()", etFullDebug
+
+  Storage = szStorage
     
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
