@@ -10,35 +10,51 @@
 <UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="pgAdmin II">
-		<param name="Local" value="default.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Developer Info">
-		<param name="Local" value="dev-info.html">
+		<param name="Local" value="html\index.html">
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="CVS Access">
-			<param name="Local" value="dev-cvs.html">
+			<param name="Name" value="Download pgAdmin II">
+			<param name="Local" value="html\download.html">
+			<param name="ImageNumber" value="15">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="Coding Standards">
-			<param name="Local" value="dev-coding.html">
-			</OBJECT>
-	</UL>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Licence Info">
-		<param name="Local" value="blank.html">
-		</OBJECT>
-	<UL>
-		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="The pgAdmin Public Licence">
-			<param name="Local" value="licence.html">
+			<param name="Name" value="Mailing Lists">
+			<param name="Local" value="html\mailing.html">
+			<param name="ImageNumber" value="23">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="The pgAdmin Development Team Charter">
-			<param name="Local" value="team.html">
+			<param name="Name" value="Developer Info">
+			<param name="Local" value="html\developerinfo\index.html">
 			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="CVS Access">
+				<param name="Local" value="html\developerinfo\cvs.html">
+				<param name="ImageNumber" value="41">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Coding Standards">
+				<param name="Local" value="html\developerinfo\coding.html">
+				<param name="ImageNumber" value="41">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Licence Info">
+			<param name="Local" value="html\licenceinfo\index.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="The pgAdmin Public Licence">
+				<param name="Local" value="html\licenceinfo\licence.html">
+				<param name="ImageNumber" value="39">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="The pgAdmin Development Team Charter">
+				<param name="Local" value="html\licenceinfo\team.html">
+				<param name="ImageNumber" value="39">
+				</OBJECT>
+		</UL>
 	</UL>
 </UL>
 </BODY></HTML>
