@@ -1,0 +1,134 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" href="../pgadmin2.css" type="text/css">
+<title>How do I... Migrate binary data from SQL Server?</title>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" id="TablePar">
+  <tr>
+    <td valign="middle" id="TablePar">
+      <h3>How do I... Migrate binary data from SQL Server?</h3>
+    </td>
+    <td width="120" id="TablePar">
+      <a href="../index.html"><img border="0" src="../images/logo.jpg" align="right" width="119" height="119"></a>
+    </td>
+  </tr>
+</table>
+
+<p><b>Contributed by Roman Fail</b></p>
+
+<p><b>Editors Note: </b>This HOWTO was kindly contributed by Roman in the hope that it may help others.
+The pgAdmin developers have not tested this procedure and cannot provide any assistance in using it.</p>
+
+<ol>
+<li>On MSSQL, create a User-Defined Function that can convert each binary byte into an escaped-octal byte 
+(which is the only way PostgreSQL can read in binary data).  Use the following statement as a guideline:
+
+<pre>
+CREATE FUNCTION [dbo].[vbin2oct] (@vbin VARBINARY(255))  
+RETURNS VARCHAR(1275) 
+AS  
+BEGIN 
+
+/* Converts a VARBINARY to a string of escaped octal values
+suitable for import into PostgreSQL.  Written for MS SQL Server 2000.
+This should also work on SQL 7.0, but the return length must be shortened
+to 255 characters (which means the input varbinary should be no more than
+50 characters, since every input character results in 5 for the output).
+07 JAN 2003 - Roman Fail (rfail@posportal.com)  
+*/
+
+DECLARE @p1 INTEGER, @p8 INTEGER, @p64 INTEGER,
+                  @int INTEGER, @i INTEGER, @len INTEGER,
+                  @octal VARCHAR(1275)
+SET ANSI_PADDING OFF
+
+IF @len IS NULL
+    SELECT @len = LEN(@vbin)
+
+SET @i = 1
+SET @octal = ''
+
+WHILE @i <= @len
+  BEGIN 
+    SELECT @int = substring(@vbin, @i, 1)
+    SET @p64 = FLOOR(@int/64) 
+    SET @p8 = (@int - (@p64 * 64))/8
+    SET @p1 = @int % 8
+    SET @octal = @octal + '\\'+
+           CAST(@p64 AS CHAR(1)) +     
+           CAST(@p8 AS CHAR(1)) +     
+           CAST(@p1 AS CHAR(1))     
+    SET @i = @i + 1
+  END
+SET ANSI_PADDING ON
+
+RETURN(RTRIM(LTRIM(@octal)))
+END
+</pre>
+ 
+IMPORTANT NOTE: If the last byte of a binary field is equal to the hexadecimal value '20' 
+(same as decimal '32' or ASCII 'space'), the MSSQL LEN() function will truncate it 
+(so no octal character is created).  The SET ANSI_PADDING OFF statement is essential 
+to prevent this problem.<br>&nbsp;</li>
+
+<li>Start bcp for the table. My server took about 1.5 hours to generate 24 million rows 
+(must enter the actual sa password & server name in correct spot).<br><br>
+
+Execute bcp_batchdetail.bat on MSSQL server, which contains only one command:<br><br>
+
+<code>bcp "SELECT primaryKeyID, dbo.vbin2oct(myVarBinaryField), otherField FROM myTable" queryout c:\tabledata.txt -k -U "sa" -P "&lt;sapassword&gt;" -c -S &lt;myservername&gt;</code>
+<br>&nbsp;</li>
+ 
+<li>Use FTP to transfer tabledata.txt from MSSQL server to PG server.  One of the servers 
+must have an FTP server daemon installed.  Make sure to use FTP ASCII mode (this will strip 
+Carriage Return characters from the file, which psql COPY won't recognize).  You can use other 
+methods to transfer the file, but the CR's must be removed somehow.  Unfortunately, after much 
+research I could not get 'bcp' to output JUST line feeds at the end of each line.<br>&nbsp;</li>
+
+<li>Using pgAdmin2, psql, or the tool of your choice create the table definition on the PostgreSQL 
+server.  If you have an MSSQL IDENTITY column in your table, you will first need to manually CREATE 
+SEQUENCE and set the appropriate start value for the sequence, then include a DEFAULT 
+nextval(<mysequence>) for the column.  For example:<br><br>
+
+<pre>
+CREATE SEQUENCE mytable_primarykeyid_key
+  START 24492190
+  INCREMENT 1
+  MAXVALUE 9223372036854775807
+  MINVALUE 1
+  CACHE 1;
+ 
+CREATE TABLE mytable (
+  primarykeyid integer DEFAULT nextval('"mytable_primarykeyid_key"'::text) NOT NULL,
+  myvarbinaryfield bytea,
+  otherfield character varying(16)
+);
+</pre>
+
+(Note the proper use of single/double quotes, and all names have been folded to lower case)<br>&nbsp;</li>
+
+<li>On the PostgreSQL server, run psql and issue the command:<br><br>
+
+<code>COPY batchdetail FROM ‘/home/postgres/tabledata.txt’;</code>
+
+For me, this took 45 minutes for 24 million rows - about a 10GB file.<br>&nbsp;</li>
+
+<li>Re-create indexes, foreign keys, and permissions manually.<br>&nbsp;</li>
+<li>Run VACUUM FULL VERBOSE and then ANALYZE to get the house in order.<br>&nbsp;</li>
+<li>Test database queries using pgAdminII or psql command line.  Use EXPLAIN ANALYZE for execution 
+plans to be displayed.<br>&nbsp;</li>
+</ol>
+
+<p>Hope this helps you out.</p>
+
+
+
+</body>
+
+</html>
