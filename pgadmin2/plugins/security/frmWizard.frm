@@ -118,53 +118,53 @@ Begin VB.Form frmWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmWizard.frx":3567
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdObjectAll"
+      Tab(1).Control(0)=   "lblInfo(1)"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdObjectNone"
+      Tab(1).Control(1)=   "lvObjects"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "lvObjects"
+      Tab(1).Control(2)=   "cmdObjectNone"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lblInfo(1)"
+      Tab(1).Control(3)=   "cmdObjectAll"
       Tab(1).Control(3).Enabled=   0   'False
       Tab(1).ControlCount=   4
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmWizard.frx":3583
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblInfo(2)"
-      Tab(2).Control(1)=   "lvEntities"
-      Tab(2).Control(2)=   "cmdEntityNone"
-      Tab(2).Control(3)=   "cmdEntityAll"
+      Tab(2).Control(0)=   "cmdEntityAll"
+      Tab(2).Control(1)=   "cmdEntityNone"
+      Tab(2).Control(2)=   "lvEntities"
+      Tab(2).Control(3)=   "lblInfo(2)"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmWizard.frx":359F
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblInfo(3)"
-      Tab(3).Control(1)=   "picContainer(0)"
+      Tab(3).Control(0)=   "picContainer(0)"
+      Tab(3).Control(1)=   "lblInfo(3)"
       Tab(3).ControlCount=   2
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmWizard.frx":35BB
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "lblInfo(6)"
-      Tab(4).Control(1)=   "picContainer(1)"
+      Tab(4).Control(0)=   "picContainer(1)"
+      Tab(4).Control(1)=   "lblInfo(6)"
       Tab(4).ControlCount=   2
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmWizard.frx":35D7
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lblInfo(7)"
-      Tab(5).Control(1)=   "chkPermission(0)"
-      Tab(5).Control(2)=   "chkPermission(1)"
-      Tab(5).Control(3)=   "chkPermission(2)"
+      Tab(5).Control(0)=   "chkPermission(7)"
+      Tab(5).Control(1)=   "chkPermission(6)"
+      Tab(5).Control(2)=   "chkPermission(3)"
+      Tab(5).Control(3)=   "chkPermission(5)"
       Tab(5).Control(4)=   "chkPermission(4)"
-      Tab(5).Control(5)=   "chkPermission(5)"
-      Tab(5).Control(6)=   "chkPermission(3)"
-      Tab(5).Control(7)=   "chkPermission(6)"
-      Tab(5).Control(8)=   "chkPermission(7)"
+      Tab(5).Control(5)=   "chkPermission(2)"
+      Tab(5).Control(6)=   "chkPermission(1)"
+      Tab(5).Control(7)=   "chkPermission(0)"
+      Tab(5).Control(8)=   "lblInfo(7)"
       Tab(5).ControlCount=   9
       TabCaption(6)   =   " "
       TabPicture(6)   =   "frmWizard.frx":35F3
       Tab(6).ControlEnabled=   0   'False
-      Tab(6).Control(0)=   "lblInfo(5)"
-      Tab(6).Control(1)=   "lblInfo(4)"
+      Tab(6).Control(0)=   "lblInfo(4)"
+      Tab(6).Control(1)=   "lblInfo(5)"
       Tab(6).ControlCount=   2
       Begin VB.CommandButton cmdEntityAll 
          Height          =   555
@@ -549,7 +549,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit

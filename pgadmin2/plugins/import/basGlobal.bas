@@ -1,6 +1,6 @@
 Attribute VB_Name = "basGlobal"
 ' pgAdmin II - PostgreSQL Tools
-' Copyright (C) 2001, 2002, The pgAdmin Development Team
+' Copyright (C) 2001 - 2003, The pgAdmin Development Team
 ' This software is released under the pgAdmin Public Licence
 
 Option Explicit

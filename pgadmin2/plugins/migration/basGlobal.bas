@@ -1,7 +1,7 @@
 Attribute VB_Name = "basGlobal"
 ' pgAdmin II Migration Wizard
 ' This code is based on code from the original pgAdmin Project
-' Copyright (C) 1998 - 2002, Dave Page & others
+' Copyright (C) 1998 - 2003, Dave Page & others
 
 ' This program is free software; you can redistribute it and/or
 ' modify it under the terms of the GNU General Public License
