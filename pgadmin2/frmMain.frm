@@ -1949,23 +1949,23 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Hostname", "property", "property")
-  lvItem.SubItems(1) = svr.Server & ""
+  lvItem.SubItems(1) = ctx.CurrentObject.Server & ""
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Port", "property", "property")
-  lvItem.SubItems(1) = svr.Port
+  lvItem.SubItems(1) = ctx.CurrentObject.Port
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Username", "property", "property")
-  lvItem.SubItems(1) = svr.Username
+  lvItem.SubItems(1) = ctx.CurrentObject.Username
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Last system OID", "property", "property")
-  lvItem.SubItems(1) = svr.LastSystemOID
+  lvItem.SubItems(1) = ctx.CurrentObject.LastSystemOID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ODBC driver", "property", "property")
-  lvItem.SubItems(1) = svr.DriverName
+  lvItem.SubItems(1) = ctx.CurrentObject.DriverName
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ODBC driver version", "property", "property")
-  lvItem.SubItems(1) = svr.DriverVersion.Major & "." & svr.DriverVersion.Minor & "." & svr.DriverVersion.Revision
+  lvItem.SubItems(1) = ctx.CurrentObject.DriverVersion.Major & "." & ctx.CurrentObject.DriverVersion.Minor & "." & ctx.CurrentObject.DriverVersion.Revision
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "PostgreSQL version", "property", "property")
-  lvItem.SubItems(1) = svr.dbVersion.Major & "." & svr.dbVersion.Minor & "." & svr.dbVersion.Revision
+  lvItem.SubItems(1) = ctx.CurrentObject.dbVersion.Major & "." & ctx.CurrentObject.dbVersion.Minor & "." & ctx.CurrentObject.dbVersion.Revision
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "DBMS", "property", "property")
-  lvItem.SubItems(1) = svr.dbVersion.Description
+  lvItem.SubItems(1) = ctx.CurrentObject.dbVersion.Description
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Connection string", "property", "property")
-  lvItem.SubItems(1) = svr.ConnectionString
+  lvItem.SubItems(1) = ctx.CurrentObject.ConnectionString
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvServer"
@@ -2029,42 +2029,42 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Text).Owner
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Path", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Text).Path
+  lvItem.SubItems(1) = ctx.CurrentObject.Path
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Encoding", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Text).EncodingName
+  lvItem.SubItems(1) = ctx.CurrentObject.EncodingName
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Accessible?", "property", "property")
-  If svr.Databases(Node.Text).Status <> statInaccessible Then
+  If ctx.CurrentObject.Status <> statInaccessible Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control?", "property", "property")
-  If svr.Databases(Node.Text).Status = statInaccessible Then
+  If ctx.CurrentObject.Status = statInaccessible Then
     lvItem.SubItems(1) = "Unknown"
-  ElseIf svr.Databases(Node.Text).RevisionControl Then
+  ElseIf ctx.CurrentObject.RevisionControl Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Database?", "property", "property")
-  If svr.Databases(Node.Text).Status = statInaccessible Then
+  If ctx.CurrentObject.Status = statInaccessible Then
     lvItem.SubItems(1) = "Unknown"
-  ElseIf svr.Databases(Node.Text).SystemObject Then
+  ElseIf ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvDatabase"
@@ -2116,19 +2116,19 @@ Dim vData As Variant
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Groups(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Group ID", "property", "property")
-  lvItem.SubItems(1) = svr.Groups(Node.Text).ID
+  lvItem.SubItems(1) = ctx.CurrentObject.ID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Member Count", "property", "property")
-  lvItem.SubItems(1) = svr.Groups(Node.Text).Members.Count
+  lvItem.SubItems(1) = ctx.CurrentObject.Members.Count
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Members", "property", "property")
-  For Each vData In svr.Groups(Node.Text).Members
+  For Each vData In ctx.CurrentObject.Members
     szTemp = szTemp & vData & ", "
   Next vData
   If Len(szTemp) > 2 Then lvItem.SubItems(1) = Left(szTemp, Len(szTemp) - 2)
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Groups(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvGroup"
@@ -2174,32 +2174,32 @@ Dim vData As Variant
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Users(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "User ID", "property", "property")
-  lvItem.SubItems(1) = svr.Users(Node.Text).ID
+  lvItem.SubItems(1) = ctx.CurrentObject.ID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Account Expires", "property", "property")
-  lvItem.SubItems(1) = svr.Users(Node.Text).AccountExpires
+  lvItem.SubItems(1) = ctx.CurrentObject.AccountExpires
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Create Databases?", "property", "property")
-  If svr.Users(Node.Text).CreateDatabases Then
+  If ctx.CurrentObject.CreateDatabases Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Superuser?", "property", "property")
-  If svr.Users(Node.Text).Superuser Then
+  If ctx.CurrentObject.Superuser Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Update Catalogues", "property", "property")
-  If svr.Users(Node.Text).UpdateCatalogues Then
+  If ctx.CurrentObject.UpdateCatalogues Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Users(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvUser"
@@ -2243,28 +2243,28 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Input Type", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).InputType
+  lvItem.SubItems(1) = ctx.CurrentObject.InputType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).Owner
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "State Type", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).StateType
+  lvItem.SubItems(1) = ctx.CurrentObject.StateType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "State Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).StateFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.StateFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Final Type", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).FinalType
+  lvItem.SubItems(1) = ctx.CurrentObject.FinalType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Final Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).FinalFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.FinalFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Initial Condition", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).InitialCondition
+  lvItem.SubItems(1) = ctx.CurrentObject.InitialCondition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -2284,16 +2284,16 @@ Dim lvItem As ListItem
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Aggregate?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvAggregate"
@@ -2346,43 +2346,43 @@ Dim vData As Variant
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Argument Count", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Arguments.Count
+  lvItem.SubItems(1) = ctx.CurrentObject.Arguments.Count
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Arguments", "property", "property")
   szTemp = ""
-  For Each vData In svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Arguments
+  For Each vData In ctx.CurrentObject.Arguments
     szTemp = szTemp & vData & ", "
   Next vData
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
   lvItem.SubItems(1) = szTemp
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Returns", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Returns
+  lvItem.SubItems(1) = ctx.CurrentObject.Returns
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Owner
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Language", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Language
+  lvItem.SubItems(1) = ctx.CurrentObject.Language
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Source, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Source, vbCrLf, " ")
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cachable?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Cachable Then
+  If ctx.CurrentObject.Cachable Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Strict?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Strict Then
+  If ctx.CurrentObject.Strict Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -2402,16 +2402,16 @@ Dim vData As Variant
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Function?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvFunction"
@@ -2455,22 +2455,22 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Handler", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).Handler
+  lvItem.SubItems(1) = ctx.CurrentObject.Handler
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Trusted?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).Trusted Then
+  If ctx.CurrentObject.Trusted Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -2490,16 +2490,16 @@ Dim lvItem As ListItem
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Language?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvLanguage"
@@ -2543,44 +2543,44 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Left Type", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).LeftOperandType
+  lvItem.SubItems(1) = ctx.CurrentObject.LeftOperandType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Right Type", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).RightOperandType
+  lvItem.SubItems(1) = ctx.CurrentObject.RightOperandType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).Owner
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Operator Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).OperatorFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.OperatorFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Join Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).JoinFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.JoinFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Restrict Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).RestrictFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.RestrictFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Result Type", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).ResultType
+  lvItem.SubItems(1) = ctx.CurrentObject.ResultType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Commutator", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).Commutator
+  lvItem.SubItems(1) = ctx.CurrentObject.Commutator
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Negator", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).Negator
+  lvItem.SubItems(1) = ctx.CurrentObject.Negator
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Kind", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).Kind
+  lvItem.SubItems(1) = ctx.CurrentObject.Kind
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Left Sort Operator", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).LeftTypeSortOperator
+  lvItem.SubItems(1) = ctx.CurrentObject.LeftTypeSortOperator
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Right Sort Operator", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).RightTypeSortOperator
+  lvItem.SubItems(1) = ctx.CurrentObject.RightTypeSortOperator
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Hash Joins?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).HashJoins Then
+  If ctx.CurrentObject.HashJoins Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -2600,16 +2600,16 @@ Dim lvItem As ListItem
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Operator?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvOperator"
@@ -2653,34 +2653,34 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).Owner
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).ACL
+  lvItem.SubItems(1) = ctx.CurrentObject.ACL
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Last Value", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).LastValue
+  lvItem.SubItems(1) = ctx.CurrentObject.LastValue
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Minimum", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).Minimum
+  lvItem.SubItems(1) = ctx.CurrentObject.Minimum
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Maximum", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).Maximum
+  lvItem.SubItems(1) = ctx.CurrentObject.Maximum
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Increment", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).Increment
+  lvItem.SubItems(1) = ctx.CurrentObject.Increment
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cache", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).Cache
+  lvItem.SubItems(1) = ctx.CurrentObject.Cache
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cycled?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).Cycled Then
+  If ctx.CurrentObject.Cycled Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -2700,16 +2700,16 @@ Dim lvItem As ListItem
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Sequence?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvSequence"
@@ -2763,34 +2763,34 @@ Dim vData As Variant
     tv.Nodes.Add Node.Key, tvwChild, "TRG+" & GetID, "Triggers", "trigger"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).Owner
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).ACL
+  lvItem.SubItems(1) = ctx.CurrentObject.ACL
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Rows", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).Rows
+  lvItem.SubItems(1) = ctx.CurrentObject.Rows
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Inherited Tables Count", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).InheritedTables.Count
+  lvItem.SubItems(1) = ctx.CurrentObject.InheritedTables.Count
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Inherited Tables", "property", "property")
-  For Each vData In svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).InheritedTables
+  For Each vData In ctx.CurrentObject.InheritedTables
     szTemp = szTemp & vData & ", "
   Next vData
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
   lvItem.SubItems(1) = szTemp
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OIDs?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).HasOIDs Then
+  If ctx.CurrentObject.HasOIDs Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -2810,16 +2810,16 @@ Dim vData As Variant
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Table?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTable"
@@ -2859,9 +2859,9 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text).Definition
+  lvItem.SubItems(1) = ctx.CurrentObject.Definition
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvCheck"
@@ -2907,39 +2907,39 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Position", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Position
+  lvItem.SubItems(1) = ctx.CurrentObject.Position
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Data Type", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).DataType
+  lvItem.SubItems(1) = ctx.CurrentObject.DataType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Size", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Length
+  lvItem.SubItems(1) = ctx.CurrentObject.Length
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Numeric Precision", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).DataType = "numeric" Then
-    lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).NumericScale
+  If ctx.CurrentObject.DataType = "numeric" Then
+    lvItem.SubItems(1) = ctx.CurrentObject.NumericScale
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Default
+  lvItem.SubItems(1) = ctx.CurrentObject.Default
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Restrict Nulls?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).NotNull Then
+  If ctx.CurrentObject.NotNull Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Primary Key?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).PrimaryKey Then
+  If ctx.CurrentObject.PrimaryKey Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Column?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvColumn"
@@ -2980,29 +2980,29 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKey(" & QUOTE & Node.F
 
 Dim lvItem As ListItem
 
-  If Node.Children = 0 Then tv.Nodes.Add Node.Key, tvwChild, "REL+" & GetID, "Relationships (" & svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).Relationships.Count & ")", "relationship"
+  If Node.Children = 0 Then tv.Nodes.Add Node.Key, tvwChild, "REL+" & GetID, "Relationships (" & ctx.CurrentObject.Relationships.Count & ")", "relationship"
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "References", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).ReferencedTable
+  lvItem.SubItems(1) = ctx.CurrentObject.ReferencedTable
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "On Delete", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).OnDelete
+  lvItem.SubItems(1) = ctx.CurrentObject.OnDelete
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "On Update", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).OnUpdate
+  lvItem.SubItems(1) = ctx.CurrentObject.OnUpdate
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Deferrable", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).Deferrable Then
+  If ctx.CurrentObject.Deferrable Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Initially", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).Initially
+  lvItem.SubItems(1) = ctx.CurrentObject.Initially
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Foreign Key?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
@@ -3071,38 +3071,38 @@ Dim vData As Variant
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Index Type", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).IndexType
+  lvItem.SubItems(1) = ctx.CurrentObject.IndexType
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Unique?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).Unique Then
+  If ctx.CurrentObject.Unique Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Primary?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).Primary Then
+  If ctx.CurrentObject.Primary Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Column Count", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).IndexedColumns.Count
-  For Each vData In svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).IndexedColumns
+  lvItem.SubItems(1) = ctx.CurrentObject.IndexedColumns.Count
+  For Each vData In ctx.CurrentObject.IndexedColumns
     szTemp = szTemp & vData & ", "
   Next vData
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Columns", "property", "property")
   lvItem.SubItems(1) = szTemp
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Constraint", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).Constraint
+  lvItem.SubItems(1) = ctx.CurrentObject.Constraint
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -3122,16 +3122,16 @@ Dim vData As Variant
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Index?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).Comment
+  lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvIndex"
@@ -3175,28 +3175,28 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Event", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).RuleEvent
+  lvItem.SubItems(1) = ctx.CurrentObject.RuleEvent
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Condition", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).Condition
+  lvItem.SubItems(1) = ctx.CurrentObject.Condition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Do Instead?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).DoInstead Then
+  If ctx.CurrentObject.DoInstead Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Action", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).Action
+  lvItem.SubItems(1) = ctx.CurrentObject.Action
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).Definition
+  lvItem.SubItems(1) = ctx.CurrentObject.Definition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -3216,16 +3216,16 @@ Dim lvItem As ListItem
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Rule?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).Comment
+  lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvRule"
@@ -3269,22 +3269,22 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Executes", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).Executes
+  lvItem.SubItems(1) = ctx.CurrentObject.Executes
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Event", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).TriggerEvent
+  lvItem.SubItems(1) = ctx.CurrentObject.TriggerEvent
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "For Each", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).ForEach
+  lvItem.SubItems(1) = ctx.CurrentObject.ForEach
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).TriggerFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.TriggerFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-    If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).SystemObject Then
+    If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -3304,16 +3304,16 @@ Dim lvItem As ListItem
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Trigger?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).Comment
+  lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
     
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvTrigger"
@@ -3357,44 +3357,44 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Owner
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Input Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).InputFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.InputFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Output Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).OutputFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.OutputFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Internal Length", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).InternalLength
+  lvItem.SubItems(1) = ctx.CurrentObject.InternalLength
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "External Length", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).ExternalLength
+  lvItem.SubItems(1) = ctx.CurrentObject.ExternalLength
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Default
+  lvItem.SubItems(1) = ctx.CurrentObject.Default
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Element", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Element
+  lvItem.SubItems(1) = ctx.CurrentObject.Element
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Delimiter", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Delimiter
+  lvItem.SubItems(1) = ctx.CurrentObject.Delimiter
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Send Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).SendFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.SendFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Receive Function", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).ReceiveFunction
+  lvItem.SubItems(1) = ctx.CurrentObject.ReceiveFunction
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Passed by Value?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).PassedByValue Then
+  If ctx.CurrentObject.PassedByValue Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Alignment", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Alignment
+  lvItem.SubItems(1) = ctx.CurrentObject.Alignment
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Storage", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Storage
+  lvItem.SubItems(1) = ctx.CurrentObject.Storage
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -3414,16 +3414,16 @@ Dim lvItem As ListItem
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Type?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
 
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvType"
@@ -3466,20 +3466,20 @@ Dim lvItem As ListItem
   lv.ColumnHeaders.Add , , "Property", 2000
   lv.ColumnHeaders.Add , , "Value", lv.Width - 2100
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).Name
+  lvItem.SubItems(1) = ctx.CurrentObject.Name
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).OID
+  lvItem.SubItems(1) = ctx.CurrentObject.OID
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).Owner
+  lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).ACL
+  lvItem.SubItems(1) = ctx.CurrentObject.ACL
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
-  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).Definition
+  lvItem.SubItems(1) = ctx.CurrentObject.Definition
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Revision Control Status", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Revision Control is not applicable for this object."
   Else
-    Select Case svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).RCStatus
+    Select Case ctx.CurrentObject.RCStatus
       Case rcNotApplicable
         lvItem.SubItems(1) = "Revision Control is not enabled in this database."
       Case rcUpToDate
@@ -3499,16 +3499,16 @@ Dim lvItem As ListItem
     End Select
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System View?", "property", "property")
-  If svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).SystemObject Then
+  If ctx.CurrentObject.SystemObject Then
     lvItem.SubItems(1) = "Yes"
   Else
     lvItem.SubItems(1) = "No"
   End If
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
-  lvItem.SubItems(1) = Replace(svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).Comment, vbCrLf, " ")
+  lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
-  If txtDefinition.Visible Then txtDefinition.Text = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text).SQL
+  If txtDefinition.Visible Then txtDefinition.Text = ctx.CurrentObject.SQL
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.tvView"
@@ -3532,167 +3532,166 @@ Dim vData As Variant
   Select Case Left(Node.Key, 4)
 
     Case "SVR-" 'Server
-      tvServer Node
       ctx.CurrentDB = ""
       Set ctx.CurrentObject = svr
+      tvServer Node
 
-    
     Case "DAT+" 'Databases
-      tvDatabases Node
       ctx.CurrentDB = ""
+      tvDatabases Node
         
     Case "DAT-" 'Database
-      tvDatabase Node
       ctx.CurrentDB = Node.Text
       Set ctx.CurrentObject = svr.Databases(Node.Text)
+      tvDatabase Node
       
     Case "GRP+" 'Groups
-      tvGroups Node
       ctx.CurrentDB = ""
+      tvGroups Node
       
     Case "GRP-" 'Group
-      tvGroup Node
       ctx.CurrentDB = ""
       Set ctx.CurrentObject = svr.Groups(Node.Text)
+      tvGroup Node
       
     Case "USR+" 'Users
-      tvUsers Node
       ctx.CurrentDB = ""
+      tvUsers Node
       
     Case "USR-" 'User
-      tvUser Node
       ctx.CurrentDB = ""
       Set ctx.CurrentObject = svr.Users(Node.Text)
+      tvUser Node
       
     Case "AGG+" 'Aggregates
-      tvAggregates Node
       ctx.CurrentDB = Node.Parent.Text
+      tvAggregates Node
       
     Case "AGG-" 'Aggregate
-      tvAggregate Node
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Aggregates(Node.Text)
+      tvAggregate Node
       
     Case "FNC+" 'Functions
-      tvFunctions Node
       ctx.CurrentDB = Node.Parent.Text
+      tvFunctions Node
       
     Case "FNC-" 'Function
-      tvFunction Node
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Functions(Node.Text)
+      tvFunction Node
       
     Case "LNG+" 'Languages
-      tvLanguages Node
       ctx.CurrentDB = Node.Parent.Text
+      tvLanguages Node
 
     Case "LNG-" 'Language
-      tvLanguage Node
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text)
+      tvLanguage Node
       
     Case "OPR+" 'Operators
-      tvOperators Node
       ctx.CurrentDB = Node.Parent.Text
+      tvOperators Node
       
     Case "OPR-" 'Operator
-      tvOperator Node
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Operators(Node.Text)
+      tvOperator Node
       
     Case "SEQ+" 'Sequences
-      tvSequences Node
       ctx.CurrentDB = Node.Parent.Text
+      tvSequences Node
 
     Case "SEQ-" 'Sequence
-      tvSequence Node
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Sequences(Node.Text)
+      tvSequence Node
       
     Case "TBL+" 'Tables
-      tvTables Node
       ctx.CurrentDB = Node.Parent.Text
+      tvTables Node
       
     Case "TBL-" 'Table
-      tvTable Node
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Tables(Node.Text)
+      tvTable Node
       
     Case "CHK+" 'Checks
-      tvChecks Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      tvChecks Node
       
     Case "CHK-" 'Check
-      tvCheck Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Checks(Node.Text)
+      tvCheck Node
     
     Case "COL+" 'Columns
-      tvColumns Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      tvColumns Node
       
     Case "COL-" 'Column
-      tvColumn Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Columns(Node.Text)
+      tvColumn Node
       
     Case "FKY+" 'Foreign Keys
-      tvForeignKeys Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      tvForeignKeys Node
       
     Case "FKY-" 'Foreign Key
-      tvForeignKey Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).ForeignKeys(Node.Text)
+      tvForeignKey Node
       
     Case "REL+" 'Relationships
-      tvRelationships Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Parent.Text
+      tvRelationships Node
       
     Case "IND+" 'Indexes
-      tvIndexes Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      tvIndexes Node
       
     Case "IND-" 'Index
-      tvIndex Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Indexes(Node.Text)
+      tvIndex Node
 
     Case "RUL+" 'Rules
-      tvRules Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      tvRules Node
   
     Case "RUL-" 'Rule
-      tvRule Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Rules(Node.Text)
+      tvRule Node
       
     Case "TRG+" 'Triggers
-      tvTriggers Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Text
+      tvTriggers Node
       
     Case "TRG-" 'Trigger
-      tvTrigger Node
       ctx.CurrentDB = Node.Parent.Parent.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Text).Triggers(Node.Text)
+      tvTrigger Node
       
     Case "TYP+" 'Types
-      tvTypes Node
       ctx.CurrentDB = Node.Parent.Text
+      tvTypes Node
 
     Case "TYP-" 'Type
-      tvType Node
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Types(Node.Text)
+      tvType Node
       
     Case "VIE+" 'Views
-      tvViews Node
       ctx.CurrentDB = Node.Parent.Text
+      tvViews Node
       
     Case "VIE-" 'View
-      tvView Node
       ctx.CurrentDB = Node.Parent.Parent.Text
       Set ctx.CurrentObject = svr.Databases(Node.Parent.Parent.Text).Views(Node.Text)
+      tvView Node
       
   End Select
   EndMsg
