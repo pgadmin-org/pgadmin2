@@ -177,6 +177,7 @@ Dim objNode As Node
   frmMain.mnuPopupCreateGroup.Enabled = True
   frmMain.mnuPopupCreateUser.Enabled = True
   frmMain.mnuPopupProperties.Enabled = True
+  frmMain.mnuToolsFindObject.Enabled = True
   
   'Enable buttons on the toolbar
   frmMain.tb.Buttons("refresh").Enabled = True

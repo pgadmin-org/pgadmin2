@@ -724,6 +724,7 @@ Begin VB.Form frmMain
       Caption         =   "&Tools"
       Begin VB.Menu mnuToolsFindObject 
          Caption         =   "&Find Object"
+         Enabled         =   0   'False
       End
       Begin VB.Menu mnuToolsUpgradeWizard 
          Caption         =   "&Upgrade Wizard..."
