@@ -50,6 +50,7 @@ Allow sorting of listview/statsview by clicking the column headers.
 Use Primary Keys for updating/deleting rows in the data editor where possible.
 Fix EXPLAIN for PostgreSQL 7.3+
 Added support for Domains in PostgreSQL 7.3+
+Enhanced the query parser to detect queries with functions and subselects in the column list, and aliased columns as non-updateable.
 
 1.2.0 Stable
 ------------

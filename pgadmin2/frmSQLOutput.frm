@@ -638,7 +638,7 @@ On Error Resume Next
 End Sub
 
 Public Sub Display(rsQuery As Recordset, szDB As String, szID As String)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLOutput.Display(" & QUOTE & rsQuery.Source & QUOTE & ")", etFullDebug
 
 Dim iStart As Integer
@@ -702,13 +702,49 @@ Dim szTemp As String
   Wend
   
   'If FROM is not found then we must have a tableless query
-  '(eg. SELECT version()), otherwise increment iStart past the FROM
+  '(eg. SELECT version()), otherwise, check for '(' before the
+  'FROM. If one exists, then it must indicate a calculation [(col1 + col2)],
+  'a function call [count(*)] or a sub select [(SELECT ...)]. We can also
+  'check for occurances of the AS keyword which will prevent updates.
+  'After all that, increment iStart past the FROM
   If iStart = 0 Then
     szTable = ""
     szWhere = ""
     bUpdateable = False
     GoTo GotInfo
   Else
+    'Look for Brackets...
+    bInQuotes = False
+    iTemp = InStr(1, Mid(szQuery, 1, iStart), "(")
+    If iTemp > 0 Then
+      For X = 1 To iTemp
+        If ((Mid(szQuery, X, 1) = "'") Or (Mid(szQuery, X, 1) = QUOTE)) Then bInQuotes = Not bInQuotes
+      Next X
+      If Not bInQuotes Then
+        szTable = ""
+        szWhere = ""
+        bUpdateable = False
+        GoTo GotInfo
+      End If
+    End If
+    
+    'Look for AS...
+    bInQuotes = False
+    iTemp = InStr(1, UCase(Mid(szQuery, 1, iStart)), " AS ")
+    If iTemp = 0 Then iTemp = InStr(1, UCase(Mid(szQuery, 1, iStart)), vbCrLf & "AS ")
+    If iTemp > 0 Then
+      For X = 1 To iTemp
+        If ((Mid(szQuery, X, 1) = "'") Or (Mid(szQuery, X, 1) = QUOTE)) Then bInQuotes = Not bInQuotes
+      Next X
+      If Not bInQuotes Then
+        szTable = ""
+        szWhere = ""
+        bUpdateable = False
+        GoTo GotInfo
+      End If
+    End If
+    
+    'All done, wind past the from.
     iStart = iStart + 6
   End If
   
@@ -859,12 +895,14 @@ GotInfo:
     If Left(szTemp, 1) = QUOTE Then szTemp = Right(szTemp, Len(szTemp) - 1)
     If Right(szTemp, 1) = QUOTE Then szTemp = Left(szTemp, Len(szTemp) - 1)
     For iTemp = 1 To lvData.ColumnHeaders.Count
-      If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
-         (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
-         (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
-         (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
-        iUnique = iTemp
-        Exit For
+      If frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns.Exists(lvData.ColumnHeaders(iTemp).Text) Then
+        If ((frmMain.svr.Databases(szDatabase).Tables(szTemp).Columns(lvData.ColumnHeaders(iTemp).Text).PrimaryKey) And _
+           (rsSQL.Fields(iTemp - 1).Type <> adDate) And _
+           (rsSQL.Fields(iTemp - 1).Type <> adDBDate) And _
+           (rsSQL.Fields(iTemp - 1).Type <> adDBTimeStamp)) Then
+          iUnique = iTemp
+          Exit For
+        End If
       End If
     Next iTemp
     If iUnique = 0 Then
