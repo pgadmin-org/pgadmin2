@@ -81,7 +81,7 @@ Dim objNewMember As pgTrigger
   objNewMember.ForEach = szForEach
   objNewMember.Identifier = szName & " ON " & szTable
   Set objNewMember.Connection = cnDatabase
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
   
   Exit Function
@@ -153,13 +153,13 @@ Err_Handler:
 End Function
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgTrigger
+Public Property Get Item(Key As String) As pgTrigger
 Attribute Item.VB_Description = "Returns a Trigger object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -189,20 +189,20 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal IndexOrKey As Variant)
+Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Trigger."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Triggers.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Trigger.
-  szSQL = "DROP TRIGGER " & QUOTE & mCol(IndexOrKey).Name & QUOTE & " ON " & QUOTE & mCol(IndexOrKey) & QUOTE
+  szSQL = "DROP TRIGGER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & mCol(ULEncode(Key)).Table & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
-  mCol.Remove IndexOrKey
+  mCol.Remove ULEncode(Key)
   
   Exit Sub
 Err_Handler:

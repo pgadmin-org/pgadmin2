@@ -91,7 +91,7 @@ Dim szTemp As String
   
   'Add the Operator
   objNewMember.Identifier = szName & " (" & szLOT & ", " & szROT & ")"
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
   
   Exit Function
@@ -163,13 +163,13 @@ Err_Handler:
 End Function
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgOperator
+Public Property Get Item(Key As String) As pgOperator
 Attribute Item.VB_Description = "Returns a Operator object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -199,27 +199,27 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal IndexOrKey As Variant)
+Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Operator."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Operators.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 Dim szROT As String
 Dim szLOT As String
 
-  szLOT = mCol(IndexOrKey).LeftOperandType
+  szLOT = mCol(ULEncode(Key)).LeftOperandType
   If szLOT = "" Then szLOT = "NONE"
-  szROT = mCol(IndexOrKey).RightOperandType
+  szROT = mCol(ULEncode(Key)).RightOperandType
   If szROT = "" Then szROT = "NONE"
   
   'Generate/Execute SQL to drop the Operator.
-  szSQL = "DROP OPERATOR " & mCol(IndexOrKey).Name & "(" & szLOT & ", " & szROT & ")"
+  szSQL = "DROP OPERATOR " & mCol(ULEncode(Key)).Name & "(" & szLOT & ", " & szROT & ")"
   objServer.ExecSQL szSQL, cnDatabase
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
-  mCol.Remove IndexOrKey
+  mCol.Remove ULEncode(Key)
   
   'Invalidate the Operator Cache...
   objServer.Databases(szDB).KillOperatorCache

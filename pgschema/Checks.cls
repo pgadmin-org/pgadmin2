@@ -82,7 +82,7 @@ Dim objNewMember As pgCheck
     objNewMember.Identifier = "Unamed Check - " & lOID
   End If
   Set objNewMember.Connection = cnDatabase
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
   
   Exit Function
@@ -125,13 +125,13 @@ Err_Handler:
 End Function
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgCheck
+Public Property Get Item(Key As String) As pgCheck
 Attribute Item.VB_Description = "Returns a Check object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err

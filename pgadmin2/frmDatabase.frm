@@ -245,7 +245,7 @@ Dim objNode As Node
     For Each objNode In frmMain.tv.Nodes
       If Left(objNode.Key, 4) = "DAT+" Then
         frmMain.tv.Nodes.Add objNode.Key, tvwChild, "DAT-" & GetID, txtProperties(0).Text, "database"
-        objNode.Text = "Databases (" & frmMain.svr.Databases.Count & ")"
+        objNode.Text = "Databases (" & objNode.Children & ")"
       End If
     Next objNode
     

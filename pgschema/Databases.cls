@@ -44,7 +44,7 @@ Dim objNewMember As pgDatabase
   objNewMember.Identifier = szName
   
   'Add the Database
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set objNewMember = Nothing
   
   Exit Sub
@@ -97,7 +97,7 @@ Dim szSQL As String
     'is created in the new database
     If Comment <> "" Then objNewMember.Comment = Comment
     
-    mCol.Add objNewMember, Name
+    mCol.Add objNewMember, ULEncode(Name)
   End If
   
   'Return the object created
@@ -119,13 +119,13 @@ Err_Handler:
 End Function
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgDatabase
+Public Property Get Item(Key As String) As pgDatabase
 Attribute Item.VB_Description = "Returns  a database object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -155,15 +155,15 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal IndexOrKey As Variant)
+Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Database object."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 Dim objDatabase As pgDatabase
 
-  Set objDatabase = mCol(IndexOrKey)
+  Set objDatabase = mCol(ULEncode(Key))
   
   'Generate/Execute SQL to drop the database.
   'The leading space fools PostgreSQL into letting us work in a transaction
@@ -179,7 +179,7 @@ Dim objDatabase As pgDatabase
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
-  mCol.Remove IndexOrKey
+  mCol.Remove ULEncode(Key)
   
   Exit Sub
 Err_Handler:

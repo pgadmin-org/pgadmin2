@@ -91,7 +91,7 @@ Dim szHex As String
   objNewMember.iDefault = szDefault
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
   
   Exit Function
@@ -140,7 +140,6 @@ Err_Handler:
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
   objServer.iLogError Err
-  
 End Function
 
 'Rename
@@ -150,26 +149,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Rename(" & QUOTE & OldNa
 
   Dim objColumn As New pgColumn
   
-  Set objColumn = mCol(OldName)
+  Set objColumn = mCol(ULEncode(OldName))
   objColumn.Name = NewName
   objColumn.Identifier = NewName
-  mCol.Add objColumn, NewName, OldName
-  mCol.Remove OldName
+  mCol.Add objColumn, ULEncode(NewName), ULEncode(OldName)
+  mCol.Remove ULEncode(OldName)
   
   Exit Sub
-Err_Handler:
-  objServer.iLogError Err
-  
+Err_Handler: objServer.iLogError Err
 End Sub
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgColumn
+Public Property Get Item(Key As String) As pgColumn
 Attribute Item.VB_Description = "Returns a Column object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err

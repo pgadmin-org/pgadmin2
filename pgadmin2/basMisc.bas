@@ -319,7 +319,8 @@ Dim szTemp As String
     
     'Get the Access
     szAccess = Mid(szEntry, InStr(1, szEntry, "=") + 1)
-
+    szTemp = ""
+    
     Select Case szAccess
       Case "arwR"
         szAccess = "All"

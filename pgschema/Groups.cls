@@ -38,7 +38,7 @@ Dim objNewMember As pgGroup
   objNewMember.Identifier = szName
   
   'Add the Group
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set objNewMember = Nothing
   
   Exit Sub
@@ -77,7 +77,7 @@ Dim szSQL As String
     objNewMember.MemberList = Replace(objNewMember.MemberList, "{", "")
     objNewMember.MemberList = Replace(objNewMember.MemberList, "}", "")
     objNewMember.Identifier = Name
-    mCol.Add objNewMember, Name
+    mCol.Add objNewMember, ULEncode(Name)
   End If
   
   'Return the object created
@@ -97,13 +97,13 @@ Err_Handler:
 End Function
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgGroup
+Public Property Get Item(Key As String) As pgGroup
 Attribute Item.VB_Description = "Returns a Group item."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -123,20 +123,20 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal IndexOrKey As Variant)
+Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Group."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Groups.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Groups.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the Group.
-  szSQL = "DROP GROUP " & QUOTE & dbSZ(mCol(IndexOrKey).Name) & QUOTE
+  szSQL = "DROP GROUP " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, objServer.Connection
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
-  mCol.Remove IndexOrKey
+  mCol.Remove ULEncode(Key)
   
   Exit Sub
 Err_Handler:

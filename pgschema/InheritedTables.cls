@@ -44,13 +44,11 @@ Err_Handler:  objServer.iLogError Err
 End Sub
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgType
-Attribute Item.VB_Description = "Returns a Table Name."
-Attribute Item.VB_UserMemId = 0
+Public Property Get Item(Index As Long) As String
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":InheritedTables.Property Get Item(" & Index & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Item = mCol(Index)
   
   Exit Property
 Err_Handler:  objServer.iLogError Err

@@ -84,6 +84,27 @@ On Error Resume Next
 
 End Function
 
+'Encode case sensitive string into a non case sensitive string
+Public Function ULEncode(ByVal szData As String) As String
+On Error Resume Next
+
+Dim X As Integer
+Dim szChar As String
+Dim szOutput As String
+
+  For X = 1 To Len(szData)
+    szChar = Mid(szData, X, 1)
+    If (Asc(szChar) >= 65) And (Asc(szChar) <= 90) Then
+      szOutput = szOutput & "U" & szChar
+    Else
+      szOutput = szOutput & "L" & szChar
+    End If
+  Next X
+
+  ULEncode = szOutput
+
+End Function
+
 'Return the Database from a connection string
 Public Function GetDatabase(ByVal szConnectionString As String) As String
 On Error Resume Next

@@ -72,7 +72,7 @@ Dim X As Long
   
   'Add the Function
   objNewMember.Identifier = szName & "(" & szArgs & ")"
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
   
   Exit Function
@@ -152,13 +152,13 @@ Err_Handler:
 End Function
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgFunction
+Public Property Get Item(Key As String) As pgFunction
 Attribute Item.VB_Description = "Returns a Type object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -188,29 +188,29 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal IndexOrKey As Variant)
+Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Function."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Functions.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 Dim szArgs As String
 Dim vArg As Variant
 
   szArgs = "("
-  For Each vArg In mCol(IndexOrKey).Arguments
+  For Each vArg In mCol(ULEncode(Key)).Arguments
     szArgs = szArgs & QUOTE & vArg & QUOTE & ", "
   Next vArg
   If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
   szArgs = szArgs & ")"
   
   'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP FUNCTION " & QUOTE & dbSZ(mCol(IndexOrKey).Name) & QUOTE & szArgs
+  szSQL = "DROP FUNCTION " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE & szArgs
   objServer.ExecSQL szSQL, cnDatabase
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
-  mCol.Remove IndexOrKey
+  mCol.Remove ULEncode(Key)
   
   Exit Sub
 Err_Handler:

@@ -27,7 +27,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Members.iAdd(" & QUOTE & szName & QUOTE & ")", etFullDebug
   
   'Add the User
-  mCol.Add szName, szName
+  mCol.Add szName, ULEncode(szName)
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err
@@ -55,20 +55,20 @@ Dim szSQL As String
     End If
   Next X
   
-  mCol.Add Name, Name
+  mCol.Add Name, ULEncode(Name)
   
   Exit Sub
 Err_Handler:  objServer.iLogError Err
 End Sub
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgUser
+Public Property Get Item(Key As String) As pgUser
 Attribute Item.VB_Description = "Returns a User object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Members.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -99,20 +99,20 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal IndexOrKey As Variant)
+Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified user."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Members.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Members.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the User.
-  szSQL = "ALTER GROUP " & QUOTE & szName & QUOTE & " DROP USER " & QUOTE & dbSZ(mCol(IndexOrKey)) & QUOTE
+  szSQL = "ALTER GROUP " & QUOTE & szName & QUOTE & " DROP USER " & QUOTE & dbSZ(mCol(ULEncode(Key))) & QUOTE
   objServer.ExecSQL szSQL, objServer.Connection
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
-  mCol.Remove IndexOrKey
+  mCol.Remove ULEncode(Key)
   
   Exit Sub
 Err_Handler:

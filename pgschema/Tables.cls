@@ -57,7 +57,7 @@ Dim rs As New Recordset
   Set objNewMember.Connection = cnDatabase
   
   'Add the Language
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set objNewMember = Nothing
   
   Exit Sub
@@ -100,7 +100,7 @@ Dim szSQL As String
   End If
   
   'Return the object created
-  Set Add = mCol(Name)
+  Set Add = mCol(ULEncode(Name))
   
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
@@ -121,11 +121,11 @@ objServer.iLogEvent "Entering " & App.Title & ":Tables.Rename(" & QUOTE & OldNam
 
   Dim objTable As New pgTable
   
-  Set objTable = mCol(OldName)
+  Set objTable = mCol(ULEncode(OldName))
   objTable.Name = NewName
   objTable.Identifier = NewName
-  mCol.Add objTable, NewName, OldName
-  mCol.Remove OldName
+  mCol.Add objTable, ULEncode(NewName), ULEncode(OldName)
+  mCol.Remove ULEncode(OldName)
   
   Exit Sub
 Err_Handler:
@@ -134,13 +134,13 @@ Err_Handler:
 End Sub
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgTable
+Public Property Get Item(Key As String) As pgTable
 Attribute Item.VB_Description = "Returns a Table object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -170,20 +170,20 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal IndexOrKey As Variant)
+Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Table."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Tables.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP TABLE " & QUOTE & dbSZ(mCol(IndexOrKey).Name) & QUOTE
+  szSQL = "DROP TABLE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
-  mCol.Remove IndexOrKey
+  mCol.Remove ULEncode(Key)
   
   Exit Sub
 Err_Handler:

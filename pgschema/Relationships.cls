@@ -47,7 +47,7 @@ Dim objNewMember As pgRelationship
   objNewMember.ReferencedColumn = szReferencedColumn
   objNewMember.Identifier = szLocalColumn & " = " & szReferencedColumn
   Set objNewMember.Connection = cnDatabase
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
   
   Exit Function
@@ -55,13 +55,13 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgOperator
+Public Property Get Item(Key As String) As pgOperator
 Attribute Item.VB_Description = "Returns a Relationship object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Relationships.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Relationships.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err

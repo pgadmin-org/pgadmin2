@@ -76,7 +76,7 @@ Dim rs As New Recordset
   Set objNewMember.Connection = cnDatabase
   
   'Add the Sequence
-  mCol.Add objNewMember, objNewMember.Identifier
+  mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set objNewMember = Nothing
   
   Exit Sub
@@ -132,7 +132,7 @@ Dim szSQL As String
   'Cleanup
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
-  Set Add = mCol(Name)
+  Set Add = mCol(ULEncode(Name))
   
   Exit Function
 Err_Handler:
@@ -143,13 +143,13 @@ Err_Handler:
 End Function
 
 'Return the specified Item
-Public Property Get Item(IndexOrKey As Variant) As pgSequence
+Public Property Get Item(Key As String) As pgSequence
 Attribute Item.VB_Description = "Returns a Sequence object."
 Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Item(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  Set Item = mCol(IndexOrKey)
+  Set Item = mCol(ULEncode(Key))
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -179,20 +179,20 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Remove the specified Item
-Public Sub Remove(ByVal IndexOrKey As Variant)
+Public Sub Remove(ByVal Key As String)
 Attribute Remove.VB_Description = "Remove the specified Sequence."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Sequences.Remove(" & QUOTE & IndexOrKey & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the Sequence.
-  szSQL = "DROP SEQUENCE " & QUOTE & dbSZ(mCol(IndexOrKey).Name) & QUOTE
+  szSQL = "DROP SEQUENCE " & QUOTE & dbSZ(mCol(ULEncode(Key)).Name) & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
   
   'If we get this far, then we can't have errored,
   'so remove the object from the collection.
-  mCol.Remove IndexOrKey
+  mCol.Remove ULEncode(Key)
   
   Exit Sub
 Err_Handler:
