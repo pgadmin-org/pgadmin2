@@ -113,8 +113,8 @@ Begin VB.Form frmUpgradeWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmUpgradeWizard.frx":3AEA
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvVersions"
-      Tab(1).Control(1)=   "Label1(2)"
+      Tab(1).Control(0)=   "Label1(2)"
+      Tab(1).Control(1)=   "lvVersions"
       Tab(1).ControlCount=   2
       Begin MSComctlLib.ListView lvVersions 
          Height          =   2400
@@ -346,7 +346,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmUpgradeWizard.Form_Load()", 
     chkAuto.Value = 0
   End If
   cboFrequency.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Frequency", "Week")
-  txtServer.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Server", "pgadmin.postgresql.org")
+  txtServer.Text = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title & "\Auto Upgrade", "Server", "www.pgadmin.org")
   
   'Log the upgrade check. If the user doesn't actually run, assume that they meant to exit
   'and didn't want to be bugged by the wizard. The user can always run it from the menu...
