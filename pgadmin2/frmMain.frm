@@ -2101,7 +2101,7 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Path", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Path
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Server encoding", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Server Encoding", "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ServerEncodingName
   Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Allow Connections?", "property", "property")
   If ctx.CurrentObject.AllowConnections Then
