@@ -1170,7 +1170,7 @@ Private Sub mnuHelpContents_Click()
 On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuHelpContents_Click()", etFullDebug
 
-  HtmlHelp hWnd, App.Path & "\" & "help\pgadmin2.chm", HH_DISPLAY_TOPIC, 0
+  HtmlHelp hwnd, App.Path & "\" & "help\pgadmin2.chm", HH_DISPLAY_TOPIC, 0
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuHelpContents_Click"
@@ -2114,14 +2114,14 @@ Private Sub Form_Unload(Cancel As Integer)
 On Error Resume Next
 svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Unload(" & Cancel & ")", etFullDebug
 
-Dim objform As Form
+Dim objForm As Form
 Dim lTop As Long
 Dim lLeft As Long
   
   'Close child forms.
-  For Each objform In Forms
-    Unload objform
-  Next objform
+  For Each objForm In Forms
+    Unload objForm
+  Next objForm
   
   'If child forms haven't been closed, then the user probably pressed cancel on a save dialogue
   If Forms.Count > 1 Then

@@ -16,7 +16,7 @@ Begin VB.Form frmError
    Begin HighlightBox.TBX txtMore 
       Height          =   2535
       Left            =   1305
-      TabIndex        =   13
+      TabIndex        =   10
       Top             =   3195
       Width           =   6045
       _ExtentX        =   10663
@@ -35,7 +35,7 @@ Begin VB.Form frmError
    Begin HighlightBox.TBX txtErr 
       Height          =   1770
       Left            =   45
-      TabIndex        =   12
+      TabIndex        =   3
       Top             =   945
       Width           =   7305
       _ExtentX        =   12885
@@ -57,7 +57,7 @@ Begin VB.Form frmError
       Left            =   45
       ScaleHeight     =   2475
       ScaleWidth      =   1185
-      TabIndex        =   6
+      TabIndex        =   13
       Top             =   3210
       Width           =   1245
       Begin VB.CommandButton cmdInfo 
@@ -65,7 +65,7 @@ Begin VB.Form frmError
          Height          =   375
          Index           =   4
          Left            =   45
-         TabIndex        =   11
+         TabIndex        =   9
          ToolTipText     =   "Display error information."
          Top             =   2025
          Width           =   1095
@@ -75,7 +75,7 @@ Begin VB.Form frmError
          Height          =   375
          Index           =   3
          Left            =   45
-         TabIndex        =   10
+         TabIndex        =   8
          ToolTipText     =   "Display ODBC driver information."
          Top             =   1530
          Width           =   1095
@@ -85,7 +85,7 @@ Begin VB.Form frmError
          Height          =   375
          Index           =   2
          Left            =   45
-         TabIndex        =   9
+         TabIndex        =   7
          ToolTipText     =   "Display database information."
          Top             =   1035
          Width           =   1095
@@ -95,7 +95,7 @@ Begin VB.Form frmError
          Height          =   375
          Index           =   1
          Left            =   45
-         TabIndex        =   8
+         TabIndex        =   6
          ToolTipText     =   "Display application information."
          Top             =   540
          Width           =   1095
@@ -105,7 +105,7 @@ Begin VB.Form frmError
          Height          =   375
          Index           =   0
          Left            =   45
-         TabIndex        =   7
+         TabIndex        =   5
          ToolTipText     =   "Display system information."
          Top             =   45
          Width           =   1095
@@ -115,7 +115,7 @@ Begin VB.Form frmError
       Caption         =   "D&etails >>"
       Height          =   375
       Left            =   90
-      TabIndex        =   5
+      TabIndex        =   4
       ToolTipText     =   "Show extended details of the error."
       Top             =   2790
       Width           =   1095
@@ -125,7 +125,7 @@ Begin VB.Form frmError
       Default         =   -1  'True
       Height          =   375
       Left            =   3840
-      TabIndex        =   4
+      TabIndex        =   0
       ToolTipText     =   "Ignore the error and continue running pgAdmin."
       Top             =   2775
       Width           =   1095
@@ -134,7 +134,7 @@ Begin VB.Form frmError
       Caption         =   "Send &Mail"
       Height          =   375
       Left            =   6240
-      TabIndex        =   1
+      TabIndex        =   2
       ToolTipText     =   "Send details of this error to the support mailing list."
       Top             =   2775
       Width           =   1095
@@ -143,7 +143,7 @@ Begin VB.Form frmError
       Caption         =   "&Exit"
       Height          =   375
       Left            =   5040
-      TabIndex        =   0
+      TabIndex        =   1
       ToolTipText     =   "Exit from pgAdmin."
       Top             =   2775
       Width           =   1095
@@ -170,7 +170,7 @@ Begin VB.Form frmError
       EndProperty
       Height          =   195
       Left            =   240
-      TabIndex        =   3
+      TabIndex        =   12
       Top             =   240
       Width           =   1125
    End
@@ -180,7 +180,7 @@ Begin VB.Form frmError
       Caption         =   "An Error Occured in pgAdmin2;"
       Height          =   195
       Left            =   945
-      TabIndex        =   2
+      TabIndex        =   11
       Top             =   480
       Width           =   2190
    End
@@ -225,7 +225,7 @@ Public Sub Initialise(lError As Long, szError As String, szRoutine As String)
   'show description error
   txtErr.Text = objError.Description & objError.Troubleshooting
     
-  Me.Height = Me.Height - txtMore.Height - 100
+  Me.Height = Me.Height - txtMore.Height - 60
   
   'center form
   Me.Top = (Screen.Height - Me.Height) / 2
@@ -234,13 +234,13 @@ End Sub
 
 Private Sub cmdDetails_Click()
   If cmdDetails.Caption = "D&etails >>" Then
-    Me.Height = Me.Height + txtMore.Height + 100
+    Me.Height = Me.Height + txtMore.Height + 60
     cmdDetails.Caption = "<< D&etails"
     
     'show detail error
     cmdInfo_Click (4)
   Else
-    Me.Height = Me.Height - txtMore.Height - 100
+    Me.Height = Me.Height - txtMore.Height - 60
     cmdDetails.Caption = "D&etails >>"
   End If
 End Sub
@@ -286,7 +286,7 @@ Dim szSep As String
   szMail = Replace(szMail, Chr(59), "%0" & Hex(59))
   
   'open shell
-  ShellExecute hWnd, "open", szMail, vbNullString, vbNullString, SW_SHOW
+  ShellExecute hwnd, "open", szMail, vbNullString, vbNullString, SW_SHOW
 End Sub
 
 Private Sub cmdContinue_Click()
