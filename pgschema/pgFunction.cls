@@ -37,8 +37,44 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get FormattedID()", etFullDebug
+
+Dim szArgs As String
+Dim vArg As Variant
+Dim X As Long
+
+  'Get the arguments if we don't have them
+  If colArguments Is Nothing Then
+    Set colArguments = New Arguments
+    
+    'Pass the connection to the class
+    Set colArguments.Connection = cnDatabase
+    colArguments.Initialize szArgumentList
+  End If
+  
+  szArgs = "("
+  For Each vArg In colArguments
+    szArgs = szArgs & fmtID(vArg) & ", "
+  Next vArg
+  If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
+  szArgs = szArgs & ")"
+
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szNamespace) & "." & fmtID(szName) & szArgs
+  Else
+    FormattedID = fmtID(szName) & szArgs
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -47,12 +83,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Tag(" & 
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -406,31 +454,9 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
-Dim szArgs As String
-Dim vArg As Variant
-Dim X As Long
 
-  'Get the arguments if we don't have them
-  If colArguments Is Nothing Then
-    Set colArguments = New Arguments
-    
-    'Pass the connection to the class
-    Set colArguments.Connection = cnDatabase
-    colArguments.Initialize szArgumentList
-  End If
-  
-  szArgs = "("
-  For Each vArg In colArguments
-    szArgs = szArgs & QUOTE & vArg & QUOTE & ", "
-  Next vArg
-  If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
-  szArgs = szArgs & ")"
+  szSQL = "COMMENT ON FUNCTION " & FormattedID & " IS '" & dbSZ(vData) & "'"
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & szArgs & " IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON FUNCTION " & QUOTE & szName & QUOTE & szArgs & " IS '" & dbSZ(vData) & "'"
-  End If
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
     
@@ -469,39 +495,14 @@ Dim szArgs As String
 Dim vArg As Variant
 Dim X As Long
 
-  'Get the arguments if we don't have them
-  If colArguments Is Nothing Then
-    Set colArguments = New Arguments
-    
-    'Pass the connection to the class
-    Set colArguments.Connection = cnDatabase
-    colArguments.Initialize szArgumentList
-  End If
-  
-  szArgs = "("
-  For Each vArg In colArguments
-    szArgs = szArgs & QUOTE & vArg & QUOTE & ", "
-  Next vArg
-  If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
-  szArgs = szArgs & ")"
-  
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "-- Function: " & szNamespace & "." & szIdentifier & vbCrLf
-    If (objServer.dbVersion.VersionNum >= 7.2) And OrReplace Then
-      szSQL = szSQL & "CREATE OR REPLACE FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & szArgs
-    Else
-      szSQL = szSQL & "CREATE FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & szArgs
-    End If
+  szSQL = "-- Function: " & FormattedID & vbCrLf
+  If (objServer.dbVersion.VersionNum >= 7.2) And OrReplace Then
+    szSQL = szSQL & "CREATE OR REPLACE FUNCTION " & FormattedID
   Else
-    szSQL = "-- Function: " & szIdentifier & vbCrLf
-    If (objServer.dbVersion.VersionNum >= 7.2) And OrReplace Then
-      szSQL = szSQL & "CREATE OR REPLACE FUNCTION " & QUOTE & szName & QUOTE & szArgs
-    Else
-      szSQL = szSQL & "CREATE FUNCTION " & QUOTE & szName & QUOTE & szArgs
-    End If
+    szSQL = szSQL & "CREATE FUNCTION " & FormattedID
   End If
   
-  szSQL = szSQL & " RETURNS " & QUOTE & szReturns & QUOTE & _
+  szSQL = szSQL & " RETURNS " & fmtID(szReturns) & _
                   " AS '" & szSource & "' " & _
                   " LANGUAGE '" & dbSZ(szLanguage) & "'"
           
@@ -511,7 +512,7 @@ Dim X As Long
   If bCachable Or bStrict Then szSQL = Mid(szSQL, 1, Len(szSQL) - 2) & ")"
   szSQL = szSQL & ";" & vbCrLf
   
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON FUNCTION " & QUOTE & szName & QUOTE & szArgs & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON FUNCTION " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     
   SQL = szSQL
   

@@ -25,7 +25,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -34,12 +35,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Let Tag(" & v
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -216,30 +229,30 @@ Dim objOperator As pgOperator
   
   'Generate the szSQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "CREATE OPERATOR " & QUOTE & szNamespace & QUOTE & "." & Name
+    szSQL = "CREATE OPERATOR " & fmtID(szNamespace) & "." & Name
   Else
     szSQL = "CREATE OPERATOR " & Name
   End If
-  szSQL = szSQL & " (PROCEDURE = " & QUOTE & OperatorFunction & QUOTE
-  If LeftOperandType <> "" Then szSQL = szSQL & ", LEFTARG = " & QUOTE & LeftOperandType & QUOTE
-  If RightOperandType <> "" Then szSQL = szSQL & ", RIGHTARG = " & QUOTE & RightOperandType & QUOTE
-  If Commutator <> "" Then szSQL = szSQL & ", COMMUTATOR = " & QUOTE & Commutator & QUOTE
-  If Negator <> "" Then szSQL = szSQL & ", NEGATOR = " & QUOTE & Negator & QUOTE
-  If RestrictFunction <> "" Then szSQL = szSQL & ", RESTRICT = " & QUOTE & RestrictFunction & QUOTE
-  If JoinFunction <> "" Then szSQL = szSQL & ", JOIN = " & QUOTE & JoinFunction & QUOTE
+  szSQL = szSQL & " (PROCEDURE = " & OperatorFunction
+  If LeftOperandType <> "" Then szSQL = szSQL & ", LEFTARG = " & LeftOperandType
+  If RightOperandType <> "" Then szSQL = szSQL & ", RIGHTARG = " & RightOperandType
+  If Commutator <> "" Then szSQL = szSQL & ", COMMUTATOR = " & Commutator
+  If Negator <> "" Then szSQL = szSQL & ", NEGATOR = " & Negator
+  If RestrictFunction <> "" Then szSQL = szSQL & ", RESTRICT = " & RestrictFunction
+  If JoinFunction <> "" Then szSQL = szSQL & ", JOIN = " & JoinFunction
   If Hashes Then szSQL = szSQL & ", HASHES"
-  If LeftTypeSortOperator <> "" Then szSQL = szSQL & ", SORT1 = " & QUOTE & LeftTypeSortOperator & QUOTE
-  If RightTypeSortOperator <> "" Then szSQL = szSQL & ", SORT2 = " & QUOTE & RightTypeSortOperator & QUOTE
+  If LeftTypeSortOperator <> "" Then szSQL = szSQL & ", SORT1 = " & LeftTypeSortOperator
+  If RightTypeSortOperator <> "" Then szSQL = szSQL & ", SORT2 = " & RightTypeSortOperator
   szSQL = szSQL & ")"
   objServer.ExecSQL szSQL, cnDatabase
   
-  szLOT = LeftOperandType
+  szLOT = fmtID(LeftOperandType)
   If szLOT = "" Then szLOT = "NONE"
-  szROT = RightOperandType
+  szROT = fmtID(RightOperandType)
   If szROT = "" Then szROT = "NONE"
   If Comment <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON OPERATOR " & QUOTE & szNamespace & QUOTE & "." & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON OPERATOR " & fmtID(szNamespace) & "." & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON OPERATOR " & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
     End If
@@ -318,20 +331,8 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Operators.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
-Dim szROT As String
-Dim szLOT As String
 
-  szLOT = mCol(ULEncode(Key)).LeftOperandType
-  If szLOT = "" Then szLOT = "NONE"
-  szROT = mCol(ULEncode(Key)).RightOperandType
-  If szROT = "" Then szROT = "NONE"
-  
-  'Generate/Execute SQL to drop the Operator.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP OPERATOR " & QUOTE & szNamespace & QUOTE & "." & mCol(ULEncode(Key)).Name & "(" & szLOT & ", " & szROT & ")"
-  Else
-    szSQL = "DROP OPERATOR " & mCol(ULEncode(Key)).Name & "(" & szLOT & ", " & szROT & ")"
-  End If
+  szSQL = "DROP OPERATOR " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,

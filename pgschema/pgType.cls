@@ -26,12 +26,9 @@ Private szOwner As String
 Private szInputFunction As String
 Private szOutputFunction As String
 Private lInternalLength As Long
-Private lExternalLength As Long
 Private szDefault As String
 Private szElement As String
 Private szDelimiter As String
-Private szSendFunction As String
-Private szReceiveFunction As String
 Private bPassedByValue As Boolean
 Private szAlignment As String
 Private szStorage As String
@@ -40,8 +37,24 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get FormattedID()", etFullDebug
+ 
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
+  Else
+    FormattedID = fmtID(szName)
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -50,12 +63,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Let Tag(" & vDat
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -310,27 +335,6 @@ objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get InternalLeng
 Err_Handler:  objServer.iLogError Err
 End Property
 
-'Set/Return the ExternalLength
-Friend Property Let ExternalLength(ByVal vData As Long)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Let ExternalLength(" & vData & ")", etFullDebug
-
-  lExternalLength = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get ExternalLength() As Long
-Attribute ExternalLength.VB_Description = "Returns the External Length of the data Type."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get ExternalLength()", etFullDebug
-
-  ExternalLength = lExternalLength
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
 'Set/Return the Default
 Friend Property Let Default(ByVal vData As String)
 On Error GoTo Err_Handler
@@ -389,48 +393,6 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get Delimiter()", etFullDebug
 
   Delimiter = szDelimiter
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
-'Set/Return the SendFunction
-Friend Property Let SendFunction(ByVal vData As String)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Let SendFunction(" & QUOTE & vData & QUOTE & ")", etFullDebug
-
-  szSendFunction = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get SendFunction() As String
-Attribute SendFunction.VB_Description = "Returns the Send Function name used by the Type."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get SendFunction()", etFullDebug
-
-  SendFunction = szSendFunction
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
-'Set/Return the ReceiveFunction
-Friend Property Let ReceiveFunction(ByVal vData As String)
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Let ReceiveFunction(" & QUOTE & vData & QUOTE & ")", etFullDebug
-
-  szReceiveFunction = vData
-    
-  Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-Public Property Get ReceiveFunction() As String
-Attribute ReceiveFunction.VB_Description = "Returns the Receive Function name used by the Type."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get ReceiveFunction()", etFullDebug
-
-  ReceiveFunction = szReceiveFunction
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -506,11 +468,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Let Comment(" & 
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON TYPE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  End If
+  szSQL = "COMMENT ON TYPE " & FormattedID & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
     
@@ -534,47 +492,28 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgType.Property Get SQL()", etFullDebug
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "-- Type: " & szNamespace & "." & szName & vbCrLf & _
-            "CREATE TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & "(" & _
-            "INPUT = " & QUOTE & szInputFunction & QUOTE & ", " & _
-            "OUTPUT = " & QUOTE & szOutputFunction & QUOTE
-  Else
-    szSQL = "-- Type: " & szName & vbCrLf & _
-            "CREATE TYPE " & QUOTE & szName & QUOTE & "(" & _
-            "INPUT = " & QUOTE & szInputFunction & QUOTE & ", " & _
-            "OUTPUT = " & QUOTE & szOutputFunction & QUOTE
-  End If
-        
+  szSQL = "-- Type: " & FormattedID & vbCrLf & _
+          "CREATE TYPE " & FormattedID & "(" & _
+          "INPUT = " & szInputFunction & ", " & _
+          "OUTPUT = " & szOutputFunction
+
   If lInternalLength = 0 Then
     szSQL = szSQL & ", INTERNALLENGTH = VARIABLE"
   Else
     szSQL = szSQL & ", INTERNALLENGTH = " & lInternalLength
   End If
-          
-  If lExternalLength = 0 Then
-    szSQL = szSQL & ", EXTERNALLENGTH = VARIABLE"
-  Else
-    szSQL = szSQL & ", EXTERNALLENGTH = " & lExternalLength
-  End If
   
   If szDefault <> "" Then szSQL = szSQL & ", DEFAULT = " & szDefault
-  If szElement <> "" Then szSQL = szSQL & ", ELEMENT = " & QUOTE & szElement & QUOTE
-  If szDelimiter <> "" Then szSQL = szSQL & ", DELIMITER = " & QUOTE & szDelimiter & QUOTE
-  If szSendFunction <> "" Then szSQL = szSQL & ", SEND = " & QUOTE & szSendFunction & QUOTE
-  If szReceiveFunction <> "" Then szSQL = szSQL & ", RECEIVE = " & QUOTE & szReceiveFunction & QUOTE
+  If szElement <> "" Then szSQL = szSQL & ", ELEMENT = " & szElement
+  If szDelimiter <> "" Then szSQL = szSQL & ", DELIMITER = " & fmtID(szDelimiter)
   If bPassedByValue Then szSQL = szSQL & ", PASSEDBYVALUE"
   If szAlignment <> "" Then szSQL = szSQL & ", ALIGNMENT = " & szAlignment
   If szStorage <> "" Then szSQL = szSQL & ", STORAGE = " & szStorage
   
   szSQL = szSQL & ");" & vbCrLf
           
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-  Else
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TYPE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-  End If
-    
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON TYPE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+
   SQL = szSQL
   
   Exit Sub

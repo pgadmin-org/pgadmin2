@@ -25,7 +25,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -34,12 +35,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Let Tag(" & vDa
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -188,7 +201,7 @@ Dim lScale As Long
   End If
   
   'Generate the szSQL query to create the new object and execute
-  szSQL = "CREATE DOMAIN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
+  szSQL = "CREATE DOMAIN " & fmtID(szNamespace) & "." & fmtID(Name)
   szSQL = szSQL & " AS " & BaseType
   If BaseType = "numeric" Then szSQL = szSQL & "(" & Length & ", " & NumericScale & ")"
   If BaseType = "char" Or BaseType = "varchar" Then szSQL = szSQL & "(" & Length & ")"
@@ -200,7 +213,7 @@ Dim lScale As Long
   Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " AND typname = '" & Name & "' AND typnamespace = " & lNamespaceOID, cnDatabase)
     
   If Comment <> "" Then
-    szSQL = "COMMENT ON DOMAIN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    szSQL = "COMMENT ON DOMAIN " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
   End If
@@ -293,7 +306,7 @@ Dim szSQL As String
   End If
 
   'Generate/Execute SQL to drop the Language.
-  szSQL = "DROP DOMAIN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  szSQL = "DROP DOMAIN " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,

@@ -33,8 +33,24 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get FormattedID()", etFullDebug
+ 
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
+  Else
+    FormattedID = fmtID(szName)
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -43,12 +59,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Tag(" & vD
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -352,11 +380,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Let Comment(" 
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON DOMAIN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON DOMAIN " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  End If
+  szSQL = "COMMENT ON DOMAIN " & FormattedID & " IS '" & dbSZ(vData) & "'"
+
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
     
@@ -380,13 +405,8 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get SQL()", etFullDebug
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "-- Domain: " & szName & vbCrLf & _
-            "CREATE DOMAIN " & QUOTE & szName & QUOTE & " AS " & szBaseType
-  Else
-    szSQL = "-- Domain: " & szNamespace & "." & szName & vbCrLf & _
-            "CREATE DOMAIN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " AS " & szBaseType
-  End If
+  szSQL = "-- Domain: " & FormattedID & vbCrLf & _
+          "CREATE DOMAIN " & FormattedID & " AS " & szBaseType
           
   If szBaseType = "numeric" Then szSQL = szSQL & "(" & lLength & ", " & lNumericScale & ")"
   If szBaseType = "char" Or szBaseType = "varchar" Then szSQL = szSQL & "(" & lLength & ")"
@@ -395,7 +415,7 @@ Dim szSQL As String
   
   szSQL = szSQL & vbCrLf
           
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON DOMAIN " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON DOMAIN " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     
   SQL = szSQL
   

@@ -39,8 +39,24 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get FormattedID()", etFullDebug
+ 
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
+  Else
+    FormattedID = fmtID(szName)
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -49,12 +65,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Tag(" & vDa
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -325,11 +353,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Name(" & vD
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
-  Else
-    szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
-  End If
+  szSQL = "ALTER TABLE " & FormattedID & " RENAME TO " & fmtID(vData)
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData
   
@@ -427,11 +451,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Owner(" & v
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " OWNER TO " & QUOTE & vData & QUOTE
-  Else
-    szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " OWNER TO " & QUOTE & vData & QUOTE
-  End If
+  szSQL = "ALTER TABLE " & FormattedID & " OWNER TO " & QUOTE & vData & QUOTE
+
   objServer.ExecSQL szSQL, cnDatabase
   szOwner = vData
     
@@ -477,11 +498,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Comment(" &
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON TABLE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  End If
+  szSQL = "COMMENT ON TABLE " & FormattedID & " IS '" & dbSZ(vData) & "'"
+
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
   
@@ -507,17 +525,17 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Get Rows()", et
 
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Replace(szName, QUOTE, QUOTE & QUOTE) & QUOTE, cnDatabase)
-  Else
-    Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & Replace(szName, QUOTE, QUOTE & QUOTE) & QUOTE, cnDatabase)
-  End If
+  Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & FormattedID, cnDatabase)
+
   If Not rs.EOF Then Rows = rs!Rows
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
  
   Exit Property
-Err_Handler:  objServer.iLogError Err
+Err_Handler:
+  If rs.State <> adStateClosed Then rs.Close
+  Set rs = Nothing
+  objServer.iLogError Err
 End Property
 
 'Set/Return a boolean indicating whether this table has OIDs
@@ -571,11 +589,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & "ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " TO " & UserOrGroup
-  Else
-    szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
-  End If
+  szSQL = szSQL & "ON " & FormattedID & " TO " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -626,11 +640,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & "ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
-  Else
-    szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
-  End If
+  szSQL = szSQL & "ON " & FormattedID & " FROM " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -681,19 +691,14 @@ Dim objRelationship As pgRelationship
 Dim vTable As Variant
 Dim vColumn As Variant
 Dim bHaveObj As Boolean
-  
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-  szSQL = "-- Table: " & szNamespace & "." & szName & vbCrLf & _
-          "CREATE TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " (" & vbCrLf
-  Else
-  szSQL = "-- Table: " & szName & vbCrLf & _
-          "CREATE TABLE " & QUOTE & szName & QUOTE & " (" & vbCrLf
-  End If
+
+  szSQL = "-- Table: " & FormattedID & vbCrLf & _
+          "CREATE TABLE " & FormattedID & " (" & vbCrLf
   
   For Each objColumn In Columns
     If Not objColumn.SystemObject Then
       bHaveObj = True
-      szSQL = szSQL & "  " & QUOTE & objColumn.Name & QUOTE 'Name
+      szSQL = szSQL & "  " & fmtID(objColumn.Name)   'Name
       szSQL = szSQL & " " & objColumn.DataType 'Type
       
       'Get the length of fixed, definable columns
@@ -719,13 +724,13 @@ Dim bHaveObj As Boolean
       If objIndex.Primary = False And objIndex.Unique = True Then
         bHaveObj = True
         If objIndex.Name <> "" Then
-          szSQL = szSQL & "  CONSTRAINT " & QUOTE & objIndex.Name & QUOTE & " "
+          szSQL = szSQL & "  CONSTRAINT " & fmtID(objIndex.Name) & " "
         Else
           szSQL = szSQL & "  "
         End If
         szSQL = szSQL & "UNIQUE ("
         For Each vColumn In objIndex.IndexedColumns
-          szSQL = szSQL & QUOTE & vColumn & QUOTE & ", "
+          szSQL = szSQL & fmtID(vColumn) & ", "
         Next vColumn
         szSQL = Left(szSQL, Len(szSQL) - 2) & "), " & vbCrLf
       End If
@@ -738,13 +743,13 @@ Dim bHaveObj As Boolean
       If objIndex.Primary = True Then
         bHaveObj = True
         If objIndex.Name <> "" Then
-          szSQL = szSQL & "  CONSTRAINT " & QUOTE & objIndex.Name & QUOTE & " "
+          szSQL = szSQL & "  CONSTRAINT " & fmtID(objIndex.Name) & " "
         Else
           szSQL = szSQL & "  "
         End If
         szSQL = szSQL & "PRIMARY KEY ("
         For Each vColumn In objIndex.IndexedColumns
-          szSQL = szSQL & QUOTE & vColumn & QUOTE & ", "
+          szSQL = szSQL & fmtID(vColumn) & ", "
         Next vColumn
         szSQL = Left(szSQL, Len(szSQL) - 2) & "), " & vbCrLf
       End If
@@ -756,7 +761,7 @@ Dim bHaveObj As Boolean
     bHaveObj = True
     For Each objCheck In Checks
       If objCheck.Name <> "" Then
-        szSQL = szSQL & "  CONSTRAINT " & QUOTE & objCheck.Name & QUOTE & " "
+        szSQL = szSQL & "  CONSTRAINT " & fmtID(objCheck.Name) & " "
       Else
         szSQL = szSQL & "  "
       End If
@@ -769,12 +774,12 @@ Dim bHaveObj As Boolean
     bHaveObj = True
     For Each objForeignKey In ForeignKeys
       If objForeignKey.Name <> "" Then
-        szSQL = szSQL & "  CONSTRAINT " & QUOTE & objForeignKey.Name & QUOTE & " "
+        szSQL = szSQL & "  CONSTRAINT " & fmtID(objForeignKey.Name) & " "
       Else
         szSQL = szSQL & "  "
       End If
       szSQL = szSQL & "FOREIGN KEY (" & Replace(Left(objForeignKey.LocalColumns, Len(objForeignKey.LocalColumns) - 1), "|", ", ") & ") " & _
-              "REFERENCES " & QUOTE & objForeignKey.ReferencedTable & QUOTE & _
+              "REFERENCES " & fmtID(objForeignKey.ReferencedTable) & _
               " (" & Replace(Left(objForeignKey.ReferencedColumns, Len(objForeignKey.ReferencedColumns) - 1), "|", ", ") & ")" & _
               " ON DELETE " & UCase(objForeignKey.OnDelete) & " ON UPDATE " & UCase(objForeignKey.OnUpdate)
       If objForeignKey.Deferrable Then
@@ -795,7 +800,7 @@ Dim bHaveObj As Boolean
   If InheritedTables.Count > 0 Then
     szSQL = szSQL & " INHERITS("
     For Each vTable In InheritedTables
-      szSQL = szSQL & QUOTE & vTable & QUOTE & ", "
+      szSQL = szSQL & fmtID(vTable) & ", "
     Next vTable
     szSQL = Left(szSQL, Len(szSQL) - 2) & ")"
   End If
@@ -811,11 +816,7 @@ Dim bHaveObj As Boolean
   
   szSQL = szSQL & ";" & vbCrLf
   If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-  Else
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TABLE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-  End If
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON TABLE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     
   SQL = szSQL
   

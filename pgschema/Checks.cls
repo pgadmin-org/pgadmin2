@@ -27,7 +27,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -36,12 +37,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Let Tag(" & vDat
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -195,11 +208,11 @@ Dim szSQL As String
   
   'Generate the szSQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
+    szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
-    szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE
+    szSQL = "ALTER TABLE " & fmtID(szTable)
   End If
-  szSQL = szSQL & " ADD CONSTRAINT " & QUOTE & Name & QUOTE
+  szSQL = szSQL & " ADD CONSTRAINT " & fmtID(Name)
   szSQL = szSQL & " CHECK (" & Definition & ")"
   objServer.ExecSQL szSQL, cnDatabase
     
@@ -256,17 +269,14 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Checks.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
-Dim szName As String
 
   If objServer.dbVersion.VersionNum < 7.2 Then Exit Sub
   
-  szName = mCol(ULEncode(Key)).Name
-  
   'Generate/Execute SQL to drop the Check.
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " DROP CONSTRAINT " & QUOTE & szName & QUOTE & " RESTRICT"
+    szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " DROP CONSTRAINT " & mCol(ULEncode(Key)).FormattedID & " RESTRICT"
   Else
-    szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " DROP CONSTRAINT " & QUOTE & szName & QUOTE & " RESTRICT"
+    szSQL = "ALTER TABLE " & fmtID(szTable) & " DROP CONSTRAINT " & mCol(ULEncode(Key)).FormattedID & " RESTRICT"
   End If
   objServer.ExecSQL szSQL, objServer.Connection
   

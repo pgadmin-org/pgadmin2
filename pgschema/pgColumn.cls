@@ -36,8 +36,20 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get FormattedID()", etFullDebug
+
+  FormattedID = fmtID(szName)
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -46,12 +58,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Tag(" & vD
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -195,9 +219,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Name(" & v
 Dim szSQL As String
 
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " RENAME COLUMN " & QUOTE & szName & QUOTE & " TO " & QUOTE & vData & QUOTE
+    szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " RENAME COLUMN " & FormattedID & " TO " & fmtID(vData)
   Else
-    szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " RENAME COLUMN " & QUOTE & szName & QUOTE & " TO " & QUOTE & vData & QUOTE
+    szSQL = "ALTER TABLE " & fmtID(szTable) & " RENAME COLUMN " & FormattedID & " TO " & fmtID(vData)
   End If
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData
@@ -378,15 +402,15 @@ Dim szSQL As String
   
   If objServer.dbVersion.VersionNum >= 7.3 Then
     If vData Then
-      szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & dbSZ(szName) & QUOTE & " SET NOT NULL"
+      szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET NOT NULL"
     Else
-      szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & dbSZ(szName) & QUOTE & " DROP NOT NULL"
+      szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " DROP NOT NULL"
     End If
   Else
     If vData Then
-      szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & szName & QUOTE & " SET NOT NULL"
+      szSQL = "ALTER TABLE " & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET NOT NULL"
     Else
-      szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & szName & QUOTE & " DROP NOT NULL"
+      szSQL = "ALTER TABLE " & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " DROP NOT NULL"
     End If
   End If
   objServer.ExecSQL szSQL, cnDatabase
@@ -446,15 +470,15 @@ Dim szSQL As String
   
   If objServer.dbVersion.VersionNum >= 7.3 Then
     If vData = "" Then
-      szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & szName & QUOTE & " DROP DEFAULT"
+      szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " DROP DEFAULT"
     Else
-      szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & szName & QUOTE & " SET DEFAULT " & vData
+      szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET DEFAULT " & vData
     End If
   Else
     If vData = "" Then
-      szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & szName & QUOTE & " DROP DEFAULT"
+      szSQL = "ALTER TABLE " & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " DROP DEFAULT"
     Else
-      szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & szName & QUOTE & " SET DEFAULT " & vData
+      szSQL = "ALTER TABLE " & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET DEFAULT " & vData
     End If
   End If
   objServer.ExecSQL szSQL, cnDatabase
@@ -481,9 +505,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Comment(" 
 Dim szSQL As String
 
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON COLUMN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
+    szSQL = "COMMENT ON COLUMN " & fmtID(szNamespace) & "." & fmtID(szTable) & "." & FormattedID & " IS '" & dbSZ(vData) & "'"
   Else
-    szSQL = "COMMENT ON COLUMN " & QUOTE & szTable & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
+    szSQL = "COMMENT ON COLUMN " & fmtID(szTable) & "." & FormattedID & " IS '" & dbSZ(vData) & "'"
   End If
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache

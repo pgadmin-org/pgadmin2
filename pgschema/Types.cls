@@ -25,7 +25,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -34,12 +35,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Types.Property Let Tag(" & vData
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Types.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Types.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -133,9 +146,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szOwner As String, szInputFunction As String, szOutputFunction As String, lInternalLength As Long, lExternalLength As Long, szDefault As String, lElement As Long, szDelimiter As String, szSendFunction As String, szReceiveFunction As String, bPassedByValue As Boolean, szAlignment As String, szStorage As String) As pgType
+Private Function iAdd(lOID As Long, szName As String, szOwner As String, szInputFunction As String, szOutputFunction As String, lInternalLength As Long, szDefault As String, lElement As Long, szDelimiter As String, bPassedByValue As Boolean, szAlignment As String, szStorage As String) As pgType
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & lExternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & lElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & QUOTE & szSendFunction & QUOTE & ", " & QUOTE & szReceiveFunction & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & QUOTE & szInputFunction & QUOTE & ", " & QUOTE & szOutputFunction & QUOTE & ", " & lInternalLength & ", " & QUOTE & szDefault & QUOTE & ", " & lElement & ", " & QUOTE & szDelimiter & QUOTE & ", " & bPassedByValue & ", " & QUOTE & szAlignment & QUOTE & ", " & QUOTE & szStorage & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgType
 Dim szTemp As String
@@ -156,14 +169,11 @@ Dim szTemp As String
   objNewMember.InputFunction = szInputFunction
   objNewMember.OutputFunction = szOutputFunction
   objNewMember.InternalLength = lInternalLength
-  objNewMember.ExternalLength = lExternalLength
   objNewMember.Default = szDefault
   szTemp = objServer.Databases(Database).LookupType(lElement)
   If szTemp = "opaque" Then szTemp = ""
   objNewMember.Element = szTemp
   objNewMember.Delimiter = szDelimiter
-  objNewMember.SendFunction = szSendFunction
-  objNewMember.ReceiveFunction = szReceiveFunction
   objNewMember.PassedByValue = bPassedByValue
   Select Case UCase(szAlignment)
     Case ""
@@ -171,23 +181,23 @@ Dim szTemp As String
     Case "C"
       objNewMember.Alignment = "char"
     Case "S"
-      objNewMember.Alignment = "short"
+      objNewMember.Alignment = "int2"
     Case "I"
-      objNewMember.Alignment = "int"
+      objNewMember.Alignment = "int4"
     Case "D"
       objNewMember.Alignment = "double"
   End Select
   Select Case UCase(szStorage)
     Case ""
-      objNewMember.Storage = "Plain"
+      objNewMember.Storage = "PLAIN"
     Case "P"
-      objNewMember.Storage = "Plain"
+      objNewMember.Storage = "PLAIN"
     Case "E"
-      objNewMember.Storage = "External"
+      objNewMember.Storage = "EXTERNAL"
     Case "M"
-      objNewMember.Storage = "Extended"
+      objNewMember.Storage = "EXTENDED"
     Case "X"
-      objNewMember.Storage = "Main"
+      objNewMember.Storage = "MAIN"
   End Select
   objNewMember.Identifier = szName
   Set objNewMember.Connection = cnDatabase
@@ -201,10 +211,10 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'External Add
-Public Function Add(ByVal Name As String, ByVal InputFunction As String, ByVal OutputFunction As String, ByVal InternalLength As Long, Optional ByVal ExternalLength As Long, Optional ByVal Default As String, Optional ByVal Element As String, Optional ByVal Delimiter As String, Optional ByVal SendFunction As String, Optional ByVal ReceiveFunction As String, Optional ByVal PassedByValue As Boolean, Optional ByVal Alignment As String, Optional ByVal Storage As String, Optional ByVal Comment As String)
+Public Function Add(ByVal Name As String, ByVal InputFunction As String, ByVal OutputFunction As String, ByVal InternalLength As Long, Optional ByVal Default As String, Optional ByVal Element As String, Optional ByVal Delimiter As String, Optional ByVal PassedByValue As Boolean, Optional ByVal Alignment As String, Optional ByVal Storage As String, Optional ByVal Comment As String)
 Attribute Add.VB_Description = "Add a new Type."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Types.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputFunction & QUOTE & ", " & QUOTE & OutputFunction & QUOTE & ", " & InternalLength & ", " & ExternalLength & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Element & QUOTE & ", " & QUOTE & Delimiter & QUOTE & ", " & QUOTE & SendFunction & QUOTE & ", " & QUOTE & ReceiveFunction & QUOTE & ", " & PassedByValue & ", " & QUOTE & Alignment & QUOTE & ", " & QUOTE & Storage & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Types.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & InputFunction & QUOTE & ", " & QUOTE & OutputFunction & QUOTE & ", " & InternalLength & ", " & QUOTE & Default & QUOTE & ", " & QUOTE & Element & QUOTE & ", " & QUOTE & Delimiter & QUOTE & ", " & PassedByValue & ", " & QUOTE & Alignment & QUOTE & ", " & QUOTE & Storage & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim szSQL As String
@@ -212,24 +222,21 @@ Dim objType As pgType
 
   'Generate the szSQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "CREATE TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
+    szSQL = "CREATE TYPE " & fmtID(szNamespace) & "." & fmtID(Name)
   Else
-    szSQL = "CREATE TYPE " & QUOTE & Name & QUOTE
+    szSQL = "CREATE TYPE " & fmtID(Name)
   End If
   szSQL = szSQL & " (INPUT = " & QUOTE & InputFunction & QUOTE
   szSQL = szSQL & ", OUTPUT = " & QUOTE & OutputFunction & QUOTE
   szSQL = szSQL & ", INTERNALLENGTH = " & InternalLength
-  If ExternalLength > 0 Then szSQL = szSQL & ", EXTERNALLENGTH = " & ExternalLength
   If Default <> "" Then szSQL = szSQL & ", DEFAULT = " & Default
-  If Element <> "" Then szSQL = szSQL & ", ELEMENT = " & QUOTE & Element & QUOTE
-  If Delimiter <> "" Then szSQL = szSQL & ", DELIMITER = " & QUOTE & Delimiter & QUOTE
-  If SendFunction <> "" Then szSQL = szSQL & ", SEND = " & QUOTE & SendFunction & QUOTE
-  If ReceiveFunction <> "" Then szSQL = szSQL & ", RECEIVE = " & QUOTE & ReceiveFunction & QUOTE
+  If Element <> "" Then szSQL = szSQL & ", ELEMENT = " & Element
+  If Delimiter <> "" Then szSQL = szSQL & ", DELIMITER = " & fmtID(Delimiter)
   '7.1+ support ALIGN & STORAGE
   If PassedByValue = True Then szSQL = szSQL & ", PASSEDBYVALUE"
   If objVersion.VersionNum >= 7.1 Then
-    If Alignment <> "" Then szSQL = szSQL & ", ALIGNMENT = " & QUOTE & Alignment & QUOTE
-    If Storage <> "" Then szSQL = szSQL & ", STORAGE = " & QUOTE & Storage & QUOTE
+    If Alignment <> "" Then szSQL = szSQL & ", ALIGNMENT = " & Alignment
+    If Storage <> "" Then szSQL = szSQL & ", STORAGE = " & Storage
   End If
   szSQL = szSQL & ")"
   objServer.ExecSQL szSQL, cnDatabase
@@ -243,9 +250,9 @@ Dim objType As pgType
     
   If Comment <> "" Then
     If objVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON TYPE " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
-      szSQL = "COMMENT ON TYPE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON TYPE " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
@@ -253,9 +260,9 @@ Dim objType As pgType
   
   If Not rs.EOF Then
     If objVersion.VersionNum >= 7.1 Then
-      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
+      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
     Else
-      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", "")
+      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), "", "")
     End If
   End If
   
@@ -320,11 +327,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Types.Remove(" & QUOTE & Key & Q
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the Type.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP TYPE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  Else
-    szSQL = "DROP TYPE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  End If
+  szSQL = "DROP TYPE " & mCol(ULEncode(Key)).FormattedID & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,
@@ -392,9 +395,9 @@ Dim rs As New Recordset
     End If
     While Not rs.EOF
       If objVersion.VersionNum >= 7.1 Then
-        iAdd rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & ""
+        iAdd rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & ""
       Else
-        iAdd rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typprtlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", rs!typsend & "", rs!typreceive & "", ToBool(rs!typbyval), "", ""
+        iAdd rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), "", ""
       End If
       rs.MoveNext
     Wend

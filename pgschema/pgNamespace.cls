@@ -37,8 +37,20 @@ Private szACL As String
 Private cnDatabase As Connection
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get FormattedID()", etFullDebug
+
+  FormattedID = fmtID(szName)
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -47,12 +59,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let Tag(" &
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -402,7 +426,7 @@ Dim szSQL As String
     Exit Property
   End If
   
-  szSQL = "COMMENT ON SCHEMA " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
+  szSQL = "COMMENT ON SCHEMA " & FormattedID & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
   
@@ -452,7 +476,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & "ON SCHEMA " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
+  szSQL = szSQL & "ON SCHEMA " & FormattedID & " TO " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -501,7 +525,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  szSQL = szSQL & "ON SCHEMA " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
+  szSQL = szSQL & "ON SCHEMA " & FormattedID & " FROM " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -530,159 +554,13 @@ objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get SQL()",
 Dim szSQL As String
     
     szSQL = "-- Schema: " & szName & vbCrLf
-    szSQL = szSQL & "CREATE SCHEMA " & QUOTE & szName & QUOTE & " AUTHORIZATION " & QUOTE & szOwner & QUOTE & ";" & vbCrLf
-    If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL, aclSchema)
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON SCHEMA " & QUOTE & szName & QUOTE & " IS '" & Comment & "';" & vbCrLf
+    szSQL = szSQL & "CREATE SCHEMA " & FormattedID & " AUTHORIZATION " & fmtID(szOwner) & ";" & vbCrLf
+    If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclSchema)
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON SCHEMA " & FormattedID & " IS '" & Comment & "';" & vbCrLf
       
     SQL = szSQL
 
 Exit Property
-Err_Handler:  objServer.iLogError Err
-End Property
-
-Public Property Get Schema(Optional ResetSequences As Boolean) As String
-Attribute Schema.VB_Description = "Returns the reverse engineered SQL for all the objects within this Namespace."
-On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.Schema(" & ResetSequences & ")", etFullDebug
-Dim szSQL As String
-Dim vObject As Variant
-Dim vChildObject As Variant
-Dim arrObjects() As Variant
-Dim X As Long
-Dim Y As Long
-Dim vTemp As Variant
-
-  szSQL = "-- pgSchema:  " & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf & _
-          "-- Timestamp: " & Now & vbCrLf & _
-          "-- Server:    " & objServer.Server & vbCrLf & _
-          "-- Port:      " & objServer.Port & vbCrLf & _
-          "-- Database:  " & szName & vbCrLf & vbCrLf
-  
-  'We will output the Schema object by object in OID order. This should work
-  'most of the time unless (for example) a table is altered to use a later
-  'created function as a default. Hopefully future releases of PostgreSQL
-  'will include a pg_dependency table that we can use instead.
-  
-  'First, copy all objects into a single array: Aggregates, Functions,
-  'Indexes, Languages, Operators, Rules, Sequences, Tables, Triggers,
-  'Types & Views
-  
-  ReDim arrObjects(0)
-  
-  'Aggregates
-  For Each vObject In Aggregates
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    End If
-  Next vObject
-  
-  'Domains
-  For Each vObject In Domains
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    End If
-  Next vObject
-
-  'Functions
-  For Each vObject In Functions
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    End If
-  Next vObject
-
-  'Operators
-  For Each vObject In Operators
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    End If
-  Next vObject
-
-  'Sequences
-  For Each vObject In Sequences
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    End If
-  Next vObject
-
-  'Tables
-  For Each vObject In Tables
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    
-      'Indexes
-      For Each vChildObject In vObject.Indexes
-        If Not vChildObject.SystemObject Then
-          Set arrObjects(UBound(arrObjects)) = vChildObject
-          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-        End If
-      Next vChildObject
-      
-      'Rules
-      For Each vChildObject In vObject.Rules
-        If Not vChildObject.SystemObject Then
-          Set arrObjects(UBound(arrObjects)) = vChildObject
-          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-        End If
-      Next vChildObject
-      
-      'Triggers
-      For Each vChildObject In vObject.Triggers
-        If Not vChildObject.SystemObject Then
-          Set arrObjects(UBound(arrObjects)) = vChildObject
-          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-        End If
-      Next vChildObject
-    End If
-  Next vObject
-
-  'Types
-  For Each vObject In Types
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    End If
-  Next vObject
-
-  'Views
-  For Each vObject In Views
-    If Not vObject.SystemObject Then
-      Set arrObjects(UBound(arrObjects)) = vObject
-      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
-    End If
-  Next vObject
-  
-  'Lose the last empty element
-  If UBound(arrObjects) > 0 Then ReDim Preserve arrObjects(UBound(arrObjects) - 1)
-  
-  'Now bubble sort the array by OID.
-  For X = UBound(arrObjects) To LBound(arrObjects) Step -1
-    For Y = LBound(arrObjects) + 1 To X
-      If arrObjects(Y - 1).OID > arrObjects(Y).OID Then
-        Set vTemp = arrObjects(Y - 1)
-        Set arrObjects(Y - 1) = arrObjects(Y)
-        Set arrObjects(Y) = vTemp
-      End If
-    Next Y
-  Next X
-
-  'Now loop through the array and output the SQL
-  For X = 0 To UBound(arrObjects)
-    If arrObjects(X).ObjectType = "Sequence" Then
-      szSQL = szSQL & arrObjects(X).SQL(ResetSequences) & vbCrLf
-    Else
-      szSQL = szSQL & arrObjects(X).SQL & vbCrLf
-    End If
-  Next X
-    
-  Schema = szSQL
-  
-  Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 

@@ -25,7 +25,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -34,12 +35,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Let Tag(" & vDat
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Tables.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -181,9 +194,9 @@ Dim szSQL As String
   
   'Generate the SQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "CREATE TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " (" & Columns
+    szSQL = "CREATE TABLE " & fmtID(szNamespace) & "." & fmtID(Name) & " (" & Columns
   Else
-    szSQL = "CREATE TABLE " & QUOTE & Name & QUOTE & " (" & Columns
+    szSQL = "CREATE TABLE " & fmtID(Name) & " (" & Columns
   End If
   If PrimaryKeys <> "" Then szSQL = szSQL & ", PRIMARY KEY (" & PrimaryKeys & ")"
   If Checks <> "" Then szSQL = szSQL & ", " & Checks
@@ -200,9 +213,9 @@ Dim szSQL As String
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON TABLE " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
-      szSQL = "COMMENT ON TABLE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON TABLE " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
@@ -321,11 +334,7 @@ Dim objTrigger As pgTrigger
   End If
   
   'Generate/Execute SQL to drop the Table.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  Else
-    szSQL = "DROP TABLE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  End If
+  szSQL = "DROP TABLE " & mCol(ULEncode(Key)).FormattedID & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,

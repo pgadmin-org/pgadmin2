@@ -27,8 +27,20 @@ Private lID As Long
 Private szMemberList As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get FormattedID()", etFullDebug
+
+  FormattedID = fmtID(szName)
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -37,12 +49,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let Tag(" & vDa
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -171,14 +195,15 @@ Dim szSQL As String
 Dim szMember As Variant
 Dim szTemp As String
   
-  szSQL = "-- Group: " & szName & vbCrLf & _
-          "CREATE GROUP " & QUOTE & szName & QUOTE & " WITH SYSID " & lID
+  szSQL = "-- Group: " & FormattedID & vbCrLf & _
+          "CREATE GROUP " & FormattedID & " WITH SYSID " & lID
   
   If Members.Count > 0 Then szSQL = szSQL & " USER "
   For Each szMember In Members
-    'For some reason dbSZing szMember gives a ByRef mismatch, so copy to szTemp first
+    'For some reason dbSZing (and probably fmtID as well) szMember gives
+    'a ByRef mismatch, so copy to szTemp first
     szTemp = szMember
-    szSQL = szSQL & QUOTE & szTemp & QUOTE & ", "
+    szSQL = szSQL & fmtID(szTemp) & ", "
   Next szMember
   szSQL = Left(szSQL, Len(szSQL) - 2) & ";" & vbCrLf
 

@@ -40,8 +40,20 @@ Private szOperatorCache As Collection
 Private szCommentCache As Collection
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get FormattedID()", etFullDebug
+
+  FormattedID = fmtID(szName)
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -50,12 +62,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Let Tag(" & 
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -84,11 +108,23 @@ Dim rs As New Recordset
   If szTypeCache Is Nothing Then
     objServer.iLogEvent "Populating Type cache (database: " & szName & ")...", etMiniDebug
     Set szTypeCache = New Collection
-    Set rs = objServer.ExecSQL("SELECT oid, typname FROM pg_type", cnDatabase)
-    While Not rs.EOF
-      szTypeCache.Add rs!typname & "", "T" & rs!OID
-      rs.MoveNext
-    Wend
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL("SELECT t.oid, n.nspname, t.typname FROM pg_type t, pg_namespace n WHERE n.oid = t.typnamespace", cnDatabase)
+      While Not rs.EOF
+        If rs!nspname & "" = "pg_catalog" Then
+          szTypeCache.Add fmtID(rs!typname & ""), "T" & rs!OID
+        Else
+          szTypeCache.Add fmtID(rs!nspname & "") & "." & fmtID(rs!typname & ""), "T" & rs!OID
+        End If
+        rs.MoveNext
+      Wend
+    Else
+      Set rs = objServer.ExecSQL("SELECT oid, typname FROM pg_type", cnDatabase)
+      While Not rs.EOF
+        szTypeCache.Add fmtID(rs!typname & ""), "T" & rs!OID
+        rs.MoveNext
+      Wend
+    End If
     If rs.State <> adStateClosed Then rs.Close
     Set rs = Nothing
     objServer.iLogEvent "Completed populating Type cache (database: " & szName & ").", etMiniDebug
@@ -176,13 +212,28 @@ Dim rs As New Recordset
   If szOperatorCache Is Nothing Then
     objServer.iLogEvent "Populating Operator cache (database: " & szName & ")...", etMiniDebug
     Set szOperatorCache = New Collection
-    'Select an O in front of the name to avoid strange behaviour with !
-    Set rs = objServer.ExecSQL(SQL_GET_OPERATORS, cnDatabase)
-    While Not rs.EOF
-      'Prefix the operator name otherwise we get bizarre errors
-      szOperatorCache.Add "O" & rs!oprname, "O" & rs!OID
-      rs.MoveNext
-    Wend
+    If objServer.dbVersion.VersionNum >= 7.3 Then
+      'Select an O in front of the name to avoid strange behaviour with !
+      Set rs = objServer.ExecSQL("SELECT o.oid, n.nspname, o.oprname FROM pg_operator o, pg_namespace n WHERE n.oid = o.oprnamespace", cnDatabase)
+      While Not rs.EOF
+        'Prefix the operator name otherwise we get bizarre errors
+        If rs!nspname & "" = "pg_catalog" Then
+          szOperatorCache.Add "O" & rs!oprname, "O" & rs!OID
+        Else
+          szOperatorCache.Add "O" & fmtID(rs!nspname) & "." & rs!oprname, "O" & rs!OID
+        End If
+        rs.MoveNext
+      Wend
+    Else
+      'Select an O in front of the name to avoid strange behaviour with !
+      Set rs = objServer.ExecSQL("SELECT oid, oprname FROM pg_operator", cnDatabase)
+      While Not rs.EOF
+        'Prefix the operator name otherwise we get bizarre errors
+        szOperatorCache.Add "O" & rs!oprname, "O" & rs!OID
+        rs.MoveNext
+      Wend
+    
+    End If
     If rs.State <> adStateClosed Then rs.Close
     Set rs = Nothing
     objServer.iLogEvent "Completed populating Operator cache (database: " & szName & ").", etMiniDebug
@@ -482,7 +533,7 @@ Dim szSQL As String
   'Connect if required
   If dbConnect = False Then Exit Property
   
-  szSQL = "COMMENT ON DATABASE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
+  szSQL = "COMMENT ON DATABASE " & FormattedID & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   KillCommentCache
     
@@ -654,14 +705,14 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.SQL()", etFullDebug
 Dim szSQL As String
   
-  szSQL = "-- Database: " & szName & vbCrLf & _
-          "CREATE DATABASE " & QUOTE & szName & QUOTE & " WITH"
+  szSQL = "-- Database: " & FormattedID & vbCrLf & _
+          "CREATE DATABASE " & FormattedID & " WITH"
 
   If szPath <> "" Then szSQL = szSQL & " LOCATION = '" & dbSZ(szPath) & "'"
   szSQL = szSQL & " ENCODING = '" & szServerEncoding & "'"
   szSQL = szSQL & ";" & vbCrLf
   
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON DATABASE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON DATABASE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     
   SQL = szSQL
   
@@ -669,4 +720,166 @@ Dim szSQL As String
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Public Property Get Schema(Optional ResetSequences As Boolean) As String
+Attribute Schema.VB_Description = "Returns the SQL representing the entire database."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Property Get pgDatabase.Schema(" & ResetSequences & ")", etFullDebug
+Dim szSQL As String
+Dim vObject As Variant
+Dim vChildObject As Variant
+Dim vNamespaceObject As Variant
+Dim arrObjects() As Variant
+Dim X As Long
+Dim Y As Long
+Dim vTemp As Variant
 
+  szSQL = "-- pgSchema:  " & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf & _
+          "-- Timestamp: " & Now & vbCrLf & _
+          "-- Server:    " & objServer.Server & vbCrLf & _
+          "-- Port:      " & objServer.Port & vbCrLf & _
+          "-- Database:  " & szName & vbCrLf & vbCrLf
+  
+  'We will output the Schema object by object in OID order. This should work
+  'most of the time unless (for example) a table is altered to use a later
+  'created function as a default. Hopefully future releases of PostgreSQL
+  'will include a pg_dependency table that we can use instead.
+  
+  'First, copy all objects into a single array: Aggregates, Functions,
+  'Indexes, Languages, Operators, Rules, Sequences, Tables, Triggers,
+  'Types & Views
+  
+  ReDim arrObjects(0)
+  
+  'Languages
+  For Each vObject In Languages
+    If Not vObject.SystemObject Then
+      Set arrObjects(UBound(arrObjects)) = vObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+    End If
+  Next vObject
+  
+  'Namespaces
+  For Each vNamespaceObject In Namespaces
+    If (Not vNamespaceObject.SystemObject) Or (vNamespaceObject.Name = "public") Then
+      Set arrObjects(UBound(arrObjects)) = vNamespaceObject
+      ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+  
+      'Aggregates
+      For Each vObject In vNamespaceObject.Aggregates
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vObject
+      
+      'Domains
+      For Each vObject In vNamespaceObject.Domains
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vObject
+    
+      'Functions
+      For Each vObject In vNamespaceObject.Functions
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vObject
+    
+      'Operators
+      For Each vObject In vNamespaceObject.Operators
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vObject
+    
+      'Sequences
+      For Each vObject In vNamespaceObject.Sequences
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vObject
+    
+      'Tables
+      For Each vObject In vNamespaceObject.Tables
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        
+          'Indexes
+          For Each vChildObject In vObject.Indexes
+            If Not vChildObject.SystemObject Then
+              Set arrObjects(UBound(arrObjects)) = vChildObject
+              ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+            End If
+          Next vChildObject
+          
+          'Rules
+          For Each vChildObject In vObject.Rules
+            If Not vChildObject.SystemObject Then
+              Set arrObjects(UBound(arrObjects)) = vChildObject
+              ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+            End If
+          Next vChildObject
+          
+          'Triggers
+          For Each vChildObject In vObject.Triggers
+            If Not vChildObject.SystemObject Then
+              Set arrObjects(UBound(arrObjects)) = vChildObject
+              ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+            End If
+          Next vChildObject
+        End If
+      Next vObject
+    
+      'Types
+      For Each vObject In vNamespaceObject.Types
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vObject
+    
+      'Views
+      For Each vObject In vNamespaceObject.Views
+        If Not vObject.SystemObject Then
+          Set arrObjects(UBound(arrObjects)) = vObject
+          ReDim Preserve arrObjects(UBound(arrObjects) + 1)
+        End If
+      Next vObject
+  
+    End If
+  Next vNamespaceObject
+  
+  'Lose the last empty element
+  If UBound(arrObjects) > 0 Then ReDim Preserve arrObjects(UBound(arrObjects) - 1)
+  
+  'Now bubble sort the array by OID.
+  For X = UBound(arrObjects) To LBound(arrObjects) Step -1
+    For Y = LBound(arrObjects) + 1 To X
+      If arrObjects(Y - 1).OID > arrObjects(Y).OID Then
+        Set vTemp = arrObjects(Y - 1)
+        Set arrObjects(Y - 1) = arrObjects(Y)
+        Set arrObjects(Y) = vTemp
+      End If
+    Next Y
+  Next X
+
+  'Now loop through the array and output the SQL
+  For X = 0 To UBound(arrObjects)
+    If arrObjects(X).ObjectType = "Sequence" Then
+      szSQL = szSQL & arrObjects(X).SQL(ResetSequences) & vbCrLf
+    Else
+      szSQL = szSQL & arrObjects(X).SQL & vbCrLf
+    End If
+  Next X
+    
+  Schema = szSQL
+  
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property

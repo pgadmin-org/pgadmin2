@@ -28,7 +28,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -37,12 +38,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Let Tag(" & vD
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Triggers.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -204,12 +217,12 @@ Dim szEvent As String
 Dim objTrigger As pgTrigger
   
   'Generate the szSQL query to create the new object and execute
-  szSQL = "CREATE TRIGGER " & QUOTE & Name & QUOTE
+  szSQL = "CREATE TRIGGER " & fmtID(Name)
   szSQL = szSQL & " " & Executes & " " & TriggerEvent
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & " ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
+    szSQL = szSQL & " ON " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
-    szSQL = szSQL & " ON " & QUOTE & szTable & QUOTE
+    szSQL = szSQL & " ON " & fmtID(szTable)
   End If
   szSQL = szSQL & " FOR EACH " & ForEach
   szSQL = szSQL & " EXECUTE PROCEDURE " & TriggerFunction
@@ -217,9 +230,9 @@ Dim objTrigger As pgTrigger
   
   If Comment <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON TRIGGER " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON TRIGGER " & fmtID(szNamespace) & "." & fmtID(Name) & " ON " & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
     Else
-      szSQL = "COMMENT ON TRIGGER " & QUOTE & Name & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON TRIGGER " & fmtID(Name) & " ON " & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
     End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
@@ -232,21 +245,21 @@ Dim objTrigger As pgTrigger
   If Not rs.EOF Then
     'Executes
     If (rs!tgtype And 2) = 2 Then
-      szExecutes = "Before"
+      szExecutes = "BEFORE"
     Else
-      szExecutes = "After"
+      szExecutes = "AFTER"
     End If
       
     'For Each
     If (rs!tgtype And 1) = 1 Then
-      szForEach = "Row"
+      szForEach = "ROW"
     Else
-      szForEach = "Statement"
+      szForEach = "STATEMENT"
     End If
       
-    If (rs!tgtype And 4) = 4 Then szEvent = szEvent & "Insert OR "
-    If (rs!tgtype And 8) = 8 Then szEvent = szEvent & "Delete OR "
-    If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "Update OR "
+    If (rs!tgtype And 4) = 4 Then szEvent = szEvent & "INSERT OR "
+    If (rs!tgtype And 8) = 8 Then szEvent = szEvent & "DELETE OR "
+    If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "UPDATE OR "
     If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
     Set objTrigger = iAdd(rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
@@ -310,11 +323,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Triggers.Remove(" & QUOTE & Key 
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Trigger.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP TRIGGER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
-  Else
-    szSQL = "DROP TRIGGER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " ON " & QUOTE & szTable & QUOTE
-  End If
+  szSQL = "DROP TRIGGER " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,
@@ -380,22 +389,22 @@ Dim szEvent As String
     
       'Executes
       If (rs!tgtype And 2) = 2 Then
-        szExecutes = "Before"
+        szExecutes = "BEFORE"
       Else
-        szExecutes = "After"
+        szExecutes = "AFTER"
       End If
         
       'For Each
       If (rs!tgtype And 1) = 1 Then
-        szForEach = "Row"
+        szForEach = "ROW"
       Else
-        szForEach = "Statement"
+        szForEach = "STATEMENT"
       End If
       
       szEvent = ""
-      If (rs!tgtype And 4) = 4 Then szEvent = szEvent & "Insert OR "
-      If (rs!tgtype And 8) = 8 Then szEvent = szEvent & "Delete OR "
-      If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "Update OR "
+      If (rs!tgtype And 4) = 4 Then szEvent = szEvent & "INSERT OR "
+      If (rs!tgtype And 8) = 8 Then szEvent = szEvent & "DELETE OR "
+      If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "UPDATE OR "
       If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
       iAdd rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach

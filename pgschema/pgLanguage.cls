@@ -28,8 +28,20 @@ Private szComment As String
 Private cnDatabase As Connection
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get FormattedID()", etFullDebug
+
+  FormattedID = "'" & szName & "'"
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -38,12 +50,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Tag(" & 
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -255,11 +279,11 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get SQL()", 
 Dim szSQL As String
 Dim szMember As Variant
   
-  szSQL = "-- Language: " & szName & vbCrLf & _
+  szSQL = "-- Language: " & FormattedID & vbCrLf & _
           "CREATE"
           
   If bTrusted Then szSQL = szSQL & " TRUSTED"
-  szSQL = szSQL & " PROCEDURAL LANGUAGE '" & szName & "'"
+  szSQL = szSQL & " PROCEDURAL LANGUAGE " & FormattedID
   szSQL = szSQL & " HANDLER " & QUOTE & szHandler & QUOTE
   szSQL = szSQL & " LANCOMPILER '" & dbSZ(Comment) & "'"
   szSQL = szSQL & ";" & vbCrLf

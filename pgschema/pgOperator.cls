@@ -40,8 +40,31 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get FormattedID()", etFullDebug
+ 
+Dim szROT As String
+Dim szLOT As String
+
+  szLOT = fmtID(szLeftOperandType)
+  If szLOT = "" Then szLOT = "NONE"
+  szROT = fmtID(szRightOperandType)
+  If szROT = "" Then szROT = "NONE"
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szNamespace) & "." & szName & "(" & szLOT & ", " & szROT & ")"
+  Else
+    FormattedID = szName & "(" & szLOT & ", " & szROT & ")"
+  End If
+
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -50,12 +73,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Tag(" & 
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -505,18 +540,9 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgOperator.Property Let Comment(" & vData & ")", etFullDebug
 
 Dim szSQL As String
-Dim szROT As String
-Dim szLOT As String
 
-  szLOT = szLeftOperandType
-  If szLOT = "" Then szLOT = "NONE"
-  szROT = szRightOperandType
-  If szROT = "" Then szROT = "NONE"
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON OPERATOR " & QUOTE & szNamespace & QUOTE & "." & szName & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON OPERATOR " & szName & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(vData) & "'"
-  End If
+  szSQL = "COMMENT ON OPERATOR " & FormattedID & " IS '" & dbSZ(vData) & "'"
+
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
 
@@ -548,33 +574,29 @@ Dim szLOT As String
   If szROT = "" Then szROT = "NONE"
   
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "-- Operator: " & szNamespace & "." & szIdentifier & vbCrLf & _
-            "CREATE OPERATOR " & QUOTE & szNamespace & QUOTE & "." & szName & " (" & _
-            "PROCEDURE = " & QUOTE & szOperatorFunction & QUOTE
+    szSQL = "-- Operator: " & FormattedID & vbCrLf & _
+            "CREATE OPERATOR " & fmtID(szNamespace) & "." & szName & " (" & _
+            "PROCEDURE = " & fmtID(szOperatorFunction)
   Else
-    szSQL = "-- Operator: " & szIdentifier & vbCrLf & _
+    szSQL = "-- Operator: " & FormattedID & vbCrLf & _
             "CREATE OPERATOR " & szName & " (" & _
-            "PROCEDURE = " & QUOTE & szOperatorFunction & QUOTE
+            "PROCEDURE = " & fmtID(szOperatorFunction)
   End If
   
-  If szLeftOperandType <> "" Then szSQL = szSQL & ", LEFTARG = " & QUOTE & szLeftOperandType & QUOTE
-  If szRightOperandType <> "" Then szSQL = szSQL & ", RIGHTARG = " & QUOTE & szRightOperandType & QUOTE
+  If szLeftOperandType <> "" Then szSQL = szSQL & ", LEFTARG = " & szLeftOperandType
+  If szRightOperandType <> "" Then szSQL = szSQL & ", RIGHTARG = " & szRightOperandType
   If szCommutator <> "" Then szSQL = szSQL & ", COMMUTATOR = " & szCommutator
   If szNegator <> "" Then szSQL = szSQL & ", NEGATOR = " & szNegator
-  If szRestrictFunction <> "" Then szSQL = szSQL & ", RESTRICT = " & QUOTE & szRestrictFunction & QUOTE
-  If szJoinFunction <> "" Then szSQL = szSQL & ", JOIN = " & QUOTE & szJoinFunction & QUOTE
+  If szRestrictFunction <> "" Then szSQL = szSQL & ", RESTRICT = " & szRestrictFunction
+  If szJoinFunction <> "" Then szSQL = szSQL & ", JOIN = " & szJoinFunction
   If bHashJoins Then szSQL = szSQL & ", HASHES"
   If szLeftTypeSortOperator <> "" Then szSQL = szSQL & ", SORT1 = " & szLeftTypeSortOperator
   If szRightTypeSortOperator <> "" Then szSQL = szSQL & ", SORT2 = " & szRightTypeSortOperator
   
   szSQL = szSQL & ");" & vbCrLf
-      
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON OPERATOR " & QUOTE & szNamespace & QUOTE & "." & szName & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "';" & vbCrLf
-  Else
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON OPERATOR " & szName & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "';" & vbCrLf
-  End If
-    
+
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON OPERATOR " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+  
   SQL = szSQL
   
   Exit Sub

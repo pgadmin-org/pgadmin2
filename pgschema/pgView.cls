@@ -30,8 +30,24 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get FormattedID()", etFullDebug
+ 
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
+  Else
+    FormattedID = fmtID(szName)
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -40,12 +56,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Tag(" & vDat
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -156,11 +184,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Name(" & vData & ")", etFullDebug
 Dim szSQL As String
    
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
-  Else
-    szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
-  End If
+  szSQL = "ALTER TABLE " & FormattedID & " RENAME TO " & QUOTE & vData & QUOTE
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData
   Identifier = vData
@@ -292,16 +316,16 @@ Dim szSQL As String
     
   If objServer.dbVersion.VersionNum >= 7.3 Then
     'If we are here, then drop view and rename fake view
-    szSQL = "DROP VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & dbSZ(szName) & QUOTE & ";" & vbCrLf
-    szSQL = szSQL & "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szFakeViewName & QUOTE & " RENAME TO " & QUOTE & dbSZ(szName) & QUOTE & ";"
+    szSQL = "DROP VIEW " & FormattedID & ";" & vbCrLf
+    szSQL = szSQL & "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szFakeViewName) & " RENAME TO " & fmtID(szName) & ";"
     objServer.Databases(Database).Execute szSQL
     
     'Select oid and definition back from the DB...
     szSQL = SQL_GET_VIEWS7_3 & " AND relname = '" & szName & "' AND relnamespace = " & lNamespaceOID & ";"
   Else
     'If we are here, then drop view and rename fake view
-    szSQL = "DROP VIEW " & QUOTE & dbSZ(szName) & QUOTE & ";" & vbCrLf
-    szSQL = szSQL & "ALTER TABLE " & QUOTE & szFakeViewName & QUOTE & " RENAME TO " & QUOTE & szName & QUOTE & ";"
+    szSQL = "DROP VIEW " & FormattedID & ";" & vbCrLf
+    szSQL = szSQL & "ALTER TABLE " & fmtID(szFakeViewName) & " RENAME TO " & fmtID(szName) & ";"
     objServer.Databases(Database).Execute szSQL
     
     'Select oid and definition back from the DB...
@@ -352,11 +376,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Comment(" & 
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON VIEW " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  End If
+  szSQL = "COMMENT ON VIEW " & FormattedID & " IS '" & dbSZ(vData) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
   
@@ -373,6 +393,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Comment()", 
   Else
     Comment = ""
   End If
+  
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
@@ -385,11 +406,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get Rows()", etF
 
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Replace(szName, QUOTE, QUOTE & QUOTE) & QUOTE, cnDatabase)
-  Else
-    Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & QUOTE & Replace(szName, QUOTE, QUOTE & QUOTE) & QUOTE, cnDatabase)
-  End If
+  Set rs = objServer.ExecSQL("SELECT count(*) AS rows FROM " & FormattedID, cnDatabase)
+
   If Not rs.EOF Then Rows = rs!Rows
   If rs.State <> adStateClosed Then rs.Close
   Set rs = Nothing
@@ -428,11 +446,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & "ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " TO " & UserOrGroup
-  Else
-    szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
-  End If
+  szSQL = szSQL & "ON " & FormattedID & " TO " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -483,11 +497,7 @@ Dim rs As New Recordset
     End If
   End If
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & "ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
-  Else
-    szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
-  End If
+  szSQL = szSQL & "ON " & FormattedID & " FROM " & UserOrGroup
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -519,17 +529,10 @@ Dim szSQL As String
     If szViewName = "" Then szViewName = szName
     If szViewDefinition = "" Then szViewDefinition = szDefinition
     
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "-- View: " & szNamespace & "." & szViewName & vbCrLf & _
-              "CREATE VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szViewName & QUOTE & " AS " & szViewDefinition & ";" & vbCrLf
-      If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
-      If Comment <> "" Then szSQL = szSQL & "COMMENT ON VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szViewName & QUOTE & " IS '" & Comment & "';" & vbCrLf
-    Else
-      szSQL = "-- View: " & szViewName & vbCrLf & _
-              "CREATE VIEW " & QUOTE & szViewName & QUOTE & " AS " & szViewDefinition & ";" & vbCrLf
-      If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
-      If Comment <> "" Then szSQL = szSQL & "COMMENT ON VIEW " & QUOTE & szViewName & QUOTE & " IS '" & Comment & "';" & vbCrLf
-    End If
+    szSQL = "-- View: " & FormattedID & vbCrLf & _
+            "CREATE VIEW " & FormattedID & " AS " & szViewDefinition & ";" & vbCrLf
+    If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL)
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON VIEW " & FormattedID & " IS '" & Comment & "';" & vbCrLf
 
     iSQL = szSQL
 

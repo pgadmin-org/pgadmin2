@@ -34,8 +34,32 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get FormattedID()", etFullDebug
+
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    If szInputType = "opaque" Then
+      FormattedID = fmtID(szNamespace) & "." & fmtID(szName) & " *"
+    Else
+      FormattedID = fmtID(szNamespace) & "." & fmtID(szName) & " " & fmtID(szInputType)
+    End If
+  Else
+    If szInputType = "opaque" Then
+      FormattedID = fmtID(szName) & " *"
+    Else
+      FormattedID = fmtID(szName) & " " & fmtID(szInputType)
+    End If
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -44,12 +68,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Tag(" &
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -374,19 +410,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Let Comment
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    If szInputType = "opaque" Then
-      szSQL = "COMMENT ON AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " * IS '" & dbSZ(vData) & "'"
-    Else
-      szSQL = "COMMENT ON AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " " & QUOTE & szInputType & QUOTE & " IS '" & dbSZ(vData) & "'"
-    End If
-  Else
-    If szInputType = "opaque" Then
-      szSQL = "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " * IS '" & dbSZ(vData) & "'"
-    Else
-      szSQL = "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " " & QUOTE & szInputType & QUOTE & " IS '" & dbSZ(vData) & "'"
-    End If
-  End If
+  szSQL = "COMMENT ON AGGREGATE " & FormattedID & " IS '" & dbSZ(vData) & "'"
+
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
 
@@ -412,40 +437,26 @@ Dim szSQL As String
   
   If objServer.dbVersion.VersionNum >= 7.3 Then
     szSQL = "-- Aggregate: " & szNamespace & "." & szIdentifier & vbCrLf & _
-            "CREATE AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " ("
+            "CREATE AGGREGATE " & fmtID(szNamespace) & "." & fmtID(szName) & " ("
   Else
     szSQL = "-- Aggregate: " & szIdentifier & vbCrLf & _
-            "CREATE AGGREGATE " & QUOTE & szName & QUOTE & " ("
+            "CREATE AGGREGATE " & fmtID(szName) & " ("
   End If
           
   If szInputType = "opaque" Then
     szSQL = szSQL & "BASETYPE = " & QUOTE & "ANY" & QUOTE & ", "
   Else
-    szSQL = szSQL & "BASETYPE = " & QUOTE & szInputType & QUOTE & ", "
+    szSQL = szSQL & "BASETYPE = " & fmtID(szInputType) & ", "
   End If
   
-  szSQL = szSQL & "SFUNC = " & QUOTE & szStateFunction & QUOTE & ", " & _
-                  "STYPE = " & QUOTE & szStateType & QUOTE
+  szSQL = szSQL & "SFUNC = " & fmtID(szStateFunction) & ", " & _
+                  "STYPE = " & fmtID(szStateType)
           
-  If (szFinalFunction <> "") And (szFinalFunction <> "-") Then szSQL = szSQL & ", FINALFUNC = " & QUOTE & szFinalFunction & QUOTE
+  If (szFinalFunction <> "") And (szFinalFunction <> "-") Then szSQL = szSQL & ", FINALFUNC = " & fmtID(szFinalFunction)
   If szInitialCondition <> "" Then szSQL = szSQL & ", INITCOND = '" & szInitialCondition & "'"
   szSQL = szSQL & ");" & vbCrLf
           
-  If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      If szInputType = "opaque" Then
-        szSQL = szSQL & "COMMENT ON AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " * IS '" & dbSZ(Comment) & "';" & vbCrLf
-      Else
-        szSQL = szSQL & "COMMENT ON AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " " & QUOTE & dbSZ(szInputType) & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-      End If
-    Else
-      If szInputType = "opaque" Then
-        szSQL = szSQL & "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " * IS '" & dbSZ(Comment) & "';" & vbCrLf
-      Else
-        szSQL = szSQL & "COMMENT ON AGGREGATE " & QUOTE & szName & QUOTE & " " & QUOTE & dbSZ(szInputType) & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-      End If
-    End If
-  End If
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON AGGREGATE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     
   SQL = szSQL
   

@@ -110,7 +110,8 @@ Private bDeferConnection As Boolean
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -119,12 +120,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Let Tag(" & vD
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgServer.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -144,7 +157,7 @@ Dim szError As String
   If Not bDontLogErrors Then
     LogEvent "Error: " & lError & " - " & szError, etErrors
   End If
-  'Err.Raise lError, App.Title, szError
+  Err.Raise lError, App.Title, szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
   If Not ((bDontLogErrors) And (etType = etErrors)) Then

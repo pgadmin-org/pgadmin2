@@ -34,8 +34,24 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get FormattedID()", etFullDebug
+ 
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
+  Else
+    FormattedID = fmtID(szName)
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -44,12 +60,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Tag(" & 
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -160,11 +188,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Name(" &
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
-  Else
-    szSQL = "ALTER TABLE " & QUOTE & szName & QUOTE & " RENAME TO " & QUOTE & vData & QUOTE
-  End If
+  szSQL = "ALTER TABLE " & FormattedID & " RENAME TO " & QUOTE & vData & QUOTE
+
   objServer.ExecSQL szSQL, cnDatabase
   szName = vData
     
@@ -285,11 +310,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let LastValue(" & vData & ")", etFullDebug
 
   'Use setval to set the last value
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    objServer.ExecSQL "SELECT setval('" & QUOTE & szNamespace & QUOTE & "." & QUOTE & dbSZ(szName) & QUOTE & "', " & vData & ")", cnDatabase
-  Else
-    objServer.ExecSQL "SELECT setval('" & QUOTE & dbSZ(szName) & QUOTE & "', " & vData & ")", cnDatabase
-  End If
+  objServer.ExecSQL "SELECT setval('" & FormattedID & "', " & vData & ")", cnDatabase
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -302,11 +323,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get LastValu
 Dim rs As New Recordset
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "SELECT last_value FROM " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE
-  Else
-    szSQL = "SELECT last_value FROM " & QUOTE & szName & QUOTE
-  End If
+  szSQL = "SELECT last_value FROM " & FormattedID
+
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     LastValue = rs!last_value & ""
@@ -436,11 +454,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Let Comment(
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON SEQUENCE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON SEQUENCE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  End If
+  szSQL = "COMMENT ON SEQUENCE " & FormattedID & " IS '" & dbSZ(vData) & "'"
+
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
 
@@ -488,11 +503,8 @@ Dim rs As New Recordset
     End If
   End If
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & "ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " TO " & UserOrGroup
-  Else
-    szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " TO " & UserOrGroup
-  End If
+  szSQL = szSQL & "ON " & FormattedID & " TO " & UserOrGroup
+
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -543,11 +555,8 @@ Dim rs As New Recordset
     End If
   End If
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & "ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
-  Else
-    szSQL = szSQL & "ON " & QUOTE & szName & QUOTE & " FROM " & UserOrGroup
-  End If
+  szSQL = szSQL & "ON " & FormattedID & " FROM " & UserOrGroup
+
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
@@ -574,32 +583,18 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgSequence.Property Get SQL()", etFullDebug
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "-- Sequence: " & szNamespace & "." & szName & vbCrLf & _
-            "CREATE SEQUENCE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " " & _
-            "INCREMENT " & szIncrement & " " & _
-            "MINVALUE " & szMinimum & " " & _
-            "MAXVALUE " & szMaximum & " " & _
-            "CACHE " & szCache
-    If bCycled Then szSQL = szSQL & " CYCLE"
-    szSQL = szSQL & ";" & vbCrLf
-    If Not Reset Then szSQL = szSQL & "SELECT setval('" & QUOTE & szNamespace & QUOTE & "." & QUOTE & dbSZ(szName) & QUOTE & "', " & LastValue & ");" & vbCrLf
-    If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON SEQUENCE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-  Else
-    szSQL = "-- Sequence: " & szName & vbCrLf & _
-            "CREATE SEQUENCE " & QUOTE & szName & QUOTE & " " & _
-            "INCREMENT " & szIncrement & " " & _
-            "MINVALUE " & szMinimum & " " & _
-            "MAXVALUE " & szMaximum & " " & _
-            "CACHE " & szCache
-    If bCycled Then szSQL = szSQL & " CYCLE"
-    szSQL = szSQL & ";" & vbCrLf
-    If Not Reset Then szSQL = szSQL & "SELECT setval('" & QUOTE & dbSZ(szName) & QUOTE & "', " & LastValue & ");" & vbCrLf
-    If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON SEQUENCE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-  End If
-          
+  szSQL = "-- Sequence: " & FormattedID & vbCrLf & _
+          "CREATE SEQUENCE " & FormattedID & " " & _
+          "INCREMENT " & szIncrement & " " & _
+          "MINVALUE " & szMinimum & " " & _
+          "MAXVALUE " & szMaximum & " " & _
+          "CACHE " & szCache
+  If bCycled Then szSQL = szSQL & " CYCLE"
+  szSQL = szSQL & ";" & vbCrLf
+  If Not Reset Then szSQL = szSQL & "SELECT setval('" & FormattedID & "', " & LastValue & ");" & vbCrLf
+  If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL)
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON SEQUENCE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+        
   SQL = szSQL
   
   Exit Property

@@ -22,7 +22,8 @@ Private mCol As Collection
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -31,12 +32,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Users.Property Let Tag(" & vData
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Users.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -100,7 +113,7 @@ Dim szSQL As String
   Set objNewMember = New pgUser
 
   'Generate the SQL query to create the new object and execute
-  szSQL = "CREATE USER " & QUOTE & Name & QUOTE
+  szSQL = "CREATE USER " & fmtID(Name)
   If (Not IsMissing(Password)) Or (Not IsMissing(ID)) Then
     szSQL = szSQL & " WITH "
   End If
@@ -202,7 +215,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Users.Remove(" & QUOTE & Key & Q
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the User.
-  szSQL = "DROP USER " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  szSQL = "DROP USER " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, objServer.Connection
   
   'If we get this far, then we can't have errored,

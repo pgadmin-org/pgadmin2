@@ -32,8 +32,24 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get FormattedID()", etFullDebug
+ 
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szName) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable)
+  Else
+    FormattedID = fmtID(szName) & " ON " & fmtID(szTable)
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -42,12 +58,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Tag(" & v
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -330,11 +358,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Comment("
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & dbSZ(vData) & "'"
-  End If
+  szSQL = "COMMENT ON TRIGGER " & FormattedID & " IS '" & dbSZ(vData) & "'"
+
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
   
@@ -360,23 +385,23 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get SQL()", e
 Dim szSQL As String
 
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "-- Trigger: " & szNamespace & "." & szIdentifier & vbCrLf & _
-            "CREATE TRIGGER " & QUOTE & szName & QUOTE & _
+    szSQL = "-- Trigger: " & FormattedID & vbCrLf & _
+            "CREATE TRIGGER " & fmtID(szName) & _
             " " & szExecutes & " " & szTriggerEvent & _
-            " ON " & QUOTE & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & _
+            " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & _
             " FOR EACH " & szForEach & _
             " EXECUTE PROCEDURE " & szTriggerFunction & _
             ";" & vbCrLf
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & Comment & "';" & vbCrLf
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & FormattedID & " IS '" & Comment & "';" & vbCrLf
   Else
-    szSQL = "-- Trigger: " & szIdentifier & vbCrLf & _
-            "CREATE TRIGGER " & QUOTE & szName & QUOTE & _
+    szSQL = "-- Trigger: " & FormattedID & vbCrLf & _
+            "CREATE TRIGGER " & fmtID(szName) & _
             " " & szExecutes & " " & szTriggerEvent & _
-            " ON " & QUOTE & szTable & QUOTE & _
+            " ON " & fmtID(szTable) & _
             " FOR EACH " & szForEach & _
             " EXECUTE PROCEDURE " & szTriggerFunction & _
             ";" & vbCrLf
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & QUOTE & szName & QUOTE & " ON " & QUOTE & szTable & QUOTE & " IS '" & Comment & "';" & vbCrLf
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & FormattedID & " IS '" & Comment & "';" & vbCrLf
   End If
 
   SQL = szSQL

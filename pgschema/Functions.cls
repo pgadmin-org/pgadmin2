@@ -25,7 +25,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -34,12 +35,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Let Tag(" & v
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -203,9 +216,9 @@ Dim objFunction As pgFunction
  
   'Generate the szSQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "CREATE FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
+    szSQL = "CREATE FUNCTION " & fmtID(szNamespace) & "." & fmtID(Name)
   Else
-    szSQL = "CREATE FUNCTION " & QUOTE & Name & QUOTE
+    szSQL = "CREATE FUNCTION " & fmtID(Name)
   End If
   szSQL = szSQL & " (" & Arguments & ")"
   szSQL = szSQL & " RETURNS " & Returns
@@ -230,9 +243,9 @@ Dim objFunction As pgFunction
 
   If Comment <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & "(" & dbSZ(Arguments) & ") IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON FUNCTION " & fmtID(szNamespace) & "." & fmtID(Name) & "(" & Arguments & ") IS '" & dbSZ(Comment) & "'"
     Else
-      szSQL = "COMMENT ON FUNCTION " & QUOTE & Name & QUOTE & "(" & dbSZ(Arguments) & ") IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON FUNCTION " & fmtID(Name) & "(" & Arguments & ") IS '" & dbSZ(Comment) & "'"
     End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
@@ -315,22 +328,9 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Remove(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
 Dim szSQL As String
-Dim szArgs As String
-Dim vArg As Variant
-
-  szArgs = "("
-  For Each vArg In mCol(ULEncode(Key)).Arguments
-    szArgs = szArgs & QUOTE & vArg & QUOTE & ", "
-  Next vArg
-  If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
-  szArgs = szArgs & ")"
   
   'Generate/Execute SQL to drop the Function.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP FUNCTION " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & szArgs
-  Else
-    szSQL = "DROP FUNCTION " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & szArgs
-  End If
+  szSQL = "DROP FUNCTION " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,
@@ -382,6 +382,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Functions.Initialize()", etFullDebug
 
 Dim rs As New Recordset
+Dim szArgs As String
 
   'Create a new collection
   Set mCol = New Collection
@@ -394,12 +395,18 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL(SQL_GET_FUNCTIONS7_1 & " ORDER BY proname", cnDatabase)
     End If
     While Not rs.EOF
-      If objVersion.VersionNum >= 7.3 Then
-        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, rs!proargtypes & ""
-      ElseIf objVersion.VersionNum >= 7.1 Then
-        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, rs!proargtypes & ""
+      'If pronargs = 1, but no arg types are specified then it should default to opaque
+      If rs!pronargs = 1 And rs!proargtypes & "" = "" Then
+        szArgs = "0"
       Else
-        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, rs!proargtypes & ""
+        szArgs = rs!proargtypes & ""
+      End If
+      If objVersion.VersionNum >= 7.3 Then
+        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs
+      ElseIf objVersion.VersionNum >= 7.1 Then
+        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs
+      Else
+        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, szArgs
       End If
       rs.MoveNext
     Wend

@@ -25,7 +25,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -34,12 +35,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Views.Property Let Tag(" & vData
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Views.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Views.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -181,16 +194,16 @@ Dim szSQL As String
   
   'Generate the SQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "CREATE VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " AS " & Definition
+    szSQL = "CREATE VIEW " & fmtID(szNamespace) & "." & fmtID(Name) & " AS " & Definition
   Else
-    szSQL = "CREATE VIEW " & QUOTE & Name & QUOTE & " AS " & Definition
+    szSQL = "CREATE VIEW " & fmtID(Name) & " AS " & Definition
   End If
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON VIEW " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
-      szSQL = "COMMENT ON VIEW " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON VIEW " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
@@ -286,11 +299,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Views.Remove(" & QUOTE & Key & Q
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the View.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP VIEW " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  Else
-    szSQL = "DROP VIEW " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  End If
+  szSQL = "DROP VIEW " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
  
   'If we get this far, then we can't have errored,

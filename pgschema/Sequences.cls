@@ -25,7 +25,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -34,12 +35,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Let Tag(" & v
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Sequences.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -157,9 +170,9 @@ Dim rs As New Recordset
   objNewMember.ACL = szACL
   
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE
+    szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & fmtID(szNamespace) & "." & fmtID(szName)
   Else
-    szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & QUOTE & szName & QUOTE
+    szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & fmtID(szName)
   End If
   On Error Resume Next
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
@@ -207,9 +220,9 @@ Dim szSQL As String
 
   'Generate the SQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "CREATE SEQUENCE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
+    szSQL = "CREATE SEQUENCE " & fmtID(szNamespace) & "." & fmtID(Name)
   Else
-    szSQL = "CREATE SEQUENCE " & QUOTE & Name & QUOTE
+    szSQL = "CREATE SEQUENCE " & fmtID(Name)
   End If
   
   'Increment
@@ -222,9 +235,9 @@ Dim szSQL As String
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON SEQUENCE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON SEQUENCE " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
-      szSQL = "COMMENT ON SEQUENCE " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON SEQUENCE " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
@@ -318,11 +331,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Sequences.Remove(" & QUOTE & Key
 Dim szSQL As String
 
   'Generate/Execute SQL to drop the Sequence.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP SEQUENCE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  Else
-    szSQL = "DROP SEQUENCE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  End If
+  szSQL = "DROP SEQUENCE " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,

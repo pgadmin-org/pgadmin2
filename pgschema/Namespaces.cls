@@ -23,7 +23,8 @@ Private cnDatabase As Connection
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Namespaces.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -32,12 +33,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Namespaces.Property Let Tag(" & 
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Namespaces.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Namespaces.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -126,7 +139,7 @@ End Sub
 'External Add
 Public Function Add(ByVal Name As String, Optional Owner As String, Optional ByVal Comment As String) As pgNamespace
 Attribute Add.VB_Description = "Add a new Namespace."
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Namespaces.Add(" & QUOTE & Name & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
@@ -138,11 +151,11 @@ Dim szSQL As String
   End If
   
   'Generate the SQL query to create the new object and execute
-  szSQL = "CREATE SCHEMA " & QUOTE & Name & QUOTE
-  If Owner <> "" Then szSQL = szSQL & " AUTHORIZATION " & QUOTE & Owner & QUOTE
+  szSQL = "CREATE SCHEMA " & fmtID(Name)
+  If Owner <> "" Then szSQL = szSQL & " AUTHORIZATION " & fmtID(Owner)
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
-    szSQL = "COMMENT ON SCHEMA " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+    szSQL = "COMMENT ON SCHEMA " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(GetDatabase(cnDatabase.ConnectionString)).KillCommentCache
   End If
@@ -220,7 +233,7 @@ Dim szSQL As String
   End If
   
   'Generate/Execute SQL to drop the Namespace.
-  szSQL = "DROP SCHEMA " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
+  szSQL = "DROP SCHEMA " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,

@@ -27,7 +27,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -36,12 +37,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Let Tag(" & vDa
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Columns.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -258,27 +271,27 @@ Dim objColumn As pgColumn
   
   'Generate the szSQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & dbSZ(szTable) & QUOTE
+    szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
-    szSQL = "ALTER TABLE " & QUOTE & dbSZ(szTable) & QUOTE
+    szSQL = "ALTER TABLE " & fmtID(szTable)
   End If
-  szSQL = szSQL & " ADD COLUMN " & QUOTE & dbSZ(Name) & QUOTE & " " & dbSZ(DataType)
+  szSQL = szSQL & " ADD COLUMN " & fmtID(Name) & " " & DataType
   objServer.ExecSQL szSQL, cnDatabase
 
   If Default <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "ALTER TABLE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & Name & QUOTE & " SET DEFAULT " & Default
+      szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & fmtID(Name) & " SET DEFAULT " & Default
     Else
-      szSQL = "ALTER TABLE " & QUOTE & szTable & QUOTE & " ALTER COLUMN " & QUOTE & Name & QUOTE & " SET DEFAULT " & Default
+      szSQL = "ALTER TABLE " & fmtID(szTable) & " ALTER COLUMN " & fmtID(Name) & " SET DEFAULT " & Default
     End If
     objServer.ExecSQL szSQL, cnDatabase
   End If
   
   If Comment <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON COLUMN " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON COLUMN " & fmtID(szNamespace) & "." & fmtID(szTable) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
-      szSQL = "COMMENT ON COLUMN " & QUOTE & szTable & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON COLUMN " & fmtID(szTable) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache

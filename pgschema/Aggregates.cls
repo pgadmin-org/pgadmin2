@@ -25,11 +25,20 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Let Tag(" & vData & ")", etFullDebug
 
   vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
     
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -39,7 +48,11 @@ Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -169,6 +182,7 @@ Dim szSQL As String
   
   Set objNewMember.Connection = cnDatabase
   objNewMember.Identifier = szName & " " & objNewMember.InputType
+
   mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
   Set iAdd = objNewMember
   
@@ -191,15 +205,15 @@ Dim objAggregate As pgAggregate
   
   'Generate the szSQL query to create the new object and execute
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "CREATE AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE
+    szSQL = "CREATE AGGREGATE " & fmtID(szNamespace) & "." & fmtID(Name)
   Else
-    szSQL = "CREATE AGGREGATE " & QUOTE & Name & QUOTE
+    szSQL = "CREATE AGGREGATE " & fmtID(Name)
   End If
-  szSQL = szSQL & " (BASETYPE = " & QUOTE & InputType & QUOTE & ", "
-  szSQL = szSQL & "SFUNC = " & QUOTE & StateFunction & QUOTE & ", "
-  szSQL = szSQL & "STYPE = " & QUOTE & StateType & QUOTE
-  If FinalFunction <> "" Then szSQL = szSQL & ", FINALFUNC = " & QUOTE & FinalFunction & QUOTE
-  If InitialCondition <> "" Then szSQL = szSQL & ", INITCOND = " & QUOTE & InitialCondition & QUOTE
+  szSQL = szSQL & " (BASETYPE = " & InputType & ", "
+  szSQL = szSQL & "SFUNC = " & StateFunction & ", "
+  szSQL = szSQL & "STYPE = " & StateType
+  If FinalFunction <> "" Then szSQL = szSQL & ", FINALFUNC = " & FinalFunction
+  If InitialCondition <> "" Then szSQL = szSQL & ", INITCOND = " & InitialCondition
   szSQL = szSQL & ")"
   objServer.ExecSQL szSQL, cnDatabase
   
@@ -222,16 +236,16 @@ Dim objAggregate As pgAggregate
   If Comment <> "" Then
     If InputType = "ANY" Then
       If objServer.dbVersion.VersionNum >= 7.3 Then
-        szSQL = "COMMENT ON AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " * IS '" & dbSZ(Comment) & "'"
+        szSQL = "COMMENT ON AGGREGATE " & fmtID(szNamespace) & "." & fmtID(Name) & " * IS '" & dbSZ(Comment) & "'"
       Else
-        szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " * IS '" & dbSZ(Comment) & "'"
+        szSQL = "COMMENT ON AGGREGATE " & fmtID(Name) & " * IS '" & dbSZ(Comment) & "'"
       End If
       objServer.ExecSQL szSQL, cnDatabase
     Else
       If objServer.dbVersion.VersionNum >= 7.3 Then
-        szSQL = "COMMENT ON AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " " & QUOTE & InputType & QUOTE & " IS '" & dbSZ(Comment) & "'"
+        szSQL = "COMMENT ON AGGREGATE " & fmtID(szNamespace) & "." & fmtID(Name) & " " & InputType & " IS '" & dbSZ(Comment) & "'"
       Else
-        szSQL = "COMMENT ON AGGREGATE " & QUOTE & Name & QUOTE & " " & QUOTE & InputType & QUOTE & " IS '" & dbSZ(Comment) & "'"
+        szSQL = "COMMENT ON AGGREGATE " & fmtID(Name) & " " & InputType & " IS '" & dbSZ(Comment) & "'"
       End If
       objServer.ExecSQL szSQL, cnDatabase
     End If
@@ -300,19 +314,8 @@ objServer.iLogEvent "Entering " & App.Title & ":Aggregates.Remove(" & QUOTE & Ke
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Aggregate.
-  If mCol(ULEncode(Key)).InputType = "opaque" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "DROP AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " *"
-    Else
-      szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " *"
-    End If
-  Else
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "DROP AGGREGATE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " " & QUOTE & mCol(ULEncode(Key)).InputType & QUOTE
-    Else
-      szSQL = "DROP AGGREGATE " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE & " " & QUOTE & mCol(ULEncode(Key)).InputType & QUOTE
-    End If
-  End If
+  szSQL = "DROP AGGREGATE " & mCol(ULEncode(Key)).FormattedID
+
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,

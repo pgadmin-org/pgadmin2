@@ -27,7 +27,8 @@ Private szNamespace As String
 Private vTag As Variant
 
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -36,12 +37,24 @@ objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Let Tag(" & vDa
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Indexes.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -206,14 +219,14 @@ Dim objIndex As pgIndex
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE"
   If Unique Then szSQL = szSQL & " UNIQUE"
-  szSQL = szSQL & " INDEX " & QUOTE & Name & QUOTE
+  szSQL = szSQL & " INDEX " & fmtID(Name)
   If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = szSQL & " ON " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szTable & QUOTE
+    szSQL = szSQL & " ON " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
-    szSQL = szSQL & " ON " & QUOTE & szTable & QUOTE
+    szSQL = szSQL & " ON " & fmtID(szTable)
   End If
-  If AccessMethod <> "" Then szSQL = szSQL & " USING " & dbSZ(AccessMethod)
-  szSQL = szSQL & " (" & dbSZ(ColumnList) & ")"
+  If AccessMethod <> "" Then szSQL = szSQL & " USING " & AccessMethod
+  szSQL = szSQL & " (" & ColumnList & ")"
   'Constraint is only valid for PostgreSQL 7.2+
   If (Constraint <> "") And (objServer.dbVersion.VersionNum >= 7.2) Then
     szSQL = szSQL & " WHERE " & Constraint
@@ -222,9 +235,9 @@ Dim objIndex As pgIndex
   
   If Comment <> "" Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON INDEX " & QUOTE & szNamespace & QUOTE & "." & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON INDEX " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
-      szSQL = "COMMENT ON INDEX " & QUOTE & Name & QUOTE & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON INDEX " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     End If
     objServer.ExecSQL szSQL, cnDatabase
     objServer.Databases(Database).KillCommentCache
@@ -331,11 +344,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Indexes.Remove(" & QUOTE & Key &
 Dim szSQL As String
   
   'Generate/Execute SQL to drop the Rule.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP INDEX " & QUOTE & szNamespace & QUOTE & "." & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  Else
-    szSQL = "DROP INDEX " & QUOTE & mCol(ULEncode(Key)).Name & QUOTE
-  End If
+  szSQL = "DROP INDEX " & mCol(ULEncode(Key)).FormattedID
   objServer.ExecSQL szSQL, cnDatabase
 
   'If we get this far, then we can't have errored,

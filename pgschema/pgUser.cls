@@ -27,8 +27,20 @@ Private bUpdateCatalogues As Long
 Private dAccountExpires As Date
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get FormattedID()", etFullDebug
+
+  FormattedID = fmtID(szName)
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -37,12 +49,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Tag(" & vDat
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -141,9 +165,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let CreateDataba
 Dim szSQL As String
 
   If vData = True Then
-    szSQL = "ALTER USER " & QUOTE & szName & QUOTE & " CREATEDB"
+    szSQL = "ALTER USER " & FormattedID & " CREATEDB"
   Else
-    szSQL = "ALTER USER " & QUOTE & szName & QUOTE & " NOCREATEDB"
+    szSQL = "ALTER USER " & FormattedID & " NOCREATEDB"
   End If
   objServer.ExecSQL szSQL, objServer.Connection
   bCreateDatabases = vData
@@ -179,9 +203,9 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Superuser(" 
 Dim szSQL As String
  
   If vData = True Then
-    szSQL = "ALTER USER " & QUOTE & szName & QUOTE & " CREATEUSER"
+    szSQL = "ALTER USER " & FormattedID & " CREATEUSER"
   Else
-    szSQL = "ALTER USER " & QUOTE & szName & QUOTE & " NOCREATEUSER"
+    szSQL = "ALTER USER " & FormattedID & " NOCREATEUSER"
   End If
   objServer.ExecSQL szSQL, objServer.Connection
   bSuperuser = vData
@@ -237,7 +261,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let AccountExpir
 
 Dim szSQL As String
 
-  szSQL = "ALTER USER " & QUOTE & dbSZ(szName) & QUOTE & " VALID UNTIL '" & Format(vData, "yyyy-MM-dd hh:mm:ss") & "'"
+  szSQL = "ALTER USER " & FormattedID & " VALID UNTIL '" & Format(vData, "yyyy-MM-dd hh:mm:ss") & "'"
   objServer.ExecSQL szSQL, objServer.Connection
   dAccountExpires = vData
     
@@ -263,12 +287,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Password(" &
 
   If objServer.dbVersion.VersionNum >= 7.2 Then
     If objServer.EncryptPasswords Then
-      objServer.ExecSQL "ALTER USER " & QUOTE & szName & QUOTE & " WITH ENCRYPTED PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
+      objServer.ExecSQL "ALTER USER " & FormattedID & " WITH ENCRYPTED PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
     Else
-      objServer.ExecSQL "ALTER USER " & QUOTE & szName & QUOTE & " WITH UNENCRYPTED PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
+      objServer.ExecSQL "ALTER USER " & FormattedID & " WITH UNENCRYPTED PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
     End If
   Else
-    objServer.ExecSQL "ALTER USER " & QUOTE & szName & QUOTE & " WITH PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
+    objServer.ExecSQL "ALTER USER " & FormattedID & " WITH PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
   End If
     
   Exit Property
@@ -292,7 +316,7 @@ Dim szSQL As String
 Dim szMember As Variant
   
   szSQL = "-- User: " & szName & vbCrLf & _
-          "CREATE USER " & QUOTE & szName & QUOTE & " WITH SYSID " & lID
+          "CREATE USER " & FormattedID & " WITH SYSID " & lID
           
   If bCreateDatabases Then
     szSQL = szSQL & " CREATEDB"

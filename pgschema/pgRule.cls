@@ -29,8 +29,24 @@ Private lNamespaceOID As Long
 Private szNamespace As String
 Private vTag As Variant
 
+Public Property Get FormattedID() As String
+Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get FormattedID()", etFullDebug
+ 
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
+  Else
+    FormattedID = fmtID(szName)
+  End If
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Tag
-Friend Property Let Tag(ByVal vData As Variant)
+Public Property Let Tag(ByVal vData As Variant)
+Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Tag(" & vData & ")", etFullDebug
 
@@ -39,12 +55,24 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Tag(" & vDat
   Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
+Public Property Set Tag(ByVal vData As Variant)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Set Tag(" & vData & ")", etFullDebug
+
+  Set vTag = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 Public Property Get Tag() As Variant
-Attribute Tag.VB_Description = "Set/Returns a variant for any use."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get Tag()", etFullDebug
 
-  Tag = vTag
+  If IsObject(vTag) Then
+    Set Tag = vTag
+  Else
+    Tag = vTag
+  End If
   
   Exit Property
 Err_Handler:  objServer.iLogError Err
@@ -280,17 +308,12 @@ Dim szTemp As String
 Dim lStart As Long
 Dim lLength As Long
 
-  'Quoted Table name
-  szTemp = "TO " & QUOTE & szTable & QUOTE & " WHERE "
-  If InStr(1, szDefinition, szTemp) <> 0 Then
-    lStart = InStr(1, szDefinition, szTemp) + Len(szTemp)
-    lLength = InStr(lStart, szDefinition, " DO ") - lStart
-    Condition = Mid(szDefinition, lStart, lLength)
-    Exit Property
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szTemp = "TO " & fmtID(szNamespace) & "." & fmtID(szTable) & " WHERE "
+  Else
+    szTemp = "TO " & fmtID(szTable) & " WHERE "
   End If
   
-  'Unquoted tablename
-  szTemp = "TO " & szTable & " WHERE "
   If InStr(1, szDefinition, szTemp) <> 0 Then
     lStart = InStr(1, szDefinition, szTemp) + Len(szTemp)
     lLength = InStr(lStart, szDefinition, " DO ") - lStart
@@ -346,11 +369,8 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Comment(" & 
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = "COMMENT ON RULE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  Else
-    szSQL = "COMMENT ON RULE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(vData) & "'"
-  End If
+  szSQL = "COMMENT ON RULE " & FormattedID & " IS '" & dbSZ(vData) & "'"
+
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
 
@@ -377,11 +397,7 @@ Dim szSQL As String
   szSQL = "-- Rule: " & szName & vbCrLf & _
           szDefinition & vbCrLf
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON RULE " & QUOTE & szNamespace & QUOTE & "." & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-  Else
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON RULE " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-  End If
+  If Comment <> "" Then szSQL = szSQL & "COMMENT ON RULE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
     
   SQL = szSQL
   
