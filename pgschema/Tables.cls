@@ -234,9 +234,9 @@ Dim szSQL As String
   'Create a new member of the collection
   If Not rs.EOF Then
     If objVersion.VersionNum >= 7.2 Then
-      iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
+      iAdd rs.Fields("oid"), rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
     Else
-      iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
+      iAdd rs.Fields("oid"), rs!relname & "", rs!tableowner & "", rs!relacl & "", True
     End If
   End If
   
@@ -382,9 +382,9 @@ Dim rs As New Recordset
     End If
       While Not rs.EOF
         If objVersion.VersionNum >= 7.2 Then
-          iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
+          iAdd rs.Fields("oid"), rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
         Else
-          iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
+          iAdd rs.Fields("oid"), rs!relname & "", rs!tableowner & "", rs!relacl & "", True
         End If
       rs.MoveNext
     Wend

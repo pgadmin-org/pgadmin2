@@ -317,7 +317,7 @@ Dim szArgs As String
       For X = 0 To rs.Fields("tgargs").ActualSize - 1
         szArgs = szArgs & Chr(rs!tgargs(X))
       Next X
-      iAdd rs!OID, rs!tgconstrname & "", rs!tgnargs & "", szArgs, ToBool(rs!tgdeferrable), ToBool(rs!tginitdeferred)
+      iAdd rs.Fields("oid"), rs!tgconstrname & "", rs!tgnargs & "", szArgs, ToBool(rs!tgdeferrable), ToBool(rs!tginitdeferred)
       rs.MoveNext
     Wend
   End If

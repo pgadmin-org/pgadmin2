@@ -253,7 +253,7 @@ Dim objAggregate As pgAggregate
   End If
   
   If Not rs.EOF Then
-    Set objAggregate = iAdd(rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & "")
+    Set objAggregate = iAdd(rs.Fields("oid"), rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & "")
   End If
   
   Set Add = objAggregate
@@ -379,7 +379,7 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_1 & " ORDER BY aggname", cnDatabase)
     End If
     While Not rs.EOF
-      iAdd rs!OID, rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & ""
+      iAdd rs.Fields("oid"), rs!aggname & "", rs!Owner & "", Val(rs!aggbasetype & ""), rs!aggtransfn & "", Val(rs!aggtranstype & ""), rs!aggfinalfn & "", Val(rs!aggfinaltype & ""), rs!agginitval & ""
       rs.MoveNext
     Wend
   End If

@@ -348,7 +348,7 @@ Dim szSQL As String
   
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
-    dOID = rs!OID & ""
+    dOID = rs.Fields("oid") & ""
     szDefinition = rs!Definition & ""
   End If
   If rs.State <> adStateClosed Then rs.Close

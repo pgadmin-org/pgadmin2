@@ -260,9 +260,9 @@ Dim objType As pgType
   
   If Not rs.EOF Then
     If objVersion.VersionNum >= 7.1 Then
-      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
+      Set objType = iAdd(rs.Fields("oid"), rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & "")
     Else
-      Set objType = iAdd(rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), "", "")
+      Set objType = iAdd(rs.Fields("oid"), rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), "", "")
     End If
   End If
   
@@ -395,9 +395,9 @@ Dim rs As New Recordset
     End If
     While Not rs.EOF
       If objVersion.VersionNum >= 7.1 Then
-        iAdd rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & ""
+        iAdd rs.Fields("oid"), rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), rs!typalign & "", rs!typstorage & ""
       Else
-        iAdd rs!OID, rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), "", ""
+        iAdd rs.Fields("oid"), rs!typname & "", rs!typeowner & "", rs!typinput & "", rs!typoutput & "", rs!typlen, rs!typdefault & "", rs!typelem, rs!typdelim & "", ToBool(rs!typbyval), "", ""
       End If
       rs.MoveNext
     Wend

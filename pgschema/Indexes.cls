@@ -252,7 +252,7 @@ Dim objIndex As pgIndex
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objIndex = iAdd(rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & "")
+    Set objIndex = iAdd(rs.Fields("oid"), rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & "")
   End If
 
   Set Add = objIndex
@@ -404,7 +404,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_INDEXES & " AND indrelid = " & dTableOID & "::oid ORDER BY relname", cnDatabase)
     While Not rs.EOF
-      iAdd rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & ""
+      iAdd rs.Fields("oid"), rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & ""
       rs.MoveNext
     Wend
   End If

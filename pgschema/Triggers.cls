@@ -266,7 +266,7 @@ Dim objTrigger As pgTrigger
     If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "UPDATE OR "
     If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-    Set objTrigger = iAdd(rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
+    Set objTrigger = iAdd(rs.Fields("oid"), rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach)
   End If
   
   Set Add = objTrigger
@@ -434,7 +434,7 @@ Dim szEvent As String
       If (rs!tgtype And 16) = 16 Then szEvent = szEvent & "UPDATE OR "
       If Len(szEvent) > 0 Then szEvent = Trim(Left(szEvent, Len(szEvent) - 3))
       
-      iAdd rs!OID, rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach
+      iAdd rs.Fields("oid"), rs!tgname & "", rs!proname & "(" & rs!tgargs & ")", szExecutes, szEvent, szForEach
       rs.MoveNext
     Wend
   End If

@@ -251,7 +251,7 @@ Dim szSQL As String
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
-    iAdd rs!OID, rs!relname & "", rs!seqowner & "", rs!relacl & ""
+    iAdd rs.Fields("oid"), rs!relname & "", rs!seqowner & "", rs!relacl & ""
   End If
 
   Set Add = mCol(ULEncode(Name))
@@ -395,7 +395,7 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL(SQL_GET_SEQUENCES & " ORDER BY relname", cnDatabase)
     End If
     While Not rs.EOF
-      iAdd rs!OID, rs!relname & "", rs!seqowner & "", rs!relacl & ""
+      iAdd rs.Fields("oid"), rs!relname & "", rs!seqowner & "", rs!relacl & ""
       rs.MoveNext
     Wend
   End If

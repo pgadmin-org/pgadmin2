@@ -158,7 +158,7 @@ Friend Sub iLogError(ByVal lError As Long, ByVal szError As String)
   If Not bDontLogErrors Then
     LogEvent "Error: " & lError & " - " & szError, etErrors
   End If
-  Err.Raise lError, App.Title, szError
+'  Err.Raise lError, App.Title, szError
 End Sub
 Friend Sub iLogEvent(szMessage As String, etType As ErrorType)
 
@@ -202,7 +202,7 @@ Dim vError As Variant
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - pgSchema Version: " & App.Major & "." & App.Minor & "." & App.Revision
       Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - MDAC Version: " & cnPostgreSQL.Version
       If cnPostgreSQL.State = adStateOpen Then
-        Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - DBMS Version: " & cnPostgreSQL.Properties("DBMS VERSION")
+        Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - DBMS Version: " & cnPostgreSQL.Properties("DBMS Version")
         If bShowPassword Then
           Print #fNum, Format(Now, "yyyy-MM-dd hh:mm:ss") & " - Connection String (Master Connection)" & ": " & cnPostgreSQL.ConnectionString
         Else

@@ -315,7 +315,7 @@ Dim lStatistics As String
     Else
       lStatistics = 0
     End If
-    Set objColumn = iAdd(rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics)
+    Set objColumn = iAdd(rs.Fields("oid"), rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics)
   End If
     
   Set Add = objColumn
@@ -478,7 +478,7 @@ Dim lStatistics As Long
       Else
         lStatistics = 0
       End If
-      iAdd rs!OID, rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics
+      iAdd rs.Fields("oid"), rs!attname & "", Val(rs!attnum), Val(rs!Length), rs!typname & "", ToBool(rs!attnotnull), ToBool(rs!PrimaryKey), rs!Default & "", lStatistics
       rs.MoveNext
     Wend
   End If

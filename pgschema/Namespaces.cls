@@ -166,7 +166,7 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    iAdd rs!OID, rs!nspname & "", rs!namespaceowner & "", rs!nspacl & ""
+    iAdd rs.Fields("oid"), rs!nspname & "", rs!namespaceowner & "", rs!nspacl & ""
   End If
   
   'Return the object created
@@ -275,7 +275,7 @@ Dim rs As New Recordset
     If objVersion.VersionNum >= 7.3 Then
       Set rs = objServer.ExecSQL(SQL_GET_NAMESPACES & " ORDER BY nspname", cnDatabase)
       While Not rs.EOF
-        iAdd rs!OID, rs!nspname & "", rs!namespaceowner, rs!nspacl & ""
+        iAdd rs.Fields("oid"), rs!nspname & "", rs!namespaceowner, rs!nspacl & ""
         rs.MoveNext
       Wend
     Else

@@ -191,9 +191,9 @@ Dim objLanguage As pgLanguage
   'Create a new member of the collection
   If Not rs.EOF Then
     If objVersion.VersionNum >= 7.3 Then
-      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lanacl & "", rs!lanvalidator & ""
+      iAdd rs.Fields("oid"), rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lanacl & "", rs!lanvalidator & ""
     Else
-      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & ""
+      iAdd rs.Fields("oid"), rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & ""
     End If
   End If
   
@@ -327,9 +327,9 @@ Dim rs As New Recordset
     Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES & " ORDER BY lanname", cnDatabase)
     While Not rs.EOF
       If objVersion.VersionNum >= 7.3 Then
-        iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lanacl & "", rs!lanvalidator & ""
+        iAdd rs.Fields("oid"), rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lanacl & "", rs!lanvalidator & ""
       Else
-        iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & ""
+        iAdd rs.Fields("oid"), rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & ""
       End If
       rs.MoveNext
     Wend

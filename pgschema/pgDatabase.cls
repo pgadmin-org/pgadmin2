@@ -114,16 +114,16 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL("SELECT t.oid, n.nspname, CASE WHEN (t.typlen = -1 AND t.typelem != 0) THEN (SELECT at.typname FROM pg_type at WHERE at.oid = t.typelem) || '[]' ELSE t.typname END AS typname FROM pg_type t, pg_namespace n WHERE n.oid = t.typnamespace", cnDatabase)
       While Not rs.EOF
         If rs!nspname & "" = "pg_catalog" Then
-          szTypeCache.Add fmtTypeID(rs!typname & ""), "T" & rs!OID
+          szTypeCache.Add fmtTypeID(rs!typname & ""), "T" & rs.Fields("oid")
         Else
-          szTypeCache.Add fmtTypeID(rs!nspname & "") & "." & fmtID(rs!typname & ""), "T" & rs!OID
+          szTypeCache.Add fmtTypeID(rs!nspname & "") & "." & fmtID(rs!typname & ""), "T" & rs.Fields("oid")
         End If
         rs.MoveNext
       Wend
     Else
       Set rs = objServer.ExecSQL("SELECT oid, typname FROM pg_type", cnDatabase)
       While Not rs.EOF
-        szTypeCache.Add fmtTypeID(rs!typname & ""), "T" & rs!OID
+        szTypeCache.Add fmtTypeID(rs!typname & ""), "T" & rs.Fields("oid")
         rs.MoveNext
       Wend
     End If
@@ -172,7 +172,7 @@ Dim rs As New Recordset
     Set szLanguageCache = New Collection
     Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES, cnDatabase)
     While Not rs.EOF
-      szLanguageCache.Add rs!lanname & "", "L" & rs!OID
+      szLanguageCache.Add rs!lanname & "", "L" & rs.Fields("oid")
       rs.MoveNext
     Wend
     If rs.State <> adStateClosed Then rs.Close
@@ -220,9 +220,9 @@ Dim rs As New Recordset
       While Not rs.EOF
         'Prefix the operator name otherwise we get bizarre errors
         If rs!nspname & "" = "pg_catalog" Then
-          szOperatorCache.Add "O" & rs!oprname, "O" & rs!OID
+          szOperatorCache.Add "O" & rs!oprname, "O" & rs.Fields("oid")
         Else
-          szOperatorCache.Add "O" & fmtID(rs!nspname) & "." & rs!oprname, "O" & rs!OID
+          szOperatorCache.Add "O" & fmtID(rs!nspname) & "." & rs!oprname, "O" & rs.Fields("oid")
         End If
         rs.MoveNext
       Wend
@@ -231,7 +231,7 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL("SELECT oid, oprname FROM pg_operator", cnDatabase)
       While Not rs.EOF
         'Prefix the operator name otherwise we get bizarre errors
-        szOperatorCache.Add "O" & rs!oprname, "O" & rs!OID
+        szOperatorCache.Add "O" & rs!oprname, "O" & rs.Fields("oid")
         rs.MoveNext
       Wend
     

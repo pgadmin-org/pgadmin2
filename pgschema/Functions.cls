@@ -278,7 +278,7 @@ Dim objFunction As pgFunction
   While Not rs.EOF
     bFlag = False
     For Each fFunc In mCol
-      If fFunc.OID = rs!OID Then
+      If fFunc.OID = rs.Fields("oid") Then
         bFlag = True
         Exit For
       End If
@@ -291,11 +291,11 @@ Dim objFunction As pgFunction
         szArgs = rs!proargtypes & ""
       End If
       If objVersion.VersionNum >= 7.3 Then
-        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proretset))
+        Set objFunction = iAdd(rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proretset))
       ElseIf objVersion.VersionNum >= 7.1 Then
-        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs)
+        Set objFunction = iAdd(rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs)
       Else
-        Set objFunction = iAdd(rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, szArgs)
+        Set objFunction = iAdd(rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, szArgs)
       End If
     End If
     rs.MoveNext
@@ -432,11 +432,11 @@ Dim szArgs As String
         szArgs = rs!proargtypes & ""
       End If
       If objVersion.VersionNum >= 7.3 Then
-        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proretset)
+        iAdd rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, False, rs!proisstrict, szArgs, rs!proacl & "", rs!provolatile & "", ToBool(rs!proretset)
       ElseIf objVersion.VersionNum >= 7.1 Then
-        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs
+        iAdd rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), rs!proisstrict, szArgs
       Else
-        iAdd rs!OID, rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, szArgs
+        iAdd rs.Fields("oid"), rs!proname & "", rs!funcowner & "", rs!prorettype, rs!prosrc & "", rs!prolang, ToBool(rs!proiscachable), False, szArgs
       End If
       rs.MoveNext
     Wend

@@ -232,7 +232,7 @@ Dim lScale As Long
     Else
       lLength = rs!typlen
     End If
-    Set objDomain = iAdd(rs!OID, rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull))
+    Set objDomain = iAdd(rs.Fields("oid"), rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull))
   End If
   
   'Invalidate the Type Cache...
@@ -393,7 +393,7 @@ Dim lScale As Long
           lLength = rs!typlen
         End If
   
-        iAdd rs!OID, rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull)
+        iAdd rs.Fields("oid"), rs!typname & "", rs!domainowner & "", szDataType, lLength, lScale, rs!typdefault & "", ToBool(rs!typnotnull)
         rs.MoveNext
       Wend
     End If

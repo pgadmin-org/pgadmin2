@@ -219,7 +219,7 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    iAdd rs!OID, rs!relname & "", rs!viewowner & "", rs!relacl & "", rs!Definition & ""
+    iAdd rs.Fields("oid"), rs!relname & "", rs!viewowner & "", rs!relacl & "", rs!Definition & ""
   End If
   
   'Return the object created
@@ -344,7 +344,7 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL(SQL_GET_VIEWS7_1 & " ORDER BY relname", cnDatabase)
     End If
     While Not rs.EOF
-      iAdd rs!OID, rs!relname & "", rs!viewowner, rs!relacl & "", rs!Definition & ""
+      iAdd rs.Fields("oid"), rs!relname & "", rs!viewowner, rs!relacl & "", rs!Definition & ""
       rs.MoveNext
     Wend
   End If

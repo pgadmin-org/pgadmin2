@@ -143,9 +143,9 @@ Dim szSQL As String
   'Create a new member of the collection
   If Not rs.EOF Then
     If objVersion.VersionNum >= 7.3 Then
-      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
+      iAdd rs.Fields("oid"), rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
     Else
-      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
+      iAdd rs.Fields("oid"), rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
     End If
     If Comment <> "" Then objNewMember.Comment = Comment
   End If
@@ -284,9 +284,9 @@ Dim rs As New Recordset
     End If
     While Not rs.EOF
       If objVersion.VersionNum >= 7.3 Then
-        iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
+        iAdd rs.Fields("oid"), rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
       Else
-        iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
+        iAdd rs.Fields("oid"), rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
       End If
       rs.MoveNext
     Wend

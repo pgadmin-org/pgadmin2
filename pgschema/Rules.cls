@@ -243,7 +243,7 @@ Dim objRule As pgRule
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    Set objRule = iAdd(rs!OID, rs!rulename & "", rs!Definition & "")
+    Set objRule = iAdd(rs.Fields("oid"), rs!rulename & "", rs!Definition & "")
   End If
   
   Set Add = objRule
@@ -368,7 +368,7 @@ Dim rs As New Recordset
       Set rs = objServer.ExecSQL(SQL_GET_RULES7_1 & " WHERE ev_class = " & dTableOID & "::oid ORDER BY rulename", cnDatabase)
     End If
     While Not rs.EOF
-      iAdd rs!OID, rs!rulename & "", rs!Definition & ""
+      iAdd rs.Fields("oid"), rs!rulename & "", rs!Definition & ""
       rs.MoveNext
     Wend
   End If
