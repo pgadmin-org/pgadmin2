@@ -73,26 +73,26 @@ Begin VB.Form frmTable
       TabCaption(1)   =   "&Columns"
       TabPicture(1)   =   "frmTable.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdColRemove"
+      Tab(1).Control(0)=   "lvProperties(0)"
       Tab(1).Control(1)=   "cmdColAdd"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(2)=   "cmdColRemove"
       Tab(1).ControlCount=   3
       TabCaption(2)   =   "C&hecks"
       TabPicture(2)   =   "frmTable.frx":06FA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblProperties(5)"
-      Tab(2).Control(1)=   "lvProperties(1)"
-      Tab(2).Control(2)=   "hbxCheck(0)"
-      Tab(2).Control(3)=   "cmdChkRemove"
-      Tab(2).Control(4)=   "cmdChkAdd"
-      Tab(2).Control(5)=   "txtCheck(0)"
+      Tab(2).Control(0)=   "txtCheck(0)"
+      Tab(2).Control(1)=   "cmdChkAdd"
+      Tab(2).Control(2)=   "cmdChkRemove"
+      Tab(2).Control(3)=   "hbxCheck(0)"
+      Tab(2).Control(4)=   "lvProperties(1)"
+      Tab(2).Control(5)=   "lblProperties(5)"
       Tab(2).ControlCount=   6
       TabCaption(3)   =   "&Foreign Keys"
       TabPicture(3)   =   "frmTable.frx":0716
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lvProperties(2)"
+      Tab(3).Control(0)=   "cmdFkyRemove"
       Tab(3).Control(1)=   "cmdFkyAdd"
-      Tab(3).Control(2)=   "cmdFkyRemove"
+      Tab(3).Control(2)=   "lvProperties(2)"
       Tab(3).ControlCount=   3
       TabCaption(4)   =   "&Inherits"
       TabPicture(4)   =   "frmTable.frx":0732
@@ -106,10 +106,10 @@ Begin VB.Form frmTable
       TabCaption(5)   =   "&Security"
       TabPicture(5)   =   "frmTable.frx":074E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "cmdRemove"
-      Tab(5).Control(1)=   "fraAdd"
-      Tab(5).Control(2)=   "cmdAdd"
-      Tab(5).Control(3)=   "lvProperties(4)"
+      Tab(5).Control(0)=   "lvProperties(4)"
+      Tab(5).Control(1)=   "cmdAdd"
+      Tab(5).Control(2)=   "fraAdd"
+      Tab(5).Control(3)=   "cmdRemove"
       Tab(5).ControlCount=   4
       Begin VB.CheckBox chkProperties 
          Alignment       =   1  'Right Justify
@@ -1010,8 +1010,8 @@ Dim szInherits As String
     txtProperties(0).SetFocus
     Exit Sub
   End If
-  If lvProperties(0).ListItems.Count = 0 Then
-    MsgBox "You must define at least one column!", vbExclamation, "Error"
+  If lvProperties(0).ListItems.Count = 0 And lvProperties(3).ListItems.Count = 0 Then
+    MsgBox "You must define at least one column or inherited table!", vbExclamation, "Error"
     tabProperties.Tab = 1
     lvProperties(0).SetFocus
     Exit Sub
@@ -1031,7 +1031,7 @@ Dim szInherits As String
       'Add to the Primary Key list if required.
       If objItem.SubItems(6) <> "No" Then szPrimaryKeys = szPrimaryKeys & QUOTE & objItem.Text & QUOTE & ", "
     Next objItem
-    szColumns = Left(szColumns, Len(szColumns) - 2)
+    If Len(szColumns) > 2 Then szColumns = Left(szColumns, Len(szColumns) - 2)
     
     'Add the Primary Keys
     If Len(szPrimaryKeys) > 2 Then szPrimaryKeys = Left(szPrimaryKeys, Len(szPrimaryKeys) - 2)

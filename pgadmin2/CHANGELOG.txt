@@ -16,6 +16,7 @@ Check the PostgreSQL version when connecting and handle correctly.
 Updated the PostgreSQL docs to the 7.2 Release version.
 Clear Upgrade Wizard listview before populating.
 REVOKE privileges from groups correctly.
+Allow creation of tables with no columns, just inherits.
 
 1.2.0 Stable
 ------------
