@@ -186,7 +186,7 @@ Dim rs As New Recordset
   'Create a new collection
   Set mCol = New Collection
   
-  Set rs = objServer.ExecSQL(SQL_GET_INDEX_COLUMNS & " WHERE attrelid = " & dTableOID & " ORDER BY attnum", cnDatabase)
+  Set rs = objServer.ExecSQL(SQL_GET_INDEX_COLUMNS & " WHERE attrelid = " & dTableOID & "::oid ORDER BY attnum", cnDatabase)
   While Not rs.EOF
     iAdd rs!attname & ""
     rs.MoveNext

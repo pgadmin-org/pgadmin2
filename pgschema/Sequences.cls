@@ -169,7 +169,7 @@ Dim rs As New Recordset
   objNewMember.Namespace = szNamespace
   objNewMember.ACL = szACL
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & fmtID(szNamespace) & "." & fmtID(szName)
   Else
     szSQL = "SELECT last_value, max_value, min_value, cache_value, increment_by, is_cycled FROM " & fmtID(szName)
@@ -219,7 +219,7 @@ Dim szSQL As String
   Set objNewMember = New pgSequence
 
   'Generate the SQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "CREATE SEQUENCE " & fmtID(szNamespace) & "." & fmtID(Name)
   Else
     szSQL = "CREATE SEQUENCE " & fmtID(Name)
@@ -234,7 +234,7 @@ Dim szSQL As String
   If Cycled = True Then szSQL = szSQL & " CYCLE"
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON SEQUENCE " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON SEQUENCE " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
@@ -244,8 +244,8 @@ Dim szSQL As String
   End If
   
   'Generate and execute the SQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_SEQUENCES & " AND relname = '" & dbSZ(Name) & "' AND relnamespace = " & dNamespaceOID
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_SEQUENCES & " AND relname = '" & dbSZ(Name) & "' AND relnamespace = " & dNamespaceOID & "::oid"
   Else
     szSQL = SQL_GET_SEQUENCES & " AND relname = '" & dbSZ(Name) & "'"
   End If
@@ -389,8 +389,8 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_SEQUENCES & " AND relnamespace = " & dNamespaceOID & " ORDER BY relname", cnDatabase)
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_SEQUENCES & " AND relnamespace = " & dNamespaceOID & "::oid ORDER BY relname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_SEQUENCES & " ORDER BY relname", cnDatabase)
     End If

@@ -277,7 +277,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let iComment
 
 Dim szSQL As String
 
-  szSQL = "UPDATE pg_language SET lancompiler = '" & dbSZ(vData) & "' WHERE oid = " & dOID
+  szSQL = "UPDATE pg_language SET lancompiler = '" & dbSZ(vData) & "' WHERE oid = " & dOID & "::oid"
   objServer.ExecSQL szSQL, cnDatabase
   szComment = vData
     
@@ -325,7 +325,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Grant(" & QUOTE & Use
 Dim szSQL As String
 Dim rs As New Recordset
   
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432014, App.Title, "Language security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -347,7 +347,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & dOID
+  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!lanacl & ""
@@ -373,7 +373,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Revoke(" & QUOTE & Us
 Dim szSQL As String
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432014, App.Title, "Language security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -395,7 +395,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & dOID
+  szSQL = "SELECT lanacl FROM pg_language WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!lanacl & ""
@@ -429,7 +429,7 @@ Dim szMember As Variant
   Else
     szSQL = szSQL & "  HANDLER " & szHandler
   End If
-  If (objServer.dbVersion.VersionNum >= 7.3) And (szValidator <> "") Then szSQL = szSQL & vbCrLf & "  VALIDATOR " & szValidator
+  If (objVersion.VersionNum >= 7.3) And (szValidator <> "") Then szSQL = szSQL & vbCrLf & "  VALIDATOR " & szValidator
   If Comment <> "" Then szSQL = szSQL & vbCrLf & "  LANCOMPILER '" & dbSZ(Comment) & "'"
   szSQL = szSQL & ";" & vbCrLf
 

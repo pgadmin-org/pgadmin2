@@ -193,7 +193,7 @@ Dim rs As New Recordset
 Dim szSQL As String
   
   'Generate the SQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "CREATE TABLE " & fmtID(szNamespace) & "." & fmtID(Name) & " (" & Columns
   Else
     szSQL = "CREATE TABLE " & fmtID(Name) & " (" & Columns
@@ -203,7 +203,7 @@ Dim szSQL As String
   If ForeignKeys <> "" Then szSQL = szSQL & ", " & ForeignKeys
   szSQL = szSQL & ")"
   If Inherits <> "" Then szSQL = szSQL & " INHERITS (" & Inherits & ")"
-  If objServer.dbVersion.VersionNum >= 7.2 Then
+  If objVersion.VersionNum >= 7.2 Then
     If OIDs Then
       szSQL = szSQL & " WITH OIDS"
     Else
@@ -212,7 +212,7 @@ Dim szSQL As String
   End If
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON TABLE " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON TABLE " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
@@ -222,9 +222,9 @@ Dim szSQL As String
   End If
 
   'Generate and execute the SQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & Name & "' AND relnamespace = " & dNamespaceOID
-  ElseIf objServer.dbVersion.VersionNum = 7.2 Then
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & Name & "' AND relnamespace = " & dNamespaceOID & "::oid"
+  ElseIf objVersion.VersionNum = 7.2 Then
     szSQL = SQL_GET_TABLES7_2 & " AND relname = '" & Name & "'"
   Else
     szSQL = SQL_GET_TABLES7_1 & " AND relname = '" & Name & "'"
@@ -233,7 +233,7 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    If objServer.dbVersion.VersionNum >= 7.2 Then
+    If objVersion.VersionNum >= 7.2 Then
       iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
     Else
       iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True
@@ -373,15 +373,15 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " AND relnamespace = " & dNamespaceOID & " ORDER BY relname", cnDatabase)
-    ElseIf objServer.dbVersion.VersionNum = 7.2 Then
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " AND relnamespace = " & dNamespaceOID & "::oid ORDER BY relname", cnDatabase)
+    ElseIf objVersion.VersionNum = 7.2 Then
       Set rs = objServer.ExecSQL(SQL_GET_TABLES7_2 & " ORDER BY relname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_TABLES7_1 & " ORDER BY relname", cnDatabase)
     End If
       While Not rs.EOF
-        If objServer.dbVersion.VersionNum >= 7.2 Then
+        If objVersion.VersionNum >= 7.2 Then
           iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", ToBool(rs!relhasoids)
         Else
           iAdd rs!OID, rs!relname & "", rs!tableowner & "", rs!relacl & "", True

@@ -124,7 +124,7 @@ Dim szSQL As String
   
   'Password - PostgreSQL 7.2+ can encrypt passwords.
   If Not IsMissing(Password) Then
-    If objServer.dbVersion.VersionNum >= 7.2 Then
+    If objVersion.VersionNum >= 7.2 Then
       If objServer.EncryptPasswords Then
         szSQL = szSQL & " ENCRYPTED PASSWORD '" & dbSZ(Password) & "'"
       Else
@@ -272,7 +272,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_USERS & " ORDER BY usename", objServer.Connection)
     While Not rs.EOF
-      If objServer.dbVersion.VersionNum >= 7.3 Then
+      If objVersion.VersionNum >= 7.3 Then
         If IsDate(rs!valuntil) Then
           iAdd rs!usename & "", rs!usesysid, ToBool(rs!usecreatedb), ToBool(rs!usesuper), ToBool(rs!usecatupd), rs!valuntil, rs!useconfig & ""
         Else

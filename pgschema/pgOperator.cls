@@ -52,7 +52,7 @@ Dim szLOT As String
   If szLOT = "" Then szLOT = "NONE"
   szROT = fmtID(szRightOperandType)
   If szROT = "" Then szROT = "NONE"
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     FormattedID = fmtID(szNamespace) & "." & szName & "(" & szLOT & ", " & szROT & ")"
   Else
     FormattedID = szName & "(" & szLOT & ", " & szROT & ")"
@@ -573,7 +573,7 @@ Dim szLOT As String
   szROT = szRightOperandType
   If szROT = "" Then szROT = "NONE"
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "-- Operator: " & FormattedID & vbCrLf & _
             "CREATE OPERATOR " & fmtID(szNamespace) & "." & szName & " (" & _
             "PROCEDURE = " & fmtID(szOperatorFunction)

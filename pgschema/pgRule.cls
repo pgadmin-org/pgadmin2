@@ -34,7 +34,7 @@ Attribute FormattedID.VB_Description = "Returns a formatted identifier for use i
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get FormattedID()", etFullDebug
  
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
   Else
     FormattedID = fmtID(szName)
@@ -308,7 +308,7 @@ Dim szTemp As String
 Dim lStart As Long
 Dim lLength As Long
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szTemp = "TO " & fmtID(szNamespace) & "." & fmtID(szTable) & " WHERE "
   Else
     szTemp = "TO " & fmtID(szTable) & " WHERE "

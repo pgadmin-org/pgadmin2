@@ -194,7 +194,7 @@ Dim objNewMember As pgTrigger
   objNewMember.Executes = szExecutes
   objNewMember.TriggerEvent = szTriggerEvent
   objNewMember.ForEach = szForEach
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     objNewMember.Identifier = szName & " ON " & szNamespace & "." & szTable
   Else
     objNewMember.Identifier = szName & " ON " & szTable
@@ -223,7 +223,7 @@ Dim objTrigger As pgTrigger
   'Generate the szSQL query to create the new object and execute
   szSQL = "CREATE TRIGGER " & fmtID(Name)
   szSQL = szSQL & " " & Executes & " " & TriggerEvent
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = szSQL & " ON " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
     szSQL = szSQL & " ON " & fmtID(szTable)
@@ -233,7 +233,7 @@ Dim objTrigger As pgTrigger
   objServer.ExecSQL szSQL, cnDatabase
   
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON TRIGGER " & fmtID(szNamespace) & "." & fmtID(Name) & " ON " & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON TRIGGER " & fmtID(Name) & " ON " & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
@@ -243,7 +243,7 @@ Dim objTrigger As pgTrigger
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_TRIGGERS & " AND tgname = '" & dbSZ(Name) & "' AND tgrelid = " & dTableOID
+  szSQL = SQL_GET_TRIGGERS & " AND tgname = '" & dbSZ(Name) & "' AND tgrelid = " & dTableOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
@@ -348,7 +348,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Triggers.Rename(" & QUOTE & OldN
 
 Dim objTrigger As New pgTrigger
     
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432009, App.Title, "Triggers can only be renamed in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -411,7 +411,7 @@ Dim szEvent As String
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_TRIGGERS & " AND tgrelid = " & dTableOID & " ORDER BY tgname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_TRIGGERS & " AND tgrelid = " & dTableOID & "::oid ORDER BY tgname", cnDatabase)
     While Not rs.EOF
     
       'Executes

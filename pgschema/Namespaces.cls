@@ -145,7 +145,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Namespaces.Add(" & QUOTE & Name 
 Dim rs As New Recordset
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432006, App.Title, "You cannot create schemas in PostgreSQL versions prior to 7.3."
     Exit Function
   End If
@@ -227,7 +227,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Namespaces.Remove(" & QUOTE & Ke
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432005, App.Title, "You cannot drop dummy schemas in PostgreSQL versions prior to 7.3."
     Exit Sub
   End If
@@ -272,7 +272,7 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       Set rs = objServer.ExecSQL(SQL_GET_NAMESPACES & " ORDER BY nspname", cnDatabase)
       While Not rs.EOF
         iAdd rs!OID, rs!nspname & "", rs!namespaceowner, rs!nspacl & ""

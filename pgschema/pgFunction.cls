@@ -66,7 +66,7 @@ Dim X As Long
   If Len(szArgs) > 3 Then szArgs = Left(szArgs, Len(szArgs) - 2)
   szArgs = szArgs & ")"
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     FormattedID = fmtID(szNamespace) & "." & fmtID(szName) & szArgs
   Else
     FormattedID = fmtID(szName) & szArgs
@@ -343,7 +343,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Property Let Source("
 
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432005, App.Title, "Functions can only be updated in PostgreSQL 7.3 or above."
     Exit Property
   End If
@@ -353,7 +353,7 @@ Dim rs As New Recordset
   objServer.Databases(Database).Execute SQL(True)
     
   'Select the prosrc back from the DB...
-  Set rs = objServer.ExecSQL("SELECT prosrc FROM pg_proc WHERE oid = " & dOID, cnDatabase)
+  Set rs = objServer.ExecSQL("SELECT prosrc FROM pg_proc WHERE oid = " & dOID & "::oid", cnDatabase)
   If Not rs.EOF Then szSource = rs!prosrc & ""
   
   'Clean code
@@ -583,7 +583,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Grant(" & QUOTE & Use
 Dim szSQL As String
 Dim rs As New Recordset
   
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432013, App.Title, "Function security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -605,7 +605,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & dOID
+  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!proacl & ""
@@ -631,7 +631,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgFunction.Revoke(" & QUOTE & Us
 Dim szSQL As String
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432013, App.Title, "Function security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -653,7 +653,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & dOID
+  szSQL = "SELECT proacl FROM pg_proc WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!proacl & ""
@@ -680,7 +680,7 @@ Dim vArg As Variant
 Dim X As Long
 
   szSQL = "-- Function: " & FormattedID & vbCrLf
-  If (objServer.dbVersion.VersionNum >= 7.2) And OrReplace Then
+  If (objVersion.VersionNum >= 7.2) And OrReplace Then
     szSQL = szSQL & "CREATE OR REPLACE FUNCTION " & FormattedID
   Else
     szSQL = szSQL & "CREATE FUNCTION " & FormattedID
@@ -691,7 +691,7 @@ Dim X As Long
   szSQL = szSQL & " AS '" & szSource & "' "
   szSQL = szSQL & " LANGUAGE '" & dbSZ(szLanguage) & "'"
   If bCachable Or bStrict Or bImplicit Or (szVolatility <> "") Then szSQL = szSQL & " WITH ("
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     If bImplicit Then szSQL = szSQL & "IMPLICITCOERCION, "
     If szVolatility <> "" Then szSQL = szSQL & "IS" & UCase(szVolatility) & ", "
   Else

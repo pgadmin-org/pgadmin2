@@ -213,7 +213,7 @@ Dim objRule As pgRule
 
   szSQL = "CREATE RULE " & fmtID(Name)
   szSQL = szSQL & " AS ON " & TriggerEvent
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = szSQL & " TO " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
     szSQL = szSQL & " TO " & fmtID(szTable)
@@ -225,7 +225,7 @@ Dim objRule As pgRule
   objServer.ExecSQL szSQL, cnDatabase
   
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON RULE " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON RULE " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
@@ -235,7 +235,7 @@ Dim objRule As pgRule
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = SQL_GET_RULES7_3 & " WHERE rulename = '" & dbSZ(Name) & "'"
   Else
     szSQL = SQL_GET_RULES7_1 & " WHERE rulename = '" & dbSZ(Name) & "'"
@@ -362,10 +362,10 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_RULES7_3 & " WHERE ev_class = " & dTableOID & " ORDER BY rulename", cnDatabase)
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_RULES7_3 & " WHERE ev_class = " & dTableOID & "::oid ORDER BY rulename", cnDatabase)
     Else
-      Set rs = objServer.ExecSQL(SQL_GET_RULES7_1 & " WHERE ev_class = " & dTableOID & " ORDER BY rulename", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_RULES7_1 & " WHERE ev_class = " & dTableOID & "::oid ORDER BY rulename", cnDatabase)
     End If
     While Not rs.EOF
       iAdd rs!OID, rs!rulename & "", rs!Definition & ""

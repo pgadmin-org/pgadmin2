@@ -138,7 +138,7 @@ Dim szSQL As String
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
     Else
       iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
@@ -275,7 +275,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " ORDER BY datname", objServer.Connection)
     While Not rs.EOF
-      If objServer.dbVersion.VersionNum >= 7.3 Then
+      If objVersion.VersionNum >= 7.3 Then
         iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & "", rs!datacl & ""
       Else
         iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)

@@ -128,7 +128,7 @@ objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.AddOrUpdate(" & QUO
 Dim objVar As pgVar
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432011, App.Title, "Database variables can only exist in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -183,7 +183,7 @@ objServer.iLogEvent "Entering " & App.Title & ":DatabaseVars.Remove(" & QUOTE & 
 
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432011, App.Title, "Database variables can only exist in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -225,7 +225,7 @@ Dim szSQL As String
 Dim szDatVarList As String
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     Set rs = objServer.ExecSQL("SELECT datconfig FROM pg_database WHERE datname = '" & dbSZ(Database) & "'", objServer.Connection)
     If Not rs.EOF Then szDatVarList = rs!datconfig & ""
     If Left(szDatVarList, 1) = "{" Then szDatVarList = Mid(szDatVarList, 2)

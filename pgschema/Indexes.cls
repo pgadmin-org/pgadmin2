@@ -220,7 +220,7 @@ Dim objIndex As pgIndex
   szSQL = "CREATE"
   If Unique Then szSQL = szSQL & " UNIQUE"
   szSQL = szSQL & " INDEX " & fmtID(Name)
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = szSQL & " ON " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
     szSQL = szSQL & " ON " & fmtID(szTable)
@@ -228,13 +228,13 @@ Dim objIndex As pgIndex
   If AccessMethod <> "" Then szSQL = szSQL & " USING " & AccessMethod
   szSQL = szSQL & " (" & ColumnList & ")"
   'Constraint is only valid for PostgreSQL 7.2+
-  If (Constraint <> "") And (objServer.dbVersion.VersionNum >= 7.2) Then
+  If (Constraint <> "") And (objVersion.VersionNum >= 7.2) Then
     szSQL = szSQL & " WHERE " & Constraint
   End If
   objServer.ExecSQL szSQL, cnDatabase
   
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON INDEX " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON INDEX " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
@@ -244,8 +244,8 @@ Dim objIndex As pgIndex
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_INDEXES & " AND relname = '" & Name & "' AND relnamespace = " & dNamespaceOID
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_INDEXES & " AND relname = '" & Name & "' AND relnamespace = " & dNamespaceOID & "::oid"
   Else
     szSQL = SQL_GET_INDEXES & " AND relname = '" & Name & "'"
   End If
@@ -283,7 +283,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Sequences.Rename(" & QUOTE & Old
   objIndex.Identifier = NewName
 
   'Select definition back from the DB...
-  szSQL = "SELECT pg_get_indexdef(" & objIndex.OID & ") AS definition"
+  szSQL = "SELECT pg_get_indexdef(" & objIndex.OID & "::oid) AS definition"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     objIndex.Definition = rs!Definition & ""
@@ -402,7 +402,7 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_INDEXES & " AND indrelid = " & dTableOID & " ORDER BY relname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_INDEXES & " AND indrelid = " & dTableOID & "::oid ORDER BY relname", cnDatabase)
     While Not rs.EOF
       iAdd rs!OID, rs!relname & "", ToBool(rs!indisunique), ToBool(rs!indisprimary), rs!Definition & ""
       rs.MoveNext

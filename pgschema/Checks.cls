@@ -207,7 +207,7 @@ Dim rs As New Recordset
 Dim szSQL As String
   
   'Generate the szSQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
     szSQL = "ALTER TABLE " & fmtID(szTable)
@@ -217,7 +217,7 @@ Dim szSQL As String
   objServer.ExecSQL szSQL, cnDatabase
     
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  szSQL = SQL_GET_CHECKS & " AND rcrelid = " & dTableOID & " AND rcname = '" & dbSZ(Name) & "'"
+  szSQL = SQL_GET_CHECKS & " AND rcrelid = " & dTableOID & "::oid AND rcname = '" & dbSZ(Name) & "'"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
@@ -270,10 +270,10 @@ objServer.iLogEvent "Entering " & App.Title & ":Checks.Remove(" & QUOTE & Key & 
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum < 7.2 Then Exit Sub
+  If objVersion.VersionNum < 7.2 Then Exit Sub
   
   'Generate/Execute SQL to drop the Check.
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " DROP CONSTRAINT " & mCol(ULEncode(Key)).FormattedID & " RESTRICT"
   Else
     szSQL = "ALTER TABLE " & fmtID(szTable) & " DROP CONSTRAINT " & mCol(ULEncode(Key)).FormattedID & " RESTRICT"
@@ -335,7 +335,7 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_CHECKS & " AND rcrelid = " & dTableOID & " ORDER BY rcname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_CHECKS & " AND rcrelid = " & dTableOID & "::oid ORDER BY rcname", cnDatabase)
     While Not rs.EOF
       iAdd rs!rcname & "", rs!rcsrc & ""
       rs.MoveNext

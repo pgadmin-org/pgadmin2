@@ -198,7 +198,7 @@ Dim bDefaults As Boolean
   objNewMember.Namespace = szNamespace
   
   'Only have an OID pre 7.2
-  If objServer.dbVersion.VersionNum < 7.2 Then
+  If objVersion.VersionNum < 7.2 Then
     objNewMember.OID = dOID
   End If
   
@@ -272,7 +272,7 @@ Dim objColumn As pgColumn
 Dim lStatistics As String
   
   'Generate the szSQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
     szSQL = "ALTER TABLE " & fmtID(szTable)
@@ -281,7 +281,7 @@ Dim lStatistics As String
   objServer.ExecSQL szSQL, cnDatabase
 
   If Default <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & fmtID(Name) & " SET DEFAULT " & Default
     Else
       szSQL = "ALTER TABLE " & fmtID(szTable) & " ALTER COLUMN " & fmtID(Name) & " SET DEFAULT " & Default
@@ -290,7 +290,7 @@ Dim lStatistics As String
   End If
   
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON COLUMN " & fmtID(szNamespace) & "." & fmtID(szTable) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON COLUMN " & fmtID(szTable) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
@@ -300,15 +300,15 @@ Dim lStatistics As String
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum < 7.2 Then
-    szSQL = SQL_GET_COLUMNS7_1 & " AND attrelid = " & dTableOID & " AND attname = '" & dbSZ(Name) & "'"
+  If objVersion.VersionNum < 7.2 Then
+    szSQL = SQL_GET_COLUMNS7_1 & " AND attrelid = " & dTableOID & "::oid AND attname = '" & dbSZ(Name) & "'"
   Else
-    szSQL = SQL_GET_COLUMNS7_2 & " AND attrelid = " & dTableOID & " AND attname = '" & dbSZ(Name) & "'"
+    szSQL = SQL_GET_COLUMNS7_2 & " AND attrelid = " & dTableOID & "::oid AND attname = '" & dbSZ(Name) & "'"
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     
   If Not rs.EOF Then
-    If objServer.dbVersion.VersionNum >= 7.2 Then
+    If objVersion.VersionNum >= 7.2 Then
       lStatistics = rs!attstattarget
     Else
       lStatistics = 0
@@ -435,13 +435,13 @@ Dim lStatistics As Long
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum < 7.2 Then
-      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_1 & " AND attrelid = " & dTableOID & " ORDER BY attnum", cnDatabase)
+    If objVersion.VersionNum < 7.2 Then
+      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_1 & " AND attrelid = " & dTableOID & "::oid ORDER BY attnum", cnDatabase)
     Else
-      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_2 & " AND attrelid = " & dTableOID & " ORDER BY attnum", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_COLUMNS7_2 & " AND attrelid = " & dTableOID & "::oid ORDER BY attnum", cnDatabase)
     End If
     While Not rs.EOF
-      If objServer.dbVersion.VersionNum >= 7.2 Then
+      If objVersion.VersionNum >= 7.2 Then
         lStatistics = rs!attstattarget
       Else
         lStatistics = 0

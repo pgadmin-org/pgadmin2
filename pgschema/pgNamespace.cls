@@ -421,7 +421,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Let Comment
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432007, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
     Exit Property
   End If
@@ -438,7 +438,7 @@ Attribute Comment.VB_Description = "Sets/Returns the Namespace comment."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Property Get Comment()", etFullDebug
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     Comment = objServer.Databases(Database).LookupComment(dOID)
   Else
     Comment = "This is a dummy schema for backwards compatibility with PostgreSQL 7.2 & below."
@@ -457,7 +457,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Grant(" & QUOTE & Us
 Dim szSQL As String
 Dim rs As New Recordset
   
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432007, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
     Exit Sub
   End If
@@ -480,7 +480,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & dOID
+  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!nspacl & ""
@@ -506,7 +506,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgNamespace.Revoke(" & QUOTE & U
 Dim szSQL As String
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432007, App.Title, "You cannot modify dummy schemas in PostgreSQL versions prior to 7.3."
     Exit Sub
   End If
@@ -529,7 +529,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & dOID
+  szSQL = "SELECT nspacl FROM pg_namespace WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!nspacl & ""

@@ -219,7 +219,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Name(" & v
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " RENAME COLUMN " & FormattedID & " TO " & fmtID(vData)
   Else
     szSQL = "ALTER TABLE " & fmtID(szTable) & " RENAME COLUMN " & FormattedID & " TO " & fmtID(vData)
@@ -396,12 +396,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let NotNull(" 
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432003, App.Title, "NOT NULL can only be set or dropped post column creation in PostgreSQL 7.3 or above."
     Exit Property
   End If
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     If vData Then
       szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET NOT NULL"
     Else
@@ -441,7 +441,7 @@ Dim szPkeyName As String
 Dim objIndex As pgIndex
 Dim objColumn As pgColumn
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432008, App.Title, "Primary Keys can only be added or dropped in PostgreSQL 7.3+."
     Exit Property
   End If
@@ -513,7 +513,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTable.Property Let Default(" &
 
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     If vData = "" Then
       szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " DROP DEFAULT"
     Else
@@ -559,12 +559,12 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Statistics
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum < 7.2 Then
+  If objVersion.VersionNum < 7.2 Then
     Err.Raise 5432015, App.Title, "Column statistics are only available in PostgreSQL 7.2+."
     Exit Property
   End If
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET STATISTICS " & vData
   Else
     szSQL = "ALTER TABLE " & fmtID(szTable) & " ALTER COLUMN " & FormattedID & " SET STATISTICS " & vData
@@ -592,7 +592,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Let Comment(" 
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "COMMENT ON COLUMN " & fmtID(szNamespace) & "." & fmtID(szTable) & "." & FormattedID & " IS '" & dbSZ(vData) & "'"
   Else
     szSQL = "COMMENT ON COLUMN " & fmtID(szTable) & "." & FormattedID & " IS '" & dbSZ(vData) & "'"
@@ -610,7 +610,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgColumn.Property Get Comment()"
 
   'In 7.1, comments were stored in pg_description against the column OID.
   'In 7.2+, use the table OID with a SubID of the Column Position
-  If objServer.dbVersion.VersionNum < 7.2 Then
+  If objVersion.VersionNum < 7.2 Then
     Comment = objServer.Databases(Database).LookupComment(dOID)
   Else
     Comment = objServer.Databases(Database).LookupComment(dTableOID, CDbl(lPosition))

@@ -35,7 +35,7 @@ Attribute FormattedID.VB_Description = "Returns a formatted identifier for use i
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get FormattedID()", etFullDebug
  
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
   Else
     FormattedID = fmtID(szName)
@@ -328,7 +328,7 @@ Dim szSQL As String
   szFakeViewName = "tmp_" & Format(Now, "yymmdd_hhnnss")
   objServer.Databases(Database).Execute iSQL(szFakeViewName, vData)
     
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     'If we are here, then drop view and rename fake view
     szSQL = "DROP VIEW " & FormattedID & ";" & vbCrLf
     szSQL = szSQL & "ALTER TABLE " & fmtID(szNamespace) & "." & fmtID(szFakeViewName) & " RENAME TO " & fmtID(szName) & ";"
@@ -449,7 +449,7 @@ Dim rs As New Recordset
     If (Privilege And aclUpdate) = aclUpdate Then szSQL = szSQL & "UPDATE, "
     If (Privilege And aclDelete) = aclDelete Then szSQL = szSQL & "DELETE, "
     If (Privilege And aclRule) = aclRule Then szSQL = szSQL & "RULE, "
-    If objServer.dbVersion.VersionNum >= 7.2 Then
+    If objVersion.VersionNum >= 7.2 Then
       If (Privilege And aclReferences) = aclReferences Then szSQL = szSQL & "REFERENCES, "
       If (Privilege And aclTrigger) = aclTrigger Then szSQL = szSQL & "TRIGGER, "
     End If
@@ -464,7 +464,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & dOID
+  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!relacl & ""
@@ -500,7 +500,7 @@ Dim rs As New Recordset
     If (Privilege And aclUpdate) = aclUpdate Then szSQL = szSQL & "UPDATE, "
     If (Privilege And aclDelete) = aclDelete Then szSQL = szSQL & "DELETE, "
     If (Privilege And aclRule) = aclRule Then szSQL = szSQL & "RULE, "
-    If objServer.dbVersion.VersionNum >= 7.2 Then
+    If objVersion.VersionNum >= 7.2 Then
       If (Privilege And aclReferences) = aclReferences Then szSQL = szSQL & "REFERENCES, "
       If (Privilege And aclTrigger) = aclTrigger Then szSQL = szSQL & "TRIGGER, "
     End If
@@ -515,7 +515,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & dOID
+  szSQL = "SELECT relacl FROM pg_class WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!relacl & ""

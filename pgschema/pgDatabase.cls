@@ -110,7 +110,7 @@ Dim rs As New Recordset
   If szTypeCache Is Nothing Then
     objServer.iLogEvent "Populating Type cache (database: " & szName & ")...", etMiniDebug
     Set szTypeCache = New Collection
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       Set rs = objServer.ExecSQL("SELECT t.oid, n.nspname, CASE WHEN (t.typlen = -1 AND t.typelem != 0) THEN (SELECT at.typname FROM pg_type at WHERE at.oid = t.typelem) || '[]' ELSE t.typname END AS typname FROM pg_type t, pg_namespace n WHERE n.oid = t.typnamespace", cnDatabase)
       While Not rs.EOF
         If rs!nspname & "" = "pg_catalog" Then
@@ -214,7 +214,7 @@ Dim rs As New Recordset
   If szOperatorCache Is Nothing Then
     objServer.iLogEvent "Populating Operator cache (database: " & szName & ")...", etMiniDebug
     Set szOperatorCache = New Collection
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       'Select an O in front of the name to avoid strange behaviour with !
       Set rs = objServer.ExecSQL("SELECT o.oid, n.nspname, o.oprname FROM pg_operator o, pg_namespace n WHERE n.oid = o.oprnamespace", cnDatabase)
       While Not rs.EOF
@@ -279,7 +279,7 @@ Dim X As Long
     Set szCommentCache = New Collection
     
     '7.2+ Uses OID + SubID for some comments.
-    If objServer.dbVersion.VersionNum < 7.2 Then
+    If objVersion.VersionNum < 7.2 Then
       Set rs = objServer.ExecSQL("SELECT objoid, description FROM pg_description", cnDatabase)
       arrTmp = rs.GetRows
       For X = 0 To UBound(arrTmp, 2)
@@ -771,7 +771,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Grant(" & QUOTE & Use
 Dim szSQL As String
 Dim rs As New Recordset
   
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432012, App.Title, "Database security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -794,7 +794,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & dOID
+  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!datacl & ""
@@ -820,7 +820,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Revoke(" & QUOTE & Us
 Dim szSQL As String
 Dim rs As New Recordset
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432012, App.Title, "Database security is only available in PostgreSQL 7.3+."
     Exit Sub
   End If
@@ -843,7 +843,7 @@ Dim rs As New Recordset
   objServer.ExecSQL szSQL, cnDatabase
   
   'Get the current ACL
-  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & dOID
+  szSQL = "SELECT datacl FROM pg_database WHERE oid = " & dOID & "::oid"
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
     szACL = rs!datacl & ""
@@ -876,7 +876,7 @@ Dim objVar As pgVar
   szSQL = szSQL & ";" & vbCrLf
    
   'Database Vars/ACL
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     For Each objVar In DatabaseVars
       szSQL = szSQL & "ALTER DATABASE " & FormattedID & " SET " & objVar.FormattedID & " = " & objVar.Value & ";" & vbCrLf
     Next objVar
@@ -933,7 +933,7 @@ Dim vTemp As Variant
   'Namespaces
   For Each vNamespaceObject In Namespaces
     If (Not vNamespaceObject.SystemObject) Or (vNamespaceObject.Name = "public") Then
-      If objServer.dbVersion.VersionNum >= 7.3 Then
+      If objVersion.VersionNum >= 7.3 Then
         Set arrObjects(UBound(arrObjects)) = vNamespaceObject
         ReDim Preserve arrObjects(UBound(arrObjects) + 1)
       End If

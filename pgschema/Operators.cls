@@ -230,7 +230,7 @@ Dim szROT As String
 Dim objOperator As pgOperator
   
   'Generate the szSQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "CREATE OPERATOR " & fmtID(szNamespace) & "." & Name
   Else
     szSQL = "CREATE OPERATOR " & Name
@@ -253,7 +253,7 @@ Dim objOperator As pgOperator
   szROT = fmtID(RightOperandType)
   If szROT = "" Then szROT = "NONE"
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON OPERATOR " & fmtID(szNamespace) & "." & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON OPERATOR " & Name & "(" & szLOT & ", " & szROT & ") IS '" & dbSZ(Comment) & "'"
@@ -263,8 +263,8 @@ Dim objOperator As pgOperator
   End If
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "' AND oprnamespace = " & dNamespaceOID
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "' AND oprnamespace = " & dNamespaceOID & "::oid"
   Else
     szSQL = SQL_GET_OPERATORS & " AND oprname = '" & dbSZ(Name) & "' AND oprleft = '" & LeftOperandType & "' AND oprright = '" & RightOperandType & "'"
   End If
@@ -395,8 +395,8 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " WHERE oprnamespace = " & dNamespaceOID & " ORDER BY oprname", cnDatabase)
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " WHERE oprnamespace = " & dNamespaceOID & "::oid ORDER BY oprname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_OPERATORS & " ORDER BY oprname", cnDatabase)
     End If

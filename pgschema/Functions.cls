@@ -181,7 +181,7 @@ Dim X As Long
   objNewMember.Cachable = bCachable
   objNewMember.Strict = bStrict
   objNewMember.ACL = szACL
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     objNewMember.Implicit = bImplicit
     objNewMember.RetSet = bRetSet
     Select Case UCase(szVolatility)
@@ -229,7 +229,7 @@ Dim bFlag As Boolean
 Dim objFunction As pgFunction
  
   'Generate the szSQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "CREATE FUNCTION " & fmtID(szNamespace) & "." & fmtID(Name)
   Else
     szSQL = "CREATE FUNCTION " & fmtID(Name)
@@ -240,7 +240,7 @@ Dim objFunction As pgFunction
   szSQL = szSQL & " AS '" & Source & "'"
   szSQL = szSQL & " LANGUAGE '" & Language & "'"
   If Cachable Or Strict Or Implicit Or (Volatility <> "") Then szSQL = szSQL & " WITH ("
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     If Implicit Then szSQL = szSQL & "IMPLICITCOERCION, "
     If Volatility <> "" Then szSQL = szSQL & "IS" & UCase(Volatility) & ", "
   Else
@@ -256,7 +256,7 @@ Dim objFunction As pgFunction
 
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " AND proname = '" & Name & "' AND pronamespace = " & dNamespaceOID & " ORDER BY proname"
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND proname = '" & Name & "' AND pronamespace = " & dNamespaceOID & "::oid ORDER BY proname"
   Else
     szSQL = SQL_GET_FUNCTIONS7_1 & " AND proname = '" & Name & "' ORDER BY proname"
   End If
@@ -264,7 +264,7 @@ Dim objFunction As pgFunction
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
 
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON FUNCTION " & fmtID(szNamespace) & "." & fmtID(Name) & "(" & Arguments & ") IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON FUNCTION " & fmtID(Name) & "(" & Arguments & ") IS '" & dbSZ(Comment) & "'"
@@ -420,7 +420,7 @@ Dim szArgs As String
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_FUNCTIONS7_3 & " AND pronamespace = " & dNamespaceOID & " ORDER BY proname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_FUNCTIONS7_3 & " AND pronamespace = " & dNamespaceOID & "::oid ORDER BY proname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_FUNCTIONS7_1 & " ORDER BY proname", cnDatabase)
     End If

@@ -37,7 +37,7 @@ Attribute FormattedID.VB_Description = "Returns a formatted identifier for use i
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get FormattedID()", etFullDebug
  
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     FormattedID = fmtID(szName) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
     FormattedID = fmtID(szName) & " ON " & fmtID(szTable)
@@ -397,7 +397,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Get SQL()", e
     
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "-- Trigger: " & FormattedID & vbCrLf & _
             "CREATE TRIGGER " & fmtID(szName) & _
             " " & szExecutes & " " & szTriggerEvent & _

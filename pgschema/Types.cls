@@ -221,7 +221,7 @@ Dim szSQL As String
 Dim objType As pgType
 
   'Generate the szSQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "CREATE TYPE " & fmtID(szNamespace) & "." & fmtID(Name)
   Else
     szSQL = "CREATE TYPE " & fmtID(Name)
@@ -243,7 +243,7 @@ Dim objType As pgType
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If objVersion.VersionNum >= 7.3 Then
-    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typname = '" & Name & "' AND typnamespace = " & dNamespaceOID, cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typname = '" & Name & "' AND typnamespace = " & dNamespaceOID & "::oid", cnDatabase)
   Else
     Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " AND typname = '" & Name & "'", cnDatabase)
   End If
@@ -389,7 +389,7 @@ Dim rs As New Recordset
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
     If objVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typnamespace = " & dNamespaceOID & " ORDER BY typname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_TYPES7_3 & " AND typnamespace = " & dNamespaceOID & "::oid ORDER BY typname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_TYPES7_1 & " ORDER BY typname", cnDatabase)
     End If

@@ -289,7 +289,7 @@ Attribute Password.VB_Description = "Set's the User's password. This Property al
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Let Password(" & QUOTE & "********" & QUOTE & ")", etFullDebug
 
-  If objServer.dbVersion.VersionNum >= 7.2 Then
+  If objVersion.VersionNum >= 7.2 Then
     If objServer.EncryptPasswords Then
       objServer.ExecSQL "ALTER USER " & FormattedID & " WITH ENCRYPTED PASSWORD '" & dbSZ(vData) & "'", objServer.Connection
     Else
@@ -374,7 +374,7 @@ Dim objVar As pgVar
   szSQL = szSQL & ";" & vbCrLf
   
   'User Vars
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     For Each objVar In UserVars
       szSQL = szSQL & "ALTER USER " & FormattedID & " SET " & objVar.FormattedID & " = " & objVar.Value & ";" & vbCrLf
     Next objVar

@@ -38,7 +38,7 @@ Attribute FormattedID.VB_Description = "Returns a formatted identifier for use i
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgDomain.Property Get FormattedID()", etFullDebug
  
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
   Else
     FormattedID = fmtID(szName)

@@ -311,7 +311,7 @@ Dim szArgs As String
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    Set rs = objServer.ExecSQL(SQL_GET_FOREIGN_KEYS & " AND tgrelid = " & dTableOID & " ORDER BY tgconstrname", cnDatabase)
+    Set rs = objServer.ExecSQL(SQL_GET_FOREIGN_KEYS & " AND tgrelid = " & dTableOID & "::oid ORDER BY tgconstrname", cnDatabase)
     While Not rs.EOF
       szArgs = ""
       For X = 0 To rs.Fields("tgargs").ActualSize - 1

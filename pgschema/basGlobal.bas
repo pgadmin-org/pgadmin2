@@ -247,7 +247,7 @@ Dim szTemp As String
       'Either grant ALL or individual privileges
       'Note that in 7.2+, Delete has been seperated from Update, and References/Trigger
       'have been added.
-      If objServer.dbVersion.VersionNum >= 7.2 Then
+      If objVersion.VersionNum >= 7.2 Then
         If szAccess = "arwdRxt" Then
           szAccess = "ALL"
         Else

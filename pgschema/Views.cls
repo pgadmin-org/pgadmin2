@@ -193,14 +193,14 @@ Dim rs As New Recordset
 Dim szSQL As String
   
   'Generate the SQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "CREATE VIEW " & fmtID(szNamespace) & "." & fmtID(Name) & " AS " & Definition
   Else
     szSQL = "CREATE VIEW " & fmtID(Name) & " AS " & Definition
   End If
   objServer.ExecSQL szSQL, cnDatabase
   If Comment <> "" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       szSQL = "COMMENT ON VIEW " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON VIEW " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
@@ -210,8 +210,8 @@ Dim szSQL As String
   End If
 
   'Generate and execute the SQL to retrieve *all* properties of the new object
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_VIEWS7_3 & " AND relname = '" & Name & "' AND relnamespace = " & dNamespaceOID
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_VIEWS7_3 & " AND relname = '" & Name & "' AND relnamespace = " & dNamespaceOID & "::oid"
   Else
     szSQL = SQL_GET_VIEWS7_1 & " AND relname = '" & Name & "'"
   End If
@@ -338,8 +338,8 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_VIEWS7_3 & " AND relnamespace = " & dNamespaceOID & " ORDER BY relname", cnDatabase)
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_VIEWS7_3 & " AND relnamespace = " & dNamespaceOID & "::oid ORDER BY relname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_VIEWS7_1 & " ORDER BY relname", cnDatabase)
     End If

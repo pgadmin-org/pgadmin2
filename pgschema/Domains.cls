@@ -195,7 +195,7 @@ Dim szHex As String
 Dim lLength As Long
 Dim lScale As Long
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Function
   End If
@@ -210,7 +210,7 @@ Dim lScale As Long
   objServer.ExecSQL szSQL, cnDatabase
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
-  Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " AND typname = '" & Name & "' AND typnamespace = " & dNamespaceOID, cnDatabase)
+  Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " AND typname = '" & Name & "' AND typnamespace = " & dNamespaceOID & "::oid", cnDatabase)
     
   If Comment <> "" Then
     szSQL = "COMMENT ON DOMAIN " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
@@ -258,7 +258,7 @@ Attribute Item.VB_UserMemId = 0
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Domains.Property Get Item(" & QUOTE & Key & QUOTE & ")", etFullDebug
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Function
   End If
@@ -300,7 +300,7 @@ objServer.iLogEvent "Entering " & App.Title & ":Domains.Remove(" & QUOTE & Key &
 
 Dim szSQL As String
 
-  If objServer.dbVersion.VersionNum < 7.3 Then
+  If objVersion.VersionNum < 7.3 Then
     Err.Raise 5432002, App.Title, "Domains only exist in PostgreSQL 7.3 or above."
     Exit Sub
   End If
@@ -370,11 +370,11 @@ Dim lScale As Long
   Set mCol = New Collection
   
   'Domains are only in 7.3+
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
   
     'Get the data and loop through it
     If objServer.Connection.State = adStateOpen Then
-      Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " AND typnamespace = " & dNamespaceOID & " ORDER BY typname", cnDatabase)
+      Set rs = objServer.ExecSQL(SQL_GET_DOMAINS & " AND typnamespace = " & dNamespaceOID & "::oid ORDER BY typname", cnDatabase)
       While Not rs.EOF
       
         lLength = 0

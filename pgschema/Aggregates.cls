@@ -204,7 +204,7 @@ Dim szSQL As String
 Dim objAggregate As pgAggregate
   
   'Generate the szSQL query to create the new object and execute
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "CREATE AGGREGATE " & fmtID(szNamespace) & "." & fmtID(Name)
   Else
     szSQL = "CREATE AGGREGATE " & fmtID(Name)
@@ -219,14 +219,14 @@ Dim objAggregate As pgAggregate
   
   'Generate and execute the szSQL to retrieve *all* properties of the new object
   If InputType = "ANY" Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc WHERE pg_proc.oid = pg_aggregate.aggfnoid AND aggname = '" & Name & "' AND aggbasetype = 0 AND aggnamespace = " & dNamespaceOID
+    If objVersion.VersionNum >= 7.3 Then
+      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc WHERE pg_proc.oid = pg_aggregate.aggfnoid AND aggname = '" & Name & "' AND aggbasetype = 0 AND aggnamespace = " & dNamespaceOID & "::oid"
     Else
       szSQL = "SELECT pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate WHERE aggname = '" & dbSZ(Name) & "' AND aggbasetype = 0"
     End If
   Else
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc, pg_type WHERE pg_proc.oid = pg_aggregate.aggfnoid AND proargtypes[0] = pg_type.oid AND aggname = '" & Name & "' AND typname = '" & InputType & "' AND aggnamespace = " & dNamespaceOID
+    If objVersion.VersionNum >= 7.3 Then
+      szSQL = "SELECT oid, proname AS aggname, pg_get_userbyid(proowner) AS owner, aggtransfn, aggfinalfn, proargtypes[0] AS aggbasetype, aggtranstype, prorettype AS aggfinaltype, agginitval FROM pg_aggregate, pg_proc, pg_type WHERE pg_proc.oid = pg_aggregate.aggfnoid AND proargtypes[0] = pg_type.oid AND aggname = '" & Name & "' AND typname = '" & InputType & "' AND aggnamespace = " & dNamespaceOID & "::oid"
     Else
       szSQL = "SELECT pg_aggregate.oid, aggname, pg_get_userbyid(aggowner) AS owner, aggtransfn, aggfinalfn, aggbasetype, aggtranstype, aggfinaltype, agginitval FROM pg_aggregate, pg_type WHERE aggbasetype = pg_type.oid AND aggname = '" & Name & "' AND typname = '" & InputType & "'"
     End If
@@ -235,14 +235,14 @@ Dim objAggregate As pgAggregate
     
   If Comment <> "" Then
     If InputType = "ANY" Then
-      If objServer.dbVersion.VersionNum >= 7.3 Then
+      If objVersion.VersionNum >= 7.3 Then
         szSQL = "COMMENT ON AGGREGATE " & fmtID(szNamespace) & "." & fmtID(Name) & " * IS '" & dbSZ(Comment) & "'"
       Else
         szSQL = "COMMENT ON AGGREGATE " & fmtID(Name) & " * IS '" & dbSZ(Comment) & "'"
       End If
       objServer.ExecSQL szSQL, cnDatabase
     Else
-      If objServer.dbVersion.VersionNum >= 7.3 Then
+      If objVersion.VersionNum >= 7.3 Then
         szSQL = "COMMENT ON AGGREGATE " & fmtID(szNamespace) & "." & fmtID(Name) & " " & InputType & " IS '" & dbSZ(Comment) & "'"
       Else
         szSQL = "COMMENT ON AGGREGATE " & fmtID(Name) & " " & InputType & " IS '" & dbSZ(Comment) & "'"
@@ -373,8 +373,8 @@ Dim rs As New Recordset
   
   'Get the data and loop through it
   If objServer.Connection.State = adStateOpen Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
-      Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_3 & " AND pronamespace = " & dNamespaceOID & " ORDER BY aggname", cnDatabase)
+    If objVersion.VersionNum >= 7.3 Then
+      Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_3 & " AND pronamespace = " & dNamespaceOID & "::oid ORDER BY aggname", cnDatabase)
     Else
       Set rs = objServer.ExecSQL(SQL_GET_AGGREGATES7_1 & " ORDER BY aggname", cnDatabase)
     End If

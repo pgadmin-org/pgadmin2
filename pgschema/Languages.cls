@@ -123,10 +123,10 @@ Dim szSQL As String
   objNewMember.Trusted = bTrusted
   
   'Get the Handler
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dHandler
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dHandler & "::oid"
   Else
-    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE oid = " & dHandler
+    szSQL = SQL_GET_FUNCTIONS7_1 & " WHERE oid = " & dHandler & "::oid"
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
@@ -135,8 +135,8 @@ Dim szSQL As String
   If rs.State <> adStateClosed Then rs.Close
 
   'Get the Validator
-  If objServer.dbVersion.VersionNum >= 7.3 Then
-    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dValidator
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & dValidator & "::oid"
     Set rs = objServer.ExecSQL(szSQL, cnDatabase)
     If Not rs.EOF Then
       objNewMember.Validator = fmtID(rs!proname & "")
@@ -182,7 +182,7 @@ Dim objLanguage As pgLanguage
   Else
     szSQL = "CREATE PROCEDURAL LANGUAGE '" & Name & "' HANDLER " & Handler
   End If
-  If (objServer.dbVersion.VersionNum >= 7.3) And (Validator <> "") Then szSQL = szSQL & " VALIDATOR " & Validator
+  If (objVersion.VersionNum >= 7.3) And (Validator <> "") Then szSQL = szSQL & " VALIDATOR " & Validator
   If Comment <> "" Then szSQL = szSQL & " LANCOMPILER '" & dbSZ(Comment) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   
@@ -192,7 +192,7 @@ Dim objLanguage As pgLanguage
   
   'Create a new member of the collection
   If Not rs.EOF Then
-    If objServer.dbVersion.VersionNum >= 7.3 Then
+    If objVersion.VersionNum >= 7.3 Then
       iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & "", rs!lanacl & "", rs!lanvalidator & ""
     Else
       iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
@@ -328,7 +328,7 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES & " ORDER BY lanname", cnDatabase)
     While Not rs.EOF
-      If objServer.dbVersion.VersionNum >= 7.3 Then
+      If objVersion.VersionNum >= 7.3 Then
         iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & "", rs!lanacl & "", rs!lanvalidator & ""
       Else
         iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""

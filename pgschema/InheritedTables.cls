@@ -185,7 +185,7 @@ Dim rs As New Recordset
   'Create a new collection
   Set mCol = New Collection
   
-  Set rs = objServer.ExecSQL(SQL_GET_INHERITED_TABLES & " AND i.inhrelid = " & dTableOID & " ORDER BY inhseqno", cnDatabase)
+  Set rs = objServer.ExecSQL(SQL_GET_INHERITED_TABLES & " AND i.inhrelid = " & dTableOID & "::oid ORDER BY inhseqno", cnDatabase)
   While Not rs.EOF
     iAdd rs!relname & ""
     rs.MoveNext

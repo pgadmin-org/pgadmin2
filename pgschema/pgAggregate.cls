@@ -39,7 +39,7 @@ Attribute FormattedID.VB_Description = "Returns a formatted identifier for use i
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get FormattedID()", etFullDebug
 
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     If szInputType = "opaque" Then
       FormattedID = fmtID(szNamespace) & "." & fmtID(szName) & " *"
     Else
@@ -435,7 +435,7 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgAggregate.Property Get SQL()", etFullDebug
 Dim szSQL As String
   
-  If objServer.dbVersion.VersionNum >= 7.3 Then
+  If objVersion.VersionNum >= 7.3 Then
     szSQL = "-- Aggregate: " & szNamespace & "." & szIdentifier & vbCrLf & _
             "CREATE AGGREGATE " & fmtID(szNamespace) & "." & fmtID(szName) & " ("
   Else
