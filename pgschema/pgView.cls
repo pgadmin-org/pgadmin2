@@ -257,15 +257,26 @@ On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Let Definition(" & QUOTE & vData & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
-Dim szDefinitionOld As String
-  
+Dim szOldDefinition As String
+Dim szFakeView As String
+
   'Save old definition
-  szDefinitionOld = szDefinition
+  szOldDefinition = szDefinition
   
   'Set the source
   szDefinition = vData
-  objServer.Databases(Database).Execute SQL(True)
-    
+  
+  'Create a fake view for testing purpose
+  szFakeView = "fakeview_" & Format(Now, "yymmdd_hhnnss")
+  
+  objServer.Databases(Database).Execute SQL(False, True, False, False, szFakeView)
+  
+  'If we are here, then drop fake view
+  objServer.Databases(Database).Execute SQL(True, False, False, False, szFakeView)
+  
+  'Create real view
+  objServer.Databases(Database).Execute SQL(True, True, True, True)
+
   'Select the prosrc back from the DB...
   Set rs = objServer.ExecSQL("SELECT definition FROM pg_views WHERE viewname = '" & szName & "'", cnDatabase)
   If Not rs.EOF Then szDefinition = rs!Definition & ""
@@ -281,27 +292,17 @@ Dim szDefinitionOld As String
   If Not SystemObject Then Commit rcUpdate, "Updated view definition."
   
   Exit Property
+  
 Err_Handler:
-  If rs.State <> adStateClosed Then rs.Close
-  Set rs = Nothing
+If rs.State <> adStateClosed Then rs.Close
+Set rs = Nothing
+objServer.iLogError Err
   
-  ' In case of any error, apply old definition
-  szDefinition = szDefinitionOld
-  objServer.Databases(Database).Execute SQL
-  
-    'Select the prosrc back from the DB...
-  Set rs = objServer.ExecSQL("SELECT definition FROM pg_views WHERE viewname = '" & szName & "'", cnDatabase)
-  If Not rs.EOF Then szDefinition = rs!Definition & ""
-  If rs.State <> adStateClosed Then rs.Close
-  Set rs = Nothing
-   
-  'Select oid back from the DB...
-  Set rs = objServer.ExecSQL("SELECT oid FROM pg_class WHERE relname = '" & szName & "'", cnDatabase)
-  If Not rs.EOF Then lOID = rs!OID & ""
-  If rs.State <> adStateClosed Then rs.Close
-  Set rs = Nothing
-  
-  objServer.iLogError Err
+' In case of wrong definition
+If Err.Number = -2147467259 Then
+  MsgBox ("Error: wrong view definition.")
+  'objServer.Databases(Database).Execute SQL(True, False, False, False, szFakeView)
+End If
 End Property
 
 Friend Property Let iDefinition(ByVal vData As String)
@@ -474,25 +475,29 @@ Err_Handler:
   objServer.iLogError Err
 End Sub
 
-Public Property Get SQL(Optional PseudoAlter As Boolean) As String
+Public Property Get SQL(Optional bDrop As Boolean = False, Optional bCreate As Boolean = True, Optional bComment As Boolean = True, Optional bACL As Boolean = True, Optional szViewName As String, Optional szViewDefinition As String, Optional szViewComment As String) As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL(" & PseudoAlter & ")", etFullDebug
-Dim szSQL As String
-  
-  szSQL = "-- View: " & szName & vbCrLf
-  If ((objServer.dbVersion.VersionNum >= 7.2) And (PseudoAlter = True)) Then
-    szSQL = szSQL & "DROP VIEW " & QUOTE & szName & QUOTE & ";" & vbCrLf
-  End If
-  szSQL = szSQL & "CREATE VIEW " & QUOTE & szName & QUOTE & " AS " & _
-          szDefinition & vbCrLf
+    'Set default values
+    If (bDrop = True) And (bCreate = True) And (objServer.dbVersion.VersionNum < 7.2) Then bDrop = False
+    If (szViewName = "") Then szViewName = szName
+    If (szViewDefinition = "") Then szViewDefinition = dbSZ(szDefinition)
+    If (szViewComment = "") Then szViewComment = dbSZ(Comment)
 
-  If szACL <> "" Then szSQL = szSQL & ParseACL(szName, szACL)
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON VIEW " & QUOTE & szName & QUOTE & " IS '" & dbSZ(Comment) & "';" & vbCrLf
+    'Log
+    objServer.iLogEvent "Entering " & App.Title & ":pgView.Property Get SQL(" & bDrop & ", " & bCreate & ", " & bComment & ", " & bACL & ", " & szViewName & ", " & szViewDefinition & ", " & szViewComment & ")", etFullDebug
+    Dim szSQL As String
     
-  SQL = szSQL
-  
-  Exit Property
+    szSQL = "-- View: " & szName & vbCrLf
+      
+    If (bDrop = True) Then szSQL = szSQL & "DROP VIEW " & QUOTE & szViewName & QUOTE & ";" & vbCrLf
+    If (bCreate = True) Then szSQL = szSQL & "CREATE VIEW " & QUOTE & szViewName & QUOTE & " AS " & szDefinition & vbCrLf
+    If (bACL = True) And (szACL <> "") Then szSQL = szSQL & ParseACL(szName, szACL)
+    If (bComment = True) Then szSQL = szSQL & "COMMENT ON VIEW " & QUOTE & szViewName & QUOTE & " IS '" & szViewComment & "';" & vbCrLf
+      
+    SQL = szSQL
+
+Exit Property
 Err_Handler:  objServer.iLogError Err
 End Property
 
