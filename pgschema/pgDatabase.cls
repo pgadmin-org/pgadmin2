@@ -20,6 +20,7 @@ Option Explicit
 'Collections
 Private colLanguages As Languages
 Private colNamespaces As Namespaces
+Private colDatabaseVars As DatabaseVars
 
 'Properties
 Private lOID As Long
@@ -33,6 +34,7 @@ Private szServerEncoding As String
 Private lStatus As dbStatus
 Private bAllowConnections As Boolean
 Private cnDatabase As New Connection
+Private szDatabaseVarList As String
 
 Private szTypeCache As Collection
 Private szLanguageCache As Collection
@@ -346,6 +348,25 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Property Get Namespac
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Return the DatabaseVars Collection
+Public Property Get DatabaseVars() As DatabaseVars
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get DatabaseVars()", etFullDebug
+
+  If colDatabaseVars Is Nothing Then
+    If dbConnect = False Then Exit Property
+    Set colDatabaseVars = New DatabaseVars
+    
+    'Pass the connection to the class
+    Set colDatabaseVars.Connection = cnDatabase
+    colDatabaseVars.Initialize szDatabaseVarList
+  End If
+  Set DatabaseVars = colDatabaseVars
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Return the ADO Connection String
 Public Property Get ConnectionString() As String
 Attribute ConnectionString.VB_Description = "Returns the database connection string."
@@ -594,6 +615,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgDatabase.Class_Terminate()", e
 
   Set colLanguages = Nothing
   Set colNamespaces = Nothing
+  Set colDatabaseVars = Nothing
   Set szTypeCache = Nothing
   Set szLanguageCache = Nothing
   Set szOperatorCache = Nothing
@@ -640,6 +662,26 @@ Dim szSQL As String
   Exit Sub
 Err_Handler:  objServer.iLogError Err
 End Sub
+
+'Set/Return the DatabaseVarList (Internal only)
+Friend Property Let DatabaseVarList(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let DatabaseVarList(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szDatabaseVarList = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Friend Property Get DatabaseVarList() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get DatabaseVarList()", etFullDebug
+
+  DatabaseVarList = szDatabaseVarList
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
 
 'Connect to the Database
 Public Function dbConnect() As Boolean

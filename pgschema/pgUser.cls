@@ -17,6 +17,9 @@ Attribute VB_Exposed = True
 
 Option Explicit
 
+'Collections
+Private colUserVars As UserVars
+
 'Properties
 Private szName As String
 Private szIdentifier As String
@@ -26,6 +29,7 @@ Private bSuperuser As Long
 Private bUpdateCatalogues As Long
 Private dAccountExpires As Date
 Private vTag As Variant
+Private szUserVarList As String
 
 Public Property Get FormattedID() As String
 Attribute FormattedID.VB_Description = "Returns a formatted identifier for use in SQL statements."
@@ -308,10 +312,47 @@ objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get Password()",
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Return the UserVars Collection
+Public Property Get UserVars() As UserVars
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgUser.Property Get UserVars()", etFullDebug
+
+  If colUserVars Is Nothing Then
+    Set colUserVars = New UserVars
+    colUserVars.Initialize szUserVarList
+    colUserVars.User = szName
+  End If
+  Set UserVars = colUserVars
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
+'Set/Return the UserVarList (Internal only)
+Friend Property Let UserVarList(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Let UserVarList(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szUserVarList = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Friend Property Get UserVarList() As String
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgGroup.Property Get UserVarList()", etFullDebug
+
+  UserVarList = szUserVarList
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 Public Property Get SQL() As String
 Attribute SQL.VB_Description = "Returns the object's reverse engineered SQL."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Property Get pgUser.SQL()", etFullDebug
+
 Dim szSQL As String
 Dim szMember As Variant
   
@@ -337,3 +378,12 @@ Dim szMember As Variant
 Err_Handler:  objServer.iLogError Err
 End Property
 
+Private Sub Class_Terminate()
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgUser.Class_Terminate()", etFullDebug
+
+  Set colUserVars = Nothing
+
+  Exit Sub
+Err_Handler:  objServer.iLogError Err
+End Sub

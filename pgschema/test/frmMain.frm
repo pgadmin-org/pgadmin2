@@ -10,6 +10,14 @@ Begin VB.Form frmMain
    ScaleHeight     =   7725
    ScaleWidth      =   10995
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command1 
+      Caption         =   "Command1"
+      Height          =   645
+      Left            =   9855
+      TabIndex        =   13
+      Top             =   225
+      Width           =   1005
+   End
    Begin VB.TextBox txtSQL 
       BackColor       =   &H8000000F&
       Height          =   3570
@@ -233,6 +241,10 @@ Dim nodX As Node
   'Start populating the treeview.
   tv.Nodes.Clear
   tv.Nodes.Add , , "SVR-" & GetID, svr.Server
+End Sub
+
+Private Sub Command1_Click()
+  MsgBox svr.Databases("pgadmin").DatabaseVars.Count
 End Sub
 
 Private Sub svr_EventLog(EventLevel As pgSchema.LogLevel, EventMessage As String)

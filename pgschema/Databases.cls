@@ -75,9 +75,9 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'Internal Add
-Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, szServerEncoding As String, bAllowConn As Boolean)
+Private Function iAdd(lOID As Long, szName As String, szPath As String, szOwner As String, szServerEncoding As String, bAllowConn As Boolean, Optional szDatabaseVarList As String)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & szServerEncoding & ", " & bAllowConn & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Databases.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & QUOTE & szPath & QUOTE & ", " & QUOTE & szOwner & QUOTE & ", " & szServerEncoding & ", " & bAllowConn & ", " & QUOTE & szDatabaseVarList & QUOTE & ")", etFullDebug
 
 Dim objNewMember As pgDatabase
 
@@ -96,6 +96,9 @@ Dim objNewMember As pgDatabase
   objNewMember.Owner = szOwner
   objNewMember.ServerEncoding = szServerEncoding
   objNewMember.AllowConnections = bAllowConn
+  If Left(szDatabaseVarList, 1) = "{" Then szDatabaseVarList = Mid(szDatabaseVarList, 2)
+  If Right(szDatabaseVarList, 1) = "}" Then szDatabaseVarList = Mid(szDatabaseVarList, 1, Len(szDatabaseVarList) - 1)
+  objNewMember.DatabaseVarList = szDatabaseVarList
   objNewMember.Identifier = szName
   
   'Add the Database
@@ -267,7 +270,11 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_DATABASES & " ORDER BY datname", objServer.Connection)
     While Not rs.EOF
-      iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
+      If objServer.dbVersion.VersionNum >= 7.3 Then
+        iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn), rs!datconfig & ""
+      Else
+        iAdd rs!OID, rs!datname & "", rs!datpath & "", rs!datowner & "", rs!ServerEncoding & "", ToBool(rs!datallowconn)
+      End If
       rs.MoveNext
     Wend
   End If

@@ -75,7 +75,7 @@ Err_Handler:  objServer.iLogError Err
 End Function
 
 'Internal Add
-Friend Sub iAdd(szName As String, lID As Long, bCreateDatabases As Boolean, bSuperuser As Boolean, bUpdateCatalogues As Boolean, dAccountExpires As Variant)
+Friend Sub iAdd(szName As String, lID As Long, bCreateDatabases As Boolean, bSuperuser As Boolean, bUpdateCatalogues As Boolean, dAccountExpires As Variant, Optional szUserVarList As String)
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":Users.iAdd(" & QUOTE & szName & QUOTE & ", " & lID & ", " & bCreateDatabases & ", " & bSuperuser & ", " & bUpdateCatalogues & ", " & QUOTE & dAccountExpires & QUOTE & ")", etFullDebug
 
@@ -89,6 +89,9 @@ Dim objNewMember As pgUser
   objNewMember.iSuperuser = bSuperuser
   objNewMember.UpdateCatalogues = bUpdateCatalogues
   objNewMember.iAccountExpires = dAccountExpires
+  If Left(szUserVarList, 1) = "{" Then szUserVarList = Mid(szUserVarList, 2)
+  If Right(szUserVarList, 1) = "}" Then szUserVarList = Mid(szUserVarList, 1, Len(szUserVarList) - 1)
+  objNewMember.UserVarList = szUserVarList
   objNewMember.Identifier = szName
   
   'Add the User
@@ -269,10 +272,18 @@ Dim rs As New Recordset
   If objServer.Connection.State = adStateOpen Then
     Set rs = objServer.ExecSQL(SQL_GET_USERS & " ORDER BY usename", objServer.Connection)
     While Not rs.EOF
-      If IsDate(rs!valuntil) Then
-        iAdd rs!usename & "", rs!usesysid, ToBool(rs!usecreatedb), ToBool(rs!usesuper), ToBool(rs!usecatupd), rs!valuntil
+      If objServer.dbVersion.VersionNum >= 7.3 Then
+        If IsDate(rs!valuntil) Then
+          iAdd rs!usename & "", rs!usesysid, ToBool(rs!usecreatedb), ToBool(rs!usesuper), ToBool(rs!usecatupd), rs!valuntil, rs!useconfig & ""
+        Else
+          iAdd rs!usename & "", rs!usesysid, ToBool(rs!usecreatedb), ToBool(rs!usesuper), ToBool(rs!usecatupd), "2099-12-31 23:59:59", rs!useconfig & ""
+        End If
       Else
-        iAdd rs!usename & "", rs!usesysid, ToBool(rs!usecreatedb), ToBool(rs!usesuper), ToBool(rs!usecatupd), "2099-12-31 23:59:59"
+        If IsDate(rs!valuntil) Then
+          iAdd rs!usename & "", rs!usesysid, ToBool(rs!usecreatedb), ToBool(rs!usesuper), ToBool(rs!usecatupd), rs!valuntil
+        Else
+          iAdd rs!usename & "", rs!usesysid, ToBool(rs!usecreatedb), ToBool(rs!usesuper), ToBool(rs!usecatupd), "2099-12-31 23:59:59"
+        End If
       End If
       rs.MoveNext
     Wend

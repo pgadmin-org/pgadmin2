@@ -13,3 +13,5 @@ NOTE: Most error in pgSchema will be raised by ADO or other libraries.
 5432007 - You cannot modify dummy schemas in PostgreSQL versions prior to 7.3.
 5432008 - Primary Keys can only be added or dropped in PostgreSQL 7.3+
 5432009 - Triggers can only be renamed in PostgreSQL 7.3+.
+5432010 - User variables can only exist in PostgreSQL 7.3+.
+5432011 - Database variables can only exist in PostgreSQL 7.3+.
