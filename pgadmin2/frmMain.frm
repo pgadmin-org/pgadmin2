@@ -832,26 +832,27 @@ Public WithEvents svr As pgServer
 Attribute svr.VB_VarHelpID = -1
 
 Private Sub Form_Resize()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.Form_Resize()", etFullDebug
 
-  On Error Resume Next
-  txtDefinition.Minimise
-  Resize splVertical.Left, splHorizontal.Top
+  If Me.WindowState <> 1 Then
+    txtDefinition.Minimise
+    Resize splVertical.Left, splHorizontal.Top
+  End If
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.Form_Resize"
 End Sub
 
 Public Sub Resize(VPos As Single, HPos As Single)
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.Resize(" & HPos & ", " & VPos & ")", etFullDebug
 
 Dim siTop As Single
 Dim siLeft As Single
 Dim siHeight As Single
 Dim siWidth As Single
-
+  
   'Check the form size
   If Me.Height < 4500 Then Me.Height = 4500
   If Me.Width < 5000 Then Me.Width = 5000
