@@ -21,6 +21,7 @@ Don't include inherited columns & checks in table definitions.
 Fixed a bug in the Import Wizard data parser.
 Fix mouse pointer and allow display of errors when timer is stopped (Mark A. Taff).
 Fixed a bug in the query parser in the SQL output grid.
+Allow pseudo modification of views with PostgreSQL 7.2+
 
 1.2.0 Stable
 ------------
