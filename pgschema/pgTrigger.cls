@@ -371,7 +371,11 @@ objServer.iLogEvent "Entering " & App.Title & ":pgTrigger.Property Let Comment("
 
 Dim szSQL As String
 
-  szSQL = "COMMENT ON TRIGGER " & FormattedID & " IS '" & dbSZ(vData) & "'"
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = "COMMENT ON TRIGGER " & fmtID(szName) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & " IS '" & dbSZ(vData) & "'"
+  Else
+    szSQL = "COMMENT ON TRIGGER " & FormattedID & " IS '" & dbSZ(vData) & "'"
+  End If
 
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
@@ -405,7 +409,7 @@ Dim szSQL As String
             " FOR EACH " & szForEach & _
             " EXECUTE PROCEDURE " & szTriggerFunction & _
             ";" & vbCrLf
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & FormattedID & " IS '" & Comment & "';" & vbCrLf
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & FormattedID & " IS '" & dbSZ(Comment) & "'"
   Else
     szSQL = "-- Trigger: " & FormattedID & vbCrLf & _
             "CREATE TRIGGER " & fmtID(szName) & _
@@ -414,7 +418,8 @@ Dim szSQL As String
             " FOR EACH " & szForEach & _
             " EXECUTE PROCEDURE " & szTriggerFunction & _
             ";" & vbCrLf
-    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & FormattedID & " IS '" & Comment & "';" & vbCrLf
+
+    If Comment <> "" Then szSQL = szSQL & "COMMENT ON TRIGGER " & fmtID(szName) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
   End If
 
   SQL = szSQL

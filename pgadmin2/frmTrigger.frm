@@ -394,10 +394,10 @@ Dim szOldName As String
       chkProperties(0).SetFocus
       Exit Sub
     End If
-    Set objNewTrigger = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Triggers.Add(txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text)
+    Set objNewTrigger = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Triggers.Add(txtProperties(0).Text, cboProperties(3).Text, cboProperties(1).Text, szEvent, cboProperties(2).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
-    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Triggers.Tag
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Triggers.Tag
     Set objNewTrigger.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TRG-" & GetID, objNewTrigger.Identifier, "trigger")
     objNode.Text = "Triggers (" & objNode.Children & ")"
     
@@ -459,7 +459,10 @@ Dim objItem As ComboItem
     
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.FormattedID, "table"
+      If Not objTable.SystemObject Then
+        Set objItem = cboProperties(0).ComboItems.Add(, , objTable.FormattedID, "table")
+        Set objItem.Tag = objTable
+      End If
     Next objTable
     
     Set objItem = cboProperties(1).ComboItems.Add(, , "BEFORE", "trigger")
@@ -471,13 +474,13 @@ Dim objItem As ComboItem
     If ctx.dbVer >= 7.3 Then
       'First load pg_catalog items, unqualified
       For Each objFunction In frmMain.svr.Databases(szDatabase).Namespaces("pg_catalog").Functions
-        If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , Mid(objFunction.FormattedID, 12), "function"
+        If (objFunction.Returns = "opaque" Or objFunction.Returns = "trigger") Then cboProperties(3).ComboItems.Add , , Mid(objFunction.FormattedID, 12), "function"
       Next objFunction
       'Now load the rest
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
         If (Not objNamespace.SystemObject) Or (objNamespace.Name = "public") Then
           For Each objFunction In objNamespace.Functions
-            If objFunction.Returns = "opaque" Then cboProperties(3).ComboItems.Add , , objFunction.FormattedID, "function"
+            If (objFunction.Returns = "opaque" Or objFunction.Returns = "trigger") Then cboProperties(3).ComboItems.Add , , objFunction.FormattedID, "function"
           Next objFunction
         End If
       Next objNamespace

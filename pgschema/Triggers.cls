@@ -195,9 +195,9 @@ Dim objNewMember As pgTrigger
   objNewMember.TriggerEvent = szTriggerEvent
   objNewMember.ForEach = szForEach
   If objVersion.VersionNum >= 7.3 Then
-    objNewMember.Identifier = szName & " ON " & szNamespace & "." & szTable
+    objNewMember.Identifier = szName
   Else
-    objNewMember.Identifier = szName & " ON " & szTable
+    objNewMember.Identifier = szName
   End If
   Set objNewMember.Connection = cnDatabase
   mCol.Add objNewMember, ULEncode(objNewMember.Identifier)
@@ -234,7 +234,7 @@ Dim objTrigger As pgTrigger
   
   If Comment <> "" Then
     If objVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON TRIGGER " & fmtID(szNamespace) & "." & fmtID(Name) & " ON " & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON TRIGGER " & fmtID(Name) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON TRIGGER " & fmtID(Name) & " ON " & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
     End If

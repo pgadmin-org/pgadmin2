@@ -226,7 +226,7 @@ Dim objRule As pgRule
   
   If Comment <> "" Then
     If objVersion.VersionNum >= 7.3 Then
-      szSQL = "COMMENT ON RULE " & fmtID(szNamespace) & "." & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
+      szSQL = "COMMENT ON RULE " & fmtID(Name) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
     Else
       szSQL = "COMMENT ON RULE " & fmtID(Name) & " IS '" & dbSZ(Comment) & "'"
     End If
@@ -305,7 +305,7 @@ Dim szSQL As String
   
   'Generate/Execute SQL to drop the Rule.
   If objVersion.VersionNum >= 7.3 Then
-    szSQL = "DROP RULE " & mCol(ULEncode(Key)).FormattedID & " ON " & fmtID(szTable)
+    szSQL = "DROP RULE " & mCol(ULEncode(Key)).FormattedID & " ON " & fmtID(szNamespace) & "." & fmtID(szTable)
   Else
     szSQL = "DROP RULE " & mCol(ULEncode(Key)).FormattedID
   End If

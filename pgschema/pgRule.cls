@@ -34,11 +34,7 @@ Attribute FormattedID.VB_Description = "Returns a formatted identifier for use i
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Get FormattedID()", etFullDebug
  
-  If objVersion.VersionNum >= 7.3 Then
-    FormattedID = fmtID(szNamespace) & "." & fmtID(szName)
-  Else
-    FormattedID = fmtID(szName)
-  End If
+  FormattedID = fmtID(szName)
     
   Exit Property
 Err_Handler:  objServer.iLogError Err.Number, Err.Description
@@ -369,7 +365,11 @@ objServer.iLogEvent "Entering " & App.Title & ":pgRule.Property Let Comment(" & 
 
 Dim szSQL As String
 
-  szSQL = "COMMENT ON RULE " & FormattedID & " IS '" & dbSZ(vData) & "'"
+  If objVersion.VersionNum >= 7.3 Then
+    szSQL = "COMMENT ON RULE " & fmtID(szName) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & " IS '" & dbSZ(vData) & "'"
+  Else
+    szSQL = "COMMENT ON RULE " & FormattedID & " IS '" & dbSZ(vData) & "'"
+  End If
 
   objServer.ExecSQL szSQL, cnDatabase
   objServer.Databases(Database).KillCommentCache
@@ -397,8 +397,14 @@ Dim szSQL As String
   szSQL = "-- Rule: " & szName & vbCrLf & _
           szDefinition & vbCrLf
 
-  If Comment <> "" Then szSQL = szSQL & "COMMENT ON RULE " & FormattedID & " IS '" & dbSZ(Comment) & "';" & vbCrLf
-    
+  If Comment <> "" Then
+    If objVersion.VersionNum >= 7.3 Then
+      szSQL = szSQL & "COMMENT ON RULE " & fmtID(szName) & " ON " & fmtID(szNamespace) & "." & fmtID(szTable) & " IS '" & dbSZ(Comment) & "'"
+    Else
+      szSQL = szSQL & "COMMENT ON RULE " & FormattedID & " IS '" & dbSZ(Comment) & "'"
+    End If
+  End If
+  
   SQL = szSQL
   
   Exit Sub

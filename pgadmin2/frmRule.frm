@@ -298,7 +298,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmRule.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -328,10 +328,10 @@ Dim objNewRule As pgRule
   
   If bNew Then
     StartMsg "Creating Rule..."
-    Set objNewRule = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Rules.Add(txtProperties(0).Text, cboProperties(1).Text, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(1).Text, hbxProperties(2).Text)
+    Set objNewRule = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Add(txtProperties(0).Text, cboProperties(1).Text, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(1).Text, hbxProperties(2).Text)
     
     'Add a new node and update the text on the parent
-    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Rules.Tag
+    Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Tag
     Set objNewRule.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "RUL-" & GetID, txtProperties(0).Text, "rule")
     objNode.Text = "Rules (" & objNode.Children & ")"
 
@@ -386,7 +386,10 @@ Dim vArgument As Variant
     
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
-      If Not objTable.SystemObject Then cboProperties(0).ComboItems.Add , , objTable.FormattedID, "table"
+      If Not objTable.SystemObject Then
+        Set objItem = cboProperties(0).ComboItems.Add(, , objTable.FormattedID, "table")
+        Set objItem.Tag = objTable
+      End If
     Next objTable
     cboProperties(1).ComboItems.Add , , "INSERT", "event"
     cboProperties(1).ComboItems.Add , , "UPDATE", "event"

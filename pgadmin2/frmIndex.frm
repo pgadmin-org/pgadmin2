@@ -332,7 +332,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmIndex.cmdOK_Click()", etFullDebug
 
 Dim szOldName As String
@@ -361,7 +361,7 @@ Dim szColumns As String
     Next objItem
     If Len(szColumns) > 2 Then szColumns = Left(szColumns, Len(szColumns) - 2)
     If szColumns = "" Then
-      MsgBox "You must select at leat one table!", vbExclamation, "Error"
+      MsgBox "You must select at least one column!", vbExclamation, "Error"
       tabProperties.Tab = 0
       lvProperties(0).SetFocus
       Exit Sub
@@ -378,13 +378,13 @@ Dim szColumns As String
   Else
     StartMsg "Updating Index..."
     
-    'Update the sequencename if required
+    'Update the index name if required
     If txtProperties(0).Tag = "Y" Then
       szOldName = objIndex.Name
-      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Indexes.Rename szOldName, txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes.Rename szOldName, txtProperties(0).Text
         
       'Update the node text
-      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes(cboProperties(0).SelectedItem.Tag.Identifier).Tag.Text = txtProperties(0).Text
+      frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Indexes(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
     End If
     
     If hbxProperties(1).Tag = "Y" Then objIndex.Comment = hbxProperties(1).Text
