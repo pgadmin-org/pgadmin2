@@ -6,15 +6,14 @@ Begin VB.Form frmDatabase
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Database"
    ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientLeft      =   9600
+   ClientTop       =   1200
    ClientWidth     =   5520
    Icon            =   "frmDatabase.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    ScaleHeight     =   6885
    ScaleWidth      =   5520
-   StartUpPosition =   3  'Windows Default
    Begin MSComctlLib.ImageList il 
       Left            =   90
       Top             =   6345
@@ -26,7 +25,7 @@ Begin VB.Form frmDatabase
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   4
+         NumListImages   =   5
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmDatabase.frx":014A
             Key             =   "encoding"
@@ -42,6 +41,10 @@ Begin VB.Form frmDatabase
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmDatabase.frx":0CD8
             Key             =   "group"
+         EndProperty
+         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmDatabase.frx":13AA
+            Key             =   "property"
          EndProperty
       EndProperty
    End
@@ -75,7 +78,7 @@ Begin VB.Form frmDatabase
       Style           =   1
       TabHeight       =   520
       TabCaption(0)   =   "&Properties"
-      TabPicture(0)   =   "frmDatabase.frx":13AA
+      TabPicture(0)   =   "frmDatabase.frx":1A7C
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblProperties(4)"
       Tab(0).Control(0).Enabled=   0   'False
@@ -101,30 +104,56 @@ Begin VB.Form frmDatabase
       Tab(0).Control(10).Enabled=   0   'False
       Tab(0).ControlCount=   11
       TabCaption(1)   =   "&Variables"
-      TabPicture(1)   =   "frmDatabase.frx":13C6
+      TabPicture(1)   =   "frmDatabase.frx":1A98
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1"
-      Tab(1).Control(1)=   "Label2"
-      Tab(1).Control(2)=   "lvProperties(0)"
-      Tab(1).Control(3)=   "cmdRemoveVar"
-      Tab(1).Control(4)=   "cmdAddVar"
-      Tab(1).Control(5)=   "txtVarName"
-      Tab(1).Control(6)=   "txtVarValue"
-      Tab(1).ControlCount=   7
+      Tab(1).Control(0)=   "cmdCurrVal"
+      Tab(1).Control(1)=   "cboVarName"
+      Tab(1).Control(2)=   "txtVarValue"
+      Tab(1).Control(3)=   "cmdAddVar"
+      Tab(1).Control(4)=   "cmdRemoveVar"
+      Tab(1).Control(5)=   "lvProperties(0)"
+      Tab(1).Control(6)=   "Label2"
+      Tab(1).Control(7)=   "Label1"
+      Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Security"
-      TabPicture(2)   =   "frmDatabase.frx":13E2
+      TabPicture(2)   =   "frmDatabase.frx":1AB4
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "lvProperties(1)"
       Tab(2).Control(1)=   "fraAdd"
       Tab(2).Control(2)=   "cmdAdd"
       Tab(2).Control(3)=   "cmdRemove"
       Tab(2).ControlCount=   4
+      Begin VB.CommandButton cmdCurrVal 
+         Caption         =   "&Show Current Settings"
+         Enabled         =   0   'False
+         Height          =   375
+         Left            =   -71520
+         TabIndex        =   29
+         ToolTipText     =   "Show the current variables and their values."
+         Top             =   4995
+         Width           =   1830
+      End
+      Begin MSComctlLib.ImageCombo cboVarName 
+         Height          =   330
+         Left            =   -73425
+         TabIndex        =   28
+         ToolTipText     =   "Select or enter the encoding scheme to use."
+         Top             =   5520
+         Width           =   3735
+         _ExtentX        =   6588
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
       Begin VB.CommandButton cmdRemove 
          Caption         =   "&Remove"
          Enabled         =   0   'False
          Height          =   375
          Left            =   -73515
-         TabIndex        =   27
+         TabIndex        =   26
          ToolTipText     =   "Remove the selected entry."
          Top             =   3900
          Width           =   1230
@@ -134,7 +163,7 @@ Begin VB.Form frmDatabase
          Enabled         =   0   'False
          Height          =   375
          Left            =   -74865
-         TabIndex        =   26
+         TabIndex        =   25
          ToolTipText     =   "Add the defined entry."
          Top             =   3900
          Width           =   1230
@@ -143,7 +172,7 @@ Begin VB.Form frmDatabase
          Caption         =   "Define Privilege"
          Height          =   1815
          Left            =   -74865
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   4380
          Width           =   5190
          Begin VB.CheckBox chkPrivilege 
@@ -152,7 +181,7 @@ Begin VB.Form frmDatabase
             Height          =   195
             Index           =   1
             Left            =   180
-            TabIndex        =   23
+            TabIndex        =   22
             ToolTipText     =   "Give temp privilege to the selected entity."
             Top             =   1350
             Width           =   1590
@@ -163,7 +192,7 @@ Begin VB.Form frmDatabase
             Height          =   195
             Index           =   0
             Left            =   180
-            TabIndex        =   22
+            TabIndex        =   21
             ToolTipText     =   "Give create privilege to the selected entity."
             Top             =   945
             Width           =   1590
@@ -171,7 +200,7 @@ Begin VB.Form frmDatabase
          Begin MSComctlLib.ImageCombo cboEntities 
             Height          =   330
             Left            =   1260
-            TabIndex        =   24
+            TabIndex        =   23
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
             Top             =   315
             Width           =   3705
@@ -189,7 +218,7 @@ Begin VB.Form frmDatabase
             Height          =   195
             Index           =   5
             Left            =   180
-            TabIndex        =   25
+            TabIndex        =   24
             Top             =   360
             Width           =   840
          End
@@ -199,19 +228,9 @@ Begin VB.Form frmDatabase
          Enabled         =   0   'False
          Height          =   285
          Left            =   -73425
-         TabIndex        =   13
-         ToolTipText     =   "Enter the name of the variable to add or update."
-         Top             =   5940
-         Width           =   3750
-      End
-      Begin VB.TextBox txtVarName 
-         BackColor       =   &H8000000F&
-         Enabled         =   0   'False
-         Height          =   285
-         Left            =   -73425
          TabIndex        =   12
          ToolTipText     =   "Enter the name of the variable to add or update."
-         Top             =   5535
+         Top             =   5940
          Width           =   3750
       End
       Begin VB.CommandButton cmdAddVar 
@@ -351,7 +370,7 @@ Begin VB.Form frmDatabase
          Height          =   3390
          Index           =   1
          Left            =   -74865
-         TabIndex        =   28
+         TabIndex        =   27
          ToolTipText     =   "The access control list for the schema."
          Top             =   450
          Width           =   5190
@@ -384,7 +403,7 @@ Begin VB.Form frmDatabase
          Caption         =   "Variable Value"
          Height          =   195
          Left            =   -74820
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   5985
          Width           =   1140
       End
@@ -392,7 +411,7 @@ Begin VB.Form frmDatabase
          Caption         =   "Variable Name"
          Height          =   195
          Left            =   -74820
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   5580
          Width           =   1140
       End
@@ -402,7 +421,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   720
          Width           =   420
       End
@@ -412,7 +431,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   1125
          Width           =   285
       End
@@ -422,7 +441,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   2
          Left            =   135
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   1530
          Width           =   465
       End
@@ -432,7 +451,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   3
          Left            =   135
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   1935
          Width           =   675
       End
@@ -442,7 +461,7 @@ Begin VB.Form frmDatabase
          Height          =   195
          Index           =   4
          Left            =   135
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   2340
          Width           =   330
       End
@@ -474,6 +493,24 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdCancel_Click()",
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdCancel_Click"
+End Sub
+
+Private Sub cmdCurrVal_Click()
+On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.CmdCurrVal_Click()", etFullDebug
+
+Dim rsQuery As New Recordset
+Dim objOutputForm As New frmSQLOutput
+  
+  Set rsQuery = frmMain.svr.Databases(objDatabase.Name).Execute("SELECT name AS " & QUOTE & "Variable Name" & QUOTE & ", setting AS " & QUOTE & "Current Value" & QUOTE & " FROM pg_settings ORDER BY name")
+  Load objOutputForm
+  objOutputForm.Display rsQuery, objDatabase.Name, Me.Tag
+  objOutputForm.Show
+
+  Exit Sub
+Err_Handler:
+  EndMsg
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.CmdCurrVal_Click"
 End Sub
 
 Private Sub cmdOK_Click()
@@ -588,6 +625,7 @@ Dim objGroup As pgGroup
 Dim szUserlist As String
 Dim szAccesslist As String
 Dim szAccess() As String
+Dim rsVar As Recordset
   
   'Set the font
   For X = 0 To 3
@@ -596,10 +634,10 @@ Dim szAccess() As String
   Set cboProperties(0).Font = ctx.Font
   Set hbxProperties(0).Font = ctx.Font
   Set txtVarValue.Font = ctx.Font
-  Set txtVarName.Font = ctx.Font
   Set lvProperties(0).Font = ctx.Font
   Set cboEntities.Font = ctx.Font
   Set lvProperties(1).Font = ctx.Font
+  Set cboVarName.Font = ctx.Font
   
   'Unlock the edittable fields
   If ctx.dbVer >= 7.3 Then
@@ -609,6 +647,7 @@ Dim szAccess() As String
     cboEntities.BackColor = &H80000005
     chkPrivilege(0).Enabled = True
     chkPrivilege(1).Enabled = True
+    cmdCurrVal.Enabled = True
   End If
   
   If Database Is Nothing Then
@@ -660,12 +699,21 @@ Dim szAccess() As String
     ' safe way to create the object & update the vars in one 'transaction'
     If ctx.dbVer >= 7.3 Then
       lvProperties(0).BackColor = &H80000005
-      txtVarName.Enabled = True
-      txtVarName.BackColor = &H80000005
       txtVarValue.Enabled = True
       txtVarValue.BackColor = &H80000005
       cmdAddVar.Enabled = True
       cmdRemoveVar.Enabled = True
+      cboVarName.Enabled = True
+      cboVarName.BackColor = &H80000005
+      
+      'load var name
+      cboVarName.ComboItems.Clear
+      Set rsVar = frmMain.svr.Databases(frmMain.svr.MasterDB).Execute("SELECT name FROM pg_settings ORDER BY name")
+      While Not rsVar.EOF
+        cboVarName.ComboItems.Add , rsVar("name"), rsVar("name"), "property"
+        rsVar.MoveNext
+      Wend
+      cboVarName.ComboItems(1).Selected = True
     End If
     
     If objDatabase.SystemObject Then  'Lock the permissions Add/Remove buttons if it's a system object
@@ -827,12 +875,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdChkAdd_Click()",
 
 Dim objItem As ListItem
 
-  If txtVarName.Text = "" Then
-    MsgBox "You must enter a name for the variable!", vbExclamation, "Error"
-    tabProperties.Tab = 1
-    txtVarName.SetFocus
-    Exit Sub
-  End If
   If txtVarValue.Text = "" Then
     MsgBox "You must enter a value for the variable!", vbExclamation, "Error"
     tabProperties.Tab = 1
@@ -842,27 +884,29 @@ Dim objItem As ListItem
   
   'Update
   For Each objItem In lvProperties(0).ListItems
-    If objItem.Text = txtVarName.Text Then
+    If objItem.Text = cboVarName.SelectedItem.Text Then
       objItem.SubItems(1) = txtVarValue.Text
       lvProperties(0).Tag = "Y"
-      txtVarName.Text = ""
+      cboVarName.ComboItems(1).Selected = True
       txtVarValue.Text = ""
       Exit Sub
     End If
   Next objItem
   
   'Or add
-  Set objItem = lvProperties(0).ListItems.Add(, , txtVarName.Text)
+  Set objItem = lvProperties(0).ListItems.Add(, , cboVarName.SelectedItem.Text)
   objItem.SubItems(1) = txtVarValue.Text
   lvProperties(0).Tag = "Y"
   
-  txtVarName.Text = ""
+  cboVarName.ComboItems(1).Selected = True
   txtVarValue.Text = ""
   
   Exit Sub
   
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.cmdAddVar_Click"
 End Sub
+
+
 
 Private Sub hbxProperties_Change(Index As Integer)
 On Error GoTo Err_Handler
@@ -880,7 +924,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_Click(
 
   If Index = 0 Then
     If Not (lvProperties(0).SelectedItem Is Nothing) Then
-      txtVarName.Text = lvProperties(0).SelectedItem.Text
+      cboVarName.ComboItems(lvProperties(0).SelectedItem.Text).Selected = True
       txtVarValue.Text = lvProperties(0).SelectedItem.SubItems(1)
     End If
   End If
