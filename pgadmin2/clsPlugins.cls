@@ -39,7 +39,7 @@ Dim szPlugin As String
 Dim objPlugin As pgPlugin
 Dim X As Long
 
-  StartMsg "Loading Plugins..."
+  StartMsg §§TrasLang§§("Loading Plugins...")
   Set mCol = New Collection
   szPlugin = RegGetSubkey(HKEY_CLASSES_ROOT, "", X)
   Do Until szPlugin = ""
@@ -111,7 +111,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsPlugins.Install(" & QUOTE & 
 
 Dim lHdc As Long
 
-  StartMsg "Installing Plugin..."
+  StartMsg §§TrasLang§§("Installing Plugin...")
   frmMain.svr.LogEvent "Installing: " & szFilename, etMiniDebug
   lHdc = GetDesktopWindow()
   ShellExecute lHdc, "Open", "regsvr32", " /s " & QUOTE & szFilename & QUOTE, "C:\", SW_SHOWNORMAL
@@ -134,7 +134,7 @@ Dim szClassID As String
 Dim objPlugin As pgPlugin
 Dim X As Long
 
-  StartMsg "Uninstalling Plugin..."
+  StartMsg §§TrasLang§§("Uninstalling Plugin...")
   frmMain.svr.LogEvent "Uninstalling: " & szPlugin, etMiniDebug
   
   szKey = RegGetSubkey(HKEY_CLASSES_ROOT, "", X)

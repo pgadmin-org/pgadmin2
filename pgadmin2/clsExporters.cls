@@ -39,7 +39,7 @@ Dim szExporter As String
 Dim objExporter As pgExporter
 Dim X As Long
 
-  StartMsg "Loading Exporters..."
+  StartMsg §§TrasLang§§("Loading Exporters...")
   Set mCol = New Collection
   szExporter = RegGetSubkey(HKEY_CLASSES_ROOT, "", X)
   Do Until szExporter = ""
@@ -111,7 +111,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":clsExporters.Install(" & QUOTE 
 
 Dim lHdc As Long
 
-  StartMsg "Installing Exporter..."
+  StartMsg §§TrasLang§§("Installing Exporter...")
   frmMain.svr.LogEvent "Installing: " & szFilename, etMiniDebug
   lHdc = GetDesktopWindow()
   ShellExecute lHdc, "Open", "regsvr32", " /s " & QUOTE & szFilename & QUOTE, "C:\", SW_SHOWNORMAL
@@ -134,7 +134,7 @@ Dim szClassID As String
 Dim objExporter As pgExporter
 Dim X As Long
 
-  StartMsg "Uninstalling Exporter..."
+  StartMsg §§TrasLang§§("Uninstalling Exporter...")
   frmMain.svr.LogEvent "Uninstalling: " & szExporter, etMiniDebug
   
   szKey = RegGetSubkey(HKEY_CLASSES_ROOT, "", X)

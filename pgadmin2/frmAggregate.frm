@@ -1,18 +1,18 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmAggregate 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Aggregate"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   5520
    Icon            =   "frmAggregate.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    StartUpPosition =   3  'Windows Default
    Begin TabDlg.SSTab tabProperties 
@@ -121,11 +121,11 @@ Begin VB.Form frmAggregate
          ToolTipText     =   "Comments about the aggregate."
          Top             =   4275
          Width           =   5190
-         _ExtentX        =   9155
+         _ExtentX        =   9165
          _ExtentY        =   3281
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -135,15 +135,15 @@ Begin VB.Form frmAggregate
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   $"frmAggregate.frx":0218
          Top             =   1800
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -151,15 +151,15 @@ Begin VB.Form frmAggregate
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   5
          ToolTipText     =   "The data type for the aggregate's state value."
-         Top             =   2205
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2208
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -167,15 +167,15 @@ Begin VB.Form frmAggregate
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   2
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   6
          ToolTipText     =   $"frmAggregate.frx":02C8
-         Top             =   2610
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2616
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -183,15 +183,15 @@ Begin VB.Form frmAggregate
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   3
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   7
          ToolTipText     =   "The data type returned by the aggregate."
-         Top             =   3015
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   3012
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -199,15 +199,15 @@ Begin VB.Form frmAggregate
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   4
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   8
          ToolTipText     =   $"frmAggregate.frx":04CB
          Top             =   3420
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -326,8 +326,8 @@ Begin VB.Form frmAggregate
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -395,32 +395,32 @@ Dim vEntity As Variant
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Aggregate name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Aggregate name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(0).Text = "" Then
-    MsgBox "You must select an input type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select an input type!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
-    MsgBox "You must select a state type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a state type!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(1).SetFocus
     Exit Sub
   End If
   If cboProperties(2).Text = "" Then
-    MsgBox "You must select a state function!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a state function!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(2).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating Aggregate..."
+    StartMsg §§TrasLang§§("Creating Aggregate...")
     Set objNewAggregate = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Aggregates.Add(txtProperties(0).Text, cboProperties(0).Text, cboProperties(2).Text, cboProperties(1).Text, cboProperties(4).Text, txtProperties(3).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
@@ -431,11 +431,11 @@ Dim vEntity As Variant
     Else
       frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtProperties(0).Text & " " & cboProperties(0).Text, "aggregate"
     End If
-    objNode.Text = "Aggregates (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Aggregates (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Aggregate..."
+    StartMsg §§TrasLang§§("Updating Aggregate...")
     If hbxProperties(0).Tag = "Y" Then objAggregate.Comment = hbxProperties(0).Text
   End If
   
@@ -472,7 +472,7 @@ Dim objItem As ComboItem
   
     'Create a new Aggregate
     bNew = True
-    Me.Caption = "Create Aggregate"
+    Me.Caption = §§TrasLang§§("Create Aggregate")
   
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -526,7 +526,7 @@ Dim objItem As ComboItem
     Set objAggregate = Aggregate
     bNew = False
     
-    Me.Caption = "Aggregate: " & objAggregate.Identifier
+    Me.Caption = §§TrasLang§§("Aggregate: ") & objAggregate.Identifier
     txtProperties(0).Text = objAggregate.Name
     txtProperties(1).Text = objAggregate.Oid
     txtProperties(2).Text = objAggregate.Owner

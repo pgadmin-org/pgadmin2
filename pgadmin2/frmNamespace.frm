@@ -75,10 +75,10 @@ Begin VB.Form frmNamespace
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmNamespace.frx":0BDE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboProperties 
          Height          =   300
@@ -346,25 +346,25 @@ Dim szComment As String
     
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Schema name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Schema name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating Schema..."
+    StartMsg §§TrasLang§§("Creating Schema...")
     Set objNewNamespace = frmMain.svr.Databases(szDatabase).Namespaces.Add(txtProperties(0).Text, cboProperties(0).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces.Tag
     Set objNewNamespace.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "NSP-" & GetID, txtProperties(0).Text, "namespace")
-    objNode.Text = "Schemas (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Schemas (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Schema..."
+    StartMsg §§TrasLang§§("Updating Schema...")
     If hbxProperties(0).Tag = "Y" Then objNamespace.Comment = hbxProperties(0).Text
   End If
   
@@ -393,8 +393,8 @@ Dim szComment As String
         szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
-      If InStr(1, objItem.SubItems(1), "Create") <> 0 Then lACL = lACL + aclCreate
-      If InStr(1, objItem.SubItems(1), "Usage") <> 0 Then lACL = lACL + aclUsage
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Create")) <> 0 Then lACL = lACL + aclCreate
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Usage")) <> 0 Then lACL = lACL + aclUsage
       frmMain.svr.Databases(szDatabase).Namespaces(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
@@ -414,7 +414,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional Namespace As pgNamespace)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmNamespace.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmNamespace.Initialise(" & Quote & szDB & Quote & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ListItem
@@ -442,7 +442,7 @@ Dim szAccess() As String
   
     'Create a new Namespace
     bNew = True
-    Me.Caption = "Create Namespace"
+    Me.Caption = §§TrasLang§§("Create Namespace")
     
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -471,7 +471,7 @@ Dim szAccess() As String
       cmdRemove.Enabled = False
     End If
     
-    Me.Caption = "Namespace: " & objNamespace.Identifier
+    Me.Caption = §§TrasLang§§("Namespace: ") & objNamespace.Identifier
     txtProperties(0).Text = objNamespace.Name
     txtProperties(1).Text = objNamespace.Oid
     Set objCboItem = cboProperties(0).ComboItems.Add(, , objNamespace.Owner, "user")
@@ -533,7 +533,7 @@ Dim objItem As ListItem
   'Check the entry doesn't already exist
   For Each objItem In lvProperties(0).ListItems
     If (objItem.Text = cboEntities.SelectedItem.Text) And (objItem.SmallIcon = cboEntities.SelectedItem.Image) Then
-      MsgBox "'" & objItem.Text & "' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.", vbExclamation, "Error"
+      MsgBox "'" & objItem.Text & §§TrasLang§§("' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced."), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next objItem

@@ -80,13 +80,13 @@ Begin VB.Form frmForeignKey
       TabCaption(1)   =   "&Relationships"
       TabPicture(1)   =   "frmForeignKey.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdAdd"
-      Tab(1).Control(1)=   "cmdRemove"
-      Tab(1).Control(2)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lblProperties(7)"
+      Tab(1).Control(1)=   "lblProperties(8)"
+      Tab(1).Control(2)=   "cboProperties(6)"
       Tab(1).Control(3)=   "cboProperties(5)"
-      Tab(1).Control(4)=   "cboProperties(6)"
-      Tab(1).Control(5)=   "lblProperties(8)"
-      Tab(1).Control(6)=   "lblProperties(7)"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cmdRemove"
+      Tab(1).Control(6)=   "cmdAdd"
       Tab(1).ControlCount=   7
       Begin VB.CommandButton cmdAdd 
          Caption         =   "&Add"
@@ -475,7 +475,7 @@ Dim szOldName As String
 
   If Not frmCallingForm Is Nothing Then
     If Not frmCallingForm.Visible Then
-      MsgBox "The form that called this form has been destroyed!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("The form that called this form has been destroyed!"), vbExclamation, §§TrasLang§§("Error")
       Unload Me
       Exit Sub
     End If
@@ -483,19 +483,19 @@ Dim szOldName As String
   
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Foreign Key name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Foreign Key name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
-    MsgBox "You must select a referenced table!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a referenced table!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(1).SetFocus
     Exit Sub
   End If
   If lvProperties(0).ListItems.Count < 1 Then
-    MsgBox "You must specify at least one relationship!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify at least one relationship!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     cboProperties(5).SetFocus
     Exit Sub
@@ -505,7 +505,7 @@ Dim szOldName As String
     Case "TA"
       For Each objItem In frmCallingForm.lvProperties(2).ListItems
         If objItem.Text = txtProperties(0).Text Then
-          MsgBox "A foreign key with that name already exists!", vbExclamation, "Error"
+          MsgBox §§TrasLang§§("A foreign key with that name already exists!"), vbExclamation, §§TrasLang§§("Error")
           tabProperties.Tab = 0
           txtProperties(0).SetFocus
           Exit Sub
@@ -575,7 +575,7 @@ Dim objRelationship As pgRelationship
     Case "TA"
   
       'Create a new ForeignKey
-      Me.Caption = "Create Foreign Key"
+      Me.Caption = §§TrasLang§§("Create Foreign Key")
       
       'Unlock the edittable fields
       txtProperties(0).BackColor = &H80000005
@@ -643,7 +643,7 @@ Dim objRelationship As pgRelationship
       'Display/Edit the specified ForeignKey.
       Set objForeignKey = ForeignKey
     
-      Me.Caption = "ForeignKey: " & objForeignKey.Identifier
+      Me.Caption = §§TrasLang§§("ForeignKey: ") & objForeignKey.Identifier
       txtProperties(0).Text = objForeignKey.Name
       txtProperties(1).Text = objForeignKey.Oid
       Set objItem = cboProperties(0).ComboItems.Add(, , objForeignKey.Table, "table")

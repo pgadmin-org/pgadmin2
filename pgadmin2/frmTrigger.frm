@@ -1,18 +1,18 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmTrigger 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Trigger"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   5520
    Icon            =   "frmTrigger.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdOK 
@@ -36,8 +36,8 @@ Begin VB.Form frmTrigger
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -163,30 +163,30 @@ Begin VB.Form frmTrigger
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   3
          ToolTipText     =   "The name of a table."
-         Top             =   1485
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1488
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "When the Trigger should fire."
-         Top             =   1935
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1932
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -200,11 +200,11 @@ Begin VB.Form frmTrigger
          ToolTipText     =   "Comments about the trigger."
          Top             =   3735
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   4313
+         _ExtentX        =   9165
+         _ExtentY        =   4318
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -214,30 +214,30 @@ Begin VB.Form frmTrigger
          Caption         =   "Comments"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   2
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   5
          ToolTipText     =   "Should the Trigger fire for each row or statement? As of PostgreSQL v7.1.2, Statement level triggers are not yet supported."
-         Top             =   2835
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2832
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   3
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   6
          ToolTipText     =   "A user-supplied function that the trigger will execute."
-         Top             =   3285
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   3288
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -355,25 +355,25 @@ Dim szOldName As String
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Trigger name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Trigger name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(0).Text = "" Then
-    MsgBox "You must select a table!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a table!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(3).Text = "" Then
-    MsgBox "You must select a function!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a function!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(3).SetFocus
     Exit Sub
   End If
   If Right(Trim(cboProperties(3).Text), 1) <> ")" Then
-    MsgBox "The function must contain a pair of parentheses even if it takes no arguments!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("The function must contain a pair of parentheses even if it takes no arguments!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(3).SetFocus
     Exit Sub
@@ -381,7 +381,7 @@ Dim szOldName As String
   
   If bNew Then
     
-    StartMsg "Creating Trigger..."
+    StartMsg §§TrasLang§§("Creating Trigger...")
     
     If chkProperties(0).Value = 1 Then szEvent = szEvent & "INSERT OR "
     If chkProperties(1).Value = 1 Then szEvent = szEvent & "UPDATE OR "
@@ -389,7 +389,7 @@ Dim szOldName As String
     If Len(szEvent) > 4 Then
       szEvent = Left(szEvent, Len(szEvent) - 4)
     Else
-      MsgBox "You must select at least one event!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("You must select at least one event!"), vbExclamation, §§TrasLang§§("Error")
       tabProperties.Tab = 0
       chkProperties(0).SetFocus
       Exit Sub
@@ -400,7 +400,7 @@ Dim szOldName As String
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Triggers.Tag
     Set objNewTrigger.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TRG-" & GetID, objNewTrigger.Identifier, "trigger")
-    objNode.Text = "Triggers (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Triggers (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
@@ -414,7 +414,7 @@ Dim szOldName As String
       frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(objTrigger.Table).Triggers(objTrigger.Identifier).Tag.Text = objTrigger.Identifier
     End If
     
-    StartMsg "Updating Trigger..."
+    StartMsg §§TrasLang§§("Updating Trigger...")
     If hbxProperties(0).Tag = "Y" Then objTrigger.Comment = hbxProperties(0).Text
   End If
   
@@ -450,7 +450,7 @@ Dim objItem As ComboItem
   
     'Create a new Trigger
     bNew = True
-    Me.Caption = "Create Trigger"
+    Me.Caption = §§TrasLang§§("Create Trigger")
     
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
@@ -509,7 +509,7 @@ Dim objItem As ComboItem
       txtProperties(0).Locked = False
     End If
     
-    Me.Caption = "Trigger: " & objTrigger.Identifier
+    Me.Caption = §§TrasLang§§("Trigger: ") & objTrigger.Identifier
     txtProperties(0).Text = objTrigger.Name
     txtProperties(1).Text = objTrigger.Oid
     Set objItem = cboProperties(0).ComboItems.Add(, , objTrigger.Table, "table")

@@ -142,23 +142,23 @@ Begin VB.Form frmDatabase
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmDatabase.frx":4578
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1"
-      Tab(1).Control(1)=   "Label2"
-      Tab(1).Control(2)=   "lvProperties(0)"
-      Tab(1).Control(3)=   "cmdRemoveVar"
+      Tab(1).Control(0)=   "cboVarValue"
+      Tab(1).Control(1)=   "cmdCurrVal"
+      Tab(1).Control(2)=   "cboVarName"
+      Tab(1).Control(3)=   "txtVarValue"
       Tab(1).Control(4)=   "cmdAddVar"
-      Tab(1).Control(5)=   "txtVarValue"
-      Tab(1).Control(6)=   "cboVarName"
-      Tab(1).Control(7)=   "cmdCurrVal"
-      Tab(1).Control(8)=   "cboVarValue"
+      Tab(1).Control(5)=   "cmdRemoveVar"
+      Tab(1).Control(6)=   "lvProperties(0)"
+      Tab(1).Control(7)=   "Label2"
+      Tab(1).Control(8)=   "Label1"
       Tab(1).ControlCount=   9
       TabCaption(2)   =   "&Security"
       TabPicture(2)   =   "frmDatabase.frx":4594
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lvProperties(1)"
-      Tab(2).Control(1)=   "fraAdd"
-      Tab(2).Control(2)=   "cmdAdd"
-      Tab(2).Control(3)=   "cmdRemove"
+      Tab(2).Control(0)=   "cmdRemove"
+      Tab(2).Control(1)=   "cmdAdd"
+      Tab(2).Control(2)=   "fraAdd"
+      Tab(2).Control(3)=   "lvProperties(1)"
       Tab(2).ControlCount=   4
       Begin MSComctlLib.ImageCombo cboVarValue 
          Height          =   300
@@ -633,7 +633,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.CmdCurrVal_Click()"
 Dim rsQuery As New Recordset
 Dim objOutputForm As New frmSQLOutput
   
-  Set rsQuery = frmMain.svr.Databases(objDatabase.Name).Execute("SELECT name AS " & QUOTE & "Variable Name" & QUOTE & ", setting AS " & QUOTE & "Current Value" & QUOTE & " FROM pg_settings ORDER BY name")
+  Set rsQuery = frmMain.svr.Databases(objDatabase.Name).Execute("SELECT name AS " & Quote & "Variable Name" & Quote & ", setting AS " & Quote & "Current Value" & Quote & " FROM pg_settings ORDER BY name")
   Load objOutputForm
   objOutputForm.Display rsQuery, objDatabase.Name, Me.Tag
   objOutputForm.Show
@@ -659,13 +659,13 @@ Dim vEntity As Variant
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a database name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a database name!"), vbExclamation, §§TrasLang§§("Error")
     txtProperties(0).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating Database..."
+    StartMsg §§TrasLang§§("Creating Database...")
     Set objNewDatabase = frmMain.svr.Databases.Add(txtProperties(0).Text, cboProperties(1).Text, _
                                                    txtProperties(3).Text, cboProperties(0).Text, _
                                                    hbxProperties(0).Text)
@@ -674,11 +674,11 @@ Dim vEntity As Variant
     On Error Resume Next
     Set objNode = frmMain.svr.Databases.Tag
     Set objNewDatabase.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "DAT-" & GetID, txtProperties(0).Text, "database")
-    objNode.Text = "Databases (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Databases (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Database..."
+    StartMsg §§TrasLang§§("Updating Database...")
     
     'Add any vars
     If lvProperties(0).Tag = "Y" Then
@@ -723,8 +723,8 @@ Dim vEntity As Variant
         szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
-      If InStr(1, objItem.SubItems(1), "Create") <> 0 Then lACL = lACL + aclCreate
-      If InStr(1, objItem.SubItems(1), "Temp") <> 0 Then lACL = lACL + aclTemp
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Create")) <> 0 Then lACL = lACL + aclCreate
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Temp")) <> 0 Then lACL = lACL + aclTemp
       frmMain.svr.Databases(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
@@ -778,7 +778,7 @@ Dim objDb As pgDatabase
   
     'Create a new database
     bNew = True
-    Me.Caption = "Create Database"
+    Me.Caption = §§TrasLang§§("Create Database")
     
     'Load the Encoding Schemes
     cboProperties(0).Text = "SQL_ASCII"
@@ -824,7 +824,7 @@ Dim objDb As pgDatabase
     'Display/Edit the specified Database.
     Set objDatabase = Database
     bNew = False
-    Me.Caption = "Database: " & objDatabase.Identifier
+    Me.Caption = §§TrasLang§§("Database: ") & objDatabase.Identifier
     
     'Unlock the Vars. We only edit these for existing objects as there is no
     ' safe way to create the object & update the vars in one 'transaction'
@@ -928,7 +928,7 @@ Dim objItem As ListItem
   'Check the entry doesn't already exist
   For Each objItem In lvProperties(1).ListItems
     If (objItem.Text = cboEntities.SelectedItem.Text) And (objItem.SmallIcon = cboEntities.SelectedItem.Image) Then
-      MsgBox "'" & objItem.Text & "' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.", vbExclamation, "Error"
+      MsgBox "'" & objItem.Text & §§TrasLang§§("' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced."), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next objItem
@@ -988,7 +988,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.cmdRemoveVar_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then
-    MsgBox "You must select a variable to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a variable to remove!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     lvProperties(0).SetFocus
     Exit Sub
@@ -1029,7 +1029,7 @@ Dim szImg As String
   End If
 
   If Trim(szVal) = "" Then
-    MsgBox "You must enter a value for the variable!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must enter a value for the variable!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     txtVarValue.SetFocus
     Exit Sub
@@ -1149,9 +1149,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.txtProperties_Chang
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.txtProperties_Change"
 End Sub
 
-Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, y As Single)
+Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & X & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
 
   If Button = vbRightButton Then
     mnuModifyPasteVar.Enabled = False
@@ -1207,4 +1207,3 @@ Dim vData
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmDatabase.mnuModifyPasteVar_Click"
 End Sub
-

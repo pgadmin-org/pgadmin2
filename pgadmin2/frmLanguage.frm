@@ -349,32 +349,31 @@ Dim vEntity As Variant
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Language name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Language name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(0).Text = "" Then
-    MsgBox "You must select a Language handler!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a Language handler!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating Language..."
+    StartMsg §§TrasLang§§("Creating Language...")
     Set objNewLanguage = frmMain.svr.Databases(szDatabase).Languages.Add(txtProperties(0).Text, Bin2Bool(chkProperties(0).Value), cboProperties(0).Text, cboProperties(1).Text)
     
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Languages.Tag
     Set objNewLanguage.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "LNG-" & GetID, txtProperties(0).Text, "language")
-    objNode.Text = "Languages (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Languages (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Language..."
-
+    StartMsg §§TrasLang§§("Updating Language...")
 
   End If
   
@@ -403,7 +402,7 @@ Dim vEntity As Variant
         szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
-      If InStr(1, objItem.SubItems(1), "Usage") <> 0 Then lACL = lACL + aclUsage
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Usage")) <> 0 Then lACL = lACL + aclUsage
       frmMain.svr.Databases(szDatabase).Languages(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
@@ -423,7 +422,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, Optional Language As pgLanguage)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.Initialise(" & Quote & szDB & Quote & ")", etFullDebug
 
 Dim X As Integer
 Dim objFunction As pgFunction
@@ -451,7 +450,7 @@ Dim szAccess() As String
   
     'Create a new Language
     bNew = True
-    Me.Caption = "Create Language"
+    Me.Caption = §§TrasLang§§("Create Language")
     
     'Load the combo
     If ctx.dbVer >= 7.3 Then
@@ -504,7 +503,7 @@ Dim szAccess() As String
     bNew = False
     
     cboProperties(0).BackColor = &H8000000F
-    Me.Caption = "Language: " & objLanguage.Identifier
+    Me.Caption = §§TrasLang§§("Language: ") & objLanguage.Identifier
     txtProperties(0).Text = objLanguage.Name
     txtProperties(1).Text = objLanguage.Oid
     Set objItem = cboProperties(0).ComboItems.Add(, , objLanguage.Handler, "function")
@@ -589,7 +588,7 @@ Dim objItem As ListItem
   'Check the entry doesn't already exist
   For Each objItem In lvProperties(0).ListItems
     If (objItem.Text = cboEntities.SelectedItem.Text) And (objItem.SmallIcon = cboEntities.SelectedItem.Image) Then
-      MsgBox "'" & objItem.Text & "' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.", vbExclamation, "Error"
+      MsgBox "'" & objItem.Text & §§TrasLang§§("' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced."), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next objItem

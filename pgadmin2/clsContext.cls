@@ -152,7 +152,7 @@ On Error Resume Next
 
   Set objCurrentObject = vData
   
-  frmMain.sb.Panels("currentobject").Text = "Object: " & vData.Identifier & " (" & vData.ObjectType & ")"
+  frmMain.sb.Panels("currentobject").Text = §§TrasLang§§("Object: ") & vData.Identifier & " (" & vData.ObjectType & ")"
   
   'You can't drop a Server object or a column pre 7.3.
   If vData.ObjectType = "Server" Or ((ctx.dbVer < 7.3) And (vData.ObjectType = "Column")) Then
@@ -190,7 +190,7 @@ End Property
 Public Property Let CurrentDB(ByVal szData As String)
   szCurrentDB = szData
   If szData <> "" Then
-    frmMain.sb.Panels("currentdb").Text = "Database: " & szData
+    frmMain.sb.Panels("currentdb").Text = §§TrasLang§§("Database: ") & szData
     If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("cast").Enabled = True
     frmMain.tb.Buttons("create").ButtonMenus("language").Enabled = True
     If ctx.dbVer >= 7.3 Then frmMain.tb.Buttons("create").ButtonMenus("namespace").Enabled = True
@@ -206,6 +206,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.mnuPopupSQL.Enabled = True
     frmMain.mnuPopupReindex.Enabled = True
     frmMain.mnuPopupVacuum.Enabled = True
+    frmMain.mnuPopupGenDbDoc.Enabled = True
   Else
     frmMain.sb.Panels("currentdb").Text = "Database: None"
     frmMain.tb.Buttons("create").ButtonMenus("cast").Enabled = False
@@ -223,6 +224,7 @@ Public Property Let CurrentDB(ByVal szData As String)
     frmMain.mnuPopupSQL.Enabled = False
     frmMain.mnuPopupReindex.Enabled = False
     frmMain.mnuPopupVacuum.Enabled = False
+    frmMain.mnuPopupGenDbDoc.Enabled = False
   End If
 End Property
 Public Property Get CurrentDB() As String
@@ -234,9 +236,9 @@ Public Property Let CurrentNS(ByVal szData As String)
   szCurrentNS = szData
   
   If szData = "" Then
-    frmMain.sb.Panels("currentns").Text = "Schema: None"
+    frmMain.sb.Panels("currentns").Text = §§TrasLang§§("Schema: None")
   Else
-    frmMain.sb.Panels("currentns").Text = "Schema: " & szData
+    frmMain.sb.Panels("currentns").Text = §§TrasLang§§("Schema: ") & szData
   End If
   
   If (szData <> "") And (szData <> "pg_catalog") And (szData <> "pg_toast") And (Left(szData, 8) <> "pg_temp_") Then

@@ -103,8 +103,8 @@ vOutFunctionValid=array("Byte","Boolean","Integer","Long","Single","Double","Cur
 
 			case "bas"
 				'read module name
-			   	Set f2 = fso.OpenTextFile(f1.path, ForReading)
-			   	vData = split(f2.ReadAll,vbcrlf)
+			  Set f2 = fso.OpenTextFile(f1.path, ForReading)
+			  vData = split(f2.ReadAll,vbcrlf)
 				bInRoutine=False
 				szModuleName=""
 				szTypeRoutine=""
@@ -116,16 +116,20 @@ vOutFunctionValid=array("Byte","Boolean","Integer","Long","Single","Double","Cur
 						szDataModule=szDataModule & "'Module: " & szModuleName & vbcrlf 
 						szDataModule=szDataModule & "'File: " & f1.name & vbcrlf 
 					elseif left(vData(ii),len(KeyPublicSub))=KeyPublicSub or left(vData(ii),len(KeyPublicFunction))=KeyPublicFunction then
-						bInRoutine=True
-						if left(vData(ii),len(KeyPublicSub))=KeyPublicSub then
-							szTypeRoutine="Sub"
-						else
-							szTypeRoutine="Function"
-						end if
+						if instr(vData(ii),"TrasLang") <=0 and _
+							 instr(vData(ii),"SaveFileLang") <=0 and _
+							 instr(vData(ii),"LoadFileLang") <=0 then
+							bInRoutine=True
+							if left(vData(ii),len(KeyPublicSub))=KeyPublicSub then
+								szTypeRoutine="Sub"
+							else
+								szTypeRoutine="Function"
+							end if
 		
-						'comment routine
-						if left(vdata(ii-1),1)="'" then szDataModule=szDataModule & vdata(ii-1) & vbcrlf
-						szRoutine= vdata(ii) & vbcrlf
+							'comment routine
+							if left(vdata(ii-1),1)="'" then szDataModule=szDataModule & vdata(ii-1) & vbcrlf
+							szRoutine= vdata(ii) & vbcrlf
+						end if
 					elseif bInRoutine then
 						if Right(trim(vData(ii)),1) = "_" then
 							'param routine in more line

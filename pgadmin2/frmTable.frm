@@ -815,20 +815,20 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdChkAdd_Click()", et
 Dim objItem As ListItem
 
   If txtCheck(0).Text = "" Then
-    MsgBox "You must enter a name for the check!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must enter a name for the check!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 2
     txtCheck(0).SetFocus
     Exit Sub
   End If
   If hbxCheck(0).Text = "" Then
-    MsgBox "You must enter a definition for the check!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must enter a definition for the check!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 2
     hbxCheck(0).SetFocus
     Exit Sub
   End If
   For Each objItem In lvProperties(1).ListItems
     If objItem.Text = txtCheck(0).Text Then
-      MsgBox "This check name is already in the list!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("This check name is already in the list!"), vbExclamation, §§TrasLang§§("Error")
       tabProperties.Tab = 2
       txtCheck(0).SetFocus
       Exit Sub
@@ -852,7 +852,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdChkRemove_Click()", etFullDebug
 
   If lvProperties(1).SelectedItem Is Nothing Then
-    MsgBox "You must select a check to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a check to remove!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 2
     lvProperties(1).SetFocus
     Exit Sub
@@ -993,14 +993,14 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdInhAdd_Click()", et
 Dim objItem As ListItem
 
   If cboInheritedTables(0).Text = "" Then
-    MsgBox "You must select a table to add!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a table to add!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 4
     cboInheritedTables(0).SetFocus
     Exit Sub
   End If
   For Each objItem In lvProperties(3).ListItems
     If objItem.Text = cboInheritedTables(0).Text Then
-      MsgBox "This table is already in the list!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("This table is already in the list!"), vbExclamation, §§TrasLang§§("Error")
       tabProperties.Tab = 4
       cboInheritedTables(0).SetFocus
       Exit Sub
@@ -1020,7 +1020,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.cmdInhRemove_Click()", etFullDebug
 
   If lvProperties(3).SelectedItem Is Nothing Then
-    MsgBox "You must select a table to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a table to remove!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 4
     lvProperties(3).SetFocus
     Exit Sub
@@ -1062,20 +1062,20 @@ Dim bFlag As Boolean
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Table name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Table name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If lvProperties(0).ListItems.Count = 0 And lvProperties(3).ListItems.Count = 0 Then
-    MsgBox "You must define at least one column or inherited table!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must define at least one column or inherited table!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     lvProperties(0).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating Table..."
+    StartMsg §§TrasLang§§("Creating Table...")
     
     'Build the column list
     For Each objItem In lvProperties(0).ListItems
@@ -1127,11 +1127,11 @@ Dim bFlag As Boolean
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables.Tag
     Set objNewTable.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TBL-" & GetID, txtProperties(0).Text, "table")
-    objNode.Text = "Tables (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Tables (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
  
   Else
-    StartMsg "Updating Table..."
+    StartMsg §§TrasLang§§("Updating Table...")
     
     'Update the tablename if required
     If txtProperties(0).Tag = "Y" Then
@@ -1157,7 +1157,7 @@ Dim bFlag As Boolean
           If Len(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Tag) > 0 Then
             Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Tag
             Set objNewColumn.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "COL-" & GetID, objItem.Text, "column")
-            objNode.Text = "Columns (" & objNode.Children & ")"
+            objNode.Text = §§TrasLang§§("Columns (") & objNode.Children & ")"
           End If
         End If
       Next objItem
@@ -1177,7 +1177,7 @@ Dim bFlag As Boolean
             End If
             frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Columns.Remove szDropColumns(X)
             If bFlag Then
-              objNode.Parent.Text = "Columns (" & objNode.Children - 1 & ")"
+              objNode.Parent.Text = §§TrasLang§§("Columns (") & objNode.Children - 1 & ")"
               frmMain.tv.Nodes.Remove objNode.Index
             End If
           End If
@@ -1193,7 +1193,7 @@ Dim bFlag As Boolean
           If Len(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Tag) > 0 Then
             Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Tag
             Set objNewCheck.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "CHK-" & GetID, objItem.Text, "check")
-            objNode.Text = "Checks (" & objNode.Children & ")"
+            objNode.Text = §§TrasLang§§("Checks (") & objNode.Children & ")"
           End If
         End If
       Next objItem
@@ -1213,7 +1213,7 @@ Dim bFlag As Boolean
             End If
             frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Checks.Remove szDropChecks(X)
             If bFlag Then
-              objNode.Parent.Text = "Checks (" & objNode.Children - 1 & ")"
+              objNode.Parent.Text = §§TrasLang§§("Checks (") & objNode.Children - 1 & ")"
               frmMain.tv.Nodes.Remove objNode.Index
             End If
           End If
@@ -1236,7 +1236,7 @@ Dim bFlag As Boolean
           If Len(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys.Tag) > 0 Then
             Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys.Tag
             Set objNewForeignKey.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "FKY-" & GetID, objItem.Text, "foreignkey")
-            objNode.Text = "Foreign Keys (" & objNode.Children & ")"
+            objNode.Text = §§TrasLang§§("Foreign Keys (") & objNode.Children & ")"
           End If
         End If
       Next objItem
@@ -1256,7 +1256,7 @@ Dim bFlag As Boolean
             End If
             frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).ForeignKeys.Remove szDropForeignKeys(X)
             If bFlag Then
-              objNode.Parent.Text = "Foreign Keys (" & objNode.Children - 1 & ")"
+              objNode.Parent.Text = §§TrasLang§§("Foreign Keys (") & objNode.Children - 1 & ")"
               frmMain.tv.Nodes.Remove objNode.Index
             End If
           End If
@@ -1293,14 +1293,14 @@ Dim bFlag As Boolean
         szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
-      If InStr(1, objItem.SubItems(1), "All") <> 0 Then lACL = lACL + aclAll
-      If InStr(1, objItem.SubItems(1), "Select") <> 0 Then lACL = lACL + aclSelect
-      If InStr(1, objItem.SubItems(1), "Update") <> 0 Then lACL = lACL + aclUpdate
-      If InStr(1, objItem.SubItems(1), "Delete") <> 0 Then lACL = lACL + aclDelete
-      If InStr(1, objItem.SubItems(1), "Insert") <> 0 Then lACL = lACL + aclInsert
-      If InStr(1, objItem.SubItems(1), "Rule") <> 0 Then lACL = lACL + aclRule
-      If InStr(1, objItem.SubItems(1), "References") <> 0 Then lACL = lACL + aclReferences
-      If InStr(1, objItem.SubItems(1), "Trigger") <> 0 Then lACL = lACL + aclTrigger
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("All")) <> 0 Then lACL = lACL + aclAll
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Select")) <> 0 Then lACL = lACL + aclSelect
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Update")) <> 0 Then lACL = lACL + aclUpdate
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Delete")) <> 0 Then lACL = lACL + aclDelete
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Insert")) <> 0 Then lACL = lACL + aclInsert
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Rule")) <> 0 Then lACL = lACL + aclRule
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("References")) <> 0 Then lACL = lACL + aclReferences
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Trigger")) <> 0 Then lACL = lACL + aclTrigger
       frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
@@ -1325,7 +1325,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional Table As pgTable)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmTable.Initialise(" & Quote & szDB & Quote & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ListItem
@@ -1361,7 +1361,7 @@ Dim szAccess() As String
   
     'Create a new Table
     bNew = True
-    Me.Caption = "Create Table"
+    Me.Caption = §§TrasLang§§("Create Table")
     
     'Unlock the edittable fields
     cmdInhAdd.Enabled = True
@@ -1420,7 +1420,7 @@ Dim szAccess() As String
       lvProperties(2).BackColor = &H80000005
     End If
     
-    Me.Caption = "Table: " & objTable.Identifier
+    Me.Caption = §§TrasLang§§("Table: ") & objTable.Identifier
     txtProperties(0).Text = objTable.Name
     txtProperties(1).Text = objTable.Oid
     If objTable.SystemObject Then
@@ -1457,7 +1457,6 @@ Dim szAccess() As String
     Next objCheck
     
     For Each objForeignKey In objTable.ForeignKeys
-'      Set objItem = lvProperties(2).ListItems.Add(, , objForeignKey.Name, "foreignkey", "foreignkey")
       Set objItem = lvProperties(2).ListItems.Add(, , objForeignKey.Identifier, "foreignkey", "foreignkey")
       objItem.SubItems(1) = objForeignKey.ReferencedTable
       For Each objRelationship In objForeignKey.Relationships
@@ -1531,7 +1530,7 @@ Dim objItem As ListItem
   'Check the entry doesn't already exist
   For Each objItem In lvProperties(4).ListItems
     If (objItem.Text = cboEntities.SelectedItem.Text) And (objItem.SmallIcon = cboEntities.SelectedItem.Image) Then
-      MsgBox "'" & objItem.Text & "' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.", vbExclamation, "Error"
+      MsgBox "'" & objItem.Text & §§TrasLang§§("' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced."), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next objItem

@@ -1,11 +1,11 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmUpgradeWizard 
    Caption         =   "Upgrade Wizard"
    ClientHeight    =   4320
    ClientLeft      =   60
-   ClientTop       =   345
+   ClientTop       =   348
    ClientWidth     =   7500
    Icon            =   "frmUpgradeWizard.frx":0000
    LinkTopic       =   "Form1"
@@ -15,8 +15,8 @@ Begin VB.Form frmUpgradeWizard
    Begin MSComctlLib.ImageList il 
       Left            =   540
       Top             =   3735
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -52,9 +52,9 @@ Begin VB.Form frmUpgradeWizard
       Height          =   4335
       Left            =   0
       Picture         =   "frmUpgradeWizard.frx":2D00
-      ScaleHeight     =   289
+      ScaleHeight     =   361
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   31
+      ScaleWidth      =   39
       TabIndex        =   3
       Top             =   0
       Width           =   465
@@ -87,7 +87,7 @@ Begin VB.Form frmUpgradeWizard
       TabStop         =   0   'False
       Top             =   45
       Width           =   6990
-      _ExtentX        =   12330
+      _ExtentX        =   12340
       _ExtentY        =   6773
       _Version        =   393216
       Tabs            =   2
@@ -113,8 +113,8 @@ Begin VB.Form frmUpgradeWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmUpgradeWizard.frx":3AEA
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvVersions"
-      Tab(1).Control(1)=   "Label1(2)"
+      Tab(1).Control(0)=   "Label1(2)"
+      Tab(1).Control(1)=   "lvVersions"
       Tab(1).ControlCount=   2
       Begin MSComctlLib.ListView lvVersions 
          Height          =   2400
@@ -122,7 +122,7 @@ Begin VB.Form frmUpgradeWizard
          TabIndex        =   12
          Top             =   1215
          Width           =   6630
-         _ExtentX        =   11695
+         _ExtentX        =   11705
          _ExtentY        =   4233
          View            =   3
          LabelEdit       =   1
@@ -382,7 +382,7 @@ Dim szLittleBits() As String
 Dim vBigBit As Variant
 Dim objItem As ListItem
 
-  StartMsg "Contacting Server..."
+  StartMsg §§TrasLang§§("Contacting Server...")
   szData = GetVersions
   szData = Replace(szData, vbCr, "")
   szBigBits = Split(szData, vbLf)
@@ -425,7 +425,7 @@ Dim objItem As ListItem
   EndMsg
   
   If lvVersions.ListItems.Count = 0 Then
-    MsgBox "The list of current software couldn't be downloaded from the server. Please check the server name and your network connection. If problems still persist, please contact the Support Mailing list listed in the helpfile.", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("The list of current software couldn't be downloaded from the server. Please check the server name and your network connection. If problems still persist, please contact the Support Mailing list listed in the helpfile."), vbExclamation, §§TrasLang§§("Error")
     cmdPrevious_Click
     txtServer.SetFocus
   End If

@@ -92,10 +92,10 @@ Begin VB.Form frmSequence
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmSequence.frx":06DE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lvProperties(0)"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "fraAdd"
+      Tab(1).Control(0)=   "fraAdd"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "lvProperties(0)"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
@@ -557,13 +557,13 @@ Dim vEntity As Variant
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Sequence name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Sequence name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If txtProperties(3).Tag = "Y" Then
-    If MsgBox("Changing a Sequence value can be potentially dangerous, especially if that Sequence is used to create a Unique Key for a table. Are you sure you wish to continue?", vbQuestion + vbYesNo, "Change Value") = vbNo Then
+    If MsgBox(§§TrasLang§§("Changing a Sequence value can be potentially dangerous, especially if that Sequence is used to create a Unique Key for a table. Are you sure you wish to continue?"), vbQuestion + vbYesNo, §§TrasLang§§("Change Value")) = vbNo Then
       txtProperties(3).Text = objSequence.LastValue
       tabProperties.Tab = 0
       txtProperties(3).SetFocus
@@ -575,18 +575,18 @@ Dim vEntity As Variant
   '      so we'll just let PostgreSQL report any errors.
    
   If bNew Then
-    StartMsg "Creating Sequence..."
+    StartMsg §§TrasLang§§("Creating Sequence...")
     Set objNewSequence = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Add(txtProperties(0).Text, txtProperties(6).Text, txtProperties(3).Text, txtProperties(4).Text, txtProperties(5).Text, txtProperties(7).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences.Tag
     Set objNewSequence.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "SEQ-" & GetID, txtProperties(0).Text, "sequence")
-    objNode.Text = "Sequences (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Sequences (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Sequence..."
+    StartMsg §§TrasLang§§("Updating Sequence...")
     
     'Update the sequencename if required
     If txtProperties(0).Tag = "Y" Then
@@ -626,14 +626,14 @@ Dim vEntity As Variant
         szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
-      If InStr(1, objItem.SubItems(1), "All") <> 0 Then lACL = lACL + aclAll
-      If InStr(1, objItem.SubItems(1), "Select") <> 0 Then lACL = lACL + aclSelect
-      If InStr(1, objItem.SubItems(1), "Update") <> 0 Then lACL = lACL + aclUpdate
-      If InStr(1, objItem.SubItems(1), "Delete") <> 0 Then lACL = lACL + aclDelete
-      If InStr(1, objItem.SubItems(1), "Insert") <> 0 Then lACL = lACL + aclInsert
-      If InStr(1, objItem.SubItems(1), "Rule") <> 0 Then lACL = lACL + aclRule
-      If InStr(1, objItem.SubItems(1), "References") <> 0 Then lACL = lACL + aclReferences
-      If InStr(1, objItem.SubItems(1), "Trigger") <> 0 Then lACL = lACL + aclTrigger
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("All")) <> 0 Then lACL = lACL + aclAll
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Select")) <> 0 Then lACL = lACL + aclSelect
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Update")) <> 0 Then lACL = lACL + aclUpdate
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Delete")) <> 0 Then lACL = lACL + aclDelete
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Insert")) <> 0 Then lACL = lACL + aclInsert
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Rule")) <> 0 Then lACL = lACL + aclRule
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("References")) <> 0 Then lACL = lACL + aclReferences
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Trigger")) <> 0 Then lACL = lACL + aclTrigger
       frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Sequences(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
@@ -658,7 +658,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional Sequence As pgSequence)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmSequence.Initialise(" & Quote & szDB & Quote & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ListItem
@@ -686,7 +686,7 @@ Dim szAccess() As String
   
     'Create a new Sequence
     bNew = True
-    Me.Caption = "Create Sequence"
+    Me.Caption = §§TrasLang§§("Create Sequence")
     
     'Unlock the edittable fields
     cboProperties(0).BackColor = &H80000005
@@ -715,7 +715,7 @@ Dim szAccess() As String
     'Display/Edit the specified Sequence.
     Set objSequence = Sequence
     bNew = False
-    Me.Caption = "Sequence: " & objSequence.Identifier
+    Me.Caption = §§TrasLang§§("Sequence: ") & objSequence.Identifier
     
     If Not objSequence.SystemObject Then
       cboProperties(0).BackColor = &H80000005
@@ -797,7 +797,7 @@ Dim objItem As ListItem
   'Check the entry doesn't already exist
   For Each objItem In lvProperties(0).ListItems
     If (objItem.Text = cboEntities.SelectedItem.Text) And (objItem.SmallIcon = cboEntities.SelectedItem.Image) Then
-      MsgBox "'" & objItem.Text & "' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.", vbExclamation, "Error"
+      MsgBox "'" & objItem.Text & §§TrasLang§§("' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced."), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next objItem

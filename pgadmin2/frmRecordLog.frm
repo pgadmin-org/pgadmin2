@@ -4,8 +4,8 @@ Begin VB.Form frmRecordLog
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Record query log"
    ClientHeight    =   3120
-   ClientLeft      =   45
-   ClientTop       =   435
+   ClientLeft      =   48
+   ClientTop       =   432
    ClientWidth     =   4680
    Icon            =   "frmRecordLog.frx":0000
    LinkTopic       =   "Form1"
@@ -120,7 +120,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmRecordLog.cmdBrowse_Click()"
   
   With cdlg
     .FileName = txtFileName.Text
-    .DialogTitle = "Record query log"
+    .DialogTitle = §§TrasLang§§("Record query log")
     .Filter = "SQL Scripts (*.sql)|*.sql|Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
     .CancelError = False
     .FLAGS = &H4
@@ -164,7 +164,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmRecordLog.cmdOK_Click()", et
 Dim lLogOptions As Long
 
   If txtFileName.Text = "" Then
-    MsgBox "You must enter or select a logfile!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must enter or select a logfile!"), vbExclamation, §§TrasLang§§("Error")
     txtFileName.SetFocus
     Exit Sub
   End If
@@ -175,7 +175,7 @@ Dim lLogOptions As Long
   If chkSystem.Value = 1 Then lLogOptions = lLogOptions + qrySystem
   
   If lLogOptions = 0 Then
-    MsgBox "You must select at least on query type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select at least on query type!"), vbExclamation, §§TrasLang§§("Error")
     chkUser.SetFocus
     Exit Sub
   End If

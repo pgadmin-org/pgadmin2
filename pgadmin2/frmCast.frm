@@ -1,17 +1,17 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmCast 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Cast"
-   ClientHeight    =   6885
-   ClientLeft      =   7530
-   ClientTop       =   1875
+   ClientHeight    =   6888
+   ClientLeft      =   7536
+   ClientTop       =   1872
    ClientWidth     =   5520
    Icon            =   "frmCast.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6888
    ScaleWidth      =   5520
    Begin TabDlg.SSTab tabProperties 
       Height          =   6360
@@ -61,14 +61,14 @@ Begin VB.Form frmCast
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   2
          Top             =   1080
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -76,14 +76,14 @@ Begin VB.Form frmCast
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   3
-         Top             =   1485
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1488
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -91,14 +91,14 @@ Begin VB.Form frmCast
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   2
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
-         Top             =   1890
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1896
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -106,15 +106,15 @@ Begin VB.Form frmCast
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   3
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   5
          ToolTipText     =   "The data type returned by the Cast."
          Top             =   2280
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -193,8 +193,8 @@ Begin VB.Form frmCast
    Begin MSComctlLib.ImageList il 
       Left            =   0
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -250,7 +250,7 @@ Dim objType As pgType
   
     'Create a new Cast
     bNew = True
-    Me.Caption = "Create Cast"
+    Me.Caption = §§TrasLang§§("Create Cast")
   
     For X = 0 To 3
       cboProperties(X).BackColor = &H80000005
@@ -272,7 +272,7 @@ Dim objType As pgType
     Set objCast = Cast
     bNew = False
     
-    Me.Caption = "Cast: " & objCast.Identifier
+    Me.Caption = §§TrasLang§§("Cast: ") & objCast.Identifier
     txtProperties(0).Text = objCast.Oid
     cboProperties(0).ComboItems.Add , , fmtID(objCast.Source), "type"
     cboProperties(0).ComboItems(1).Selected = True
@@ -358,20 +358,20 @@ Dim szContext As String
 
   'Check the data
   If cboProperties(0).Text = "" Then
-    MsgBox "You must select an source type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select an source type!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
-    MsgBox "You must select a target type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a target type!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(1).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating Cast..."
+    StartMsg §§TrasLang§§("Creating Cast...")
     
     szContext = UCase(cboProperties(3).Text)
     Set objNewCast = frmMain.svr.Databases(szDatabase).Casts.Add(cboProperties(0).Text, cboProperties(1).Text, cboProperties(2).Text, szContext)
@@ -380,11 +380,11 @@ Dim szContext As String
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Casts.Tag
     frmMain.tv.Nodes.Add objNode.Key, tvwChild, "CST-" & GetID, objNewCast.Identifier, "cast"
-    objNode.Text = "Casts (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Casts (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Cast..."
+    StartMsg §§TrasLang§§("Updating Cast...")
   End If
   
   'Simulate a node click to refresh the ListCast
@@ -398,5 +398,3 @@ Err_Handler:
   EndMsg
   If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmCast.cmdOK_Click"
 End Sub
-
-

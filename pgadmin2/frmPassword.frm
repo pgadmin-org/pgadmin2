@@ -2,16 +2,16 @@ VERSION 5.00
 Begin VB.Form frmPassword 
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "Change Password"
-   ClientHeight    =   1725
-   ClientLeft      =   45
-   ClientTop       =   255
-   ClientWidth     =   3465
+   ClientHeight    =   1728
+   ClientLeft      =   48
+   ClientTop       =   252
+   ClientWidth     =   3468
    Icon            =   "frmPassword.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   1725
-   ScaleWidth      =   3465
+   ScaleHeight     =   1728
+   ScaleWidth      =   3468
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.CommandButton cmdOK 
@@ -99,20 +99,20 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmPassword.cmdOK_Click()", etFullDebug
 
   If txtCurrent.Text <> ctx.Password Then
-    MsgBox "Incorrect Password!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("Incorrect Password!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If txtNew.Text <> txtConfirm.Text Then
-    MsgBox "Passwords do not match!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("Passwords do not match!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If InStr(1, txtNew.Text, " ") Or InStr(1, txtNew.Text, "'") Or InStr(1, txtNew.Text, QUOTE) Then
-    MsgBox "Illegal characters in password!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("Illegal characters in password!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   
   frmMain.svr.Users(ctx.Username).Password = txtNew.Text
-  MsgBox "Password successfully changed!", vbInformation, "Success!!"
+  MsgBox §§TrasLang§§("Password successfully changed!"), vbInformation, §§TrasLang§§("Success!!")
   
   Unload Me
   

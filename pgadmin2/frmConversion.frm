@@ -1,17 +1,17 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmConversion 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Conversion"
-   ClientHeight    =   6885
-   ClientLeft      =   5070
-   ClientTop       =   1770
+   ClientHeight    =   6876
+   ClientLeft      =   5076
+   ClientTop       =   1776
    ClientWidth     =   5520
    Icon            =   "frmConversion.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -117,15 +117,15 @@ Begin VB.Form frmConversion
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
          Left            =   1920
          TabIndex        =   4
          ToolTipText     =   "The table that the foreign key will be part of."
          Top             =   1800
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -133,15 +133,15 @@ Begin VB.Form frmConversion
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
          Left            =   1920
          TabIndex        =   5
          ToolTipText     =   "The table referenced by the foreign key."
-         Top             =   2205
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   2208
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -149,15 +149,15 @@ Begin VB.Form frmConversion
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   2
          Left            =   1920
          TabIndex        =   6
          ToolTipText     =   "The table referenced by the foreign key."
          Top             =   2640
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -228,8 +228,8 @@ Begin VB.Form frmConversion
    Begin MSComctlLib.ImageList il 
       Left            =   540
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -285,7 +285,7 @@ Dim vData
   
     'Create a new Conversion
     bNew = True
-    Me.Caption = "Create Conversion"
+    Me.Caption = §§TrasLang§§("Create Conversion")
     
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -327,7 +327,7 @@ Dim vData
     Set objConversion = Conversion
     bNew = False
     
-    Me.Caption = "Conversion: " & objConversion.Identifier
+    Me.Caption = §§TrasLang§§("Conversion: ") & objConversion.Identifier
     txtProperties(0).Text = objConversion.Name
     txtProperties(1).Text = objConversion.Oid
     txtProperties(2).Text = objConversion.Owner
@@ -366,15 +366,15 @@ Dim ii As Integer
     
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a conversion name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a conversion name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
-  vData = Array("Source encoding", "Destination encoding", "Conversion procedure")
+  vData = Array(§§TrasLang§§("Source encoding"), §§TrasLang§§("Destination encoding"), §§TrasLang§§("Conversion procedure"))
   For ii = 0 To 2
     If cboProperties(ii).Text = "" Then
-      MsgBox "You must specify a " & vData(ii) & "!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("You must specify a ") & vData(ii) & "!", vbExclamation, §§TrasLang§§("Error")
       tabProperties.Tab = 0
       cboProperties(ii).SetFocus
       Exit Sub
@@ -382,17 +382,17 @@ Dim ii As Integer
   Next
   
   If bNew Then
-    StartMsg "Creating Conversion..."
+    StartMsg §§TrasLang§§("Creating Conversion...")
     Set objNewConversion = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Conversions.Add(txtProperties(0).Text, Bin2Bool(chkProperties(0).Value), cboProperties(0).SelectedItem.Text, cboProperties(1).SelectedItem.Text, cboProperties(2).SelectedItem.Text)
    
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Conversions.Tag
     Set objNewConversion.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "CNV-" & GetID, txtProperties(0).Text, "conversion")
-    objNode.Text = "Conversions (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Conversions (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
   Else
-    StartMsg "Updating Conversion..."
+    StartMsg §§TrasLang§§("Updating Conversion...")
   End If
   
   'Simulate a node click to refresh the ListConversion

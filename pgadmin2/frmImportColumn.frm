@@ -134,7 +134,7 @@ Dim objNode1 As Node
   
   Set frmCallingForm = frmCF
   
-  StartMsg "Load column table..."
+  StartMsg §§TrasLang§§("Load column table...")
   
   'Load the namespace
   tv.Nodes.Clear
@@ -168,18 +168,18 @@ Dim objColumn As pgColumn
   
   If Not frmCallingForm Is Nothing Then
     If Not frmCallingForm.Visible Then
-      MsgBox "The form that called this form has been destroyed!", vbSystemModal + vbExclamation, "Error"
+      MsgBox §§TrasLang§§("The form that called this form has been destroyed!"), vbSystemModal + vbExclamation, §§TrasLang§§("Error")
       Unload Me
       Exit Sub
     End If
   End If
 
   If tv.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to import!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to import!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If Left(tv.SelectedItem.Key, 3) <> "COL" Then
-    MsgBox "You must select a column to import!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to import!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   
@@ -188,7 +188,7 @@ Dim objColumn As pgColumn
   
   For Each objItem In frmCallingForm.lvProperties(0).ListItems
     If objItem.Text = objColumn.Name Then
-      MsgBox "A column with that name already exists!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("A column with that name already exists!"), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next
@@ -230,12 +230,12 @@ Dim objColumn As pgColumn
   'get select colum
   Set objColumn = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(tv.SelectedItem.Parent.Parent).Tables(tv.SelectedItem.Parent).Columns(tv.SelectedItem)
   
-  szTemp = szTemp & "Type : " & objColumn.DataType & vbCrLf
-  szTemp = szTemp & "Length : " & objColumn.Length & vbCrLf
-  szTemp = szTemp & "Default : " & objColumn.Default & vbCrLf
-  szTemp = szTemp & "Not Null : " & objColumn.NotNull & vbCrLf
-  szTemp = szTemp & "Primary Key : " & objColumn.PrimaryKey & vbCrLf
-  szTemp = szTemp & "Comment : " & objColumn.Comment & vbCrLf
+  szTemp = szTemp & §§TrasLang§§("Type : ") & objColumn.DataType & vbCrLf
+  szTemp = szTemp & §§TrasLang§§("Length : ") & objColumn.Length & vbCrLf
+  szTemp = szTemp & §§TrasLang§§("Default : ") & objColumn.Default & vbCrLf
+  szTemp = szTemp & §§TrasLang§§("Not Null : ") & objColumn.NotNull & vbCrLf
+  szTemp = szTemp & §§TrasLang§§("Primary Key : ") & objColumn.PrimaryKey & vbCrLf
+  szTemp = szTemp & §§TrasLang§§("Comment : ") & objColumn.Comment & vbCrLf
   lblDetail.Caption = szTemp
 
   Exit Sub

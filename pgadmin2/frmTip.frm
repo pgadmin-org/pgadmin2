@@ -2,16 +2,16 @@ VERSION 5.00
 Begin VB.Form frmTip 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Tip of the Day"
-   ClientHeight    =   3285
-   ClientLeft      =   2355
-   ClientTop       =   2385
-   ClientWidth     =   5190
+   ClientHeight    =   3288
+   ClientLeft      =   2352
+   ClientTop       =   2388
+   ClientWidth     =   5196
    Icon            =   "frmTip.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   3285
-   ScaleWidth      =   5190
+   ScaleHeight     =   3288
+   ScaleWidth      =   5196
    StartUpPosition =   1  'CenterOwner
    Begin VB.CheckBox chkLoadTipsAtStartup 
       Caption         =   "&Show Tips at Startup"
@@ -35,8 +35,8 @@ Begin VB.Form frmTip
       Height          =   2715
       Left            =   120
       Picture         =   "frmTip.frx":0A02
-      ScaleHeight     =   2655
-      ScaleWidth      =   3675
+      ScaleHeight     =   2664
+      ScaleWidth      =   3684
       TabIndex        =   1
       Top             =   120
       Width           =   3735
@@ -180,11 +180,10 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmTips.Form_Load()", etFullDeb
     
   'Load tips
   If LoadTips() = False Then
-    lblTipText.Caption = "That the Tips.txt file was not found? " & vbCrLf & vbCrLf & _
-                         "Create a text file named Tips.txt using NotePad with 1 tip per line, " & _
-                         "then place it in:" & vbCrLf & vbCrLf & App.Path & "\"
+    lblTipText.Caption = §§TrasLang§§("That the Tips.txt file was not found? ") & vbCrLf & vbCrLf & _
+                         §§TrasLang§§("Create a text file named Tips.txt using NotePad with 1 tip per line, ") & _
+                         §§TrasLang§§("then place it in:") & vbCrLf & vbCrLf & App.Path & "\"
   End If
-
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmTips.Form_Load"

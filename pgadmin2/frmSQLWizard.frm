@@ -1,18 +1,18 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmSQLWizard 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "SQL Wizard"
-   ClientHeight    =   4350
-   ClientLeft      =   45
-   ClientTop       =   330
-   ClientWidth     =   7530
+   ClientHeight    =   4344
+   ClientLeft      =   48
+   ClientTop       =   336
+   ClientWidth     =   7524
    Icon            =   "frmSQLWizard.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   4350
-   ScaleWidth      =   7530
+   ScaleHeight     =   4344
+   ScaleWidth      =   7524
    Begin VB.CommandButton cmdOK 
       Caption         =   "&OK"
       Default         =   -1  'True
@@ -31,7 +31,7 @@ Begin VB.Form frmSQLWizard
       TabStop         =   0   'False
       Top             =   45
       Width           =   6990
-      _ExtentX        =   12330
+      _ExtentX        =   12340
       _ExtentY        =   6773
       _Version        =   393216
       Tabs            =   6
@@ -55,72 +55,72 @@ Begin VB.Form frmSQLWizard
       TabCaption(1)   =   " "
       TabPicture(1)   =   "frmSQLWizard.frx":0BDE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame2"
-      Tab(1).Control(1)=   "Frame1"
-      Tab(1).Control(2)=   "txtPrimaryTable"
-      Tab(1).Control(3)=   "cboJColumn2"
-      Tab(1).Control(4)=   "cboJColumn1"
-      Tab(1).Control(5)=   "lstJoins"
-      Tab(1).Control(6)=   "cmdAddJoin"
-      Tab(1).Control(7)=   "cmdRemoveJoin"
-      Tab(1).Control(8)=   "Label2(1)"
-      Tab(1).Control(9)=   "Label2(7)"
-      Tab(1).Control(10)=   "Label2(0)"
-      Tab(1).Control(11)=   "Label1(1)"
+      Tab(1).Control(0)=   "Label1(1)"
+      Tab(1).Control(1)=   "Label2(0)"
+      Tab(1).Control(2)=   "Label2(7)"
+      Tab(1).Control(3)=   "Label2(1)"
+      Tab(1).Control(4)=   "cmdRemoveJoin"
+      Tab(1).Control(5)=   "cmdAddJoin"
+      Tab(1).Control(6)=   "lstJoins"
+      Tab(1).Control(7)=   "cboJColumn1"
+      Tab(1).Control(8)=   "cboJColumn2"
+      Tab(1).Control(9)=   "txtPrimaryTable"
+      Tab(1).Control(10)=   "Frame1"
+      Tab(1).Control(11)=   "Frame2"
       Tab(1).ControlCount=   12
       TabCaption(2)   =   " "
       TabPicture(2)   =   "frmSQLWizard.frx":0BFA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cboCustomColumn"
-      Tab(2).Control(1)=   "cmdAddCustomColumn"
-      Tab(2).Control(2)=   "cmdColumnDown"
-      Tab(2).Control(3)=   "cmdColumnUp"
-      Tab(2).Control(4)=   "lstAllColumns"
-      Tab(2).Control(5)=   "lstIncColumns"
-      Tab(2).Control(6)=   "cmdAddColumn"
-      Tab(2).Control(7)=   "cmdRemoveColumn"
-      Tab(2).Control(8)=   "Label2(4)"
-      Tab(2).Control(9)=   "Label1(2)"
+      Tab(2).Control(0)=   "Label1(2)"
+      Tab(2).Control(1)=   "Label2(4)"
+      Tab(2).Control(2)=   "cmdRemoveColumn"
+      Tab(2).Control(3)=   "cmdAddColumn"
+      Tab(2).Control(4)=   "lstIncColumns"
+      Tab(2).Control(5)=   "lstAllColumns"
+      Tab(2).Control(6)=   "cmdColumnUp"
+      Tab(2).Control(7)=   "cmdColumnDown"
+      Tab(2).Control(8)=   "cmdAddCustomColumn"
+      Tab(2).Control(9)=   "cboCustomColumn"
       Tab(2).ControlCount=   10
       TabCaption(3)   =   " "
       TabPicture(3)   =   "frmSQLWizard.frx":0C16
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "txtValue"
-      Tab(3).Control(1)=   "cboBoolean"
-      Tab(3).Control(2)=   "cboOperator"
-      Tab(3).Control(3)=   "cmdRemoveCriteria"
-      Tab(3).Control(4)=   "cmdAddCriteria"
-      Tab(3).Control(5)=   "lstCriteria"
-      Tab(3).Control(6)=   "cboWhereCols"
-      Tab(3).Control(7)=   "lblValue"
-      Tab(3).Control(8)=   "lblBoolean"
-      Tab(3).Control(9)=   "Label2(3)"
-      Tab(3).Control(10)=   "Label2(2)"
-      Tab(3).Control(11)=   "Label1(3)"
+      Tab(3).Control(0)=   "Label1(3)"
+      Tab(3).Control(1)=   "Label2(2)"
+      Tab(3).Control(2)=   "Label2(3)"
+      Tab(3).Control(3)=   "lblBoolean"
+      Tab(3).Control(4)=   "lblValue"
+      Tab(3).Control(5)=   "cboWhereCols"
+      Tab(3).Control(6)=   "lstCriteria"
+      Tab(3).Control(7)=   "cmdAddCriteria"
+      Tab(3).Control(8)=   "cmdRemoveCriteria"
+      Tab(3).Control(9)=   "cboOperator"
+      Tab(3).Control(10)=   "cboBoolean"
+      Tab(3).Control(11)=   "txtValue"
       Tab(3).ControlCount=   12
       TabCaption(4)   =   " "
       TabPicture(4)   =   "frmSQLWizard.frx":0C32
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Label1(4)"
-      Tab(4).Control(1)=   "cmdRemoveSortCol"
-      Tab(4).Control(2)=   "cmdAddAsc"
-      Tab(4).Control(3)=   "lstIncSortCols"
-      Tab(4).Control(4)=   "lstAllSortCols"
-      Tab(4).Control(5)=   "cmdAddDesc"
-      Tab(4).Control(6)=   "cmdSortColDown"
-      Tab(4).Control(7)=   "cmdSortColUp"
+      Tab(4).Control(0)=   "cmdSortColUp"
+      Tab(4).Control(1)=   "cmdSortColDown"
+      Tab(4).Control(2)=   "cmdAddDesc"
+      Tab(4).Control(3)=   "lstAllSortCols"
+      Tab(4).Control(4)=   "lstIncSortCols"
+      Tab(4).Control(5)=   "cmdAddAsc"
+      Tab(4).Control(6)=   "cmdRemoveSortCol"
+      Tab(4).Control(7)=   "Label1(4)"
       Tab(4).ControlCount=   8
       TabCaption(5)   =   " "
       TabPicture(5)   =   "frmSQLWizard.frx":0C4E
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "Label1(7)"
-      Tab(5).Control(1)=   "Label2(5)"
-      Tab(5).Control(2)=   "Label2(6)"
-      Tab(5).Control(3)=   "chkDistinct"
-      Tab(5).Control(4)=   "chkLimit"
-      Tab(5).Control(5)=   "txtLimit"
-      Tab(5).Control(6)=   "chkOffset"
-      Tab(5).Control(7)=   "txtOffset"
+      Tab(5).Control(0)=   "txtOffset"
+      Tab(5).Control(1)=   "chkOffset"
+      Tab(5).Control(2)=   "txtLimit"
+      Tab(5).Control(3)=   "chkLimit"
+      Tab(5).Control(4)=   "chkDistinct"
+      Tab(5).Control(5)=   "Label2(6)"
+      Tab(5).Control(6)=   "Label2(5)"
+      Tab(5).Control(7)=   "Label1(7)"
       Tab(5).ControlCount=   8
       Begin VB.Frame Frame2 
          Caption         =   "Join Type"
@@ -251,28 +251,28 @@ Begin VB.Form frmSQLWizard
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboJColumn2 
-         Height          =   330
-         Left            =   -74865
+         Height          =   300
+         Left            =   -74868
          TabIndex        =   16
          ToolTipText     =   "Select the second column in the join."
          Top             =   3420
-         Width           =   2715
-         _ExtentX        =   4789
-         _ExtentY        =   582
+         Width           =   2712
+         _ExtentX        =   4784
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483630
          BackColor       =   -2147483643
          Locked          =   -1  'True
       End
       Begin MSComctlLib.ImageCombo cboCustomColumn 
-         Height          =   330
-         Left            =   -74865
+         Height          =   300
+         Left            =   -74868
          TabIndex        =   22
          ToolTipText     =   "Select or Enter a custom column name."
-         Top             =   3375
+         Top             =   3372
          Width           =   2760
          _ExtentX        =   4868
-         _ExtentY        =   582
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483630
          BackColor       =   -2147483643
@@ -377,7 +377,7 @@ Begin VB.Form frmSQLWizard
          ToolTipText     =   "Lists the available columns."
          Top             =   495
          Width           =   2535
-         _ExtentX        =   4471
+         _ExtentX        =   4466
          _ExtentY        =   5609
          View            =   3
          LabelEdit       =   1
@@ -401,7 +401,7 @@ Begin VB.Form frmSQLWizard
          ToolTipText     =   "Lists the selected selected sort columns."
          Top             =   495
          Width           =   2535
-         _ExtentX        =   4471
+         _ExtentX        =   4466
          _ExtentY        =   5609
          View            =   3
          LabelEdit       =   1
@@ -454,14 +454,14 @@ Begin VB.Form frmSQLWizard
          Width           =   2760
       End
       Begin MSComctlLib.ImageCombo cboBoolean 
-         Height          =   330
-         Left            =   -74865
+         Height          =   300
+         Left            =   -74868
          TabIndex        =   29
          ToolTipText     =   "Select a boolean operator."
-         Top             =   990
-         Width           =   1005
-         _ExtentX        =   1773
-         _ExtentY        =   582
+         Top             =   996
+         Width           =   1008
+         _ExtentX        =   1778
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483630
          BackColor       =   -2147483633
@@ -469,14 +469,14 @@ Begin VB.Form frmSQLWizard
          Locked          =   -1  'True
       End
       Begin MSComctlLib.ImageCombo cboOperator 
-         Height          =   330
-         Left            =   -74865
+         Height          =   300
+         Left            =   -74868
          TabIndex        =   31
          ToolTipText     =   "Select an Operator to use."
          Top             =   2340
-         Width           =   1995
-         _ExtentX        =   3519
-         _ExtentY        =   582
+         Width           =   1992
+         _ExtentX        =   3514
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483630
          BackColor       =   -2147483643
@@ -507,8 +507,8 @@ Begin VB.Form frmSQLWizard
          ToolTipText     =   "Lists the query's selection criteria.."
          Top             =   270
          Width           =   3345
-         _ExtentX        =   5900
-         _ExtentY        =   5953
+         _ExtentX        =   5906
+         _ExtentY        =   5948
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -525,14 +525,14 @@ Begin VB.Form frmSQLWizard
          EndProperty
       End
       Begin MSComctlLib.ImageCombo cboWhereCols 
-         Height          =   330
-         Left            =   -74865
+         Height          =   300
+         Left            =   -74868
          TabIndex        =   30
          ToolTipText     =   "Select a column to include in the 'WHERE' clause."
-         Top             =   1665
+         Top             =   1668
          Width           =   2760
          _ExtentX        =   4868
-         _ExtentY        =   582
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483630
          BackColor       =   -2147483643
@@ -566,7 +566,7 @@ Begin VB.Form frmSQLWizard
          Top             =   495
          Width           =   2760
          _ExtentX        =   4868
-         _ExtentY        =   4577
+         _ExtentY        =   4572
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -589,7 +589,7 @@ Begin VB.Form frmSQLWizard
          ToolTipText     =   "Lists the columns to be included in the query."
          Top             =   495
          Width           =   2805
-         _ExtentX        =   4948
+         _ExtentX        =   4953
          _ExtentY        =   5609
          View            =   3
          LabelEdit       =   1
@@ -625,14 +625,14 @@ Begin VB.Form frmSQLWizard
          Width           =   420
       End
       Begin MSComctlLib.ImageCombo cboJColumn1 
-         Height          =   330
-         Left            =   -74865
+         Height          =   300
+         Left            =   -74868
          TabIndex        =   5
          ToolTipText     =   "Select the first column in the join."
-         Top             =   675
-         Width           =   2715
-         _ExtentX        =   4789
-         _ExtentY        =   582
+         Top             =   672
+         Width           =   2712
+         _ExtentX        =   4784
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483630
          BackColor       =   -2147483643
@@ -645,8 +645,8 @@ Begin VB.Form frmSQLWizard
          ToolTipText     =   "Lists the selected joins."
          Top             =   765
          Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   5265
+         _ExtentX        =   5990
+         _ExtentY        =   5271
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -705,7 +705,7 @@ Begin VB.Form frmSQLWizard
          ToolTipText     =   "Lists the selected tables."
          Top             =   495
          Width           =   3075
-         _ExtentX        =   5424
+         _ExtentX        =   5419
          _ExtentY        =   5609
          View            =   3
          LabelEdit       =   1
@@ -729,7 +729,7 @@ Begin VB.Form frmSQLWizard
          ToolTipText     =   "Lists the available tables."
          Top             =   495
          Width           =   3075
-         _ExtentX        =   5424
+         _ExtentX        =   5419
          _ExtentY        =   5609
          View            =   3
          LabelEdit       =   1
@@ -915,9 +915,9 @@ Begin VB.Form frmSQLWizard
       Height          =   4335
       Left            =   0
       Picture         =   "frmSQLWizard.frx":1D72
-      ScaleHeight     =   289
+      ScaleHeight     =   361
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   31
+      ScaleWidth      =   39
       TabIndex        =   50
       Top             =   0
       Width           =   465
@@ -947,7 +947,7 @@ Dim objNamespace As pgNamespace
 Dim objTable As pgTable
 Dim objItem As ListItem
 
-  StartMsg "Getting Tables..."
+  StartMsg §§TrasLang§§("Getting Tables...")
   lstAllTables.ListItems.Clear
   lstIncTables.ListItems.Clear
   
@@ -978,7 +978,7 @@ Dim X As Integer
 Dim objColumn As pgColumn
 Dim objItem As ComboItem
 
-  StartMsg "Getting Columns..."
+  StartMsg §§TrasLang§§("Getting Columns...")
   cboJColumn1.ComboItems.Clear
   cboJColumn2.ComboItems.Clear
   lstJoins.ListItems.Clear
@@ -1011,7 +1011,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.Get_ValidJoinCols(
 
 Dim objColumn As pgColumn
 Dim X As Integer
-Dim y As Integer
+Dim Y As Integer
 Dim szTable As String
 Dim iStart As Integer
 Dim bFlag As Boolean
@@ -1020,7 +1020,7 @@ Dim szTemp As String
 Dim szSchema As String
 Dim objItem As ComboItem
 
-  StartMsg "Getting Columns..."
+  StartMsg §§TrasLang§§("Getting Columns...")
   
   'Clear down
   cboJColumn1.ComboItems.Clear
@@ -1029,15 +1029,15 @@ Dim objItem As ComboItem
   'Split the table & schema name
   szTable = txtPrimaryTable.Text
   bInQuotes = False
-  For y = 1 To Len(szTable)
-    szTemp = Mid(szTable, y, 1)
+  For Y = 1 To Len(szTable)
+    szTemp = Mid(szTable, Y, 1)
     If szTemp = QUOTE Then
       bInQuotes = Not bInQuotes
     ElseIf szTemp = "." And Not bInQuotes Then
-      szSchema = Mid(szTable, 1, y - 1)
-      szTable = Mid(szTable, y + 1)
+      szSchema = Mid(szTable, 1, Y - 1)
+      szTable = Mid(szTable, Y + 1)
     End If
-  Next y
+  Next Y
   If szSchema = "" Then szSchema = "public"
   If Left(szSchema, 1) = QUOTE And Right(szSchema, 1) = QUOTE Then szSchema = Mid(szSchema, 2, Len(szSchema) - 2)
   If Left(szTable, 1) = QUOTE And Right(szTable, 1) = QUOTE Then szTable = Mid(szTable, 2, Len(szTable) - 2)
@@ -1088,7 +1088,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.Get_Columns()", etFullDebug
 
 Dim X As Integer
-Dim y As Integer
+Dim Y As Integer
 Dim objColumn As pgColumn
 Dim bInQuotes As Boolean
 Dim szTemp As String
@@ -1096,7 +1096,7 @@ Dim szTable As String
 Dim szSchema As String
 Dim objItem As ListItem
 
-  StartMsg "Getting Columns..."
+  StartMsg §§TrasLang§§("Getting Columns...")
   lstAllColumns.ListItems.Clear
   lstIncColumns.ListItems.Clear
   For X = 1 To lstIncTables.ListItems.Count
@@ -1104,15 +1104,15 @@ Dim objItem As ListItem
     'Split the table & schema name
     szTable = lstIncTables.ListItems(X).Text
     bInQuotes = False
-    For y = 1 To Len(szTable)
-      szTemp = Mid(szTable, y, 1)
+    For Y = 1 To Len(szTable)
+      szTemp = Mid(szTable, Y, 1)
       If szTemp = QUOTE Then
         bInQuotes = Not bInQuotes
       ElseIf szTemp = "." And Not bInQuotes Then
-        szSchema = Mid(szTable, 1, y - 1)
-        szTable = Mid(szTable, y + 1)
+        szSchema = Mid(szTable, 1, Y - 1)
+        szTable = Mid(szTable, Y + 1)
       End If
-    Next y
+    Next Y
     If szSchema = "" Then szSchema = "public"
     If Left(szSchema, 1) = QUOTE And Right(szSchema, 1) = QUOTE Then szSchema = Mid(szSchema, 2, Len(szSchema) - 2)
     If Left(szTable, 1) = QUOTE And Right(szTable, 1) = QUOTE Then szTable = Mid(szTable, 2, Len(szTable) - 2)
@@ -1147,7 +1147,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.Get_WhereCols()", 
 Dim X As Integer
 Dim objColumn As pgColumn
 
-  StartMsg "Getting Columns..."
+  StartMsg §§TrasLang§§("Getting Columns...")
   cboWhereCols.ComboItems.Clear
   lstCriteria.ListItems.Clear
   cboOperator.ComboItems.Clear
@@ -1188,7 +1188,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.Get_SortCols()", e
 Dim X As Integer
 Dim objColumn As pgColumn
 
-  StartMsg "Getting Columns..."
+  StartMsg §§TrasLang§§("Getting Columns...")
   lstAllSortCols.ListItems.Clear
   lstIncSortCols.ListItems.Clear
   
@@ -1279,7 +1279,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddAsc_Click()", etFullDebug
 
   If lstAllSortCols.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to add!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to add!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   lstIncSortCols.ListItems.Add , , lstAllSortCols.SelectedItem.Text & " ASC"
@@ -1304,7 +1304,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddDesc_Click()", etFullDebug
 
   If lstAllSortCols.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to add!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to add!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   lstIncSortCols.ListItems.Add , , lstAllSortCols.SelectedItem.Text & " DESC"
@@ -1329,7 +1329,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddColumn_Click()", etFullDebug
 
   If lstAllColumns.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to add!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to add!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   lstIncColumns.ListItems.Add , , lstAllColumns.SelectedItem.Text
@@ -1354,19 +1354,19 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdAddCriteria_Click()", etFullDebug
 
   If cboBoolean.Enabled = True And cboBoolean.SelectedItem Is Nothing Then
-    MsgBox "You must select a boolean operator!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a boolean operator!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If cboWhereCols.SelectedItem Is Nothing Then
-    MsgBox "You must select a column!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If cboOperator.SelectedItem Is Nothing Then
-    MsgBox "You must select an operator!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select an operator!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If txtValue.Text = "" And cboOperator.Text <> "IS NULL" And cboOperator.Text <> "IS NOT NULL" Then
-    MsgBox "You must enter a value for the criteria!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must enter a value for the criteria!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If cboBoolean.Enabled = False Then
@@ -1428,15 +1428,15 @@ Dim objItem As ListItem
   
   'Error Checks
   If cboJColumn1.Text = "" Then
-    MsgBox "You must select the first join column!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select the first join column!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If cboJColumn2.Text = "" Then
-    MsgBox "You must select the second join column!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select the second join column!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If cboJColumn2.Text = cboJColumn1.Text Then
-    MsgBox "You cannot join a column to itself!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You cannot join a column to itself!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   
@@ -1524,11 +1524,11 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdColumnDown_Clic
 Dim szTemp As String
 
   If lstIncColumns.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to move!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to move!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If lstIncColumns.SelectedItem.Index = lstIncColumns.ListItems.Count Then
-    MsgBox "This column is already at the bottom!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("This column is already at the bottom!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   szTemp = lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index + 1).Text
@@ -1547,11 +1547,11 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdColumnUp_Click(
 Dim szTemp As String
 
   If lstIncColumns.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to move!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to move!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If lstIncColumns.SelectedItem.Index = 1 Then
-    MsgBox "This column is already at the top!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("This column is already at the top!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   szTemp = lstIncColumns.ListItems(lstIncColumns.SelectedItem.Index - 1).Text
@@ -1633,11 +1633,11 @@ Dim X As Integer
     If Forms(X).hwnd = Me.Tag Then Exit For
   Next
   If X = Forms.Count Then
-    MsgBox "The SQL dialog that this wizard was initiated from appears to have been closed!", vbCritical, "Fatal Error"
+    MsgBox §§TrasLang§§("The SQL dialog that this wizard was initiated from appears to have been closed!"), vbCritical, §§TrasLang§§("Fatal Error")
     Unload Me
     Exit Sub
   End If
-  Forms(X).txtSql.Text = szSQL
+  Forms(X).txtSQL.Text = szSQL
   Unload Me
   
   Exit Sub
@@ -1651,7 +1651,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveColumn_Cl
 Dim iItem As Integer
 
   If lstIncColumns.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to remove!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   lstAllColumns.ListItems.Add , , lstIncColumns.SelectedItem.Text
@@ -1676,11 +1676,11 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveCriteria_Click()", etFullDebug
 
   If lstCriteria.SelectedItem Is Nothing Then
-    MsgBox "You must select a join to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a join to remove!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If lstCriteria.ListItems.Count > 1 And lstCriteria.SelectedItem.Index = 1 Then
-    MsgBox "You must remove all other criteria before you can remove the first!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must remove all other criteria before you can remove the first!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If lstCriteria.ListItems.Count = 1 And lstCriteria.SelectedItem.Index = 1 Then
@@ -1704,7 +1704,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveJoin_Click()", etFullDebug
 
   If lstJoins.SelectedItem Is Nothing Then
-    MsgBox "You must select a join to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a join to remove!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   lstJoins.ListItems.Remove lstJoins.SelectedItem.Index
@@ -1733,7 +1733,7 @@ Dim iItem As Integer
 Dim objItem As ListItem
 
   If lstIncTables.SelectedItem Is Nothing Then
-    MsgBox "You must select a table to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a table to remove!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   Set objItem = lstAllTables.ListItems.Add(, , lstIncTables.SelectedItem.Text)
@@ -1844,7 +1844,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdRemoveSortCol_Click()", etFullDebug
 
   If lstIncSortCols.SelectedItem Is Nothing Then
-    MsgBox "You must select column to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select column to remove!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If Mid(lstIncSortCols.SelectedItem.Text, Len(lstIncSortCols.SelectedItem.Text) - 3, 4) = "DESC" Then
@@ -1875,11 +1875,11 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdSortColDown_Cli
 Dim szTemp As String
 
   If lstIncSortCols.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to move!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to move!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If lstIncSortCols.SelectedItem.Index = lstIncSortCols.ListItems.Count Then
-    MsgBox "This column is already at the bottom!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("This column is already at the bottom!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   szTemp = lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index + 1).Text
@@ -1898,11 +1898,11 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLWizard.cmdSortColUp_Click
 Dim szTemp As String
 
   If lstIncSortCols.SelectedItem Is Nothing Then
-    MsgBox "You must select a column to move!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a column to move!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If lstIncSortCols.SelectedItem.Index = 1 Then
-    MsgBox "This column is already at the top!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("This column is already at the top!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   szTemp = lstIncSortCols.ListItems(lstIncSortCols.SelectedItem.Index - 1).Text

@@ -34,7 +34,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.CopyObjDb", etFullDebu
       frmMain.mnuPopupPaste.Enabled = True
 
     Case Else
-      MsgBox "The current object type cannot be copied!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("The current object type cannot be copied!"), vbExclamation, §§TrasLang§§("Error")
   End Select
 
   Exit Sub
@@ -47,20 +47,20 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":basClone.PasteObjDb", etFullDebug
 
   If ObjDbClone Is Nothing Then
-    MsgBox "You must select an object to copy!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select an object to copy!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   
   Select Case ObjDbClone.ObjectType
     Case "Domain", "Table", "View", "Function", "Aggregate", "Operator", "Type", "OperatorClass"
       If ctx.CurrentNS = "" Then
-        MsgBox "You must select a schema to paste the object into!", vbExclamation, "Error"
+        MsgBox §§TrasLang§§("You must select a schema to paste the object into!"), vbExclamation, §§TrasLang§§("Error")
         Exit Sub
       End If
     
     Case "Cast"
       If ctx.CurrentDB = "" Then
-        MsgBox "You must select a database to paste the new object into!", vbExclamation, "Error"
+        MsgBox §§TrasLang§§("You must select a database to paste the new object into!"), vbExclamation, §§TrasLang§§("Error")
         Exit Sub
       End If
     
@@ -283,17 +283,20 @@ Dim objRule As pgRule
   CloneAcl objNewView
 
   'create rule
-  StartMsg "Creating Rules..."
+  StartMsg §§TrasLang§§("Creating Rules...")
   For Each objRule In ObjDbClone.Rules
     If Not objNewView.Rules.Exists(objRule.Name) Then
       objNewView.Rules.Add objRule.Name, objRule.RuleEvent, objRule.Condition, objRule.DoInstead, objRule.Action, objRule.Comment
     End If
   Next
   
+  EndMsg
   Set CloneView = objNewView
   Exit Function
   
-Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basClone.CloneView"
+Err_Handler:
+  EndMsg
+  If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basClone.CloneView"
 End Function
 
 'clone table
@@ -391,14 +394,14 @@ Dim objTrigger As pgTrigger
   'copy data table
   If bCopyData Then
     If ObjDbClone.Database = objNewTable.Database Then
-      StartMsg "Copying data...."
+      StartMsg §§TrasLang§§("Copying data...")
       szSQL = "INSERT INTO " & fmtID(objNewTable.Namespace) & "." & fmtID(objNewTable.Name) & " SELECT * FROM " & fmtID(ObjDbClone.Namespace) & "." & fmtID(ObjDbClone.Name)
       frmMain.svr.Databases(objNewTable.Database).Execute szSQL
     End If
   End If
   
   'create index
-  StartMsg "Creating Indexes..."
+  StartMsg §§TrasLang§§("Creating Indexes...")
   szColumns = ""
   For Each objIndex In ObjDbClone.Indexes
     'no sistem index
@@ -417,13 +420,13 @@ Dim objTrigger As pgTrigger
   Next
 
   'create rule
-  StartMsg "Creating Rules..."
+  StartMsg §§TrasLang§§("Creating Rules...")
   For Each objRule In ObjDbClone.Rules
     objNewTable.Rules.Add objRule.Name, objRule.RuleEvent, objRule.Condition, objRule.DoInstead, objRule.Action, objRule.Comment
   Next
 
   'create trigger
-  StartMsg "Creating Triggers..."
+  StartMsg §§TrasLang§§("Creating Triggers...")
   For Each objTrigger In ObjDbClone.Triggers
     objNewTable.Triggers.Add objTrigger.Name, objTrigger.TriggerFunction, objTrigger.Executes, objTrigger.TriggerEvent, objTrigger.ForEach, objTrigger.Comment
   Next

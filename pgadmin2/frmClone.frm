@@ -213,7 +213,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmClone.Initialise(" & QUOTE &
     Case "Table"
       If ObjDbClone.Database <> ctx.CurrentDB Then
         optPaste(1).Enabled = False
-        MsgBox "Data can only be copied within the same database!", vbExclamation, "Error"
+        MsgBox §§TrasLang§§("Data can only be copied within the same database!"), vbExclamation, §§TrasLang§§("Error")
       End If
       
     Case "Cast"
@@ -242,7 +242,7 @@ Dim vData
 Dim szTemp As String
 
   If Len(Trim(txtNewName.Text)) = 0 Then
-    MsgBox "The name you have entered is not valid!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("The name you have entered is not valid!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
     
@@ -269,11 +269,11 @@ Dim szTemp As String
   End Select
   
   If objTmp.Exists(txtNewName.Text) Then
-    MsgBox "An object named " & txtNewName.Text & " already exists", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("An object named ") & txtNewName.Text & §§TrasLang§§(" already exists"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   
-  StartMsg "Copying " & ObjDbClone.ObjectType & "..."
+  StartMsg §§TrasLang§§("Copying ") & ObjDbClone.ObjectType & "..."
   'create new object
   Select Case ObjDbClone.ObjectType
     Case "Type"
@@ -282,7 +282,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Types.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TYP-" & GetID, txtNewName.Text, "type")
-      objNode.Text = "Types (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Types (") & objNode.Children & ")"
     
     Case "Conversion"
       Set objTmp = CloneConversion(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
@@ -290,7 +290,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Conversions.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "CNV-" & GetID, txtNewName.Text, "conversion")
-      objNode.Text = "Conversions (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Conversions (") & objNode.Children & ")"
 
     Case "Cast"
       Set objTmp = CloneCast(ctx.CurrentDB)
@@ -298,7 +298,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Casts.Tag
       frmMain.tv.Nodes.Add objNode.Key, tvwChild, "CST-" & GetID, objTmp.Identifier, "cast"
-      objNode.Text = "Casts (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Casts (") & objNode.Children & ")"
     
     Case "Domain"
       Set objTmp = CloneDomain(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
@@ -306,7 +306,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Domains.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "DOM-" & GetID, txtNewName.Text, "domain")
-      objNode.Text = "Domains (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Domains (") & objNode.Children & ")"
       
     Case "Operator"
       Set objTmp = CloneOperator(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
@@ -314,7 +314,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Operators.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPR-" & GetID, txtNewName.Text & " (" & ObjDbClone.LeftOperandType & ", " & ObjDbClone.RightOperandType & ")", "operator")
-      objNode.Text = "Operators (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Operators (") & objNode.Children & ")"
 
     Case "OperatorClass"
       Set objTmp = CloneOperatorClass(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
@@ -322,7 +322,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).OperatorsClass.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPC-" & GetID, txtNewName.Text & " (" & ObjDbClone.AccessMethod & ")", "operatorclass")
-      objNode.Text = "Operators Class (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Operators Class (") & objNode.Children & ")"
     
     Case "Aggregate"
       Set objTmp = CloneAggregate(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
@@ -334,7 +334,7 @@ Dim szTemp As String
       Else
         frmMain.tv.Nodes.Add objNode.Key, tvwChild, "AGG-" & GetID, txtNewName.Text & " " & ObjDbClone.InputType, "aggregate"
       End If
-      objNode.Text = "Aggregates (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Aggregates (") & objNode.Children & ")"
     
     Case "Function"
       Set objTmp = CloneFunction(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
@@ -348,7 +348,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Functions.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "FNC-" & GetID, txtNewName.Text & "(" & szArguments & ")", "function")
-      objNode.Text = "Functions (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Functions (") & objNode.Children & ")"
     
     Case "Table"
       Set objTmp = CloneTable(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS, optPaste(1).Value)
@@ -356,9 +356,9 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "TBL-" & GetID, txtNewName.Text, "table")
-      objNode.Text = "Tables (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Tables (") & objNode.Children & ")"
       
-      MsgBox "Please verify the checks, foreign keys, rules and triggers!", vbSystemModal + vbExclamation
+      MsgBox §§TrasLang§§("Please verify the checks, foreign keys, rules and triggers!"), vbInformation
     
     Case "View"
       Set objTmp = CloneView(txtNewName.Text, ctx.CurrentDB, ctx.CurrentNS)
@@ -366,7 +366,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Views.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "VIE-" & GetID, txtNewName.Text, "view")
-      objNode.Text = "Views (" & objNode.Children & ")"
+      objNode.Text = §§TrasLang§§("Views (") & objNode.Children & ")"
     
     Case "Group"
       Set objTmp = CloneGroup(txtNewName.Text)
@@ -374,7 +374,7 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Groups.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "GRP-" & GetID, txtNewName.Text, "group")
-      objNode.Text = "Groups (" & frmMain.svr.Groups.Count & ")"
+      objNode.Text = §§TrasLang§§("Groups (") & frmMain.svr.Groups.Count & ")"
   
     Case "User"
       Set objTmp = CloneUser(txtNewName.Text)
@@ -382,9 +382,9 @@ Dim szTemp As String
       'Add a new node and update the text on the parent
       Set objNode = frmMain.svr.Users.Tag
       Set objTmp.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "USR-" & GetID, txtNewName.Text, "user")
-      objNode.Text = "Users (" & frmMain.svr.Users.Count & ")"
+      objNode.Text = §§TrasLang§§("Users (") & frmMain.svr.Users.Count & ")"
       
-      MsgBox "The password for the new user is blank!", vbInformation
+      MsgBox §§TrasLang§§("The password for the new user is blank!"), vbInformation
   
   End Select
   

@@ -623,26 +623,26 @@ Dim szGreaterThan As String
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Operator name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Operator name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(2).Text = "" Then
-    MsgBox "You must select a Operator function!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a Operator function!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(2).SetFocus
     Exit Sub
   End If
   If cboProperties(0).Text = "" And cboProperties(1).Text = "" Then
-    MsgBox "You must select at least one operand type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select at least one operand type!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating Operator..."
+    StartMsg §§TrasLang§§("Creating Operator...")
     If Not (cboProperties(0).SelectedItem Is Nothing) Then szFunction = cboProperties(2).SelectedItem.Text
     If Not (cboProperties(4).SelectedItem Is Nothing) Then szCommutator = cboProperties(4).SelectedItem.Text
     If Not (cboProperties(5).SelectedItem Is Nothing) Then szNegator = cboProperties(5).SelectedItem.Text
@@ -658,11 +658,11 @@ Dim szGreaterThan As String
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Operators.Tag
     Set objNewOperator.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPR-" & GetID, txtProperties(0).Text & " (" & cboProperties(0).Text & ", " & cboProperties(1).Text & ")", "Operator")
-    objNode.Text = "Operators (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Operators (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
   
   Else
-    StartMsg "Updating Operator..."
+    StartMsg §§TrasLang§§("Updating Operator...")
     If hbxProperties(0).Tag = "Y" Then objOperator.Comment = hbxProperties(0).Text
   End If
   
@@ -700,7 +700,7 @@ Dim vArgument As Variant
   
     'Create a new Operator
     bNew = True
-    Me.Caption = "Create Operator"
+    Me.Caption = §§TrasLang§§("Create Operator")
     
     'Load the combos
     If ctx.dbVer >= 7.3 Then
@@ -777,7 +777,7 @@ Dim vArgument As Variant
     Set objOperator = Operator
     bNew = False
 
-    Me.Caption = "Operator: " & objOperator.Identifier
+    Me.Caption = §§TrasLang§§("Operator: ") & objOperator.Identifier
     txtProperties(0).Text = objOperator.Name
     txtProperties(1).Text = objOperator.Oid
     txtProperties(2).Text = objOperator.Owner
@@ -977,4 +977,3 @@ Dim objFunction As pgFunction
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmOperator.cboProperties_Click"
 End Sub
-

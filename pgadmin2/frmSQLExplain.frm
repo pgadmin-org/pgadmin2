@@ -2,14 +2,14 @@ VERSION 5.00
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmSQLExplain 
    Caption         =   "Query Plan"
-   ClientHeight    =   3795
+   ClientHeight    =   3792
    ClientLeft      =   60
-   ClientTop       =   345
-   ClientWidth     =   5670
+   ClientTop       =   348
+   ClientWidth     =   5676
    Icon            =   "frmSQLExplain.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3795
-   ScaleWidth      =   5670
+   ScaleHeight     =   3792
+   ScaleWidth      =   5676
    Begin HighlightBox.HBX txtQuery 
       Height          =   1860
       Left            =   0
@@ -22,7 +22,7 @@ Begin VB.Form frmSQLExplain
       BackColor       =   -2147483633
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Size            =   7.8
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -44,7 +44,7 @@ Begin VB.Form frmSQLExplain
       BackColor       =   -2147483633
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
-         Size            =   8.25
+         Size            =   7.8
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -120,7 +120,7 @@ Dim szErrorMsg As String * 1024
 Dim szPlan As String
 Dim rsPlan As New Recordset
 
-  Me.Caption = "Query Plan (Database: " & szDatabase & ")"
+  Me.Caption = §§TrasLang§§("Query Plan (Database: ") & szDatabase & ")"
   txtQuery.Text = szSQL
   txtQuery.ColourText
 
@@ -128,7 +128,7 @@ Dim rsPlan As New Recordset
   'be picked up as a series of 512Byte strings in the Errors collection. This is unreliable though, so
   'we'll use ODBC directly insted <shudder>
   
-  StartMsg "Requesting Query Execution Plan..."
+  StartMsg §§TrasLang§§("Requesting Query Execution Plan...")
   
   'Query plans are returned as resultsets in 7.3+
   If ctx.dbVer >= 7.3 Then
@@ -143,20 +143,20 @@ Dim rsPlan As New Recordset
     
     If txtPlan.Text = "" Then
       frmMain.svr.LogEvent "A Query Execution Plan could not be calculated for the specified SQL query.", etMiniDebug
-      txtPlan.Text = "A Query Execution Plan could not be calculated for the specified SQL query."
+      txtPlan.Text = §§TrasLang§§("A Query Execution Plan could not be calculated for the specified SQL query.")
     End If
   
   Else
     'Initialisze the ODBC subsystem
     If SQLAllocEnv(lEnv) <> 0 Then
       frmMain.svr.LogEvent "Unable to initialize ODBC API drivers!", etMiniDebug
-      MsgBox "Unable to initialize ODBC API drivers!", vbCritical, "Error"
+      MsgBox §§TrasLang§§("Unable to initialize ODBC API drivers!"), vbCritical, §§TrasLang§§("Error")
       GoTo Cleanup
     End If
   
     If SQLAllocConnect(lEnv, lDBC) <> 0 Then
       frmMain.svr.LogEvent "Could not allocate memory for connection Handle!", etMiniDebug
-      MsgBox "Could not allocate memory for connection Handle!", vbCritical, "Error"
+      MsgBox §§TrasLang§§("Could not allocate memory for connection Handle!"), vbCritical, §§TrasLang§§("Error")
       GoTo Cleanup
     End If
   
@@ -164,7 +164,7 @@ Dim rsPlan As New Recordset
     lRet = SQLDriverConnect(lDBC, Me.hwnd, szConnect, Len(szConnect), szResult, Len(szResult), iSize, 1)
     If lRet <> SQL_SUCCESS Then
       frmMain.svr.LogEvent "Could not establish connection to ODBC driver! Error: " & lRet, etMiniDebug
-      MsgBox "Could not establish connection to ODBC driver!" & vbCrLf & "Error: " & lRet, vbCritical, "Error"
+      MsgBox §§TrasLang§§("Could not establish connection to ODBC driver!") & vbCrLf & §§TrasLang§§("Error: ") & lRet, vbCritical, §§TrasLang§§("Error")
       GoTo Cleanup
     End If
     
@@ -173,19 +173,19 @@ Dim rsPlan As New Recordset
     frmMain.svr.LogEvent "ODBC Driver Version: " & szResult, etMiniDebug
     If Val(Mid(szResult, 1, 2)) < 7 Then
        frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
-       MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
+       MsgBox §§TrasLang§§("The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)"), vbExclamation, §§TrasLang§§("Error")
        GoTo Cleanup
     Else
       If Val(Mid(szResult, 1, 2)) = 7 Then
         If Val(Mid(szResult, 4, 2)) < 1 Then
           frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
-          MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
+          MsgBox §§TrasLang§§("The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)"), vbExclamation, §§TrasLang§§("Error")
           GoTo Cleanup
         Else
           If Val(Mid(szResult, 4, 2)) = 1 Then
             If Val(Mid(szResult, 7, 4)) < 6 Then
               frmMain.svr.LogEvent "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", etMiniDebug
-              MsgBox "The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)", vbExclamation, "Error"
+              MsgBox §§TrasLang§§("The installed ODBC driver is not the required version or higher (psqlODBC 07.01.0006)"), vbExclamation, §§TrasLang§§("Error")
               GoTo Cleanup
             End If
           End If
@@ -196,7 +196,7 @@ Dim rsPlan As New Recordset
     'Allocate memory for the statement handle.
     If SQLAllocStmt(lDBC, lStmt) <> 0 Then
       frmMain.svr.LogEvent "Could not allocate memory for a statement handle!", etMiniDebug
-      MsgBox "Could not allocate memory for a statement handle!", vbCritical, "Error"
+      MsgBox §§TrasLang§§("Could not allocate memory for a statement handle!"), vbCritical, §§TrasLang§§("Error")
       Exit Sub
     End If
     
@@ -215,7 +215,7 @@ Dim rsPlan As New Recordset
       txtPlan.ColourText
     Else
       frmMain.svr.LogEvent "A Query Execution Plan could not be calculated for the specified SQL query.", etMiniDebug
-      txtPlan.Text = "A Query Execution Plan could not be calculated for the specified SQL query."
+      txtPlan.Text = §§TrasLang§§("A Query Execution Plan could not be calculated for the specified SQL query.")
     End If
   
 Cleanup:
@@ -234,7 +234,7 @@ Cleanup:
 Err_Handler:
   If Err.Number = -2147467259 Then 'Query cannot be EXPLAINed or is invalid
     frmMain.svr.LogEvent "A Query Execution Plan could not be calculated for the specified SQL query.", etMiniDebug
-    txtPlan.Text = "A Query Execution Plan could not be calculated for the specified SQL query."
+    txtPlan.Text = §§TrasLang§§("A Query Execution Plan could not be calculated for the specified SQL query.")
     EndMsg
     If rsPlan.State <> adStateClosed Then rsPlan.Close
     Set rsPlan = Nothing

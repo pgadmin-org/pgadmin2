@@ -238,7 +238,7 @@ Public Sub Initialise(lError As Long, szError As String, szRoutine As String, bS
   'button send mail
   cmdSendMail.Enabled = bSendMail
 
-  Me.Caption = App.Title & " Error"
+  Me.Caption = App.Title & §§TrasLang§§(" Error")
   
   'show description error
   txtErr.Text = objError.Description & objError.Troubleshooting
@@ -248,18 +248,20 @@ Public Sub Initialise(lError As Long, szError As String, szRoutine As String, bS
   'center form
   Me.Top = (Screen.Height - Me.Height) / 2
   Me.Left = (Screen.Width - Me.Width) / 2
+  
+  PatchForm Me
 End Sub
 
 Private Sub cmdDetails_Click()
-  If cmdDetails.Caption = "D&etails >>" Then
+  If cmdDetails.Caption = §§TrasLang§§("D&etails >>") Then
     Me.Height = Me.Height + txtMore.Height + 60
-    cmdDetails.Caption = "<< D&etails"
+    cmdDetails.Caption = §§TrasLang§§("<< D&etails")
     
     'show detail error
     cmdInfo_Click (4)
   Else
     Me.Height = Me.Height - txtMore.Height - 60
-    cmdDetails.Caption = "D&etails >>"
+    cmdDetails.Caption = §§TrasLang§§("D&etails >>")
   End If
 End Sub
 Private Sub cmdInfo_Click(Index As Integer)
@@ -291,12 +293,12 @@ Dim szMail As String
 Dim szTemp As String
 
   If frmMain.svr.LogLevel = llNone Then
-    MsgBox "Activate log error, Log settings are under Tools -> Options", vbSystemModal + vbInformation, "Activate Log"
+    MsgBox §§TrasLang§§("Activate log error, Log settings are under Tools -> Options"), vbSystemModal + vbInformation, §§TrasLang§§("Activate Log")
     Exit Sub
   End If
 
   If Len(Trim(frmMain.svr.Logfile)) = 0 Then
-    MsgBox "Set log file name, Log settings are under Tools -> Options", vbSystemModal + vbInformation, "Activate Log"
+    MsgBox §§TrasLang§§("Set log file name, Log settings are under Tools -> Options"), vbSystemModal + vbInformation, §§TrasLang§§("Activate Log")
     Exit Sub
   End If
   
@@ -322,7 +324,7 @@ Dim szTemp As String
   'open shell
   ShellExecute hwnd, "open", szMail, vbNullString, vbNullString, SW_SHOW
   
-  MsgBox "Add log file '" & frmMain.svr.Logfile & "' to mail!", vbSystemModal + vbInformation, "Send Error Mail"
+  MsgBox §§TrasLang§§("Add log file '") & frmMain.svr.Logfile & §§TrasLang§§("' to mail!"), vbInformation, §§TrasLang§§("Send Error Mail")
 End Sub
 
 Private Sub cmdContinue_Click()

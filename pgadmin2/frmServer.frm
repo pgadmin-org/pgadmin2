@@ -1,17 +1,17 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmServer 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Server"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   5520
    Icon            =   "frmServer.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdOK 
@@ -179,12 +179,12 @@ Begin VB.Form frmServer
          ToolTipText     =   "The ODBC connection string used by the primary connection."
          Top             =   4140
          Width           =   5190
-         _ExtentX        =   9155
+         _ExtentX        =   9165
          _ExtentY        =   3281
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -321,7 +321,7 @@ Dim X As Integer
   
   PatchForm Me
   
-  Me.Caption = "Server: " & objServer.Identifier
+  Me.Caption = §§TrasLang§§("Server: ") & objServer.Identifier
 
   txtProperties(0).Text = objServer.Server
   txtProperties(1).Text = objServer.Port

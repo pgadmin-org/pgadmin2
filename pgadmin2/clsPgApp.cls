@@ -53,6 +53,7 @@ Public frmSQLOutput As pgAdmin2.frmSQLOutput                                    
 Public frmSQLWizard As pgAdmin2.frmSQLWizard                                    'frmSQLWizard.frm
 Public frmTable As pgAdmin2.frmTable                                            'frmTable.frm
 Public frmTip As pgAdmin2.frmTip                                                'frmTip.frm
+Public frmTrasLang As pgAdmin2.frmTrasLang                                      'frmTrasLang.frm
 Public frmTrigger As pgAdmin2.frmTrigger                                        'frmTrigger.frm
 Public frmType As pgAdmin2.frmType                                              'frmType.frm
 Public frmUpgradeWizard As pgAdmin2.frmUpgradeWizard                            'frmUpgradeWizard.frm
@@ -175,6 +176,25 @@ End Sub
 'Module: basGlobal
 'File: basGlobal.bas
 ''''''''''''''''''''''''''''''''''''''''''''''''''
+'Module: basLang
+'File: basLang.bas
+'Startup Language
+Public Sub InitLang(ByVal Lang As String)
+  Call basLang.InitLang(Lang)
+End Sub
+
+'extract string from source
+Public Sub ExtractStringFromSource()
+  Call basLang.ExtractStringFromSource()
+
+End Sub
+
+'merge template file and lang file
+Public Sub MergeLangFileString(ByVal Lang As String)
+  Call basLang.MergeLangFileString(Lang)
+End Sub
+
+''''''''''''''''''''''''''''''''''''''''''''''''''
 'Module: basMisc
 'File: basMisc.bas
 Public Sub Main()
@@ -264,6 +284,18 @@ End Function
 'Convert yes/no string in Boolean value
 Public Function YesNoToBool(ByVal szData As String) As String
   YesNoToBool = basMisc.YesNoToBool(szData)
+End Function
+
+Public Function BrowseFolder(hwnd As Long, DialogTitle As String) As String
+  BrowseFolder = basMisc.BrowseFolder(hwnd,DialogTitle)
+End Function
+
+Public Function ReadTextFile(ByVal PathFile As String) As String
+  ReadTextFile = basMisc.ReadTextFile(PathFile)
+End Function
+
+Public Function WriteTextFile(ByVal PathFile As String, ByVal szData As String) As String
+  WriteTextFile = basMisc.WriteTextFile(PathFile,szData)
 End Function
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1120,11 +1152,17 @@ Public Function ConstByName(szName As String)
     case LCase("VER_PLATFORM_WIN32_NT")
       ConstByName=VER_PLATFORM_WIN32_NT
 
+    case LCase("BIF_RETURNONLYFSDIRS")
+      ConstByName=BIF_RETURNONLYFSDIRS
+
     case LCase("SUPPORT_EMAIL")
       ConstByName=SUPPORT_EMAIL
 
-    case LCase("QUOTE")
-      ConstByName=QUOTE
+    case LCase("Quote")
+      ConstByName=Quote
+
+    case LCase("TEMPLATE_FILE_LANG")
+      ConstByName=TEMPLATE_FILE_LANG
 
   End Select
 End Function

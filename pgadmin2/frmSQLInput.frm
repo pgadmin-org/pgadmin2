@@ -133,8 +133,6 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdExecute_Click()", etFullDebug
 
 Dim rsQuery As New Recordset
-Dim szBits() As String
-Dim vBit As Variant
 Dim szSQL As String
 
   If Len(txtSQL.Text) < 5 Then Exit Sub
@@ -147,7 +145,7 @@ Dim szSQL As String
   
   RegWrite HKEY_CURRENT_USER, "Software\" & App.Title, "Recordset Viewer", regString, cboExporters.Text
   
-  StartMsg "Executing SQL Query..."
+  StartMsg §§TrasLang§§("Executing SQL Query...")
   
   'change CRLF -> LF
   szSQL = Replace(szSQL, vbCrLf, vbLf)
@@ -167,7 +165,7 @@ Dim szSQL As String
     End Select
   Else
     EndMsg
-    MsgBox "Query Executed OK!", vbInformation
+    MsgBox §§TrasLang§§("Query Executed OK!"), vbInformation
   End If
   StoreCmdSql szSQL
 
@@ -203,11 +201,11 @@ Dim szFile As String
 Dim fNum As Integer
 
   If bDirty = True Then
-    If MsgBox("This query has been edited - do you wish to save it?", vbQuestion + vbYesNo, "Save Query") = vbYes Then cmdSave_Click
+    If MsgBox(§§TrasLang§§("This query has been edited - do you wish to save it?"), vbQuestion + vbYesNo, §§TrasLang§§("Save Query")) = vbYes Then cmdSave_Click
   End If
   
   With cdlg
-    .DialogTitle = "Load SQL Query"
+    .DialogTitle = §§TrasLang§§("Load SQL Query")
     .FLAGS = cdlOFNFileMustExist + cdlOFNHideReadOnly
     .Filter = "SQL Scripts (*.sql)|*.sql|All Files (*.*)|*.*"
     .FileName = ""
@@ -246,13 +244,15 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdVQB_Click()", et
 
 Dim objVQBForm As New frmVisualQueryBuilder
 
-  StartMsg "Visual Query Builder in progress..."
+  StartMsg §§TrasLang§§("Visual Query Builder in progress...")
   
   Load objVQBForm
-  objVQBForm.Tag = Me.hwnd
-  objVQBForm.Caption = "Visual Query Builder " & Me.Tag & ": " & szDatabase
-  objVQBForm.Initialise szDatabase, Me
-  objVQBForm.Show
+  With objVQBForm
+    .Tag = Me.hwnd
+    .Caption = §§TrasLang§§("Visual Query Builder ") & Me.Tag & ": " & szDatabase
+    .Initialise szDatabase, Me
+    .Show
+  End With
   EndMsg
   Exit Sub
 
@@ -294,17 +294,17 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSave_Click()", e
 Dim fNum As Integer
 
   With cdlg
-    .DialogTitle = "Save SQL Query"
+    .DialogTitle = §§TrasLang§§("Save SQL Query")
     .Filter = "SQL Scripts (*.sql)|*.sql"
     .CancelError = True
     .ShowSave
   End With
   If cdlg.FileName = "" Then
-    MsgBox "No filename specified - SQL query not saved.", vbExclamation, "Warning"
+    MsgBox §§TrasLang§§("No filename specified - SQL query not saved."), vbExclamation, §§TrasLang§§("Warning")
     Exit Sub
   End If
   If Dir(cdlg.FileName) <> "" Then
-    If MsgBox("File exists - overwrite?", vbYesNo + vbQuestion, "Overwrite File") = vbNo Then
+    If MsgBox(§§TrasLang§§("File exists - overwrite?"), vbYesNo + vbQuestion, ("Overwrite File")) = vbNo Then
       cmdSave_Click
       Exit Sub
     End If
@@ -333,7 +333,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.cmdSQLWizard_Click(
 Dim objSQLWizardForm As New frmSQLWizard
   Load objSQLWizardForm
   objSQLWizardForm.Tag = Me.hwnd
-  objSQLWizardForm.Caption = "SQL Wizard " & Me.Tag & ": " & szDatabase
+  objSQLWizardForm.Caption = §§TrasLang§§("SQL Wizard ") & Me.Tag & ": " & szDatabase
   objSQLWizardForm.Initialise szDatabase
   objSQLWizardForm.Show
 
@@ -409,7 +409,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmSQLInput.Form_Unload()", etFullDebug
 
   If bDirty = True Then
-    Select Case MsgBox("This query has been edited - do you wish to save it?", vbQuestion + vbYesNoCancel, "Save Query")
+    Select Case MsgBox(§§TrasLang§§("This query has been edited - do you wish to save it?"), vbQuestion + vbYesNoCancel, §§TrasLang§§("Save Query"))
       Case vbYes
         cmdSave_Click
       Case vbCancel

@@ -6,8 +6,8 @@ Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmMain 
    Caption         =   "pgAdmin II"
    ClientHeight    =   6660
-   ClientLeft      =   3120
-   ClientTop       =   1668
+   ClientLeft      =   1728
+   ClientTop       =   1992
    ClientWidth     =   9684
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
@@ -577,7 +577,7 @@ Begin VB.Form frmMain
       Tab(3).Control(0)=   "lvLock"
       Tab(3).ControlCount=   1
       Begin MSComctlLib.ListView lv 
-         Height          =   2655
+         Height          =   2652
          Left            =   45
          TabIndex        =   5
          Top             =   45
@@ -845,6 +845,12 @@ Begin VB.Form frmMain
          Caption         =   "&Options..."
          Shortcut        =   ^O
       End
+      Begin VB.Menu mnuToolsUtility 
+         Caption         =   "Utility"
+         Begin VB.Menu mnuToolsUtilityLangTras 
+            Caption         =   "&Language Traslation..."
+         End
+      End
    End
    Begin VB.Menu mnuView 
       Caption         =   "&View"
@@ -1037,6 +1043,13 @@ Begin VB.Form frmMain
       End
       Begin VB.Menu mnuPopupStopRecording 
          Caption         =   "&Stop Recording"
+         Enabled         =   0   'False
+      End
+      Begin VB.Menu mnuPopupSep6 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuPopupGenDbDoc 
+         Caption         =   "&Generate Documentation..."
          Enabled         =   0   'False
       End
    End
@@ -1251,6 +1264,7 @@ End Sub
 Private Sub mnuToolsFindObject_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsFindObjDb_Click()", etFullDebug
+
 Dim objFindForm As New frmFind
 
   Load objFindForm
@@ -1259,6 +1273,18 @@ Dim objFindForm As New frmFind
   Exit Sub
 
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsFindObject_Click"
+End Sub
+
+
+Private Sub mnuToolsUtilityLangTras_Click()
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+svr.LogEvent "Entering " & App.Title & ":frmMain.mnuToolsUtilityLangTras_Click()", etFullDebug
+
+  frmTrasLang.Initialise
+  frmTrasLang.Show
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.mnuToolsUtilityLangTras_Click"
 End Sub
 
 Private Sub tv_DragDrop(Source As Control, X As Single, Y As Single)
@@ -1419,7 +1445,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuViewSystemObjects_Click()", 
 Dim objNode As Node
 
   If tv.Nodes.Count > 0 Then
-    If MsgBox("This will cause the treeview to be collapsed and rebuilt. Are you sure you wish to continue?", vbQuestion + vbYesNo, "Collapse Treeview") = vbNo Then Exit Sub
+    If MsgBox(§§TrasLang§§("This will cause the treeview to be collapsed and rebuilt. Are you sure you wish to continue?"), vbQuestion + vbYesNo, §§TrasLang§§("Collapse Treeview")) = vbNo Then Exit Sub
   End If
   
   If mnuViewSystemObjects.Checked = False Then
@@ -1478,25 +1504,25 @@ Dim fNum As Integer
 Dim bResetSequences As Boolean
 
   'Reset Sequences
-  If MsgBox("Do you wish to reset Sequence values to zero in the output file?", vbQuestion + vbYesNo, "Reset Sequences") = vbYes Then bResetSequences = True
+  If MsgBox(§§TrasLang§§("Do you wish to reset Sequence values to zero in the output file?"), vbQuestion + vbYesNo, §§TrasLang§§("Reset Sequences")) = vbYes Then bResetSequences = True
   
   With cdlg
-    .DialogTitle = "Save Database Schema"
+    .DialogTitle = §§TrasLang§§("Save Database Schema")
     .Filter = "SQL Scripts (*.sql)|*.sql"
     .CancelError = True
     .ShowSave
   End With
   If cdlg.FileName = "" Then
-    MsgBox "No filename specified - Database Schema not saved.", vbExclamation, "Warning"
+    MsgBox §§TrasLang§§("No filename specified - Database Schema not saved."), vbExclamation, §§TrasLang§§("Warning")
     Exit Sub
   End If
   If Dir(cdlg.FileName) <> "" Then
-    If MsgBox("File exists - overwrite?", vbYesNo + vbQuestion, "Overwrite File") = vbNo Then mnuFileSaveDbSchema_Click
+    If MsgBox(§§TrasLang§§("File exists - overwrite?"), vbYesNo + vbQuestion, §§TrasLang§§("Overwrite File")) = vbNo Then mnuFileSaveDbSchema_Click
   End If
   fNum = FreeFile
   svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Output As #fNum
-  StartMsg "Saving Database Schema..."
+  StartMsg §§TrasLang§§("Saving Database Schema...")
   Print #fNum, "-- " & App.Title & " v" & App.Major & "." & App.Minor & "." & App.Revision & " Database Schema Dump" & vbCrLf
   Print #fNum, svr.Databases(ctx.CurrentDB).Schema(bResetSequences)
   EndMsg
@@ -1519,22 +1545,22 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuFileSaveDefinition_Click()",
 Dim fNum As Integer
 
   With cdlg
-    .DialogTitle = "Save Object Definition"
+    .DialogTitle = §§TrasLang§§("Save Object Definition")
     .Filter = "SQL Scripts (*.sql)|*.sql"
     .CancelError = True
     .ShowSave
   End With
   If cdlg.FileName = "" Then
-    MsgBox "No filename specified - Object Definition not saved.", vbExclamation, "Warning"
+    MsgBox §§TrasLang§§("No filename specified - Object Definition not saved."), vbExclamation, §§TrasLang§§("Warning")
     Exit Sub
   End If
   If Dir(cdlg.FileName) <> "" Then
-    If MsgBox("File exists - overwrite?", vbYesNo + vbQuestion, "Overwrite File") = vbNo Then mnuFileSaveDefinition_Click
+    If MsgBox(§§TrasLang§§("File exists - overwrite?"), vbYesNo + vbQuestion, §§TrasLang§§("Overwrite File")) = vbNo Then mnuFileSaveDefinition_Click
   End If
   fNum = FreeFile
   svr.LogEvent "Writing " & cdlg.FileName, etMiniDebug
   Open cdlg.FileName For Output As #fNum
-  StartMsg "Saving Object Definition..."
+  StartMsg §§TrasLang§§("Saving Object Definition...")
   Print #fNum, txtDefinition.Text
   EndMsg
   Close #fNum
@@ -1757,7 +1783,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupResetStat_Click()", etFullDebug
 
   'reset statistic
-  If MsgBox("Are you sure you wish to reset the database statistics?", vbApplicationModal + vbYesNo + vbQuestion) = vbYes Then
+  If MsgBox(§§TrasLang§§("Are you sure you wish to reset the database statistics?"), vbApplicationModal + vbYesNo + vbQuestion) = vbYes Then
     svr.Databases(ctx.CurrentDB).Execute "SELECT pg_stat_reset()"
   End If
   
@@ -1928,7 +1954,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.mnuPopupProperties_Click()", et
           objViewForm.Show
           
         Case Else
-          MsgBox "Cannot display properties for the current object.", vbExclamation, "Error"
+          MsgBox §§TrasLang§§("Cannot display properties for the current object."), vbExclamation, §§TrasLang§§("Error")
       End Select
   
   Exit Sub
@@ -1952,6 +1978,7 @@ Dim X As Integer
   Load objSQLInputForm
   objSQLInputForm.Tag = Y
   objSQLInputForm.Caption = "SQL " & Y & ": " & ctx.CurrentDB & " ()"
+  PatchForm objSQLInputForm
   objSQLInputForm.Show
   
   Exit Sub
@@ -1967,7 +1994,7 @@ Dim rsQuery As New Recordset
 Dim szSQL As String
 
   'count row
-  StartMsg "Counting Records..."
+  StartMsg §§TrasLang§§("Counting Records...")
   Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute("SELECT count(*) AS count FROM " & ctx.CurrentObject.FormattedID)
   EndMsg
   
@@ -1976,7 +2003,7 @@ Dim szSQL As String
   'verify limit output
   If Not rsQuery.EOF Then
     If rsQuery!Count > ctx.MaxRecordViewData Then
-      Select Case MsgBox("The query will return " & rsQuery!Count & " rows. Do you wish to LIMIT the output on " & ctx.MaxRecordViewData & " rows ?", vbApplicationModal + vbYesNoCancel + vbQuestion, "Row limit")
+      Select Case MsgBox(§§TrasLang§§("The query will return ") & rsQuery!Count & §§TrasLang§§(" rows. Do you wish to LIMIT the output on ") & ctx.MaxRecordViewData & §§TrasLang§§(" rows ?"), vbApplicationModal + vbYesNoCancel + vbQuestion, §§TrasLang§§("Row limit"))
         Case vbCancel
           Exit Sub
         Case vbYes
@@ -1985,7 +2012,7 @@ Dim szSQL As String
     End If
   End If
 
-  StartMsg "Executing SQL Query..."
+  StartMsg §§TrasLang§§("Executing SQL Query...")
   Set rsQuery = frmMain.svr.Databases(ctx.CurrentDB).Execute(szSQL)
   Load objOutputForm
   objOutputForm.Display rsQuery, ctx.CurrentDB, "(" & ctx.CurrentObject.ObjectType & ": " & ctx.CurrentObject.FormattedID & ")"
@@ -2036,7 +2063,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonClick(" & Button & ")"
     Case "stop"
       mnuPopupStopRecording_Click
     Case Else
-      MsgBox "Unknown menu button pressed.", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("Unknown menu button pressed."), vbExclamation, §§TrasLang§§("Error")
   End Select
   
   Exit Sub
@@ -2382,7 +2409,7 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.tb_ButtonMenuClick(" & ButtonMe
       End Select
       
     Case Else
-      MsgBox "Unknown button menu option pressed."
+      MsgBox §§TrasLang§§("Unknown button menu option pressed.")
       
   End Select
   
@@ -2469,34 +2496,34 @@ End Sub
 
 Private Sub tvServer(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvServer(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvServer(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
     
   If Node.Children = 0 Then
-    Set ctx.CurrentObject.Databases.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DAT+" & GetID, "Databases (" & ctx.CurrentObject.Databases.Count(Not ctx.IncludeSys) & ")", "database")
-    Set ctx.CurrentObject.Groups.Tag = tv.Nodes.Add(Node.Key, tvwChild, "GRP+" & GetID, "Groups (" & ctx.CurrentObject.Groups.Count & ")", "group")
-    Set ctx.CurrentObject.Users.Tag = tv.Nodes.Add(Node.Key, tvwChild, "USR+" & GetID, "Users (" & ctx.CurrentObject.Users.Count & ")", "user")
+    Set ctx.CurrentObject.Databases.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DAT+" & GetID, §§TrasLang§§("Databases (") & ctx.CurrentObject.Databases.Count(Not ctx.IncludeSys) & ")", "database")
+    Set ctx.CurrentObject.Groups.Tag = tv.Nodes.Add(Node.Key, tvwChild, "GRP+" & GetID, §§TrasLang§§("Groups (") & ctx.CurrentObject.Groups.Count & ")", "group")
+    Set ctx.CurrentObject.Users.Tag = tv.Nodes.Add(Node.Key, tvwChild, "USR+" & GetID, §§TrasLang§§("Users (") & ctx.CurrentObject.Users.Count & ")", "user")
   End If
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Hostname", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Hostname"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Server & ""
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Port", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Port"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Port
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Username", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Username"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Username
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Last system OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Last system OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.LastSystemOID
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ODBC driver", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ODBC driver"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.DriverName
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ODBC driver version", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ODBC driver version"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.DriverVersion.Major & "." & ctx.CurrentObject.DriverVersion.Minor & "." & ctx.CurrentObject.DriverVersion.Revision
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "PostgreSQL version", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("PostgreSQL version"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.dbVersion.Major & "." & ctx.CurrentObject.dbVersion.Minor & "." & ctx.CurrentObject.dbVersion.Revision
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "DBMS", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("DBMS"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.dbVersion.Description
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Connection string", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Connection string"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ConnectionString
   
   Exit Sub
@@ -2505,7 +2532,7 @@ End Sub
 
 Private Sub svServer(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svServer(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svServer(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -2514,10 +2541,10 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT datname, procpid, usename, current_query FROM pg_stat_activity")
-    sv.ColumnHeaders.Add , , "Database"
-    sv.ColumnHeaders.Add , , "PID"
-    sv.ColumnHeaders.Add , , "Username"
-    sv.ColumnHeaders.Add , , "Current Query"
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Database")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("PID")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Username")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Current Query")
   
     While Not rsStat.EOF
       If Not (svr.Databases(rsStat!datname).SystemObject And Not ctx.IncludeSys) Then
@@ -2531,8 +2558,8 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -2544,7 +2571,7 @@ End Sub
 
 Private Sub tvDatabases(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabases(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabases(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim dat As pgDatabase
@@ -2570,10 +2597,10 @@ Dim dat As pgDatabase
         End If
       End If
     Next dat
-    Node.Text = "Databases (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Databases (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Database"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Database")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each dat In svr.Databases
     If Not (dat.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "DAT-" & GetID, dat.Identifier, "database", "database")
@@ -2587,7 +2614,7 @@ End Sub
 
 Private Sub svDatabases(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabases(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabases(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -2596,12 +2623,12 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT datname, numbackends, xact_commit, xact_rollback, blks_read, blks_hit FROM pg_stat_database ORDER BY datname")
-    sv.ColumnHeaders.Add , , "Database", 2000
-    sv.ColumnHeaders.Add , , "Backends", 1500
-    sv.ColumnHeaders.Add , , "Xact Committed", 1500
-    sv.ColumnHeaders.Add , , "Xact Rolled Back", 1500
-    sv.ColumnHeaders.Add , , "Blocks Read", 1500
-    sv.ColumnHeaders.Add , , "Blocks Hit", 1500
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Database"), 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Backends"), 1500
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Xact Committed"), 1500
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Xact Rolled Back"), 1500
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Blocks Read"), 1500
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Blocks Hit"), 1500
   
     While Not rsStat.EOF
       If svr.Databases.Exists(rsStat!datname) Then
@@ -2619,8 +2646,8 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -2632,7 +2659,7 @@ End Sub
 
 Private Sub tvDatabase(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDatabase(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim objVar As pgVar
@@ -2655,28 +2682,28 @@ Dim szTemp As String
   
   If svr.Databases(Node.Text).Status = statOpen Then
     If Node.Children = 0 Then
-      If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Casts.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CST+" & GetID, "Casts (" & ctx.CurrentObject.Casts.Count(Not ctx.IncludeSys) & ")", "cast")
-      Set ctx.CurrentObject.Languages.Tag = tv.Nodes.Add(Node.Key, tvwChild, "LNG+" & GetID, "Languages (" & ctx.CurrentObject.Languages.Count(Not ctx.IncludeSys) & ")", "language")
-      Set ctx.CurrentObject.Namespaces.Tag = tv.Nodes.Add(Node.Key, tvwChild, "NSP+" & GetID, "Schemas (" & ctx.CurrentObject.Namespaces.Count(Not ctx.IncludeSys) & ")", "namespace")
+      If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Casts.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CST+" & GetID, §§TrasLang§§("Casts (") & ctx.CurrentObject.Casts.Count(Not ctx.IncludeSys) & ")", "cast")
+      Set ctx.CurrentObject.Languages.Tag = tv.Nodes.Add(Node.Key, tvwChild, "LNG+" & GetID, §§TrasLang§§("Languages (") & ctx.CurrentObject.Languages.Count(Not ctx.IncludeSys) & ")", "language")
+      Set ctx.CurrentObject.Namespaces.Tag = tv.Nodes.Add(Node.Key, tvwChild, "NSP+" & GetID, §§TrasLang§§("Schemas (") & ctx.CurrentObject.Namespaces.Count(Not ctx.IncludeSys) & ")", "namespace")
     End If
   Else
     Node.Image = "baddatabase"
   End If
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ACL"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Path", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Path"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Path
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Server Encoding", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Server Encoding"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ServerEncoding
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Variables", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Variables"), "property", "property")
   If ctx.CurrentObject.Status = statOpen Then
     For Each objVar In ctx.CurrentObject.DatabaseVars
       szTemp = szTemp & "{" & objVar.Name & " = " & objVar.Value & "}, "
@@ -2684,19 +2711,19 @@ Dim szTemp As String
     If Len(szTemp) > 2 Then szTemp = Mid(szTemp, 1, Len(szTemp) - 2)
     lvItem.SubItems(1) = szTemp
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Allow Connections?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Allow Connections?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.AllowConnections)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Connection Status?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Connection Status?"), "property", "property")
   If ctx.CurrentObject.Status = statInaccessible Then
-    lvItem.SubItems(1) = "Inaccessible"
+    lvItem.SubItems(1) = §§TrasLang§§("Inaccessible")
   ElseIf ctx.CurrentObject.Status = statOpen Then
-    lvItem.SubItems(1) = "Connected"
+    lvItem.SubItems(1) = §§TrasLang§§("Connected")
   Else
-    lvItem.SubItems(1) = "Not connected"
+    lvItem.SubItems(1) = §§TrasLang§§("Not connected")
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Database?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Database?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
@@ -2709,7 +2736,7 @@ End Sub
 
 Private Sub svDatabase(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -2718,19 +2745,19 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(svr.MasterDB).Execute("SELECT numbackends, xact_commit, xact_rollback, blks_read, blks_hit FROM pg_stat_database WHERE datname = '" & Node.Text & "'")
-    sv.ColumnHeaders.Add , , "Statistic"
-    sv.ColumnHeaders.Add , , "Value"
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistic")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Value")
   
     If Not rsStat.EOF Then
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Backends", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Backends"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!numbackends & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Xact Committed", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Xact Committed"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!xact_commit & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Xact Rolled Back", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Xact Rolled Back"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!xact_rollback & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Blocks Read", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Blocks Read"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!blks_read & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Blocks Hit", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Blocks Hit"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!blks_hit & ""
     Else
       ClearStats
@@ -2738,8 +2765,8 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -2751,7 +2778,7 @@ End Sub
 
 Private Sub tvGroups(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvGroups(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvGroups(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -2765,11 +2792,11 @@ Dim grp As pgGroup
     For Each grp In svr.Groups
       Set grp.Tag = tv.Nodes.Add(Node.Key, tvwChild, "GRP-" & GetID, grp.Identifier, "group")
     Next grp
-    Node.Text = "Groups (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Groups (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Group"
-  lv.ColumnHeaders.Add , , "Group ID"
-  lv.ColumnHeaders.Add , , "Members"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Group")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Group ID")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Members")
   For Each grp In svr.Groups
     Set lvItem = lv.ListItems.Add(, "GRP-" & GetID, grp.Identifier, "group", "group")
     lvItem.SubItems(1) = grp.ID
@@ -2786,21 +2813,21 @@ End Sub
 
 Private Sub tvGroup(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvGroup(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvGroup(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Group ID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Group ID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ID
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Member Count", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Member Count"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Members.Count
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Members", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Members"), "property", "property")
   For Each vData In ctx.CurrentObject.Members
     szTemp = szTemp & vData & ", "
   Next vData
@@ -2815,7 +2842,7 @@ End Sub
 
 Private Sub tvUsers(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvUsers(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvUsers(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim usr As pgUser
@@ -2827,11 +2854,11 @@ Dim usr As pgUser
     For Each usr In svr.Users
       Set usr.Tag = tv.Nodes.Add(Node.Key, tvwChild, "USR-" & GetID, usr.Identifier, "user")
     Next usr
-    Node.Text = "Users (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Users (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Username"
-  lv.ColumnHeaders.Add , , "User ID"
-  lv.ColumnHeaders.Add , , "Account Expires"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Username")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("User ID")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Account Expires")
   For Each usr In svr.Users
     Set lvItem = lv.ListItems.Add(, "USR-" & GetID, usr.Identifier, "user", "user")
     lvItem.SubItems(1) = usr.ID
@@ -2844,27 +2871,27 @@ End Sub
 
 Private Sub tvUser(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvUser(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvUser(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
 Dim objVar As pgVar
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "User ID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("User ID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ID
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Account Expires", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Account Expires"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.AccountExpires
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Create Databases?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Create Databases?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.CreateDatabases)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Superuser?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Superuser?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Superuser)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Update Catalogues", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Update Catalogues"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.UpdateCatalogues)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Variables", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Variables"), "property", "property")
   For Each objVar In ctx.CurrentObject.UserVars
     szTemp = szTemp & "{" & objVar.Name & " = " & objVar.Value & "}, "
   Next objVar
@@ -2880,7 +2907,7 @@ End Sub
 
 Private Sub tvCasts(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvCasts(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvCasts(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim cst As pgCast
@@ -2892,9 +2919,9 @@ Dim cst As pgCast
     For Each cst In svr.Databases(Node.Parent.Text).Casts
       If Not (cst.SystemObject And Not ctx.IncludeSys) Then Set cst.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CST-" & GetID, cst.Identifier, "cast")
     Next cst
-    Node.Text = "Casts (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Casts (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Cast", lv.Width
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Cast"), lv.Width
   For Each cst In svr.Databases(Node.Parent.Text).Casts
     If Not (cst.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "CST-" & GetID, cst.Identifier, "cast", "cast")
@@ -2907,26 +2934,26 @@ End Sub
 
 Private Sub tvCast(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvCast(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvCast(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
   
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Type source", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Type source"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Source
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Type target", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Type target"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Target
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Funct
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Context", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Context"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Context
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Cast?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Cast?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   
   'Set the Definition Pane
@@ -2938,7 +2965,7 @@ End Sub
 
 Private Sub tvLanguages(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguages(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguages(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim lng As pgLanguage
@@ -2950,9 +2977,9 @@ Dim lng As pgLanguage
     For Each lng In svr.Databases(Node.Parent.Text).Languages
       If Not (lng.SystemObject And Not ctx.IncludeSys) Then Set lng.Tag = tv.Nodes.Add(Node.Key, tvwChild, "LNG-" & GetID, lng.Identifier, "language")
     Next lng
-    Node.Text = "Languages (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Languages (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Language", lv.Width
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Language"), lv.Width
   For Each lng In svr.Databases(Node.Parent.Text).Languages
     If Not (lng.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "LNG-" & GetID, lng.Identifier, "language", "language")
@@ -2965,23 +2992,23 @@ End Sub
 
 Private Sub tvLanguage(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguage(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvLanguage(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ACL"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Handler", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Handler"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Handler
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Trusted?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Trusted?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Trusted)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Language?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Language?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   
   'Set the Definition Pane
@@ -2993,7 +3020,7 @@ End Sub
 
 Private Sub tvNamespaces(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvNamespaces(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvNamespaces(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim nsp As pgNamespace
@@ -3005,10 +3032,10 @@ Dim nsp As pgNamespace
     For Each nsp In svr.Databases(Node.Parent.Text).Namespaces
       If Not (nsp.SystemObject And Not ctx.IncludeSys) Then Set nsp.Tag = tv.Nodes.Add(Node.Key, tvwChild, "NSP-" & GetID, nsp.Identifier, "namespace")
     Next nsp
-    Node.Text = "Schemas (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Schemas (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Schema"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Schema")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each nsp In svr.Databases(Node.Parent.Text).Namespaces
     If Not (nsp.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "NSP-" & GetID, nsp.Identifier, "namespace", "namespace")
@@ -3022,36 +3049,36 @@ End Sub
 
 Private Sub tvNamespace(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvNamespace(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvNamespace(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
   If Node.Children = 0 Then
-    Set ctx.CurrentObject.Aggregates.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG+" & GetID, "Aggregates (" & ctx.CurrentObject.Aggregates.Count(Not ctx.IncludeSys) & ")", "aggregate")
-    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Conversions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CNV+" & GetID, "Conversions (" & ctx.CurrentObject.Conversions.Count(Not ctx.IncludeSys) & ")", "conversion")
-    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, "Domains (" & ctx.CurrentObject.Domains.Count(Not ctx.IncludeSys) & ")", "domain")
-    Set ctx.CurrentObject.Functions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC+" & GetID, "Functions (" & ctx.CurrentObject.Functions.Count(Not ctx.IncludeSys) & ")", "function")
-    Set ctx.CurrentObject.Operators.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR+" & GetID, "Operators (" & ctx.CurrentObject.Operators.Count(Not ctx.IncludeSys) & ")", "operator")
-    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.OperatorsClass.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPC+" & GetID, "Operators Class (" & ctx.CurrentObject.OperatorsClass.Count(Not ctx.IncludeSys) & ")", "operatorclass")
-    Set ctx.CurrentObject.Sequences.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ+" & GetID, "Sequences (" & ctx.CurrentObject.Sequences.Count(Not ctx.IncludeSys) & ")", "sequence")
-    Set ctx.CurrentObject.Tables.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TBL+" & GetID, "Tables (" & ctx.CurrentObject.Tables.Count(Not ctx.IncludeSys) & ")", "table")
-    Set ctx.CurrentObject.Types.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TYP+" & GetID, "Types (" & ctx.CurrentObject.Types.Count(Not ctx.IncludeSys) & ")", "type")
-    Set ctx.CurrentObject.Views.Tag = tv.Nodes.Add(Node.Key, tvwChild, "VIE+" & GetID, "Views (" & ctx.CurrentObject.Views.Count(Not ctx.IncludeSys) & ")", "view")
+    Set ctx.CurrentObject.Aggregates.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG+" & GetID, §§TrasLang§§("Aggregates (") & ctx.CurrentObject.Aggregates.Count(Not ctx.IncludeSys) & ")", "aggregate")
+    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Conversions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CNV+" & GetID, §§TrasLang§§("Conversions (") & ctx.CurrentObject.Conversions.Count(Not ctx.IncludeSys) & ")", "conversion")
+    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.Domains.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM+" & GetID, §§TrasLang§§("Domains (") & ctx.CurrentObject.Domains.Count(Not ctx.IncludeSys) & ")", "domain")
+    Set ctx.CurrentObject.Functions.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC+" & GetID, §§TrasLang§§("Functions (") & ctx.CurrentObject.Functions.Count(Not ctx.IncludeSys) & ")", "function")
+    Set ctx.CurrentObject.Operators.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR+" & GetID, §§TrasLang§§("Operators (") & ctx.CurrentObject.Operators.Count(Not ctx.IncludeSys) & ")", "operator")
+    If ctx.dbVer >= 7.3 Then Set ctx.CurrentObject.OperatorsClass.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPC+" & GetID, §§TrasLang§§("Operators Class (") & ctx.CurrentObject.OperatorsClass.Count(Not ctx.IncludeSys) & ")", "operatorclass")
+    Set ctx.CurrentObject.Sequences.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ+" & GetID, §§TrasLang§§("Sequences (") & ctx.CurrentObject.Sequences.Count(Not ctx.IncludeSys) & ")", "sequence")
+    Set ctx.CurrentObject.Tables.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TBL+" & GetID, §§TrasLang§§("Tables (") & ctx.CurrentObject.Tables.Count(Not ctx.IncludeSys) & ")", "table")
+    Set ctx.CurrentObject.Types.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TYP+" & GetID, §§TrasLang§§("Types (") & ctx.CurrentObject.Types.Count(Not ctx.IncludeSys) & ")", "type")
+    Set ctx.CurrentObject.Views.Tag = tv.Nodes.Add(Node.Key, tvwChild, "VIE+" & GetID, §§TrasLang§§("Views (") & ctx.CurrentObject.Views.Count(Not ctx.IncludeSys) & ")", "view")
   End If
     
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ACL"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Schema?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Schema?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
@@ -3063,7 +3090,7 @@ End Sub
 
 Private Sub tvAggregates(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregates(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregates(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim agg As pgAggregate
@@ -3075,10 +3102,10 @@ Dim agg As pgAggregate
     For Each agg In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Aggregates
       If Not (agg.SystemObject And Not ctx.IncludeSys) Then Set agg.Tag = tv.Nodes.Add(Node.Key, tvwChild, "AGG-" & GetID, agg.Identifier, "aggregate")
     Next agg
-    Node.Text = "Aggregates (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Aggregates (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Aggregate"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Aggregate")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each agg In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Aggregates
     If Not (agg.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "AGG-" & GetID, agg.Identifier, "aggregate", "aggregate")
@@ -3092,33 +3119,33 @@ End Sub
 
 Private Sub tvAggregate(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregate(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvAggregate(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Input Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Input Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InputType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "State Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("State Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.StateType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "State Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("State Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.StateFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Final Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Final Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.FinalType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Final Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Final Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.FinalFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Initial Condition", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Initial Condition"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InitialCondition
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Aggregate?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Aggregate?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
@@ -3130,11 +3157,10 @@ End Sub
 
 Private Sub tvDomains(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomains(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomains(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim dom As pgDomain
-
 
   If Node.Children = 0 Or Node.Children <> svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Domains.Count(Not ctx.IncludeSys) Then
     While Not (Node.Child Is Nothing)
@@ -3143,10 +3169,10 @@ Dim dom As pgDomain
     For Each dom In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Domains
       If Not (dom.SystemObject And Not ctx.IncludeSys) Then Set dom.Tag = tv.Nodes.Add(Node.Key, tvwChild, "DOM-" & GetID, dom.Identifier, "domain")
     Next dom
-    Node.Text = "Domains (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Domains (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Domain"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Domain")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each dom In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Domains
     If Not (dom.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "DOM-" & GetID, dom.Identifier, "domain", "domain")
@@ -3160,37 +3186,37 @@ End Sub
 
 Private Sub tvDomain(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomain(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDomain(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Base Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Base Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.BaseType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Length", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Length"), "property", "property")
   If ctx.CurrentObject.Length = 0 Then
-    lvItem.SubItems(1) = "Variable"
+    lvItem.SubItems(1) = §§TrasLang§§("Variable")
   Else
     lvItem.SubItems(1) = ctx.CurrentObject.Length
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Numeric Scale", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Numeric Scale"), "property", "property")
   If ctx.CurrentObject.BaseType = "numeric" Then
     lvItem.SubItems(1) = ctx.CurrentObject.NumericScale
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Default"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Default
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Not Null?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Not Null?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.NotNull)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Domain?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Domain?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
 
   'Set the Definition Pane
@@ -3202,7 +3228,7 @@ End Sub
 
 Private Sub tvFunctions(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvFunctions(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvFunctions(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
@@ -3216,10 +3242,10 @@ Dim fnc As pgFunction
     For Each fnc In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Functions
       If Not (fnc.SystemObject And Not ctx.IncludeSys) Then Set fnc.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FNC-" & GetID, fnc.Identifier, "function")
     Next fnc
-    Node.Text = "Functions (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Functions (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Function"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Function")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each fnc In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Functions
     If Not (fnc.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "FNC-" & GetID, fnc.Identifier, "function", "function")
@@ -3238,53 +3264,53 @@ End Sub
 
 Private Sub tvFunction(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvFunction(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvFunction(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Argument Count", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Argument Count"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Arguments.Count
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Arguments", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Arguments"), "property", "property")
   szTemp = ""
   For Each vData In ctx.CurrentObject.Arguments
     szTemp = szTemp & vData & ", "
   Next vData
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
   lvItem.SubItems(1) = szTemp
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Returns", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Returns"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Returns
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ACL"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Language", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Language"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Language
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Source"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Source, vbCrLf, " ")
   If ctx.dbVer < 7.3 Then
-    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cachable?", "property", "property")
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Cachable?"), "property", "property")
     lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Cachable)
   Else
-    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Returns a Set?", "property", "property")
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Returns a Set?"), "property", "property")
     lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.RetSet)
-    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Volatility", "property", "property")
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Volatility"), "property", "property")
     lvItem.SubItems(1) = ctx.CurrentObject.Volatility
-    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Security Definer?", "property", "property")
+    Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Security Definer?"), "property", "property")
     lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SecDef)
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Strict?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Strict?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Strict)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Function?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Function?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
@@ -3296,7 +3322,7 @@ End Sub
 
 Private Sub tvOperators(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperators(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperators(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim opr As pgOperator
@@ -3308,10 +3334,10 @@ Dim opr As pgOperator
     For Each opr In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Operators
       If Not (opr.SystemObject And Not ctx.IncludeSys) Then Set opr.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPR-" & GetID, opr.Identifier, "operator")
     Next opr
-    Node.Text = "Operators (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Operators (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Operator"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Operator")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each opr In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Operators
     If Not (opr.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "OPR-" & GetID, opr.Identifier, "operator", "operator")
@@ -3325,51 +3351,51 @@ End Sub
 
 Private Sub tvOperator(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperator(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvOperator(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Left Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Left Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.LeftOperandType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Right Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Right Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.RightOperandType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Operator Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Operator Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.OperatorFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Join Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Join Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.JoinFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Restrict Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Restrict Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.RestrictFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Result Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Result Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ResultType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Commutator", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Commutator"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Commutator
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Negator", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Negator"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Negator
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Kind", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Kind"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Kind
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Hash Joins?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Hash Joins?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.HashJoins)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Merge Joins?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Merge Joins?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.MergeJoins)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Left Sort Operator", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Left Sort Operator"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.LeftTypeSortOperator
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Right Sort Operator", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Right Sort Operator"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.RightTypeSortOperator
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Less Than Operator", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Less Than Operator"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.LessThanOperator
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Greater Than Operator", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Greater Than Operator"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.GreaterThanOperator
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Operator?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Operator?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
@@ -3381,7 +3407,7 @@ End Sub
 
 Private Sub tvOpsClass(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvOpsClass(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvOpsClass(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim opClass As pgOperatorClass
 
@@ -3392,9 +3418,9 @@ Dim opClass As pgOperatorClass
     For Each opClass In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).OperatorsClass
       If Not (opClass.SystemObject And Not ctx.IncludeSys) Then Set opClass.Tag = tv.Nodes.Add(Node.Key, tvwChild, "OPC-" & GetID, opClass.Identifier, "operatorclass")
     Next opClass
-    Node.Text = "Operators Class (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Operators Class (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Operator Class"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Operator Class")
   For Each opClass In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).OperatorsClass
     If Not (opClass.SystemObject And Not ctx.IncludeSys) Then
       lv.ListItems.Add , "OPC-" & GetID, opClass.Identifier, "operatorclass", "operatorclass"
@@ -3407,26 +3433,26 @@ End Sub
 
 Private Sub tvOpClass(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvOpClass(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvOpClass(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim objOpClassFnc As OpClassFnc
 Dim objOpClassOp As OpClassOp
 Dim szTemp As String
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Default"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Default)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "For Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("For Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InputType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Access Method", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Access Method"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.AccessMethod
   
   'operator
@@ -3444,7 +3470,7 @@ Dim szTemp As String
     lvItem.SubItems(1) = szTemp
   Next
   
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Operator Class?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Operator Class?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   
   'Set the Definition Pane
@@ -3456,7 +3482,7 @@ End Sub
 
 Private Sub tvSequences(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequences(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequences(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim seq As pgSequence
@@ -3468,10 +3494,10 @@ Dim seq As pgSequence
     For Each seq In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Sequences
       If Not (seq.SystemObject And Not ctx.IncludeSys) Then Set seq.Tag = tv.Nodes.Add(Node.Key, tvwChild, "SEQ-" & GetID, seq.Identifier, "sequence")
     Next seq
-    Node.Text = "Sequences (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Sequences (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Sequence"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Sequence")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each seq In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Sequences
     If Not (seq.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "SEQ-" & GetID, seq.Identifier, "sequence", "sequence")
@@ -3485,7 +3511,7 @@ End Sub
 
 Private Sub svSequences(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svSequences(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -3500,9 +3526,9 @@ Dim szSQL As String
       szSQL = "SELECT relname, blks_read, blks_hit FROM pg_statio_all_sequences ORDER BY relname"
     End If
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
-    sv.ColumnHeaders.Add , , "Sequence", 2000
-    sv.ColumnHeaders.Add , , "Blocks Read", 2000
-    sv.ColumnHeaders.Add , , "Blocks Hit", 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Sequence"), 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Blocks Read"), 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Blocks Hit"), 2000
   
     While Not rsStat.EOF
       If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Sequences.Exists(rsStat!relname) Then
@@ -3517,8 +3543,8 @@ Dim szSQL As String
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -3530,35 +3556,35 @@ End Sub
 
 Private Sub tvSequence(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvSequence(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ACL"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Last Value", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Last Value"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.LastValue
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Minimum", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Minimum"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Minimum
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Maximum", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Maximum"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Maximum
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Increment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Increment"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Increment
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cache", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Cache"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Cache
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Cycled?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Cycled?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Cycled)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Sequence?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Sequence?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
@@ -3570,7 +3596,7 @@ End Sub
 
 Private Sub svSequence(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svSequence(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svSequence(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -3579,8 +3605,8 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT blks_read, blks_hit FROM pg_statio_all_sequences WHERE relid = " & ctx.CurrentObject.Oid & "::oid")
-    sv.ColumnHeaders.Add , , "Statistic"
-    sv.ColumnHeaders.Add , , "Value"
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistic")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Value")
   
     If Not rsStat.EOF Then
       Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Blocks Read", "statistics", "statistics")
@@ -3593,8 +3619,8 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -3606,7 +3632,7 @@ End Sub
 
 Private Sub tvTables(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvTables(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTables(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim tbl As pgTable
@@ -3618,10 +3644,10 @@ Dim tbl As pgTable
     For Each tbl In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Tables
       If Not (tbl.SystemObject And Not ctx.IncludeSys) Then Set tbl.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TBL-" & GetID, tbl.Identifier, "table")
     Next tbl
-    Node.Text = "Tables (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Tables (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Table"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Table")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each tbl In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Tables
     If Not (tbl.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TBL-" & GetID, tbl.Identifier, "table", "table")
@@ -3635,7 +3661,7 @@ End Sub
 
 Private Sub svTables(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svTables(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -3650,10 +3676,10 @@ Dim szSQL As String
       szSQL = "SELECT relname, n_tup_ins, n_tup_upd, n_tup_del FROM pg_stat_all_tables ORDER BY relname"
     End If
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
-    sv.ColumnHeaders.Add , , "Table", 2000
-    sv.ColumnHeaders.Add , , "Tuples Inserted", 2000
-    sv.ColumnHeaders.Add , , "Tuples Updated", 2000
-    sv.ColumnHeaders.Add , , "Tuples Deleted", 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Table"), 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Tuples Inserted"), 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Tuples Updated"), 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Tuples Deleted"), 2000
   
     While Not rsStat.EOF
       If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables.Exists(rsStat!relname) Then
@@ -3669,8 +3695,8 @@ Dim szSQL As String
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -3682,49 +3708,49 @@ End Sub
 
 Private Sub tvTable(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvTable(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTable(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
   If Node.Children = 0 Then
-    Set ctx.CurrentObject.Checks.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CHK+" & GetID, "Checks (" & ctx.CurrentObject.Checks.Count & ")", "check")
-    Set ctx.CurrentObject.Columns.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL+" & GetID, "Columns (" & ctx.CurrentObject.Columns.Count(Not ctx.IncludeSys) & ")", "column")
-    Set ctx.CurrentObject.ForeignKeys.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FKY+" & GetID, "Foreign Keys (" & ctx.CurrentObject.ForeignKeys.Count(Not ctx.IncludeSys) & ")", "foreignkey")
-    Set ctx.CurrentObject.Indexes.Tag = tv.Nodes.Add(Node.Key, tvwChild, "IND+" & GetID, "Indexes (" & ctx.CurrentObject.Indexes.Count(Not ctx.IncludeSys) & ")", "index")
-    Set ctx.CurrentObject.Rules.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL+" & GetID, "Rules (" & ctx.CurrentObject.Rules.Count(Not ctx.IncludeSys) & ")", "rule")
-    Set ctx.CurrentObject.Triggers.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TRG+" & GetID, "Triggers (" & ctx.CurrentObject.Triggers.Count(Not ctx.IncludeSys) & ")", "trigger")
+    Set ctx.CurrentObject.Checks.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CHK+" & GetID, §§TrasLang§§("Checks (") & ctx.CurrentObject.Checks.Count & ")", "check")
+    Set ctx.CurrentObject.Columns.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL+" & GetID, §§TrasLang§§("Columns (") & ctx.CurrentObject.Columns.Count(Not ctx.IncludeSys) & ")", "column")
+    Set ctx.CurrentObject.ForeignKeys.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FKY+" & GetID, §§TrasLang§§("Foreign Keys (") & ctx.CurrentObject.ForeignKeys.Count(Not ctx.IncludeSys) & ")", "foreignkey")
+    Set ctx.CurrentObject.Indexes.Tag = tv.Nodes.Add(Node.Key, tvwChild, "IND+" & GetID, §§TrasLang§§("Indexes (") & ctx.CurrentObject.Indexes.Count(Not ctx.IncludeSys) & ")", "index")
+    Set ctx.CurrentObject.Rules.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL+" & GetID, §§TrasLang§§("Rules (") & ctx.CurrentObject.Rules.Count(Not ctx.IncludeSys) & ")", "rule")
+    Set ctx.CurrentObject.Triggers.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TRG+" & GetID, §§TrasLang§§("Triggers (") & ctx.CurrentObject.Triggers.Count(Not ctx.IncludeSys) & ")", "trigger")
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ACL"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Rows", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Rows"), "property", "property")
   If ctx.AutoRowCount Then
     lvItem.SubItems(1) = ctx.CurrentObject.Rows
   Else
-    lvItem.SubItems(1) = "Unknown"
+    lvItem.SubItems(1) = §§TrasLang§§("Unknown")
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Inherited Tables Count", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Inherited Tables Count"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InheritedTables.Count
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Inherited Tables", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Inherited Tables"), "property", "property")
   For Each vData In ctx.CurrentObject.InheritedTables
     szTemp = szTemp & vData & ", "
   Next vData
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
   lvItem.SubItems(1) = szTemp
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OIDs?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OIDs?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.HasOIDs)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Table?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Table?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
@@ -3736,7 +3762,7 @@ End Sub
 
 Private Sub svTable(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svTable(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svTable(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -3745,35 +3771,35 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, n_tup_ins, n_tup_upd, n_tup_del, heap_blks_read, heap_blks_hit, idx_blks_read, idx_blks_hit, toast_blks_read, toast_blks_hit, tidx_blks_read, tidx_blks_hit FROM pg_stat_all_tables stat, pg_statio_all_tables statio WHERE stat.relid = statio.relid AND stat.relid = " & ctx.CurrentObject.Oid & "::oid")
-    sv.ColumnHeaders.Add , , "Statistic"
-    sv.ColumnHeaders.Add , , "Value"
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistic")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Value")
   
     If Not rsStat.EOF Then
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Sequential Scans", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Sequential Scans"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!seq_scan & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Sequential Tuples Read", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Sequential Tuples Read"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!seq_tup_read & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Scans", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Scans"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_scan & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Tuples Fetched", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Tuples Fetched"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_tup_fetch & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Tuples Inserted", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Tuples Inserted"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!n_tup_ins & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Tuples Updated", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Tuples Updated"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!n_tup_upd & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Tuples Deleted", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Tuples Deleted"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!n_tup_del & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Heap Blocks Read", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Heap Blocks Read"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!heap_blks_read & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Heap Blocks Hit", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Heap Blocks Hit"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!heap_blks_hit & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Blocks Read", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Blocks Read"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_blks_read & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Blocks Hit", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Blocks Hit"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_blks_hit & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Toast Index Blocks Read", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Toast Index Blocks Read"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!tidx_blks_read & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Toast Index Blocks Hit", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Toast Index Blocks Hit"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!tidx_blks_hit & ""
     Else
       ClearStats
@@ -3781,8 +3807,8 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -3794,7 +3820,7 @@ End Sub
 
 Private Sub tvChecks(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvChecks(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvChecks(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim chk As pgCheck
@@ -3806,9 +3832,9 @@ Dim chk As pgCheck
     For Each chk In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks
       Set chk.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CHK-" & GetID, chk.Identifier, "check")
     Next chk
-    Node.Text = "Checks (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Checks (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Check", lv.Width
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Check"), lv.Width
   For Each chk In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Checks
     Set lvItem = lv.ListItems.Add(, "CHK-" & GetID, chk.Identifier, "check", "check")
   Next chk
@@ -3819,15 +3845,15 @@ End Sub
 
 Private Sub tvCheck(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvCheck(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvCheck(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Definition"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Definition
   
   Exit Sub
@@ -3836,7 +3862,7 @@ End Sub
 
 Private Sub tvColumns(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumns(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumns(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim Col As pgColumn
@@ -3848,11 +3874,11 @@ Dim Col As pgColumn
     For Each Col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
      If Not (Col.SystemObject And Not ctx.IncludeSys) Then Set Col.Tag = tv.Nodes.Add(Node.Key, tvwChild, "COL-" & GetID, Col.Identifier, "column")
     Next Col
-    Node.Text = "Columns (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Columns (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Column"
-  lv.ColumnHeaders.Add , , "Type"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Column")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Type")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each Col In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Columns
     If Not (Col.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "COL-" & GetID, Col.Identifier, "column", "column")
@@ -3867,39 +3893,39 @@ End Sub
 
 Private Sub tvColumn(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumn(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvColumn(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Position", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Position"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Position
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Data Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Data Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.DataType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Length", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Length"), "property", "property")
   If ctx.CurrentObject.Length = 0 Then
-    lvItem.SubItems(1) = "Variable"
+    lvItem.SubItems(1) = §§TrasLang§§("Variable")
   Else
     lvItem.SubItems(1) = ctx.CurrentObject.Length
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Numeric Precision", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Numeric Precision"), "property", "property")
   If ctx.CurrentObject.DataType = "numeric" Then
     lvItem.SubItems(1) = ctx.CurrentObject.NumericScale
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Default"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Default
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Restrict Nulls?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Restrict Nulls?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.NotNull)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Primary Key?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Primary Key?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.PrimaryKey)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Statistics", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Statistics"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Statistics
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Column?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Column?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   Exit Sub
@@ -3908,7 +3934,7 @@ End Sub
 
 Private Sub svColumn(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svDatabase(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -3924,23 +3950,23 @@ Dim szSQL As String
       szSQL = "SELECT null_frac, avg_width, n_distinct, most_common_vals, most_common_freqs, histogram_bounds, correlation FROM pg_stats WHERE tablename = '" & Node.Parent.Parent.Text & "' AND attname = '" & Node.Text & "'"
     End If
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
-    sv.ColumnHeaders.Add , , "Statistic"
-    sv.ColumnHeaders.Add , , "Value"
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistic")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Value")
   
     If Not rsStat.EOF Then
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Null Fraction", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Null Fraction"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!null_frac & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Average Width", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Average Width"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!avg_width & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Distinct Values", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Distinct Values"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!n_distinct & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Most Column Values", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Most Column Values"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!most_common_vals & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Most Common Frequencies", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Most Common Frequencies"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!most_common_freqs & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Histogram Bounds", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Histogram Bounds"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!histogram_bounds & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Correlation", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Correlation"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!correlation & ""
     Else
       ClearStats
@@ -3948,8 +3974,8 @@ Dim szSQL As String
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -3961,7 +3987,7 @@ End Sub
 
 Private Sub tvConversions(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvConversions(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvConversions(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim conv As pgConversion
@@ -3973,9 +3999,9 @@ Dim conv As pgConversion
     For Each conv In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Conversions
       If Not (conv.SystemObject And Not ctx.IncludeSys) Then Set conv.Tag = tv.Nodes.Add(Node.Key, tvwChild, "CNV-" & GetID, conv.Identifier, "conversion")
     Next
-    Node.Text = "Conversions (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Conversions (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Conversion"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Conversion")
   For Each conv In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Conversions
     If Not (conv.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "CNV-" & GetID, conv.Identifier, "conversion", "conversion")
@@ -3988,27 +4014,27 @@ End Sub
 
 Private Sub tvConversion(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvConversion(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvConversion(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
   
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Default"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Default)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Source", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Source"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ForEncoding
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Destination", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Destination"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ToEncoding
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Proc
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Conversion?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Conversion?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
 
   'Set the Definition Pane
@@ -4020,7 +4046,7 @@ End Sub
 
 Private Sub tvForeignKeys(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKeys(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKeys(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim fky As pgForeignKey
@@ -4032,10 +4058,10 @@ Dim fky As pgForeignKey
     For Each fky In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys
       If Not (fky.SystemObject And Not ctx.IncludeSys) Then Set fky.Tag = tv.Nodes.Add(Node.Key, tvwChild, "FKY-" & GetID, fky.Identifier, "foreignkey")
     Next fky
-    Node.Text = "Foreign Keys (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Foreign Keys (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Foreign Key"
-  lv.ColumnHeaders.Add , , "References"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Foreign Key")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("References")
   For Each fky In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).ForeignKeys
     If Not (fky.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "FKY-" & GetID, fky.Identifier, "foreignkey", "foreignkey")
@@ -4049,28 +4075,28 @@ End Sub
 
 Private Sub tvForeignKey(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKey(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvForeignKey(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  If Node.Children = 0 Then tv.Nodes.Add Node.Key, tvwChild, "REL+" & GetID, "Relationships (" & ctx.CurrentObject.Relationships.Count & ")", "relationship"
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  If Node.Children = 0 Then tv.Nodes.Add Node.Key, tvwChild, "REL+" & GetID, §§TrasLang§§("Relationships (") & ctx.CurrentObject.Relationships.Count & ")", "relationship"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "References", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("References"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ReferencedTable
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "On Delete", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("On Delete"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.OnDelete
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "On Update", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("On Update"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.OnUpdate
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Deferrable", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Deferrable"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Deferrable)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Initially", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Initially"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Initially
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Foreign Key?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Foreign Key?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
   
   Exit Sub
@@ -4079,14 +4105,14 @@ End Sub
 
 Private Sub tvRelationships(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvRelationships(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvRelationships(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rel As pgRelationship
 
-  lv.ColumnHeaders.Add , , "Local Column"
-  lv.ColumnHeaders.Add , , "Referenced Column"
-  Node.Text = "Relationships (" & svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships.Count & ")"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Local Column")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Referenced Column")
+  Node.Text = §§TrasLang§§("Relationships (") & svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships.Count & ")"
   For Each rel In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Parent.Parent.Text).Tables(Node.Parent.Parent.Parent.Text).ForeignKeys(Node.Parent.Text).Relationships
     Set lvItem = lv.ListItems.Add(, "REL-" & GetID, rel.LocalColumn, "relationship", "relationship")
     lvItem.SubItems(1) = rel.ReferencedColumn
@@ -4098,7 +4124,7 @@ End Sub
 
 Private Sub tvIndexes(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndexes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndexes(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim ind As pgIndex
@@ -4110,10 +4136,10 @@ Dim ind As pgIndex
     For Each ind In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes
       If Not (ind.SystemObject And Not ctx.IncludeSys) Then Set ind.Tag = tv.Nodes.Add(Node.Key, tvwChild, "IND-" & GetID, ind.Identifier, "index")
     Next ind
-    Node.Text = "Indexes (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Indexes (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Index"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Index")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each ind In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Indexes
     If Not (ind.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "IND-" & GetID, ind.Identifier, "index", "index")
@@ -4127,7 +4153,7 @@ End Sub
 
 Private Sub svIndexes(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svIndexes(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -4143,9 +4169,9 @@ Dim szSQL As String
       szSQL = "SELECT relname, indexrelname, idx_blks_read, idx_blks_hit FROM pg_statio_all_indexes WHERE relname = '" & Node.Parent.Text & "' ORDER BY indexrelname"
     End If
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute(szSQL)
-    sv.ColumnHeaders.Add , , "Index", 2000
-    sv.ColumnHeaders.Add , , "Index Blocks Read", 2000
-    sv.ColumnHeaders.Add , , "Index Blocks Hit", 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Index"), 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Index Blocks Read"), 2000
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Index Blocks Hit"), 2000
   
     While Not rsStat.EOF
       If svr.Databases(ctx.CurrentDB).Namespaces(ctx.CurrentNS).Tables(rsStat!relname).Indexes.Exists(rsStat!indexrelname) Then
@@ -4160,8 +4186,8 @@ Dim szSQL As String
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA+" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -4173,37 +4199,37 @@ End Sub
 
 Private Sub tvIndex(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndex(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvIndex(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Index Type", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Index Type"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.IndexType
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Unique?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Unique?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Unique)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Primary?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Primary?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.Primary)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Column Count", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Column Count"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.IndexedColumns.Count
   For Each vData In ctx.CurrentObject.IndexedColumns
     szTemp = szTemp & vData & ", "
   Next vData
   If Len(szTemp) > 2 Then szTemp = Left(szTemp, Len(szTemp) - 2)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Columns", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Columns"), "property", "property")
   lvItem.SubItems(1) = szTemp
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Constraint", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Constraint"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Constraint
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Index?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Index?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
   'Set the Definition Pane
@@ -4215,7 +4241,7 @@ End Sub
 
 Private Sub svIndex(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.svIndex(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.svIndex(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rsStat As New Recordset
@@ -4224,19 +4250,19 @@ Dim rsStat As New Recordset
   ' These don't come from pgSchema because they aren't really schema related.
   If ctx.dbVer >= 7.2 Then
     Set rsStat = svr.Databases(ctx.CurrentDB).Execute("SELECT idx_scan, idx_tup_read, idx_tup_fetch, idx_blks_read, idx_blks_hit FROM pg_stat_all_indexes stat, pg_statio_all_indexes statio WHERE stat.relid = statio.relid AND stat.indexrelid = statio.indexrelid AND statio.indexrelid = " & ctx.CurrentObject.Oid & "::oid")
-    sv.ColumnHeaders.Add , , "Statistic"
-    sv.ColumnHeaders.Add , , "Value"
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistic")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Value")
   
     If Not rsStat.EOF Then
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Scans", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Scans"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_scan & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Tuples Read", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Tuples Read"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_tup_read & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Tuples Fetched", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Tuples Fetched"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_tup_fetch & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Blocks Read", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Blocks Read"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_blks_read & ""
-      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Index Blocks Hit", "statistics", "statistics")
+      Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Index Blocks Hit"), "statistics", "statistics")
       lvItem.SubItems(1) = rsStat!idx_blks_hit & ""
     Else
       ClearStats
@@ -4244,8 +4270,8 @@ Dim rsStat As New Recordset
     If rsStat.State <> adStateClosed Then rsStat.Close
     Set rsStat = Nothing
   Else
-    sv.ColumnHeaders.Add , , "Statistics"
-    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, "Statistics are only available with PostgreSQL 7.2 or higher.", "server", "server")
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics")
+    Set lvItem = sv.ListItems.Add(, "STA-" & GetID, §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher."), "server", "server")
   End If
   
   Exit Sub
@@ -4257,7 +4283,7 @@ End Sub
 
 Private Sub tvRules(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvRules(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvRules(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim rul As pgRule
@@ -4277,10 +4303,10 @@ Dim objTmp
     For Each rul In objTmp(Node.Parent.Text).Rules
       If Not (rul.SystemObject And Not ctx.IncludeSys) Then Set rul.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL-" & GetID, rul.Identifier, "rule")
     Next rul
-    Node.Text = "Rules (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Rules (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Rule"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Rule")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each rul In objTmp(Node.Parent.Text).Rules
     If Not (rul.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "RUL-" & GetID, rul.Identifier, "rule", "rule")
@@ -4294,29 +4320,29 @@ End Sub
 
 Private Sub tvRule(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvRule(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvRule(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Event", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Event"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.RuleEvent
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Condition", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Condition"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Condition
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Do Instead?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Do Instead?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.DoInstead)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Action", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Action"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Action
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Definition"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Definition
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Rule?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Rule?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
   'Set the Definition Pane
@@ -4328,7 +4354,7 @@ End Sub
 
 Private Sub tvTriggers(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvTriggers(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTriggers(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim trg As pgTrigger
@@ -4340,10 +4366,10 @@ Dim trg As pgTrigger
     For Each trg In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers
       If Not (trg.SystemObject And Not ctx.IncludeSys) Then Set trg.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TRG-" & GetID, trg.Identifier, "trigger")
     Next trg
-    Node.Text = "Triggers (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Triggers (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Trigger"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Trigger")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each trg In svr.Databases(Node.Parent.Parent.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Parent.Parent.Text).Tables(Node.Parent.Text).Triggers
     If Not (trg.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TRG-" & GetID, trg.Identifier, "trigger", "trigger")
@@ -4357,27 +4383,27 @@ End Sub
 
 Private Sub tvTrigger(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvTrigger(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTrigger(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Executes", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Executes"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Executes
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Event", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Event"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.TriggerEvent
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "For Each", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("For Each"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ForEach
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.TriggerFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Trigger?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Trigger?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Comment
   
   'Set the Definition Pane
@@ -4394,7 +4420,7 @@ End Sub
 
 Private Sub tvTypes(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvTypes(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvTypes(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim typ As pgType
@@ -4406,10 +4432,10 @@ Dim typ As pgType
     For Each typ In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Types
       If Not (typ.SystemObject And Not ctx.IncludeSys) Then Set typ.Tag = tv.Nodes.Add(Node.Key, tvwChild, "TYP-" & GetID, typ.Identifier, "type")
     Next typ
-    Node.Text = "Types (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Types (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "Type"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Type")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each typ In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Types
     If Not (typ.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "TYP-" & GetID, typ.Identifier, "type", "type")
@@ -4423,39 +4449,39 @@ End Sub
 
 Private Sub tvType(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvType(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvType(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Input Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Input Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InputFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Output Function", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Output Function"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.OutputFunction
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Internal Length", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Internal Length"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.InternalLength
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Default", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Default"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Default
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Element", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Element"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Element
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Delimiter", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Delimiter"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Delimiter
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Passed by Value?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Passed by Value?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.PassedByValue)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Alignment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Alignment"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Alignment
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Storage", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Storage"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Storage
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System Type?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System Type?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
 
   'Set the Definition Pane
@@ -4467,7 +4493,7 @@ End Sub
 
 Private Sub tvViews(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvViews(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvViews(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim vie As pgView
@@ -4479,10 +4505,10 @@ Dim vie As pgView
     For Each vie In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Views
       If Not (vie.SystemObject And Not ctx.IncludeSys) Then Set vie.Tag = tv.Nodes.Add(Node.Key, tvwChild, "VIE-" & GetID, vie.Identifier, "view")
     Next vie
-    Node.Text = "Views (" & Node.Children & ")"
+    Node.Text = §§TrasLang§§("Views (") & Node.Children & ")"
   End If
-  lv.ColumnHeaders.Add , , "View"
-  lv.ColumnHeaders.Add , , "Comment"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("View")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Comment")
   For Each vie In svr.Databases(Node.Parent.Parent.Parent.Text).Namespaces(Node.Parent.Text).Views
     If Not (vie.SystemObject And Not ctx.IncludeSys) Then
       Set lvItem = lv.ListItems.Add(, "VIE-" & GetID, vie.Identifier, "view", "view")
@@ -4496,34 +4522,34 @@ End Sub
 
 Private Sub tvView(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvView(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvView(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 
-  lv.ColumnHeaders.Add , , "Property"
-  lv.ColumnHeaders.Add , , "Value"
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Property")
+  lv.ColumnHeaders.Add , , §§TrasLang§§("Value")
   If Node.Children = 0 Then
     Set ctx.CurrentObject.Rules.Tag = tv.Nodes.Add(Node.Key, tvwChild, "RUL+" & GetID, "Rules (" & ctx.CurrentObject.Rules.Count(Not ctx.IncludeSys) & ")", "rule")
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Name", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Name"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Name
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "OID", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("OID"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Oid
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Owner", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Owner"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Owner
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "ACL", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("ACL"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.ACL
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Rows", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Rows"), "property", "property")
   If ctx.AutoRowCount Then
     lvItem.SubItems(1) = ctx.CurrentObject.Rows
   Else
-    lvItem.SubItems(1) = "Unknown"
+    lvItem.SubItems(1) = §§TrasLang§§("Unknown")
   End If
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Definition", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Definition"), "property", "property")
   lvItem.SubItems(1) = ctx.CurrentObject.Definition
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "System View?", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("System View?"), "property", "property")
   lvItem.SubItems(1) = BoolToYesNo(ctx.CurrentObject.SystemObject)
-  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, "Comment", "property", "property")
+  Set lvItem = lv.ListItems.Add(, "PRO-" & GetID, §§TrasLang§§("Comment"), "property", "property")
   lvItem.SubItems(1) = Replace(ctx.CurrentObject.Comment, vbCrLf, " ")
   
   'Set the Definition Pane
@@ -4540,8 +4566,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.ClearStats()", etFullDebug
   sv.ColumnHeaders.Clear
   sv.ListItems.Clear
 
-  sv.ColumnHeaders.Add , , "Statistics", sv.Width
-  sv.ListItems.Add , , "No Statistics are available for the current selection", "statistics", "statistics"
+  sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics"), sv.Width
+  sv.ListItems.Add , , §§TrasLang§§("No Statistics are available for the current selection"), "statistics", "statistics"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmMain.ClearStats"
@@ -4549,13 +4575,13 @@ End Sub
 
 Public Sub tv_NodeClick(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tv_NodeClick(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim lvItem As ListItem
 Dim szTemp As String
 Dim vData As Variant
 
-  StartMsg "Examining database..."
+  StartMsg §§TrasLang§§("Examining database...")
   
   lv.ColumnHeaders.Clear
   lv.ListItems.Clear
@@ -4566,8 +4592,8 @@ Dim vData As Variant
   
   'Stats are only on 7.2+
   If ctx.dbVer < 7.2 Then
-    sv.ColumnHeaders.Add , , "Statistics", sv.Width
-    sv.ListItems.Add , , "Statistics are only available with PostgreSQL 7.2 or higher", "database", "database"
+    sv.ColumnHeaders.Add , , §§TrasLang§§("Statistics"), sv.Width
+    sv.ListItems.Add , , §§TrasLang§§("Statistics are only available with PostgreSQL 7.2 or higher"), "database", "database"
   End If
   
   Select Case Left(Node.Key, 4)
@@ -4989,7 +5015,7 @@ End Sub
 
 Public Sub lv_ItemClick(ByVal Item As MSComctlLib.ListItem)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ItemClick(" & QUOTE & Item.Text & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ItemClick(" & Quote & Item.Text & Quote & ")", etFullDebug
 
 Dim szPath() As String
 
@@ -5163,7 +5189,7 @@ End Sub
 
 Private Sub lv_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.lv_ColumnClick(" & Quote & ColumnHeader.Text & Quote & ")", etFullDebug
 
   lv.Sorted = True
   'Sort by the select column. If we already are, then switch the direction.
@@ -5184,7 +5210,7 @@ End Sub
 
 Private Sub lvLock_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.lvLock_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.lvLock_ColumnClick(" & Quote & ColumnHeader.Text & Quote & ")", etFullDebug
 
   lvLock.Sorted = True
   'Sort by the select column. If we already are, then switch the direction.
@@ -5205,7 +5231,7 @@ End Sub
 
 Private Sub sv_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.sv_ColumnClick(" & QUOTE & ColumnHeader.Text & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmMain.sv_ColumnClick(" & Quote & ColumnHeader.Text & Quote & ")", etFullDebug
 
   sv.Sorted = True
   'Sort by the select column. If we already are, then switch the direction.
@@ -5245,7 +5271,7 @@ End Sub
 'show dependig object database
 Private Sub tvDepend(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.tvDepend(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.tvDepend(" & Quote & Node.FullPath & Quote & ")", etFullDebug
 
 Dim objTmp
 Dim objDep
@@ -5254,13 +5280,13 @@ Dim szKey As String
   ' Depending.
   tvDep.Nodes.Clear
   If prop.Tab <> 2 Then
-    tvDep.Nodes.Add , , "DEP-" & GetID, "Dependencies are not applicable to the selected object.", "property", "property"
+    tvDep.Nodes.Add , , "DEP-" & GetID, §§TrasLang§§("Dependencies are not applicable to the selected object."), "property", "property"
     Exit Sub
   ElseIf Len(ctx.CurrentDB) = 0 Then
-    tvDep.Nodes.Add , , "DEP-" & GetID, "Dependencies are not applicable to the selected object.", "property", "property"
+    tvDep.Nodes.Add , , "DEP-" & GetID, §§TrasLang§§("Dependencies are not applicable to the selected object."), "property", "property"
     Exit Sub
   ElseIf ctx.dbVer < 7.3 Then
-    tvDep.Nodes.Add , , "DEP-" & GetID, "Dependencies are only available with PostgreSQL 7.3 or higher.", "property", "property"
+    tvDep.Nodes.Add , , "DEP-" & GetID, §§TrasLang§§("Dependencies are only available with PostgreSQL 7.3 or higher."), "property", "property"
     Exit Sub
   End If
   
@@ -5329,7 +5355,7 @@ Dim szKey As String
       Next
     
     Case Else
-      tvDep.Nodes.Add , , "DEP-" & GetID, "Dependencies are not applicable to the selected object.", "property", "property"
+      tvDep.Nodes.Add , , "DEP-" & GetID, §§TrasLang§§("Dependencies are not applicable to the selected object."), "property", "property"
       
   End Select
   
@@ -5340,7 +5366,7 @@ End Sub
 'add depend and reference
 Private Sub AddDepRef(CurrentObj)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.AddDepRef(" & QUOTE & CurrentObj.ObjectType & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.AddDepRef(" & Quote & CurrentObj.ObjectType & Quote & ")", etFullDebug
 
 Dim objDep
 Dim szKey As String
@@ -5393,18 +5419,18 @@ End Sub
 'show lock object database
 Private Sub lvLocks(ByVal Node As MSComctlLib.Node)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.lvLocks(" & QUOTE & Node.FullPath & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.lvLocks(" & Quote & Node.FullPath & Quote & ")", etFullDebug
  
   ' Lock.
   lvLock.ColumnHeaders.Clear
   lvLock.ListItems.Clear
   If prop.Tab <> 3 Then
-    lvLock.ColumnHeaders.Add , , "Locks", lvLock.Width
-    lvLock.ListItems.Add , , "Locks are not applicable to the selected object.", "property", "property"
+    lvLock.ColumnHeaders.Add , , §§TrasLang§§("Locks"), lvLock.Width
+    lvLock.ListItems.Add , , §§TrasLang§§("Locks are not applicable to the selected object."), "property", "property"
     Exit Sub
   ElseIf ctx.dbVer < 7.3 Then
-    lvLock.ColumnHeaders.Add , , "Locks", lvLock.Width
-    lvLock.ListItems.Add , , "Locks are only available with PostgreSQL 7.3 or higher.", "property", "property"
+    lvLock.ColumnHeaders.Add , , §§TrasLang§§("Locks"), lvLock.Width
+    lvLock.ListItems.Add , , §§TrasLang§§("Locks are only available with PostgreSQL 7.3 or higher."), "property", "property"
     Exit Sub
   End If
   
@@ -5413,8 +5439,8 @@ svr.LogEvent "Entering " & App.Title & ":frmMain.lvLocks(" & QUOTE & Node.FullPa
       ShowLocks Left(Node.Key, 4)
     
     Case Else
-      lvLock.ColumnHeaders.Add , , "Locks", lvLock.Width
-      lvLock.ListItems.Add , , "Locks are not applicable to the selected object.", "property", "property"
+      lvLock.ColumnHeaders.Add , , §§TrasLang§§("Locks"), lvLock.Width
+      lvLock.ListItems.Add , , §§TrasLang§§("Locks are not applicable to the selected object."), "property", "property"
     
   End Select
   Exit Sub
@@ -5426,7 +5452,7 @@ End Sub
 
 Private Sub ShowLocks(ObjectType As String)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-svr.LogEvent "Entering " & App.Title & ":frmMain.ShowLocks(" & QUOTE & ObjectType & QUOTE & ")", etFullDebug
+svr.LogEvent "Entering " & App.Title & ":frmMain.ShowLocks(" & Quote & ObjectType & Quote & ")", etFullDebug
 
 Dim szSQL As String
 Dim szSqlLocks As String
@@ -5440,14 +5466,14 @@ Dim szNamespace As String
 Dim szRelation As String
 Dim iColumn As Integer
 
-  If ObjectType <> "DAT-" And Left(ObjectType, 3) <> "NSP" Then lvLock.ColumnHeaders.Add , , "Database", 1500
-  If ObjectType <> "NSP-" Then lvLock.ColumnHeaders.Add , , "Schema Name", 1500
-  lvLock.ColumnHeaders.Add , , "Object Name", 1500
-  If ObjectType <> "USR-" Then lvLock.ColumnHeaders.Add , , "User", 1500
-  lvLock.ColumnHeaders.Add , , "Pid", 1500
-  lvLock.ColumnHeaders.Add , , "Lock Mode", 2000
+  If ObjectType <> "DAT-" And Left(ObjectType, 3) <> "NSP" Then lvLock.ColumnHeaders.Add , , §§TrasLang§§("Database"), 1500
+  If ObjectType <> "NSP-" Then lvLock.ColumnHeaders.Add , , §§TrasLang§§("Schema Name"), 1500
+  lvLock.ColumnHeaders.Add , , §§TrasLang§§("Object Name"), 1500
+  If ObjectType <> "USR-" Then lvLock.ColumnHeaders.Add , , §§TrasLang§§("User"), 1500
+  lvLock.ColumnHeaders.Add , , §§TrasLang§§("Pid"), 1500
+  lvLock.ColumnHeaders.Add , , §§TrasLang§§("Lock Mode"), 2000
 
-  StartMsg "Examining Locks..."
+  StartMsg §§TrasLang§§("Examining Locks...")
   
   szSqlLocks = "SELECT relation , database, transaction, pid, Mode, granted FROM pg_locks WHERE database IS NOT NULL"
   If ObjectType = "DAT-" Then
@@ -5542,4 +5568,3 @@ Err_Handler:
   Set rsLocks = Nothing
   LogError Err.Number, Err.Description, App.Title & ":frmMain.ShowLocks"
 End Sub
-

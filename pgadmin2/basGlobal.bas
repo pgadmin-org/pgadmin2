@@ -14,7 +14,7 @@ Global inIDE As Boolean
 Global Const SUPPORT_EMAIL = "pgadmin-support@postgresql.org"
 
 'Makes life easier...
-Global Const QUOTE = """"
+Global Const Quote = """"
 
 'Global Context object. This contains Globals.
 Global ctx As New clsContext
@@ -33,4 +33,7 @@ Global szDefaultAutoHighlight As String
 
 'error to ignore
 Global ColIgnoreError As New Collection
+
+'template file lenguage
+Public Const TEMPLATE_FILE_LANG As String = "Language.tmp"
 

@@ -343,13 +343,13 @@ Dim szColumns As String
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Index name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Index name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(0).Text = "" Then
-    MsgBox "You must select a table!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a table!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
@@ -361,24 +361,24 @@ Dim szColumns As String
     Next objItem
     If Len(szColumns) > 2 Then szColumns = Left(szColumns, Len(szColumns) - 2)
     If szColumns = "" Then
-      MsgBox "You must select at least one column!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("You must select at least one column!"), vbExclamation, §§TrasLang§§("Error")
       tabProperties.Tab = 0
       lvProperties(0).SetFocus
       Exit Sub
     End If
     
-    StartMsg "Creating Index..."
+    StartMsg §§TrasLang§§("Creating Index...")
     Set objNewIndex = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Indexes.Add(txtProperties(0).Text, Bin2Bool(chkProperties(1).Value), szColumns, cboProperties(1).Text, hbxProperties(1).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Indexes.Tag
     Set objNewIndex.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "IND-" & GetID, txtProperties(0).Text, "index")
-    objNode.Text = "Indexes (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Indexes (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Index..."
+    StartMsg §§TrasLang§§("Updating Index...")
     
     'Update the index name if required
     If txtProperties(0).Tag = "Y" Then
@@ -425,7 +425,7 @@ Dim vArgument As Variant
   
     'Create a new Index
     bNew = True
-    Me.Caption = "Create Index"
+    Me.Caption = §§TrasLang§§("Create Index")
     
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
@@ -458,7 +458,7 @@ Dim vArgument As Variant
     Set objIndex = Index
     bNew = False
 
-    Me.Caption = "Index: " & objIndex.Identifier
+    Me.Caption = §§TrasLang§§("Index: ") & objIndex.Identifier
     txtProperties(0).Text = objIndex.Name
     txtProperties(1).Text = objIndex.Oid
     Set objItem = cboProperties(0).ComboItems.Add(, , objIndex.Table, "table")

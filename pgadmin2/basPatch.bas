@@ -14,6 +14,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchForm(" & objForm.
 
   PatchFormScrObjDB objForm
   PatchFormFont objForm
+  PatchFormLang objForm
   PatchFormToolTip objForm
 
   Exit Sub
@@ -27,19 +28,12 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormFont(" & objF
 
 Dim objCtrl As Control
 
+  Set objForm.Font = ctx.Font
+  On Error Resume Next
   For Each objCtrl In objForm.Controls
-    If TypeOf objCtrl Is ComboBox Or _
-       TypeOf objCtrl Is TextBox Or _
-       TypeOf objCtrl Is ListBox Or _
-       TypeOf objCtrl Is ListView Or _
-       TypeOf objCtrl Is TreeView Or _
-       TypeOf objCtrl Is HBX Or _
-       TypeOf objCtrl Is TBX Or _
-       TypeOf objCtrl Is ImageCombo Then
-      objCtrl.Font = ctx.Font
-    End If
+    Set objCtrl.Font = ctx.Font
   Next
-
+  
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basPatch.PatchFormFont"
 End Sub
@@ -125,6 +119,44 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormScrollObj(" &
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basPatch.PatchFormScrollObj"
+End Sub
+
+'Patch string lang of component form
+Private Sub PatchFormLang(objForm As Form)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":basPatch.PatchFormLang(" & objForm.Name & ")", etFullDebug
+
+Dim objCtrl As Control
+Dim szTemp As String
+Dim ii As Integer
+
+  On Error Resume Next
+  For Each objCtrl In objForm.Controls
+    'caption
+    Err.Clear
+    szTemp = objCtrl.Caption
+    If Err.Number = 0 Then objCtrl.Caption = §§TrasLang§§(szTemp)
+    
+    'ToolTip
+    Err.Clear
+    szTemp = objCtrl.ToolTipText
+    If Err.Number = 0 Then objCtrl.ToolTipText = §§TrasLang§§(szTemp)
+    
+    If TypeOf objCtrl Is SSTab Then
+      'SSTab
+      For ii = 0 To objCtrl.Tabs - 1
+        objCtrl.TabCaption(ii) = §§TrasLang§§(objCtrl.TabCaption(ii))
+      Next
+    ElseIf TypeOf objCtrl Is ListView Then
+      'ListView
+      For ii = 1 To objCtrl.ColumnHeaders.Count
+        objCtrl.ColumnHeaders(ii).Text = §§TrasLang§§(objCtrl.ColumnHeaders(ii).Text)
+      Next
+    End If
+  Next
+
+  Exit Sub
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":basPatch.PatchFormLang"
 End Sub
 
 

@@ -32,6 +32,7 @@ Private Type DetailAction
   Valid As Boolean
   TypeA As TypeActionFlexGrid
   Data As String
+  CurrentSetting As String
 End Type
 
 Dim objAction() As DetailAction
@@ -152,6 +153,48 @@ Dim ii As Integer
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":ClsSuperFGrid.ActionPosition"
 End Function
 
+Public Sub SetCurrentSetting(ByVal Col As Integer, ByVal Row As Integer, TypeA As TypeActionFlexGrid, Value As String)
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":Property Let ClsSuperFGrid.SetCurrentSetting(" & Col & "," & Row & "," & TypeA & "," & QUOTE & Value & QUOTE & ")", etFullDebug
+
+Dim ii As Integer
+Dim vData
+    
+  ii = ActionPosition(Col, Row, TypeA)
+  If ii > 0 Then
+    objAction(ii).CurrentSetting = Value
+    
+    Select Case TypeA
+      Case TAFG_COMBO
+        'cange list index change description
+        vData = Split(objAction(ii).Data, "|")
+        For ii = 0 To Int(UBound(vData) / 3)
+          If vData(ii * 3 + 1) = Value Then
+            objFGrid.TextMatrix(Row, Col) = vData(ii * 3)
+            Exit For
+          End If
+        Next
+
+    End Select
+  End If
+  Exit Sub
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":ClsSuperFGrid.SetCurrentSetting"
+End Sub
+
+Public Function GetCurrentSetting(ByVal Col As Integer, ByVal Row As Integer, TypeA As TypeActionFlexGrid) As String
+If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
+frmMain.svr.LogEvent "Entering " & App.Title & ":ClsSuperFGrid.GetCurrentSetting(" & Col & "," & Row & "," & TypeA & ")", etFullDebug
+
+Dim ii As Integer
+    
+  ii = ActionPosition(Col, Row, TypeA)
+  If ii > 0 Then GetCurrentSetting = objAction(ii).CurrentSetting
+  Exit Function
+
+Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":ClsSuperFGrid.GetCurrentSetting"
+End Function
+
 'create CheckBoxes
 Public Property Get IsChecked(ByVal Col As Integer, ByVal Row As Integer) As Boolean
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
@@ -171,6 +214,7 @@ Dim iCol As Integer
     .Col = iCol
   End With
   Exit Property
+
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":ClsSuperFGrid.IsChecked"
 End Property
 
@@ -227,12 +271,16 @@ Private Sub objComboDummy_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":ClsSuperFGrid.objComboDummy_Click()", etFullDebug
   
-  If objComboDummy.Visible = True Then
-    objFGrid.Text = objComboDummy.Text
-    objComboDummy.Text = ""
-    objComboDummy.Visible = False
-    RaiseEvent ComboChange(objFGrid.Col, objFGrid.Row)
-  End If
+  With objComboDummy
+    If .Visible Then
+      objAction(ActionPosition(objFGrid.Col, objFGrid.Row, TAFG_COMBO)).CurrentSetting = .ItemData(.ListIndex)
+      objFGrid.Text = .Text
+      .Text = ""
+      .Visible = False
+    
+      RaiseEvent ComboChange(objFGrid.Col, objFGrid.Row)
+    End If
+  End With
 
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":ClsSuperFGrid.objComboDummy_Click"
@@ -261,9 +309,9 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":ClsSuperFGrid.objComboDummy_Los
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":ClsSuperFGrid.objComboDummy_LostFocus"
 End Sub
 
-Private Sub objFGrid_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub objFGrid_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":ClsSuperFGrid.objFGrid_MouseUp(" & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":ClsSuperFGrid.objFGrid_MouseUp(" & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
 
 Dim iRow As Integer
 Dim iCol As Integer
@@ -290,7 +338,8 @@ Dim ii As Integer
           objComboDummy.Clear
           vData = Split(objAction(ActionPosition(.Col, .Row, TAFG_COMBO)).Data, "|")
           For ii = 0 To Int(UBound(vData) / 3)
-            objComboDummy.AddItem vData(ii * 3), vData(ii * 3 + 1)
+            objComboDummy.AddItem vData(ii * 3)
+            objComboDummy.ItemData(objComboDummy.NewIndex) = vData(ii * 3 + 1)
             If vData(ii * 3 + 2) = "1" Then objComboDummy.ListIndex = objComboDummy.NewIndex
           Next
           objComboDummy.BackColor = .BackColor

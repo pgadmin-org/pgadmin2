@@ -148,7 +148,7 @@ Dim szTemp As String
       End Select
       
       'load object
-      StartMsg "Load " & szObjectType
+      StartMsg §§TrasLang§§("Load ") & szObjectType
       objForm.Initialise szDatabase, szNamespace, CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace), szTemp, VbGet, szIdentifier)
       ActivateForm objForm
     
@@ -173,7 +173,7 @@ Dim szTemp As String
       
       'load object
       Load objForm
-      StartMsg "Load " & szObjectType
+      StartMsg §§TrasLang§§("Load ") & szObjectType
       objForm.Initialise CallByName(frmMain.svr, szObjectType & "s", VbGet, szIdentifier)
       ActivateForm objForm
   
@@ -198,7 +198,7 @@ Dim szTemp As String
       
       'load object
       Load objForm
-      StartMsg "Load " & szObjectType
+      StartMsg §§TrasLang§§("Load ") & szObjectType
       objForm.Initialise szDatabase, CallByName(frmMain.svr.Databases(szDatabase), szObjectType & "s", VbGet, szIdentifier)
       ActivateForm objForm
   
@@ -244,7 +244,7 @@ Dim szTemp As String
   
       'load object
       Load objForm
-      StartMsg "Load " & szObjectType
+      StartMsg §§TrasLang§§("Load ") & szObjectType
       Select Case szObjectType
         Case "Column"
           objForm.Initialise szDatabase, szNamespace, "MP", CallByName(frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(szTable), szObjectType & "s", VbGet, szIdentifier)

@@ -536,39 +536,39 @@ Dim lvItem As ListItem
   'load database
   cboDatabase.ComboItems.Clear
   For Each objDatabase In frmMain.svr.Databases
-      If Not (objDatabase.SystemObject And Not ctx.IncludeSys) And objDatabase.AllowConnections Then
-        cboDatabase.ComboItems.Add , objDatabase.Name, objDatabase.Name, "database", "database"
-      End If
+    If Not (objDatabase.SystemObject And Not ctx.IncludeSys) And objDatabase.AllowConnections Then
+      cboDatabase.ComboItems.Add , objDatabase.Name, objDatabase.Name, "database", "database"
+    End If
   Next
   cboDatabase.ComboItems(1).Selected = True
   cboDatabase_Click
   
   'search for modal
   cboSearchFor.ComboItems.Clear
-  cboSearchFor.ComboItems.Add , "WWR", "Whole Word", "all"
-  cboSearchFor.ComboItems.Add , "BGN", "Beginning", "all"
-  cboSearchFor.ComboItems.Add , "END", "Ending", "all"
-  cboSearchFor.ComboItems.Add , "SBR", "Substring", "all"
+  cboSearchFor.ComboItems.Add , "WWR", §§TrasLang§§("Whole Word"), "all"
+  cboSearchFor.ComboItems.Add , "BGN", §§TrasLang§§("Beginning"), "all"
+  cboSearchFor.ComboItems.Add , "END", §§TrasLang§§("Ending"), "all"
+  cboSearchFor.ComboItems.Add , "SBR", §§TrasLang§§("Substring"), "all"
   cboSearchFor.ComboItems(1).Selected = True
   
   'load object type
   lvObjType.ListItems.Clear
-  lvObjType.ListItems.Add , "AGG", "Aggregate", "aggregate", "aggregate"
+  lvObjType.ListItems.Add , "AGG", §§TrasLang§§("Aggregate"), "aggregate", "aggregate"
   If ctx.dbVer >= 7.3 Then
-    lvObjType.ListItems.Add , "CST", "Cast", "cast", "cast"
-    lvObjType.ListItems.Add , "DOM", "Domain", "domain", "domain"
-    lvObjType.ListItems.Add , "CNV", "Conversion", "conversion", "conversion"
+    lvObjType.ListItems.Add , "CST", §§TrasLang§§("Cast"), "cast", "cast"
+    lvObjType.ListItems.Add , "DOM", §§TrasLang§§("Domain"), "domain", "domain"
+    lvObjType.ListItems.Add , "CNV", §§TrasLang§§("Conversion"), "conversion", "conversion"
   End If
-  lvObjType.ListItems.Add , "FNC", "Function", "function", "function"
-  lvObjType.ListItems.Add , "LNG", "Language", "language", "language"
-  lvObjType.ListItems.Add , "OPR", "Operator", "operator", "operator"
+  lvObjType.ListItems.Add , "FNC", §§TrasLang§§("Function"), "function", "function"
+  lvObjType.ListItems.Add , "LNG", §§TrasLang§§("Language"), "language", "language"
+  lvObjType.ListItems.Add , "OPR", §§TrasLang§§("Operator"), "operator", "operator"
   If ctx.dbVer >= 7.3 Then
-    lvObjType.ListItems.Add , "OPC", "Operator Class", "operatorclass", "operatorclass"
+    lvObjType.ListItems.Add , "OPC", §§TrasLang§§("Operator Class"), "operatorclass", "operatorclass"
   End If
-  lvObjType.ListItems.Add , "SEQ", "Sequence", "sequence", "sequence"
-  lvObjType.ListItems.Add , "TBL", "Table", "table", "table"
-  lvObjType.ListItems.Add , "TYP", "Type", "type", "type"
-  lvObjType.ListItems.Add , "VIE", "View", "view", "view"
+  lvObjType.ListItems.Add , "SEQ", §§TrasLang§§("Sequence"), "sequence", "sequence"
+  lvObjType.ListItems.Add , "TBL", §§TrasLang§§("Table"), "table", "table"
+  lvObjType.ListItems.Add , "TYP", §§TrasLang§§("Type"), "type", "type"
+  lvObjType.ListItems.Add , "VIE", §§TrasLang§§("View"), "view", "view"
   
   lvOwner.ListItems.Clear
   For Each objUser In frmMain.svr.Users
@@ -577,13 +577,13 @@ Dim lvItem As ListItem
   
   'column result
   lvColResult.ListItems.Clear
-  Set lvItem = lvColResult.ListItems.Add(, "NAM", "Name", "column", "column")
+  Set lvItem = lvColResult.ListItems.Add(, "NAM", §§TrasLang§§("Name"), "column", "column")
   lvItem.Checked = True
-  Set lvItem = lvColResult.ListItems.Add(, "SCH", "Schema", "column", "column")
+  Set lvItem = lvColResult.ListItems.Add(, "SCH", §§TrasLang§§("Schema"), "column", "column")
   lvItem.Checked = True
-  lvColResult.ListItems.Add , "OID", "Oid Object", "column", "column"
-  lvColResult.ListItems.Add , "COM", "Comment", "column", "column"
-  lvColResult.ListItems.Add , "SQL", "SQL", "column", "column"
+  lvColResult.ListItems.Add , "OID", §§TrasLang§§("Oid Object"), "column", "column"
+  lvColResult.ListItems.Add , "COM", §§TrasLang§§("Comment"), "column", "column"
+  lvColResult.ListItems.Add , "SQL", §§TrasLang§§("SQL"), "column", "column"
   
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.Initialise"
@@ -642,7 +642,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.chkOnlyOid_Click()", et
     lblFind(2).Enabled = True
     txtName.Enabled = True
     txtComment.Enabled = True
-    txtSQL.Enabled = True
+    txtSql.Enabled = True
     cboSearchFor.Enabled = True
     lvNameSpace.Enabled = True
     txtOid.Enabled = False
@@ -658,7 +658,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.chkOnlyOid_Click()", et
     lblFind(2).Enabled = False
     txtName.Enabled = False
     txtComment.Enabled = False
-    txtSQL.Enabled = False
+    txtSql.Enabled = False
     cboSearchFor.Enabled = False
     lvNameSpace.Enabled = False
     txtOid.Enabled = True
@@ -674,7 +674,7 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFind.cmdFind_Click()", etFul
 
 Dim szName As String
 Dim szComment As String
-Dim szSql As String
+Dim szSQL As String
 Dim iLenName As Integer
 Dim iLenComment As Integer
 Dim iLenSql As Integer
@@ -693,12 +693,12 @@ Dim szOwner() As String
 Dim bSreachOwner As Boolean
 Dim lOid As Long
   
-  StartMsg "Find in progress..."
+  StartMsg §§TrasLang§§("Find in progress...")
   
   'find object
   szName = txtName.Text:  iLenName = Len(szName)
   szComment = txtComment.Text:   iLenComment = Len(szComment)
-  szSql = txtSQL.Text:  iLenSql = Len(szSql)
+  szSQL = txtSql.Text:  iLenSql = Len(szSQL)
   
   Set objDatabase = frmMain.svr.Databases(cboDatabase.SelectedItem.Text)
   szSearchFor = cboSearchFor.SelectedItem.Key
@@ -706,16 +706,16 @@ Dim lOid As Long
   'columns result
   lvResult.ListItems.Clear
   lvResult.ColumnHeaders.Clear
-  lvResult.ColumnHeaders.Add , , "Name"
-  lvResult.ColumnHeaders.Add , , "Schema"
-  If lvColResult.ListItems("COM").Checked Then lvResult.ColumnHeaders.Add , , "Comment"
-  If lvColResult.ListItems("SQL").Checked Then lvResult.ColumnHeaders.Add , , "SQL"
-  If lvColResult.ListItems("OID").Checked Then lvResult.ColumnHeaders.Add , , "Oid Object"
+  lvResult.ColumnHeaders.Add , , §§TrasLang§§("Name")
+  lvResult.ColumnHeaders.Add , , §§TrasLang§§("Schema")
+  If lvColResult.ListItems("COM").Checked Then lvResult.ColumnHeaders.Add , , §§TrasLang§§("Comment")
+  If lvColResult.ListItems("SQL").Checked Then lvResult.ColumnHeaders.Add , , §§TrasLang§§("SQL")
+  If lvColResult.ListItems("OID").Checked Then lvResult.ColumnHeaders.Add , , §§TrasLang§§("Oid Object")
   
   'find only oid
   If chkOnlyOid.Value = 1 Then
     If Not IsNumeric(txtOid.Text) Then
-      MsgBox "Oid is not numeric!", vbCritical + vbSystemModal, "Error"
+      MsgBox §§TrasLang§§("Oid is not numeric!"), vbExclamation, §§TrasLang§§("Error")
       txtOid.SetFocus
       EndMsg
       Exit Sub
@@ -785,7 +785,7 @@ Dim lOid As Long
     End If
   Next
   If Not bFound Then
-    MsgBox "Schema not selected!", vbSystemModal + vbCritical, "Error"
+    MsgBox §§TrasLang§§("Schema not selected!"), vbExclamation, §§TrasLang§§("Error")
     EndMsg
     Exit Sub
   End If
@@ -871,13 +871,13 @@ Dim lOid As Long
             bFoundSql = False
             Select Case szSearchFor
               Case "WWR"
-                bFoundSql = objTmp.SQL = szSql
+                bFoundSql = objTmp.SQL = szSQL
               Case "BGN"
-                bFoundSql = Left(objTmp.SQL, iLenSql) = szSql
+                bFoundSql = Left(objTmp.SQL, iLenSql) = szSQL
               Case "END"
-                bFoundSql = Right(objTmp.SQL, iLenSql) = szSql
+                bFoundSql = Right(objTmp.SQL, iLenSql) = szSQL
               Case "SBR"
-                bFoundSql = InStr(objTmp.SQL, szSql) > 0
+                bFoundSql = InStr(objTmp.SQL, szSQL) > 0
             End Select
           End If
        
@@ -1105,4 +1105,3 @@ Dim lvItem As ListItem
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFind.AddResult"
 End Sub
-

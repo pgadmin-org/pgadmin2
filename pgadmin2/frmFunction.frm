@@ -634,25 +634,25 @@ Dim szSource As String
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a function name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a function name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(0).Text = "" Then
-    MsgBox "You must select a function language!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a function language!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
-    MsgBox "You must select a return type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a return type!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     cboProperties(1).SetFocus
     Exit Sub
   End If
   If hbxProperties(1).Text = "" Then
-    MsgBox "You must specify the function definition or object library!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify the function definition or object library!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 2
     hbxProperties(1).SetFocus
     Exit Sub
@@ -667,18 +667,18 @@ Dim szSource As String
 
   szSource = Replace(hbxProperties(1).Text, vbCrLf, vbLf)
   If bNew Then
-    StartMsg "Creating Function..."
+    StartMsg §§TrasLang§§("Creating Function...")
     Set objNewFunction = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Add(txtProperties(0).Text, szArguments, cboProperties(1).Text, szSource, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), hbxProperties(0).Text, cboProperties(3).Text, Bin2Bool(chkProperties(3).Value), Bin2Bool(chkProperties(2).Value))
     
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions.Tag
     Set objNewFunction.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "FNC-" & GetID, txtProperties(0).Text & "(" & szArguments & ")", "function")
-    objNode.Text = "Functions (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Functions (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Function..."
+    StartMsg §§TrasLang§§("Updating Function...")
     If hbxProperties(0).Tag = "Y" Then objFunction.Comment = hbxProperties(0).Text
     If hbxProperties(1).Tag = "Y" Then objFunction.Source = szSource
   End If
@@ -708,7 +708,7 @@ Dim szSource As String
         szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
-      If InStr(1, objItem.SubItems(1), "Execute") <> 0 Then lACL = lACL + aclExecute
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Execute")) <> 0 Then lACL = lACL + aclExecute
       frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Functions(szIdentifier).Grant szEntity, lACL
     Next objItem
   End If
@@ -728,7 +728,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional oFunction As pgFunction)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.Initialise(" & Quote & szDB & Quote & ")", etFullDebug
 
 Dim X As Integer
 Dim objLanguage As pgLanguage
@@ -766,7 +766,7 @@ Dim szAccess() As String
   
     'Create a new Function
     bNew = True
-    Me.Caption = "Create Function"
+    Me.Caption = §§TrasLang§§("Create Function")
     
     'Load the combo
     For Each objLanguage In frmMain.svr.Databases(szDatabase).Languages
@@ -852,7 +852,7 @@ Dim szAccess() As String
     Set objFunction = oFunction
     bNew = False
     
-    Me.Caption = "Function: " & objFunction.Identifier
+    Me.Caption = §§TrasLang§§("Function: ") & objFunction.Identifier
     txtProperties(0).Text = objFunction.Name
     txtProperties(1).Text = objFunction.Oid
     txtProperties(2).Text = objFunction.Owner
@@ -948,7 +948,6 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.chkProperties_Click
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmFunction.chkProperties_Click"
 End Sub
 
-
 Private Sub cmdRemovePrivilege_Click()
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmFunction.cmdRemovePrivilege_Click()", etFullDebug
@@ -973,7 +972,7 @@ Dim objItem As ListItem
   'Check the entry doesn't already exist
   For Each objItem In lvProperties(1).ListItems
     If (objItem.Text = cboEntities.SelectedItem.Text) And (objItem.SmallIcon = cboEntities.SelectedItem.Image) Then
-      MsgBox "'" & objItem.Text & "' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.", vbExclamation, "Error"
+      MsgBox "'" & objItem.Text & §§TrasLang§§("' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced."), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next objItem

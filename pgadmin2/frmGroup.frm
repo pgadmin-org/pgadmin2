@@ -1,17 +1,17 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmGroup 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Group"
-   ClientHeight    =   6885
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   6876
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   5520
    Icon            =   "frmGroup.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6885
+   ScaleHeight     =   6876
    ScaleWidth      =   5520
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdOK 
@@ -65,8 +65,8 @@ Begin VB.Form frmGroup
       Begin MSComctlLib.ImageList il 
          Left            =   90
          Top             =   5670
-         _ExtentX        =   1005
-         _ExtentY        =   1005
+         _ExtentX        =   995
+         _ExtentY        =   995
          BackColor       =   -2147483643
          ImageWidth      =   16
          ImageHeight     =   16
@@ -88,8 +88,8 @@ Begin VB.Form frmGroup
          ToolTipText     =   "All PostgreSQL users are listed, those that are ticked are members of the group."
          Top             =   1350
          Width           =   3435
-         _ExtentX        =   6059
-         _ExtentY        =   8520
+         _ExtentX        =   6054
+         _ExtentY        =   8530
          View            =   3
          LabelEdit       =   1
          Sorted          =   -1  'True
@@ -207,24 +207,24 @@ Dim szRemoveList As String
   
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a group name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a group name!"), vbExclamation, §§TrasLang§§("Error")
     txtProperties(0).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating Group..."
+    StartMsg §§TrasLang§§("Creating Group...")
     Set objNewGroup = frmMain.svr.Groups.Add(txtProperties(0).Text, Val(txtProperties(1).Text))
 
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Groups.Tag
     Set objNewGroup.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "GRP-" & GetID, txtProperties(0).Text, "group")
-    objNode.Text = "Groups (" & frmMain.svr.Groups.Count & ")"
+    objNode.Text = §§TrasLang§§("Groups (") & frmMain.svr.Groups.Count & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
-    StartMsg "Updating Group..."
+    StartMsg §§TrasLang§§("Updating Group...")
   End If
   
   'Add/Remove the users from the existing/new group
@@ -275,7 +275,7 @@ Dim lNextID As Long
   
     'Create a new Group
     bNew = True
-    Me.Caption = "Create Group"
+    Me.Caption = §§TrasLang§§("Create Group")
     
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -294,7 +294,7 @@ Dim lNextID As Long
     'Display/Edit the specified Group.
     Set objGroup = Group
     bNew = False
-    Me.Caption = "Group: " & objGroup.Identifier
+    Me.Caption = §§TrasLang§§("Group: ") & objGroup.Identifier
     txtProperties(0).Text = objGroup.Name
     txtProperties(1).Text = objGroup.ID
 
@@ -334,5 +334,3 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmGroup.txtProperties_Change("
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmGroup.txtProperties_Change"
 End Sub
-
-

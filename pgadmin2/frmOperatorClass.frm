@@ -102,25 +102,25 @@ Begin VB.Form frmOperatorClass
       TabCaption(1)   =   "&Operator"
       TabPicture(1)   =   "frmOperatorClass.frx":1FB6
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblProperties(4)"
-      Tab(1).Control(1)=   "lblProperties(5)"
-      Tab(1).Control(2)=   "cboProperties(2)"
-      Tab(1).Control(3)=   "lvProperties(0)"
-      Tab(1).Control(4)=   "cmdAddOp"
-      Tab(1).Control(5)=   "cmdRemoveOp"
-      Tab(1).Control(6)=   "chkProperties(1)"
-      Tab(1).Control(7)=   "txtProperties(3)"
+      Tab(1).Control(0)=   "txtProperties(3)"
+      Tab(1).Control(1)=   "chkProperties(1)"
+      Tab(1).Control(2)=   "cmdRemoveOp"
+      Tab(1).Control(3)=   "cmdAddOp"
+      Tab(1).Control(4)=   "lvProperties(0)"
+      Tab(1).Control(5)=   "cboProperties(2)"
+      Tab(1).Control(6)=   "lblProperties(5)"
+      Tab(1).Control(7)=   "lblProperties(4)"
       Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Function"
       TabPicture(2)   =   "frmOperatorClass.frx":1FD2
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblProperties(7)"
-      Tab(2).Control(1)=   "lblProperties(8)"
-      Tab(2).Control(2)=   "cboProperties(3)"
+      Tab(2).Control(0)=   "txtProperties(4)"
+      Tab(2).Control(1)=   "cmdAddFnc"
+      Tab(2).Control(2)=   "cmdRemoveFnc"
       Tab(2).Control(3)=   "lvProperties(1)"
-      Tab(2).Control(4)=   "cmdRemoveFnc"
-      Tab(2).Control(5)=   "cmdAddFnc"
-      Tab(2).Control(6)=   "txtProperties(4)"
+      Tab(2).Control(4)=   "cboProperties(3)"
+      Tab(2).Control(5)=   "lblProperties(8)"
+      Tab(2).Control(6)=   "lblProperties(7)"
       Tab(2).ControlCount=   7
       Begin VB.TextBox txtProperties 
          BackColor       =   &H8000000F&
@@ -542,18 +542,18 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperatorClass.cmdAddOp_Click
 Dim objLItem As ListItem
 
   If Len(cboProperties(2).Text) = 0 Then
-    MsgBox "You must select a operator!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a operator!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If Len(txtProperties(3).Text) = 0 Then
-    MsgBox "You must specify a strategy number!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a strategy number!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
 
   'verify if exist in list
   For Each objLItem In lvProperties(0).ListItems
     If objLItem.SubItems(2) = cboProperties(2).Text Then
-      MsgBox "'" & objLItem.SubItems(2) & "' already appears in the Operator List!", vbExclamation, "Error"
+      MsgBox "'" & objLItem.SubItems(2) & §§TrasLang§§("' already appears in the Operator List!"), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next
@@ -573,11 +573,11 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperatorClass.cmdRemoveOp_Click()", etFullDebug
 
   If lvProperties(0).SelectedItem Is Nothing Then
-    MsgBox "You must select a operator to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a operator to remove!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
 
-  If MsgBox("Are you sure you wish to remove operator '" & lvProperties(0).SelectedItem.SubItems(2) & "' ?", vbQuestion + vbYesNo, "Remove Operator") = vbNo Then Exit Sub
+  If MsgBox(§§TrasLang§§("Are you sure you wish to remove operator '") & lvProperties(0).SelectedItem.SubItems(2) & "' ?", vbQuestion + vbYesNo, §§TrasLang§§("Remove Operator")) = vbNo Then Exit Sub
   lvProperties(0).ListItems.Remove lvProperties(0).SelectedItem.Index
   AutoSizeColumnLv lvProperties(0)
 
@@ -592,18 +592,18 @@ frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperatorClass.cmdAddFnc_Clic
 Dim objLItem As ListItem
 
   If Len(cboProperties(3).Text) = 0 Then
-    MsgBox "You must select a function!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a function!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
   If Len(txtProperties(4).Text) = 0 Then
-    MsgBox "You must specify a support number!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a support number!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
 
   'verify if exist in list
   For Each objLItem In lvProperties(1).ListItems
     If objLItem.SubItems(1) = cboProperties(2).Text Then
-      MsgBox "'" & objLItem.SubItems(2) & "' already appears in the Function List!", vbExclamation, "Error"
+      MsgBox "'" & objLItem.SubItems(2) & §§TrasLang§§("' already appears in the Function List!"), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next
@@ -622,11 +622,11 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmOperatorClass.cmdRemoveFnc_Click()", etFullDebug
 
   If lvProperties(1).SelectedItem Is Nothing Then
-    MsgBox "You must select a function to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a function to remove!"), vbExclamation, §§TrasLang§§("Error")
     Exit Sub
   End If
 
-  If MsgBox("Are you sure you wish to remove function '" & lvProperties(1).SelectedItem.SubItems(1) & "' ?", vbQuestion + vbYesNo, "Remove Function") = vbNo Then Exit Sub
+  If MsgBox(§§TrasLang§§("Are you sure you wish to remove function '") & lvProperties(1).SelectedItem.SubItems(1) & "' ?", vbQuestion + vbYesNo, §§TrasLang§§("Remove Function")) = vbNo Then Exit Sub
   lvProperties(1).ListItems.Remove lvProperties(1).SelectedItem.Index
   AutoSizeColumnLv lvProperties(1)
 
@@ -664,7 +664,7 @@ Dim ii As Integer
 
     'Create a new Operator Class
     bNew = True
-    Me.Caption = "Create Operator Class"
+    Me.Caption = §§TrasLang§§("Create Operator Class")
 
     'Load the combo
     'for data type
@@ -708,7 +708,7 @@ Dim ii As Integer
     bNew = False
 
     With objOperatorClass
-      Me.Caption = "Operator Class: " & .Identifier
+      Me.Caption = §§TrasLang§§("Operator Class: ") & .Identifier
       txtProperties(0).Text = .Name
       txtProperties(1).Text = .Oid
       txtProperties(2).Text = .Owner
@@ -756,19 +756,19 @@ Dim objLItem As ListItem
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a operator class name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a operator class name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(0).Text = "" Then
-    MsgBox "You must select a data type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a data type!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
-    MsgBox "You must select a access method!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a access method!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     cboProperties(1).SetFocus
     Exit Sub
@@ -796,17 +796,17 @@ Dim objLItem As ListItem
   Next
   
   If bNew Then
-    StartMsg "Creating Function..."
+    StartMsg §§TrasLang§§("Creating Operator Class...")
     Set objNewOperatoClass = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).OperatorsClass.Add(txtProperties(0).Text, cboProperties(1).Text, cboProperties(0).Text, Bin2Bool(chkProperties(0).Value), DataOps, DataFncs)
 
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).OperatorsClass.Tag
     Set objNewOperatoClass.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "OPC-" & GetID, txtProperties(0).Text & " (" & cboProperties(1).Text & ")", "operatorclass")
-    objNode.Text = "Operators Class (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Operators Class (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
   Else
-    StartMsg "Updating Function..."
+    StartMsg §§TrasLang§§("Updating Operator Class...")
   End If
   
   'Simulate a node click to refresh the ListFunction

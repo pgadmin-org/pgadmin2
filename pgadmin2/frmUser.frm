@@ -74,14 +74,14 @@ Begin VB.Form frmUser
       TabCaption(1)   =   "&Variables"
       TabPicture(1)   =   "frmUser.frx":0166
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cboVarValue"
-      Tab(1).Control(1)=   "cmdRemoveVar"
-      Tab(1).Control(2)=   "cmdAddVar"
-      Tab(1).Control(3)=   "txtVarValue"
-      Tab(1).Control(4)=   "lvProperties(0)"
-      Tab(1).Control(5)=   "cboVarName"
-      Tab(1).Control(6)=   "Label1"
-      Tab(1).Control(7)=   "Label2"
+      Tab(1).Control(0)=   "Label2"
+      Tab(1).Control(1)=   "Label1"
+      Tab(1).Control(2)=   "cboVarName"
+      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(4)=   "txtVarValue"
+      Tab(1).Control(5)=   "cmdAddVar"
+      Tab(1).Control(6)=   "cmdRemoveVar"
+      Tab(1).Control(7)=   "cboVarValue"
       Tab(1).ControlCount=   8
       TabCaption(2)   =   "&Present in groups"
       TabPicture(2)   =   "frmUser.frx":0182
@@ -148,7 +148,7 @@ Begin VB.Form frmUser
          Appearance      =   1
          ShowToday       =   0   'False
          ShowWeekNumbers =   -1  'True
-         StartOfWeek     =   54853634
+         StartOfWeek     =   54525954
          CurrentDate     =   37089
          MinDate         =   36892
       End
@@ -506,33 +506,33 @@ Dim objNode As Node
 Dim objNewUser As pgUser
 Dim objItem As ListItem
 Dim szDropVars() As String
-Dim x As Integer
+Dim X As Integer
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a username!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a username!"), vbExclamation, §§TrasLang§§("Error")
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If txtProperties(2).Text <> txtProperties(3).Text Then
-    MsgBox "The passwords do not match!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("The passwords do not match!"), vbExclamation, §§TrasLang§§("Error")
     txtProperties(2).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating User..."
+    StartMsg §§TrasLang§§("Creating User...")
     Set objNewUser = frmMain.svr.Users.Add(txtProperties(0).Text, Val(txtProperties(1).Text), txtProperties(2).Text, Bin2Bool(chkProperties(0).Value), Bin2Bool(chkProperties(1).Value), mvProperties(0).Value)
     
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Users.Tag
     Set objNewUser.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "USR-" & GetID, txtProperties(0).Text, "user")
-    objNode.Text = "Users (" & frmMain.svr.Users.Count & ")"
+    objNode.Text = §§TrasLang§§("Users (") & frmMain.svr.Users.Count & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
       
   Else
-    StartMsg "Updating User..."
+    StartMsg §§TrasLang§§("Updating User...")
     
     'Add any vars
     If lvProperties(0).Tag = "Y" Then
@@ -544,9 +544,9 @@ Dim x As Integer
     'Drop any vars
     If Len(szVarDropList) > 3 Then
       szDropVars = Split(szVarDropList, "!|!")
-      For x = 0 To UBound(szDropVars)
-        If szDropVars(x) <> "" Then objUser.UserVars.Remove szDropVars(x)
-      Next x
+      For X = 0 To UBound(szDropVars)
+        If szDropVars(X) <> "" Then objUser.UserVars.Remove szDropVars(X)
+      Next X
     End If
     
     If txtProperties(2).Tag = "Y" Then objUser.Password = txtProperties(2).Text
@@ -578,7 +578,7 @@ Public Sub Initialise(Optional User As pgUser)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.Initialise()", etFullDebug
   
-Dim x As Integer
+Dim X As Integer
 Dim objTempUser As pgUser
 Dim objTempGroup As pgGroup
 Dim objTempMember As Variant
@@ -594,7 +594,7 @@ Dim rsVar As Recordset
   
     'Create a new user
     bNew = True
-    Me.Caption = "Create User"
+    Me.Caption = §§TrasLang§§("Create User")
     
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -638,7 +638,7 @@ Dim rsVar As Recordset
     'Display/Edit the specified User.
     Set objUser = User
     bNew = False
-    Me.Caption = "User: " & objUser.Identifier
+    Me.Caption = §§TrasLang§§("User: ") & objUser.Identifier
     txtProperties(0).Text = objUser.Name
     txtProperties(1).Text = objUser.ID
     txtProperties(2).Text = objUser.Password
@@ -660,9 +660,9 @@ Dim rsVar As Recordset
   End If
   
   'Reset the Tags
-  For x = 0 To 3
-    txtProperties(x).Tag = "N"
-  Next x
+  For X = 0 To 3
+    txtProperties(X).Tag = "N"
+  Next X
   chkProperties(0).Tag = "N"
   chkProperties(1).Tag = "N"
   mvProperties(0).Tag = "N"
@@ -707,7 +707,7 @@ If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmUser.cmdRemoveVar_Click()", etFullDebug
 
     If lvProperties(0).SelectedItem Is Nothing Then
-    MsgBox "You must select a variable to remove!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select a variable to remove!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     lvProperties(0).SetFocus
     Exit Sub
@@ -748,7 +748,7 @@ Dim szImg As String
   End If
 
   If Trim(szVal) = "" Then
-    MsgBox "You must enter a value for the variable!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must enter a value for the variable!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     txtVarValue.SetFocus
     Exit Sub
@@ -883,9 +883,9 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 
-Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lvProperties_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & x & "," & y & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmDatabase.lvProperties_MouseDown(" & Index & "," & Button & "," & Shift & "," & X & "," & Y & ")", etFullDebug
 
   If Button = vbRightButton Then
     mnuModifyPasteVar.Enabled = False

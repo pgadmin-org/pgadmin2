@@ -1,18 +1,18 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{44F33AC4-8757-4330-B063-18608617F23E}#12.4#0"; "HighlightBox.ocx"
 Begin VB.Form frmRule 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Rule"
-   ClientHeight    =   6870
-   ClientLeft      =   6315
-   ClientTop       =   2970
+   ClientHeight    =   6864
+   ClientLeft      =   6312
+   ClientTop       =   2976
    ClientWidth     =   5520
    Icon            =   "frmRule.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   6870
+   ScaleHeight     =   6864
    ScaleWidth      =   5520
    Begin VB.CommandButton cmdOK 
       Caption         =   "OK"
@@ -91,12 +91,12 @@ Begin VB.Form frmRule
          ToolTipText     =   "Any SQL boolean-condition expression. The condition expression may not refer to any tables except new and old. "
          Top             =   2340
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   1614
+         _ExtentX        =   9165
+         _ExtentY        =   1609
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -129,15 +129,15 @@ Begin VB.Form frmRule
          Width           =   3390
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   0
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   3
          ToolTipText     =   "Object is either table or table.column. (Currently, only the table form is actually implemented.)"
-         Top             =   1485
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1488
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -145,15 +145,15 @@ Begin VB.Form frmRule
          ImageList       =   "il"
       End
       Begin MSComctlLib.ImageCombo cboProperties 
-         Height          =   330
+         Height          =   300
          Index           =   1
-         Left            =   1935
+         Left            =   1932
          TabIndex        =   4
          ToolTipText     =   "The Event that will cause the rule to be invoked. Event is one of SELECT, UPDATE, DELETE or INSERT."
-         Top             =   1890
-         Width           =   3390
-         _ExtentX        =   5980
-         _ExtentY        =   582
+         Top             =   1896
+         Width           =   3396
+         _ExtentX        =   5990
+         _ExtentY        =   529
          _Version        =   393216
          ForeColor       =   -2147483640
          BackColor       =   -2147483633
@@ -168,12 +168,12 @@ Begin VB.Form frmRule
          ToolTipText     =   "The query or queries making up the action can be any SQL SELECT, INSERT, UPDATE, DELETE, or NOTIFY statement."
          Top             =   3690
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   1614
+         _ExtentX        =   9165
+         _ExtentY        =   1609
          BackColor       =   -2147483633
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -191,11 +191,11 @@ Begin VB.Form frmRule
          ToolTipText     =   "Comments about the rule."
          Top             =   4725
          Width           =   5190
-         _ExtentX        =   9155
-         _ExtentY        =   2487
+         _ExtentX        =   9165
+         _ExtentY        =   2477
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   8.25
+            Size            =   7.8
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -248,8 +248,8 @@ Begin VB.Form frmRule
    Begin MSComctlLib.ImageList il 
       Left            =   45
       Top             =   6300
-      _ExtentX        =   1005
-      _ExtentY        =   1005
+      _ExtentX        =   995
+      _ExtentY        =   995
       BackColor       =   -2147483643
       ImageWidth      =   16
       ImageHeight     =   16
@@ -310,19 +310,19 @@ Dim objNewRule As pgRule
 
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Rule name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Rule name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(0).Text = "" Then
-    MsgBox "You must select an object!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select an object!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
-    MsgBox "You must select an event!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must select an event!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(1).SetFocus
     Exit Sub
@@ -330,7 +330,7 @@ Dim objNewRule As pgRule
   If hbxProperties(1).Text = "" Then hbxProperties(1).Text = "NOTHING"
   
   If bNew Then
-    StartMsg "Creating Rule..."
+    StartMsg §§TrasLang§§("Creating Rule...")
     Set objNewRule = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Add(txtProperties(0).Text, cboProperties(1).Text, hbxProperties(0).Text, Bin2Bool(chkProperties(0).Value), hbxProperties(1).Text, hbxProperties(2).Text)
     
     'Add a new node and update the text on the parent
@@ -342,11 +342,11 @@ Dim objNewRule As pgRule
       Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(cboProperties(0).SelectedItem.Tag.Identifier).Rules.Tag
     End If
     Set objNewRule.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "RUL-" & GetID, txtProperties(0).Text, "rule")
-    objNode.Text = "Rules (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Rules (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
 
   Else
-    StartMsg "Updating Rule..."
+    StartMsg §§TrasLang§§("Updating Rule...")
     If hbxProperties(2).Tag = "Y" Then objRule.Comment = hbxProperties(2).Text
   End If
   
@@ -385,7 +385,7 @@ Dim vArgument As Variant
   
     'Create a new Rule
     bNew = True
-    Me.Caption = "Create Rule"
+    Me.Caption = §§TrasLang§§("Create Rule")
     
     'Load the combos
     For Each objTable In frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables
@@ -421,7 +421,7 @@ Dim vArgument As Variant
     Set objRule = Rule
     bNew = False
 
-    Me.Caption = "Rule: " & objRule.Identifier
+    Me.Caption = §§TrasLang§§("Rule: ") & objRule.Identifier
     txtProperties(0).Text = objRule.Name
     txtProperties(1).Text = objRule.Oid
     

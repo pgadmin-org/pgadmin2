@@ -143,7 +143,7 @@ Dim X As Integer
 Dim objNode As Node
 Dim vData
 
-  StartMsg "Connecting to " & txtServer.Text & "..."
+  StartMsg §§TrasLang§§("Connecting to ") & txtServer.Text & "..."
   
   'Connect the Server Object
   frmMain.svr.MasterDB = RegRead(HKEY_CURRENT_USER, "Software\" & App.Title, "Master DB", "template1")
@@ -268,4 +268,3 @@ Dim szConnection() As String
   Exit Sub
 Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.Title & ":frmConnect.Load_Defaults"
 End Sub
-

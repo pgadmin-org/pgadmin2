@@ -435,7 +435,7 @@ Dim szFile As String
 Dim fNum As Integer
   
   With cdlg
-    .DialogTitle = "Load SQL Query"
+    .DialogTitle = §§TrasLang§§("Load SQL Query")
     .FLAGS = cdlOFNFileMustExist + cdlOFNHideReadOnly
     .Filter = "SQL Scripts (*.sql)|*.sql|All Files (*.*)|*.*"
     .FileName = ""
@@ -481,35 +481,35 @@ Dim szOldName As String
     
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a view name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a view name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If UCase(Left(hbxProperties(1).Text, 6)) <> "SELECT" Then
-    MsgBox "The view definition must start with 'SELECT'!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("The view definition must start with 'SELECT'!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 1
     hbxProperties(1).SetFocus
     Exit Sub
   End If
   
   If bNew Then
-    StartMsg "Creating View..."
+    StartMsg §§TrasLang§§("Creating View...")
     Set objNewView = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Add(txtProperties(0).Text, hbxProperties(1).Text, hbxProperties(0).Text)
     
     'Add a new node and update the text on the parent
     On Error Resume Next
     Set objNode = frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views.Tag
     Set objNewView.Tag = frmMain.tv.Nodes.Add(objNode.Key, tvwChild, "VIE-" & GetID, txtProperties(0).Text, "view")
-    objNode.Text = "Views (" & objNode.Children & ")"
+    objNode.Text = §§TrasLang§§("Views (") & objNode.Children & ")"
     If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
     
   Else
     If hbxProperties(1).Tag = "Y" Then
-      If MsgBox("Updating view definitions may break views, functions, rules or other objects that refer to this one. Are you sure you want to continue?", vbExclamation + vbYesNo, "Warning") = vbNo Then Exit Sub
+      If MsgBox(§§TrasLang§§("Updating view definitions may break views, functions, rules or other objects that refer to this one. Are you sure you want to continue?"), vbExclamation + vbYesNo, §§TrasLang§§("Warning")) = vbNo Then Exit Sub
     End If
     
-    StartMsg "Updating View..."
+    StartMsg §§TrasLang§§("Updating View...")
     
     'Update the viewname if required
     If txtProperties(0).Tag = "Y" Then
@@ -549,14 +549,14 @@ Dim szOldName As String
         szEntity = fmtID(objItem.Text)
       End If
       lACL = 0
-      If InStr(1, objItem.SubItems(1), "All") <> 0 Then lACL = lACL + aclAll
-      If InStr(1, objItem.SubItems(1), "Select") <> 0 Then lACL = lACL + aclSelect
-      If InStr(1, objItem.SubItems(1), "Update") <> 0 Then lACL = lACL + aclUpdate
-      If InStr(1, objItem.SubItems(1), "Delete") <> 0 Then lACL = lACL + aclDelete
-      If InStr(1, objItem.SubItems(1), "Insert") <> 0 Then lACL = lACL + aclInsert
-      If InStr(1, objItem.SubItems(1), "Rule") <> 0 Then lACL = lACL + aclRule
-      If InStr(1, objItem.SubItems(1), "References") <> 0 Then lACL = lACL + aclReferences
-      If InStr(1, objItem.SubItems(1), "Trigger") <> 0 Then lACL = lACL + aclTrigger
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("All")) <> 0 Then lACL = lACL + aclAll
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Select")) <> 0 Then lACL = lACL + aclSelect
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Update")) <> 0 Then lACL = lACL + aclUpdate
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Delete")) <> 0 Then lACL = lACL + aclDelete
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Insert")) <> 0 Then lACL = lACL + aclInsert
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Rule")) <> 0 Then lACL = lACL + aclRule
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("References")) <> 0 Then lACL = lACL + aclReferences
+      If InStr(1, objItem.SubItems(1), §§TrasLang§§("Trigger")) <> 0 Then lACL = lACL + aclTrigger
       frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Views(txtProperties(0).Text).Grant szEntity, lACL
     Next objItem
   End If
@@ -581,7 +581,7 @@ End Sub
 
 Public Sub Initialise(szDB As String, szNS As String, Optional View As pgView)
 If inIDE Then: On Error GoTo 0: Else: On Error GoTo Err_Handler
-frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
+frmMain.svr.LogEvent "Entering " & App.Title & ":frmView.Initialise(" & Quote & szDB & Quote & ")", etFullDebug
 
 Dim X As Integer
 Dim objItem As ListItem
@@ -611,7 +611,7 @@ Dim szAccess() As String
   
     'Create a new View
     bNew = True
-    Me.Caption = "Create View"
+    Me.Caption = §§TrasLang§§("Create View")
     
     'Unlock the edittable fields
     txtProperties(0).BackColor = &H80000005
@@ -646,7 +646,7 @@ Dim szAccess() As String
     '  End If
     End If
     
-    Me.Caption = "View: " & objView.Identifier
+    Me.Caption = §§TrasLang§§("View: ") & objView.Identifier
     txtProperties(0).Text = objView.Name
     txtProperties(1).Text = objView.Oid
     If objView.SystemObject Then
@@ -712,7 +712,7 @@ Dim objItem As ListItem
   'Check the entry doesn't already exist
   For Each objItem In lvProperties(0).ListItems
     If (objItem.Text = cboEntities.SelectedItem.Text) And (objItem.SmallIcon = cboEntities.SelectedItem.Image) Then
-      MsgBox "'" & objItem.Text & "' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced.", vbExclamation, "Error"
+      MsgBox "'" & objItem.Text & §§TrasLang§§("' already appears in the Access Control List. If you wish to modify this entry, it must be removed, and then replaced."), vbExclamation, §§TrasLang§§("Error")
       Exit Sub
     End If
   Next objItem

@@ -436,7 +436,7 @@ Dim szTemp As String
 
   If Not frmCallingForm Is Nothing Then
     If Not frmCallingForm.Visible Then
-      MsgBox "The form that called this form has been destroyed!", vbExclamation, "Error"
+      MsgBox §§TrasLang§§("The form that called this form has been destroyed!"), vbExclamation, §§TrasLang§§("Error")
       Unload Me
       Exit Sub
     End If
@@ -444,13 +444,13 @@ Dim szTemp As String
   
   'Check the data
   If txtProperties(0).Text = "" Then
-    MsgBox "You must specify a Column name!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a Column name!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     txtProperties(0).SetFocus
     Exit Sub
   End If
   If cboProperties(1).Text = "" Then
-    MsgBox "You must specify a column type!", vbExclamation, "Error"
+    MsgBox §§TrasLang§§("You must specify a column type!"), vbExclamation, §§TrasLang§§("Error")
     tabProperties.Tab = 0
     cboProperties(1).SetFocus
     Exit Sub
@@ -460,7 +460,7 @@ Dim szTemp As String
     Case "TA"
       For Each objItem In frmCallingForm.lvProperties(0).ListItems
         If objItem.Text = txtProperties(0).Text Then
-          MsgBox "A column with that name already exists!", vbExclamation, "Error"
+          MsgBox §§TrasLang§§("A column with that name already exists!"), vbExclamation, §§TrasLang§§("Error")
           tabProperties.Tab = 0
           txtProperties(0).SetFocus
           Exit Sub
@@ -498,7 +498,7 @@ Dim szTemp As String
       frmCallingForm.lvProperties(0).Tag = "Y"
       
     Case "MP"
-      StartMsg "Updating Column..."
+      StartMsg §§TrasLang§§("Updating Column...")
       
       'DJP 2002-01-10 Change column name last of all otherwise things get complex.
       If txtProperties(4).Tag = "Y" Then objColumn.Default = txtProperties(4).Text
@@ -560,7 +560,7 @@ Dim objNamespace As pgNamespace
     Case "TA"
   
       'Create a new Column
-      Me.Caption = "Create Column"
+      Me.Caption = §§TrasLang§§("Create Column")
       
       'Unlock the edittable fields
       txtProperties(0).BackColor = &H80000005
@@ -610,7 +610,7 @@ Dim objNamespace As pgNamespace
       'Display/Edit the specified Column.
       Set objColumn = Column
     
-      Me.Caption = "Column: " & objColumn.Identifier
+      Me.Caption = §§TrasLang§§("Column: ") & objColumn.Identifier
       
       txtProperties(0).Text = objColumn.Name
       txtProperties(1).Text = objColumn.Position
@@ -749,8 +749,8 @@ Dim objColumn As pgColumn
     
     'array column
     If Right(cboProperties(1).Text, 2) = "[]" Then
-        txtProperties(6).BackColor = &H80000005
-        txtProperties(6).Locked = False
+      txtProperties(6).BackColor = &H80000005
+      txtProperties(6).Locked = False
     End If
   End If
   
