@@ -275,7 +275,7 @@ Public Enum RegHives
 End Enum
 
 'WinInet constants
-Public Const scUserAgent = "http sample"
+Public Const scUserAgent = "pgAdmin II (www.pgadmin.org)"
 Public Const INTERNET_OPEN_TYPE_PRECONFIG = 0
 Public Const INTERNET_DEFAULT_FTP_PORT = 21
 Public Const INTERNET_DEFAULT_GOPHER_PORT = 70
