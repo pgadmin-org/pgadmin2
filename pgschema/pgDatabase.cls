@@ -635,6 +635,7 @@ Dim vChildObject As Variant
   If dbConnect = False Then Exit Property
   If vData Then
     If Not RevisionLogging Then
+      bRevisionLogging = True
       objServer.ExecSQL SQL_CREATE_REVLOG, cnDatabase
       objServer.ExecSQL "ALTER TABLE pgadmin_revlog OWNER TO " & QUOTE & Owner & QUOTE, cnDatabase
       
@@ -695,12 +696,11 @@ Dim vChildObject As Variant
       For Each vObject In Views
         If Not vObject.SystemObject Then vObject.Commit rlAdd, "Revision logging enabled."
       Next vObject
-      bRevisionLogging = True
     End If
   Else
     If RevisionLogging Then
-      objServer.ExecSQL SQL_DROP_REVLOG, cnDatabase
       bRevisionLogging = False
+      objServer.ExecSQL SQL_DROP_REVLOG, cnDatabase
     End If
   End If
   
