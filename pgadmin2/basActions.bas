@@ -50,7 +50,7 @@ Dim szPath() As String
       Exit Sub
     End If
     If ctx.CurrentObject.ObjectType = "Table" Then
-      If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
+      If MsgBox("Are you sure you wish to drop the table '" & ctx.CurrentObject.Identifier & "'? All Indexes, Rules and Triggers on this table will also be dropped." & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
     Else
       If MsgBox("Are you sure you wish to drop the " & ctx.CurrentObject.ObjectType & " '" & ctx.CurrentObject.Identifier & "'?" & vbCrLf & vbCrLf & "This action cannot be undone.", vbYesNo + vbQuestion, "Drop " & ctx.CurrentObject.ObjectType) = vbNo Then Exit Sub
     End If
