@@ -280,7 +280,7 @@ Dim rs As New Recordset
       Wend
     Else
       'Add a dummy schema for PostgreSQL < 7.3
-      iAdd 0, "public", "postgres", "UC"
+      iAdd 0, "public", "postgres", "{=UC}"
     End If
   End If
   If rs.State <> adStateClosed Then rs.Close

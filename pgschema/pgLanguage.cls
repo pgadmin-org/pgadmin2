@@ -24,6 +24,7 @@ Private szIdentifier As String
 Private bSystemObject As Boolean
 Private bTrusted As Boolean
 Private szHandler As String
+Private szValidator As String
 Private szComment As String
 Private cnDatabase As Connection
 Private vTag As Variant
@@ -239,6 +240,27 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Handler(
 Err_Handler:  objServer.iLogError Err
 End Property
 
+'Set/Return the Validator
+Friend Property Let Validator(ByVal vData As String)
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let Validator(" & QUOTE & vData & QUOTE & ")", etFullDebug
+
+  szValidator = vData
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+Public Property Get Validator() As String
+Attribute Validator.VB_Description = "Returns the name of a function used for function validation."
+On Error GoTo Err_Handler
+objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get Validator()", etFullDebug
+
+  Validator = szValidator
+    
+  Exit Property
+Err_Handler:  objServer.iLogError Err
+End Property
+
 'Set/Return the Comment
 Friend Property Let iComment(ByVal vData As String)
 On Error GoTo Err_Handler
@@ -284,6 +306,7 @@ objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Let ACL(" & 
 Err_Handler:  objServer.iLogError Err
 End Property
 Public Property Get ACL() As String
+Attribute ACL.VB_Description = "Returns the Access Control List for the object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Property Get ACL()", etFullDebug
 
@@ -295,6 +318,7 @@ End Property
 
 'Grant Permissions
 Public Sub Grant(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
+Attribute Grant.VB_Description = "Grant permissions on the object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Grant(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
@@ -342,6 +366,7 @@ End Sub
 
 'Revoke Permissions
 Public Sub Revoke(ByVal UserOrGroup As String, ByVal Privilege As aclPrivileges)
+Attribute Revoke.VB_Description = "Revoke permissions from the object."
 On Error GoTo Err_Handler
 objServer.iLogEvent "Entering " & App.Title & ":pgLanguage.Revoke(" & QUOTE & UserOrGroup & QUOTE & ", " & Privilege & ")", etFullDebug
 
@@ -398,9 +423,14 @@ Dim szMember As Variant
           "CREATE"
           
   If bTrusted Then szSQL = szSQL & " TRUSTED"
-  szSQL = szSQL & " PROCEDURAL LANGUAGE " & FormattedID
-  szSQL = szSQL & " HANDLER " & QUOTE & szHandler & QUOTE
-  szSQL = szSQL & " LANCOMPILER '" & dbSZ(Comment) & "'"
+  szSQL = szSQL & " PROCEDURAL LANGUAGE '" & szName & "'" & vbCrLf
+  If Handler = "" Then
+    szSQL = szSQL & "  HANDLER " & QUOTE & QUOTE
+  Else
+    szSQL = szSQL & "  HANDLER " & szHandler
+  End If
+  If (objServer.dbVersion.VersionNum >= 7.3) And (szValidator <> "") Then szSQL = szSQL & vbCrLf & "  VALIDATOR " & szValidator
+  If Comment <> "" Then szSQL = szSQL & vbCrLf & "  LANCOMPILER '" & dbSZ(Comment) & "'"
   szSQL = szSQL & ";" & vbCrLf
 
   If szACL <> "" Then szSQL = szSQL & ParseACL(FormattedID, szACL, aclLanguage)

@@ -102,9 +102,9 @@ Err_Handler:  objServer.iLogError Err
 End Property
 
 'Internal Add
-Private Sub iAdd(lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String, Optional szACL As String)
+Private Sub iAdd(lOID As Long, szName As String, bTrusted As Boolean, lHandler As Long, szComment As String, Optional szACL As String, Optional lValidator As Long)
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ", " & QUOTE & szACL & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Languages.iAdd(" & lOID & ", " & QUOTE & szName & QUOTE & ", " & bTrusted & ", " & lHandler & ", " & QUOTE & szComment & QUOTE & ", " & QUOTE & szACL & QUOTE & ", " & lValidator & ")", etFullDebug
 
 Dim objNewMember As pgLanguage
 Dim rs As New Recordset
@@ -130,10 +130,20 @@ Dim szSQL As String
   End If
   Set rs = objServer.ExecSQL(szSQL, cnDatabase)
   If Not rs.EOF Then
-    objNewMember.Handler = rs!proname & ""
+    objNewMember.Handler = fmtID(rs!proname & "")
   End If
   If rs.State <> adStateClosed Then rs.Close
 
+  'Get the Validator
+  If objServer.dbVersion.VersionNum >= 7.3 Then
+    szSQL = SQL_GET_FUNCTIONS7_3 & " AND oid = " & lValidator
+    Set rs = objServer.ExecSQL(szSQL, cnDatabase)
+    If Not rs.EOF Then
+      objNewMember.Validator = fmtID(rs!proname & "")
+    End If
+    If rs.State <> adStateClosed Then rs.Close
+  End If
+  
   objNewMember.ACL = szACL
   objNewMember.iComment = szComment
   objNewMember.Identifier = szName
@@ -153,10 +163,10 @@ Err_Handler:
 End Sub
 
 'External Add
-Public Function Add(ByVal Name As String, ByVal Trusted As Boolean, ByVal Handler As String, Optional ByVal Comment As String) As pgLanguage
+Public Function Add(ByVal Name As String, ByVal Trusted As Boolean, ByVal Handler As String, Optional ByVal Comment As String, Optional ByVal Validator As String) As pgLanguage
 Attribute Add.VB_Description = "Add a new Language."
 On Error GoTo Err_Handler
-objServer.iLogEvent "Entering " & App.Title & ":Languages.Add(" & QUOTE & Name & QUOTE & ", " & Trusted & ", " & QUOTE & Handler & QUOTE & ", " & QUOTE & Comment & QUOTE & ")", etFullDebug
+objServer.iLogEvent "Entering " & App.Title & ":Languages.Add(" & QUOTE & Name & QUOTE & ", " & Trusted & ", " & QUOTE & Handler & QUOTE & ", " & QUOTE & Comment & QUOTE & ", " & QUOTE & Validator & QUOTE & ")", etFullDebug
 
 Dim rs As New Recordset
 Dim objNewMember As pgLanguage
@@ -168,10 +178,12 @@ Dim objLanguage As pgLanguage
 
   'Generate the SQL query to create the new object and execute
   If Trusted = True Then
-    szSQL = "CREATE TRUSTED PROCEDURAL LANGUAGE '" & Name & "' HANDLER " & Handler & " LANCOMPILER '" & dbSZ(Comment) & "'"
+    szSQL = "CREATE TRUSTED PROCEDURAL LANGUAGE '" & Name & "' HANDLER " & Handler
   Else
-    szSQL = "CREATE PROCEDURAL LANGUAGE '" & Name & "' HANDLER " & Handler & " LANCOMPILER '" & dbSZ(Comment) & "'"
+    szSQL = "CREATE PROCEDURAL LANGUAGE '" & Name & "' HANDLER " & Handler
   End If
+  If (objServer.dbVersion.VersionNum >= 7.3) And (Validator <> "") Then szSQL = szSQL & " VALIDATOR " & Validator
+  If Comment <> "" Then szSQL = szSQL & " LANCOMPILER '" & dbSZ(Comment) & "'"
   objServer.ExecSQL szSQL, cnDatabase
   
   'Generate and execute the SQL to retrieve *all* properties of the new object
@@ -181,7 +193,7 @@ Dim objLanguage As pgLanguage
   'Create a new member of the collection
   If Not rs.EOF Then
     If objServer.dbVersion.VersionNum >= 7.3 Then
-      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & "", rs!lanacl & ""
+      iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & "", rs!lanacl & "", rs!lanvalidator & ""
     Else
       iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
     End If
@@ -317,7 +329,7 @@ Dim rs As New Recordset
     Set rs = objServer.ExecSQL(SQL_GET_LANGUAGES & " ORDER BY lanname", cnDatabase)
     While Not rs.EOF
       If objServer.dbVersion.VersionNum >= 7.3 Then
-        iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & "", rs!lanacl & ""
+        iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & "", rs!lanacl & "", rs!lanvalidator & ""
       Else
         iAdd rs!OID, rs!lanname & "", ToBool(rs!lanpltrusted), rs!lanplcallfoid & "", rs!lancompiler & ""
       End If

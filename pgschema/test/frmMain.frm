@@ -634,6 +634,8 @@ Dim lvItem As ListItem
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).OID
   Set lvItem = lvInfo.ListItems.Add(, , "Handler")
   lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).Handler
+  Set lvItem = lvInfo.ListItems.Add(, , "Validator")
+  lvItem.SubItems(1) = svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).Validator
   Set lvItem = lvInfo.ListItems.Add(, , "Trusted?")
   If svr.Databases(Node.Parent.Parent.Text).Languages(Node.Text).Trusted Then
     lvItem.SubItems(1) = "Yes"

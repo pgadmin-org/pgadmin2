@@ -50,7 +50,7 @@ Begin VB.Form frmLanguage
       Default         =   -1  'True
       Height          =   375
       Left            =   3285
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   6480
       Width           =   1095
    End
@@ -59,7 +59,7 @@ Begin VB.Form frmLanguage
       Caption         =   "Cancel"
       Height          =   375
       Left            =   4410
-      TabIndex        =   7
+      TabIndex        =   8
       Top             =   6480
       Width           =   1095
    End
@@ -84,30 +84,34 @@ Begin VB.Form frmLanguage
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "lblProperties(3)"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "hbxProperties(0)"
+      Tab(0).Control(3)=   "lblProperties(2)"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "txtProperties(1)"
+      Tab(0).Control(4)=   "cboProperties(1)"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "txtProperties(0)"
+      Tab(0).Control(5)=   "hbxProperties(0)"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "chkProperties(0)"
+      Tab(0).Control(6)=   "txtProperties(1)"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "cboProperties(0)"
+      Tab(0).Control(7)=   "txtProperties(0)"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).ControlCount=   8
+      Tab(0).Control(8)=   "chkProperties(0)"
+      Tab(0).Control(8).Enabled=   0   'False
+      Tab(0).Control(9)=   "cboProperties(0)"
+      Tab(0).Control(9).Enabled=   0   'False
+      Tab(0).ControlCount=   10
       TabCaption(1)   =   "&Security"
       TabPicture(1)   =   "frmLanguage.frx":15FE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "fraAdd"
-      Tab(1).Control(1)=   "cmdAdd"
-      Tab(1).Control(2)=   "cmdRemove"
-      Tab(1).Control(3)=   "lvProperties(0)"
+      Tab(1).Control(0)=   "lvProperties(0)"
+      Tab(1).Control(1)=   "cmdRemove"
+      Tab(1).Control(2)=   "cmdAdd"
+      Tab(1).Control(3)=   "fraAdd"
       Tab(1).ControlCount=   4
       Begin VB.Frame fraAdd 
          Caption         =   "Define Privilege"
          Height          =   1815
          Left            =   -74865
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   4380
          Width           =   5190
          Begin VB.CheckBox chkPrivilege 
@@ -116,7 +120,7 @@ Begin VB.Form frmLanguage
             Height          =   195
             Index           =   0
             Left            =   180
-            TabIndex        =   14
+            TabIndex        =   15
             ToolTipText     =   "Give usage privilege to the selected entity."
             Top             =   1125
             Width           =   1590
@@ -124,7 +128,7 @@ Begin VB.Form frmLanguage
          Begin MSComctlLib.ImageCombo cboEntities 
             Height          =   330
             Left            =   1260
-            TabIndex        =   15
+            TabIndex        =   16
             ToolTipText     =   "Select a user, group or 'PUBLIC'."
             Top             =   315
             Width           =   3705
@@ -142,7 +146,7 @@ Begin VB.Form frmLanguage
             Height          =   195
             Index           =   5
             Left            =   180
-            TabIndex        =   16
+            TabIndex        =   17
             Top             =   360
             Width           =   840
          End
@@ -152,7 +156,7 @@ Begin VB.Form frmLanguage
          Enabled         =   0   'False
          Height          =   375
          Left            =   -74865
-         TabIndex        =   12
+         TabIndex        =   13
          ToolTipText     =   "Add the defined entry."
          Top             =   3900
          Width           =   1230
@@ -162,7 +166,7 @@ Begin VB.Form frmLanguage
          Enabled         =   0   'False
          Height          =   375
          Left            =   -73515
-         TabIndex        =   11
+         TabIndex        =   12
          ToolTipText     =   "Remove the selected entry."
          Top             =   3900
          Width           =   1230
@@ -217,15 +221,15 @@ Begin VB.Form frmLanguage
          Width           =   3390
       End
       Begin HighlightBox.HBX hbxProperties 
-         Height          =   3840
+         Height          =   3435
          Index           =   0
          Left            =   135
-         TabIndex        =   5
+         TabIndex        =   6
          ToolTipText     =   "Comments about the language."
-         Top             =   2340
+         Top             =   2745
          Width           =   5190
          _ExtentX        =   9155
-         _ExtentY        =   6773
+         _ExtentY        =   6059
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -241,7 +245,7 @@ Begin VB.Form frmLanguage
          Height          =   3390
          Index           =   0
          Left            =   -74865
-         TabIndex        =   17
+         TabIndex        =   18
          ToolTipText     =   "The access control list for the schema."
          Top             =   450
          Width           =   5190
@@ -270,13 +274,39 @@ Begin VB.Form frmLanguage
             Object.Width           =   4939
          EndProperty
       End
+      Begin MSComctlLib.ImageCombo cboProperties 
+         Height          =   330
+         Index           =   1
+         Left            =   1935
+         TabIndex        =   5
+         ToolTipText     =   $"frmLanguage.frx":1751
+         Top             =   2295
+         Width           =   3390
+         _ExtentX        =   5980
+         _ExtentY        =   582
+         _Version        =   393216
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483633
+         Locked          =   -1  'True
+         ImageList       =   "il"
+      End
+      Begin VB.Label lblProperties 
+         AutoSize        =   -1  'True
+         Caption         =   "Validator"
+         Height          =   195
+         Index           =   2
+         Left            =   135
+         TabIndex        =   19
+         Top             =   2340
+         Width           =   615
+      End
       Begin VB.Label lblProperties 
          AutoSize        =   -1  'True
          Caption         =   "Handler"
          Height          =   195
          Index           =   3
          Left            =   135
-         TabIndex        =   10
+         TabIndex        =   11
          Top             =   1530
          Width           =   555
       End
@@ -286,7 +316,7 @@ Begin VB.Form frmLanguage
          Height          =   195
          Index           =   1
          Left            =   135
-         TabIndex        =   9
+         TabIndex        =   10
          Top             =   1125
          Width           =   285
       End
@@ -296,7 +326,7 @@ Begin VB.Form frmLanguage
          Height          =   195
          Index           =   0
          Left            =   135
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   720
          Width           =   420
       End
@@ -357,7 +387,7 @@ Dim vEntity As Variant
   
   If bNew Then
     StartMsg "Creating Language..."
-    Set objNewLanguage = frmMain.svr.Databases(szDatabase).Languages.Add(txtProperties(0).Text, Bin2Bool(chkProperties(0).Value), Left(cboProperties(0).Text, Len(cboProperties(0).Text) - 2), hbxProperties(0).Text)
+    Set objNewLanguage = frmMain.svr.Databases(szDatabase).Languages.Add(txtProperties(0).Text, Bin2Bool(chkProperties(0).Value), cboProperties(0).Text, hbxProperties(0).Text, cboProperties(1).Text)
     
     'Add a new node and update the text on the parent
     Set objNode = frmMain.svr.Databases(szDatabase).Languages.Tag
@@ -413,7 +443,7 @@ Err_Handler:
 End Sub
 
 Public Sub Initialise(szDB As String, Optional Language As pgLanguage)
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmLanguage.Initialise(" & QUOTE & szDB & QUOTE & ")", etFullDebug
 
 Dim X As Integer
@@ -460,6 +490,9 @@ Dim szAccess() As String
         If (objFunction.Returns = "opaque") And (objFunction.Arguments.Count = 0) Then
           cboProperties(0).ComboItems.Add , , fmtID(objFunction.Name), "function"
         End If
+        If objFunction.Arguments.Count = 1 Then
+          If objFunction.Arguments(1) = "oid" Then cboProperties(1).ComboItems.Add , , fmtID(objFunction.Name), "function"
+        End If
       Next objFunction
       'Now add other items
       For Each objNamespace In frmMain.svr.Databases(szDatabase).Namespaces
@@ -467,6 +500,9 @@ Dim szAccess() As String
           For Each objFunction In objNamespace.Functions
             If (objFunction.Returns = "opaque") And (objFunction.Arguments.Count = 0) Then
               cboProperties(0).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
+            End If
+            If objFunction.Arguments.Count = 1 Then
+              If objFunction.Arguments(1) = "oid" Then cboProperties(1).ComboItems.Add , , objNamespace.FormattedID & "." & fmtID(objFunction.Name), "function"
             End If
           Next objFunction
         End If
@@ -476,6 +512,9 @@ Dim szAccess() As String
         If (objFunction.Returns = "opaque") And (objFunction.Arguments.Count = 0) Then
           cboProperties(0).ComboItems.Add , , fmtID(objFunction.Name), "function"
         End If
+        If objFunction.Arguments.Count = 1 Then
+          If objFunction.Arguments(1) = "oid" Then cboProperties(1).ComboItems.Add , , fmtID(objFunction.Name), "function"
+        End If
       Next objFunction
     End If
   
@@ -483,6 +522,7 @@ Dim szAccess() As String
     txtProperties(0).BackColor = &H80000005
     txtProperties(0).Locked = False
     cboProperties(0).BackColor = &H80000005
+    cboProperties(1).BackColor = &H80000005
     
     'Redim the userlist so it doesn't cause an error later.
     ReDim szUsers(0)
@@ -497,7 +537,9 @@ Dim szAccess() As String
     Me.Caption = "Language: " & objLanguage.Identifier
     txtProperties(0).Text = objLanguage.Name
     txtProperties(1).Text = objLanguage.OID
-    Set objItem = cboProperties(0).ComboItems.Add(, , objLanguage.Handler & "()", "function")
+    Set objItem = cboProperties(0).ComboItems.Add(, , objLanguage.Handler, "function")
+    objItem.Selected = True
+    Set objItem = cboProperties(1).ComboItems.Add(, , objLanguage.Validator, "function")
     objItem.Selected = True
     chkProperties(0).Value = Bool2Bin(objLanguage.Trusted)
     hbxProperties(0).Text = objLanguage.Comment
