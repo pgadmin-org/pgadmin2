@@ -277,6 +277,11 @@ Dim rs As New Recordset
   'Select the prosrc back from the DB...
   Set rs = objServer.ExecSQL("SELECT prosrc FROM pg_proc WHERE oid = " & lOID, cnDatabase)
   If Not rs.EOF Then szSource = rs!prosrc & ""
+  
+  'Cleanup the source code
+  szSource = Replace(szSource, "\", "\\")
+  szSource = Replace(szSource, "'", "''")
+  
   If Not SystemObject Then Commit rcUpdate, "Updated function source."
   
   If rs.State <> adStateClosed Then rs.Close
