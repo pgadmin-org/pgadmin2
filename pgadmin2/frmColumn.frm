@@ -368,7 +368,7 @@ Err_Handler: If Err.Number <> 0 Then LogError Err.Number, Err.Description, App.T
 End Sub
 
 Private Sub cmdOK_Click()
-On Error GoTo Err_Handler
+'On Error GoTo Err_Handler
 frmMain.svr.LogEvent "Entering " & App.Title & ":frmColumn.cmdOK_Click()", etFullDebug
 
 Dim objNode As Node
@@ -444,10 +444,10 @@ Dim szOldName As String
       
       If txtProperties(0).Tag = "Y" Then
         szOldName = objColumn.Name
-        frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Columns.Rename szOldName, txtProperties(0).Text
+        frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(objColumn.Table).Columns.Rename szOldName, txtProperties(0).Text
         
         'Update the node text
-        frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(cboProperties(0).Text).Columns(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
+        frmMain.svr.Databases(szDatabase).Namespaces(szNamespace).Tables(objColumn.Table).Columns(txtProperties(0).Text).Tag.Text = txtProperties(0).Text
       End If
       
       'Simulate a node click to refresh the ListColumn (only do this when updating a column).
